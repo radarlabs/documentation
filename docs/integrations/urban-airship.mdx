@@ -1,0 +1,244 @@
+---
+title: Airship
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and tags to [Airship](https://www.airship.com).
+
+Use the Airship integration to send location-triggered and location-targeted messages to increase engagement and conversion, measure the ROI of location-based messaging, and build location-based user segments.
+
+The Airship integration is available on the [Team](https://radar.io/dashboard/pricing) plan or higher.
+
+## Configuration
+
+On the Airship *APIs & Integrations* page, create a custom event token and copy the app key and access token. Under *Partner Integrations*, enable Radar to enable auto-population of custom event names and properties in the Airship Automation Composer.
+
+Then, on the Radar [Integrations page](/integrations) under *Urban Airship*, set *Enabled* to *Yes* and paste your app key and access token. Note that you can set separate API keys for the *Test* and *Live* environments.
+
+Whenever events are generated, Radar will send custom events and tags to Airship. Note that for tags to populate, you must manually create [tag groups](https://docs.airship.com/guides/messaging/user-guide/audience/segmentation/tags/) in Airship first.
+
+If you are using Airship SDK `13.x` or earlier with Radar iOS SDK `3.0.4` or earlier or Radar Android SDK `3.0.6` or earlier, the Radar SDK will automatically collect Airship channel ID and Airship session ID. However, if you are using Airship SDK `14.0` or later with Radar iOS SDK `3.0.5` or later or Radar Android SDK `3.0.7` or later, you must set Radar `metadata.airshipChannelId` and `metadata.airshipSessionId` manually to collect Airship channel ID and Airship session ID. For example, on iOS:
+
+```swift
+Radar.setMetadata([
+  "airshipChannelId": channelId,
+  "airshipSessionId": sessionId
+])
+```
+
+## User mapping
+
+Radar User Field | Airship Tag Group Name | Type | Example Tag | Context Type
+--- | --- | --- | --- | ---
+`location.coordinates[0]` | `radar_location_longitude` | number | `-76.350663` |
+`location.coordinates[1]` | `radar_location_latitude` | number | `39.525665` |
+`updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`segments[*].externalId` | `radar_segment_external_ids` | string | `"starbucks-visitors"` | |
+`topChains[*].slug` | `radar_top_chain_slugs` | string | `"starbucks"` | |
+`topChains[*].externalId` | `radar_top_chain_external_ids` | string | `"123"` | |
+`geofences[*]._id` | `radar_geofence_ids` | string | `"5b2c0906f5874b001aecfd8e"` | [Geofences](/geofences)
+`geofences[*].description` | `radar_geofence_descriptions` | string | `"Store #123"` | [Geofences](/geofences)
+`geofences[*].tag` | `radar_geofence_tags` | string | `"store"` | [Geofences](/geofences)
+`geofences[*].externalId` | `radar_geofence_external_ids` | string | `"123"` | [Geofences](/geofences)
+`place._id` | `radar_place_id` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
+`place.name` | `radar_place_name` | string | `"Starbucks"` | [Places](/places)
+`place.categories` | `radar_place_categories` | string | `"coffee-shop"` | [Places](/places)
+`place.chain.slug` | `radar_place_chain_slug` | string | `"starbucks"` | [Places](/places)
+`place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
+`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
+`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
+`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
+`country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
+`country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
+`state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
+`state.name` | `radar_region_state_name` | string | `"Maryland"` | [Regions](/regions)
+`dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
+`dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
+`postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+
+## Event mapping
+
+Radar Event | Context Type | Airship Event
+--- | --- | ---
+`user.entered_geofence` | [Geofences](/geofences) | `radar_geofence_entered`
+`user.exited_geofence` | [Geofences](/geofences) | `radar_geofence_exited`
+`user.entered_place` | [Places](/places) | `radar_place_entered`
+`user.exited_place` | [Places](/places) | `radar_place_exited`
+`user.entered_home` | [Insights](/geofences) | `radar_home_entered`
+`user.exited_home` | [Insights](/geofences) | `radar_home_exited`
+`user.entered_office` | [Insights](/geofences) | `radar_office_entered`
+`user.exited_office` | [Insights](/geofences) | `radar_office_exited`
+`user.started_traveling` | [Insights](/geofences) | `radar_traveling_started`
+`user.stopped_traveling` | [Insights](/geofences) | `radar_traveling_stopped`
+`user.entered_region_country` | [Regions](/regions) | `radar_country_entered`
+`user.exited_region_country` | [Regions](/regions) | `radar_country_exited`
+`user.entered_region_state` | [Regions](/regions) | `radar_state_entered`
+`user.exited_region_state` | [Regions](/regions) | `radar_state_exited`
+`user.entered_region_dma` | [Regions](/regions) | `radar_dma_entered`
+`user.exited_region_dma` | [Regions](/regions) | `radar_dma_exited`
+
+### radar_geofence_entered
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `radar_geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `radar_geofence_description` | string | `"Store #123"`
+`geofence.tag` | `radar_geofence_tag` | string | `"store"`
+`geofence.externalId` | `radar_geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `radar_geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_geofence_exited
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `radar_geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `radar_geofence_description` | string | `"Store #123"`
+`geofence.tag` | `radar_geofence_tag` | string | `"store"`
+`geofence.externalId` | `radar_geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `radar_geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `radar_confidence` | string | `"high"`
+`duration` | `radar_duration` | number (minutes) | `42.1`
+
+### radar_place_entered
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `radar_place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `radar_place_name` | string | `"Starbucks"`
+`place.chain.slug` | `radar_place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"`
+`place.categories` | `radar_place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_place_exited
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `radar_place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `radar_place_name` | string | `"Starbucks"`
+`place.chain.slug` | `radar_place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"`
+`place.categories` | `radar_place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `radar_confidence` | string | `"high"`
+`duration` | `radar_duration` | number (minutes) | `42.1`
+
+### radar_home_entered
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_home_exited
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_office_entered
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_office_exited
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_traveling_started
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_traveling_stopped
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_country_entered
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `radar_region_code` | string | `"US"`
+`region.name` | `radar_region_name` | string | `"United States"`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_country_exited
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `radar_region_code` | string | `"US"`
+`region.name` | `radar_region_name` | string | `"United States"`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_state_entered
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `radar_region_code` | string | `"MD"`
+`region.name` | `radar_region_name` | string | `"Maryland"`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_state_exited
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `radar_region_code` | string | `"MD"`
+`region.name` | `radar_region_name` | string | `"Maryland"`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_dma_entered
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `radar_region_code` | string | `"26"`
+`region.name` | `radar_region_name` | string | `"Baltimore"`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_dma_exited
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `radar_region_code` | string | `"26"`
+`region.name` | `radar_region_name` | string | `"Baltimore"`
+`confidence` | `radar_confidence` | string | `"high"`
+
+### radar_started_trip
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `radar_trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+
+### radar_approaching_trip_destination
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `radar_trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+
+### radar_arrived_at_trip_destination
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `radar_trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+
+### radar_stopped_trip
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `radar_trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`

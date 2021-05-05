@@ -1,0 +1,203 @@
+---
+title: Webhooks
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+You can use webhooks to send events and user state from Radar to your server, a [Google or Firebase Cloud Function](https://firebase.google.com/docs/functions/functions-and-firebase), an [AWS Lambda Function](https://aws.amazon.com/lambda/), or any HTTP endpoint. From there, you can store events and user state in a database, send them to a marketing automation or analytics platform, and more.
+
+## Configuration
+
+Create a webhook on the Radar [Integrations page](/integrations) under *Webhooks*. For *Environment*, choose *Test* to receive callbacks for events in the *Test* environment, or choose *Live* to receive callbacks for events in the *Live* environment. For *Event Delivery*, choose *Single Event* to receive a single event in each request, or choose *Multiple Events* to receive multiple events in each request when events occur simultaneously. Finally, enter a URL.
+
+Whenever events are generated, Radar will send a <span className="badge badge--info">POST</span> request containing event and user data to the specified URL. You can also click the *Test* button to send test event and user data. If you chose *Single Event*, the request body will contain an `event` dictionary and a `user` dictionary. If you chose *Multiple Events*, the request body will contain an `events` array and a `user` dictionary.
+
+To acknowledge receipt of the request, your webhook should return a `2xx` status code (e.g., `200 OK`, `201 Created`, or `202 Accepted`).
+
+Each webhook has a random security token. The authenticity of a request made to a webhook URL can be verified using the `X-Radar-Signature` header. If you chose *Single Event*, the header will contain an `HMAC-SHA1` hash of the event ID using the security token as the key. If you chose *Multiple Events*, the header will contain an `HMAC-SHA1` hash of the first event ID using the security token as the key.
+
+Note that you can also receive events client-side via the [SDK](/sdk).
+
+###### Sample request body
+
+```json
+{
+  "events": [
+    {
+      "_id": "56db1f4613012711002229f6",
+      "type": "user.entered_geofence",
+      "createdAt": "2018-06-12T13:44:10.535Z",
+      "live": true,
+      "user": {
+        "userId": "1",
+        "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+        "metadata": {
+          "customId": "abc",
+          "customFlag": false
+        }
+      },
+      "geofence": {
+        "tag": "store",
+        "externalId": "123",
+        "description": "Store #123",
+        "metadata": {
+          "parking": false
+        }
+      },
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      },
+      "locationAccuracy": 5,
+      "confidence": 3
+    },
+    {
+      "_id": "56db1f4613012711002229f7",
+      "type": "user.entered_place",
+      "createdAt": "2018-06-12T13:44:10.535Z",
+      "live": true,
+      "user": {
+        "_id": "56db1f4613012711002229f4",
+        "userId": "1",
+        "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+        "metadata": {
+          "customId": "abc",
+          "customFlag": false
+        }
+      },
+      "place": {
+        "name": "Starbucks",
+        "chain": {
+          "name": "Starbucks",
+          "slug": "starbucks",
+          "externalId": "123",
+          "metadata": {
+            "customFlag": true
+          }
+        },
+        "categories": [
+          "food-beverage",
+          "coffee-shop"
+        ],
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            -73.977797,
+            40.783826
+          ]
+        }
+      },
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      },
+      "locationAccuracy": 5,
+      "confidence": 2
+    }
+  ],
+  "user": {
+    "_id": "56db1f4613012711002229f4",
+    "live": true,
+    "userId": "1",
+    "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+    "metadata": {
+      "customId": "abc",
+      "customFlag": false
+    },
+    "updatedAt": "2018-06-12T13:44:10.535Z",
+    "createdAt": "2018-06-10T11:23:58.741Z",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -73.977797,
+        40.783826
+      ]
+    },
+    "locationAccuracy": 5,
+    "stopped": true,
+    "foreground": false,
+    "deviceType": "iOS",
+    "ip": "173.14.0.1",
+    "geofences": [
+      {
+        "tag": "store",
+        "externalId": "123",
+        "description": "Store #123",
+        "metadata": {
+          "parking": false
+        }
+      }
+    ],
+    "place": {
+      "name": "Starbucks",
+      "chain": {
+        "name": "Starbucks",
+        "slug": "starbucks"
+      },
+      "categories": [
+        "food-beverage",
+        "coffee-shop"
+      ],
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      }
+    },
+    "insights": {
+      "state": {
+        "home": false,
+        "office": false,
+        "traveling": true,
+        "commuting": false
+      }
+    },
+    "country": {
+      "code": "US",
+      "name": "United States",
+      "flag": "🇺🇸"
+    },
+    "state": {
+      "code": "MD",
+      "name": "Maryland"
+    },
+    "dma": {
+      "code": "26",
+      "name": "Baltimore"
+    },
+    "postalCode": {
+      "code": "21014",
+      "name": "21014"
+    },
+    "segments": [
+      {
+        "description": "Starbucks Visitors",
+        "externalId": "starbucks-visitors"
+      }
+    ],
+    "topChains": [
+      {
+        "name": "Starbucks",
+        "slug": "starbucks",
+        "externalId": "123"
+      },
+      {
+        "name": "Walmart",
+        "slug": "walmart",
+        "externalId": "456"
+      }
+    ],
+    "fraud": {
+      "proxy": false,
+      "mocked": false
+    }
+  }
+}
+```

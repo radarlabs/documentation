@@ -1,0 +1,220 @@
+---
+title: mParticle
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and user attributes to [mParticle](https://www.mparticle.com) as an input feed. You can use events and user attributes to build audiences in mParticle, and mParticle can send events and user attributes to hundreds of outputs.
+
+The mParticle SDK can also install and initialize the [Radar SDK](/sdk) as a kit.
+
+Use the mParticle integration to build location-based audiences and to forward location events and user context to any outputs.
+
+The mParticle integration is available on the [Enterprise](https://radar.io/dashboard/pricing) plan.
+
+## Configuration
+
+### Feed
+
+To configure the feed, in mParticle, add Radar input feeds for iOS and Android and copy your API keys and secrets.
+
+Then, on the Radar [Integrations page](/integrations) under *mParticle Feed*, set *Enabled* to *Yes* and paste your API keys and secrets.
+
+Whenever events are generated, Radar will send events and user attributes to mParticle. Events and user attributes from iOS devices will be sent to the iOS input feed, and events and user attributes from Android devices will be sent to the Android input feed. The Radar *Test* environment automatically maps to the *Development* environment in mParticle, and the Radar *Live* environment automatically maps to the *Production* environment in mParticle.
+
+By default, Radar `userId` maps to mParticle `customerid` for logged in users. However, you can specify a custom mapping by setting Radar `metadata.mParticleCustomerId`. For example, on iOS:
+
+```swift
+// track logged in users with custom userId mapping (not required if using default mapping)
+Radar.setMetadata(["mParticleCustomerId": customerid])
+```
+
+### Kit
+
+To configure the kit, on the Radar [Settings page](https://radar.io/dashboard/settings) under *Keys*, copy your test and live publishable keys. Then, in mParticle, add and enable Radar outputs for iOS and Android, paste your keys, and choose whether to run automatically.
+
+Install the kit using CocoaPods or Carthage on iOS and Gradle on Android. See the [iOS kit code and readme](https://github.com/mparticle-integrations/mparticle-apple-integration-radar), [Android kit code and readme](https://github.com/mparticle-integrations/mparticle-android-integration-radar), and [mParticle Kit documentation for Radar](https://docs.mparticle.com/integrations/radar/event/).
+
+The kit will initialize the [Radar SDK](/sdk) and identify the user with the mParticle customer ID. After version `8.0.2` of the iOS kit and `5.15.1` of the Android kit, Radar will also set `metadata.mParticleId` to the [MPID](https://docs.mparticle.com/developers/sdk/web/users/#mparticle-id). In addition, if you chose to run automatically and the user has granted permissions, the kit will automatically track the user's location in the foreground on app open and/or in the background.
+
+## User mapping
+
+Note that Radar uses the special string `"(null)"` to represent `null` user attribute values.
+
+Radar User Field | mParticle User Attribute | Type | Example Value | Context Type
+--- | --- | --- | --- | ---
+`metadata.mParticleId` | `mpid` | string | `"4294967296"` |
+`metadata.mParticleCustomerId` or `userId` | `customerid` | string | `"1"` |
+`deviceId` | `ios_idfv` or `android_uuid` | string | `"10974a2ee035770b9"` |
+`location` | `current_location` | location | `(39.525665, -76.350663)` |
+`_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
+`updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` |
+`topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks", "walmart"]` |
+`topChains[*].externalId` | `radar_top_chain_external_ids` | array[string] | `["123", "456"]` |
+`geofences[*]._id` | `radar_geofence_ids` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences)
+`geofences[*].description` | `radar_geofence_descriptions` | array[string] | `["Store #123"]` | [Geofences](/geofences)
+`geofences[*].tag` | `radar_geofence_tags` | array[string] | `["store"]` | [Geofences](/geofences)
+`geofences[*].externalId` | `radar_geofence_external_ids` | array[string] | `["123"]` | [Geofences](/geofences)
+`place._id` | `radar_place_id` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
+`place.name` | `radar_place_name` | string | `"Starbucks"` | [Places](/places)
+`place.categories` | `radar_place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
+`place.chain.slug` | `radar_place_chain_slug` | string | `"starbucks"` | [Places](/places)
+`place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
+`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
+`insights.state.home.confidence` | `radar_insights_location_home_confidence` | string | `"high"` | [Insights](/insights)
+`insights.state.home.country.code` | `radar_insights_location_home_region_country_code` | string | `"US"` | [Regions](/regions)
+`insights.state.home.country.name` | `radar_insights_location_home_region_country_name` | string | `"United States"` | [Regions](/regions)
+`insights.state.home.state.code` | `radar_insights_location_home_region_state_code` | string | `"MD"` | [Regions](/regions)
+`insights.state.home.state.name` | `radar_insights_location_home_region_state_name` | string | `"Maryland"` | [Regions](/regions)
+`insights.state.home.dma.code` | `radar_insights_location_home_region_dma_code` | string | `"26"` | [Regions](/regions)
+`insights.state.home.dma.name` | `radar_insights_location_home_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
+`insights.state.home.postalCode.code` | `radar_insights_location_home_region_postal_code` | string | `"21014"` | [Regions](/regions)
+`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
+`insights.state.office.confidence` | `radar_insights_location_office_confidence` | string | `"high"` | [Insights](/insights)
+`insights.state.office.country.code` | `radar_insights_location_office_region_country_code` | string | `"US"` | [Regions](/regions)
+`insights.state.office.country.name` | `radar_insights_location_office_region_country_name` | string | `"United States"` | [Regions](/regions)
+`insights.state.office.state.code` | `radar_insights_location_office_region_state_code` | string | `"MD"` | [Regions](/regions)
+`insights.state.office.state.name` | `radar_insights_location_office_region_state_name` | string | `"Maryland"` | [Regions](/regions)
+`insights.state.office.dma.code` | `radar_insights_location_office_region_dma_code` | string | `"26"` | [Regions](/regions)
+`insights.state.office.dma.name` | `radar_insights_location_office_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
+`insights.state.office.postalCode.code` | `radar_insights_location_office_region_postal_code` | string | `"21014"` | [Regions](/regions)
+`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
+`country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
+`country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
+`state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
+`state.name` | `radar_region_state_name` | string | `"Maryland"` | [Regions](/regions)
+`dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
+`dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
+`postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+
+## Event mapping
+
+### user.entered_geofence
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_geofence
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+### user.entered_place
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Starbucks"`
+`place.chain.slug` | `place_chain_slug` | string | `"starbucks"`
+`place.chain.name` | `place_chain_name` | string | `"Starbucks"`
+`place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_place
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Target"`
+`place.chain.slug` | `place_chain_slug` | string | `"target"`
+`place.chain.name` | `place_chain_name` | string | `"Target"`
+`place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+### user.entered_home
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_home
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_office
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_office
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### user.started_traveling
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### user.stopped_traveling
+
+Radar Event Field | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_country
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_country
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_state
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_state
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_dma
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_dma
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`

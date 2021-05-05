@@ -1,0 +1,194 @@
+---
+sidebar_position: 12
+title: FAQs
+id: faqs
+custom_edit_url: null # Note: This hides the edit this page button
+---
+## Testing
+
+### How should I test Radar battery drain?
+
+To test battery drain attributable to Radar background tracking in your iOS or Android app, you must isolate battery drain attributable Radar's usage of location services.
+
+This means that you must control for confounding variables:
+
+- In the context of your app, you must control for battery drain attributable to other code and other SDKs running in your app, having the app foregrounded, and notifications.
+- In the context of your device, you must control for battery drain attributable to other apps, the OS, and your device state, including having the screen turned on.
+
+Often, having the screen turned on and the app foregrounded are bigger sources of battery drain than usage of location services.
+
+To isolate battery drain attributable Radar's usage of location services in your app, there are two ways to test:
+
+1. Install two builds of your app, one with Radar running background tracking and one without. Use your phone for a period of time, ideally a full day, and avoid opening either app (to avoid the confounding variables described above). At the end of the period, compare battery blame for each app on the Battery screen in the device settings.
+2. Install the [Radar Toolkit app](/toolkit), a sample app that does nothing but run Radar. Use your phone for a period of time, ideally a full day, and avoid opening the app (to avoid the confounding variables described above). At the end of the period, inspect battery blame for the app on the Battery screen in the device settings.
+
+Note that the Battery screen on iOS and Android shows battery drain attributable to each app not as an absolute percentage, but as a percentage of the absolute battery drain in the battery session.
+
+For example, if the iOS Battery screen shows 2% battery blame attributable to your app and shows that your phone has drained 50% of its battery in the battery session, the absolute percentage attributable to your app is actually 2% * 50% = 1%.
+
+When using the efficient and responsive tracking presets, the SDK will wake up while the user is moving (usually every few minutes), then shut down when the user stops. To save battery, the SDK will not wake up when stopped. For most users, background tracking with these presets uses only 1-2% battery per day (measured in absolute percentage).
+
+See the [SDK documentation](/sdk) and [Navigating location services tradeoffs between accuracy, frequency, and battery efficiency](ttps://radar.io/blog/navigating-location-services-tradeoffs-between-accuracy-frequency-battery-efficiency) for more information.
+
+### Can I test Radar side-by-side with another location SDK?
+
+Many developers switch to Radar from other location SDKs. You can test Radar side-by-side with another location SDK, but keep in mind that there may be side effects on iOS.
+
+On iOS, significant location change events, `CLRegion` events, and `CLVisit` events may be sent to all `CLLocationManager` instances in the app. This may cause the Radar SDK to receive client-side location updates triggered by other SDKs even if you have not called `Radar.trackOnce()` or `Radar.startTracking()`.
+
+On Android, this is not an issue.
+
+## Privacy
+
+### What data does the Radar SDK collect?
+
+The Radar SDK collects location data (latitude, longitude), device IDs, IP addresses, and device info by default. We also collect any other user IDs (e.g., user IDs) or metadata that you choose to send us. Radar does not collect personally identifiable information like name or email by default.
+
+For more information, see our [privacy policy](https://radar.io/privacy), our [commitment to privacy](https://radar.io/blog/our-commitment-to-privacy), and our [location data privacy checklist](https://radar.io/blog/location-data-privacy-checklist).
+
+### What are privacy best practices for Radar?
+
+- Do not send any PII, like names, email addresses, or publicly available IDs, to the Radar SDK or API.
+- Minimize the data you collect with Radar, turning on only the context types relevant to your use case (store visits for shopping apps, airport visits and traveling detection for travel apps, and so on).
+- Clearly explain to end users what data will be collected and how it will be used in your apps, in permissions prompts, and in your privacy policy.
+
+For more information, see our [location data privacy checklist](https://radar.io/blog/location-data-privacy-checklist).
+
+### Why do I have multiple users with the same user ID or device ID?
+
+The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values.
+
+### What are location permission prompt best practices?
+
+The best location permission prompts are:
+
+- Transparent: The prompt explains what data will be collected from the end user and how it will be used, with a link to your privacy policy.
+- Valuable: The prompt explains why the user should grant location permissions, like enabling a location-based feature or unlocking an offer.
+- Timely: The prompt is shown when the user is engaged, like in an onboarding, when accessing a location-based feature, or after a transaction. Background permission prompts are shown after and incremental to foreground permission prompts.
+
+Opt-in rates vary from app to app, but apps that follow best practices can expect 70-80% of users to grant location permissions, with 40-50% of users granting background ("always") location permissions on iOS.
+
+For more information, see our [location data privacy checklist](https://radar.io/blog/location-data-privacy-checklist).
+
+### What is Radar's data retention policy?
+
+By default, users and events are retained for 1 year, trips are retained for 90 days, and location updates are retained for 7 days.
+
+Radar supports custom data retention policies for enterprise customers. Contact your customer success manager to enable this feature.
+
+### Is Radar CCPA-compliant and GDPR-compliant?
+
+Yes, Radar is CCPA-compliant and GDPR-compliant. For more information, see our [commitment to privacy](https://radar.io/blog/our-commitment-to-privacy).
+
+For data deletion requests, you can delete a user manually from the user detail page in the dashboard or [delete a user programmatically](/api#delete-a-user) using the API. Deletions are immediate.
+
+For data access requests, you can export a user and all of their events and locations manually from the user detail page in the dashboard.
+
+If you need assistance, you can also forward requests to your customer success manager.
+
+## Security
+
+### How do Radar account roles work?
+
+- Read accounts can read user, geofence, and event data.
+- Write accounts can also create, update, and delete user, geofence, and event data.
+- Admin accounts can also invite new accounts and update project settings, including API keys and integrations.
+- Owner accounts can also edit account roles and project access.
+
+Use the appropriate role (owner, admin, write, or read) for each co-worker's account. See [Radar security best practices](#what-are-security-best-practices-for-radar).
+
+### How do data access controls work?
+
+In addition to the account roles above, owners can also control:
+- **Project access**: Access to specific projects in an organization
+- **Environment access**: Access to test or live data across projects in an organization
+- **Data access**: Access to specific data and pages across projects in an organization
+  - *User locations*: Access to data on the user details page (map and location information) and access to the user locations page
+  - *Trip locations*: Access to data on the trip details page (map and location information) and access to the [trip tracking dashboard](/trip-tracking#in-the-radar-trip-tracking-dashboard)
+
+Data access controls are available to enterprise customers. Contact your customer success manager for more information.
+
+### Does Radar have a bug bounty or responsible disclosure program?
+
+Yes. For more information, see the [Vulnerability Disclosure Policy](/vulnerability-disclosure-policy).
+
+### What are security best practices for Radar?
+
+#### Account management
+
+- Use a strong password (at least 10 characters, at least 1 lowercase letter, at least 1 uppercase letter, at least 1 number, and at least 1 symbol).
+- Use a password manager like 1Password or LastPass to generate and store passwords, and use a different password for each website.
+- Use app- or SMS-based multi-factor authentication (MFA). Enable MFA on the Account page.
+- Do not share your account with co-workers.
+- Use the appropriate role (owner, admin, write, or read) for each co-worker's account.
+- When a co-worker is terminated, delete their account.
+- Use single sign-on (SSO) if supported by your organization.
+
+#### Authentication
+
+- Use Test keys for development and Live keys for production.
+- Use [Publishable keys](/sdk#authentication), which are restricted in scope in client-side code. Never use [Secret keys](/api#authentication), which can read or write any data.
+
+#### Data management
+
+- Encrypt data stored outside of Radar (e.g., data sent to integrations or sent to webhooks and stored in a data warehouse).
+- Do not send any PII, like names, email addresses, or publicly available IDs, to the Radar SDK or API. See also [Radar privacy best practices](#what-are-privacy-best-practices-for-radar).
+
+### Does Radar support audit logs?
+
+Yes, Radar supports audit logs for enterprise customers. Audit logs include all requests made from the dashboard with the account, project, environment, IP address, and timestamp of each request. The 100 most recent audit logs can be viewed from the dashboard, and full audit logs can be exported to CSV.
+
+### How do I set up single sign-on (SSO) in Radar?
+
+Radar supports single sign-on (SSO) via SAML, LDAP, Open ID, and other identity providers.
+
+SSO is an enterprise-only feature. Contact your customer success manager to enable this feature.
+
+#### SAML
+
+To set up your SAML identity provider, we will need:
+
+- SAML protocol URL
+- Sign-in URL
+- Sign-out URL (optional)
+- X509 Signing Certificate (.pem file)
+- User ID attribute (defaults to http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier then http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn then http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name)
+
+Once your SAML identity provider is set up, we will provide:
+
+- Assertion consumer service URL
+- Application callback URL
+
+### Is Radar SOC 2 type II-certified?
+
+Yes, Radar is SOC 2 type II-certified. For more information, please ask your account executive for a copy of our attestation report.
+
+### Is the Radar SDK secure?
+
+Yes. The Radar SDK calls the Radar API over HTTPS using TLS version 1.2 or higher, so all data is encrypted in transit. API calls are authenticated using your [Publishable keys](/sdk#authentication), which are restricted in scope.
+
+## Location Permissions
+
+### How do I get statistics for location permissions?
+
+Statistics for location permissions are available for customers who have installed SDK 3.1 or later.
+
+### What do the states in the location permissions graph represent?
+
+On iOS, the SDK checks `authorizationStatus` on `CLLocationManager` to determine authorization status:
+
+- **`Granted Background`**: `authorizationStatus` is `.authorizedAlways`, meaning that the user has granted background location permissions.
+- **`Granted Foreground`**: `authorizationStatus` is `.authorizedWhenInUse`, meaning that the user has granted foreground location permissions.
+- **`Denied`**: `authorizationStatus` is `.denied` or `.restricted`, meaning that the user has denied location permissions.
+- **`Not Determined`**: `authorizationStatus` is `.notDetermined`, meaning that the user has not yet been prompted for location permissions.
+
+On Android, the SDK checks the `ACCESS_FINE_LOCATION` and `ACCESS_BACKGROUND_LOCATION` permissions to determine authorization status:
+
+- **`Granted Background`**: The `ACCESS_BACKGROUND_LOCATION` permission is granted, meaning that the user has granted background location permissions.
+- **`Granted Foreground`**: The `ACCESS_FINE_LOCATION` permission is granted, meaning that the user has granted foreground location permissions.
+- **`Denied`**: The `ACCESS_FINE_LOCATION` permissioon is denied and `shouldShowRequestPermissionRationale()` returns `false`, meaning that the user has denied location permissions and checked "Never ask again."
+- **`Not Determined`**: None of the above criteria are true, meaning that the user has not yet been prompted for location permissions.
+
+### What qualifies as an app session?
+
+An app session represents a period of user activity within your app. A new app session is started whenever the app is opened, assuming at least 5 minutes have elapsed since the app was last closed.

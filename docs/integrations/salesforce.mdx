@@ -1,0 +1,326 @@
+---
+title: Salesforce Marketing Cloud
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events to [Salesforce Marketing Cloud](https://www.salesforce.com/products/marketing-cloud/overview/) to trigger journeys in *Journey Builder*.
+
+Use the Salesforce Marketing Cloud integration to send location-triggered messages to increase engagement and conversion.
+
+The Salesforce Marketing Cloud integration is available on the [Enterprise](https://radar.io/dashboard/pricing) plan.
+
+## Configuration
+
+On the Salesforce Marketing Cloud *Installed Packages* page, click *New*. Add an installed package with the name *Radar*. On the package details page, add an *API Integration* component with the *Server-to-Server* integration type and all permissions for the *Automation*, *Contacts*, *Cross Cloud Platform*, and *Data* scopes. Copy your *Client ID*, *Client Secret*, *Authentication Base URI*, and *REST Base URI*.
+
+Then, on the Radar [Integrations page](/integrations) under *Salesforce Marketing Cloud*, set *Enabled* to *Yes* and paste these values. When you click *Save*, Radar will create an event definition and data extension with the specified event definition key (`radar-event` by default).
+
+Finally, in the Salesforce Marketing Cloud *Journey Builder*, create a new journey with an *API Event* entry source using this event definition and data extension.
+
+By default, Radar `userId` maps to Salesforce Marketing Cloud `contactKey` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.salesforceContactKey`. For example, on iOS:
+
+```swift
+Radar.setMetadata(["salesforceContactKey": contactKey])
+```
+
+Whenever events are generated, Radar will send events to your Salesforce Marketing Cloud data extension to trigger journeys.
+
+## Event mapping
+
+### user.entered_geofence
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.entered_geofence"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.exited_geofence
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_geofence"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.entered_place
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.entered_place"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`place._id` | `placeId` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `placeName` | string | `"Starbucks"`
+`place.chain.slug` | `placeChainSlug` | string | `"starbucks"`
+`place.chain.name` | `placeChainName` | string | `"Starbucks"`
+`place.categories` | `placeCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.exited_place
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_place"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`place._id` | `placeId` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `placeName` | string | `"Starbucks"`
+`place.chain.slug` | `placeChainSlug` | string | `"starbucks"`
+`place.chain.name` | `placeChainName` | string | `"Starbucks"`
+`place.categories` | `placeCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.entered_home
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.entered_home"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.exited_home
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_home"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.entered_office
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.entered_office"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.exited_office
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_office"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.started_traveling
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.started_traveling"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.stopped_traveling
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.stopped_traveling"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
+### user.entered_region_country
+
+Radar Event Field | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`type` | `type` | string | `"user.entered_region_country"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"US"`
+`region.name` | `regionName` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_country
+
+Radar Event Field | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_region_country"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"US"`
+`region.name` | `regionName` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_state
+
+Radar Event Field | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`type` | `type` | string | `"user.entered_region_state"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"MD"`
+`region.name` | `regionName` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_state
+
+Radar Event Field | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_region_state"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"MD"`
+`region.name` | `regionName` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_dma
+
+Radar Event Field | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`type` | `type` | string | `"user.entered_region_dma"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"26"`
+`region.name` | `regionName` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_dma
+
+Radar Event Field | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_region_dma"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"26"`
+`region.name` | `regionName` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`

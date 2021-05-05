@@ -1,0 +1,207 @@
+---
+sidebar_position: 5
+title: Building a store locator on iOS
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+In this tutorial, we show you how to use the Radar [iOS SDK](/sdk), [forward geocode API](/api#forward-geocode), and [geofence search API](/api#search-geofences) to build a store locator with a map.
+
+## Languages used
+
+- Swift
+
+## Features used
+
+- [iOS SDK](/sdk/ios)
+- [Forward geocode API](/api#autocomplete)
+- [Geofence search API](/api#autocomplete)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.io/signup">Get API Keys</a>
+
+### Step 2: Import geofences
+
+On the [Geofences page](https://radar.io/dashboard), import geofences for each store.
+
+The CSV should include 8 columns:
+
+- **`description`**: A display name for the geofence. In this case, the store name.
+- **`tag`**: A group for the geofence. In this case, `store`.
+- **`externalId`**: An external ID for the geofence that maps to your internal database. In this case, the store ID.
+- **`type`**: The type of geofence geometry. In this case, `circle`.
+- **`radius`**: The radius in meters for type circle. In this case, `100`.
+- **`coordinates`**: A JSON string representing a center in the format [longitude,latitude] for type circle. Note that longitude comes before latitude, a GeoJSON convention.
+- **`enabled`**: In this case, `true`.
+- **`metadata`**: A set of custom key-value pairs for the geofence. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number. In this case, `{"parking": true}` or `{"parking": false}`.
+
+```csv
+McRadar's #1,store,1,circle,100,"[-73.986752,40.703919]",true,"{""parking"":true}"
+McRadar's #2,store,2,circle,100,"[-73.993156,40.700554]",true,"{""parking"":false}"
+McRadar's #3,store,3,circle,100,"[-73.983295,40.697693]",true,"{""parking"":false}"
+```
+
+### Step 3: Install the Radar iOS SDK
+
+If you're starting from scratch, create a new Xcode project of type Single View App.
+
+[Install the Radar SDK](/sdk) using CocoaPods or Carthage (recommended) or by [downloading the framework](https://github.com/radarlabs/radar-sdk-ios/releases) and dragging it into your project.
+
+Initialize the SDK in your `AppDelegate` class with your publishable API key.
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+
+        return true
+    }
+
+}
+```
+
+### Step 4: Build the store locator UI
+
+Import `MapKit` and add a `UISearchBar` (for the address input) and `MKMapView` (for the map) to your `ViewController`.
+
+Make your search bar a `UISearchBarDelegate`. Connect the search bar and map to the `ViewController` and set the `ViewController` as the `delegate` for the search bar.
+
+Alternatively, we could display the results in a `UITableView`.
+
+### Step 5: Call the forward geocode API
+
+Implement the `searchBarSearchButtonClicked:` method of the `UISearchBarDelegate` to call the [forward geocode API](/api#forward-geocode) when a user enters an address into the search bar, then move the map to the coordinate of the address.
+
+```swift
+func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+  guard let text = searchBar.text else {
+      return
+  }
+
+  Radar.geocode(address: text) { (status, addresses) in
+      if let coordinate = addresses?.first?.coordinate {
+          DispatchQueue.main.async {
+              let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 10000, longitudinalMeters: 10000)
+              self.map?.setRegion(region, animated: true)
+          }
+      }
+  }
+}
+```
+
+Alternatively, we could call the [autocomplete API](/api#autocomplete) to autocomplete partial addresses as the user types.
+
+### Step 6: Call the geofence search API
+
+Finally, pass the coordinate to the [geofence search API](/api#search-geofences) to retrieve stores, convert the stores to map annotations, and add the annotations to the map.
+
+In this case, we pass `radius: 10000` to retrieve stores within 10 kilometers, `tag: "store"` to retrieve only geofences with tag store, and `limit: 10` to retrieve up to 10 stores at a time. Optionally, we could pass `metadata: ["parking": true]` to retrieve only stores with parking.
+
+```swift
+let near = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+
+Radar.searchGeofences(near: near, radius: 1000, tags: ["store"], metadata: nil, limit: 10) { (status, location, geofences) in
+  guard status != .success, let geofences = geofences else {
+      return
+  }
+
+  let annotations = geofences.map { (geofence) -> MKAnnotation in
+      let annotation = MKPointAnnotation()
+      let geometry = geofence.geometry as! RadarCircleGeometry
+      annotation.coordinate = geometry.center.coordinate
+      annotation.title = geofence._description
+      return annotation
+  }
+
+  DispatchQueue.main.async {
+      self.map?.addAnnotations(annotations)
+  }
+}
+```
+
+Alternatively, we could call the [place search API](/api#search-places) retrieve places from Radar's place database, rather than custom geofences.
+
+## Sample code
+
+```swift
+// AppDelegate.swift
+
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+
+        return true
+    }
+
+}
+
+// ViewController.swift
+
+import UIKit
+import MapKit
+import RadarSDK
+
+class ViewController: UIViewController, UISearchBarDelegate {
+
+    @IBOutlet var searchBar: UISearchBar?
+    @IBOutlet var map: MKMapView?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else {
+            return
+        }
+
+        Radar.geocode(address: text) { (status, addresses) in
+            if let coordinate = addresses?.first?.coordinate {
+                DispatchQueue.main.async {
+                    let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+                    self.map?.setRegion(region, animated: true)
+                }
+
+                let near = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+
+                Radar.searchGeofences(near: near, radius: 1000, tags: ["store"], metadata: nil, limit: 10) { (status, location, geofences) in
+                    guard status != .success, let geofences = geofences else {
+                        return
+                    }
+
+                    let annotations = geofences.map { (geofence) -> MKAnnotation in
+                        let annotation = MKPointAnnotation()
+                        let geometry = geofence.geometry as! RadarCircleGeometry
+                        annotation.coordinate = geometry.center.coordinate
+                        annotation.title = geofence._description
+                        return annotation
+                    }
+
+                    DispatchQueue.main.async {
+                        self.map?.addAnnotations(annotations)
+                    }
+                }
+            }
+        }
+    }
+
+}
+```
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.io](mailto:support@radar.io).

@@ -1,0 +1,217 @@
+---
+title: Lytics
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and user state to [Lytics](https://www.lytics.com).
+
+Use the Lytics integration to build location-based user segments.
+
+The Lytics integration is available on the [Enterprise](https://radar.io/dashboard/pricing) plan.
+
+## Configuration
+
+Before enabling the integration, contact your Lytics account manager. After Lytics is configured, in Lytics, [create an API token](https://learn.lytics.com/understanding/product-docs/account-management/managing-api-tokens#creating-a-new-api-token) with no expiration and the *Data Manager* role.
+
+Then, on the Radar [Integrations page](/integrations) under *Lytics*, set *Enabled* to *Yes*, paste your API token. Note that you can set separate API tokens and stream names for the *Test* and *Live* environments.
+
+Whenever events are generated, Radar will send events to the `radar_events` stream and user state to the `radar_users` stream.
+
+## User mapping
+
+Note that Radar uses the special string `"(null)"` to represent `null` user data field values.
+
+Radar User Field | Lytics User Data Field | Type | Example Value | Context Type
+--- | --- | --- | --- | --
+`userId` | `radarUserId` | string | `"1"` |
+`deviceId` | `radarDeviceId` | string | `"10974a2ee035770b9"` |
+`location.coordinates[0]` | `radarLocationLongitude` | number | `-76.350663` |
+`location.coordinates[1]` | `radarLocationLatitude` | number | `39.525665` |
+`_id` | `radarId` | string | `"5b2c0906f5874b001aecfd8d"` |
+`updatedAt` | `radarUpdatedAt` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`segments[*].externalId` | `radarSegmentExternalIds` | array[string] | `["starbucks-visitors"]` |
+`topChains[*].slug` | `radarTopChainSlugs` | array[string] | `["starbucks", "walmart"]` |
+`topChains[*].externalId` | `radarTopChainExternalIds` | array[string] | `["123", "456"]` |
+`geofences[*]._id` | `radarGeofenceIds` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences)
+`geofences[*].description` | `radarGeofenceDescriptions` | array[string] | `["Store #123"]` | [Geofences](/geofences)
+`geofences[*].tag` | `radarGeofenceTags` | array[string] | `["store"]` | [Geofences](/geofences)
+`geofences[*].externalId` | `radarGeofenceExternalIds` | array[string] | `["123"]` | [Geofences](/geofences)
+`place._id` | `radarPlaceId` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
+`place.name` | `radarPlaceName` | string | `"Starbucks"` | [Places](/places)
+`place.categories` | `radarPlaceCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
+`place.chain.slug` | `radarPlaceChainSlug` | string | `"starbucks"` | [Places](/places)
+`place.chain.name` | `radarPlaceChainName` | string | `"Starbucks"` | [Places](/places)
+`insights.state.home` | `radarInsightsStateHome` | boolean | `false` | [Insights](/insights)
+`insights.state.office` | `radarInsightsStateOffice` | boolean | `false` | [Insights](/insights)
+`insights.state.traveling` | `radarInsightsStateTraveling` | boolean | `true` | [Insights](/insights)
+`country.code` | `radarRegionCountryCode` | string | `"US"` | [Regions](/regions)
+`country.name` | `radarRegionCountryName` | string | `"United States"` | [Regions](/regions)
+`state.code` | `radarRegionStateCode` | string | `"MD"` | [Regions](/regions)
+`state.name` | `radarRegionStateName` | string | `"Maryland"` | [Regions](/regions)
+`dma.code` | `radarRegionDMACode` | string | `"26"` | [Regions](/regions)
+`dma.name` | `radarRegionDMAName` | string | `"Baltimore"` | [Regions](/regions)
+`postalCode.code` | `radarRegionPostalCode` | string | `"21014"` | [Regions](/regions)
+
+## Event mapping
+
+### user.entered_geofence
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_geofence
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+### user.entered_place
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`place._id` | `placeId` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `placeName` | string | `"Starbucks"`
+`place.chain.slug` | `placeChainSlug` | string | `"starbucks"`
+`place.chain.name` | `placeChainName` | string | `"Starbucks"`
+`place.categories` | `placeCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_place
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`place._id` | `placeId` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `placeName` | string | `"Starbucks"`
+`place.chain.slug` | `placeChainSlug` | string | `"starbucks"`
+`place.chain.name` | `placeChainName` | string | `"Starbucks"`
+`place.categories` | `placeCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+### user.entered_home
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_home
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_office
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_office
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.started_traveling
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.stopped_traveling
+
+Radar Event Field | Lytics Event Data Field | Type | Example
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_country
+
+Radar Event Field | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"US"`
+`region.name` | `regionName` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_country
+
+Radar Event Field | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"US"`
+`region.name` | `regionName` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_state
+
+Radar Event Field | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"MD"`
+`region.name` | `regionName` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_state
+
+Radar Event Field | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"MD"`
+`region.name` | `regionName` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_dma
+
+Radar Event Field | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"26"`
+`region.name` | `regionName` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_region_dma
+
+Radar Event Field | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`region.code` | `regionCode` | string | `"26"`
+`region.name` | `regionName` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`

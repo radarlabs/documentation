@@ -1,0 +1,144 @@
+---
+sidebar_position: 2
+title: Geofences
+id: geofences
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Geofences represent custom regions or places monitored in your project. Depending on your use case, a geofence might represent a retail store, a neighborhood, and so on.
+
+Radar geofencing is more powerful than native iOS or Android geofencing, with cross-platform support for unlimited geofences, polygon geofences, [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofences, temporary geofences, and stop detection.
+
+<img
+  className="hero-image"
+  src="https://images.ctfassets.net/f2vbu16fzuly/5b6qGAs7VRRl01TtCPwFbJ/1e7309fabb7a978c6fd81e55befd91d0/geofences.svg"
+/>
+
+Geofences provides the following user context:
+
+```json
+{
+  "geofences": [
+    {
+      "tag": "store",
+      "externalId": "123",
+      "description": "Store #123",
+      "metadata": {
+        "parking": false
+      }
+    }
+  ]
+}
+```
+
+Geofences also provides the following events:
+
+- `user.entered_geofence`
+- `user.exited_geofence`
+
+You can receive events client-side via the [SDK](/sdk) or server-side via [event integrations](/integrations), including webhooks.
+
+You can [create geofences](#create-geofences) via the dashboard, CSV import, the API, nightly sync, or integrations.
+
+Alternatively, if you don't have your own custom place data, Radar can detect when a user visits a place even if you haven't set up a geofence for that place. Learn more about [Places](/places).
+
+## How it works
+
+Geofencing works in the foreground and in the background. All event generation happens server-side. This allows Radar geofencing to be more powerful than native iOS or Android geofencing, with cross-platform support for unlimited geofences, polygon geofences, [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofences, temporary geofences, and stop detection.
+
+Radar generates a geofence entry event if a user enters a geofence (if [stop detection](#stop-detection) is off) or stops in a geofence (if [stop detection](#stop-detection) is on) with sufficient confidence, then a geofence exit event when the user leaves the geofence with sufficient confidence.
+
+## Create geofences
+
+You can create geofences via the dashboard, CSV import, the API, nightly sync, or integrations. You can create geofences in the _Test_ environment for development and testing, and in the _Live_ environment for production.
+
+You specify the metadata for geofences when you create them, including the _tag_ (an optional group for the geofence, e.g., `store`), _external ID_ (an optional external ID for the geofence that maps to your internal database, e.g., `123`), and _description_ (a display name for the geofence, e.g., `Store #123`).
+
+**Geofences should be uniquely referenced by tag and external ID, assigned by you when a geofence is created. To disable or update metadata for a geofence, re-import the geofence with the same tag and external ID.**
+
+### Dashboard
+
+To create a geofence via the dashboard, go to the [Geofences page](https://radar.io/dashboard/geofences) and click the _New_ button. Optionally search for an address or place, then enter a description, optional tag, optional external ID, and optional metadata. Choose _circle_ to create a circle geofence, _polygon_ to create a polygon geofence, or _isochrone_ to create an [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofence. Click _Create_ to create the geofence.
+
+### CSV import
+
+To create geofences via CSV import, go to the [Geofences page](/geofences) and click the _Import_ button. Then, select a CSV to upload.
+
+The CSV must have 8 columns:
+
+- **`description`**: A display name for the geofence.
+- **`tag`**: A group for the geofence.
+- **`externalId`** (optional, but recommended): An external ID for the geofence that maps to your internal database.
+- **`type`**: The type of geofence geometry. `polygon`, `circle`, and `isochrone` are supported.
+- **`radius`** (required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes and [travel mode](/api#routing) for type `isochrone`, a string in the format `duration|mode` (e.g., `15|car` for 15 minutes driving). Ignored for type `polygon`.
+- **`coordinates`**: A JSON string representing a center in the format `[longitude,latitude]` for type `circle`. A JSON string representing a closed ring of between 4 and 10,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. A JSON string representing a destination in the format `[longitude,latitude]` for type `isochrone`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`enabled`**: If `true`, the geofence will generate events. If `false`, the geofence will not generate events.
+- **`metadata`**: A set of custom key-value pairs for the geofence. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+
+Headers for the columns should be omitted. In other words, the first row of the CSV should correspond to the first geofence.
+
+**If a geofence with the specified tag and external ID already exists, it will be updated. If not, it will be created.**
+
+For example, to import a circle geofence representing a store and a polygon geofence representing a neighborhood, you could use the following CSV:
+
+```json
+"Store #123",store,123,circle,50,"[-73.975363,40.783826]",true,"{""parking"":false}"
+"SoHo",neighborhood,soho,polygon,,"[[-73.996973,40.725660],[-73.998282,40.726294],[-74.001072,40.727660],[-74.002853,40.728603],[-74.003282,40.727936],[-74.003840,40.726310],[-74.004226,40.725351],[-74.004998,40.723530],[-74.005191,40.722993],[-74.005556,40.722115],[-74.004462,40.721334],[-74.001908,40.719496],[-73.999827,40.718016],[-73.997467,40.720863],[-73.997016,40.722212],[-73.996501,40.723497],[-73.995750,40.724278],[-73.995128,40.725107],[-73.996973,40.725660]]",true,
+"15 minutes driving to Disney World","car-15",disney,isochrone,15|car,"[-81.563874,28.385233]",true,"{""type"":""resort""}"
+```
+
+**Again, note that longitude comes before latitude, a GeoJSON convention.**
+
+### API
+
+You can also create geofences programmatically via the [API](/api). You can create a geofence via <span className="badge badge--info">POST</span> `/api/v1/geofences`, or upsert a geofence based on tag and external ID via <span className="badge badge--warning">PUT</span> `/api/v1/geofences/:tag/:externalId`.
+
+For example, to upsert a geofence representing a store via the [API](/api):
+
+```bash
+curl https://api.radar.io/v1/geofences/store/123 \
+    -H "Authorization: prj_live_sk_8ca5fdbe82ab7d49a1ca5c3f" \
+    -X PUT \
+    -d "description=Store #123" \
+    -d "type=circle" \
+    -d "coordinates=[-73.975363,40.783826]" \
+    -d "radius=100"
+```
+
+**Again, note that longitude comes before latitude, a GeoJSON convention.**
+
+### Geofence sync
+
+Finally, you can sync geofences nightly from a CSV.
+
+On the Radar [Integrations page](/integrations) under _Geofence Sync_, set _Enabled_ to _Yes_. Enter a _Notification Email_ to receive success and failure confirmation emails. Then, choose a _Protocol_:
+
+- Choose _HTTP_ for geofence CSVs at public HTTP or HTTPS URLs. Enter the URLs of the geofence CSVs.
+- Or, choose _AWS S3_ for geofence CSVs in a private S3 bucket. Enter an S3 bucket region, S3 bucket name, and the S3 object keys of the geofence CSVs. Finally, enter the AWS access key ID and secret access key of an IAM user with `GetObject` permissions for the specified S3 bucket and objects.
+
+Note that you can set separate CSVs for the _Test_ and _Live_ environments.
+
+The geofence sync CSV format is the same as the [geofence import CSV format](/geofences#csv-import).
+
+When you click _Save and Sync_, Radar will attempt a one-time sync and send an email on success or failure. Radar will then attempt syncs nightly.
+
+## Confidence and accuracy
+
+All geofence events have confidence levels. Confidence levels range from `1` (low) to `3` (high). Confidence is a function of the accuracy of the location reported by the device and the geometry of the geofence.
+
+Confidence will be high when the user, taking into account the accuracy of the location reported by the device, is completely inside the geofence. Confidence will be medium when the user is mostly inside the geofence. Confidence will be low when the user is only partially inside the geofence.
+
+The smaller the geofence and the less accurate the location reported by the device, the lower the confidence. You can create geofences as small as a 10 meter radius for circles and 1,000 square meters for polygons.
+
+<img
+  src="https://images.ctfassets.net/f2vbu16fzuly/cszDUh5NBGi6lBpslnH67/cc29547e9e38cee37d325814a6f4f589/confidence.png"
+  className="hero-image"
+/>
+
+You may decide to ignore some events based on confidence levels.
+
+## Stop detection
+
+When _Geofence Stop Detection_ is on, Radar can understand the difference between a user walking or driving through a geofence and stopping in a geofence, and will only generate a geofence entry event when a user stops in a geofence (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`).
+
+Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.io/dashboard/settings), under _Geofences_.

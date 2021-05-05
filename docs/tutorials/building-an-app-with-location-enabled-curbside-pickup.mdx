@@ -1,0 +1,155 @@
+---
+sidebar_position: 4
+title: Building an app with location-enabled curbside pickup
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+In this tutorial, we show you how to use the Radar [iOS SDK](/sdk), [geofences](/geofences), and [trip tracking](/trip-tracking) to build a "McRadar's" app with location-enabled curbside pickup.
+
+## Languages used
+
+- Swift
+
+## Features used
+
+- [iOS SDK](/sdk/ios)
+- [Geofences](/geofences)
+- [Trip tracking](/trip-tracking)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.io/signup">Get API Keys</a>
+
+### Step 2: Import geofences
+
+On the [Geofences page](https://radar.io/dashboard), create a geofence for a McRadar's location. In this case, use `restaurant` for the geofence `tag` and `123` for the geofence `externalId`.
+
+### Step 3: Install the Radar iOS SDK
+
+[Install the Radar SDK](/sdk) using CocoaPods or Carthage (recommended) or by [downloading the framework](https://github.com/radarlabs/radar-sdk-ios/releases) and dragging it into your project.
+
+Initialize the SDK in your `AppDelegate` class with your publishable API key, then request location permissions.
+
+```swift
+import UIKit
+import CoreLocation
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    let locationManager = CLLocationManager()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+
+        self.locationManager.requestWhenInUseAuthorization()
+
+        return true
+    }
+
+}
+```
+
+### Step 4: Start tracking and start a trip
+
+When the user places an order and taps "I'm on my way," start tracking to start live location tracking, start a trip to the destination geofence. Use the order ID, in this case `456`, for the trip `externalId`.
+
+```swift
+let tripOptions = RadarTripOptions(externalId: "456")
+tripOptions.destinationGeofenceTag = "restaurant"
+tripOptions.destinationGeofenceExternalId = "123"
+tripOptions.mode = .car
+Radar.startTrip(options: tripOptions)
+Radar.startTracking(trackingOptions: .continuous)
+```
+
+Optionally, instead of calling `Radar.startTracking()`, we can simulate a sequence of location updates from an origin to a destination with `Radar.mockTracking()`. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
+
+```swift
+Radar.mockTracking(
+  origin: CLLocation(latitude: 40.714708, longitude: -74.035807),
+  destination: CLLocation(latitude: 40.717410, longitude: -74.053334),
+  mode: .car,
+  steps: 10,
+  interval: 3) { (status, location, events, user) in
+
+}
+```
+
+### Step 5: Display live ETAs in the trip tracking dashboard
+
+Display live ETAs on the trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing) plan. Or, display live ETAs in your own UI by polling the [list trips API](/api#list-trips) or listening for [trip events](/trip-tracking#trip-events) sent to a webhook.
+
+### Step 6: Stop tracking and stop the trip
+
+When the user taps "I'm here" or when the order is picked up, complete the trip and stop tracking.
+
+```swift
+Radar.completeTrip()
+Radar.stopTracking()
+```
+
+## Sample code
+
+```swift
+// AppDelegate.swift
+
+import UIKit
+import CoreLocation
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    let locationManager = CLLocationManager()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+
+        self.locationManager.requestWhenInUseAuthorization()
+
+        return true
+    }
+
+}
+```
+
+```swift
+// ViewController.swift
+
+import UIKit
+import RadarSDK
+
+class ViewController: UIViewController {
+
+    var pickupStarted = false
+
+    @IBAction func didTapButton(button: UIButton) {
+        if !pickupStarted {
+            let tripOptions = RadarTripOptions(externalId: "456")
+            tripOptions.destinationGeofenceTag = "restaurant"
+            tripOptions.destinationGeofenceExternalId = "123"
+            tripOptions.mode = .car
+            Radar.startTrip(options: tripOptions)
+            Radar.startTracking(trackingOptions: .continuous)
+            sender.setTitle("I'm here", for: .normal)
+            pickupStarted = true
+        } else {
+            Radar.completeTrip()
+            Radar.stopTracking()
+            sender.setTitle("I'm here", for: .normal)
+            pickupStarted = false
+        }
+    }
+
+}
+```
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.io](mailto:support@radar.io).

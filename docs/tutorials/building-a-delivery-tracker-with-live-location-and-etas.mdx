@@ -1,0 +1,141 @@
+---
+sidebar_position: 3
+title: Building a delivery tracker app with live location and ETAs
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+In this tutorial, we show you how to use the Radar [iOS SDK](/sdk), [geofences](/geofences), [forward geocode API](/api#geocoding), and [trip tracking](/trip-tracking) to build a delivery tracker app with live location and ETAs.
+
+## Languages used
+
+- Swift
+
+## Features used
+
+- [iOS SDK](/sdk/ios)
+- [Geofences](/geofences)
+- [Forward geocode API](/api#forward-geocode)
+- [Trip tracking](/trip-tracking)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.io/signup">Get API Keys</a>
+
+### Step 2: Create geofences
+
+When a delivery is placed, call the [geofence upsert API](/api#upsert-a-geofence) to create a geofence for the delivery. In this case, use `delivery` for the geofence `tag` and the delivery ID for the geofence `externalId`.
+
+Optionally, set `disableAfter` to disable geofence entry events the delivery date, and set `userId` to the user ID of the delivery driver to enable geofence entry events only for that delivery driver.
+
+```bash
+curl "https://api.radar.io/v1/geofences/delivery/123" \
+  -H "Authorization: prj_live_sk_..." \
+  -X PUT \
+  -d "description=Delivery #123" \
+  -d "type=circle" \
+  -d "coordinates=[-73.97536,40.78382]" \
+  -d "radius=50" \
+  -d "disableAfter=2021-01-01T00:00:00.000Z" \
+  -d "userId=456"
+```
+
+If you do not already have the coordinates the delivery address, you can call the [forward geocode API](/api#forward-geocode) to convert the delivery address to coordinates.
+
+```bash
+curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+### Step 3: Install the Radar iOS SDK
+
+[Install the Radar SDK](/sdk) in the app used by delivery drivers.
+
+Initialize the SDK in your `AppDelegate` class with your publishable API key, then request location permissions.
+
+```swift
+import UIKit
+import CoreLocation
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    let locationManager = CLLocationManager()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+
+        self.locationManager.requestWhenInUseAuthorization()
+
+        return true
+    }
+
+}
+```
+
+### Step 4: Start tracking and start a trip
+
+When the delivery starts, start tracking to start live location tracking, start a trip to the destination geofence. Use the delivery ID, in this case `123`, for the trip `externalId`.
+
+If you set `userId` when creating delivery geofences, [identify the user](/sdk/ios#identify) by calling `Radar.setUserId()`.
+
+```swift
+Radar.setUserId("456")
+
+let tripOptions = RadarTripOptions(externalId: "123")
+tripOptions.destinationGeofenceTag = "delivery"
+tripOptions.destinationGeofenceExternalId = "123"
+tripOptions.mode = .car
+Radar.startTrip(options: tripOptions)
+Radar.startTracking(trackingOptions: .continuous)
+```
+
+Optionally, instead of calling `Radar.startTracking()`, we can simulate a sequence of location updates from an origin to a destination with `Radar.mockTracking()`. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
+
+```swift
+Radar.mockTracking(
+  origin: CLLocation(latitude: 40.714708, longitude: -74.035807),
+  destination: CLLocation(latitude: 40.717410, longitude: -74.053334),
+  mode: .car,
+  steps: 10,
+  interval: 3) { (status, location, events, user) in
+
+}
+```
+
+### Step 5: Send delivery updates to the customer
+
+Radar generates [events](/trip-tracking#trip-events) when trips are updated, including `user.started_trip`, `user.approaching_trip_destination`, `user.arrived_at_trip_destination`, and `user.stopped_trip`.
+
+You can receive events server-side via [event integrations](/integrations#event-integrations), including [webhooks](/integrations#event-integrations).
+
+Listen for trip events and send text messages or push notifications to the customer with delivery updates:
+
+- `user.started_trip`: "Your delivery is on the way! ETA {x} minutes."
+- `user.approaching_trip_destination`: "Your delivery is almost here! Please meet your delivery driver soon."
+- `user.arrived_at_trip_destination`: "Your delivery is here! Please meet your delivery driver now."
+- `user.stopped_trip`: "Your delivery is complete!"
+
+Or, poll the get trip API to show a live ETA and location in the customer app.
+
+```bash
+curl "https://api.radar.io/v1/trips/123" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+### Step 6: Stop tracking and stop the trip
+
+When the delivery is complete, complete the trip and stop tracking.
+
+```swift
+Radar.completeTrip()
+Radar.stopTracking()
+```
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.io](mailto:support@radar.io).

@@ -1,0 +1,22 @@
+.TileCard {
+  flex-direction: column;
+  align-items: center;
+
+  /* only relevant to cards that don't span full-width */
+  padding: 2rem;
+}
+
+
+.CardContent {
+  margin: 1rem auto;
+}
+
+.CardTitle {
+  color: var(--ifm-heading-color);
+  font-weight: var(--ifm-font-weight-semibold);
+}
+
+/* Variants
+    - Tile Card (logo + title)
+    - Icon Card (logo + title + description)
+*/

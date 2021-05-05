@@ -1,0 +1,14 @@
+.Card {
+  display: flex;
+  background: #fff;
+  border: 1px solid #e6edf2;
+  border-radius: .625rem;
+
+  /* only applicable for link cards/cards with a hover effect */
+  transition: box-shadow .4s;
+}
+
+
+.Card:hover {
+  box-shadow: 0 4px 12px 0 rgb(23 60 86 / 10%);
+}

@@ -1,0 +1,127 @@
+---
+sidebar_position: 7
+title: Showing a notification when a user enters a geofence
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+In this tutorial, we show you how to use the Radar [iOS SDK](/sdk) and [geofences](/geofences) to show a notification when a user enters a geofence.
+
+In this example, we show local notifications on iOS using [RadarDelegate](/sdk/ios#delegate). Alternatively, you could show local notifications on Android using [RadarReceiver](/sdk/android#receiver), or send remote push notifications using a [webhook](/integrations) or [integrations](/integrations) with platforms like OneSignal, Braze, and Airship.
+
+## Languages used
+
+- Swift
+
+## Features used
+
+- [iOS SDK](/sdk/ios)
+- [Geofences](/geofences)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.io/signup">Get API Keys</a>
+
+### Step 2: Import geofences
+
+On the [Geofences page](https://radar.iohttps://radar.io/dashboard), create a geofence.
+
+### Step 3: Install the Radar iOS SDK
+
+Initialize the SDK in your `AppDelegate` class with your publishable API key. Make your `AppDelegate` implement `RadarDelegate`. Finally, [request location permissions](/sdk/ios#request-permissions) and start tracking:
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
+
+    let locationManager = CLLocationManager()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+        Radar.setDelegate(self)
+
+        self.locationManager.requestAlwaysAuthorization()
+
+        Radar.startTracking(trackingOptions: RadarTrackingOptions.responsive)
+
+        return true
+    }
+
+}
+```
+
+### Step 4: Listen for events
+
+Implement `didReceiveEvents:user:` to listen for geofence entry events and show notifications:
+
+```swift
+func didReceiveEvents(_ events: [RadarEvent], user: RadarUser) {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+    if granted {
+        for event in events {
+            if event.type == .userEnteredGeofence {
+                let content = UNMutableNotificationContent()
+                content.body = "You entered a geofence!"
+                content.sound = UNNotificationSound.default
+                content.categoryIdentifier = "geofence"
+
+                let request = UNNotificationRequest(identifier: event._id, content: content, trigger: nil)
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (_) in })
+            }
+        }
+    }
+}
+```
+
+## Sample code
+
+```swift
+// AppDelegate.swift
+
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
+
+    let locationManager = CLLocationManager()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+        Radar.setDelegate(self)
+
+        self.locationManager.requestAlwaysAuthorization()
+
+        Radar.startTracking(trackingOptions: RadarTrackingOptions.responsive)
+
+        return true
+    }
+
+    func didReceiveEvents(_ events: [RadarEvent], user: RadarUser) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+        if granted {
+            for event in events {
+                if event.type == .userEnteredGeofence {
+                    let content = UNMutableNotificationContent()
+                    content.body = "You entered a geofence!"
+                    content.sound = UNNotificationSound.default
+                    content.categoryIdentifier = "geofence"
+
+                    let request = UNNotificationRequest(identifier: event._id, content: content, trigger: nil)
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: { (_) in })
+                }
+            }
+        }
+    }
+}
+```
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.io](mailto:support@radar.io).

@@ -1,0 +1,214 @@
+---
+title: Amplitude
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and user properties to [Amplitude](https://amplitude.com).
+
+Use the Amplitude integration to enrich behavioral events with location context, measure the ROI of location-based features, and build location-based user segments.
+
+The Amplitude integration is available on the [Team](https://radar.io/dashboard/pricing) plan or higher.
+
+## Configuration
+
+On the Amplitude *Manage Project* page, copy your API key.
+
+Then, on the Radar [Integrations page](/integrations) under *Amplitude*, set *Enabled* to *Yes* and paste your API key. Note that you can set separate API keys for the *Test* and *Live* environments.
+
+Whenever events are generated, Radar will send events and user properties to Amplitude.
+
+## User mapping
+
+Note that Radar uses the special string `"(null)"` to represent `null` user property values.
+
+Radar User Field | Amplitude User Property | Type | Example Value | Context Type
+--- | --- | --- | --- | ---
+`userId` | `userId` | string | `"1"` |
+`deviceId` | `deviceId` | string | `"10974a2ee035770b9"` |
+`location.coordinates[0]` | `location_lng` | number | `-76.350663` |
+`location.coordinates[1]` | `location_lat` | number | `39.525665` |
+`updatedAt` | `time` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`_id` | `[Radar] ID` | string | `"5b2c0906f5874b001aecfd8d"` |
+`segments[*].externalId` | `[Radar] Segment External IDs` | array[string] | `["starbucks-visitors"]` |
+`topChains[*].slug` | `[Radar] Top Chain Slugs` | array[string] | `["starbucks", "walmart"]` |
+`topChains[*].externalId` | `[Radar] Top Chain External IDs` | array[string] | `["123", "456"]` |
+`geofences[*]._id` | `[Radar] Geofence IDs` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences)
+`geofences[*].description` | `[Radar] Geofence Descriptions` | array[string] | `["Store #123"]` | [Geofences](/geofences)
+`geofences[*].tag` | `[Radar] Geofence Tags` | array[string] | `["store"]` | [Geofences](/geofences)
+`geofences[*].externalId` | `[Radar] Geofence External IDs` | array[string] | `["123"]` | [Geofences](/geofences)
+`place._id` | `[Radar] Place ID` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
+`place.name` | `[Radar] Place Name` | string | `"Starbucks"` | [Places](/places)
+`place.categories` | `[Radar] Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
+`place.chain.slug` | `[Radar] Place Chain Slug` | string | `"starbucks"` | [Places](/places)
+`place.chain.name` | `[Radar] Place Chain Name` | string | `"Starbucks"` | [Places](/places)
+`insights.state.home` | `[Radar] Insights State Home` | boolean | `false` | [Insights](/insights)
+`insights.state.office` | `[Radar] Insights State Office` | boolean | `false` | [Insights](/insights)
+`insights.state.traveling` | `[Radar] Insights State Traveling` | boolean | `true` | [Insights](/insights)
+`country.code` | `[Radar] Region Country Code` | string | `"US"` | [Regions](/regions)
+`country.name` | `[Radar] Region Country Name` | string | `"United States"` | [Regions](/regions)
+`state.code` | `[Radar] Region State Code` | string | `"MD"` | [Regions](/regions)
+`state.name` | `[Radar] Region State Name` | string | `"Maryland"` | [Regions](/regions)
+`dma.code` | `[Radar] Region DMA Code` | string | `"26"` | [Regions](/regions)
+`dma.name` | `[Radar] Region DMA Name` | string | `"Baltimore"` | [Regions](/regions)
+`postalCode.code` | `[Radar] Region Postal Code` | string | `"21014"` | [Regions](/regions)
+
+## Event mapping
+
+Radar Event | Context Type | Amplitude Event
+--- | --- | ---
+`user.entered_geofence` | [Geofences](/geofences) | `[Radar] Geofence Entered`
+`user.exited_geofence` | [Geofences](/geofences) | `[Radar] Geofence Exited`
+`user.entered_place` | [Places](/places) | `[Radar] Place Entered`
+`user.exited_place` | [Places](/places) | `[Radar] Place Exited`
+`user.entered_home` | [Insights](/insights) | `[Radar] Home Entered`
+`user.exited_home` | [Insights](/insights) | `[Radar] Home Exited`
+`user.entered_office` | [Insights](/insights) | `[Radar] Office Entered`
+`user.exited_office` | [Insights](/insights) | `[Radar] Office Exited`
+`user.started_traveling` | [Insights](/insights) | `[Radar] Traveling Started`
+`user.stopped_traveling` | [Insights](/insights) | `[Radar] Traveling Stoppped`
+`user.entered_region_country` | [Regions](/regions) | `[Radar] Country Entered`
+`user.exited_region_country` | [Regions](/regions) | `[Radar] Country Exited`
+`user.entered_region_state` | [Regions](/regions) | `[Radar] State Entered`
+`user.exited_region_state` | [Regions](/regions) | `[Radar] State Exited`
+`user.entered_region_dma` | [Regions](/regions) | `[Radar] DMA Entered`
+`user.exited_region_dma` | [Regions](/regions) | `[Radar] DMA Exited`
+
+### &lbrack;Radar&rbrack; Geofence Entered
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `Geofence ID` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `Geofence Description` | string | `"Store #123"`
+`geofence.tag` | `Geofence Tag` | string | `"store"`
+`geofence.externalId` | `Geofence External ID` | string | `"123"`
+`geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Geofence Exited
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `Geofence ID` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `Geofence Description` | string | `"Store #123"`
+`geofence.tag` | `Geofence Tag` | string | `"store"`
+`geofence.externalId` | `Geofence External ID` | string | `"123"`
+`geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+`duration` | `Duration` | number (minutes) | `42.1`
+
+### &lbrack;Radar&rbrack; Place Entered
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `Place ID` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `Place Name` | string | `"Starbucks"`
+`place.chain.slug` | `Place Chain Slug` | string | `"starbucks"`
+`place.chain.name` | `Place Chain Name` | string | `"Starbucks"`
+`place.categories` | `Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Place Exited
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `Place ID` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `Place Name` | string | `"Starbucks"`
+`place.chain.slug` | `Place Chain Slug` | string | `"starbucks"`
+`place.chain.name` | `Place Chain Name` | string | `"Starbucks"`
+`place.categories` | `Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+`duration` | `Duration` | number (minutes) | `42.1`
+
+### &lbrack;Radar&rbrack; Home Entered
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Home Exited
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Office Entered
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Office Exited
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Traveling Started
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Traveling Stopped
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+
+### &lbrack;Radar&rbrack; Country Entered
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"US"`
+`region.name` | `Region Name` | string | `"United States"`
+`confidence` | `Confidence` | string | `"high"`
+
+### &lbrack;Radar&rbrack; Country Exited
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"US"`
+`region.name` | `Region Name` | string | `"United States"`
+`confidence` | `Confidence` | string | `"high"`
+
+### &lbrack;Radar&rbrack; State Entered
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"MD"`
+`region.name` | `Region Name` | string | `"Maryland"`
+`confidence` | `Confidence` | string | `"high"`
+
+### &lbrack;Radar&rbrack; State Exited
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"MD"`
+`region.name` | `Region Name` | string | `"Maryland"`
+`confidence` | `Confidence` | string | `"high"`
+
+### &lbrack;Radar&rbrack; DMA Entered
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"26"`
+`region.name` | `Region Name` | string | `"Baltimore"`
+`confidence` | `Confidence` | string | `"high"`
+
+### &lbrack;Radar&rbrack; DMA Exited
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"26"`
+`region.name` | `Region Name` | string | `"Baltimore"`
+`confidence` | `Confidence` | string | `"high"`

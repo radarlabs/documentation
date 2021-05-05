@@ -1,0 +1,303 @@
+---
+title: Braze
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and user attributes to [Braze](https://www.braze.com).
+
+Use the Braze integration to send location-triggered and location-targeted messages to increase engagement and conversion.
+
+The Braze integration is available on the [Enterprise](https://radar.io/dashboard/pricing) plan.
+
+## Configuration
+
+On the Braze *Developer Console* page under *Rest API Keys*, create and copy a new app group API key with `users.track` permissions. Under *Identification*, copy your iOS and Android app identifiers.
+
+Then, on the Radar [Integrations page](/integrations) under *Braze*, set *Enabled* to *Yes* and paste your API key and app identifiers. Note that you can set separate API keys and app identifiers for the *Test* and *Live* environments. Finally, if your account is not on `https://rest.iad-01.braze.com`, select the appropriate *API Endpoint*.
+
+Whenever events are generated, Radar will send custom events and user attributes to Braze. Events and user attributes from iOS devices will be sent using your iOS app identifiers, and events and user attributes from Android devices will be sent using your Android app identifiers.
+
+By default, Radar `userId` maps to Braze `external_id` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.brazeAlias` or `metadata.brazeExternalId`. If you set `metadata.brazeAlias`, you must also add a matching alias in Braze with label `radarAlias`. For example, on iOS:
+
+```swift
+// track logged out users with alias (deviceId recommended, not required if not tracking logged out users)
+Radar.setMetadata(["brazeAlias": deviceId])
+Appboy.sharedInstance()?.user.addAlias(deviceId, withLabel: "radarAlias")
+
+// track logged in users with custom external_id mapping (not required if using default mapping)
+Radar.setMetadata(["brazeExternalId": userId])
+Appboy.sharedInstance()?.changeUser(userId)
+```
+
+## User mapping
+
+Note that Radar uses the special string `"(null)"` to represent `null` user attribute values.
+
+Radar User Field | Braze User Attribute | Type | Example Value | Context Type
+--- | --- | --- | --- | ---
+`metadata.brazeExternalId` or `userId` | `external_id` | string | `"1"` |
+`metadata.brazeAlias` | `radarAlias` | string | `"10974a2ee035770b9"` |
+`location` | `current_location` | location | `(39.525665, -76.350663)` |
+`_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
+`updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` |
+`topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks", "walmart"]` |
+`topChains[*].externalId` | `radar_top_chain_external_ids` | array[string] | `["123", "456"]` |
+`geofences[*]._id` | `radar_geofence_ids` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences)
+`geofences[*].description` | `radar_geofence_descriptions` | array[string] | `["Store #123"]` | [Geofences](/geofences)
+`geofences[*].tag` | `radar_geofence_tags` | array[string] | `["store"]` | [Geofences](/geofences)
+`geofences[*].externalId` | `radar_geofence_external_ids` | array[string] | `["123"]` | [Geofences](/geofences)
+`place._id` | `radar_place_id` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
+`place.name` | `radar_place_name` | string | `"Starbucks"` | [Places](/places)
+`place.categories` | `radar_place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
+`place.chain.slug` | `radar_place_chain_id` | string | `"starbucks"` | [Places](/places)
+`place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
+`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
+`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
+`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
+`country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
+`country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
+`state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
+`state.name` | `radar_region_state_name` | string | `"Maryland"` | [Regions](/regions)
+`dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
+`dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
+`postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+
+## Event mapping
+
+Radar Event | Context Type | Braze Event
+--- | --- | ---
+`user.entered_geofence` | [Geofences](/geofences) | `entered_geofence`
+`user.exited_geofence` | [Geofences](/geofences) | `exited_geofence`
+`user.entered_place` | [Places](/places) | `entered_place`
+`user.exited_place` | [Places](/places) | `exited_place`
+`user.entered_home` | [Insights](/insights) | `entered_home`
+`user.exited_home` | [Insights](/insights) | `exited_home`
+`user.entered_office` | [Insights](/insights) | `entered_office`
+`user.exited_office` | [Insights](/insights) | `exited_office`
+`user.started_traveling` | [Insights](/insights) | `started_traveling`
+`user.stopped_traveling` | [Insights](/insights) | `stopped_traveling`
+`user.entered_region_country` | [Regions](/regions) | `entered_country`
+`user.exited_region_country` | [Regions](/regions) | `exited_country`
+`user.entered_region_state` | [Regions](/regions) | `entered_state`
+`user.exited_region_state` | [Regions](/regions) | `exited_state`
+`user.entered_region_dma` | [Regions](/regions) | `entered_dma`
+`user.exited_region_dma` | [Regions](/regions) | `exited_dma`
+
+### entered_geofence
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### exited_geofence
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### entered_place
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Starbucks"`
+`place.chain.slug` | `place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `place_chain_name` | string | `"Starbucks"`
+`place.chain.externalId` | `place_chain_external_id` | string | `"123"`
+`place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
+`place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### exited_place
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Starbucks"`
+`place.chain.slug` | `place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `place_chain_name` | string | `"Starbucks"`
+`place.chain.externalId` | `place_chain_external_id` | string | `"123"`
+`place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
+`place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### entered_home
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### exited_home
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### entered_office
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### exited_office
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### started_traveling
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### stopped_traveling
+
+Radar Event Field | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### entered_country
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### exited_country
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### entered_state
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### exited_state
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### entered_dma
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### exited_dma
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### started_trip
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### approaching_trip_destination
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### arrived_at_trip_destination
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### stopped_trip
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`

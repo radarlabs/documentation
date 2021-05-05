@@ -1,0 +1,112 @@
+---
+sidebar_position: 6
+title: Localizing a website based on current country or city
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+In this tutorial, we show you how to use the Radar [web SDK](/sdk/web) and [IP geocoding API](/api#ip-geocode) to localize a website based on current country or city.
+
+For example, you may show a default language or currency based on current country. Or, you may show nearby content based on current city.
+
+## Video
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/yIjPk4nddBA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Languages used
+
+- HTML
+- JavaScript
+
+## Features used
+
+- [Web SDK](/sdk/web)
+- [IP geocoding API](/api#ip-geocode)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.io/signup">Get API Keys</a>
+
+### Step 2: Install the Radar web SDK
+
+In an HTML page, include the SDK using a `<script>` tag:
+
+```javascript
+<script src="https://js.radar.io/v3/radar.min.js"></script>
+```
+
+In a web app, install the package from npm, then import the library:
+
+```bash
+npm install --save radar-sdk-js
+```
+
+```
+import Radar from 'radar-sdk-js';
+```
+
+### Step 3: Call the IP geocoding API
+
+The [IP geocoding API](/api#ip-geocode) converts IP address into city, state, and country.
+
+Initialize the SDK with your publishable API key, then call the IP geocoding API.
+
+In the callback, `result.address` will include `countryCode`, `stateCode`, `city`, coarse `latitude` and `longitude`, and more.
+
+```javascript
+Radar.initialize("prj_test_pk_...");
+
+Radar.ipGeocode(function(err, result) {
+  if (err) {
+    console.error(err);
+
+    return;
+  }
+
+  if (result && result.address) {
+    // do something with result.address.countryCode
+  }
+});
+```
+
+## Sample code
+
+```html
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <script src="https://js.radar.io/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="country">
+      Loading...
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_...");
+
+      Radar.ipGeocode(function(err, result) {
+        if (err) {
+          console.error(err);
+
+          return;
+        }
+
+        if (result && result.address) {
+          console.log(result.address);
+
+          document.getElementById("country").innerHTML = "Your country is " +
+            result.address.countryFlag + " " + result.address.countryCode;
+        }
+      });
+    </script>
+  </body>
+</html>
+```
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.io](mailto:support@radar.io).

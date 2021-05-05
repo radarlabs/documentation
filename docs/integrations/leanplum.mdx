@@ -1,0 +1,238 @@
+---
+title: Leanplum
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and user attributes to [Leanplum](https://www.leanplum.com).
+
+Use the Leanplum integration to send location-triggered and location-targeted messages to increase engagement and conversion.
+
+The Leanplum integration is available on the [Enterprise](https://radar.io/dashboard/pricing) plan.
+
+## Configuration
+
+On the Leanplum *App Settings* page, click *Keys & Settings* and copy the *App ID*, *Production Key*, and *Development Key*.
+
+Then, on the Radar [Integrations page](/integrations) under *Leanplum*, set *Enabled* to *Yes* and paste the app ID and API keys. The Radar *Test* environment automatically maps to the *Development* environment in Leanplum, and the Radar *Live* environment automatically maps to the *Production* environment in Leanplum.
+
+Whenever events are generated, Radar will call `track` and `setUserAttributes` to send events and user attributes to Leanplum.
+
+## User mapping
+
+Note that Radar uses the special string `"(null)"` to represent `null` user attribute values.
+
+Radar User Field | Leanplum User Attribute | Type | Example Value | Context Type
+--- | --- | --- | --- | ---
+`userId` | `Distinct ID` | string | `"1"` |
+`location.coordinates[0]` | `Radar Location Longitude` | number | `-76.350663` |
+`location.coordinates[1]` | `Radar Location Latitude` | number | `39.525665` |
+`_id` | `Radar ID` | string | `"5b2c0906f5874b001aecfd8d"` |
+`segments[*].externalId` | `Radar Segment External IDs` | array[string] | `["starbucks-visitors"]` |
+`topChains[*].slug` | `Radar Top Chain Slugs` | array[string] | `["starbucks", "walmart"]` |
+`topChains[*].externalId` | `Radar Top Chain External IDs` | array[string] | `["123", "456"]` |
+`geofences[*]._id` | `Radar Geofence IDs` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences)
+`geofences[*].description` | `Radar Geofence Descriptions` | array[string] | `["Store #123"]` | [Geofences](/Geofences)
+`geofences[*].tag` | `Radar Geofence Tags` | array[string] | `["store"]` | [Geofences](/geofences)
+`geofences[*].externalId` | `Radar Geofence External IDs` | array[string] | `["123"]` | [Geofences](/geofences)
+`place._id` | `Radar Place ID` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
+`place.name` | `Radar Place Name` | string | `"Starbucks"` | [Places](/places)
+`place.categories` | `Radar Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
+`place.chain.slug` | `Radar Place Chain Slug` | string | `"starbucks"` | [Places](/places)
+`place.chain.name` | `Radar Place Chain Name` | string | `"Starbucks"` | [Places](/places)
+`insights.state.home` | `Radar Insights State Home` | boolean | `false` | [Insights](/insights)
+`insights.state.office` | `Radar Insights State Office` | boolean | `false` | [Insights](/insights)
+`insights.state.traveling` | `Radar Insights State Traveling` | boolean | `true` | [Insights](/insights)
+`country.code` | `Radar Region Country Code` | string | `"US"` | [Regions](/regions)
+`country.name` | `Radar Region Country Name` | string | `"United States"` | [Regions](/regions)
+`state.code` | `Radar Region State Code` | string | `"MD"` | [Regions](/regions)
+`state.name` | `Radar Region State Name` | string | `"Maryland"` | [Regions](/regions)
+`dma.code` | `Radar Region DMA Code` | string | `"26"` | [Regions](/regions)
+`dma.name` | `Radar Region DMA Name` | string | `"Baltimore"` | [Regions](/regions)
+`postalCode.code` | `Radar Region Postal Code` | string | `"21014"` | [Regions](/regions)
+
+## Event mapping
+
+Radar Event | Context Type | Leanplum Event
+--- | --- | ---
+`user.entered_geofence` | [Geofences](/geofences) | `Radar Geofence Entered`
+`user.exited_geofence` | [Geofences](/geofences) | `Radar Geofence Exited`
+`user.entered_place` | [Places](/places) | `Radar Place Entered`
+`user.exited_place` | [Places](/places) | `Radar Place Exited`
+`user.entered_home` | [Insights](/Insights) | `Radar Home Entered`
+`user.exited_home` | [Insights](/Insights) | `Radar Home Exited`
+`user.entered_office` | [Insights](/Insights) | `Radar Office Entered`
+`user.exited_office` | [Insights](/Insights) | `Radar Office Exited`
+`user.started_traveling` | [Insights](/Insights) | `Radar Traveling Started`
+`user.stopped_traveling` | [Insights](/Insights) | `Radar Traveling Stopped`
+`user.entered_region_country` | [Regions](/regions) | `Radar Country Entered`
+`user.exited_region_country` | [Regions](/regions) | `Radar Country Exited`
+`user.entered_region_state` | [Regions](/regions) | `Radar State Entered`
+`user.exited_region_state` | [Regions](/regions) | `Radar State Exited`
+`user.entered_region_dma` | [Regions](/regions) | `Radar DMA Entered`
+`user.exited_region_dma` | [Regions](/regions) | `Radar DMA Exited`
+
+### Radar Geofence Entered
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`geofence._id` | `Geofence ID` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `Geofence Description` | string | `"Store #123"`
+`geofence.tag` | `Geofence Tag` | string | `"store"`
+`geofence.externalId` | `Geofence External ID` | string | `"123"`
+`geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Geofence Exited
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`geofence._id` | `Geofence ID` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `Geofence Description` | string | `"Store #123"`
+`geofence.tag` | `Geofence Tag` | string | `"store"`
+`geofence.externalId` | `Geofence External ID` | string | `"123"`
+`geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+`duration` | `Duration` | number (minutes) | `42.1`
+
+### Radar Place Entered
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`place._id` | `Place ID` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `Place Name` | string | `"Starbucks"`
+`place.chain.slug` | `Place Chain ID` | string | `"starbucks"`
+`place.chain.name` | `Place Chain Name` | string | `"Starbucks"`
+`place.categories` | `Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Place Exited
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`place._id` | `Place ID` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `Place Name` | string | `"Starbucks"`
+`place.chain.slug` | `Place Chain ID` | string | `"starbucks"`
+`place.chain.name` | `Place Chain Name` | string | `"Starbucks"`
+`place.categories` | `Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `Confidence` | string | `"high"`
+`duration` | `Duration` | number (minutes) | `42.1`
+
+### Radar Home Entered
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Home Exited
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Office Entered
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Office Exited
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Traveling Started
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Traveling Stopped
+
+Radar Event Field | Leanplum Event Parameter | Type | Example
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Country Entered
+
+Radar Event Field | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"US"`
+`region.name` | `Region Name` | string | `"United States"`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Country Exited
+
+Radar Event Field | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"US"`
+`region.name` | `Region Name` | string | `"United States"`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar State Entered
+
+Radar Event Field | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"MD"`
+`region.name` | `Region Name` | string | `"Maryland"`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar State Exited
+
+Radar Event Field | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"MD"`
+`region.name` | `Region Name` | string | `"Maryland"`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar DMA Entered
+
+Radar Event Field | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"26"`
+`region.name` | `Region Name` | string | `"Baltimore"`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar DMA Exited
+
+Radar Event Field | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `Region Code` | string | `"26"`
+`region.name` | `Region Name` | string | `"Baltimore"`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Started Trip
+
+Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Approaching Trip Destination
+
+Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Arrived at Trip Destination
+
+Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Stopped Trip
+
+Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`

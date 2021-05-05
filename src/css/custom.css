@@ -1,0 +1,347 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+@font-face {
+  font-family: 'Graphik';
+  font-weight: 400;
+  src: url('/static/font/Graphik-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Graphik';
+  font-weight: 500;
+  src: url('/static/font/Graphik-Semibold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Basis Grotesque';
+  font-weight: 400;
+  src: url('/static/font/Basis-Grotesque-Mono-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Basis Grotesque';
+  font-weight: 700;
+  src: url('/static/font/Basis-Grotesque-Mono-Bold.woff') format('woff');
+  font-display: swap;
+}
+
+:root {
+  --ifm-color-primary: #007AFF;
+  --ifm-color-primary-dark: rgb(33, 175, 144);
+  --ifm-color-primary-darker: rgb(31, 165, 136);
+  --ifm-color-primary-darkest: rgb(26, 136, 112);
+  --ifm-color-primary-light: rgb(70, 203, 174);
+  --ifm-color-primary-lighter: rgb(102, 212, 189);
+  --ifm-color-primary-lightest: rgb(146, 224, 208);
+
+  --radar-gray-1: #F6F9FC;
+  --radar-gray-2: #E6EDF2;
+  --radar-gray-3: #C2CFD8;
+  --radar-gray-4: #97A8B4;
+  --radar-gray-5: #6E7A83;
+  --radar-gray-6: #173C56;
+  --radar-gray-2-opaque: #e6edf25f; /* 30% opacity */
+  --radar-gray-6-opaque: #173C561a; /* 10% opacity */
+  --radar-box-shadow: 0px 1px 4px 0px var(--radar-gray-6-opaque);
+
+  --ifm-color-gray-100: var(--radar-gray-1);
+  --ifm-color-gray-200: var(--radar-gray-2);
+  --ifm-color-gray-400: var(--radar-gray-3);
+  --ifm-color-gray-600: var(--radar-gray-4);
+  --ifm-color-gray-700: var(--radar-gray-5);
+  --ifm-color-gray-900: var(--radar-gray-6);
+  --ifm-color-warning: #ff8c26;
+  --ifm-color-success: #3fcd7d;
+  --ifm-color-error: #ff3126;
+  --ifm-font-family-base: "Graphik";
+  --ifm-font-family-monospace: "Basis Grotesque";
+
+  --ifm-code-font-size: 95%;
+  --ifm-heading-color: var(--ifm-color-gray-900);
+
+  --ifm-navbar-padding-vertical: 0;
+  --ifm-navbar-search-input-placeholder-color: var(--radar-gray-5);
+
+  --ifm-menu-link-padding-vertical: 10px;
+  --ifm-menu-color-active: var(--ifm-heading-color);
+  --ifm-menu-color-background: var(--radar-gray-2-opaque);
+  --ifm-menu-color-background-active: var(--radar-gray-2-opaque);
+  --ifm-menu-color-background-hover: var(--radar-gray-2-opaque);
+
+  --ifm-toc-link-color: var(--ifm-color-gray-700);
+  --ifm-toc-border-color: var(--ifm-color-gray-200);
+  /* --doc-sidebar-width: 200px; */
+
+  --ifm-code-background: var(--radar-gray-1);
+
+  --ifm-badge-padding-vertical: .25em;
+  --ifm-badge-padding-horizontal: .4em;
+  --ifm-menu-link-sublist-icon: url('../../static/img/carat.svg');
+
+  --ifm-code-font-size: 0.875rem;
+
+  /* Override alert color because our alert palatte is different */
+  --ifm-alert-color: var(--ifm-link-color);
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h6 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+code {
+  border: none;
+  font-variant-ligatures: none;
+}
+
+.DocSearch {
+  --docsearch-modal-background: var(--ifm-color-gray-100);
+  --docsearch-searchbox-shadow: var(--radar-box-shadow);
+  --docsearch-searchbox-background: transparent;
+
+  /* Hide search for V1 since removing it from the config just falls back to default Search bar placement */
+  display: none !important;
+}
+
+.DocSearch-Form {
+  border: 1px solid var(--ifm-color-gray-200);
+}
+
+/* TODO: Figure out how to override these styles without important */
+.DocSearch-Button {
+  width: auto;
+  border-radius: 4px !important;
+  border: 1px solid var(--ifm-color-gray-200) !important;
+  /* background: transparent !important; */
+}
+
+.DocSearch-Button-Placeholder {
+  padding: 0 1rem 0 0.5rem !important;
+}
+
+.DocSearch-Button:hover .DocSearch-Button-Placeholder {
+  color: var(--radar-gray-5);
+}
+
+.DocSearch .DocSearch-MagnifierLabel {
+  color: var(--radar-gray-5);
+}
+
+.hash-link:hover {
+  text-decoration: none;
+}
+
+/* Menu carat override */
+.menu__link--sublist:after {
+  transform: rotateZ(0);
+  /* TODO: Find original icon and update color to --ifm-color-gray-600 */
+}
+
+.menu__list-item--collapsed .menu__link--sublist:after {
+  transform: rotateZ(180deg);
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.hero-image {
+  display: inline-block;
+  margin-right: 30px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  max-width: 95%;
+  width: 600px;
+}
+
+.hero-image--small {
+  width: 400px;
+}
+
+.card-stack > * + * {
+  margin-top: 2rem;
+}
+
+/* Section Dividers */
+h2 {
+  border-top: 1px solid var(--radar-gray-2);
+  padding-top: 32px;
+}
+
+.deck {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-gap: 30px;
+  margin-right: 30px;
+}
+
+.logo {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.sdk-logo {
+  height: 5rem;
+  width: 5rem;
+}
+
+.integrations-logo {
+  height: 2rem;
+  width: 8rem;
+  object-fit: contain;
+}
+
+/* Docusaurus Overrides */
+
+strong {
+  color: var(--ifm-heading-color);
+}
+
+.navbar__brand {
+  height: 100%;
+  width: calc(var(--doc-sidebar-width) - var(--ifm-navbar-padding-horizontal));
+  border-right: 1px solid var(--ifm-toc-border-color);
+  margin-right: 0;
+}
+
+.navbar__logo {
+  height: auto;
+}
+
+/* Sidebar overrides */
+
+.menu {
+  padding: 0 !important;
+  margin-top: 15px;
+  font-weight: var(--ifm-font-weight-normal);
+}
+
+.menu__list-item {
+  margin: 0;
+}
+
+.menu__link {
+  border-radius: 0;
+}
+
+.menu__link--active,
+.menu__link--active:hover {
+  font-weight: var(--ifm-font-weight-semibold);
+  background: var(--ifm-menu-color-background);
+}
+
+/* Table of Contents overrides */
+
+.table-of-contents {
+  font-size: 1rem;
+}
+
+.table-of-contents__left-border {
+  border-left: none;
+}
+
+.table-of-contents__link:hover {
+  color: var(--ifm-heading-color);
+}
+
+.table-of-contents__link--active {
+  color: var(--ifm-heading-color);
+  font-weight: var(--ifm-font-weight-semibold);
+}
+
+.navbar__items--right .navbar__item:last-child {
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive Styling for Navbar; these links should appear in the hamburger menu */
+@media (max-width: 996px) {
+  .navbar__items--right {
+    display: none;
+  }
+}
+
+/* Hacky way to add arrow to link since Docusaurus doesn't expose Navbar component
+ *
+ * Unforunately, cannot change SVG icon color when its a background image
+ */
+ .navbar__items--right .navbar__item:last-child:after {
+  display: inline-block;
+  content: ' ';
+  background-image: url('../../static/img/right-arrow.svg');
+  background-size: 16px 16px;
+  height: 16px;
+  width: 16px;
+  margin-left: 0.5rem;
+}
+
+.navbar__items--right .navbar__item:last-child:hover:after {
+  background-image: url('../../static/img/right-arrow-blue.svg');
+}
+
+.pagination-nav__link {
+  border: 1px solid var(--ifm-color-gray-200);
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--ifm-color-gray-200);
+  box-shadow: var(--radar-box-shadow);
+  transition: box-shadow var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+}
+
+.pagination-nav__sublabel {
+  color: var(--ifm-color-gray-600);
+  margin-bottom: 0.5rem;
+}
+
+.pagination-nav__label {
+  color: var(--ifm-heading-color);
+}
+
+.alert {
+  margin: 1rem 0 2rem;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  /* Use variables for borders */
+  border: 1px solid #000;
+  text-transform: none;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+.alert-warning {
+  background-color: #fff1e4;
+  border-color: rgba(109,51,0,.25);
+  color: #6d3300;
+}
+
+.alert-info {
+  background-color: #dcedff;
+  border-color: rgba(0,56,117,.25);
+  color: #003875;
+}
+
+.chains-logo {
+  height: 25px;
+  width: 25px;
+  object-fit: contain;
+}

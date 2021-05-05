@@ -1,0 +1,109 @@
+---
+sidebar_label: Tracking
+title: Tracking Options Reference
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+For background tracking, the SDK supports custom tracking options as well as three presets: **`EFFICIENT`**, **`RESPONSIVE`**, and **`CONTINUOUS`**.
+
+Though we recommend using presets for most use cases, you can modify them.
+
+The SDK has two states: **stopped** and **moving**. `stopDuration` and `stopDistance` determine whether a location update is considered stopped, and the other options determine tracking behavior depending on state.
+
+## iOS
+
+### iOS options
+
+- **`desiredStoppedUpdateInterval`**: Determines the desired location update interval in seconds when stopped. Use `0` to shut down when stopped.
+- **`desiredMovingUpdateInterval`**: Determines the desired location update interval in seconds when moving. **Note that location updates may be delayed significantly by Low Power Mode, or if the device has connectivity issues, low battery, or wi-fi disabled.**
+- **`desiredSyncInterval`**: Determines the desired sync interval in seconds.
+- **`desiredAccuracy`**: Determines the desired accuracy of location updates.  `.high` uses `kCLLocationAccuracyBest`, `.medium` uses `kCLLocationAccuracyHundredMeters`, `.low` uses `kCLLocationAccuracyKilometer`.
+- **`stopDuration`**: With `stopDistance`, determines the duration in seconds after which the device is considered stopped.
+- **`stopDistance`**: With `stopDuration`, determines the distance in meters within which the device is considered stopped.
+- **`startTrackingAfter`**: Determines when to start tracking. Use `nil` to start tracking when `startTracking` is called.
+- **`stopTrackingAfter`**: Determines when to stop tracking. Use `nil` to track until `stopTracking` is called.
+- **`replay`**: Determines which failed location updates to replay to the server. `.replayStops` replays failed stops, `.replayNone` replays no location updates.
+- **`sync`**: Determines which location updates to sync to the server. `.all` syncs all location updates to the server, `.stopsAndExits` syncs only stops and exits to the server, `.none` syncs no location updates to the server.
+- **`showBlueBar`**: Determines whether the [flashing blue status bar](https://developer.apple.com/documentation/corelocation/cllocationmanager/2923541-showsbackgroundlocationindicator) is shown when tracking.
+- **`useStoppedGeofence`**: Determines whether to use the [iOS region monitoring service (geofencing)](https://developer.apple.com/documentation/corelocation/monitoring_the_user_s_proximity_to_geographic_regions) to create a client-side geofence "bubble" around the device's current location when stopped.
+- **`stoppedGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when stopped. Use smaller values (e.g., `100` meters) for faster exit events or larger values (e.g., `200` meters) to avoid jumpy exits while stopped.
+- **`useMovingGeofence`**: Determines whether to use the [iOS region monitoring service (geofencing)](https://developer.apple.com/documentation/corelocation/monitoring_the_user_s_proximity_to_geographic_regions) to create a client-side geofence "bubble" around the device's current location when moving.
+- **`movingGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when moving.
+- **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness.
+- **`useVisits`**: Determines whether to use the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service).
+- **`useSignificantLocationChanges`**: Determines whether to use the [iOS significant location change service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_significant-change_location_service).
+
+### iOS presets
+
+- **`RadarTrackingOptions.efficient`**: A preset that uses the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to update only on stops and exits. Must move a significant distance to start moving again after a stop. Lowest battery usage. Recommended.
+- **`RadarTrackingOptions.responsive`**: Updates about every 2.5 minutes when moving, shuts down when stopped, and only syncs stops and exits to the server. Requires the `location` background mode. Must move at least 200 meters to start moving again after a stop. Low battery usage.
+- **`RadarTrackingOptions.continuous`**: A preset that updates about every 30 seconds and syncs all locations to the server. High battery usage. Shows the flashing blue status bar when tracking.
+
+Option | Efficient | Responsive | Continuous
+--- | --- | --- | ---
+**`desiredStoppedUpdateInterval`** | `0` | `0` | `30`
+**`desiredMovingUpdateInterval`** | `0` | `150` | `30`
+**`desiredSyncInterval`** | `0` | `140` | `20`
+**`desiredAccuracy`** | `.medium` | `.medium` | `.high`
+**`stopDuration`** | `0` | `140` | `140`
+**`stopDistance`** | `0` | `70` | `70`
+**`startTrackingAfter`** | `nil` | `nil` | `nil`
+**`stopTrackingAfter`** | `nil` | `nil` | `nil`
+**`replay`** | `.stops` | `.stops` | `.none`
+**`sync`** | `.stopsAndExits` | `.stopsAndExits` | `.all`
+**`showBlueBar`** | `false` | `false` | `true`
+**`useStoppedGeofence`** | `false` | `true` | `false`
+**`stoppedGeofenceRadius`** | `0` | `100` | `0`
+**`useMovingGeofence`** | `false` | `false` | `false`
+**`movingGeofenceRadius`** | `0` | `0` | `0`
+**`syncGeofences`** | `false` | `true` | `false`
+**`useVisits`** | `true` | `true` | `false`
+**`useSignificantLocationChanges`** | `false` | `true` | `false`
+
+## Android
+
+### Android options
+
+- **`desiredStoppedUpdateInterval`**: Determines the desired location update interval in seconds when stopped. Use `0` to shut down when stopped.
+- **`fastestStoppedUpdateInterval`**: Determines the fastest location update interval in seconds when stopped.
+- **`desiredMovingUpdateInterval`**: Determines the desired location update interval in seconds when moving. **Note that location updates may be delayed significantly by Doze Mode, App Standby, and Background Location Limits, or if the device has connectivity issues, low battery, or wi-fi disabled. To avoid these restrictions, you can [start a foreground service](https://developer.android.com/about/versions/oreo/background-location-limits).**
+- **`fastestMovingUpdateInterval`**: Determines the fastest location update interval in seconds when stopped.
+- **`desiredSyncInterval`**: Determines the desired sync interval in seconds.
+- **`desiredAccuracy`**: Determines the desired accuracy of location updates. `HIGH` uses `PRIORITY_HIGH_ACCURACY`, `MEDIUM` uses `PRIORITY_BALANCED_POWER_ACCURACY`, `LOW` uses `PRIORITY_LOW_POWER`, `NONE` uses `PRIORITY_NO_POWER`.
+- **`stopDuration`**: With `stopDistance`, determines the duration in seconds after which the device is considered stopped.
+- **`stopDistance`**: With `stopDuration`, determines the distance in meters within which the device is considered stopped.
+- **`startTrackingAfter`**: Determines when to start tracking. Use `null` to start tracking when `startTracking()` is called.
+- **`stopTrackingAfter`**: Determines when to stop tracking. Use `null` to track until `stopTracking()` is called.
+- **`replay`**: Determines which failed location updates to replay to the server. `STOPS` replays failed stops, `NONE` replays no location updates.
+- **`sync`**: Determines which location updates to sync to the server. `ALL` syncs all location updates to the server, `STOPS_AND_EXITS` syncs only stops and exits to the server, `NONE` syncs no location updates to the server.
+- **`useStoppedGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when stopped.
+- **`stoppedGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when stopped. Use smaller values (e.g., `100` meters) for faster exit events or larger values (e.g., `200` meters) to avoid jumpy exits while stopped.
+- **`useMovingGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when moving.
+- **`movingGeofenceRadius`**: Determines the radius in meters of the client geofence around the device's current location when moving.
+- **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness.
+
+### Android presets
+
+- **`RadarTrackingOptions.EFFICIENT`**: A preset that updates as fast as every 6 minutes while moving, periodically when stopped, and only syncs stops and exits to the server. Must move a significant distance to start moving again after a stop. Lowest battery usage and will not exceed Android vitals bad behavior thresholds. Recommended.
+- **`RadarTrackingOptions.RESPONSIVE`**: A preset that updates as fast as every 2.5 minutes while moving, shuts down when stopped, and only syncs stops and exits to the server. Must move at least 200 meters to start moving again after a stop. Low battery usage, but may exceed Android vitals bad behavior thresholds for [excessive wakeups](https://developer.android.com/topic/performance/vitals/wakeup.html) and [excessive wi-fi scans](https://developer.android.com/topic/performance/vitals/bg-wifi.html).
+- **`RadarTrackingOptions.CONTINUOUS`**: A preset that updates every 30 seconds and syncs all location updates to the server. High battery usage. Should be used with a [foreground service](https://developer.android.com/about/versions/oreo/background-location-limits).
+
+Option | Efficient | Responsive | Continuous
+--- | --- | --- | ---
+**`desiredStoppedUpdateInterval`** | `3600` | `0` | `30`
+**`fastestStoppedUpdateInterval`** | `1200` | `0` | `30`
+**`desiredMovingUpdateInterval`** | `1200` | `150` | `30`
+**`fastestMovingUpdateInterval`** | `360` |`150` | `30`
+**`desiredSyncInterval`** | `140` | `140` | `20`
+**`desiredAccuracy`** | `MEDIUM` | `MEDIUM` | `HIGH`
+**`stopDuration`** | `140` | `140` | `0`
+**`stopDistance`** | `70` | `70` | `0`
+**`startTrackingAfter`** | `null` | `null` | `null`
+**`stopTrackingAfter`** | `null` | `null` | `null`
+**`replay`** | `STOPS` | `STOPS` | `NONE`
+**`sync`** | `STOPS_AND_EXITS` | `STOPS_AND_EXITS` | `ALL`
+**`useStoppedGeofence`** | `false` | `true` | `false`
+**`stoppedGeofenceRadius`** | `0` | `100` | `0`
+**`useMovingGeofence`** | `false` | `true` | `false`
+**`movingGeofenceRadius`** | `0` | `100` | `0`
+**`syncGeofences`** | `false` | `true` | `false`

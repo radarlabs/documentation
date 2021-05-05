@@ -1,0 +1,66 @@
+---
+sidebar_position: 4
+title: Regions
+id: regions
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Regions detects a user's country, state, DMA (media market), or postal code.
+
+<img src="https://images.ctfassets.net/f2vbu16fzuly/2pca0FMJnc8f3KqnR3VXKF/760a5eda627a7294231f900a1f20c5f8/regions.svg" className="hero-image" />
+
+Regions provides the following user context:
+
+```json
+{
+  country: {
+    code: "US",
+    name: "United States",
+    flag: "🇺🇸"
+  },
+  state: {
+    code: "MD",
+    name: "Maryland"
+  },
+  dma: {
+    code: "26",
+    name: "Baltimore"
+  },
+  postalCode: {
+    code: "21014"
+  }
+}
+```
+
+Regions also provides the following events:
+
+- `user.entered_region_country`
+- `user.exited_region_country`
+- `user.entered_region_state`
+- `user.exited_region_state`
+- `user.entered_region_dma`
+- `user.exited_region_dma`
+- `user.entered_region_postal_code`
+- `user.exited_region_postal_code`
+
+Regions is available on the [Team](https://radar.io/pricing) plan and higher.
+
+## Countries
+
+Regions supports country detection globally. Each country has a `name` and a unique 2-letter [ISO 3166](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) `code`. View the [full list of countries](/regions/countries).
+
+### Country whitelist or blacklist
+
+Regions can also be used to whitelist or blacklist location updates in specific countries for privacy or compliance reasons. Contact your customer success manager to enable this feature.
+
+## States
+
+Regions supports state detection in the US only. Each state has a `name` and a unique 2-letter `code`. View the [full list of states](/regions/states).
+
+## DMAs
+
+Regions supports DMA (designated market area) detection in the US only. Each DMA has a `name` and a unique `code`. View the [full list of DMAs](/regions/dmas). Or, learn more about [DMAs](https://en.wikipedia.org/wiki/Media_market).
+
+## Postal codes
+
+Regions supports postal (ZIP) code detection in the US only. Each postal code has a unique 5-letter `code`.

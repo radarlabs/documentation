@@ -1,0 +1,1714 @@
+---
+sidebar_position: 8
+title: API Reference
+id: api
+custom_edit_url: null
+---
+
+Use Radar APIs as [building blocks for location-based products and services](#building-blocks) like curbside pickup and delivery tracking, store locators, address autocomplete, location-based content and notifications, and more. Or, use Radar APIs to [manage your Radar data](#manage-your-radar-data), including users, geofences, and events.
+
+The API is RESTful, with predictable, resource-oriented URLs. All responses, including errors, return JSON. <span className="badge badge--info">POST</span> and <span className="badge badge--warning">PUT</span> request body parameters may be sent as `application/json` or `application/x-www-form-urlencoded`.
+
+## Authentication
+
+All requests must be authenticated. Authenticate using your API keys, found on the [Settings](https://radar.io/dashboard/settings) page. Include your API key in the `Authorization` header.
+
+API endpoints with authentication level `Publishable` are safe to call client-side (e.g., [from the SDK](/sdk#authentication)). You should use your publishable API keys to call these endpoints. Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
+
+API endpoints with authentication level `Secret` are only safe to call server-side. You should use your secret API keys to call these endpoints. Use your `Test Secret` key for testing and non-production environments. Use your `Live Secret` key for production environments. Include your API key in the `Authorization` header.
+
+###### Sample request
+
+```bash
+curl https://api.radar.io/v1/users \
+  -H "Authorization: prj_live_sk_..."
+```
+
+## Errors
+
+The API uses standard HTTP response codes.
+
+###### Response codes
+
+- **`200`**: Success
+- **`202`**: Accepted
+- **`400`**: Bad request (missing or invalid params)
+- **`401`**: Unauthorized (invalid API key)
+- **`402`**: Payment required (organization disabled or usage exceeded)
+- **`403`**: Forbidden (insufficient permissions)
+- **`404`**: Not found
+- **`409`**: Conflict
+- **`429`**: Too many requests (rate limit exceeded, no state change, or selective throttling)
+- **`451`**: Unavailable for legal reasons (country blacklisted)
+- **`500`**: Internal server error
+- **`503`**: Service temporarily unavailable
+
+###### Sample error response
+
+```json
+{
+  "meta": {
+    "code": 400,
+    "param": "latitude",
+    "message": "latitude: Invalid latitude. Valid range: [-90, 90]."
+  }
+}
+```
+
+## Building blocks
+
+Use these endpoints as building blocks for location-based products and services like delivery tracking, store locators, address autocomplete, location-based content and notifications, and more.
+
+### Track
+
+Tracks a location update. Returns the user and the events generated, depending on project settings.
+
+On iOS and Android, use the [SDK](/sdk) to track user locations in the foreground or in the background.
+
+`deviceId` is used to identify logged out users. `userId` and `deviceId` are used to identify logged in users. If a matching user already exists, it will be updated. If not, a new user will be created.
+
+Do not send any PII, like names, email addresses, or publicly available IDs, for `userId`. See [privacy best practices](/faqs#what-are-privacy-best-practices-for-radar) for more information.
+
+This endpoint is stateful. For anonymous or stateless context, call the [context](#context) endpoint instead.
+
+###### Definition
+
+<span className="badge badge--info">POST</span> <code>https://api.radar.io/v1/track</code>
+
+###### Body parameters
+
+- **`deviceId`** (string, required): A device ID for the user. Used to identify logged out users.
+- **`userId`** (string, optional): A stable unique ID for the user. Used with `deviceId` to identify logged in users. Not required for logged out users.
+- **`latitude`** (number, required): The user's current latitude. A number between -90 and 90.
+- **`longitude`** (number, required): The user's current longitude. A number between -180 and 180.
+- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0.
+- **`foreground`** (boolean): `true` if the client is in the foreground, `false` if the client is in the background.
+- **`stopped`** (boolean): `true` if the user is stopped, `false` if the user is moving.
+- **`description`** (string, optional): An optional description for the user, displayed in the dashboard.
+- **`metadata`** (dictionary, optional): An optional dictionary of custom metadata for the user. Up to 16 keys and values of type string, boolean, or number.
+- **`deviceType`** (string, optional): The user's device type, one of `iOS`, `Android`, or `Web`.
+- **`updatedAt`** (datetime, optional): The client timestamp or historical timestamp when the user's location was updated. Historical data must be upserted in chronological order. Optional, defaults to the current server timestamp if not provided or not in chronological order. A valid date or ISO date string.
+
+###### Authentication level
+
+Publishable
+
+###### Rate limits
+
+1 request per second per device, 180 requests per hour per device, and 1,000 requests per day per device
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/track" \
+  -H "Authorization: prj_live_pk_..." \
+  -X POST \
+  -d "deviceId=C305F2DB-56DC-404F-B6C1-BC52F0B680D8" \
+  -d "userId=1" \
+  -d "latitude=40.78382" \
+  -d "longitude=-73.97536" \
+  -d "accuracy=65"
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "events": [
+    {
+      "_id": "56db1f4613012711002229f6",
+      "type": "user.entered_geofence",
+      "createdAt": "2018-06-12T13:44:10.535Z",
+      "live": true,
+      "user": {
+        "userId": "1",
+        "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+        "metadata": {
+          "customId": "abc",
+          "customFlag": false
+        }
+      },
+      "geofence": {
+        "tag": "store",
+        "externalId": "123",
+        "description": "Store #123",
+        "metadata": {
+          "parking": false
+        }
+      },
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      },
+      "locationAccuracy": 5,
+      "confidence": 3
+    },
+    {
+      "_id": "56db1f4613012711002229f7",
+      "type": "user.entered_place",
+      "createdAt": "2018-06-12T13:44:10.535Z",
+      "live": true,
+      "user": {
+        "_id": "56db1f4613012711002229f4",
+        "userId": "1",
+        "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+        "metadata": {
+          "customId": "abc",
+          "customFlag": false
+        }
+      },
+      "place": {
+        "name": "Starbucks",
+        "chain": {
+          "name": "Starbucks",
+          "slug": "starbucks",
+          "externalId": "123",
+          "metadata": {
+            "customFlag": true
+          }
+        },
+        "categories": [
+          "food-beverage",
+          "coffee-shop"
+        ],
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            -73.977797,
+            40.783826
+          ]
+        }
+      },
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      },
+      "locationAccuracy": 5,
+      "confidence": 2
+    }
+  ],
+  "user": {
+    "_id": "56db1f4613012711002229f4",
+    "live": true,
+    "userId": "1",
+    "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+    "metadata": {
+      "customId": "abc",
+      "customFlag": false
+    },
+    "updatedAt": "2018-06-12T13:44:10.535Z",
+    "createdAt": "2018-06-10T11:23:58.741Z",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -73.977797,
+        40.783826
+      ]
+    },
+    "locationAccuracy": 5,
+    "stopped": true,
+    "foreground": false,
+    "deviceType": "iOS",
+    "ip": "173.14.0.1",
+    "geofences": [
+      {
+        "tag": "store",
+        "externalId": "123",
+        "description": "Store #123",
+        "metadata": {
+          "parking": false
+        }
+      }
+    ],
+    "place": {
+      "name": "Starbucks",
+      "chain": {
+        "name": "Starbucks",
+        "slug": "starbucks"
+      },
+      "categories": [
+        "food-beverage",
+        "coffee-shop"
+      ],
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      }
+    },
+    "insights": {
+      "state": {
+        "home": false,
+        "office": false,
+        "traveling": true,
+        "commuting" false
+      }
+    },
+    "country": {
+      "code": "US",
+      "name": "United States",
+      "flag": "🇺🇸"
+    },
+    "state": {
+      "code": "MD",
+      "name": "Maryland"
+    },
+    "dma": {
+      "code": "26",
+      "name": "Baltimore"
+    },
+    "postalCode": {
+      "code": "21014",
+      "name": "21014"
+    },
+    "segments": [
+      {
+        "description": "Starbucks Visitors",
+        "externalId": "starbucks-visitors"
+      }
+    ],
+    "topChains": [
+      {
+        "name": "Starbucks",
+        "slug": "starbucks",
+        "externalId": "123"
+      },
+      {
+        "name": "Walmart",
+        "slug": "walmart",
+        "externalId": "456"
+      }
+    ],
+    "fraud": {
+      "proxy": false,
+      "mocked": false
+    }
+  }
+}
+```
+
+### Context
+
+Gets context for a location, depending on project settings, without sending device or user identifiers to the server.
+
+This endpoint is stateless and anonymous. For stateful context, call the [track](#track) endpoint instead.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/context</code>
+
+###### Query parameters
+
+- **`coordinates`** (string, required): The coordinates. A string in the format `latitude,longitude`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/context?coordinates=40.78382,-73.97536" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "context": {
+    "geofences": [
+      {
+        "tag": "store",
+        "externalId": "123",
+        "description": "Store #123",
+        "metadata": {
+          "parking": false
+        }
+      }
+    ],
+    "place": {
+      "name": "Starbucks",
+      "chain": {
+        "name": "Starbucks",
+        "slug": "starbucks"
+      },
+      "categories": [
+        "food-beverage",
+        "coffee-shop"
+      ],
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      }
+    },
+    "country": {
+      "code": "US",
+      "name": "United States",
+      "flag": "🇺🇸"
+    },
+    "state": {
+      "code": "MD",
+      "name": "Maryland"
+    },
+    "dma": {
+      "code": "26",
+      "name": "Baltimore"
+    },
+    "postalCode": {
+      "code": "21014"
+    }
+  }
+}
+```
+
+### Geocoding
+
+#### Forward geocode
+
+Geocodes an address, converting address to coordinates.
+
+This endpoint is best for complete addresses. For partial addresses or place names, call the [autocomplete](#autocomplete) endpoint instead.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/forward</code>
+
+###### Query parameters
+
+- **`query`** (string, required): The address to geocode.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
+- **`country`** (string, optional): An optional country filter. A string, the unique 2-letter [country code](/regions/countries).
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "addresses": [
+    {
+      "latitude": 40.70390,
+      "longitude": -73.98670,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.98670, 40.70390]
+      },
+      "addressLabel": "20 Jay Street",
+      "formattedAddress": "20 Jay Street, Brooklyn, New York, NY 11201 USA",
+      "country": "United States",
+      "countryCode": "US",
+      "countryFlag": "🇺🇸",
+      "state": "New York",
+      "stateCode": "NY",
+      "postalCode": "11201",
+      "city": "New York",
+      "borough": "Brooklyn",
+      "county": "Kings County",
+      "neighborhood": "DUMBO",
+      "number": "20",
+      "confidence": "exact",
+      "layer": "address"
+    }
+  ]
+}
+```
+
+#### Reverse geocode
+
+Reverse geocodes a location, converting coordinates to address.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/reverse</code>
+
+###### Query parameters
+
+- **`coordinates`** (string, required): The coordinates to reverse geocode. A string in the format `latitude,longitude`.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned. If not provided, results from all layers will be returned.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geocode/reverse?coordinates=40.70390,-73.98670" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "addresses": [
+    {
+      "latitude": 40.70390,
+      "longitude": -73.98670,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.98670, 40.70390]
+      },
+      "addressLabel": "20 Jay Street",
+      "formattedAddress": "20 Jay Street, Brooklyn, New York, NY 11201 USA",
+      "country": "United States",
+      "countryCode": "US",
+      "countryFlag": "🇺🇸",
+      "state": "New York",
+      "stateCode": "NY",
+      "postalCode": "11201",
+      "city": "New York",
+      "borough": "Brooklyn",
+      "county": "Kings County",
+      "neighborhood": "DUMBO",
+      "number": "20",
+      "distance": 5,
+      "layer": "address"
+    }
+  ]
+}
+```
+
+#### IP geocode
+
+Geocodes an IP address, converting IP address to city, state, and country.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/ip</code>
+
+###### Query parameters
+
+- **`ip`** (string, optional): The IP address to geocode. Defaults to the request IP address.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geocode/ip?ip=107.77.199.117" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "address": {
+    "latitude": 40.70390,
+    "longitude": -73.98670,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-73.98670, 40.70390]
+    },
+    "country": "United States",
+    "countryCode": "US",
+    "countryFlag": "🇺🇸",
+    "state": "New York",
+    "stateCode": "NY",
+    "postalCode": "11201",
+    "city": "New York"
+  },
+  "proxy": false,
+  "ip": "107.77.199.117"
+}
+```
+
+### Search
+
+#### Autocomplete
+
+Autocompletes partial addresses and place names, sorted by relevance.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/autocomplete</code>
+
+###### Query parameters
+
+- **`query`** (string, required): The partial address or place name to autocomplete.
+- **`near`** (string, optional): The location to search. A string in the format `latitude,longitude`. If not provided, the request IP address will be used to anchor the search.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
+- **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
+- **`country`** (string, optional): An optional country filter. A string, the unique 2-letter [country code](/regions/countries).
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/search/autocomplete?query=brooklyn+roasting&near=40.70390,-73.98670" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "addresses": [
+    {
+      "latitude": 40.70390,
+      "longitude": -73.98670,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.98670, 40.70390]
+      },
+      "placeLabel": "Brooklyn Roasting Company",
+      "addressLabel": "25 Jay Street",
+      "formattedAddress": "25 Jay Street, Brooklyn, New York, NY 11201 USA",
+      "country": "United States",
+      "countryCode": "US",
+      "countryFlag": "🇺🇸",
+      "state": "New York",
+      "stateCode": "NY",
+      "postalCode": "11201",
+      "city": "New York",
+      "borough": "Brooklyn",
+      "county": "Kings County",
+      "neighborhood": "DUMBO",
+      "number": "25",
+      "distance": 5,
+      "layer": "place"
+    }
+  ]
+}
+```
+
+#### Search users
+
+Searches for users near a location, sorted by distance.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/users</code>
+
+###### Query parameters
+
+- **`near`** (string, required): A location for the search. A string in the format `latitude,longitude`.
+- **`radius`** (number, optional): The radius to search, in meters. A number between 100 and 10000. Defaults to 1000.
+- **`mode`** (string, optional): One of
+- **`limit`** (number, optional): The max number of users to return. A number between 1 and 100. Defaults to 10.
+
+###### Authentication level
+
+Secret
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/search/users?near=40.78382,-73.97536&radius=1000&limit=10" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "users": [
+    {
+      "_id": "56db1f4613012711002229f4",
+      "live": true,
+      "userId": "1",
+      "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+      ...
+    },
+    ...
+  ]
+}
+```
+
+#### Search geofences
+
+Searches for geofences near a location, sorted by distance.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/geofences</code>
+
+###### Query parameters
+
+- **`tags`** (string, optional): Optional tag filters. A string, comma-separated.
+- **`metadata[key]`** (string, optional): Optional metadata filters. Values may be of type string. Type will be automatically inferred. For example, to match on `offers == true`, use `&metadata[offers]=true`.
+- **`near`** (string, required): A location for the search. A string in the format `latitude,longitude`.
+- **`radius`** (number, optional): The radius to search, in meters. A number between 100 and 10000. Defaults to 1000.
+- **`limit`** (number, optional): The max number of geofences to return. A number between 1 and 100. Defaults to 10.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/search/geofences?tags=store&metadata[offers]=true&near=40.783826,-73.975363&radius=1000&limit=10" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "geofences": [
+    {
+      "_id": "56db1f4613012711002229f5",
+      "createdAt": "2016-06-10T13:44:10.535Z",
+      "live": true,
+      "tag": "store",
+      "externalId": "123",
+      "description": "Store #123",
+      "metadata": {
+        "rating": "4.5"
+      },
+      "geometryCenter": {
+        "type": "Point",
+        "coordinates": [-73.97536, 40.78382]
+      },
+      ...
+    },
+    ...
+  ]
+}
+```
+
+#### Search places
+
+Searches for places near a location, sorted by distance.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/places</code>
+
+###### Query parameters
+
+- **`chains`** (string, optional): [Chain slug](/places#chains) filters. A string, comma-separated. If not provided, one of `categories` or `groups` must be provided.
+- **`categories`** (string, optional): [Category](/places#categories) filters. A string, comma-separated. If not provided, one of `chains` or `groups` must be provided.
+- **`groups`** (string, optional): [Group](/places#groups) filters. A string, comma-separated. If not provided, one of `chains` or `categories` must be provided.
+- **`chainMetadata[key]`** (optional): Optional [chain metadata](/places#metadata) filters. Values may be of type string, boolean, or number. Type will be automatically inferred. For example, to match on `offers == true`, use `&chainMetadata[offers]=true`.
+- **`near`** (string, required): A location for the search. A string in the format `latitude,longitude`.
+- **`radius`** (number, optional): The radius to search, in meters. A number between 100 and 10000. Defaults to 1000.
+- **`limit`** (number, optional): The max number of places to return. A number between 1 and 100. Defaults to 10.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/search/places?chains=starbucks&near=40.78382,-73.97779&radius=1000&limit=10" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "places": [
+    {
+      "name": "Starbucks",
+      "chain": {
+        "name": "Starbucks",
+        "slug": "starbucks",
+        "externalId": "123",
+        "metadata": {
+          "customFlag": true
+        }
+      },
+      "categories": [
+        "food-beverage",
+        "coffee-shop"
+      ],
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.97779,
+          40.78382
+        ]
+      }
+    },
+    ...
+  ]
+}
+```
+
+### Routing
+
+#### Distance
+
+Calculates the travel distance and duration between an origin and a destination.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/distance</code>
+
+###### Query parameters
+
+- **`origin`** (string, required): The origin. A string in the format `latitude,longitude`.
+- **`destination`** (string, required): The destination. A string in the format `latitude,longitude`.
+- **`modes`** (string, required): The [travel modes](/api#route-distance). A string, comma-separated, including one or more of `foot`, `bike`, and `car`.
+- **`units`** (string, required): The distance units. A string, `metric` or `imperial`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/route/distance?origin=40.78382,-73.97536&destination=40.70390,-73.98690&modes=foot,car&units=imperial" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "routes": {
+    "geodesic": {
+      "distance": {
+        "value": 29333.03,
+        "text": "5.6 mi"
+      }
+    },
+    "foot": {
+      "distance": {
+        "value": 54596.46,
+        "text": "10.3 mi",
+      },
+      "duration": {
+        "value": 98.48,
+        "text": "1 hr 38 min"
+      }
+    },
+    "car": {
+      "distance": {
+        "value": 42480.31,
+        "text": "8.0 mi"
+      },
+      "duration": {
+        "value": 19.9,
+        "text": "20 mins"
+      }
+    }
+  }
+}
+```
+
+#### Matrix
+
+Calculates the travel distances and durations between multiple origins and destinations for up to 25 routes.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/matrix</code>
+
+###### Query parameters
+
+- **`origins`** (string, required): A list of origins. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`destinations`** (string, required): A list of destinations. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`mode`** (string, required): The travel mode. A string, one of `foot`, `bike`, or `car`.
+- **`units`** (string, required): The distance units. A string, `metric` or `imperial`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/route/matrix?origins=40.78382,-73.97536&destinations=40.70390,-73.98690|40.73237,-73.94884&mode=car&units=imperial" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "origins": [
+    {
+      "latitude": 40.78382,
+      "longitude": -73.97536
+    }
+  ],
+  "destinations": [
+    {
+      "latitude": 40.70390,
+      "longitude": -73.98670
+    },
+    {
+      "latitude": 40.73237,
+      "longitude": -73.94884
+    }
+  ],
+  "matrix": [
+    [
+      {
+        "distance": {
+          "value": 42480.31,
+          "text": "8.0 mi"
+        },
+        "duration": {
+          "value": 19.9,
+          "text": "20 mins"
+        },
+        "originIndex": 0,
+        "destinationIndex": 0
+      },
+      {
+        "distance": {
+          "value": 31108.92,
+          "text": "5.8 mi"
+        },
+        "duration": {
+          "value": 17.13,
+          "text": "17 mins"
+        },
+        "originIndex": 0,
+        "destinationIndex": 1
+      }
+    ]
+  ]
+}
+```
+
+## Manage your Radar data
+
+Use these endpoints to manage your Radar data, including users, geofences, and events.
+
+### Users
+
+A user represents a user tracked in your project. Users can be referenced by Radar `_id`, `userId`, or `deviceId`.
+
+###### Object fields
+
+- **`_id`** (string): A unique ID for the user, provided by Radar. An alphanumeric string.
+- **`live`** (boolean): `true` if the user was created with your `live` API key, `false` if the user was created with your `test` API key.
+- **`userId`** (string): A stable unique ID for the user.
+- **`deviceId`** (string): A device ID for the user.
+- **`description`** (string): An optional description for the user.
+- **`metadata`** (dictionary): An optional dictionary of custom metadata for the user.
+- **`location`** (point): The user's current location, a `Point` in [GeoJSON](http://geojson.org/) format.
+- **`locationAccuracy`** (number): The accuracy of the user's current location in meters.
+- **`foreground`** (boolean): `true` if the user's current was updated in the foreground, `false` if the user's current location was updated in the background.
+- **`stopped`** (boolean): `true` if the user's current location was updated while stopped, `false` if the user's current location was updated while moving.
+- **`deviceType`** (string): The user's device type, one of `iOS`, `Android`, or `Web`.
+- **`updatedAt`** (datetime): The datetime when the user was created.
+- **`updatedAt`** (datetime): The datetime when the user's location was last updated.
+- **`geofences`** (array): An array of the user's current geofences.
+- **`place`** (dictionary): When [Places](/places) is enabled, the user's current place.
+- **`country`** (dictionary): When [Regions](/regions) is enabled, the user's current country.
+- **`state`** (dictionary): When [Regions](/regions) is enabled, the user's current state. US-only.
+- **`dma`** (dictionary): When [Regions](/regions) is enabled, the user's current DMA (market area). US-only.
+- **`postalCode`** (dictionary): When [Regions](/regions) is enabled, the user's current postal code. US-only.
+- **`insights`** (dictionary): When [Insights](/insights) is enabled, the user's learned approximate home and office locations, and home, office, and traveling state.
+
+###### Sample object
+
+```json
+{
+  "_id": "56db1f4613012711002229f4",
+  "live": true,
+  "userId": "1",
+  "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+  "metadata": {
+    "customId": "123",
+    "customFlag": false
+  },
+  "location": {
+    "type": "Point",
+    "coordinates": [-73.97536, 40.78382]
+  },
+  "locationAccuracy": 5,
+  "foreground": true,
+  "stopped": true,
+  "deviceType": "iOS",
+  "updatedAt": "2016-06-10T13:44:10.535Z",
+  "geofences": [
+    {
+      "_id": "56db1f4613012711002229f5",
+      "tag": "neighborhood",
+      "externalId": "1",
+      "description": "Upper West Side",
+      ...
+    },
+    ...
+  ],
+  "place": {
+    "_id": "56db1f4613012711002229f7",
+    "facebookId": "37965424481",
+    "name": "Starbucks",
+    "categories": [
+      "food-beverage",
+      "cafe",
+      "coffee-shop"
+    ],
+    "chain": {
+      "name": "Starbucks",
+      "slug": "starbucks"
+    }
+  },
+  "country": {
+    "name": "United States",
+    "code": "US"
+  },
+  "state": {
+    "name": "New Jersey",
+    "code": "NJ"
+  },
+  "dma": {
+    "name": "New York",
+    "code": "501"
+  },
+  "postalCode": {
+    "code": "07302"
+  },
+  "insights": {
+    "locations": [
+      {
+        "type": "home",
+        "location": {
+          "type": "Point",
+          "coordinates": [-73.97491, 40.78697]
+        },
+        "confidence": 3,
+        "updatedAt": "2017-04-04T01:23:47.495Z"
+      },
+      {
+        "type": "office",
+        "location": {
+          "type": "Point",
+          "coordinates": [-73.98885, 40.76994],
+        },
+        "confidence": 1,
+        "updatedAt": "2017-04-04T01:23:47.495Z"
+      }
+    ],
+    "state": {
+      "home": false,
+      "office": false,
+      "traveling": false
+    }
+  }
+}
+```
+
+#### Create user
+
+To create a user, call the [track](#track) endpoint.
+
+On iOS and Android, use the [SDK](/sdk) to track users.
+
+#### List users
+
+Lists users. Users are sorted descending by `updatedAt`.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/users</code>
+
+###### Query parameters
+
+- **`limit`** (number, optional): The max number of users to return. A number between 1 and 1000. Defaults to 100.
+- **`updatedBefore`** (datetime, optional): A cursor for use in pagination. Retrieves users updated before the specified datetime. A date or valid ISO date string.
+- **`updatedAfter`** (datetime, optional): A cursor for use in pagination. Retrieves users updated after the specified datetime. A date or valid ISO date string.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/users" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200,
+    "hasMore": true
+  },
+  "users": [
+    {
+      "_id": "56db1f4613012711002229f4",
+      "live": true,
+      "userId": "1",
+      "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+      ...
+    },
+    ...
+  ]
+}
+```
+
+#### Get a user
+
+Gets a user. The user can be referenced by Radar `_id`, `userId`, or `deviceId`.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/users/:id</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "user": {
+    "_id": "56db1f4613012711002229f4",
+    "live": true,
+    "userId": "1",
+    "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+    ...
+  }
+}
+```
+
+#### Delete a user
+
+Deletes a user. The user can be referenced by Radar `_id`, `userId`, or `deviceId`.
+
+###### Definition
+
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/users/:id</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
+  -H "Authorization: prj_live_sk_..." \
+  -X DELETE
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  }
+}
+```
+
+### Trips
+
+A trip is a sequence of location updates with metadata and a unique ID, optionally with an ETA to a destination geofence. Depending on your use case, a trip may represent a pickup, a delivery, or something else.
+
+###### Object fields
+
+- **`_id`** (string): The unique ID for the trip, provided by Radar. An alphanumeric string.
+- **`live`** (boolean): `true` if the user was created with your `live` API key, `false` if the user was created with your `test` API key.
+- **`externalId`** (string): A stable unique ID for the trip. Depending on your use case, may represent an order ID, a delivery ID, or something else.
+- **`metadata`** (dictionary): An optional set of custom key-value pairs for the trip, displayed in the trip tracking dashboard.
+- **`mode`** (string): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`.
+- **`destinationGeofenceTag`** (string): For trips with a destination, the tag of the destination geofence.
+- **`destinationGeofenceExternalId`** (string):  For trips with a destination, the external ID of the destination geofence.
+- **`destinationLocation`** (point):  For trips with a destination, the location of the destination geofence.
+- **`eta`** (dictionary): For trips with a destination, the ETA to the destination geofence based on the travel mode for the trip, including `duration` in minutes and `distance` in meters.
+- **`createdAt`** (datetime): The datetime when the trip was started.
+- **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
+- **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
+- **`completedAt`** (datetime): The datetime when the trip was stopped.
+- **`status`** (string): The status of the trip, one of `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
+- **`user`** (dictionary): The user for which the trip is being tracked.
+- **`locations`** (array): The location updates tracked while the trip was active. An array of `Point`s in [GeoJSON](http://geojson.org/) format.
+
+###### Sample object
+
+```json
+{
+  "_id": "5f3e50491c2b7d005c81f5d9",
+  "live": true,
+  "externalId": "299",
+  "metadata": {
+    "Customer Name": "Jacob Pena",
+    "Car Model": "Green Honda Civic"
+  },
+  "mode": "car",
+  "destinationGeofenceTag": "store",
+  "destinationGeofenceExternalId": "123",
+  "destinationLocation": {
+    "coordinates": [
+      -105.061198,
+      39.779366
+    ],
+    "type": "Point"
+  },
+  "eta": {
+    "duration": 5.5,
+    "distance": 1331
+  },
+  "createdAt": "2020-08-20T10:27:55.830Z",
+  "updatedAt": "2020-08-20T10:30:55.837Z",
+  "status": "started",
+  "user": {
+    "_id": "56db1f4613012711002229f4",
+    "userId": "1",
+    "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8"
+  },
+  "locations": [
+    {
+      "type": "Point",
+      "coordinates": [
+        -105.062645,
+        39.766059819860864
+      ],
+      "updatedAt": "2020-08-20T10:29:55.897Z"
+    },
+    {
+      "type": "Point",
+      "coordinates": [
+        -105.06267319809022,
+        39.769057068070715
+      ],
+      "updatedAt": "2020-08-20T10:30:55.837Z"
+    }
+  ]
+}
+```
+
+#### List trips
+
+###### Definition
+
+Lists trips. Trips are sorted descending by `eta`.
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/trips</code>
+
+###### Query parameters
+
+- **`active`** (boolean, optional): If `true`, returns only active trips. If `false`, returns only stopped trips. If not specified, returns all trips.
+- **`destinationGeofenceTag`** (string, optional): Retrieves trips with the destination geofence tag.
+- **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/trips?active=true&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Authentication level
+
+Secret
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "trips": [
+    {
+      "_id": "5f3e50491c2b7d005c81f5d9",
+      "live": true,
+      "active": true,
+      "externalId": "299",
+      "metadata": {
+        "Customer Name": "Jacob Pena",
+        "Car Model": "Green Honda Civic"
+      },
+      "mode": "car",
+      "destinationGeofenceTag": "store",
+      "destinationGeofenceExternalId": "123",
+      "destinationLocation": {
+        "coordinates": [
+          -105.06119826017914,
+          39.7793665
+        ],
+        "type": "Point"
+      },
+      "eta": {
+        "duration": 5.5,
+        "distance": 1331
+      },
+      "createdAt": "2020-08-20T10:27:55.830Z",
+      "updatedAt": "2020-08-20T10:30:55.837Z",
+      ...
+    },
+    ...
+  ]
+}
+```
+
+#### Start new trip
+
+To start a new trip, call the [track](#track) endpoint and specify `tripOptions`.
+
+On iOS and Android, use the [SDK](/sdk) to start trips and track users.
+
+#### Stop or restart trip
+
+Stops or restarts a trip. The trip can be referenced by Radar `_id` or `externalId`.
+
+On iOS and Android, use the [SDK](/sdk) to stop trips.
+
+###### Definition
+
+<span className="badge badge--warning">PATCH</span> <code>https://api.radar.io/v1/trips/:id</code>
+
+###### Query parameters
+
+- **`status`** (string, required): The new status of the trip, one of `started`, `approaching`, `arrived`, `completed`, or `canceled`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/trips/299" \
+  -H "Authorization: prj_live_sk_..."
+  -X PATCH
+  -d "status=completed"
+```
+
+###### Authentication level
+
+Publishable
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  }
+}
+```
+
+### Geofences
+
+A geofence represents a custom region or place monitored in your project. Geofences can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
+
+###### Object fields
+
+- **`_id`** (string): The unique ID for the geofence, provided by Radar. An alphanumeric string.
+- **`createdAt`** (datetime): The datetime when the geofence was created.
+- **`live`** (boolean): `true` if the geofence was created with your `live` API key, `false` if the user was created with your `test` API key.
+- **`tag`** (string): An optional group for the geofence.
+- **`externalId`** (string): An optional external ID for the geofence that maps to your internal database.
+- **`description`** (string): A description for the geofence.
+- **`type`** (string): The type of geofence geometry, one of `circle`, `polygon`, or `isochrone`.
+- **`geometry`** (polygon): The geometry of the geofence. Coordinates for type `polygon`. A calculated polygon approximation for type `circle` and `isochrone`. A `Polygon` in [GeoJSON](http://geojson.org/) format.
+- **`geometryCenter`** (point): The center for type `circle`. The calculated centroid of the polygon for type `polygon`. The destination for type `isochrone`. A `Point` in [GeoJSON](http://geojson.org/) format.
+- **`geometryRadius`** (number): The radius in meters for type `circle`. The calculated approximate radius of the polygon for type `polygon`. The travel duration in minutes for type `isochrone`.
+- **`mode`** (string): The [travel mode](/api#route-distance) for type `isochrone`.
+- **`metadata`** (dictionary): An optional set of custom key-value pairs for the geofence.
+- **`userId`** (string): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
+- **`enabled`** (boolean): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
+
+###### Sample object
+
+```json
+{
+  "_id": "56db1f4613012711002229f5",
+  "createdAt": "2016-06-10T13:44:10.535Z",
+  "live": true,
+  "tag": "venue",
+  "externalId": "2",
+  "description": "Coffee Shop",
+  "type": "circle",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[...]]
+  },
+  "geometryCenter": {
+    "type": "Point",
+    "coordinates": [-73.97536, 40.78382]
+  },
+  "geometryRadius": 50,
+  "metadata": {
+    ...
+  },
+  "enabled": true
+}
+```
+
+#### List geofences
+
+###### Definition
+
+Lists geofences. Geofences are sorted descending by `createdAt`.
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences</code>
+
+###### Query parameters
+
+- **`limit`** (number, optional): The max number of geofences to return. A number between 1 and 1000. Defaults to 100.
+- **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created before the specified datetime. A date or valid ISO date string.
+- **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created after the specified datetime. A date or valid ISO date string.
+- **`tag`** (string, optional): Retrieves geofences with the specified `tag`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Authentication level
+
+Secret
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200,
+    "hasMore": true
+  },
+  "geofences": [
+    {
+      "_id": "56db1f4613012711002229f5",
+      "createdAt": "2016-06-10T13:44:10.535Z",
+      "live": true,
+      "tag": "venue",
+      "externalId": "2",
+      "description": "Coffee Shop",
+      "type": "circle",
+      ...
+    },
+    ...
+  ]
+}
+```
+
+#### Get a geofence
+
+Gets a geofence. The geofence can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "geofence": {
+    "_id": "56db1f4613012711002229f5",
+    "createdAt": "2016-06-10T13:44:10.535Z",
+    "live": true,
+    "tag": "venue",
+    "externalId": "2",
+    "description": "Coffee Shop",
+    "type": "circle",
+    ...
+  }
+}
+```
+
+#### Upsert a geofence
+
+Upserts a geofence. The geofence can be uniquely referenced by `tag` and `externalId`. If a geofence with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
+
+###### Definition
+
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+
+###### Body parameters
+
+- **`description`** (string, required): A description for the geofence.
+- **`type`** (string, required): The type of geofence geometry. A string, one of `circle`, `polygon`, or `isochrone`.
+- **`coordinates`** (array, required): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 10,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
+- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number.
+- **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
+- **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
+- **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
+- **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
+- **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
+- **`mode`** (string, required for type `isochrone`): The [travel mode](/api#route-distance) for type `isochrone`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/venue/2" \
+  -H "Authorization: prj_live_sk_..." \
+  -X PUT \
+  -d "description=Coffee Shop" \
+  -d "type=circle" \
+  -d "coordinates=[-73.97536,40.78382]" \
+  -d "radius=50"
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "geofence": {
+    "_id": "56db1f4613012711002229f5",
+    "createdAt": "2016-06-10T13:44:10.535Z",
+    "live": true,
+    "tag": "venue",
+    "externalId": "2",
+    "description": "Coffee Shop",
+    "type": "circle",
+    ...
+  }
+}
+```
+
+#### Delete a geofence
+
+Deletes a geofence. The geofence can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
+
+###### Definition
+
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
+  -H "Authorization: prj_live_sk_..." \
+  -X DELETE
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  }
+}
+```
+
+### Events
+
+An event represents a change in user state. Events can be uniquely referenced by Radar `_id`.
+
+###### Object fields
+
+- **`_id`** (string): The unique ID for the event, provided by Radar. An alphanumeric string.
+- **`createdAt`** (datetime): The datetime when the event was created.
+- **`live`** (boolean): `true` if the event was generated for a user and geofence created with your `live` API key, `false` if the event was generated for a user and geofence created with your `test` API key.
+- **`type`** (string): The type of event. By default, events are generated when a user enters a geofence (type `user.entered_geofence`) or exits a geofence (type `user.exited_geofence`). [Places](/places), [Regions](/regions), and [Insights](/insights) also generate events.
+- **`user`** (dictionary): The user for which the event was generated.
+- **`geofence`** (dictionary): For `user.entered_geofence` and `user.exited_geofence` events, the geofence for which the event was generated, including `description`, `tag`, and `externalId`.
+- **`place`** (dictionary): For `user.entered_place` and `user.exited_place` events, the place for which the event was generated, including `name`, `categories`, `chain`, and `facebookId`.
+- **`alternatePlaces`** (array): For `user.entered_place` events, alternate place candidates.
+- **`verifiedPlace`** (dictionary): For verified `user.entered_place` events, the verified place.
+- **`location`** (point): The location of the user at the time of the event, a `Point` in [GeoJSON](http://geojson.org/) format.
+- **`locationAccuracy`** (number): The accuracy of the user's location at the time of the event in meters.
+- **`confidence`** (number): The confidence level of the event, one of `3` (high), `2` (medium), or `1` (low).
+- **`duration`** (number): On exit events, the duration between entry and exit events, in minutes.
+
+###### Sample object
+
+```json
+{
+  "_id": "56db1f4613012711002229f6",
+  "createdAt": "2016-06-10T13:44:10.535Z",
+  "live": true,
+  "type": "user.exited_geofence",
+  "location": {
+    "type": "Point",
+    "coordinates": [-73.97779, 40.78382]
+  },
+  "locationAccuracy": 5,
+  "confidence": 3,
+  "duration": 48.38920,
+  "user": {
+    "_id": "56db1f4613012711002229f4",
+    "userId": "1",
+    "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8",
+    ...
+  },
+  "geofence": {
+    "_id": "56db1f4613012711002229f5",
+    "tag": "venue",
+    "externalId": "2",
+    "description": "Coffee Shop",
+    ...
+  }
+}
+```
+
+#### Create event
+
+To create an event, call the [track](#track) endpoint to trigger an event. For example, specify a `latitude` and `longitude` to enter a geofence that you have created.
+
+On iOS and Android, use the [SDK](/sdk) to track users.

@@ -1,0 +1,356 @@
+---
+sidebar_position: 8
+sidebar_label: Flutter
+title: Flutter Package
+slug: flutter
+description: Documentation for Flutter Package
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+This is the documentation for the Flutter package. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
+
+See the source on GitHub [here](https://github.com/radarlabs/flutter-radar). Or, see the `flutter_radar` package on pub.dev [here](https://pub.dev/packages/flutter_radar).
+
+## Install
+
+Add the package to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  flutter_radar: ^3.0.2
+```
+
+Then, update dependencies:
+
+```bash
+flutter pub get
+```
+
+Change to the `ios/` directory. In the `Podfile`, add `platform :ios, '10.0'` or higher to your target.
+
+On iOS, you must add location usage descriptions and background modes to your `Info.plist`. Initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
+
+```swift
+#import <RadarSDK/RadarSDK.h>
+
+#import "AppDelegate.h"
+#import "GeneratedPluginRegistrant.h"
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [GeneratedPluginRegistrant registerWithRegistry:self];
+  [Radar initializeWithPublishableKey:publishableKey];
+  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+@end
+
+```
+
+On Android, initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key:
+
+```java
+import io.flutter.app.FlutterApplication;
+import io.flutter.view.FlutterMain;
+import io.radar.sdk.Radar;
+
+public class MainApplication extends FlutterApplication {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Radar.initialize(this, publishableKey);
+        FlutterMain.startInitialization(this);
+    }
+
+}
+```
+
+## Integrate
+
+### Import module
+
+First, import the package:
+
+```javascript
+import 'package:flutter_radar/flutter_radar.dart';
+```
+
+### Identify user
+
+To identify the user when logged in, call:
+
+```javascript
+Radar.setUserId(userId);
+```
+
+where `userId` is a stable unique ID for the user.
+
+To set an optional dictionary of custom metadata for the user, call:
+
+```javascript
+Radar.setMetadata(metadata);
+```
+
+where `metadata` is a map with up to 16 keys and values of type string, boolean, or number.
+
+Finally, to set an optional description for the user, displayed in the dashboard, call:
+
+```javascript
+Radar.setDescription(description);
+```
+
+where `description` is a string.
+
+You only need to call these functions once, as these settings will be persisted across app sessions.
+
+Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Request permissions
+
+Before tracking the user's location, the user must have granted location permissions for the app.
+
+To determine the whether user has granted location permissions for the app, call:
+
+```javascript
+String status = await Radar.getPermissionsStatus();
+```
+
+`status` will be a string, one of:
+
+- `GRANTED_FOREGROUND`
+- `GRANTED_BACKGROUND`
+- `DENIED`
+
+To request location permissions for the app, call:
+
+```javascript
+String status = Radar.requestLocationPermissions(background);
+```
+
+where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
+
+Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Foreground tracking
+
+Once you have initialized the SDK and the user has granted permissions, you can track the user's location.
+
+To track the user's location in the foreground, call:
+
+```javascript
+var res = await Radar.trackOnce();
+// do something with res['status'], res['location'], res['events'], res['user']
+```
+
+Learn about platform-specific implementations of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Background tracking
+
+On iOS and Android, once you have initialized the SDK and the user has granted permissions, you can start tracking the user's location in the background.
+
+For background tracking, the SDK supports custom tracking options as well as three presets:
+
+- **`EFFICIENT`**: A low frequency of location updates and lowest battery usage. On Android, avoids Android vitals bad behavior thresholds.
+- **`RESPONSIVE`**: A medium frequency of location updates and low battery usage. Suitable for most consumer use cases.
+- **`CONTINUOUS`**: A high frequency of location updates and higher battery usage. Suitable for on-demand use cases (e.g., delivery tracking) and some consumer use cases (e.g., order ahead, "mall mode").
+
+Learn about platform-specific implementations of these presets in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+To start tracking the user's location in the background, call one of:
+
+```javascript
+Radar.startTracking('efficient');
+
+Radar.startTracking('responsive');
+
+Radar.startTracking('continuous');
+```
+
+You only need to call these methods once, as these settings will be persisted across app sessions.
+
+Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
+
+```javascript
+Radar.startTrackingCustom({
+  desiredStoppedUpdateInterval: 180,
+  desiredMovingUpdateInterval: 60,
+  desiredSyncInterval: 50,
+  desiredAccuracy: 'high',
+  stopDuration: 140,
+  stopDistance: 70,
+  sync: 'all',
+  replay: 'none',
+  showBlueBar: true
+});
+```
+
+To stop tracking the user's location in the background (e.g., when the user logs out), call:
+
+```javascript
+Radar.stopTracking();
+```
+
+Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Mock tracking
+
+On iOS and Android, you can simulate a sequence of location updates for testing. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
+
+```javascript
+Radar.mockTracking(
+  origin: {'latitude': 40.714708, 'longitude': -74.035807},
+  destination: {'latitude': 40.717410, 'longitude': -74.053334},
+  mode: 'car',
+  steps: 10,
+  interval: 3);
+```
+
+### Trip tracking
+
+On iOS and Android, to start a trip to a destination, call:
+
+```javascript
+Radar.startTrip({
+  'externalId': '299',
+  'destinationGeofenceTag': 'store',
+  'destinationGeofenceExternalId': '123',
+  'mode': 'car'
+});
+Radar.startTracking('continuous');
+```
+
+Later, to complete the trip and stop tracking, call:
+
+```javascript
+Radar.completeTrip();
+Radar.stopTracking();
+```
+
+Or, to cancel the trip and stop tracking, call:
+
+```javascript
+Radar.cancelTrip();
+Radar.stopTracking();
+```
+
+Learn more about [trip tracking](/trip-tracking).
+
+### Manual tracking
+
+You can manually update the user's location by calling:
+
+```javascript
+var res = await Radar.trackOnce({
+  'latitude': 39.2904,
+  'longitude': -76.6122,
+  'accuracy': 65
+});
+// do something with res['status'], res['location'], res['events'], res['user']
+```
+
+Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Other APIs
+
+The Flutter package also exposes APIs for anonymous context, geocoding, search, and distance.
+
+#### Get location
+
+Get a single location update without sending it to the server:
+
+```javascript
+var coordinates = await Radar.getLocation();
+```
+
+#### Context
+
+With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
+
+```javascript
+var res = await Radar.getContext({
+  'latitude': 40.783826,
+  'longitude': -73.975363,
+  'accuracy': 65
+});
+// do something with res['status'], res['context']
+```
+
+#### Geocoding
+
+With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
+
+```javascript
+var res = await Radar.geocode('20 jay st brooklyn ny'
+// do something with res['status'], res['addresses']
+```
+
+With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
+
+```javascript
+var res = await Radar.reverseGeocode({
+  'latitude': 40.783826,
+  'longitude': -73.975363,
+  'accuracy': 65
+});
+// do something with res['status'], res['addresses']
+```
+
+With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
+
+```javascript
+var res = await Radar.ipGeocode((result) => {
+// do something with res['status'], res['address']
+```
+
+#### Search
+
+With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
+
+```javascript
+var res = await Radar.autocomplete(
+  query: 'brooklyn roasting',
+  near: {'latitude': 40.783826, 'longitude': -73.975363},
+  limit: 10);
+// do something with res['status'], res['addresses']
+```
+
+With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
+
+```javascript
+var res = await Radar.searchGeofences(
+  near: {'latitude': 40.783826, 'longitude': -73.975363},
+  radius: 1000,
+  tags: ['venue'],
+  limit: 10);
+// do something with res['status'], res['geofences']
+```
+
+With the [places search API](/api#search-places), search for places near a location, sorted by distance:
+
+```javascript
+var res = await Radar.searchPlaces(
+  near: {'latitude': 40.783826, 'longitude': -73.975363},
+  radius: 1000,
+  chains: ['starbucks'],
+  limit: 10);
+// do something with res['status'], res['places']
+```
+
+#### Distance
+
+With the [distance API](/api#distance), calculate the travel distance and duration from an origin to a destination:
+
+```javascript
+var res = await Radar.getDistance(
+  origin: {'latitude': 40.78382, 'longitude': -73.97536},
+  destination: {'latitude': 40.70390, 'longitude': -73.98670},
+  modes: ['foot', 'car'],
+  units: 'imperial');
+// do something with res['status'], res['routes']
+```
+
+## Support
+
+Have questions? We're here to help! Email us at [support@radar.io](mailto:support@radar.io).

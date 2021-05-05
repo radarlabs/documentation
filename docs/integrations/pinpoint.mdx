@@ -1,0 +1,279 @@
+---
+title: AWS Pinpoint
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and user attributes to [AWS Pinpoint](https://aws.amazon.com/pinpoint/).
+
+Use the Pinpoint integration to send location-triggered and location-targeted messages to increase engagement and conversion.
+
+The Pinpoint integration is available on the [Enterprise](https://radar.io/dashboard/pricing) plan.
+
+## Configuration
+
+In the Pinpoint console page, under *All projects*, find your Project name and the corresponding Project ID. You will also need to get your access key and secret access key, which you can find under the AWS Identity and Access Managment (IAM) console under Access Keys. Note that you will need to provide AWS keys that have IAM permissions for Pinpoint operations.
+
+Then, on the Radar [Integrations page](/integrations) under *AWS Pinpoint*, set *Enabled* to *Yes* and paste your AWS access key, your AWS secret key, and your Pinpoint Project ID. You can set separate access keys and project IDs for each of your Radar *Test* and *Live* environments. Finally, select your AWS region.
+
+Whenever events are generated, Radar will send custom events and user attributes to Pinpoint. Events and user attributes from iOS devices will be sent using your iOS app identifiers, and events and user attributes from Android devices will be sent using your Android app identifiers.
+
+To map a Radar user to a Pinpoint endpoint ID, you must specify a custom mapping by setting Radar `metadata.awsPinpointEndpointId`. For example, on iOS:
+
+```swift
+// track users with custom userId mapping (not required if using default mapping)
+Radar.setMetadata(["awsPinpointEndpointId": endpointid])
+```
+
+## User mapping
+
+Note that Radar uses the string `[]` to represent `null` user attribute values.
+
+Radar User Field | Pinpoint User Attribute | Type | Example Value | Context Type
+--- | --- | --- | --- | ---
+`userId` | `UserId` | string | `"1"` |
+`_id` | `RadarId` | array[string] | `["5b2c0906f5874b001aecfd8d"]` |
+`location.coordinates[1]` | `RadarLocationLatitude` | array[string] | `[39.525665]` |
+`location.coordinates[0]` | `RadarLocationLongitude` | array[string] | `[-76.350663]` |
+`updatedAt` | `RadarUpdatedAt` | array[string] | `["2018-06-22T15:23:39.000Z"]` |
+`segments[*].externalId` | `RadarSegmentExternalIds` | array[string] | `["starbucks-visitors"]` |
+`topChains[*].slug` | `RadarTopChainSlugs` | array[string] | `["starbucks", "walmart"]` |
+`topChains[*].externalId` | `RadarTopChainExternalIds` | array[string] | `["123", "456"]` |
+`geofences[*]._id` | `RadarGeofenceIds` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences)
+`geofences[*].description` | `RadarGeofenceDescriptions` | array[string] | `["Store #123"]` | [Geofences](/geofences)
+`geofences[*].tag` | `RadarGeofenceTags` | array[string] | `["store"]` | [Geofences](/geofences)
+`geofences[*].externalId` | `RadarGeofenceExternalIds` | array[string] | `["123"]` | [Geofences](/geofences)
+`place._id` | `RadarPlaceId` | array[string] | `["59302bcf8f27e8a156bd4f91"]` | [Places](/places)
+`place.name` | `RadarPlaceName` | array[string] | `["Starbucks"]` | [Places](/places)
+`place.categories` | `RadarPlaceCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
+`place.chain.slug` | `RadarPlaceChainId` | array[string] | `["starbucks"]` | [Places](/places)
+`place.chain.name` | `RadarPlaceChainName` | array[string] | `["Starbucks"]` | [Places](/places)
+`insights.state.home` | `RadarInsightsStateHome` | array[string] | `["false"]` | [Insights](/insights)
+`insights.state.office` | `RadarInsightsStateOffice` | array[string] | `["false"]` | [Insights](/insights)
+`insights.state.traveling` | `RadarInsightsStateTraveling` | array[string] | `["true"]` | [Insights](/insights)
+`country.code` | `RadarRegionCountryCode` | array[string] | `["US"]` | [Regions](/regions)
+`country.name` | `RadarRegionCountryName` | array[string] | `["United States"]` | [Regions](/regions)
+`state.code` | `RadarRegionStateCode` | array[string] | `["MD"]` | [Regions](/regions)
+`state.name` | `RadarRegionStateName` | array[string] | `["Maryland"]` | [Regions](/regions)
+`dma.code` | `RadarRegionDmaCode` | array[string] | `["26"]` | [Regions](/regions)
+`dma.name` | `RadarRegionDmaName` | array[string] | `["Baltimore"]` | [Regions](/regions)
+`postalCode.code` | `RadarRegionPostalCode` | array[string] | `["21014"]` | [Regions](/regions)
+
+## Event mapping
+
+### user.entered_geofence
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `GeofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `GeofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `GeofenceTag` | string | `"store"`
+`geofence.externalId` | `GeofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `GeofenceMetadata{key}` | string | `"value"`
+`confidence` | `Confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `CountryCode` | string | `"US"`
+`country.name` | `CountryName` | string | `"United States"`
+`state.code` | `StateCode` | string | `"MD"`
+`state.name` | `StateName` | string | `"Maryland"`
+`dma.code` | `DmaCode` | string | `"26"`
+`dma.name` | `DmaName` | string | `"Baltimore"`
+`postalCode.code` | `PostalCode` | string | `"21014"`
+
+### user.exited_geofence
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `GeofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `GeofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `GeofenceTag` | string | `"store"`
+`geofence.externalId` | `GeofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `GeofenceMetadata{key}` | string | `"value"`
+`confidence` | `Confidence` | string | `"high"`
+`duration` | `Duration` | string | `"42.1"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `CountryCode` | string | `"US"`
+`country.name` | `CountryName` | string | `"United States"`
+`state.code` | `StateCode` | string | `"MD"`
+`state.name` | `StateName` | string | `"Maryland"`
+`dma.code` | `DmaCode` | string | `"26"`
+`dma.name` | `DmaName` | string | `"Baltimore"`
+`postalCode.code` | `PostalCode` | string | `"21014"`
+
+### user.entered_place
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `PlaceId` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `PlaceName` | string | `"Starbucks"`
+`place.chain.slug` | `PlaceChainId` | string | `"starbucks"`
+`place.chain.name` | `PlaceChainName` | string | `"Starbucks"`
+`place.chain.externalId` | `PlaceChainExternalId` | string | `"123"`
+`place.chain.metadata[{key}]` | `PlaceChainMetadata{key}` | string | `"value"`
+`place.categories` | `PlaceCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `Confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `CountryCode` | string | `"US"`
+`country.name` | `CountryName` | string | `"United States"`
+`state.code` | `StateCode` | string | `"MD"`
+`state.name` | `StateName` | string | `"Maryland"`
+`dma.code` | `DmaCode` | string | `"26"`
+`dma.name` | `DmaName` | string | `"Baltimore"`
+`postalCode.code` | `PostalCode` | string | `"21014"`
+
+### user.exited_place
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `PlaceId` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `PlaceName` | string | `"Starbucks"`
+`place.chain.slug` | `PlaceChainId` | string | `"starbucks"`
+`place.chain.name` | `PlaceChainName` | string | `"Starbucks"`
+`place.chain.externalId` | `PlaceChainExternalId` | string | `"123"`
+`place.chain.metadata[{key}]` | `PlaceChainMetadata{key}` | string | `"string"`
+`place.categories` | `PlaceCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `Confidence` | string | `"high"`
+`duration` | `Duration` | string | `"42.1"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `CountryCode` | string | `"US"`
+`country.name` | `CountryName` | string | `"United States"`
+`state.code` | `StateCode` | string | `"MD"`
+`state.name` | `StateName` | string | `"Maryland"`
+`dma.code` | `DmaCode` | string | `"26"`
+`dma.name` | `DmaName` | string | `"Baltimore"`
+`postalCode.code` | `PostalCode` | string | `"21014"`
+
+### user.entered_home
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### user.exited_home
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### user.entered_office
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### user.exited_office
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### user.started_traveling
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `Confidence` | string | `"high"`
+
+### user.stopped_traveling
+
+Radar Event Field | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_region_country
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `RegionCode` | string | `"US"`
+`region.name` | `RegionName` | string | `"United States"`
+`confidence` | `Confidence` | string | `"high"`
+
+### user.exited_region_country
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `RegionCode` | string | `"US"`
+`region.name` | `RegionName` | string | `"United States"`
+`confidence` | `Confidence` | string | `"high"`
+
+### user.entered_region_state
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `RegionCode` | string | `"MD"`
+`region.name` | `RegionName` | string | `"Maryland"`
+`confidence` | `Confidence` | string | `"high"`
+
+### user.exited_region_state
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `RegionCode` | string | `"MD"`
+`region.name` | `RegionName` | string | `"Maryland"`
+`confidence` | `Confidence` | string | `"high"`
+
+### user.entered_region_dma
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `RegionCode` | string | `"26"`
+`region.name` | `RegionName` | string | `"Baltimore"`
+`confidence` | `Confidence` | string | `"high"`
+
+### user.exited_region_dma
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `RegionCode` | string | `"26"`
+`region.name` | `RegionName` | string | `"Baltimore"`
+`confidence` | `Confidence` | string | `"high"`
+
+### user.started_trip
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `TripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
+`trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.approaching_trip_destination
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `TripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
+`trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.arrived_at_trip_destination
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `TripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
+`trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.stopped_trip
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `TripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
+`trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`

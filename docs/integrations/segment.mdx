@@ -1,0 +1,216 @@
+---
+title: Segment
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can send events and user traits to [Segment](https://segment.com) as a source. Segment can send those events and user traits to your warehouse and to hundreds of destinations.
+
+Use the Segment integration to forward location events and user context to any destinations or to build location-based user segments with Personas.
+
+The Segment integration is available on the [Team](https://radar.io/dashboard/pricing) plan or higher.
+
+## Configuration
+
+In Segment, add Radar as a source and copy your write key.
+
+Then, on the Radar [Integrations page](/integrations) under *Segment Source*, set *Enabled* to *Yes* and paste your write key. Note that you can set separate write keys for the *Test* and *Live* environments.
+
+Whenever events are generated, Radar will call `track` and `identify` to send events and user traits to Segment.
+
+By default, Radar `userId` maps to Segment `userId` for logged in users, and Radar `deviceId` maps to Segment `anonymousId` for logged out users. However, you can specify custom mappings by setting Radar `metadata.segmentUserId` or `metadata.segmentAnonymousId`. For example, on iOS:
+
+```swift
+// track logged out users with custom anonymousId mapping (not required if using default mapping)
+Radar.setMetadata(["segmentAnonymousId": anonymousId])
+
+// track logged in users with custom userId mapping (not required if using default mapping)
+Radar.setMetadata(["segmentUserId": userId])
+```
+
+## User mapping
+
+Note that Radar uses the special string `"(null)"` to represent `null` user trait values.
+
+Radar User Field | Segment User Trait | Type | Example Value | Context Type
+--- | --- | --- | --- | ---
+`metadata.segmentUserId` or `userId` | `userId` | string | `"1"` |
+`metadata.segmentAnonymousId` or `deviceId` | `anonymousId` | string | `"10974a2ee035770b9"` |
+`_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
+`location.coordinates[1]` | `radar_location_latitude` | number | `39.525665` |
+`location.coordinates[0]` | `radar_location_longitude` | number | `-76.350663` |
+`updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` |
+`topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks", "walmart"]` |
+`topChains[*].externalId` | `radar_top_chain_external_ids` | array[string] | `["123", "456"]` |
+`geofences[*]._id` | `radar_geofence_ids` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences) |
+`geofences[*].description` | `radar_geofence_descriptions` | array[string] | `["Store #123"]` | [Geofences](/geofences) |
+`geofences[*].tag` | `radar_geofence_tags` | array[string] | `["store"]` | [Geofences](/geofences) |
+`geofences[*].externalId` | `radar_geofence_external_ids` | array[string] | `["123"]` | [Geofences](/geofences) |
+`place._id` | `radar_place_id` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
+`place.name` | `radar_place_name` | string | `"Starbucks"` | [Places](/places)
+`place.categories` | `radar_place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
+`place.chain.slug` | `radar_place_chain_slug` | string | `"starbucks"` | [Places](/places)
+`place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
+`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
+`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
+`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
+`country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
+`country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
+`state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
+`state.name` | `radar_region_state_name` | string | `"Maryland"` | [Regions](/regions)
+`dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
+`dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
+`postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+
+## Event mapping
+
+Radar Event | Context Type | Segment Event
+--- | --- | ---
+`user.entered_geofence` | [Geofences](/geofences) | `Geofence Entered`
+`user.exited_geofence` | [Geofences](/geofences) | `Geofence Exited`
+`user.entered_place` | [Places](/places) | `Place Entered`
+`user.exited_place` | [Places](/places) | `Place Exited`
+`user.entered_home` | [Insights](/insights) | `Home Entered`
+`user.exited_home` | [Insights](/insights) | `Home Exited`
+`user.entered_office` | [Insights](/insights) | `Office Entered`
+`user.exited_office` | [Insights](/insights) | `Office Exited`
+`user.started_traveling` | [Insights](/insights) | `Traveling Started`
+`user.stopped_traveling` | [Insights](/insights) | `Traveling Stopped`
+`user.entered_region_country` | [Regions](/regions) | `Country Entered`
+`user.exited_region_country` | [Regions](/regions) | `Country Exited`
+`user.entered_region_state` | [Regions](/regions) | `State Entered`
+`user.exited_region_state` | [Regions](/regions) | `State Exited`
+`user.entered_region_dma` | [Regions](/regions) | `DMA Entered`
+`user.exited_region_dma` | [Regions](/regions) | `DMA Exited`
+
+### Geofence Entered
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### Geofence Exited
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+### Place Entered
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Starbucks"`
+`place.chain.slug` | `place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `place_chain_name` | string | `"Starbucks"`
+`place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
+`place.categories` | `place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `confidence` | string | `"high"`
+
+### Place Exited
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Starbucks"`
+`place.chain.slug` | `place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `place_chain_name` | string | `"Starbucks"`
+`place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
+`place.categories` | `place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+### Home Entered
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### Home Exited
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### Office Entered
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### Office Exited
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### Traveling Started
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### Traveling Stopped
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`confidence` | `confidence` | string | `"high"`
+
+### Country Entered
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### Country Exited
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### State Entered
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### State Exited
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### DMA Entered
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### DMA Exited
+
+Radar Event Field | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`

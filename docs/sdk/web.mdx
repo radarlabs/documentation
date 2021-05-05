@@ -1,0 +1,267 @@
+---
+sidebar_position: 5
+sidebar_label: Web
+title: Web SDK
+id: web
+description: Documentation for Web SDK
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+This is the documentation for the web JavaScript SDK. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
+
+See the source on GitHub [here](https://github.com/radarlabs/radar-sdk-js). Or, see the `radar-sdk-js` package on npm [here](https://www.npmjs.com/package/radar-sdk-js).
+
+## Install
+
+In an HTML page, include the SDK using a `<script>` tag:
+
+```html
+<script src="https://js.radar.io/v3/radar.min.js"></script>
+```
+
+In a web app, install the package from npm, then import the library:
+
+```bash
+npm install --save radar-sdk-js
+```
+
+```javascript
+import Radar from 'radar-sdk-js';
+```
+
+The SDK is less than 20 KB minified.
+
+## Integrate
+
+### Initialize
+
+To initialize the library, call:
+
+```javascript
+Radar.initialize(publishableKey);
+```
+
+where `publishableKey` is a string containing your Radar publishable API key.
+
+### Identify user
+
+To identify the user when logged in, call:
+
+```javascript
+Radar.setUserId(userId);
+```
+
+where `userId` is a stable unique ID for the user.
+
+To set an optional dictionary of custom metadata for the user, call:
+
+```javascript
+Radar.setMetadata(metadata);
+```
+
+where `metadata` is a JSON object with up to 16 keys and values of type string, boolean, or number.
+
+Finally, to set an optional description for the user, displayed in the dashboard, call:
+
+```javascript
+Radar.setDescription(description);
+```
+
+where `description` is a string.
+
+You only need to call these functions once, as these settings will be persisted across browser sessions in cookies.
+
+### Foreground tracking
+
+Once you have initialized the SDK and the user has granted permissions, you can track the user's location.
+
+The SDK uses the [HTML5 geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation) to determine the user's location.
+
+To track the user's location, call:
+
+```javascript
+Radar.trackOnce(function(err, result) {
+  if (!err) {
+    // do something with result.location, result.events, result.user
+  }
+});
+```
+
+If the request is unsuccessful, `err` will be a string, one of:
+
+- **`ERROR_PUBLISHABLE_KEY`**: SDK not initialized
+- **`ERROR_PERMISSIONS`**: location permissions not granted
+- **`ERROR_LOCATION`**: location services error or timeout (10 seconds)
+- **`ERROR_NETWORK`**: network error or timeout (10 seconds)
+- **`ERROR_BAD_REQUEST`**: bad request (missing or invalid params)
+- **`ERROR_UNAUTHORIZED`**: unauthorized (invalid API key)
+- **`ERROR_PAYMENT_REQUIRED`**: payment required (organization disabled or usage exceeded)
+- **`ERROR_FORBIDDEN`**: forbidden (insufficient permissions or no beta access)
+- **`ERROR_NOT_FOUND`**: not found
+- **`ERROR_RATE_LIMIT`**: too many requests ([rate limit](/api#track) exceeded)
+- **`ERROR_SERVER`**: internal server error
+- **`ERROR_UNKNOWN`**: unknown error
+
+### Manual tracking
+
+You can manually update the user's location by calling:
+
+```javascript
+Radar.trackOnce({
+  latitude: 39.2904,
+  longitude: -76.6122,
+  accuracy: 65
+}, function(err, result) {
+  if (!err) {
+    // do something with result.events, result.user
+  }
+});
+```
+
+### Other APIs
+
+The web SDK also exposes APIs for anonymous context, geocoding, search, and distance.
+
+#### Get location
+
+Get a single location update without sending it to the server:
+
+```javascript
+Radar.getLocation(function(err, result) {
+  if (!err) {
+    // do something with result.location
+  }
+});
+```
+
+#### Context
+
+With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
+
+```javascript
+Radar.getContext({
+  latitude: 40.783826,
+  longitude: -73.975363,
+  accuracy: 65
+}, function(err, result) {
+  if (!err) {
+    // do something with result.context
+  }
+});
+```
+
+#### Geocoding
+
+With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
+
+```javascript
+Radar.geocode('20 jay st brooklyn ny', function(err, result) {
+  if (!err) {
+    // do something with result.addresses
+  }
+});
+```
+
+With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
+
+```javascript
+Radar.reverseGeocode({
+  latitude: 40.783826,
+  longitude: -73.975363
+}, function(err, result) {
+  if (!err) {
+    // do something with result.addresses
+  }
+});
+```
+
+With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
+
+```javascript
+Radar.ipGeocode(function(err, result) {
+  if (!err) {
+    // do something with result.address
+  }
+});
+```
+
+#### Search
+
+With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
+
+```javascript
+Radar.autocomplete({
+  query: 'brooklyn roasting',
+  near: {
+    latitude: 40.783826,
+    longitude: -73.975363
+  },
+  limit: 10
+}, function(err, result) {
+  if (!err) {
+    // do something with result.addresses
+  }
+});
+```
+
+With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
+
+```javascript
+Radar.searchGeofences({
+  radius: 1000,
+  tags: ['venue'],
+  limit: 10
+}, function(err, result) {
+  if (!err) {
+    // do something with result.geofences
+  }
+});
+```
+
+With the [places search API](/api#search-places), search for places near a location, sorted by distance:
+
+```javascript
+Radar.searchPlaces({
+  near: {
+    latitude: 40.783826,
+    longitude: -73.975363
+  },
+  radius: 1000,
+  chains: ['starbucks'],
+  limit: 10
+}, function(err, result) {
+  if (!err) {
+    // do something with result.places
+  }
+});
+```
+
+#### Distance
+
+With the [distance API](/api#distance), calculate the travel distance and duration between two locations:
+
+```javascript
+Radar.getDistance({
+  origin: {
+    latitude: 40.78382,
+    longitude: -73.97536
+  },
+  destination: {
+    latitude: 40.70390,
+    longitude: -73.98670
+  },
+  modes: [
+    'foot',
+    'car'
+  ],
+  units: 'imperial'
+}, function(err, result) {
+  if (!err) {
+    // do something with result.routes
+  }
+});
+```
+
+## Support
+
+Have questions? We're here to help! Email us at [support@radar.io](mailto:support@radar.io).

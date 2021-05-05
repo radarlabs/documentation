@@ -1,0 +1,16 @@
+---
+title: Yext
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Radar can sync locations from [Yext](http://www.yext.com) as geofences in Radar.
+
+The Yext integration is available on the [Enterprise](https://radar.io/dashboard/pricing) plan.
+
+## Configuration
+
+On the Radar [Integrations page](/integrations) under *Yext*, click *Connect*. You will be redirected to Yext, where you can authorize Radar. If authorization succeeds, you will be redirected to the Radar [Geofences page](/geofences). If authorization fails, you will be redirected back to the Radar [Integrations page](/integrations).
+
+Radar will automatically sync all locations from Yext as geofences in Radar, and keep geofences in sync when you create or update locations in Yext. By default, Radar will map Yext location name to geofence `description`, set `location` as geofence `tag`, map Yext store ID to geofence `externalId`, map other Yext metadata to geofence `metadata`, set `radius` to 100 meters, and set `enabled` to false if the location is closed in Yext. Radar will sync geofences both to the *Test* and *Live* environments.
+
+To change any of these defaults, please contact support.

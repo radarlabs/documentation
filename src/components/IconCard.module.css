@@ -1,0 +1,31 @@
+.IconCard {
+  flex-direction: row;
+  align-items: flex-start;
+
+  padding: 2rem;
+}
+
+.icon {
+  flex: 0 0 auto;
+  height: 5rem;
+  width: 5rem;
+}
+
+.icon > * {
+  height: 100%;
+  width: 100%;
+}
+
+.icon + .content {
+  margin-left: 2em;
+  color: var(--ifm-color-gray-700);
+}
+
+.description {
+  margin: .25rem 0 0;
+}
+
+.CardTitle {
+  color: var(--ifm-heading-color);
+  font-weight: var(--ifm-font-weight-semibold);
+}

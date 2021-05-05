@@ -1,0 +1,151 @@
+---
+sidebar_position: 3
+title: Places
+id: places
+custom_edit_url: null # Note: This hides the edit this page button
+---
+
+Places uses our place database to detect when a user visits a place, chain, or category, even if you haven't set up geofences for those places.
+
+Radar ingests and curates place data from multiple sources, providing you with a comprehensive view of the world.
+
+<img src="https://images.ctfassets.net/f2vbu16fzuly/2E2wGOcbv5OEJZYWSTXBB/4007d02b24d65d7097e6658b9da7f242/places.svg" className="hero-image" />
+
+Places provides the following user context:
+
+```json
+{
+  "place": {
+    "name": "Starbucks",
+    "chain": {
+      "name": "Starbucks",
+      "slug": "starbucks",
+      "externalId": "123",
+      "metadata": {
+        "customFlag": true
+      }
+    },
+    "categories": ["food-beverage", "coffee-shop"],
+    "location": {
+      "type": "Point",
+      "coordinates": [-73.977797, 40.783826]
+    }
+  }
+}
+```
+
+Places also provides the following events:
+
+- `user.entered_place`
+- `user.exited_place`
+
+You can receive events client-side via the [SDK](/sdk) or server-side via [event integrations](/integrations), including webhooks.
+
+Places is available on the [Team](https://radar.io/pricing) plan and higher.
+
+You can enable Places on the [Settings page](https://radar.io/dashboard/settings).
+
+Alternatively, if you have your own custom place data, you can create geofences instead. Learn more about [Geofences](/geofences).
+
+## How it works
+
+Radar generates a place entry event if a user stops at a place (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`) matching [filters](#place-filters) with sufficient confidence, then a place exit event when the user leaves the place with sufficient confidence.
+
+<!-- TODO: These pages are geneated by the backend; pull them into static docs -->
+All place events have [confidence levels](#confidence), and places may have one or more [categories](#categories) and a [chain](#chains).
+
+If a user is at their learned home or office location, Radar will not generate a place entry event. Learn more about [Insights](/insights).
+
+## Confidence
+
+All place events have confidence levels. Confidence levels range from `1` (low) to `3` (high). Confidence is a function of the accuracy of the location reported by the device, the footprint of the place, the density of the area, the popularity of the place, and other signals.
+
+You may decide to ignore events based on confidence levels.
+
+## Categories
+
+Places may have one or more categories. Radar supports hundreds of categories, organized in a hierarchy. View the [full list of categories](/places/categories).
+
+You can listen for place events with specific categories. For example, to do something if a user is at an airport, on [iOS](/sdk#ios):
+
+```swift
+Radar.trackOnce { (status, location, events, user) in
+    if let place = user?.place,
+       place.hasCategory("airport") {
+        // do something
+    }
+}
+```
+
+## Chains
+
+Places may have a chain. Radar supports thousands of U.S. and international chains. View the [full list of chains](/places/chains).
+
+You can listen for place events with specific chains. For example, to do something when a user stops at a Starbucks, on [Android](/sdk#android):
+
+```java
+public void onEventsReceived(Context context,
+                             RadarEvent[] events,
+                             RadarUser user) {
+    for (RadarEvent event : events) {
+        if (event.type == RadarEventType.USER_ENTERED_PLACE &&
+            event.confidence == RadarEventConfidence.HIGH &&
+            event.place.isChain("starbucks")) {
+            // do something
+        }
+    }
+}
+```
+
+### Mappings
+
+To map Radar chain slugs to custom IDs, set _Chain Mappings_ under _Places_ on the [Settings page](https://radar.io/dashboard/settings).
+
+You can set a JSON string representing a dictionary with keys and values of type string.
+
+For example, to map `burger-king` to `123` and `mcdonalds` to `456`:
+
+```json
+{ "burger-king": "123", "mcdonalds": "456" }
+```
+
+Custom chain IDs will be exposed as `place.chain.externalId` in user context and events.
+
+### Metadata
+
+To map Radar chain slugs to custom metadata, set _Chain Metadata_ under _Places_ on the [Settings page](https://radar.io/dashboard/settings).
+
+You can set a JSON string with values of type dictionary, each with between 1 and 16 keys and values of type string, boolean, or number.
+
+For example, to map `metadata.category` and `metadata.offers` for `burger-king` and `mcdonalds`:
+
+```json
+{
+  "burger-king": { "category": "Restaurant", "offers": true },
+  "mcdonalds": { "category": "Restaurant", "offers": false }
+}
+```
+
+Custom chain metadata will be exposed as `place.chain.metadata` in user context and events.
+
+## Groups
+
+Finally, places may have a group, distinct from chain or categories. A group is a curated list of places with special metadata, like `major-us-airport` or `major-us-sports-venue-stadium`. View the [full list of groups](/places/groups).
+
+## Place filters
+
+We recommend filtering events to specific categories or chains under _Places_ on the [Settings page](https://radar.io/dashboard/settings).
+
+For example, to monitor only fast food restaurants, you might add `fast-food-restaurant` to category filters, or add `burger-king`, `mcdonalds`, and others to chain filters.
+
+View the [full list of categories](/places#categories) and the [full list of chains](/places#chains).
+
+## Verify events
+
+You can accept or reject places events after user check-ins or other forms of verification. Event verifications will be used to improve the accuracy and confidence level of future events.
+
+For example, to accept an event on iOS:
+
+```swift
+Radar.acceptEventId(event._id, verifiedPlaceId: event.alternatePlaces[0]._id)
+```
