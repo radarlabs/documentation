@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './LinkCard.module.css';
-import Card from './TileCard.jsx';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const LinkCard = ({ linkTo, children, title }) => (
-  <a href={linkTo} className={styles.LinkCard}>
+  <a href={useBaseUrl(linkTo)} className={styles.LinkCard}>
     {children}
   </a>
 );
