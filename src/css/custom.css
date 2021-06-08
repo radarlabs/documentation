@@ -188,7 +188,7 @@ h2 {
   display: grid;
   grid-template-columns: 33% 33% 33%;
   grid-gap: 30px;
-  margin-right: 30px;
+  margin-right: 60px;
 }
 
 .logo {
