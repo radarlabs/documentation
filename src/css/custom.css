@@ -188,7 +188,7 @@ h2 {
   display: grid;
   grid-template-columns: 33% 33% 33%;
   grid-gap: 30px;
-  margin-right: 30px;
+  margin-right: 60px;
 }
 
 .logo {
@@ -216,8 +216,14 @@ strong {
 .navbar__brand {
   height: 100%;
   width: calc(var(--doc-sidebar-width) - var(--ifm-navbar-padding-horizontal));
-  border-right: 1px solid var(--ifm-toc-border-color);
   margin-right: 0;
+}
+
+/* Responsive Styling for Navbar; these links should appear in the hamburger menu */
+@media (min-width: 996px) {
+  .navbar__brand {
+    border-right: 1px solid var(--ifm-toc-border-color);
+  }
 }
 
 .navbar__logo {
