@@ -1,6 +1,5 @@
 ---
 title: Chains
-custom_edit_url: null # Note: This hides the edit this page button
 ---
 
 ## Introduction

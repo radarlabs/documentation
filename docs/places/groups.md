@@ -1,7 +1,6 @@
 ---
 title: Groups
 id: groups
-custom_edit_url: null # Note: This hides the edit this page button
 ---
 
 Places may have a group, distinct from [chain](/places/chains) or [categories](/places/categories). A group is a curated list of places with special metadata.
