@@ -5,18 +5,22 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const RadarSEO = ({
   title,
-  description,
+  _description,
   keywords,
   image,
 }) => {
   const {image: defaultImage} = useThemeConfig();
-  const pageTitle = useTitleFormatter(title);
   const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
+
+  let pageTitle = "Documentation | Radar";
+  if (title && title !== 'Documentation') {
+    pageTitle = `Documentation - ${title} | Radar`;
+  }
 
   return (
     <Head>
       {/* Swizzled this component in order to customize the title automatically */}
-      {title && <title>Documentation - {title} | Radar</title>}
+      <title>{pageTitle}</title>
       {title && <meta property="og:title" content={title} />}
       {title && <meta property="twitter:title" content={title} />}
 
