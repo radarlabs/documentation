@@ -1068,7 +1068,9 @@ To monitor beacons in the background, update your tracking options:
   <TabItem value="swift">
 
 ```swift
-let trackingOptions = RadarTrackingOptions.responsive trackingOptions.beacons = true Radar.startTracking(trackingOptions: trackingOptions)
+let trackingOptions = RadarTrackingOptions.responsive
+trackingOptions.beacons = true
+Radar.startTracking(trackingOptions: trackingOptions)
 ```
 
   </TabItem>

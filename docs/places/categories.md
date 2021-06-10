@@ -2,8 +2,6 @@
 title: Categories
 ---
 
-## Introduction
-
 Places may have one or more categories. Radar supports hundreds of categories, organized in a hierarchy. Top-level category slugs are:
 
 - `advertising-marketing`
