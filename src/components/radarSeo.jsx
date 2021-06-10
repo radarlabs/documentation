@@ -13,16 +13,24 @@ const RadarSEO = ({
   const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
 
   let pageTitle = "Documentation | Radar";
-  if (title && title !== 'Documentation') {
-    pageTitle = `Documentation - ${title} | Radar`;
+  let socialTitle;
+
+  if (title) {
+    if (title == "Documentation") {
+      // Overview page is a weird one-off that has "Overview" as its og:title and twitter:title
+      socialTitle = "Overview"
+    } else {
+      socialTitle = title;
+      pageTitle = `Documentation - ${title} | Radar`;
+    }
   }
 
   return (
     <Head>
       {/* Swizzled this component in order to customize the title automatically */}
       <title>{pageTitle}</title>
-      {title && <meta property="og:title" content={title} />}
-      {title && <meta property="twitter:title" content={title} />}
+      {title && <meta property="og:title" content={socialTitle} />}
+      {title && <meta property="twitter:title" content={socialTitle} />}
 
       {keywords && (
         <meta
