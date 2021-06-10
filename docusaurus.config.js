@@ -14,12 +14,13 @@ module.exports = {
       { name: "fb:app_id", content: "1026503440803301" },
       { name: "og:site_name", content: "Radar" },
       { name: "og:type", content: "website" },
-      { name: "og:url", content: "https://radar.io/documentation" },
+      { name: "og:description", content: "Location data infrastructure | Geofencing SDK and API" },
       { name: "og:image", content: "https://radar.io/static/image/logo-social.png"},
       { name: "og:image:url", content: "https://radar.io/static/image/logo-social.png"},
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@radarlabs" },
-      { name: "twitter:image", content: "https://radar.io/static/image/logo.png" }
+      { name: "twitter:image", content: "https://radar.io/static/image/logo.png" },
+      { name: "twitter:description", content: "Location data infrastructure | Geofencing SDK and API"}
     ],
     navbar: {
       logo: {

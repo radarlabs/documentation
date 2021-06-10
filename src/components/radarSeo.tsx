@@ -1,28 +1,28 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
 import React from 'react';
 import Head from '@docusaurus/Head';
-import { useThemeConfig } from '@docusaurus/theme-common';
+import {useThemeConfig, useTitleFormatter} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-export default function Seo({title, description, keywords, image}) {
+
+const RadarSEO = ({
+  title,
+  description,
+  keywords,
+  image,
+}) => {
   const {image: defaultImage} = useThemeConfig();
-  const pageImage = useBaseUrl(image || defaultImage, {
-    absolute: true,
-  });
+  const pageTitle = useTitleFormatter(title);
+  const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
 
   return (
     <Head>
+      {/* Swizzled this component in order to customize the title automatically */}
       {title && <title>Documentation - {title} | Radar</title>}
       {title && <meta property="og:title" content={title} />}
       {title && <meta property="twitter:title" content={title} />}
 
       {description && <meta name="description" content={description} />}
-      {description && <meta property="og:description" content={description} />}
-      {description && <meta property="twitter:description" content={description} />}
+      {description && <meta name="og:description" content={description} />}
+      {description && <meta name="twitter:description" content={description} />}
 
       {keywords && (
         <meta
@@ -35,5 +35,8 @@ export default function Seo({title, description, keywords, image}) {
       {pageImage && <meta name="twitter:image" content={pageImage} />}
       {pageImage && <meta name="twitter:card" content="summary_large_image" />}
     </Head>
-  );
+  )
 }
+
+
+export default RadarSEO;
