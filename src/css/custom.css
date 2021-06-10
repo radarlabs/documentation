@@ -391,3 +391,11 @@ strong {
   border-color: #0068d9;
   text-decoration: none;
 }
+
+table th {
+  text-align: left;
+}
+
+table th, table td {
+  max-width: 230px;
+}
