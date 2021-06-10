@@ -20,10 +20,6 @@ const RadarSEO = ({
       {title && <meta property="og:title" content={title} />}
       {title && <meta property="twitter:title" content={title} />}
 
-      {description && <meta name="description" content={description} />}
-      {description && <meta name="og:description" content={description} />}
-      {description && <meta name="twitter:description" content={description} />}
-
       {keywords && (
         <meta
           name="keywords"
