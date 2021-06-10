@@ -320,10 +320,11 @@ strong {
   color: var(--ifm-heading-color);
 }
 
+/* TODO: Rebuild this as a component */
 .alert {
   margin: 1rem 0 2rem;
-  padding: .5rem 1rem;
-  font-size: 1rem;
+  padding: .5rem 1rem .5rem 3rem;
+font-size: 1rem;
   font-weight: 400;
   line-height: 1.6;
   /* Use variables for borders */
@@ -332,22 +333,74 @@ strong {
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  background-position: 1rem .75rem;
+  background-repeat: no-repeat;
 }
 
 .alert-warning {
   background-color: #fff1e4;
   border-color: rgba(109,51,0,.25);
   color: #6d3300;
+  background-image: url(/static/img/warningIcon.svg);
 }
 
 .alert-info {
   background-color: #dcedff;
   border-color: rgba(0,56,117,.25);
   color: #003875;
+  background-image: url(/static/img/infoIcon.svg);
 }
 
 .chains-logo {
   height: 25px;
   width: 25px;
   object-fit: contain;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: color(--radar-gray-6);
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-large {
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: .0625rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: .5rem 1rem;
+  border-radius: 1.25rem;
+}
+
+.btn-primary {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: var(--radar-gray-1);
+}
+
+.btn-primary:hover {
+  color: var(--radar-gray-1);
+  background: #0068d9;
+  border-color: #0068d9;
+  text-decoration: none;
+}
+
+table th {
+  text-align: left;
+}
+
+table th, table td {
+  max-width: 230px;
 }

@@ -2,8 +2,6 @@
 title: Chains
 ---
 
-## Introduction
-
 Places may have a chain. Radar supports thousands of U.S. and international chains. Each chain has a name and a slug.
 
 The full list of supported chains is below. If you find a chain that is missing or incorrect, please email us at <a href="mailto:support@radar.io">support@radar.io</a> to let us know.
