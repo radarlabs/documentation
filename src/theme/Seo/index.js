@@ -6,19 +6,19 @@
  */
 import React from 'react';
 import Head from '@docusaurus/Head';
-import {useThemeConfig, useTitleFormatter} from '@docusaurus/theme-common';
+import { useThemeConfig } from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 export default function Seo({title, description, keywords, image}) {
   const {image: defaultImage} = useThemeConfig();
-  const pageTitle = useTitleFormatter(title);
   const pageImage = useBaseUrl(image || defaultImage, {
     absolute: true,
   });
+
   return (
     <Head>
-      {title && <title>{pageTitle}</title>}
-      {title && <meta property="og:title" content={pageTitle} />}
-      {title && <meta property="twitter:title" content={pageTitle} />}
+      {title && <title>Documentation - {title} | Radar</title>}
+      {title && <meta property="og:title" content={title} />}
+      {title && <meta property="twitter:title" content={title} />}
 
       {description && <meta name="description" content={description} />}
       {description && <meta property="og:description" content={description} />}
