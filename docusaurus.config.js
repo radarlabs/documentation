@@ -1,8 +1,8 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Documentation | Radar',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://radar.io/',
+  tagline: 'Location data infrastructure | Geofencing SDK and API',
+  url: 'https://radar.io',
   baseUrl: '/documentation/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -10,6 +10,18 @@ module.exports = {
   organizationName: 'radarlabs', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
   themeConfig: {
+    metadatas: [
+      { name: "fb:app_id", content: "1026503440803301" },
+      { name: "og:site_name", content: "Radar" },
+      { name: "og:type", content: "website" },
+      { name: "og:description", content: "Location data infrastructure | Geofencing SDK and API" },
+      { name: "og:image", content: "https://radar.io/static/image/logo-social.png"},
+      { name: "og:image:url", content: "https://radar.io/static/image/logo-social.png"},
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:site", content: "@radarlabs" },
+      { name: "twitter:image", content: "https://radar.io/static/image/logo.png" },
+      { name: "twitter:description", content: "Location data infrastructure | Geofencing SDK and API"}
+    ],
     navbar: {
       logo: {
         alt: 'My Site Logo',
