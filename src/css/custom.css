@@ -213,6 +213,10 @@ strong {
   color: var(--ifm-heading-color);
 }
 
+.navbar__toggle {
+  margin-right: 1rem;
+}
+
 .navbar__brand {
   height: 100%;
   width: calc(var(--doc-sidebar-width) - var(--ifm-navbar-padding-horizontal));
@@ -234,7 +238,7 @@ strong {
 
 .menu {
   padding: 0 !important;
-  margin-top: 15px;
+  padding-top: 15px;
   font-weight: var(--ifm-font-weight-normal);
 }
 
@@ -324,7 +328,7 @@ strong {
 .alert {
   margin: 1rem 0 2rem;
   padding: .5rem 1rem .5rem 3rem;
-font-size: 1rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.6;
   /* Use variables for borders */
@@ -337,6 +341,15 @@ font-size: 1rem;
   background-repeat: no-repeat;
 }
 
+.alert a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.alert a:hover {
+  text-decoration: underline;
+}
+
 .alert-warning {
   background-color: #fff1e4;
   border-color: rgba(109,51,0,.25);
@@ -344,11 +357,21 @@ font-size: 1rem;
   background-image: url(/static/img/warningIcon.svg);
 }
 
+.alert-warning a,
+.alert-warning strong {
+  color: #6d3300;
+}
+
 .alert-info {
   background-color: #dcedff;
   border-color: rgba(0,56,117,.25);
   color: #003875;
   background-image: url(/static/img/infoIcon.svg);
+}
+
+.alert-info a,
+.alert-info strong {
+  color: #003875;
 }
 
 .chains-logo {
@@ -403,4 +426,22 @@ table th {
 
 table th, table td {
   max-width: 230px;
+}
+
+/* Tab Item Overrides */
+
+.tabs__item {
+  border-bottom-width: 2px;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  color: var(--radar-gray-4);
+}
+
+.tabs__item--active {
+  border-bottom-color: var(--radar-gray-6);
+  color: var(--radar-gray-6);
+}
+
+.tabs__item:hover {
+  background: var(--radar-gray-1);
 }

@@ -1,14 +1,16 @@
 .ScrollToTopButton {
   position: fixed;
-  width: 32px;
-  height: 32px;
-  bottom: 40px;
-  right: 40px;
+  width: 2.5rem;
+  height: 40px;
+  bottom: 2rem;
+  right: 2rem;
   box-shadow: 0px 4px 12px rgba(23, 60, 86, 0.1);
   background: transparent;
-  border: none;
+  border: 1px solid var(--radar-gray-2);
   border-radius: 4px;
   cursor: pointer;
+  transition-property: color,background;
+  transition-timing-function: var(--ifm-transition-timing-default);
 }
 
 .ScrollToTopButton:hover {
