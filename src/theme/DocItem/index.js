@@ -35,6 +35,7 @@ function DocItem(props) {
     lastUpdatedAt,
     formattedLastUpdatedAt,
     lastUpdatedBy,
+    slug,
   } = metadata;
   const {pluginId} = useActivePlugin({
     failfast: true,
@@ -48,10 +49,12 @@ function DocItem(props) {
   // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
 
   const metaTitle = frontMatter.title || title;
+
   return (
     <>
       <RadarSEO
         {...{
+          slug,
           title: metaTitle,
           description,
           keywords,
