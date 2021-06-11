@@ -3,11 +3,76 @@ import Head from '@docusaurus/Head';
 import {useThemeConfig, useTitleFormatter} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
+const ROOT_BREADCRUMB = {
+  name: 'Radar',
+  path: '/',
+};
+
+// String Utils
+export const capitalizeFirst = (string = '') => (
+  (string[0] || '').toUpperCase() + string.slice(1)
+);
+
+export const titleize = (string) => (
+  (string || '').split(/[\s+]/).map(capitalizeFirst).join(' ')
+);
+
+// Breadcrumbs Metadata
+const breadcrumbMetadata = (pageList) => {
+  const itemListElement = pageList.map((page, index) => {
+    const name = titleize(page.name || '');
+
+    return {
+      '@type': 'ListItem',
+      position: index + 1,
+      name,
+      item: {
+        '@id': `https://radar.io${page.path}`,
+        name,
+      },
+    };
+  });
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement,
+  };
+};
+
+export const getDocumentationBreadcrumbs = (slug, title) => {
+  const breadcrumbs = [
+    ROOT_BREADCRUMB,
+    { name: 'Documentation', path: '/documentation' },
+  ];
+
+  if (slug && title) {
+    if (slug === 'places/categories' || slug === 'places/chains') {
+      breadcrumbs.push(
+        { name: 'Places', path: '/documentation/places' },
+      );
+    }
+    breadcrumbs.push(
+      { name: title, path: `/documentation/${slug}` },
+    );
+  }
+
+  return breadcrumbMetadata(breadcrumbs);
+};
+
+export const structuredData = (data) => (
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+  />
+);
+
 const RadarSEO = ({
   title,
   _description,
   keywords,
   image,
+  slug
 }) => {
   const {image: defaultImage} = useThemeConfig();
   const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
@@ -42,6 +107,7 @@ const RadarSEO = ({
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
       {pageImage && <meta name="twitter:card" content="summary_large_image" />}
+      {structuredData(getDocumentationBreadcrumbs(slug, title))}
     </Head>
   )
 }

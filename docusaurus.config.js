@@ -11,6 +11,7 @@ module.exports = {
   projectName: 'docs', // Usually your repo name.
   themeConfig: {
     metadatas: [
+      { name: "description", content: "Location data infrastructure | Geofencing SDK and API"},
       { name: "fb:app_id", content: "1026503440803301" },
       { name: "og:site_name", content: "Radar" },
       { name: "og:type", content: "website" },
