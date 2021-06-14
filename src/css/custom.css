@@ -234,27 +234,6 @@ strong {
   height: auto;
 }
 
-/* Sidebar overrides */
-
-.menu {
-  padding: 0 !important;
-  padding-top: 15px;
-  font-weight: var(--ifm-font-weight-normal);
-}
-
-.menu__list-item {
-  margin: 0;
-}
-
-.menu__link {
-  border-radius: 0;
-}
-
-.menu__link--active,
-.menu__link--active:hover {
-  font-weight: var(--ifm-font-weight-semibold);
-  background: var(--ifm-menu-color-background);
-}
 
 /* Table of Contents overrides */
 
