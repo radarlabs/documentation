@@ -346,7 +346,20 @@ function DocSidebar({
             activePath={path}
           />
           <li className={styles.menuFooter}>
-            <a className={styles.menuHomeButton} href="https://radar.io">Back to Radar.io</a>
+            <a
+              className={styles.menuHomeButton}
+              href="https://radar.io"
+            >
+              Back to Radar.io
+            </a>
+            {showResponsiveSidebar &&
+              <a
+                className={styles.menuHomeButton}
+                href="https://radar.io/login"
+              >
+                Dashboard
+              </a>
+            }
           </li>
         </ul>
       </div>

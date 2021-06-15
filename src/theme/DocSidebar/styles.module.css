@@ -148,6 +148,10 @@
   border-top: 1px solid var(--ifm-color-gray-200);
   border-right: 1px solid var(--ifm-color-gray-200);
   background: white;
+
+  /* For responsive sidebar */
+  display: flex;
+  justify-content: space-between;
 }
 
 .menuHomeButton {
