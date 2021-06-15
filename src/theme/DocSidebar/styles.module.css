@@ -138,35 +138,23 @@
   filter: var(--ifm-menu-link-sublist-icon-filter);
 }
 
-/* Overrides */
-.menu {
-  padding: 15px 0 0;
-  font-weight: var(--ifm-font-weight-normal);
-}
-
-.menu__list-item {
-  margin: 0;
-}
-
-.menu__link {
-  border-radius: 0;
-}
-
-.menu__link--active,
-.menu__link--active:hover {
-  font-weight: var(--ifm-font-weight-semibold);
-  background: var(--ifm-menu-color-background);
-}
+/* Custom elements */
 
 .menuFooter {
   position: absolute;
   bottom: 0;
   width: 100%;
-  border-top: 1px solid var(--ifm-color-gray-200);
   padding: 16px;
+  border-top: 1px solid var(--ifm-color-gray-200);
+  border-right: 1px solid var(--ifm-color-gray-200);
+  background: white;
 }
 
-.menuHomeButton{
+.menuHomeButton {
   color: var(--ifm-menu-color-active);
   font-weight: var(--ifm-font-weight-semibold);
+}
+
+.menuHomeButton:hover {
+  text-decoration: none;
 }

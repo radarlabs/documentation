@@ -327,6 +327,17 @@ function DocSidebar({
           responsiveSidebarOpened={showResponsiveSidebar}
           onClick={toggleResponsiveSidebar}
         />
+        {
+          showResponsiveSidebar &&
+          <div className="sidebar-brand">
+            <Logo
+              className="navbar__brand"
+              imageClassName="navbar__logo"
+              titleClassName="navbar__title"
+              onClick={toggleResponsiveSidebar}
+            />
+          </div>
+        }
         <ul className="menu__list">
           <DocSidebarItems
             items={sidebar}

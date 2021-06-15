@@ -234,6 +234,21 @@ strong {
   height: auto;
 }
 
+/* Sidebar overrides */
+
+.menu__list-item {
+  margin: 0;
+}
+
+.menu__link {
+  border-radius: 0;
+}
+
+.menu__link--active,
+.menu__link--active:hover {
+  font-weight: var(--ifm-font-weight-semibold);
+  background: var(--ifm-menu-color-background);
+}
 
 /* Table of Contents overrides */
 
@@ -423,4 +438,33 @@ table th, table td {
 
 .tabs__item:hover {
   background: var(--radar-gray-1);
+}
+
+.sidebar-brand {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  height: var(--ifm-navbar-height);
+  padding: var(--ifm-navbar-padding-vertical) var(--ifm-navbar-padding-horizontal);
+  border-bottom: 1px solid var(--radar-gray-2);
+  margin-bottom: 15px;
+}
+
+.menu--show {
+  padding: 0;
+}
+
+.menu--responsive .menu__button {
+  top: 17px;
+  bottom: auto;
+  left: 19px;
+  right: auto;
+  background: white;
+  border: none;
+  padding: 2px;
+}
+
+.menu--responsive.menu--show .menu__button {
+  left: auto;
+  right: 20px;
 }
