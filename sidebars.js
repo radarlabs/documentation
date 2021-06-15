@@ -127,6 +127,7 @@ module.exports = {
         "sdk/cordova",
         "sdk/capacitor",
         "sdk/flutter",
+        "sdk/tracking"
       ],
     },
     "api",
