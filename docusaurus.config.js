@@ -39,11 +39,6 @@ module.exports = {
           label: 'Contact Sales',
           position: 'right',
         },
-        {
-          href: 'https://radar.io/login',
-          label: 'Dashboard',
-          position: 'right',
-        },
         // Note: Disabled this in CSS since hiding this will just fallback to default search positioning
         {
           type: 'search',

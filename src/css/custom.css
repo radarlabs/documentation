@@ -269,36 +269,6 @@ strong {
   font-weight: var(--ifm-font-weight-semibold);
 }
 
-.navbar__items--right .navbar__item:last-child {
-  display: flex;
-  align-items: center;
-}
-
-/* Responsive Styling for Navbar; these links should appear in the hamburger menu */
-@media (max-width: 996px) {
-  .navbar__items--right {
-    display: none;
-  }
-}
-
-/* Hacky way to add arrow to link since Docusaurus doesn't expose Navbar component
- *
- * Unforunately, cannot change SVG icon color when its a background image
- */
- .navbar__items--right .navbar__item:last-child:after {
-  display: inline-block;
-  content: ' ';
-  background-image: url('../../static/img/right-arrow.svg');
-  background-size: 16px 16px;
-  height: 16px;
-  width: 16px;
-  margin-left: 0.5rem;
-}
-
-.navbar__items--right .navbar__item:last-child:hover:after {
-  background-image: url('../../static/img/right-arrow-blue.svg');
-}
-
 .pagination-nav__link {
   border: 1px solid var(--ifm-color-gray-200);
 }
@@ -467,4 +437,11 @@ table th, table td {
 .menu--responsive.menu--show .menu__button {
   left: auto;
   right: 20px;
+}
+
+/* Responsive styling to hide Navbar Dashboard link */
+@media (max-width: 996px) {
+  .navbar__items .navbar__item {
+    display: none;
+  }
 }
