@@ -1,0 +1,15 @@
+.arrowLink {
+  display: flex;
+  align-items: center;
+  color: var(--ifm-menu-color-active);
+  font-weight: var(--ifm-font-weight-semibold);
+}
+
+.arrowLink:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.arrowLink span + svg {
+  margin-left: 0.5rem;
+}

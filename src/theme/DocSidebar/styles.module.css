@@ -9,6 +9,10 @@
   --collapse-button-bg-color-dark: #2e333a;
 }
 
+.menu {
+  font-weight: var(--ifm-font-weight-normal);
+}
+
 @media (min-width: 997px) {
   .sidebar {
     display: flex;
@@ -51,7 +55,6 @@
   .menu {
     flex-grow: 1;
     padding: 15px 0 0;
-    font-weight: var(--ifm-font-weight-normal);
   }
 
   .menuLinkText {
@@ -160,5 +163,6 @@
 }
 
 .menuHomeButton:hover {
+  color: var(--ifm-color-primary);
   text-decoration: none;
 }

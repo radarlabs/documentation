@@ -18,6 +18,9 @@ import IconArrow from '@theme/IconArrow';
 import IconMenu from '@theme/IconMenu';
 import {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
+
+import ArrowLink from '../../components/ArrowLink';
+
 const MOBILE_TOGGLE_SIZE = 24;
 
 function usePrevious(value) {
@@ -352,14 +355,7 @@ function DocSidebar({
             >
               Back to Radar.io
             </a>
-            {showResponsiveSidebar &&
-              <a
-                className={styles.menuHomeButton}
-                href="https://radar.io/login"
-              >
-                Dashboard
-              </a>
-            }
+            { showResponsiveSidebar && <ArrowLink href="https://radar.io/login">Dashboard</ArrowLink> }
           </li>
         </ul>
       </div>

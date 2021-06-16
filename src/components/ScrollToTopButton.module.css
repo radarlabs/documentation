@@ -4,8 +4,9 @@
   height: 40px;
   bottom: 2rem;
   right: 2rem;
+  z-index: 5;
   box-shadow: 0px 4px 12px rgba(23, 60, 86, 0.1);
-  background: transparent;
+  background: white;
   border: 1px solid var(--radar-gray-2);
   border-radius: 4px;
   cursor: pointer;
