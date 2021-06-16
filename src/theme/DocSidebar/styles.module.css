@@ -54,7 +54,7 @@
 
   .menu {
     flex-grow: 1;
-    padding: 15px 0 0;
+    padding: 15px 0 60px;
   }
 
   .menuLinkText {
@@ -144,7 +144,6 @@
 /* Custom elements */
 
 .menuFooter {
-  position: absolute;
   bottom: 0;
   width: 100%;
   padding: 16px;
@@ -155,6 +154,14 @@
   /* For responsive sidebar */
   display: flex;
   justify-content: space-between;
+  justify-self: flex-end;
+  margin-top: auto;
+}
+
+@media (min-width: 997px) {
+  .menuFooter {
+    position: absolute;
+  }
 }
 
 .menuHomeButton {

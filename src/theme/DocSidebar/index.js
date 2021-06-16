@@ -341,7 +341,7 @@ function DocSidebar({
             />
           </div>
         }
-        <ul className="menu__list">
+        <ul className="menu__list sidebar-menu">
           <DocSidebarItems
             items={sidebar}
             onItemClick={closeResponsiveSidebar}
