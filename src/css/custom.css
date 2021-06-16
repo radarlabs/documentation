@@ -420,6 +420,12 @@ table th, table td {
   margin-bottom: 15px;
 }
 
+.sidebar-menu.menu__list {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100% - 75px);
+}
+
 .menu--show {
   padding: 0;
 }
