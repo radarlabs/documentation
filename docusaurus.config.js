@@ -9,6 +9,15 @@ module.exports = {
   favicon: 'img/favicon.png',
   organizationName: 'radarlabs', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
+  plugins: [
+    [
+      'docusaurus-plugin-segment',
+      {
+        apiKey: 'DotTOuAVALzcuOiCqq1kPZCRAfGdSa3K'
+        // Add other options here.
+      }
+    ]
+  ],
   themeConfig: {
     metadatas: [
       { name: "description", content: "Location data infrastructure | Geofencing SDK and API"},
