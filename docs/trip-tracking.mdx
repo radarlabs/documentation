@@ -125,7 +125,7 @@ Or, listen for [trip events](/trip-tracking#trip-events) sent to a webhook. From
 
 ## Analytics
 
-Radar offers analytics on trip data and location opt-in rates from users in your project. Analytics on trip data is grouped under Trips, and analytics on location permission opt-in rates is grouped under Permissions. Read more about Permissions [here](https://radar.io/documentation/faqs#location-permissions).
+Radar offers analytics on trip data and location opt-in rates from users in your project. Analytics on trip data is grouped under the Trips tab, and analytics on location permission opt-in rates is grouped under the Permissions tab. Read more about Permissions [here](https://radar.io/documentation/faqs#location-permissions).
 
 - **`Median wait time`**: the median duration of time that it takes between the moment when a user arrives at a destination (`user.arrived_at_trip_destination`) and the moment when the trip is marked complete (`completed`).
 - **`Number of trips`**: the total count of all trips for a specific project which is live and has a status of `completed`.
@@ -133,23 +133,23 @@ Radar offers analytics on trip data and location opt-in rates from users in your
 
 ### Calculations
 
-Wait time and trip time are only calculated for trips that have a status of `completed` and have timestamp entries for `started_at`, `arrived_at`, and `completed_at`. These calculations does not include expired trips.
+Wait time and trip time are only calculated for trips that have a status of `completed` and have timestamp entries for `started_at`, `arrived_at`, and `completed_at`. These calculations exclude expired trips.
 
 ### How to filter your data
 
 **Date Range:** Select a date from the drop-down date picker. Make sure that the date in the left-hand box falls before the date in the right-hand box.
 
-**Radar User ID**: This field requires the unique Radar-generated ID and does not accept "external ID" or "device ID" in its place. You can find the unique Radar-generated ID for each user by navigating to the Users page and clicking View in the corresponding row of the user.
+**Radar User ID**: This field requires the unique Radar-generated ID and does not accept "external ID" or "device ID" in its place. You can find the unique Radar-generated ID for each user by navigating to the Users page and clicking "View" in the corresponding row of the user.
 
-**Destination Geofence Tag:** Each geofence has a geofence tag. You can find the tag to a specific geofence in the "Tag" column on the Geofences page in the sidebar, or you can navigate to the Trips page and click on the external ID listed under "Destination", which will show the details of the destination geofence. This field can be used alone or in tandem with the Destination Geofence External ID field.
+**Destination Geofence Tag:** Each geofence has a geofence tag. You can find the tag to a specific geofence in the "Tag" column on the Geofences page in the sidebar, or you can navigate to the trips page in the sidebar and click on the external ID listed under "Destination", which will show the details of the destination geofence. This field can be used alone or in tandem with the Destination Geofence External ID field.
 
 **Destination Geofence External ID**: Each geofence has an external ID. You can find the external ID for a specific geofence in the "External ID" column on the Geofences page in the sidebar, or you can navigate to the Trips page and click on the external ID listed under "Destination". This field can be used alone or in tandem with the Destination Geofence Tag field.
 
-Trip stats apply to the environment in which you view the metrics. For example, when viewing the metrics in the Test environment, the metrics only include trip data from the Test environment.
+Trip stats apply to the environment in which you view the metrics. For example, when viewing the metrics in the test environment, the metrics only include trip data from the test environment.
 
 ### Data retention settings and frequency of updates
 
-Data retention settings (a setting on the *project* level) apply to the data in Analytics as well. The default data retention settings for Trip data is 90 days.
+Data retention settings (a setting on the *project* level) apply to the data in Analytics as well. The default data retention settings for trip data is 90 days.
 
 Median wait time, trip count, and median trip duration metrics are all updated nightly, so all calculations do not include the current day's data.
 
