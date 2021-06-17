@@ -65,7 +65,11 @@ module.exports = {
       additionalLanguages: ['kotlin', 'java', 'swift'],
       theme: require('prism-react-renderer/themes/github'),
       // additionalLanguages: [`csv`, 'java', 'kotlin', 'objc', 'swift', 'xml']
-    }
+    },
+    googleAnalytics: {
+      trackingID: 'UA-83017101-1',
+      anonymizeIP: true,
+    },
   },
   presets: [
     [
