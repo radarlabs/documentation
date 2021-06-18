@@ -364,6 +364,37 @@ cordova.plugins.radar.getDistance({
 });
 ```
 
+#### Matrix
+
+With the [matrix API](/api#matrix), calculate the travel distance and duration between multiple origins and destinations for up to 25 routes:
+
+```javascript
+cordova.plugins.radar.getMatrix({
+  origins: [
+    {
+      latitude: 40.78382,
+      longitude: -73.97536
+    }
+  ],
+  destinations: [
+    [
+      {
+        latitude: 40.70390,
+        longitude: -73.98670
+      },
+      {
+        latitude: 40.73237,
+        longitude: -73.94884
+      }
+    ]
+  ],
+  mode: 'car',
+  units: 'imperial'
+}, (result) => {
+  // do something with result.status, result.matrix
+});
+```
+
 ## Support
 
 Have questions? We're here to help! Email us at [support@radar.io](mailto:support@radar.io).

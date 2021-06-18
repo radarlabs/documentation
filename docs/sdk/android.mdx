@@ -977,8 +977,8 @@ With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP ad
   ```java
   Radar.ipGeocode(new RadarIpGeocodeCallback() {
       @Override
-      public void onComplete(RadarStatus status, RadarAddress address) {
-          // do something with address
+      public void onComplete(RadarStatus status, RadarAddress address, boolean proxy) {
+          // do something with address, proxy
       }
   });
   ```
@@ -987,8 +987,8 @@ With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP ad
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.ipGeocode { status, address ->
-      // do something with address
+  Radar.ipGeocode { status, address, proxy ->
+      // do something with address, proxy
   }
   ```
 
