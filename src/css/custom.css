@@ -102,6 +102,22 @@ h6 {
   letter-spacing: 1px;
 }
 
+/* Responsive font adjustments */
+@media (max-width: 996px) {
+  h1 {
+    font-size: 2.25rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+}
+
 code {
   border: none;
   font-variant-ligatures: none;
@@ -227,6 +243,22 @@ strong {
 @media (min-width: 996px) {
   .navbar__brand {
     border-right: 1px solid var(--ifm-toc-border-color);
+  }
+}
+
+@media (max-width: 996px) {
+  /* Offset header height*/
+  body {
+    padding-top: 60px;
+  }
+  /* Use a fixed (instead of sticky) header */
+  .navbar--fixed-top {
+    position: fixed;
+  }
+
+  /* Hide the drawer icon thats being overlaid */
+  .navbar__toggle {
+    visibility: hidden;
   }
 }
 
@@ -431,6 +463,7 @@ table th, table td {
 }
 
 .menu--responsive .menu__button {
+  position: fixed;
   top: 16px;
   bottom: auto;
   left: 19px;
