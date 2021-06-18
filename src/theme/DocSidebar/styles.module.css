@@ -116,6 +116,12 @@
   line-height: 0.9;
   width: 24px;
 }
+@media (max-width: 996px) {
+  .sidebarMenuCloseIcon {
+    font-weight: normal;
+    margin-top: -2px;
+  }
+}
 
 :global(.menu__list) :global(.menu__list) {
   overflow-y: hidden;
