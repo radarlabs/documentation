@@ -144,7 +144,7 @@ Radar respects [standard iOS location permissions](https://developer.apple.com/d
       <strong><code>kCLAuthorizationStatusAuthorizedWhenInUse</code></strong>
     </InlineTabItem>
     <InlineTabItem groupId="ios" value="swift">
-      <strong><code>authorizedWhenInUse</code></strong>
+      <strong><code>.authorizedWhenInUse</code></strong>
     </InlineTabItem>
   </InlineTabs> or
   <InlineTabs>
@@ -152,7 +152,7 @@ Radar respects [standard iOS location permissions](https://developer.apple.com/d
       <strong><code>kCLAuthorizationStatusAuthorizedAlways</code></strong>
     </InlineTabItem>
     <InlineTabItem groupId="ios" value="swift">
-      <strong><code>authorizedAlways</code></strong>
+      <strong><code>.authorizedAlways</code></strong>
     </InlineTabItem>
   </InlineTabs>. For background tracking or geofencing with responsive mode, the app's location authorization status must be{" "}
   <InlineTabs>
@@ -160,7 +160,7 @@ Radar respects [standard iOS location permissions](https://developer.apple.com/d
       <strong><code>kCLAuthorizationStatusAuthorizedAlways</code></strong>
     </InlineTabItem>
     <InlineTabItem groupId="ios" value="swift">
-      <strong><code>authorizedAlways</code></strong>
+      <strong><code>.authorizedAlways</code></strong>
     </InlineTabItem>
   </InlineTabs>.
 </p>
@@ -363,7 +363,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>success</code>
+          <code>.success</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -378,7 +378,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorPublishableKey</code>
+          <code>.errorPublishableKey</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -393,7 +393,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorPermissions</code>
+          <code>.errorPermissions</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -408,7 +408,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorLocation</code>
+          <code>.errorLocation</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -423,7 +423,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorNetwork</code>
+          <code>.errorNetwork</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -438,7 +438,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorBadRequest</code>
+          <code>.errorBadRequest</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -453,7 +453,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorUnauthorized</code>
+          <code>.errorUnauthorized</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -468,7 +468,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorPaymentRequired</code>
+          <code>.errorPaymentRequired</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -483,7 +483,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorForbidden</code>
+          <code>.errorForbidden</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -498,7 +498,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorNotFound</code>
+          <code>.errorNotFound</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -513,7 +513,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorRateLimit</code>
+          <code>.errorRateLimit</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -528,7 +528,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorServer</code>
+          <code>.errorServer</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -543,7 +543,7 @@ You may provide an optional `completionHandler` that receives the request status
       </InlineTabItem>
       <InlineTabItem groupId="ios" value="swift">
         <strong>
-          <code>errorUnknown</code>
+          <code>.errorUnknown</code>
         </strong>
       </InlineTabItem>
     </InlineTabs>
@@ -1228,8 +1228,8 @@ With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP ad
   <TabItem value="swift">
 
 ```swift
-Radar.ipGeocode { (status: RadarStatus, address: RadarAddress) in
-    // do something with address
+Radar.ipGeocode { (status: RadarStatus, address: RadarAddress, proxy: Bool) in
+    // do something with address, proxy
 }
 ```
 
@@ -1237,8 +1237,8 @@ Radar.ipGeocode { (status: RadarStatus, address: RadarAddress) in
   <TabItem value="objc">
 
 ```objc
-[Radar ipGeocodeWithCompletionHandler:^(RadarStatus status, RadarAddress *address) {
-    // do something with address
+[Radar ipGeocodeWithCompletionHandler:^(RadarStatus status, RadarAddress *address, BOOL proxy) {
+    // do something with address, proxy
 }];
 ```
 
@@ -1424,7 +1424,7 @@ With the [matrix API](/api#matrix), calculate the travel distance and duration b
   <TabItem value="swift">
 
 ```swift
-Radar.getDistance(
+Radar.getMatrix(
     origins: origins,
     destinations: destinations,
     mode: .car,
