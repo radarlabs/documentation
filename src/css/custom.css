@@ -104,8 +104,8 @@ h6 {
 
 /* Responsive font adjustments */
 @media (max-width: 996px) {
-  h1, h1.docTitle_src-theme-DocItem- {
-    font-size: 2.5rem;
+  h1 {
+    font-size: 2.25rem;
   }
   h2 {
     font-size: 2rem;
