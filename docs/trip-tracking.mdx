@@ -87,9 +87,10 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
           "distance": 1331
         },
         "createdAt": "2020-08-20T10:27:55.830Z",
-        "updatedAt": "2020-08-20T10:30:55.837Z"
+        "updatedAt": "2020-08-20T10:30:55.837Z",
         "status": "started"
       },
+    },
   ],
   "user": {
     "_id": "56db1f4613012711002229f4",
@@ -121,6 +122,38 @@ Ask your customer success manager for a distribution of the app specific to your
 Poll the [list trips API](/api#list-trips) to retrieve active trips for a specific destination geofence, including ID, custom metadata, and ETA. For example, you might poll the list trips API from an internal dashboard.
 
 Or, listen for [trip events](/trip-tracking#trip-events) sent to a webhook. From there, forward trip information, including ID, custom metadata, and ETA, to other systems. For example, you might set up a webhook that sends ETA to an order management or kitchen display system.
+
+## Analytics
+
+Radar offers analytics on trip data and location opt-in rates from users in your project. Analytics on trip data is grouped under the Trips tab, and analytics on location permission opt-in rates is grouped under the Permissions tab. Read more about Permissions [here](https://radar.io/documentation/faqs#location-permissions).
+
+- **`Median wait time`**: the median duration of time that it takes between the moment when a user arrives at a destination (`user.arrived_at_trip_destination`) and the moment when the trip is marked complete (`completed`).
+- **`Number of trips`**: the total count of all trips for a specific project which is live and has a status of `completed`.
+- **`Median trip time`**: the median duration of time that it takes between the moment when the user starts a trip (`user.started_trip`) and the moment when they arrive at the destination (`user.arrived_at_trip_destination`).
+
+### Calculations
+
+Wait time and trip time are only calculated for trips that have a status of `completed` and have timestamp entries for `started_at`, `arrived_at`, and `completed_at`. These calculations exclude expired trips.
+
+### How to filter your data
+
+**Date Range:** Select a date from the drop-down date picker. Make sure that the date in the left-hand box falls before the date in the right-hand box.
+
+**Radar User ID**: This field requires the unique Radar-generated ID and does not accept "external ID" or "device ID" in its place. You can find the unique Radar-generated ID for each user by navigating to the Users page and clicking "View" in the corresponding row of the user.
+
+**Destination Geofence Tag:** Each geofence has a geofence tag. You can find the tag to a specific geofence in the "Tag" column on the Geofences page in the sidebar, or you can navigate to the trips page in the sidebar and click on the external ID listed under "Destination", which will show the details of the destination geofence. This field can be used alone or in tandem with the Destination Geofence External ID field.
+
+**Destination Geofence External ID**: Each geofence has an external ID. You can find the external ID for a specific geofence in the "External ID" column on the Geofences page in the sidebar, or you can navigate to the Trips page and click on the external ID listed under "Destination". This field can be used alone or in tandem with the Destination Geofence Tag field.
+
+Trip stats apply to the environment in which you view the metrics. For example, when viewing the metrics in the test environment, the metrics only include trip data from the test environment.
+
+### Data retention settings and frequency of updates
+
+Data retention settings (a setting on the *project* level) apply to the data in Analytics as well. The default data retention settings for trip data is 90 days.
+
+Median wait time, trip count, and median trip duration metrics are all updated nightly, so all calculations do not include the current day's data.
+
+If your project does not have any past trips, you will not see any data in the analytics section of your dashboard. Take your first trip to see the statistics populate!
 
 ## Support
 
