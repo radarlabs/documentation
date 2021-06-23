@@ -37,6 +37,16 @@ On iOS, significant location change events, `CLRegion` events, and `CLVisit` eve
 
 On Android, this is not an issue.
 
+## Product
+
+### Does Radar support location verification or fraud detection?
+
+Yes, Radar supports location verification and fraud detection for gambling, media, payments, and more.
+
+First, you can use the [IP geocoding API](/api#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
+
+Second, you can use [Regions](/regions) to detect a user's country or state based on latitude and longitude. On Android, you can check the [`location.isMock`](https://developer.android.com/reference/android/location/Location#isMock()) flag determine if the user is mocking their location.
+
 ## Privacy
 
 ### What data does the Radar SDK collect?
