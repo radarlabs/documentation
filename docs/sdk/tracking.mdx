@@ -35,8 +35,8 @@ The SDK has two states: **stopped** and **moving**. `stopDuration` and `stopDist
 ### iOS presets
 
 - **`RadarTrackingOptions.efficient`**: A preset that uses the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to update only on stops and exits. Once stopped, the device will need to move several hundred meters and trigger a [visit departure](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to wake up and start moving again. Lowest battery usage.
-- **`RadarTrackingOptions.responsive`**: Updates about every 2.5 minutes when moving, shuts down when stopped, and only syncs stops and exits to the server. Requires the `location` background mode. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage.
-- **`RadarTrackingOptions.continuous`**: A preset that updates about every 30 seconds and syncs all locations to the server. High battery usage. Shows the flashing blue status bar when tracking.
+- **`RadarTrackingOptions.responsive`**: Updates about every 2.5 minutes when moving and shuts down when stopped to save battery. Requires the `location` background mode. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage.
+- **`RadarTrackingOptions.continuous`**: A preset that updates about every 30 seconds. Moderate battery usage. Shows the flashing blue status bar when tracking.
 
 Option | Efficient | Responsive | Continuous
 --- | --- | --- | ---
@@ -83,9 +83,9 @@ Option | Efficient | Responsive | Continuous
 
 ### Android presets
 
-- **`RadarTrackingOptions.EFFICIENT`**: A preset that updates as fast as every 6 minutes while moving, periodically when stopped, and only syncs stops and exits to the server. Once stopped, the device will need to move more than 100 meters and wait for at least 15 minutes to wake up and start moving again. Lowest battery usage and will not exceed Android vitals bad behavior thresholds. Recommended.
-- **`RadarTrackingOptions.RESPONSIVE`**: A preset that updates as fast as every 2.5 minutes while moving, shuts down when stopped, and only syncs stops and exits to the server. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage, but may exceed Android vitals bad behavior thresholds for [excessive wakeups](https://developer.android.com/topic/performance/vitals/wakeup.html) and [excessive wi-fi scans](https://developer.android.com/topic/performance/vitals/bg-wifi.html).
-- **`RadarTrackingOptions.CONTINUOUS`**: A preset that updates every 30 seconds and syncs all location updates to the server. High battery usage. Should be used with a [foreground service](https://developer.android.com/about/versions/oreo/background-location-limits).
+- **`RadarTrackingOptions.EFFICIENT`**: A preset that updates as fast as every 6 minutes while moving and periodically when stopped. Once stopped, the device will need to move more than 100 meters and wait for at least 15 minutes to wake up and start moving again. Lowest battery usage and will not exceed Android vitals bad behavior thresholds. Recommended.
+- **`RadarTrackingOptions.RESPONSIVE`**: A preset that updates as fast as every 2.5 minutes while moving and shuts down when stopped to save battery, and only syncs stops and exits to the server. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage, but may exceed Android vitals bad behavior thresholds for [excessive wakeups](https://developer.android.com/topic/performance/vitals/wakeup.html) and [excessive wi-fi scans](https://developer.android.com/topic/performance/vitals/bg-wifi.html).
+- **`RadarTrackingOptions.CONTINUOUS`**: A preset that updates every 30 seconds. Moderate battery usage. Should be used with a [foreground service](https://developer.android.com/about/versions/oreo/background-location-limits).
 
 Option | Efficient | Responsive | Continuous
 --- | --- | --- | ---
