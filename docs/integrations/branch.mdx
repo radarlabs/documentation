@@ -16,12 +16,6 @@ Then, on the Radar [Integrations page](/integrations) under *Branch*, set *Enabl
 
 Whenever events are generated, Radar will send custom events to Branch.
 
-Radar sends `adId` (iOS IDFA, Android advertising ID) and `deviceId` (iOS IDFV, Android ID) to Branch. On SDK v3 and higher, you must manually enable `adId` collection. For example, on iOS:
-
-```swift
-Radar.setAdIdEnabled(true)
-```
-
 ## User mapping
 
 Radar `deviceId` maps to `idfv` for iOS devices and `android_id` for Android devices in Branch.
