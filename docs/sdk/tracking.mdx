@@ -83,7 +83,7 @@ Option | Efficient | Responsive | Continuous
 - **`movingGeofenceRadius`**: Determines the radius in meters of the client geofence around the device's current location when moving.
 - **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness.
 - **`syncGeofencesLimit`**: Determines how many nearby geofences to sync from the server to the client when `syncGeofences` is enabled.
-- **`useForegroundService`**: Determines whether to use a foreground service during tracking.
+- **`foregroundService`**: If set, starts a foreground service and shows a notification during tracking.
 - **`beacons`**: Determines whether to monitor beacons.
 
 ### Android presets
@@ -112,5 +112,5 @@ Option | Efficient | Responsive | Continuous
 **`movingGeofenceRadius`** | `0` | `100` | `0`
 **`syncGeofences`** | `true` | `true` | `false`
 **`syncGeofencesLimit`** | `10` | `10` | `0`
-**`useForegroundService`** | `NEVER` | `NEVER` | `ALWAYS`
+**`foregroundService`** | `null` | `null` | `null`
 **`beacons`** | `false` | `false` | `false`
