@@ -647,8 +647,9 @@ Searches for users near a location, sorted by distance.
 ###### Query parameters
 
 - **`near`** (string, required): A location for the search. A string in the format `latitude,longitude`.
-- **`radius`** (number, optional): The radius to search, in meters. A number between 100 and 10000. Defaults to 1000.
-- **`mode`** (string, optional): One of
+- **`radius`** (number, optional): The radius to search, in meters. A number between 100 and 10000. Defaults to 1000. If `mode` is specified, the `radius` is the travel duration in minutes.
+- **`mode`** (string, optional): The [travel mode](/api#route-distance). A string with a value of `foot`, `bike`, or `car`.
+- **`metadata[key]`** (string, optional): Optional metadata filters. Values may be of type string. Type will be automatically inferred. For example, to match on `working == true`, use `&metadata[working]=true`.
 - **`limit`** (number, optional): The max number of users to return. A number between 1 and 100. Defaults to 10.
 
 ###### Authentication level
