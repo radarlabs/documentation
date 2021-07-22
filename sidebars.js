@@ -89,6 +89,7 @@ module.exports = {
         "tutorials/localizing-a-website-based-on-current-country-or-city",
       ],
     },
+    "dashboard",
     "faqs",
   ],
   miscSidebar: [
