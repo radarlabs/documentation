@@ -139,13 +139,13 @@ The Filters button at the top of the page offers ways to look at more granular v
 
 **Travel Mode:** Select a specific mode of travel to filter all trip data in the Analytics view to only a specific mode. If there is no mode selected, all trip data, regardless of travel mode, will be shown.
 
-Trip stats apply to the environment in which you view the metrics. For example, when viewing the metrics in the test environment, the metrics only include trip data from the test environment.
+Trip analytics apply to the environment in which you view the metrics. For example, when viewing the metrics in the test environment, the metrics only include trip data from the test environment.
 
-### Trip metrics
+### Trips overview
 
-- **`Median wait time`**: the median duration between the moment when a user arrives at a destination (`user.arrived_at_trip_destination`) and the moment when the trip is marked complete (`completed`). This statistics omits trips which are missing an arrival timestamp.
+- **`Median wait time`**: the median duration between the moment when a user arrives at a destination (`user.arrived_at_trip_destination`) and the moment when the trip is marked complete (`completed`). This statistic omits trips which are missing an arrival timestamp.
 - **`Number of trips`**: the total count of all live trips for a specific project which have a status of `completed`.
-- **`Median trip time`**: the median duration between the moment when the user starts a trip (`user.started_trip`) and the moment when they arrive at the destination (`user.arrived_at_trip_destination`). This statistics omits trips which are missing an arrival timestamp.
+- **`Median trip time`**: the median duration between the moment when the user starts a trip (`user.started_trip`) and the moment when they arrive at the destination (`user.arrived_at_trip_destination`). This statistic omits trips which are missing an arrival timestamp.
 - **`Repeat customers`**: the total number of your users who have completed more than one trip.
 
 The graphs for each card show the change over time in each statistic. The time windows of each graph are automatically determined by the dates set in the Filters button. To see data grouped by hour, set the date range to encompass 2 days or fewer. To see data grouped by day, set the date range to encompass 21 days or fewer. To see data grouped by weeks, set the date range to encompass 60 days or fewer. To see data grouped by month, the date range must encompass more than 60 days of data. 
