@@ -1,0 +1,299 @@
+---
+sidebar_position: 9
+sidebar_label: Xamarin
+title: Xamarin SDK
+slug: xamarin
+description: Documentation for Xamarin SDK
+---
+
+This is the documentation for the Xamarin SDK. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
+
+## Install
+
+Install the package from [NuGet](https://www.nuget.org/packages/Radar.Xamarin/):
+
+```bash
+Install-Package Radar.Xamarin
+```
+
+If you have an iOS and an Android project, add the package to each project.
+
+## Integrate
+
+### Initialize
+
+First, import the package:
+
+```cs
+using Radar.Xamarin;
+namespace MyProject
+{
+    public class Example
+    {
+        void Example ()
+        {
+            new Radar().Initialize(publishableKey);
+        }
+    }
+}
+```
+
+### Identify user
+
+To identify the user when logged in, call:
+
+```cs
+Radar.Instance.SetUserId(userId);
+```
+
+where `userId` is a stable unique ID for the user.
+
+To set an optional dictionary of custom metadata for the user, call:
+
+```cs
+Radar.Instance.SetMetadata(metadata);
+```
+
+where `metadata` is a map with up to 16 keys and values of type string, boolean, or number.
+
+Finally, to set an optional description for the user, displayed in the dashboard, call:
+
+```cs
+Radar.Instance.SetDescription(description);
+```
+
+where `description` is a string.
+
+You only need to call these functions once, as these settings will be persisted across app sessions.
+
+Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Request permissions
+
+Before tracking the user's location, the user must have granted location permissions for the app.
+
+See the [Xamarin Geolocation docs](https://docs.microsoft.com/en-us/xamarin/essentials/geolocation) to learn how to request permissions.
+
+### Foreground tracking
+
+Once you have initialized the SDK and the user has granted permissions, you can track the user's location.
+
+To track the user's location in the foreground, call:
+
+```cs
+Radar.Instance.TrackOnce((string status, Location location, Dictionary[] events, Dictionary user) => {
+  // do something with status, location, events, user
+});
+```
+
+Learn about platform-specific implementations of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Background tracking
+
+On iOS and Android, once you have initialized the SDK and the user has granted permissions, you can start tracking the user's location in the background.
+
+For background tracking, the SDK supports custom tracking options as well as three presets:
+
+- **`EFFICIENT`**: A low frequency of location updates and lowest battery usage. On Android, avoids Android vitals bad behavior thresholds.
+- **`RESPONSIVE`**: A medium frequency of location updates and low battery usage. Suitable for most consumer use cases.
+- **`CONTINUOUS`**: A high frequency of location updates and higher battery usage. Suitable for on-demand use cases (e.g., delivery tracking) and some consumer use cases (e.g., order ahead, "mall mode").
+
+Learn about platform-specific implementations of these presets in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+To start tracking the user's location in the background, call one of:
+
+```cs
+Radar.Instance.StartTrackingEfficient();
+
+Radar.Instance.StartTrackingResponsive();
+
+Radar.Instance.StartTrackingContinuous();
+```
+
+You only need to call these methods once, as these settings will be persisted across app sessions.
+
+Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
+
+```cs
+Dictionary trackingOptions = new Dictionary() {
+    { "desiredStoppedUpdateInterval", 180 }, 
+    { "desiredStoppedUpdateInterval", 60 },
+    { "desiredSyncInterval", 50 },
+    { "desiredAccuracy", "high" },
+    { "stopDuration", 140 },
+    { "stopDistance", 70 },
+    { "sync", "all" },
+    { "replay", "none" },
+    { "showBlueBar", true }
+};
+
+Radar.Instance.StartTrackingCustom(trackingOptions);
+```
+
+To stop tracking the user's location in the background (e.g., when the user logs out), call:
+
+```cs
+Radar.Instance.StopTracking();
+```
+
+Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Mock tracking
+
+On iOS and Android, you can simulate a sequence of location updates for testing. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
+
+```cs
+Location origin = new Location(40.714708, -74.035807);
+Location destination = new Location(40.717410, -74.053334);
+
+Radar.Instance.MockTracking(origin, destination, "car", 10, 3);
+```
+
+### Trip tracking
+
+On iOS and Android, to start a trip to a destination, call:
+
+```cs
+Dictionary tripOptions = new Dictionary() {
+    { "externalId", 299 }, 
+    { "destinationGeofenceTag", "store" },
+    { "destinationGeofenceExternalId", "123" },
+    { "mode", "car" }
+};
+
+Radar.Instance.StartTrip(tripOptions);
+Radar.Instance.StartTrackingContinuous();
+```
+
+Later, to complete the trip and stop tracking, call:
+
+```cs
+Radar.Instance.CompleteTrip();
+Radar.Instance.StopTracking();
+```
+
+Or, to cancel the trip and stop tracking, call:
+
+```cs
+Radar.Instance.CancelTrip();
+Radar.Instance.StopTracking();
+```
+
+Learn more about [trip tracking](/trip-tracking).
+
+### Manual tracking
+
+You can manually update the user's location by calling:
+
+```cs
+Location location = new Location(40.714708, -74.035807);
+location.Accuracy = 65;
+
+Radar.Instance.TrackOnce(location, (string status, Location location, Dictionary[] events, Dictionary user) => {
+  // do something with status, location, events, user
+});
+
+```
+
+Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Other APIs
+
+The Xamarin SDK also exposes APIs for anonymous context, geocoding, search, and distance.
+
+#### Get location
+
+Get a single location update without sending it to the server:
+
+```cs
+Radar.Instance.GetLocation((string status, Location location) => {
+  // do something with status, location
+});
+```
+
+#### Context
+
+With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
+
+```cs
+Radar.Instance.GetContext((string status, Dictionary context) => {
+  // do something with status, context
+});
+```
+
+#### Geocoding
+
+With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
+
+```cs
+Radar.Instance.Geocode("20 jay st brooklyn ny", (string status, Dictionary[] addresses) => {
+  // do something with status, addresses
+});
+```
+
+With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
+
+```cs
+Location location = new Location(40.714708, -74.035807);
+
+Radar.Instance.ReverseGeocode(location, (string status, Dictionary[] addresses) => {
+  // do something with status, addresses
+});
+```
+
+With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
+
+```cs
+Radar.Instance.IpGeocode((string status, Dictionary address, bool proxy) => {
+  // do something with status, address, proxy
+});
+```
+
+#### Search
+
+With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
+
+```cs
+Location near = new Location(40.783826, -73.975363);
+
+Radar.Instance.Autocomplete("brooklyn roasting", near, 10, (string status, Dictionary[] addresses) => {
+  // do something with status, addresses
+});
+```
+
+With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
+
+```cs
+Location near = new Location(40.783826, -73.975363);
+
+Radar.Instance.SearchGeofences(near, 1000, new string[]{ "venue" }, 10, (string status, Dictionary[] geofences) => {
+  // do something with status, geofences
+});
+```
+
+With the [places search API](/api#search-places), search for places near a location, sorted by distance:
+
+```cs
+Location near = new Location(40.783826, -73.975363);
+
+Radar.Instance.SearchPlaces(near, 1000, new string[]{ "starbucks" }, null, null, 10, (string status, Dictionary[] places) => {
+  // do something with status, places
+});
+```
+
+#### Distance
+
+With the [distance API](/api#distance), calculate the travel distance and duration from an origin to a destination:
+
+```cs
+Location origin = new Location(40.78382, -73.97536);
+Location destination = new Location(40.70390, -73.98670);
+
+Radar.Instance.GetDistance(origin, destination, new string[]{ "foot", "car" }, "imperial", (string status, Dictionary routes) => {
+  // do something with status, places
+});
+```
+
+## Support
+
+Have questions? We're here to help! Email us at [support@radar.io](mailto:support@radar.io).
