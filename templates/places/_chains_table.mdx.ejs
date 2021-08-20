@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    <tr>
+      <th>Logo</th>
+      <th>Slug</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Object.keys(chains).sort().forEach((slug) => { -%>
+      <% const chain = chains[slug] -%>
+      <tr>
+        <td>
+          <a href="<%= chain.domain %>" target="_blank">
+            <img
+              className="chains-logo"
+              src="https://logo.clearbit.com/<%= chain.domain %>?size=50"
+              onError={(ev) => { ev.target.src = "https://s3.amazonaws.com/com.onradar.www/images/placeholder.png" }}
+            />
+          </a>
+        </td>
+        <td><code><%= chain.slug %></code></td>
+        <td><%= chain.name %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
