@@ -1656,6 +1656,54 @@ curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
 }
 ```
 
+#### Get users in a geofence
+
+Gets users currently in a geofence.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId/users</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/venue/2/users" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+    "meta": {
+        "code": 200,
+        "hasMore": false
+    },
+    "users": [
+        {
+            "_id": "611ace2eb08f300047c904e9",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    73.97536,
+                    40.78382
+                ]
+            },
+            ...
+        }
+        ...
+    ]
+}
+```
+
 ### Events
 
 An event represents a change in user state. Events can be uniquely referenced by Radar `_id`.
