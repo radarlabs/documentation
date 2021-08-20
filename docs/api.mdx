@@ -1712,3 +1712,246 @@ An event represents a change in user state. Events can be uniquely referenced by
 To create an event, call the [track](#track) endpoint to trigger an event. For example, specify a `latitude` and `longitude` to enter a geofence that you have created.
 
 On iOS and Android, use the [SDK](/sdk) to track users.
+
+### Beacons
+
+A beacon represents a bluetooth beacon in your project. Beacons can be uniquely referenced by Radar `_id` or `uuid` and `major` and `minor`  or `tag` and `externalId`.
+
+###### Object fields
+
+- **`_id`** (string): A unique ID for the beacon, provided by Radar. An alphanumeric string.
+- **`createdAt`** (datetime): The datetime when the beacon was created.
+- **`updatedAt`** (datetime): The datetime when the beacon was last updated.
+- **`live`** (boolean): `true` if the beacon was created with your `live` API key, `false` if the beacon was created with your `test` API key.
+- **`description`** (required): A display name for the beacon.
+- **`tag`** (optional, but recommended): A group for the beacon.
+- **`externalId`** (optional, but recommended): An external ID for the beacon.
+- **`type`** (required): The type of beacon. `ibeacon` is currently supported.
+- **`uuid`** (required): The UUID of the beacon.
+- **`majorId`** (required): The major ID of the beacon.
+- **`minorId`** (required): The minor ID of the beacon.
+- **`geometry`** (polygon): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
+- **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
+- **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+
+###### Sample object
+
+```json
+  {
+      "_id": "60f6da60cf4cc0a72a6c070b",
+      "createdAt": "2021-07-20T14:27:22.283Z",
+      "updatedAt": "2021-07-20T14:27:22.283Z",
+      "live": false,
+      "description": "Beacon 1",
+      "tag": "drive-thru",
+      "externalId": "store123-beacon-1",
+      "metadata": {
+          "store": "store123"
+      },
+      "enabled": true,
+      "geometry": {
+          "type": "Point",
+          "coordinates": [
+              -105.94653744704361,
+              35.70654086799666
+          ]
+      },
+      "type": "ibeacon",
+      "uuid": "f7826da6-0000-0000-0000-bc5b71e0893e",
+      "major": "2",
+      "minor": "8511"
+  }
+```
+
+#### List Beacons
+
+Lists beacons. Beacons are sorted descending by `createdAt`.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons</code>
+
+###### Query parameters
+
+- **`limit`** (number, optional): The max number of beacons to return. A number between 1 and 1000. Defaults to 100.
+- **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves beacons updated before the specified datetime. A date or valid ISO date string.
+- **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves beacons updated after the specified datetime. A date or valid ISO date string.
+- **`tag`**  (string, optional): Retrieves beacons with the specified `tag`.
+- **`externalId`**  (string, optional): Retrieves beacons with the specified `externalId`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/beacons" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200,
+    "hasMore": true
+  },
+  "beacons": [
+        {
+            "_id": "6109a4b16dbfe3de2cb03924",
+            "createdAt": "2021-08-03T20:18:57.888Z",
+            "updatedAt": "2021-08-03T20:18:57.888Z",
+            "live": true,
+            "description": "Beacon 1",
+            ...
+        },
+    ...
+  ]
+}
+```
+
+#### Get a beacon
+
+Gets a beacon. The beacon can be uniquely referenced by Radar `id` or by `uuid`,`major` and `minor`.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:id</code><span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:uuid/:major/:minor</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/beacons/6109a4b16dbfe3de2cb03924" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "beacon": {
+    "_id": "6109a4b16dbfe3de2cb03924",
+    "createdAt": "2021-08-03T20:18:57.888Z",
+    "updatedAt": "2021-08-03T20:18:57.888Z",
+    "live": true,
+    "description": "Beacon 1",
+    ...
+  }
+}
+```
+
+#### Creates a beacon
+
+Creates a beacon.
+
+###### Definition
+
+<span className="badge badge--info">POST</span> <code>https://api.radar.io/v1/beacons</code>
+
+###### Body parameters
+
+- **`description`** (required): A display name for the beacon.
+- **`tag`** (optional, but recommended): A group for the beacon.
+- **`externalId`** (optional, but recommended): An external ID for the beacon.
+- **`type`** (required): The type of beacon. `ibeacon` is currently supported.
+- **`uuid`** (required): The UUID of the beacon.
+- **`majorId`** (required): The major ID of the beacon.
+- **`minorId`** (required): The minor ID of the beacon.
+- **`coordinates`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
+- **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
+- **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/beacons" \
+  -H "Authorization: prj_live_sk_..." \
+  -X POST \
+  -d "description=Beacon 1" \
+  -d "type=ibeacon" \
+  -d "coordinates=[-105.94653744704361,35.70654086799666]" \
+  -d "enabled=true" \
+  -d "externalId=store123-beacon-1" \
+  -d "tag=drive-thru" \
+  -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
+  -d "major=2298" \
+  -d "minor=8515"
+```
+
+###### Sample response
+
+```json
+{
+    "meta": {
+        "code": 200
+    },
+    "beacon": {
+        "_id": "6116d947049aee0089a682a2",
+        "createdAt": "2021-08-13T20:42:47.711Z",
+        "updatedAt": "2021-08-13T20:42:47.711Z",
+        "live": true,
+        "description": "Beacon 1",
+        "tag": "drive-thru",
+    ...
+  }
+}
+```
+
+#### Delete a beacon
+
+Deletes a beacon. Can be called via beacon `id` or via `uuid`,`major` and `minor`.
+
+###### Definition
+
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/beacons/:id</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/beacons/56db1f4613012711002229f4" \
+  -H "Authorization: prj_live_sk_..." \
+  -X DELETE
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  }
+}
+```
