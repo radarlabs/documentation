@@ -2003,3 +2003,117 @@ curl "https://api.radar.io/v1/beacons/56db1f4613012711002229f4" \
   }
 }
 ```
+
+### Place Settings
+
+Place settings represents your current project configuration for [Places](/places) monitoring.
+
+###### Object fields
+
+- **`chainMetadata`** (dictionary): Current metadata associated with each Radar chain.
+- **`chainMappings`** (dictionary): Current mapping associated with each Radar chain.
+- **`placeFilters`** (dictionary): Current chains and category filtering for place entry and exit event generation.
+
+#### Get Place Settings
+
+Get current place settings.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/settings</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/settings" \
+  -H "Authorization: prj_live_sk_..." \
+  -X GET
+```
+
+###### Sample response
+
+```json
+{
+    "meta": {
+        "code": 200
+    },
+    "chainMetadata": {
+        "mcdonalds": {
+            "availableDeals": true,
+        },
+        "starbucks": {
+            "availableDeals": true,
+        }
+    },
+    "chainMappings": {
+        "mcdonalds": "retailer1",
+        "starbucks": "retailer2"
+    },
+    "placeFilters": {
+        "chain": [
+            "mcdonalds",
+            "starbucks"
+        ],
+        "category": [
+            "restaurant"
+        ]
+    }
+}
+```
+
+#### Update Place Settings
+
+Update current place settings.
+
+###### Definition
+
+<span className="badge badge--warning">PATCH</span> <code>https://api.radar.io/v1/settings</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/settings" \
+  -H "Authorization: prj_live_sk_..." \
+  -H "Content-Type: application/json" \
+  -X PATCH \
+  -d '{"chainMetadata":{"mcdonalds":{"availableDeals":false}},"chainMappings":{"mcdonalds":"retailer1"},"placeFilters":{"chain":["mcdonalds"]}}'
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "chainMetadata": {
+    "mcdonalds": {
+      "availableDeals": false
+    }
+  },
+  "chainMappings": {
+    "mcdonalds": "retailer1"
+  },
+  "placeFilters": {
+    "chain": [
+      "mcdonalds"
+    ]
+  }
+}
+```
