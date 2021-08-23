@@ -114,3 +114,13 @@ Option | Efficient | Responsive | Continuous
 **`syncGeofencesLimit`** | `10` | `10` | `0`
 **`foregroundService`** | `null` | `null` | `null`
 **`beacons`** | `false` | `false` | `false`
+
+### Android foreground service tracking options
+
+- **`text`** (string): Sets the text of the notification. Defaults to "Location tracking started".
+- **`title`** (string): Sets the title of the notification. 
+- **`icon`** (integer): Sets the notification icon using a drawable resource id. Defaults to the application icon.
+- **`updatesOnly`** (boolean): Sets whether the foreground should be only displayed after while processing a location update or be persistent.
+- **`activity`** (string): Sets the activity to be launched on interaction with the notification.
+- **`importance`** (integer): sets the importance of the notification. Defaults to [high](https://developer.android.com/training/notify-user/channels#importance).
+- **`id`** (integer): Sets the notification id. Defaults to 20160525.
