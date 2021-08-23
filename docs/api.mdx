@@ -1296,6 +1296,57 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
   ]
 }
 ```
+#### Get a trip
+
+Gets a trip. The trip can be referenced by Radar `_id` or `externalId`.
+
+###### Definition
+
+<span className="badge badge--warning">GET</span> <code>https://api.radar.io/v1/trips/:id</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/trips/299" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Authentication level
+
+Publishable
+
+###### Sample response
+
+```json
+{
+  "_id": "5f3e50491c2b7d005c81f5d9",
+  "live": true,
+  "externalId": "299",
+  "metadata": {
+    "Customer Name": "Jacob Pena",
+    "Car Model": "Green Honda Civic"
+  },
+  "mode": "car",
+  "destinationGeofenceTag": "store",
+  "destinationGeofenceExternalId": "123",
+  "destinationLocation": {
+    "coordinates": [
+      -105.061198,
+      39.779366
+    ],
+    "type": "Point"
+  },
+  "eta": {
+    "duration": 5.5,
+    "distance": 1331
+  },
+  ...
+}
+```
 
 #### List trips
 
