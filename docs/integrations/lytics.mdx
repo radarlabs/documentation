@@ -214,3 +214,48 @@ Radar Event Field | Lytics Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"26"`
 `region.name` | `regionName` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+
+### user.started_trip
+
+Radar Event Attribute | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `tripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.updated_trip
+
+Radar Event Attribute | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `tripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.approaching_trip_destination
+
+Radar Event Attribute | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `tripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.arrived_at_trip_destination
+
+Radar Event Attribute | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `tripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.stopped_trip
+
+Radar Event Attribute | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `tripExternalId` | string | `"299"`
+`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`

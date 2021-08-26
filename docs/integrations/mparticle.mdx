@@ -217,3 +217,48 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+
+### user.started_trip
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.updated_trip
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.approaching_trip_destination
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.arrived_at_trip_destination
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.stopped_trip
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`

@@ -76,6 +76,11 @@ Radar Event | Context Type | Mixpanel Event
 `user.exited_region_state` | [Regions](/regions) | `Radar State Exited`
 `user.entered_region_dma` | [Regions](/regions) | `Radar DMA Entered`
 `user.exited_region_dma` | [Regions](/regions) | `Radar DMA Exited`
+`user.started_trip` | [Trip Tracking](/trip-tracking) | `Radar Started Trip`
+`user.updated_trip` | [Trip Tracking](/trip-tracking) | `Radar Updated Trip`
+`user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `Radar Approaching Trip Destination`
+`user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `Radar Arrived at Trip Destination`
+`user.stopped_trip` | [Trip Tracking](/trip-tracking) | `Radar Stopped Trip`
 
 ### Radar Geofence Entered
 
@@ -206,3 +211,48 @@ Radar Event Field | Mixpanel Event Property | Type | Example Value
 `region.code` | `Region Code` | string | `"26"`
 `region.name` | `Region Name` | string | `"Baltimore"`
 `confidence` | `Confidence` | string | `"high"`
+
+### Radar Started Trip
+
+Radar Event Attribute | Mixpanel Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Updated Trip
+
+Radar Event Attribute | Mixpanel Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Approaching Trip Destination
+
+Radar Event Attribute | Mixpanel Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Arrived at Trip Destination
+
+Radar Event Attribute | Mixpanel Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Stopped Trip
+
+Radar Event Attribute | Mixpanel Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `Trip External ID` | string | `"299"`
+`trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
