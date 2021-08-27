@@ -45,7 +45,7 @@ Alternatively, if you don't have your own custom place data, Radar can detect wh
 
 Geofencing works in the foreground and in the background. All event generation happens server-side. This allows Radar geofencing to be more powerful than native iOS or Android geofencing, with cross-platform support for unlimited geofences, polygon geofences, [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofences, temporary geofences, and stop detection.
 
-Radar generates a geofence entry event if a user enters a geofence (if [stop detection](#stop-detection) is off) or stops in a geofence (if [stop detection](#stop-detection) is on) with sufficient confidence, then a geofence exit event when the user leaves the geofence with sufficient confidence. A device must exit a geofence before a subsequent entry event into that same geofence.
+Radar generates a geofence entry event if a user enters a geofence (if [stop detection](#stop-detection) is off) or stops in a geofence (if [stop detection](#stop-detection) is on) with sufficient confidence, then a geofence exit event when the user leaves the geofence with sufficient confidence. A device must exit a geofence before a subsequent entry into that same geofence.
 
 ## Create geofences
 
