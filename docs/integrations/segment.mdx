@@ -81,6 +81,11 @@ Radar Event | Context Type | Segment Event
 `user.exited_region_state` | [Regions](/regions) | `State Exited`
 `user.entered_region_dma` | [Regions](/regions) | `DMA Entered`
 `user.exited_region_dma` | [Regions](/regions) | `DMA Exited`
+`user.started_trip` | [Trip Tracking](/trip-tracking) | `Trip Started`
+`user.updated_trip` | [Trip Tracking](/trip-tracking) | `Trip Updated`
+`user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `Trip Approaching Destination`
+`user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `Trip Arrived Destination`
+`user.stopped_trip` | [Trip Tracking](/trip-tracking) | `Trip Stopped`
 
 ### Geofence Entered
 
@@ -213,3 +218,49 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+
+### Trip Started
+
+Radar Event Attribute | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### Trip Updated
+
+Radar Event Attribute | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### Trip Approaching Destination
+
+Radar Event Attribute | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### Trip Arrived Destination
+
+Radar Event Attribute | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### Trip Stopped
+
+Radar Event Attribute | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+

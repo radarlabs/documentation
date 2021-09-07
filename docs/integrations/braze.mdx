@@ -82,6 +82,11 @@ Radar Event | Context Type | Braze Event
 `user.exited_region_state` | [Regions](/regions) | `exited_state`
 `user.entered_region_dma` | [Regions](/regions) | `entered_dma`
 `user.exited_region_dma` | [Regions](/regions) | `exited_dma`
+`user.started_trip` | [Trip Tracking](/trip-tracking) | `started_trip`
+`user.updated_trip` | [Trip Tracking](/trip-tracking) | `updated_trip`
+`user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `approaching_trip_destination`
+`user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `arrived_at_trip_destination`
+`user.stopped_trip` | [Trip Tracking](/trip-tracking) | `stopped_trip`
 
 ### entered_geofence
 
@@ -266,6 +271,15 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `confidence` | `confidence` | string | `"high"`
 
 ### started_trip
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### updated_trip
 
 Radar Event Attribute | Braze Event Property | Type | Example Value
 --- | --- | --- | ---
