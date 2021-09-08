@@ -45,7 +45,7 @@ Alternatively, if you don't have your own custom place data, Radar can detect wh
 
 Geofencing works in the foreground and in the background. All event generation happens server-side. This allows Radar geofencing to be more powerful than native iOS or Android geofencing, with cross-platform support for unlimited geofences, polygon geofences, [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofences, temporary geofences, and stop detection.
 
-Radar generates a geofence entry event if a user enters a geofence (if [stop detection](#stop-detection) is off) or stops in a geofence (if [stop detection](#stop-detection) is on) with sufficient confidence, then a geofence exit event when the user leaves the geofence with sufficient confidence.
+Radar generates a geofence entry event if a user enters a geofence (if [stop detection](#stop-detection) is off) or stops in a geofence (if [stop detection](#stop-detection) is on) with sufficient confidence, then a geofence exit event when the user leaves the geofence with sufficient confidence. A device must exit a geofence before a subsequent entry into that same geofence.
 
 ## Create geofences
 
@@ -141,3 +141,9 @@ You may decide to ignore some events based on confidence levels.
 When _Geofence Stop Detection_ is on, Radar can understand the difference between a user walking or driving through a geofence and stopping in a geofence, and will only generate a geofence entry event when a user stops in a geofence (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`).
 
 Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.io/dashboard/settings), under _Geofences_.
+
+## Buffer Entries and Exits
+
+When _Buffer Entries_ is on, Radar will use the accuracy of the location reported to determine overlap with the geofence boundary to generate a geofence entry event. See the [confidence and accuracy](/geofences#confidence-and-accuracy) for more on this detection logic. When off, the location reported will need to fall within the boundaries of the geofence to trigger the entry event.
+
+When _Buffer Exits_ is on, Radar will use the accuracy of the location reported as a buffering distance from geofence edge before generating a geofence exit event. This buffering minimizes premature exit detection.  When off, the first location reported falling outside the boundaries of a geofence will trigger the exit event.

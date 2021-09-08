@@ -1,0 +1,25 @@
+<% const sortFn = (slugA, slugB) => { -%>
+<%  return categories[slugA].categories.join(',') > categories[slugB].categories.join(',') ? 1 : -1; -%>
+<% } -%>
+<table>
+  <thead>
+    <tr>
+      <th>Slugs</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Object.keys(categories).sort(sortFn).forEach((slug) => { -%>
+      <% const category = categories[slug] -%>
+      <tr>
+        <td style={{"max-width": "unset"}}>
+          <% category.categories.forEach((slug, index) => { -%>
+            <code><%= slug %></code>
+            <%- (index === category.categories.length - 1) ? '' : '&nbsp;&gt;&nbsp;' %>
+          <% }) -%>
+        </td>
+        <td><%= category.name %></td>
+      </tr>
+    <% }) -%>
+  </tbody>
+</table>

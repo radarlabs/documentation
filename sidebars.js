@@ -47,6 +47,7 @@ module.exports = {
         "sdk/cordova",
         "sdk/capacitor",
         "sdk/flutter",
+        "sdk/xamarin",
         "sdk/tracking",
       ],
     },

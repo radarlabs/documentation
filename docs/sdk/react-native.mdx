@@ -114,13 +114,15 @@ Radar.getPermissionsStatus().then((status) => {
 
 - **`GRANTED_BACKGROUND`**
 - **`GRANTED_FOREGROUND`**
+- **`NOT_DETERMINED`**
 - **`DENIED`**
-- **`UNKNOWN`**
 
 To request location permissions for the app, call:
 
 ```javascript
-Radar.requestPermissions(background);
+Radar.requestPermissions(background).then((status) => {
+  // do something with status
+});
 ```
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.

@@ -54,6 +54,10 @@ Radar User Field | Airship Tag Group Name | Type | Example Tag | Context Type
 `dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
 `dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+`beacons[*]._id` | `radar_beacon_ids` | string | `"5b2c0906f5874b001aecfd8f"` | [Beacons](/beacons)
+`beacons[*].description` | `radar_beacons_descriptions` | string | `"Store #123 - Drive-Thru"` | [Beacons](/beacons)
+`beacons[*].tag` | `radar_beacon_tags` | string | `"drive-thru"` | [Beacons](/beacons)
+`beacons[*].externalId` | `radar_beacon_external_ids` | string | `"123"` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -75,6 +79,13 @@ Radar Event | Context Type | Airship Event
 `user.exited_region_state` | [Regions](/regions) | `radar_state_exited`
 `user.entered_region_dma` | [Regions](/regions) | `radar_dma_entered`
 `user.exited_region_dma` | [Regions](/regions) | `radar_dma_exited`
+`user.started_trip` | [Trip Tracking](/trip-tracking) | `radar_started_trip`
+`user.updated_trip` | [Trip Tracking](/trip-tracking) | `radar_updated_trip`
+`user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `radar_approaching_trip_destination`
+`user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `radar_arrived_at_trip_destination`
+`user.stopped_trip` | [Trip Tracking](/trip-tracking) | `radar_stopped_trip`
+`user.entered_beacon` | [Beacons](/beacons) | `radar_entered_beacon`
+`user.exited_beacon` | [Beacons](/beacons) | `radar_beacon_exited`
 
 ### radar_geofence_entered
 
@@ -215,6 +226,15 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
 
+### radar_updated_trip
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `radar_trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+
 ### radar_approaching_trip_destination
 
 Radar Event Attribute | Airship Event Property | Type | Example Value
@@ -241,3 +261,22 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+
+### radar_beacon_entered
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon.description` | `radar_beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `radar_beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `radar_beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+
+### radar_beacon_exited
+
+Radar Event Attribute | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon.description` | `radar_beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `radar_beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `radar_beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`duration` | `radar_duration` | number (minutes) | `1.42`
