@@ -83,6 +83,14 @@
          })}>
          <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
            <DocSidebarItems items={sidebar} activePath={path} />
+           <li className={styles.menuFooter}>
+            <a
+              className={styles.menuHomeButton}
+              href="https://radar.io"
+            >
+              Back to Radar.io
+            </a>
+          </li>
          </ul>
        </nav>
        {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
