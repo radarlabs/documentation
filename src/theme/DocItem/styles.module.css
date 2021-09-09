@@ -1,3 +1,4 @@
+
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -5,30 +6,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docTitle {
-  font-size: 3rem;
-  margin-bottom: calc(var(--ifm-leading-desktop) * var(--ifm-leading));
-}
+ .docItemContainer article > *:first-child,
+ .docItemContainer header + * {
+   margin-top: 0;
+ }
 
-@media (max-width: 996px) {
-  h1.docTitle {
-    font-size: 2.25rem;
-  }
-}
+ @media only screen and (min-width: 997px) {
+   .docItemCol {
+     max-width: 75% !important;
+   }
 
-.docItemContainer {
-  margin: 0 auto;
-  padding: 0 0.5rem;
-}
-
-@media only screen and (min-width: 997px) {
-  .docItemCol {
-    max-width: 75% !important;
-  }
-}
-
-@media only screen and (max-width: 996px) {
-  .docItemContainer {
-    padding: 0 0.3rem;
-  }
-}
+   /* Prevent hydration FOUC, as the mobile TOC needs to be server-rendered */
+   .tocMobile {
+     display: none;
+   }
+ }

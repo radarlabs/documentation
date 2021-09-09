@@ -4,58 +4,53 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from 'react';
-import DocPaginator from '@theme/DocPaginator';
-import DocVersionSuggestions from '@theme/DocVersionSuggestions';
-import RadarSEO from '../../components/radarSeo';
-import LastUpdated from '@theme/LastUpdated';
-import TOC from '@theme/TOC';
-import EditThisPage from '@theme/EditThisPage';
-import clsx from 'clsx';
-import styles from './styles.module.css';
-import {
-  useActivePlugin,
-  useVersions,
-  useActiveVersion,
-} from '@theme/hooks/useDocs';
+ import React from 'react';
+ import clsx from 'clsx';
 
-function DocItem(props) {
-  const {content: DocContent} = props;
-  const {metadata, frontMatter} = DocContent;
-  const {
-    image,
-    keywords,
-    hide_title: hideTitle,
-    hide_table_of_contents: hideTableOfContents,
-  } = frontMatter;
-  const {
-    description,
-    title,
-    editUrl,
-    lastUpdatedAt,
-    formattedLastUpdatedAt,
-    lastUpdatedBy,
-    slug,
-  } = metadata;
-  const {pluginId} = useActivePlugin({
-    failfast: true,
-  });
-  const versions = useVersions(pluginId);
-  const version = useActiveVersion(pluginId); // If site is not versioned or only one version is included
-  // we don't show the version badge
-  // See https://github.com/facebook/docusaurus/issues/3362
+ import useWindowSize from '@theme/hooks/useWindowSize';
+ import DocPaginator from '@theme/DocPaginator';
+ import DocVersionBanner from '@theme/DocVersionBanner';
+ import DocItemFooter from '@theme/DocItemFooter';
+ import TOC from '@theme/TOC';
+ import TOCCollapsible from '@theme/TOCCollapsible';
+ import {MainHeading} from '@theme/Heading';
 
-  const showVersionBadge = versions.length > 1; // For meta title, using frontMatter.title in priority over a potential # title found in markdown
-  // See https://github.com/facebook/docusaurus/issues/4665#issuecomment-825831367
+ import styles from './styles.module.css';
+ import {ThemeClassNames} from '@docusaurus/theme-common';
 
-  const metaTitle = frontMatter.title || title;
+ import RadarSEO from '../../components/radarSeo';
+
+ export default function DocItem(props) {
+   const {content: DocContent, versionMetadata} = props;
+   const {metadata, frontMatter} = DocContent;
+   const {
+     image,
+     keywords,
+     hide_title: hideTitle,
+     hide_table_of_contents: hideTableOfContents,
+   } = frontMatter;
+   const { description, title, slug } = metadata;
+
+   // We only add a title if:
+   // - user asks to hide it with frontmatter
+   // - the markdown content does not already contain a top-level h1 heading
+   const shouldAddTitle =
+     !hideTitle && typeof DocContent.contentTitle === 'undefined';
+
+   const windowSize = useWindowSize();
+
+   const canRenderTOC =
+     !hideTableOfContents && DocContent.toc && DocContent.toc.length > 0;
+
+   const renderTocDesktop =
+     canRenderTOC && (windowSize === 'desktop' || windowSize === 'ssr');
 
   return (
     <>
       <RadarSEO
         {...{
           slug,
-          title: metaTitle,
+          title: frontMatter.title || title,
           description,
           keywords,
           image,
@@ -67,54 +62,56 @@ function DocItem(props) {
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
           })}>
-          <DocVersionSuggestions />
+          <DocVersionBanner versionMetadata={versionMetadata} />
           <div className={styles.docItemContainer}>
             <article>
-              {showVersionBadge && (
-                <div>
-                  <span className="badge badge--secondary">
-                    Version: {version.label}
-                  </span>
-                </div>
+              {versionMetadata.badge && (
+                <span
+                  className={clsx(
+                    ThemeClassNames.docs.docVersionBadge,
+                    'badge badge--secondary',
+                  )}>
+                  Version: {versionMetadata.label}
+                </span>
               )}
-              {!hideTitle && (
-                <header>
-                  <h1 className={styles.docTitle}>{title}</h1>
-                </header>
+
+              {canRenderTOC && (
+                <TOCCollapsible
+                  toc={DocContent.toc}
+                  className={clsx(
+                    ThemeClassNames.docs.docTocMobile,
+                    styles.tocMobile,
+                  )}
+                />
               )}
-              <div className="markdown">
+
+              <div
+                className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
+                {/*
+                Title can be declared inside md content or declared through frontmatter and added manually
+                To make both cases consistent, the added title is added under the same div.markdown block
+                See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+                */}
+                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+
                 <DocContent />
               </div>
+
+              <DocItemFooter {...props} />
             </article>
-            {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-              <div className="margin-vert--xl">
-                <div className="row">
-                  <div className="col">
-                    {editUrl && <EditThisPage editUrl={editUrl} />}
-                  </div>
-                  {(lastUpdatedAt || lastUpdatedBy) && (
-                    <LastUpdated
-                      lastUpdatedAt={lastUpdatedAt}
-                      formattedLastUpdatedAt={formattedLastUpdatedAt}
-                      lastUpdatedBy={lastUpdatedBy}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
-            <div className="margin-vert--lg">
-              <DocPaginator metadata={metadata} />
-            </div>
+
+            <DocPaginator metadata={metadata} />
           </div>
         </div>
-        {!hideTableOfContents && DocContent.toc && (
+        {renderTocDesktop && (
           <div className="col col--3">
-            <TOC toc={DocContent.toc} />
+            <TOC
+              toc={DocContent.toc}
+              className={ThemeClassNames.docs.docTocDesktop}
+            />
           </div>
         )}
       </div>
     </>
   );
 }
-
-export default DocItem;

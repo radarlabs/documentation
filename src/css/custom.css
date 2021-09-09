@@ -239,26 +239,14 @@ strong {
   margin-right: 0;
 }
 
+.navbar-sidebar__item {
+  padding: 0.5rem 0;
+}
+
 /* Responsive Styling for Navbar; these links should appear in the hamburger menu */
 @media (min-width: 996px) {
   .navbar__brand {
     border-right: 1px solid var(--ifm-toc-border-color);
-  }
-}
-
-@media (max-width: 996px) {
-  /* Offset header height*/
-  body {
-    padding-top: 60px;
-  }
-  /* Use a fixed (instead of sticky) header */
-  .navbar--fixed-top {
-    position: fixed;
-  }
-
-  /* Hide the drawer icon thats being overlaid */
-  .navbar__toggle {
-    visibility: hidden;
   }
 }
 
@@ -268,7 +256,8 @@ strong {
 
 /* Sidebar overrides */
 
-.menu__list-item {
+.menu__list-item,
+.menu__list-item:not(:first-child) {
   margin: 0;
 }
 
@@ -483,4 +472,9 @@ table th, table td {
   .navbar__items .navbar__item {
     display: none;
   }
+}
+
+/* Override the top padding on the DocPage component */
+.container.padding-top--md {
+  padding-top: 2rem !important;
 }
