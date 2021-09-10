@@ -100,7 +100,7 @@ To avoid [Background Location Limits](https://developer.android.com/about/versio
 
 ### Android presets
 
-- **`RadarTrackingOptions.CONTINUOUS`**: Updates about every 30 seconds while moving or stopped. Should be used with a foreground service. Moderate battery usage.
+- **`RadarTrackingOptions.CONTINUOUS`**: Updates about every 30 seconds while moving or stopped. Starts a foreground service. Moderate battery usage.
 - **`RadarTrackingOptions.RESPONSIVE`**: Updates about every 2.5 minutes while moving and shuts down when stopped to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage, but may exceed Android vitals bad behavior thresholds for [excessive wakeups](https://developer.android.com/topic/performance/vitals/wakeup.html) and [excessive wi-fi scans](https://developer.android.com/topic/performance/vitals/bg-wifi.html).
 - **`RadarTrackingOptions.EFFICIENT`**: Updates as fast as every 6 minutes while moving and periodically when stopped. Once stopped, the device will need to move more than 100 meters and wait for at least 15 minutes to wake up and start moving again. Lowest battery usage and will not exceed Android vitals bad behavior thresholds.
 
