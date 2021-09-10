@@ -22,7 +22,7 @@ The SDK has two states: **stopped** and **moving**. `stopDuration` and `stopDist
 - **`startTrackingAfter`**: Determines when to start tracking. Use `nil` to start tracking when `startTracking` is called.
 - **`stopTrackingAfter`**: Determines when to stop tracking. Use `nil` to track until `stopTracking` is called.
 - **`replay`**: Determines which failed location updates to replay to the server. `.replayStops` replays failed stops, `.replayNone` replays no location updates.
-- **`sync`**: Determines which location updates to sync to the server. `.all` syncs all location updates to the server, `.stopsAndExits` syncs only stops and exits to the server, `.none` syncs no location updates to the server.
+- **`syncLocations`**: Determines which location updates to sync to the server. `.all` syncs all location updates to the server, `.stopsAndExits` syncs only stops and exits to the server, `.none` syncs no location updates to the server.
 - **`showBlueBar`**: Determines whether the [flashing blue status bar](https://developer.apple.com/documentation/corelocation/cllocationmanager/2923541-showsbackgroundlocationindicator) is shown when tracking.
 - **`useStoppedGeofence`**: Determines whether to use the [iOS region monitoring service (geofencing)](https://developer.apple.com/documentation/corelocation/monitoring_the_user_s_proximity_to_geographic_regions) to create a client-side geofence "bubble" around the device's current location when stopped.
 - **`stoppedGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when stopped. Use smaller values (e.g., `100` meters) for faster exit events or larger values (e.g., `200` meters) to avoid jumpy exits while stopped.
@@ -35,9 +35,9 @@ The SDK has two states: **stopped** and **moving**. `stopDuration` and `stopDist
 
 ### iOS presets
 
-- **`RadarTrackingOptions.continuous`**: Updates about every 30 seconds while moving or stopped. Moderate battery usage. Shows the flashing blue status bar during tracking.
-- **`RadarTrackingOptions.responsive`**: Updates about every 2.5 minutes when moving and shuts down when stopped to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage. Requires the `location` background mode.
-- **`RadarTrackingOptions.efficient`**: Uses the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to update only on stops and exits. Once stopped, the device will need to move several hundred meters and trigger a [visit departure](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to wake up and start moving again. Lowest battery usage.
+- **`RadarTrackingOptions.presetContinuous`**: Updates about every 30 seconds while moving or stopped. Moderate battery usage. Shows the flashing blue status bar during tracking.
+- **`RadarTrackingOptions.presetResponsive`**: Updates about every 2.5 minutes when moving and shuts down when stopped to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage. Requires the `location` background mode.
+- **`RadarTrackingOptions.presetEfficient`**: Uses the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to update only on stops and exits. Once stopped, the device will need to move several hundred meters and trigger a [visit departure](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to wake up and start moving again. Lowest battery usage.
 
 Option | Efficient | Responsive | Continuous
 --- | --- | --- | ---
@@ -83,8 +83,20 @@ Option | Efficient | Responsive | Continuous
 - **`movingGeofenceRadius`**: Determines the radius in meters of the client geofence around the device's current location when moving.
 - **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness.
 - **`syncGeofencesLimit`**: Determines how many nearby geofences to sync from the server to the client when `syncGeofences` is enabled.
-- **`foregroundService`**: If set, starts a foreground service and shows a notification during tracking.
+- **`foregroundService`**: If set, starts a [foreground service](https://developer.android.com/guide/components/foreground-services) and shows a notification during tracking.
 - **`beacons`**: Determines whether to monitor beacons.
+
+### Android foreground service options
+
+To avoid [Background Location Limits](https://developer.android.com/about/versions/oreo/background-location-limits), you can start a foreground service and show a notification during tracking. Set `trackingOptions.foregroundService` to an instance of `RadarTrackingOptionsForegroundService`.
+
+- **`text`**: Determines the notification text. Defaults to `"Location tracking started"`.
+- **`title`**: Determines the notification title. Optional.
+- **`icon`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
+- **`updatesOnly`**: Determines when to show the notification. Use `false` to show the notification always, use `true` to show the notification only during location updates. Optional, defaults to `false`.
+- **`activity`: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
+- **`importance`: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
+- **`id`: Determines the id of the notification. Optional, defaults to `20160525`.
 
 ### Android presets
 

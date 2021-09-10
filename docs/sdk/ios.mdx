@@ -33,12 +33,12 @@ The best way to install the SDK is via [CocoaPods](https://cocoapods.org) or [Ca
 
 The SDK is small and typically adds less than 500 KB to your compiled app.
 
-### CocoaPods (recommended)
+### CocoaPods
 
 Install [CocoaPods](https://cocoapods.org). If you don't have an existing `Podfile`, run `pod init` in your project directory. Add the following to your `Podfile`:
 
 ```swift
-pod 'RadarSDK', '~> 3.1.0'
+pod 'RadarSDK', '~> 3.2.0'
 ```
 
 Then, run `pod install`. You may also need to run `pod repo update`.
@@ -48,25 +48,29 @@ Then, run `pod install`. You may also need to run `pod repo update`.
   in Xcode instead of the <code>.xcproject</code> file.
 </div>
 
+### Swift Package Manager
+
+In Xcode, go to *File* > *Swift Packages* > *Add Package Dependency*. Enter `https://github.com/radarlabs/radar-sdk-ios.git` for the *Package Repository URL*.
+
 ### Carthage
 
 Install [Carthage](https://github.com/Carthage/Carthage). To include Radar as a `github` origin, add the following to your `Cartfile`:
 
 ```swift
-github "radarlabs/radar-sdk-ios" ~> 3.1.0
+github "radarlabs/radar-sdk-ios" ~> 3.2.0
 ```
 
 To include Radar as a `binary` origin, add the following to your `Cartfile`:
 
 ```swift
-binary "https://raw.githubusercontent.com/radarlabs/radar-sdk-ios/master/RadarSDK.json" ~> 3.1.0
+binary "https://raw.githubusercontent.com/radarlabs/radar-sdk-ios/master/RadarSDK.json" ~> 3.2.0
 ```
 
 Then, run `carthage update` and drag `Build/iOS/RadarSDK.framework` into the _Linked Frameworks and Libraries_ section of your target. Do not add the framework as an input to your `copy-frameworks` run script.
 
 ### Add manually
 
-You can also add the SDK to your project manually. Download [the current release](https://github.com/radarlabs/radar-sdk-ios/releases), unzip the package, and drag `RadarSDK.framework` into your Xcode project. It will automatically appear in the _Frameworks, Libraries, and Embedded Content_ section of your target settings.
+You can also add the SDK to your project manually. Download [the current release](https://github.com/radarlabs/radar-sdk-ios/releases), unzip the package, and drag `RadarSDK.xcframework` into your Xcode project. It will automatically appear in the _Frameworks, Libraries, and Embedded Content_ section of your target settings. Switch *Do Not Embed* to *Embed & Sign*.
 
 ## Dependencies
 
@@ -566,7 +570,7 @@ Once you have initialized the SDK and the user has authorized background permiss
 
 The SDK supports custom tracking options as well as three presets.
 
-For geofencing, we recommend using `RadarTrackingOptions.responsive`. This preset detects whether the device is stopped or moving. When moving, it tells the SDK to send location updates to the server every 2-3 minutes. When stopped, it tells the SDK to shut down to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again.
+For geofencing, we recommend using `RadarTrackingOptions.presetResponsive`. This preset detects whether the device is stopped or moving. When moving, it tells the SDK to send location updates to the server every 2-3 minutes. When stopped, it tells the SDK to shut down to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again.
 
 Assuming the user has authorized background permissions, background tracking will work even if the app has been backgrounded or killed, as iOS location services will wake up the app to deliver events.
 
@@ -593,14 +597,14 @@ To start tracking for geofencing, call:
   <TabItem value="swift">
 
 ```swift
-Radar.startTracking(trackingOptions: RadarTrackingOptions.responsive)
+Radar.startTracking(trackingOptions: RadarTrackingOptions.presetResponsive)
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-[Radar startTrackingWithOptions:RadarTrackingOptions.responsive];
+[Radar startTrackingWithOptions:RadarTrackingOptions.presetResponsive];
 ```
 
   </TabItem>
@@ -652,7 +656,7 @@ You only need to call these methods once, as these settings will be persisted ac
 
 ## Background tracking for trips
 
-For trips, we recommend using `RadarTrackingOptions.continuous`. This preset tells the SDK to send location updates to the server every 30 seconds, regardless of whether the device is moving.
+For trips, we recommend using `RadarTrackingOptions.presetContinuous`. This preset tells the SDK to send location updates to the server every 30 seconds, regardless of whether the device is moving.
 
 <div className="alert alert-info">
   By default, this preset shows the flashing blue status bar while tracking. If
@@ -673,14 +677,14 @@ To start tracking for trips, call:
   <TabItem value="swift">
 
 ```swift
-Radar.startTracking(trackingOptions: RadarTrackingOptions.continuous)
+Radar.startTracking(trackingOptions: RadarTrackingOptions.presetContinuous)
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-[Radar startTrackingWithOptions:RadarTrackingOptions.continuous];
+[Radar startTrackingWithOptions:RadarTrackingOptions.presetContinuous];
 ```
 
   </TabItem>
@@ -808,7 +812,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
         return true
     }
 
-    func didReceiveEvents(_ events: [RadarEvent], user: RadarUser) {
+    func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
         // do something with events, user
     }
 
@@ -1013,7 +1017,7 @@ You only need to call these methods once, as these settings will be persisted ac
 
 Apple requires that you justify your use of background location. Add something materially similar to the following to the bottom of your App Store description: _This app uses background location to (insert use case here). Continued use of background location may decrease battery life._
 
-If you turned on the _Location updates_ background mode, Apple requires additional justification in your App Store review notes. If using `RadarTrackingOptions.responsive`, add something like: _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the background location mode to support polygon geofences and nearby place detection, which cannot be accomplished with region monitoring or visit monitoring._ Or, if using `RadarTrackingOptions.continuous`, add something like _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the location background mode for live trip tracking and live ETAs._
+If you turned on the _Location updates_ background mode, Apple requires additional justification in your App Store review notes. If using `RadarTrackingOptions.presetResponsive`, add something like: _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the background location mode to support polygon geofences and nearby place detection, which cannot be accomplished with region monitoring or visit monitoring._ Or, if using `RadarTrackingOptions.presetContinuous`, add something like _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the location background mode for live trip tracking and live ETAs._
 
 Learn more about this requirement in section 2.5.4 of the App Store Review Guidelines [here](https://developer.apple.com/app-store/review/guidelines/#software-requirements).
 
@@ -1068,7 +1072,7 @@ To monitor beacons in the background, update your tracking options:
   <TabItem value="swift">
 
 ```swift
-let trackingOptions = RadarTrackingOptions.responsive
+let trackingOptions = RadarTrackingOptions.presetResponsive
 trackingOptions.beacons = true
 Radar.startTracking(trackingOptions: trackingOptions)
 ```
@@ -1077,7 +1081,9 @@ Radar.startTracking(trackingOptions: trackingOptions)
   <TabItem value="objc">
 
 ```objc
-RadarTrackingOptions *trackingOptions = RadarTrackingOptions.responsive; trackingOptions.beacons = YES; [Radar startTrackingWithOptions:trackingOptions];
+RadarTrackingOptions *trackingOptions = RadarTrackingOptions.presetResponsive;
+trackingOptions.beacons = YES;
+[Radar startTrackingWithOptions:trackingOptions];
 ```
 
   </TabItem>
