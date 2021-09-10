@@ -1,0 +1,1453 @@
+---
+title: iOS SDK v3.1
+id: ios-3.1
+description: Documentation for iOS SDK v3.1
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import InlineTabs from "../../src/components/InlineTabs";
+import InlineTabItem from "../../src/components/InlineTabItem";
+
+import DefaultContextValues from "../../src/components/DefaultContextValues";
+
+<DefaultContextValues/>
+
+<div className="alert alert-info">
+  These are the docs for iOS SDK v3.1. See docs for <a href="/documentation/sdk/ios">the latest version</a>.
+</div>
+
+The Radar SDK abstracts away cross-platform differences between location services, allowing you to add geofencing, location tracking, trip tracking, geocoding, and search to your apps with just a few lines of code.
+
+Learn how to integrate the iOS SDK below. You can also see the [source](https://github.com/radarlabs/radar-sdk-ios) and a [detailed SDK reference](https://radarlabs.github.io/radar-sdk-ios/Classes/Radar.html) on GitHub.
+
+## Install SDK
+
+The best way to install the SDK is via [CocoaPods](https://cocoapods.org) or [Carthage](https://github.com/Carthage/Carthage).
+
+<div className="alert alert-info">
+  For details on the latest SDK releases, see the{" "}
+  <a href="https://github.com/radarlabs/radar-sdk-ios/releases">
+    releases page
+  </a>{" "}
+  on GitHub. You can also star ⭐️ and watch 👀 the repo.
+</div>
+
+The SDK is small and typically adds less than 500 KB to your compiled app.
+
+### CocoaPods (recommended)
+
+Install [CocoaPods](https://cocoapods.org). If you don't have an existing `Podfile`, run `pod init` in your project directory. Add the following to your `Podfile`:
+
+```swift
+pod 'RadarSDK', '~> 3.1.0'
+```
+
+Then, run `pod install`. You may also need to run `pod repo update`.
+
+<div className="alert alert-info">
+  After installing, use the <code>.xcworkspace</code> file to open your project
+  in Xcode instead of the <code>.xcproject</code> file.
+</div>
+
+### Carthage
+
+Install [Carthage](https://github.com/Carthage/Carthage). To include Radar as a `github` origin, add the following to your `Cartfile`:
+
+```swift
+github "radarlabs/radar-sdk-ios" ~> 3.1.0
+```
+
+To include Radar as a `binary` origin, add the following to your `Cartfile`:
+
+```swift
+binary "https://raw.githubusercontent.com/radarlabs/radar-sdk-ios/master/RadarSDK.json" ~> 3.1.0
+```
+
+Then, run `carthage update` and drag `Build/iOS/RadarSDK.framework` into the _Linked Frameworks and Libraries_ section of your target. Do not add the framework as an input to your `copy-frameworks` run script.
+
+### Add manually
+
+You can also add the SDK to your project manually. Download [the current release](https://github.com/radarlabs/radar-sdk-ios/releases), unzip the package, and drag `RadarSDK.framework` into your Xcode project. It will automatically appear in the _Frameworks, Libraries, and Embedded Content_ section of your target settings.
+
+## Dependencies
+
+The SDK depends on Apple's `CoreLocation` framework. In your target settings, go to _General_ > _Frameworks, Libraries, and Embedded Content_ and add `CoreLocation` if you haven't already.
+
+The SDK currently supports iOS 10 and higher.
+
+## Initialize SDK
+
+When your app starts, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.io/dashboard/settings).
+
+Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
+
+<div className="alert alert-warning">
+  Note that you should always use your publishable API keys, which are
+  restricted in scope, in the SDK. Do not use your secret API keys, which are
+  unrestricted in scope, in any client-side code.
+</div>
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+
+        return true
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+#import "AppDelegate.h"
+@import RadarSDK;
+
+@implementation AppDelegate
+
+  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..."];
+
+    return YES;
+}
+
+@end
+```
+
+  </TabItem>
+</Tabs>
+
+## Request permissions
+
+Radar respects [standard iOS location permissions](https://developer.apple.com/documentation/corelocation/requesting_authorization_for_location_services).
+
+<p>
+  For foreground tracking or trip tracking with continuous mode, the app's location authorization status must be{" "}
+  <InlineTabs>
+    <InlineTabItem groupId="ios" value="objc">
+      <strong><code>kCLAuthorizationStatusAuthorizedWhenInUse</code></strong>
+    </InlineTabItem>
+    <InlineTabItem groupId="ios" value="swift">
+      <strong><code>.authorizedWhenInUse</code></strong>
+    </InlineTabItem>
+  </InlineTabs> or
+  <InlineTabs>
+    <InlineTabItem groupId="ios" value="objc">
+      <strong><code>kCLAuthorizationStatusAuthorizedAlways</code></strong>
+    </InlineTabItem>
+    <InlineTabItem groupId="ios" value="swift">
+      <strong><code>.authorizedAlways</code></strong>
+    </InlineTabItem>
+  </InlineTabs>. For background tracking or geofencing with responsive mode, the app's location authorization status must be{" "}
+  <InlineTabs>
+    <InlineTabItem groupId="ios" value="objc">
+      <strong><code>kCLAuthorizationStatusAuthorizedAlways</code></strong>
+    </InlineTabItem>
+    <InlineTabItem groupId="ios" value="swift">
+      <strong><code>.authorizedAlways</code></strong>
+    </InlineTabItem>
+  </InlineTabs>.
+</p>
+
+<div className="alert alert-info">
+  If your app already requests the necessary location permissions, you can skip
+  this step.
+</div>
+
+Before requesting permissions, you must add location usage strings to your `Info.plist` file. For foreground permissions, you must add a value for `NSLocationWhenInUseUsageDescription` (_Privacy - Location When In Use Usage Description_). For background permissions, you must add a value for `NSLocationAlwaysAndWhenInUseUsageDescription` (_Privacy - Location Always and When In Use Usage Description_). These strings are displayed in permissions prompts.
+
+<img
+  className="large"
+  src="https://images.ctfassets.net/f2vbu16fzuly/66LUD7W9uTt7f2H5pMmpBp/1e5a2bb2baaf79328e88c3ea47a7f6ff/permissions.png"
+/>
+
+<p>
+  To request foreground permissions, call{" "}
+  <InlineTabs>
+    <InlineTabItem groupId="ios" value="objc">
+      <strong><code>requestWhenInUseAuthorization</code></strong>
+    </InlineTabItem>
+    <InlineTabItem groupId="ios" value="swift">
+      <strong><code>requestWhenInUseAuthorization()</code></strong>
+    </InlineTabItem>
+  </InlineTabs>
+  on a <code>CLLocationManager</code> instance. To request background permissions in the app, make sure the user has granted foreground permissions first, then call{" "}
+  <InlineTabs>
+    <InlineTabItem groupId="ios" value="objc">
+      <strong><code>requestAlwaysAuthorization</code></strong>
+    </InlineTabItem>
+    <InlineTabItem groupId="ios" value="swift">
+      <strong><code>requestAlwaysAuthorization()</code></strong>
+    </InlineTabItem> on a <code>CLLocationManager</code> instance.
+  </InlineTabs>
+</p>
+
+To request foreground location permissions and then immediately request background location permissions:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+
+    let locationManager = CLLocationManager()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+        self.locationManager.delegate = self
+        self.requestLocationPermissions()
+
+        return true
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        self.requestLocationPermissions()
+    }
+
+    func requestLocationPermissions() {
+        let status = self.locationManager.authorizationStatus()
+
+        if status == .notDetermined {
+            self.locationManager.requestWhenInUseAuthorization()
+        } else if status == .authorizedWhenInUse {
+            self.locationManager.requestAlwaysAuthorization()
+        }
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+// AppDelegate.h
+
+#import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
+
+@end
+
+// AppDelegate.m
+
+#import "AppDelegate.h"
+@import RadarSDK;
+
+@interface AppDelegate ()
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
+
+@end
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..."];
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    [self requestLocationPermissions];
+
+    return YES;
+}
+
+- (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
+    [self requestPermissions];
+}
+
+- (void)requestPermissions {
+    CLAuthorizationStatus status = self.locationManager.authorizationStatus;
+
+    if (status == kCLAuthorizationStatusNotDetermined) {
+        [self.locationManager requestWhenInUseAuthorization];
+    } else if (status == kCLAuthorizationStatusAuthorizedAlways) {
+        [self.locationManager requestAlwaysAuthorization];
+    }
+}
+
+@end
+```
+
+  </TabItem>
+</Tabs>
+
+<div className="alert alert-info">
+  Build and run the app to make sure permissions prompts are displayed!
+</div>
+
+<div className="alert alert-info">
+  Not seeing permissions prompts? First, make sure your location manager is in
+  memory when you request permissions. Second, make sure you've added location
+  usage strings to your <code>Info.plist</code> file. Finally, check your device
+  settings to make sure you haven't already granted location permissions.
+</div>
+
+If you are requesting background permissions, in your project settings, go to _Signing & Capabilities_, add _Background Modes_, and turn on _Background fetch_ and _Location updates_. Note that this requires additional justification during App Store review. Learn more [below](#submit-to-app-store).
+
+<img
+  className="large"
+  src="https://images.ctfassets.net/f2vbu16fzuly/UUjdS7HyuFgu5bzGzuOYd/3eb568125cea0d6c4cf9384327446f08/modes.png"
+/>
+
+## Foreground tracking
+
+Once the user has granted foreground permissions, you can track the user's location in the foreground.
+
+To track the user's location once in the foreground, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.trackOnce { (status: RadarStatus, location: CLLocation?, events: [RadarEvent]?, user: RadarUser?) in
+    // do something with location, events, user
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar trackOnceWithCompletionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarEvent *> *events, RadarUser *user) {
+    // do something with location, events, user
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+You may provide an optional `completionHandler` that receives the request status, the user's location, the events generated, if any, and the user. The request status can be:
+
+<ul>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusSuccess</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.success</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : success
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorPublishableKey</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorPublishableKey</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : SDK not initialized
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorPermissions</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorPermissions</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : location permissions not granted
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorLocation</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorLocation</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : location services error or timeout (10 seconds)
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorNetwork</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorNetwork</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : network error or timeout (10 seconds)
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorBadRequest</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorBadRequest</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : bad request (missing or invalid params)
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorUnauthorized</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorUnauthorized</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : unauthorized (invalid API key)
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorPaymentRequired</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorPaymentRequired</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : payment required (organization disabled or usage exceeded)
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorForbidden</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorForbidden</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : forbidden (insufficient permissions)
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorNotFound</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorNotFound</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : not found
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorRateLimit</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorRateLimit</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : too many requests (<a href="/api#track">rate limit</a> exceeded)
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorServer</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorServer</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : internal server error
+  </li>
+  <li>
+    <InlineTabs groupId="ios">
+      <InlineTabItem groupId="ios" value="objc">
+        <strong>
+          <code>RadarStatusErrorUnknown</code>
+        </strong>
+      </InlineTabItem>
+      <InlineTabItem groupId="ios" value="swift">
+        <strong>
+          <code>.errorUnknown</code>
+        </strong>
+      </InlineTabItem>
+    </InlineTabs>
+    : unknown error
+  </li>
+</ul>
+
+<div className="alert alert-warning">
+  Build and run the app, then find your user on the{" "}
+  <a href="https://radar.io/dashboard/users">Users page</a>! To trigger an
+  event, you'll need to{" "}
+  <a href="https://radar.io/geofences">create a geofence</a> if you haven't
+  already. Not seeing your user on the Users page? Check <code>status</code> in
+  the <code>completionHandler</code> to see what went wrong.
+</div>
+
+## Background tracking for geofencing
+
+Once you have initialized the SDK and the user has authorized background permissions, you can start tracking the user's location in the background.
+
+The SDK supports custom tracking options as well as three presets.
+
+For geofencing, we recommend using `RadarTrackingOptions.responsive`. This preset detects whether the device is stopped or moving. When moving, it tells the SDK to send location updates to the server every 2-3 minutes. When stopped, it tells the SDK to shut down to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again.
+
+Assuming the user has authorized background permissions, background tracking will work even if the app has been backgrounded or killed, as iOS location services will wake up the app to deliver events.
+
+<div className="alert alert-warning">
+  Note that location updates may be delayed by if the device has connectivity
+  issues, low battery, or wi-fi disabled.
+</div>
+
+<div className="alert alert-info">
+  Though we recommend using presets for most use cases, you can modify the
+  presets. See the <a href="../sdk/tracking">tracking options reference</a>.
+</div>
+
+To start tracking for geofencing, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.startTracking(trackingOptions: RadarTrackingOptions.responsive)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar startTrackingWithOptions:RadarTrackingOptions.responsive];
+```
+
+  </TabItem>
+</Tabs>
+
+To stop tracking (e.g., when the user logs out), call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.stopTracking()
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar stopTracking];
+```
+
+  </TabItem>
+</Tabs>
+
+You only need to call these methods once, as these settings will be persisted across app sessions.
+
+<div className="alert alert-warning">
+  To test, go for a walk or a drive! Not seeing location updates or events?
+  Remember that, once stopped, the device will need to move more than 100 meters
+  to wake up and start moving again. Also, check your device settings to make
+  sure you've granted background location permissions.
+</div>
+
+<div className="alert alert-info">
+  Don't forget! You can always find your user on the{" "}
+  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an
+  event, you'll need to{" "}
+  <a href="https://radar.io/geofences">create a geofence</a> if you haven't
+  already.
+</div>
+
+## Background tracking for trips
+
+For trips, we recommend using `RadarTrackingOptions.continuous`. This preset tells the SDK to send location updates to the server every 30 seconds, regardless of whether the device is moving.
+
+<div className="alert alert-info">
+  By default, this preset shows the flashing blue status bar while tracking. If
+  the flashing blue status bar is shown, only foreground permissions are
+  required for tracking.
+</div>
+
+To start tracking for trips, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.startTracking(trackingOptions: RadarTrackingOptions.continuous)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar startTrackingWithOptions:RadarTrackingOptions.continuous];
+```
+
+  </TabItem>
+</Tabs>
+
+<div className="alert alert-info">
+  Not seeing the flashing blue status bar while tracking? Make sure you've added
+  the <em>Location updates</em> background mode in your project settings.
+</div>
+
+To stop tracking, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.stopTracking()
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar stopTracking];
+```
+
+  </TabItem>
+</Tabs>
+
+Learn more about starting, completing, and canceling trips in the [trip tracking documentation](/trip-tracking).
+
+<div className="alert alert-info">
+  Don't forget! You can always find your user on the{" "}
+  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an
+  event, you'll need to{" "}
+  <a href="https://radar.io/geofences">create a geofence</a> or{" "}
+  <a href="../trip-tracking">start a trip</a> if you haven't already. Also, check
+  your device settings to make sure you've granted location permissions.
+</div>
+
+## Mock tracking for testing
+
+Can't go for a walk or a drive? You can simulate a sequence of location updates. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an origin to a destination, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.mockTracking(
+  origin: CLLocation(latitude: 40.714708, longitude: -74.035807),
+  destination: CLLocation(latitude: 40.717410, longitude: -74.053334),
+  mode: .car,
+  steps: 10,
+  interval: 3) { (status: RadarStatus, location: CLLocation?, events: [RadarEvent]?, user: RadarUser?) in
+    // do something with location, events, user
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar mockTrackingWithOrigin:origin
+                  destination:destination
+                         mode:RadarRouteModeCar
+                        steps:steps
+                     interval:1
+            completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarEvent *> *events, RadarUser *user) {
+
+            }];
+```
+
+  </TabItem>
+</Tabs>
+
+<div className="alert alert-info">
+  Don't forget! You can always find your user on the{" "}
+  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an
+  event, you'll need to{" "}
+  <a href="https://radar.io/geofences">create a geofence</a> if you haven't
+  already.
+</div>
+
+## Listening for events with a delegate
+
+To listen for events, location updates, and errors client-side, set a `RadarDelegate`. Set your `RadarDelegate` in a codepath that will be initialized and executed in the background. For example, make your `AppDelegate` implement `RadarDelegate`, not a `ViewController`. `AppDelegate` will be initialized in the background, whereas a `ViewController` may not be.
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk...")
+        Radar.setDelegate(self)
+
+        return true
+    }
+
+    func didReceiveEvents(_ events: [RadarEvent], user: RadarUser) {
+        // do something with events, user
+    }
+
+    func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
+        // do something with location, user
+    }
+
+    func didUpdateClientLocation(_ location: CLLocation, stopped: Bool, source: RadarLocationSource) {
+        // do something with location, stopped, source
+    }
+
+    func didFail(status: RadarStatus) {
+        // do something with status
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+#import "AppDelegate.h"
+@import RadarSDK;
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..."];
+    [Radar setDelegate:self];
+
+    return YES;
+}
+
+- (void)didReceiveEvents:(NSArray<RadarEvent *> *)events user:(RadarUser *)user {
+    // do something with events, user
+}
+
+- (void)didUpdateLocation:(CLLocation *)location user:(RadarUser *)user {
+    // do something with location, user
+}
+
+- (void)didUpdateClientLocation:(CLLocation *)location stopped:(BOOL)stopped source:(RadarLocationSource)source {
+    // do something with location, stopped, source
+}
+
+- (void)didFailWithStatus:(RadarStatus)status {
+    // do something with status
+}
+
+@end
+```
+
+  </TabItem>
+</Tabs>
+
+<div className="alert alert-info">
+  To listen for events server-side instead, add a{" "}
+  <a href="../integrations/webhooks">webhook</a> or enable an{" "}
+  <a href="../integrations">integration</a>.
+</div>
+
+## Manual tracking
+
+If you want to manage location services yourself, you can manually update the user's location instead by calling:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.trackOnce(
+  location: location
+) { (status: RadarStatus, location: CLLocation?, events: [RadarEvent]?, user: RadarUser?) in
+    // do something with location, events, user
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar trackOnceWithLocation:location
+          completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarEvent *> *events, RadarUser *user) {
+    // do something with location, events, user
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+where `location` is a `CLLocation` instance with a valid latitude, longitude, and horizontal accuracy.
+
+## Identify user
+
+The SDK automatically generates a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`.
+
+In addition, you can use other identifiers to identify the user.
+
+Radar will automatically identify the user by `deviceId` ([IDFV](https://developer.apple.com/uikit/uidevice/1620059-identifierforvendor)).
+
+To set a custom `userId`, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.setUserId(userId)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar setUserId:userId];
+```
+
+  </TabItem>
+</Tabs>
+
+where `userId` is a stable unique ID for the user.
+
+<div className="alert alert-warning">
+  Do not send any PII, like names, email addresses, or publicly available IDs,
+  for <code>userId</code>. See{" "}
+  <a href="../faqs#what-are-privacy-best-practices-for-radar">
+    privacy best practices
+  </a>{" "}
+  for more information.
+</div>
+
+To set a dictionary of custom metadata for the user, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.setMetadata(metadata)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar setMetadata:metadata];
+```
+
+  </TabItem>
+</Tabs>
+
+where `metadata` is a dictionary with up to 16 keys and values of type string, boolean, or number.
+
+Finally, to set an optional description for the user, displayed in the dashboard, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.setDescription(description)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar setDescription:description];
+```
+
+  </TabItem>
+</Tabs>
+
+You only need to call these methods once, as these settings will be persisted across app sessions.
+
+## Submit to App Store
+
+Apple requires that you justify your use of background location. Add something materially similar to the following to the bottom of your App Store description: _This app uses background location to (insert use case here). Continued use of background location may decrease battery life._
+
+If you turned on the _Location updates_ background mode, Apple requires additional justification in your App Store review notes. If using `RadarTrackingOptions.responsive`, add something like: _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the background location mode to support polygon geofences and nearby place detection, which cannot be accomplished with region monitoring or visit monitoring._ Or, if using `RadarTrackingOptions.continuous`, add something like _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the location background mode for live trip tracking and live ETAs._
+
+Learn more about this requirement in section 2.5.4 of the App Store Review Guidelines [here](https://developer.apple.com/app-store/review/guidelines/#software-requirements).
+
+## Other APIs
+
+The iOS SDK also exposes APIs for beacons, anonymous context, geocoding, search, and distance.
+
+### Beacons
+
+If the user has granted location permissions, you can range and monitor [beacons](/beacons).
+
+To range beacons in the foreground, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.trackOnce(desiredAccuracy: .high, beacons: true) { (status: RadarStatus, location: CLLocation?, events: [RadarEvent]?, user: RadarUser?) in
+    // do something with user.beacons
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar trackOnceWithDesiredAccuracy:RadarTrackingOptionsDesiredAccuracyHigh beacons:YES completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarEvent *> *events, RadarUser *user) {
+    // do something with user.beacons
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+To monitor beacons in the background, update your tracking options:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+let trackingOptions = RadarTrackingOptions.responsive
+trackingOptions.beacons = true
+Radar.startTracking(trackingOptions: trackingOptions)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+RadarTrackingOptions *trackingOptions = RadarTrackingOptions.responsive; trackingOptions.beacons = YES; [Radar startTrackingWithOptions:trackingOptions];
+```
+
+  </TabItem>
+</Tabs>
+
+### Get location
+
+Get a single location update without sending it to the server:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.getLocation { (status: RadarStatus, location: CLLocation?, stopped: Bool) in
+    // do something with location
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar getLocationWithCompletionHandler:^(RadarStatus status, CLLocation *location, BOOL stopped) {
+    // do something with location
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+### Context
+
+With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.getContext { (status: RadarStatus, location: CLLocation?, context: RadarContext?) in
+    // do something with context
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar getContextWithCompletionHandler:^(RadarStatus status, CLLocation *location, RadarContext *context) {
+    // do something with context
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+### Geocoding
+
+With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.geocode(
+    address: "20 jay st brooklyn ny"
+) { (status: RadarStatus, addresses: [RadarAddress]?) in
+    // do something with addresses
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar geocodeAddress:@"20 jay st brooklyn ny"
+    completionHandler:^(RadarStatus status, NSArray<RadarAddress *> *addresses) {
+    // do something with addresses
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.reverseGeocode(
+    location: location
+) { (status: RadarStatus, addresses: [RadarAddress]?) in
+    // do something with addresses
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar reverseGeocodeLocation:location
+            completionHandler:^(RadarStatus status, NSArray<RadarAddress *> *addresses) {
+    // do something with addresses
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.ipGeocode { (status: RadarStatus, address: RadarAddress, proxy: Bool) in
+    // do something with address, proxy
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar ipGeocodeWithCompletionHandler:^(RadarStatus status, RadarAddress *address, BOOL proxy) {
+    // do something with address, proxy
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+### Search
+
+With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.autocomplete(
+    query: "brooklyn roasting",
+    near: location,
+    limit: 10
+) { (status: RadarStatus, addresses: [RadarAddress]?) in
+  // do something with addresses
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar autocompleteQuery:@"brooklyn roasting"
+                    near:location
+                  limit:10
+      completionHandler:^(RadarStatus status, NSArray<RadarAddress *> *addresses) {
+  // do something with addresses
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.searchGeofences(
+    near: location,
+    radius: 1000, // meters
+    tags: ["store"],
+    metadata: nil,
+    limit: 10
+) { (status: RadarStatus, location: CLLocation?, geofences: [RadarGeofence]?) in
+  // do something with geofences
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar searchGeofencesNear:location
+                    radius:1000 // meters
+                      tags:@[@"store"]
+                  metadata:nil
+                    limit:100
+        completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarGeofence *> *geofences) {
+  // do something with geofences
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+With the [places search API](/api#search-places), search for places near a location, sorted by distance:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.searchPlaces(
+    near: location,
+    radius: 1000, // meters
+    chains: ["starbucks"],
+    categories: nil,
+    groups: nil,
+    limit: 10
+) { (status: RadarStatus, location: CLLocation?, places: [RadarPlace]?) in
+  // do something with places
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar searchGeofencesNear:location
+                    radius:1000 // meters
+                    chains:@[@"starbucks"]
+                categories:nil
+                    groups:nil
+                    limit:100
+        completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarPlace *> *places) {
+  // do something with places
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+### Distance
+
+With the [distance API](/api#distance), calculate the travel distance and duration between an origin and a destination:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.getDistance(
+    origin: origin,
+    destination: destination,
+    modes: [.foot, .car],
+    units: .imperial
+) { (status: RadarStatus, routes: RadarRoutes?) in
+  // do something with routes
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar getDistanceFromOrigin:origin
+                destination:destination
+                      modes:RadarRouteModeFoot | RadarRouteModeCar
+                      units:RadarRouteUnitsImperial
+          completionHandler:^(RadarStatus status, RadarRoutes *routes) {
+  // do something with routes
+}];
+```
+
+  </TabItem>
+</Tabs>
+
+### Matrix
+
+With the [matrix API](/api#matrix), calculate the travel distance and duration between multiple origins and destinations for up to 25 routes:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.getMatrix(
+    origins: origins,
+    destinations: destinations,
+    mode: .car,
+    units: .imperial
+) { (status: RadarStatus, matrix: RadarRouteMatrix?) in
+  // do something with matrix.routeBetween(originIndex:destinationIndex:)
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar getMatrixFromOrigins:origin
+              destinations:destinations
+                      mode:RadarRouteModeCar
+                      units:RadarRouteUnitsImperial
+          completionHandler:^(RadarStatus status, RadarRouteMatrix *matrix) {
+  // do something with [matrix routeBetweenOriginIndex:destinationIndex:]
+}];
+```
+
+  </TabItem>
+</Tabs>
