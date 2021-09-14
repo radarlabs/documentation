@@ -1,9 +1,7 @@
 ---
-sidebar_position: 3
-sidebar_label: Android
-title: Android SDK
-id: android
-description: Documentation for Android SDK
+title: Android SDK v3.1
+id: android-3.1
+description: Documentation for Android SDK v3.1
 ---
 
 import Tabs from "@theme/Tabs";
@@ -14,7 +12,7 @@ import DefaultContextValues from "../../src/components/DefaultContextValues";
 <DefaultContextValues/>
 
 <div className="alert alert-info">
-  These are the docs for Android SDK v3.2. See docs for v3.1 <a href="/documentation/sdk/android-3.1">here</a>.
+  These are the docs for Android SDK v3.1. See docs for the latest version <a href="/documentation/sdk/android">here</a>.
 </div>
 
 The Radar SDK abstracts away cross-platform differences between location services, allowing you to add geofencing, location tracking, trip tracking, geocoding, and search to your apps with just a few lines of code.
@@ -61,7 +59,7 @@ The SDK currently supports API level `16` and higher.
 
 ## Initialize SDK
 
-When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.io/dashboard/settings).
+When your app starts, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.io/dashboard/settings).
 
 Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
 
@@ -120,7 +118,7 @@ Use your `Test Publishable` key for testing and non-production environments. Use
 
 Radar respects [standard Android location permissions](https://developer.android.com/training/permissions/requesting.html).
 
-For foreground tracking or trip tracking with continuous mode, Radar requires the `ACCESS_FINE_LOCATION` permission for precise location and/or the `ACCESS_COARSE_LOCATION` permission for [approximate location](https://developer.android.com/about/versions/12/approximate-location). These permissions are automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, and `RECEIVE_BOOT_COMPLETED` permissions.
+For foreground tracking or trip tracking with continuous mode, Radar requires the `ACCESS_FINE_LOCATION` permission. This permission is automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, and `RECEIVE_BOOT_COMPLETED` permissions.
 
 For background tracking or geofencing with responsive mode, and if targeting API level `29` or higher, Radar also requires the new `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
 
@@ -131,7 +129,6 @@ For background tracking or geofencing with responsive mode, and if targeting API
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 </manifest>
@@ -155,9 +152,9 @@ To request foreground and background permissions:
 
 ```java
 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION }, 0);
+    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION }, 0);
 } else {
-    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION }, 0);
+    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
 }
 ```
 
@@ -166,9 +163,9 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
 ```kotlin
 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), 0)
+    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), 0)
 } else {
-    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 0)
+    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
 }
 ```
 
@@ -509,54 +506,22 @@ Can't go for a walk or a drive? You can simulate a sequence of location updates.
 
 ## Listening for events with a receiver
 
-To listen for events, location updates, and errors client-side, create a class that extends `RadarReceiver`. Then, pass in an instance of your receiver when initializing the SDK in application `onCreate()`.
+To listen for events, location updates, and errors client-side, create a class that extends `RadarReceiver`. Then, register the receiver by adding a `receiver` element to the `application` element in your manifest:
 
-<Tabs
-  groupId="android"
-  defaultValue="java"
-  values={[
-    { label: 'Java', value: 'java' },
-    { label: 'Kotlin', value: 'kotlin' }
-  ]}
->
-  <TabItem value="java">
+```xml
+<application android:label="@string/app_name">
 
-  ```java
-  import io.radar.sdk.Radar;
+  <receiver
+      android:name=".MyRadarReceiver"
+      android:enabled="true"
+      android:exported="false">
+      <intent-filter>
+          <action android:name="io.radar.sdk.RECEIVED" />
+      </intent-filter>
+  </receiver>
 
-  public class MyApplication extends Application {
-
-      @Override
-      public void onCreate() {
-          super.onCreate();
-
-          MyRadarReceiver receiver = new MyRadarReceiver();
-          Radar.initialize(this, "prj_test_pk...", receiver);
-      }
-
-  }
-  ```
-
-  </TabItem>
-  <TabItem value="kotlin">
-
-  ```kotlin
-  import io.radar.sdk.Radar
-
-  class MyApplication : Application() {
-
-      override fun onCreate() {
-          super.onCreate()
-
-          val receiver = MyRadarReceiver()
-          Radar.initialize(this, "prj_test_pk...", receiver)
-      }
-
-  }
-  ```
-
-  </TabItem>
-</Tabs>
+</application>
+```
 
 Your receiver should implement the following:
 
@@ -602,7 +567,7 @@ Your receiver should implement the following:
   ```kotlin
   class MyRadarReceiver: RadarReceiver() {
 
-      override fun onEventsReceived(context: Context, events: Array<RadarEvent>, user: RadarUser?) {
+      override fun onEventsReceived(context: Context, events: Array<RadarEvent>, user: RadarUser) {
           // do something with events, user
       }
 
@@ -777,7 +742,18 @@ The Android SDK also exposes APIs for beacons, anonymous context, geocoding, sea
 
 ### Beacons
 
-To range and monitor [beacons](/beacons), you must [request Bluetooth permissions](https://developer.android.com/about/versions/12/features/bluetooth-permissions#declare-new-permissions).
+To range and monitor [beacons](/beacons), you must add Bluetooth permissions to your manifest:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+</manifest>
+```
+
+These are [non-dangerous permissions](https://developer.android.com/guide/topics/permissions/overview#install-time) and will not show a permissions prompt.
 
 To range beacons in the foreground, call:
 
