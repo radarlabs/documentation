@@ -50,7 +50,7 @@ Option | Efficient | Responsive | Continuous
 **`startTrackingAfter`** | `nil` | `nil` | `nil`
 **`stopTrackingAfter`** | `nil` | `nil` | `nil`
 **`replay`** | `.stops` | `.stops` | `.none`
-**`sync`** | `.all` | `.all` | `.all`
+**`syncLocations`** | `.all` | `.all` | `.all`
 **`showBlueBar`** | `false` | `false` | `true`
 **`useStoppedGeofence`** | `false` | `true` | `false`
 **`stoppedGeofenceRadius`** | `0` | `100` | `0`
@@ -94,9 +94,9 @@ To avoid [Background Location Limits](https://developer.android.com/about/versio
 - **`title`**: Determines the notification title. Optional.
 - **`icon`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
 - **`updatesOnly`**: Determines when to show the notification. Use `false` to show the notification always, use `true` to show the notification only during location updates. Optional, defaults to `false`.
-- **`activity`: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
-- **`importance`: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
-- **`id`: Determines the id of the notification. Optional, defaults to `20160525`.
+- **`activity`**: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
+- **`importance`**: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
+- **`id`**: Determines the id of the notification. Optional, defaults to `20160525`.
 
 ### Android presets
 
