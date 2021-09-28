@@ -21,3 +21,27 @@ The [simulator](https://radar.io/dashboard/simulate) is the easiest way to gener
 3. **Simulate a trip.** There are 3 fields necessary to simulate a [trip](/trip-tracking): `externalId`, `destinationGeofenceTag`, and `destinationGeofenceExternalId`. You can enter them manually or select a geofence on the map and click "Set as trip destination" to autofill these values. Then, click "Start Trip" to officially kick off and activate the trip! As you click around, you'll notice events such as `user.approaching_trip_destination` and `user.arrived_at_trip_destination`.
 
 ![Simulator.gif](/gif/mock_tracking.gif)
+
+## User Activity
+
+The User Activity page is the most straightforward way to debug a user's recent locations and events. Navigate to [Users](https://radar.io/dashboard/users) --> View --> View Activity to isolate a specific user. Filter a user's recent activity down to the minute to investigate why events did or did not fire, and understand [confidence levels](https://radar.io/documentation/geofences#confidence-and-accuracy) for events in real-world scenarios.
+
+### How it works
+
+1. **See a unified view of locations, events, and geofences.** The User Activity map displays a user's recent locations and events alongside geofences to pin down exactly when entries and exits occurred.
+
+2. **Focus on an individual location or event.** Hover over a row in the Activity Feed to center the map view around those coordinates and to display the accuracy bubble for that location or event. The radius of the accuracy bubble determines how much [confidence](https://radar.io/documentation/geofences#confidence-and-accuracy) the event can be assigned.
+
+3. **Filter to a specific time period.** Move the bounds of the slider to isolate a range of time for investigation. The slider supports granularity down to the minute.
+
+![UserActivity.gif](/gif/user_activity.gif)
+
+### Location sources
+- **`FOREGROUND_LOCATION`**: location collected by calling `Radar.trackOnce`
+- **`BACKGROUND_LOCATION`**: location collected while the app is in the background after calling `Radar.startTracking`
+- **`GEOFENCE_ENTER`**: client-side geofence entry (synced or bubble geofence)
+- **`GEOFENCE_EXIT`**: client-side geofence exit (synced or bubble geofence)
+- **`BEACON_ENTER`**: client-side beacon entry
+- **`BEACON_EXIT`**: client-side beacon exit
+- **`VISIT_ARRIVAL`**: significant user motion resulting in an entry, iOS only provided by Core Location's [Visits Service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service)
+- **`VISIT_DEPARTURE`**: significant user motion resulting in an exit, iOS only provided by Core Loaction's [Visits Service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service)
