@@ -30,17 +30,20 @@ module.exports = {
       },
       items: [
         {
-          href: 'https://radar.io/pricing',
+          // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
+          to: 'https://radar.io/pricing',
           label: 'Pricing',
           position: 'right',
         },
         {
-          href: 'https://radar.io/contact',
+          // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
+          to: 'https://radar.io/contact',
           label: 'Contact Sales',
           position: 'right',
         },
         {
-          href: 'https://radar.io/login',
+          // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
+          to: 'https://radar.io/login',
           label: 'Dashboard',
           position: 'right',
         },
