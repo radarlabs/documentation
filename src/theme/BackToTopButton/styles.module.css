@@ -1,0 +1,40 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+:root {
+  --docusaurus-btt-background: #fff;
+  --docusaurus-btt-color: var(--radar-gray-6);
+}
+
+.backToTopButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  border: 1px solid var(--radar-gray-2);
+  border-radius: 4px;
+  background: var(--docusaurus-btt-background);
+  color: var(--docusaurus-btt-color);
+  width: 2.5rem;
+  height: 40px;
+  z-index: var(--ifm-z-index-fixed);
+  box-shadow: 0 4px 12px rgb(23 60 86 / 10%);
+  transition: all var(--ifm-transition-fast) ease-in-out;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.backToTopButton:not(:focus):hover {
+  opacity: 0.8;
+}
+
+.backToTopButtonShow {
+  opacity: 1;
+  transform: scale(1);
+}
