@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import styles from './ArrowLink.module.css';
 
-// import RightArrow from "@site/static/img/right-arrow.svg";
+import RightArrow from "@site/static/img/right-arrow.svg";
 
 const ArrowLink = ({className, children, href}: {
   className?: string,
@@ -16,7 +16,7 @@ const ArrowLink = ({className, children, href}: {
       href={href}
     >
       <span>{children}</span>
-      {/* <RightArrow /> */}
+      <RightArrow />
     </a>
   )
 }

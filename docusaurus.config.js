@@ -46,6 +46,7 @@ module.exports = {
           to: 'https://radar.io/login',
           label: 'Dashboard',
           position: 'right',
+          className: 'arrow-link'
         },
         // Note: Disabled this in CSS since hiding this will just fallback to default search positioning
         {
