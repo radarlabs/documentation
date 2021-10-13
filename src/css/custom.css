@@ -482,27 +482,3 @@ table th, table td {
 .container.padding-top--md {
   padding-top: 2rem !important;
 }
-
-.arrow-link {
-  display: flex;
-  align-items: center;
-  color: var(--ifm-menu-color-active);
-  font-weight: var(--ifm-font-weight-semibold);
-}
-
-.arrow-link:hover {
-  color: var(--ifm-color-primary);
-  text-decoration: none;
-}
-
-.arrow-link:after {
-  margin-left: 0.5rem;
-  content: "";
-  height: 1rem;
-  width: 1rem;
-  background-image: url('/static/img/right-arrow.svg');
-}
-
-.arrow-link:hover:after {
-  color: var(--ifm-color-primary);
-}
