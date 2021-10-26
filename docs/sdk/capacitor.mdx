@@ -62,6 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 On Android, you must add the Google Play Services library to your project, then add the SDK to your project, preferably using Gradle. Finally, initialize the SDK and the plugin in `onCreate()` in `MainActivity.java`, passing in your Radar publishable API key:
 
 ```java
+import android.os.Bundle;
+
+import com.getcapacitor.BridgeActivity;
 import io.radar.sdk.Radar;
 
 public class MainActivity extends BridgeActivity {
