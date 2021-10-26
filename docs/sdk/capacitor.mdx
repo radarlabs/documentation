@@ -63,7 +63,6 @@ On Android, you must add the Google Play Services library to your project, then 
 
 ```java
 import io.radar.sdk.Radar;
-import io.radar.capacitor.RadarPlugin;
 
 public class MainActivity extends BridgeActivity {
 
@@ -71,7 +70,7 @@ public class MainActivity extends BridgeActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Radar.initialize(publishableKey);
+    Radar.initialize(this, publishableKey);
   }
 
 }
