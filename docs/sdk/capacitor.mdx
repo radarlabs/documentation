@@ -89,16 +89,6 @@ First, import the module:
 import { Radar } from 'capacitor-radar';
 ```
 
-### Initialize SDK
-
-Initialize the SDK again in JavaScript:
-
-```javascript
-Radar.initialize({ publishableKey });
-```
-
-where `publishableKey` is a string containing your publishable API key.
-
 ### Identify user
 
 To identify the user when logged in, call:
@@ -241,20 +231,20 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 To listen for events, location updates, and errors, you can add event listeners:
 
 ```javascript
-Radar.addListener('clientLocation', (location, stopped, source) => {
-  // do something with location, stopped, source
+Radar.addListener('clientLocation', (result) => {
+  // do something with result.location, result.stopped, result.source
 });
 
-Radar.addListener('location', (location, user) => {
-  // do something with location, user
+Radar.addListener('location', (result) => {
+  // do something with result.location, result.user
 });
 
-Radar.addListener('events', (events, user) => {
-  // do something with events, user
+Radar.addListener('events', (result) => {
+  // do something with result.events, result.user
 });
 
-Radar.addListener('error', (err) => {
-  // do something with err
+Radar.addListener('error', (result) => {
+  // do something with result.err
 });
 ```
 
