@@ -97,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 
         self.locationManager.requestAlwaysAuthorization()
 
-        Radar.startTracking(trackingOptions: RadarTrackingOptions.responsive)
+        Radar.startTracking(trackingOptions: RadarTrackingOptions.presetResponsive)
 
         return true
     }
