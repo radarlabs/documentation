@@ -69,7 +69,7 @@ The CSV must have 8 columns:
 - **`tag`**: A group for the geofence.
 - **`externalId`** (optional, but recommended): An external ID for the geofence that maps to your internal database.
 - **`type`**: The type of geofence geometry. `polygon`, `circle`, and `isochrone` are supported.
-- **`radius`** (required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes and [travel mode](/api#routing) for type `isochrone`, a string in the format `duration|mode` (e.g., `15|car` for 15 minutes driving). Ignored for type `polygon`.
+- **`radius`** (required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes and [travel mode](/api/routing#routing) for type `isochrone`, a string in the format `duration|mode` (e.g., `15|car` for 15 minutes driving). Ignored for type `polygon`.
 - **`coordinates`**: A JSON string representing a center in the format `[longitude,latitude]` for type `circle`. A JSON string representing a closed ring of between 4 and 10,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. A JSON string representing a destination in the format `[longitude,latitude]` for type `isochrone`. **Note that longitude comes before latitude, a GeoJSON convention.**
 - **`enabled`**: If `true`, the geofence will generate events. If `false`, the geofence will not generate events.
 - **`metadata`**: A set of custom key-value pairs for the geofence. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.

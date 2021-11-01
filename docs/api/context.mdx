@@ -1,0 +1,86 @@
+---
+title: Context
+---
+
+Gets context for a location, depending on project settings, without sending device or user identifiers to the server.
+
+This endpoint is stateless and anonymous. For stateful context, call the [track](/api/track) endpoint instead.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/context</code>
+
+###### Query parameters
+
+- **`coordinates`** (string, required): The coordinates. A string in the format `latitude,longitude`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/context?coordinates=40.78382,-73.97536" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "context": {
+    "geofences": [
+      {
+        "tag": "store",
+        "externalId": "123",
+        "description": "Store #123",
+        "metadata": {
+          "parking": false
+        }
+      }
+    ],
+    "place": {
+      "name": "Starbucks",
+      "chain": {
+        "name": "Starbucks",
+        "slug": "starbucks"
+      },
+      "categories": [
+        "food-beverage",
+        "coffee-shop"
+      ],
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -73.977797,
+          40.783826
+        ]
+      }
+    },
+    "country": {
+      "code": "US",
+      "name": "United States",
+      "flag": "🇺🇸"
+    },
+    "state": {
+      "code": "MD",
+      "name": "Maryland"
+    },
+    "dma": {
+      "code": "26",
+      "name": "Baltimore"
+    },
+    "postalCode": {
+      "code": "21014"
+    }
+  }
+}
+```
