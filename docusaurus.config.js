@@ -56,15 +56,8 @@ module.exports = {
     },
     algolia: {
       apiKey: 'c6ef22def89d89fa4c79364b415590aa',
-      indexName: 'radar',
       appId: 'BH4D9OD16A',
-
-      // Optional: see doc section below
-      contextualSearch: true,
-
-
-      // Optional: Algolia search parameters
-      searchParameters: {},
+      indexName: 'radar',
     },
     colorMode: {
       disableSwitch: true

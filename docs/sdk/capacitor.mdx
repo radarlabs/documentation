@@ -15,7 +15,7 @@ See the source on GitHub [here](https://github.com/radarlabs/capacitor-radar). O
 Install the package from npm:
 
 ```bash
-npm install --save capacitor-radar@3.0.0-beta.1
+npm install --save capacitor-radar
 ```
 
 Then, update dependencies:
@@ -62,8 +62,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 On Android, you must add the Google Play Services library to your project, then add the SDK to your project, preferably using Gradle. Finally, initialize the SDK and the plugin in `onCreate()` in `MainActivity.java`, passing in your Radar publishable API key:
 
 ```java
+import android.os.Bundle;
+
+import com.getcapacitor.BridgeActivity;
 import io.radar.sdk.Radar;
-import io.radar.capacitor.RadarPlugin;
 
 public class MainActivity extends BridgeActivity {
 
@@ -71,11 +73,7 @@ public class MainActivity extends BridgeActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Radar.initialize(publishableKey);
-
-    this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
-      add(RadarPlugin.class);
-    }});
+    Radar.initialize(this, publishableKey);
   }
 
 }
@@ -88,28 +86,15 @@ public class MainActivity extends BridgeActivity {
 First, import the module:
 
 ```javascript
-import { Plugins } from '@capacitor/core';
-import 'capacitor-radar';
-
-const { RadarPlugin } = Plugins;
+import { Radar } from 'capacitor-radar';
 ```
-
-### Initialize SDK
-
-Initialize the SDK again in JavaScript:
-
-```javascript
-RadarPlugin.initialize({ publishableKey });
-```
-
-where `publishableKey` is a string containing your publishable API key.
 
 ### Identify user
 
 To identify the user when logged in, call:
 
 ```javascript
-RadarPlugin.setUserId(userId);
+Radar.setUserId(userId);
 ```
 
 where `userId` is a stable unique ID for the user.
@@ -117,7 +102,7 @@ where `userId` is a stable unique ID for the user.
 To set an optional dictionary of custom metadata for the user, call:
 
 ```javascript
-RadarPlugin.setMetadata(metadata);
+Radar.setMetadata(metadata);
 ```
 
 where `metadata` is a JSON object with up to 16 keys and values of type string, boolean, or number.
@@ -125,7 +110,7 @@ where `metadata` is a JSON object with up to 16 keys and values of type string, 
 Finally, to set an optional description for the user, displayed in the dashboard, call:
 
 ```javascript
-RadarPlugin.setDescription(description);
+Radar.setDescription(description);
 ```
 
 where `description` is a string.
@@ -141,7 +126,7 @@ Before tracking the user's location, the user must have granted location permiss
 To determine the whether user has granted location permissions for the app, call:
 
 ```javascript
-RadarPlugin.getLocationPermissionsStatus().then((result) => {
+Radar.getLocationPermissionsStatus().then((result) => {
   // do something with result.status
 });
 ```
@@ -155,7 +140,7 @@ RadarPlugin.getLocationPermissionsStatus().then((result) => {
 To request location permissions for the app, call:
 
 ```javascript
-RadarPlugin.requestLocationPermissions({ background });
+Radar.requestLocationPermissions({ background });
 ```
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
@@ -169,7 +154,7 @@ Once you have initialized the SDK and the user has granted permissions, you can 
 To track the user's location in the foreground, call:
 
 ```javascript
-RadarPlugin.trackOnce().then((result) => {
+Radar.trackOnce().then((result) => {
   // do something with result.location, result.events, result.user.geofences
 }).catch((err) => {
   // optionally, do something with err
@@ -208,11 +193,11 @@ Learn about platform-specific implementations of these presets in the [iOS SDK d
 To start tracking the user's location in the background, call one of:
 
 ```javascript
-RadarPlugin.startTrackingEfficient();
+Radar.startTrackingEfficient();
 
-RadarPlugin.startTrackingResponsive();
+Radar.startTrackingResponsive();
 
-RadarPlugin.startTrackingContinuous();
+Radar.startTrackingContinuous();
 ```
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
@@ -220,7 +205,7 @@ You only need to call these methods once, as these settings will be persisted ac
 Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
 
 ```javascript
-RadarPlugin.startTrackingCustom({
+Radar.startTrackingCustom({
   options: {
     desiredStoppedUpdateInterval: 180,
     desiredMovingUpdateInterval: 60,
@@ -238,17 +223,39 @@ RadarPlugin.startTrackingCustom({
 To stop tracking the user's location in the background (e.g., when the user logs out), call:
 
 ```javascript
-RadarPlugin.stopTracking();
+Radar.stopTracking();
 ```
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+To listen for events, location updates, and errors, you can add event listeners:
+
+```javascript
+Radar.addListener('clientLocation', (result) => {
+  // do something with result.location, result.stopped, result.source
+});
+
+Radar.addListener('location', (result) => {
+  // do something with result.location, result.user
+});
+
+Radar.addListener('events', (result) => {
+  // do something with result.events, result.user
+});
+
+Radar.addListener('error', (result) => {
+  // do something with result.err
+});
+```
+
+Add event listeners outside of your view lifecycle if you want them to work when the app is in the background.
 
 ### Mock tracking
 
 On iOS and Android, you can simulate a sequence of location updates for testing. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
 
 ```javascript
-RadarPlugin.mockTracking({
+Radar.mockTracking({
   origin: {
     latitude: 40.714708,
     longitude: -74.035807
@@ -268,29 +275,35 @@ RadarPlugin.mockTracking({
 On iOS and Android, to start a trip to a destination, call:
 
 ```javascript
-RadarPlugin.startTrip({
+Radar.startTrip({
   options: {
     externalId: '299',
     destinationGeofenceTag: 'store',
     destinationGeofenceExternalId: '123',
     mode: 'car'
   }
+}).then((result) => {
+  // do something with result.status
 });
-RadarPlugin.startTrackingContinuous();
+Radar.startTrackingContinuous();
 ```
 
 Later, to complete the trip and stop tracking, call:
 
 ```javascript
-RadarPlugin.completeTrip();
-RadarPlugin.stopTracking();
+Radar.completeTrip().then((result) => {
+  // do something with result.status
+});
+Radar.stopTracking();
 ```
 
 Or, to cancel the trip and stop tracking, call:
 
 ```javascript
-RadarPlugin.cancelTrip();
-RadarPlugin.stopTracking();
+Radar.cancelTrip().then((result) => {
+  // do something with result.status
+});
+Radar.stopTracking();
 ```
 
 Learn more about [trip tracking](/trip-tracking).
@@ -300,7 +313,7 @@ Learn more about [trip tracking](/trip-tracking).
 You can manually update the user's location by calling:
 
 ```javascript
-RadarPlugin.trackOnce({
+Radar.trackOnce({
   latitude: 39.2904,
   longitude: -76.6122,
   accuracy: 65
@@ -320,7 +333,7 @@ The Capacitor plugin also exposes APIs for anonymous context, geocoding, search,
 Get a single location update without sending it to the server:
 
 ```javascript
-RadarPlugin.getLocation((result) => {
+Radar.getLocation((result) => {
   // do something with result.status, result.location
 });
 ```
@@ -330,7 +343,7 @@ RadarPlugin.getLocation((result) => {
 With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
 
 ```javascript
-RadarPlugin.getContext({
+Radar.getContext({
   latitude: 40.783826,
   longitude: -73.975363,
   accuracy: 65
@@ -344,7 +357,7 @@ RadarPlugin.getContext({
 With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
 
 ```javascript
-RadarPlugin.geocode({
+Radar.geocode({
   query: '20 jay st brooklyn ny'
 }, (result) => {
   // do something with result.status, result.addresses
@@ -354,7 +367,7 @@ RadarPlugin.geocode({
 With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
 
 ```javascript
-RadarPlugin.reverseGeocode({
+Radar.reverseGeocode({
   latitude: 40.783826,
   longitude: -73.975363
 }, (result) => {
@@ -365,7 +378,7 @@ RadarPlugin.reverseGeocode({
 With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
 
 ```javascript
-RadarPlugin.ipGeocode((result) => {
+Radar.ipGeocode((result) => {
   // do something with result.status, result.address
 });
 ```
@@ -375,7 +388,7 @@ RadarPlugin.ipGeocode((result) => {
 With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
 
 ```javascript
-RadarPlugin.autocomplete({
+Radar.autocomplete({
   query: 'brooklyn roasting',
   near: {
     latitude: 40.783826,
@@ -390,7 +403,7 @@ RadarPlugin.autocomplete({
 With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
 
 ```javascript
-RadarPlugin.searchGeofences({
+Radar.searchGeofences({
   radius: 1000,
   tags: ['venue'],
   limit: 10
@@ -402,7 +415,7 @@ RadarPlugin.searchGeofences({
 With the [places search API](/api#search-places), search for places near a location, sorted by distance:
 
 ```javascript
-RadarPlugin.searchPlaces({
+Radar.searchPlaces({
   near: {
     latitude: 40.783826,
     longitude: -73.975363
@@ -420,7 +433,7 @@ RadarPlugin.searchPlaces({
 With the [distance API](/api#distance), calculate the travel distance and duration from an origin to a destination:
 
 ```javascript
-RadarPlugin.getDistance({
+Radar.getDistance({
   origin: {
     latitude: 40.78382,
     longitude: -73.97536
