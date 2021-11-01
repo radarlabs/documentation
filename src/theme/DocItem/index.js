@@ -69,7 +69,7 @@ function DocItem(props) {
           })}>
           <DocVersionSuggestions />
           <div className={styles.docItemContainer}>
-            <article>
+            <article className="doc-item">
               {showVersionBadge && (
                 <div>
                   <span className="badge badge--secondary">

@@ -127,9 +127,6 @@ code {
   --docsearch-modal-background: var(--ifm-color-gray-100);
   --docsearch-searchbox-shadow: var(--radar-box-shadow);
   --docsearch-searchbox-background: transparent;
-
-  /* Hide search for V1 since removing it from the config just falls back to default Search bar placement */
-  display: none !important;
 }
 
 .DocSearch-Form {
