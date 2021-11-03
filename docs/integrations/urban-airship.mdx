@@ -20,8 +20,8 @@ If you are using Airship SDK `13.x` or earlier with Radar iOS SDK `3.0.4` or ear
 
 ```swift
 Radar.setMetadata([
-  "airshipChannelId": channelId,
-  "airshipSessionId": sessionId
+  "airshipChannelId": Airship.channel.identifier,
+  "airshipSessionId": Airship.analytics.sessionID
 ])
 ```
 
