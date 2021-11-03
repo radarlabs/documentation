@@ -12,7 +12,7 @@ Then, on the Radar [Integrations page](https://radar.io/dashboard/integrations) 
 
 Finally, on the Radar [Geofences page](https://radar.io/dashboard/geofences), [import geofences](/geofences) for your restaurants. For destination geofence tag in the Olo configuration, use the tag used in the restaurant geofence configuration.
 
-<img src="static/img/integrations/olo_webhook_configuration.png" className="large" />
+<img src="https://radar.io/static/img/integrations/olo_webhook_configuration.png" className="large" />
 
 Based on your settings, Radar will start and stop trips when orders are placed, fired, cancelled, or closed in Olo. You will need to call `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress and `Radar.startTrip()` with just the olo order id as the trip options external Id.
 
