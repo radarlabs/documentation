@@ -16,31 +16,154 @@ Want to get started quickly? Follow these three steps:
 
 3. **Display live trips and ETAs.** Display live ETAs on the trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing) plan. Or, display live ETAs in your own UI by polling the [list trips API](/api#list-trips) or listening for [trip events](/trip-tracking#trip-events) sent to a webhook.
 
-## Starting and stopping trips
+## Starting trips
 
 Integrate the [SDK](/sdk) into your app or website. When a customer places an order or taps "I'm on my way," start tracking and start a trip with an ID, a destination geofence, a travel mode, and custom metadata (e.g., customer name, car model, or license plate) depending on your use case.
 
 When the order is picked up or a customer taps "I'm here," stop tracking and stop the trip.
 
-For example, on iOS:
+<Tabs
+  groupId="code"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Java', value: 'java' }
+  ]}
+>
+  <TabItem value="swift">
+  ```swift
+  // order placed or user taps "I'm on my way"
+  let tripOptions = RadarTripOptions(externalId: "299", destinationGeofenceTag: "store", destinationGeofenceExternalId: "123")
+  tripOptions.mode = .car
+  tripOptions.metadata = [
+    "Customer Name": "Jacob Pena",
+    "Car Model": "Green Honda Civic"
+  ]
+  Radar.startTrip(options: tripOptions)
+  Radar.startTracking(trackingOptions: .presetContinuous)
+  ```
+  </TabItem>
+  <TabItem value="objc">
+  ```objc
+  // order placed or user taps "I'm on my way"
+  RadarTripOptions *options = [[RadarTripOptions alloc] initWithExternalId:@"299"];
+  options.destinationGeofenceTag = @"store";
+  options.destinationGeofenceExternalId = @"123";
+  options.mode = RadarRouteModeCar;
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  options.metadata = dict;
+  [Radar startTripWithOptions:options];
+  [Radar startTrackingWithOptions:RadarTrackingOptions.presetContinuous];
+  ```
+  </TabItem>
+    <TabItem value="kotlin">
+  ```kotlin
+  // order placed or user taps "I'm on my way"
+    val tripOptions = RadarTripOptions(
+        "299",
+        null,
+        "store",
+        "123",
+        Radar.RadarRouteMode.CAR
+    )
+    Radar.startTrip(tripOptions)
+    val options = RadarTrackingOptions.CONTINUOUS
+    Radar.startTracking(options)
+  ```
+  </TabItem>
+    <TabItem value="java">
+  ```java
+    // order placed or user taps "I'm on my way"
+    final JSONObject tripOptionsJson = new JSONObject();
+    tripOptionsJson.put("externalId","299");
+    tripOptionsJson.put("destinationGeofenceTag","store");
+    tripOptionsJson.put("destinationGeofenceExternalId","123");
+    tripOptionsJson.put("mode", Radar.RadarRouteMode.CAR);
+    RadarTripOptions tripOptions = RadarTripOptions.fromJson(tripOptionsJson);
+    Radar.startTrip(
+            tripOptions, new Radar.RadarTripCallback() {
+                @Override
+                public void onComplete(@NonNull Radar.RadarStatus radarStatus, @Nullable RadarTrip radarTrip, @Nullable RadarEvent[] radarEvents) {
+                    // log status
+                }
+            }
+    );
+    Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
+  ```
+  </TabItem>
+</Tabs>
 
-```swift
-// order placed or user taps "I'm on my way"
-let tripOptions = RadarTripOptions(externalId: "299")
-tripOptions.destinationGeofenceTag = "store"
-tripOptions.destinationGeofenceExternalId = "123"
-tripOptions.mode = .car
-tripOptions.metadata = [
-  "Customer Name": "Jacob Pena",
-  "Car Model": "Green Honda Civic"
-]
-Radar.startTrip(options: tripOptions)
-Radar.startTracking(trackingOptions: .continuous)
+## Updating trips
 
+As trips progress you can pass updates about the trip. This is commonly used to capture additional metadata as the trip progresses (i.e. in a pickup use case car info provided on arrival).
+
+<Tabs
+  groupId="code"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Java', value: 'java' }
+  ]}
+>
+  <TabItem value="swift">
+  ```swift
+  ```
+  </TabItem>
+    <TabItem value="objc">
+  ```objc
+  ```
+  </TabItem>
+  <TabItem value="kotlin">
+  ```kotlin
+  ```
+  </TabItem>
+    <TabItem value="java">
+   ```java
+   ```
+      </TabItem>
+</Tabs>
+
+
+## Ending trips
+
+<Tabs
+  groupId="code"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Java', value: 'java' }
+  ]}
+>
+  <TabItem value="swift">
+  ```swift
+  ```
+  </TabItem>
+    <TabItem value="objc">
+        ```objc
+  ```
+  </TabItem>
+  <TabItem value="kotlin">
+  ```kotlin
+  ```
+  </TabItem>
+    <TabItem value="java">
+   ```java
+   ```
+      </TabItem>
+</Tabs>
+
+```
 // order picked up or user taps "I'm here"
 Radar.completeTrip()
 Radar.stopTracking()
 ```
+
 
 ## Trip events
 
