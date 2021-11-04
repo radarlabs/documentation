@@ -63,6 +63,8 @@ options.destinationGeofenceTag = @"store";
 options.destinationGeofenceExternalId = @"123";
 options.mode = RadarRouteModeCar;
 NSMutableDictionary *dict = [NSMutableDictionary new];
+dict[@"Customer Name"] = @"Jacob Pena";
+dict[@"Car Model"] = @"Green Honda Civic";
 options.metadata = dict;
 [Radar startTripWithOptions:options];
 [Radar startTrackingWithOptions:RadarTrackingOptions.presetContinuous];
