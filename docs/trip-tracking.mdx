@@ -75,16 +75,30 @@ options.metadata = dict;
 
 ```kotlin
 // order placed or user taps "I'm on my way"
+
+// set trip options
+val tripExternalId = "299"
+val destinationGeofenceExternalId = "123" // destination geofence externalId
+val destinationGeofenceTag = "store" // destination geofence tag
+val metadata = JSONObject() // trip metadata 
+  tripMetadata.put("Name", "John Doe")
+  tripMetadata.put("Car","Toyota 4Runner")
+val routeMode = Radar.RadarRouteMode.CAR // mode of travel (i.e. car, foot, bike, truck, or motorbike)
+
 val tripOptions = RadarTripOptions(
-    "299",
-    null,
-    "store",
-    "123",
-    Radar.RadarRouteMode.CAR
+    tripExternalId,
+    tripMetadata,
+    destinationGeofenceTag,
+    destinstationGeofenceExternalId,
+    routeMode
 )
+
+// start trip with tripOptions
 Radar.startTrip(tripOptions)
-val options = RadarTrackingOptions.CONTINUOUS
-Radar.startTracking(options)
+
+    // start tracking
+startForegroundService()
+Radar.startTracking(RadarTrackingOptions.CONTINUOUS)
 ```
 
   </TabItem>
@@ -143,6 +157,9 @@ As trips progress you can pass updates about the trip. This is commonly used to 
   <TabItem value="kotlin">
 
   ```kotlin
+    tripOptions.metadata?.put("Parking Spot","1")
+    Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED)
+    
   ```
 
   </TabItem>
@@ -201,6 +218,16 @@ The UI also allows for trip expiration based on a set number of hours after trip
   <TabItem value="kotlin">
 
   ```kotlin
+  
+  // Order picked up
+  Radar.completeTrip()
+  Radar.stopTracking()
+  stopForegroundService()
+    
+  // Order Cancelled
+  Radar.cancelTrip()
+  Radar.stopTracking()
+  stopForegroundService()  
   ```
 
   </TabItem>
