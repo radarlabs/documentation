@@ -12,7 +12,7 @@ The Airship integration is available on the [Team](https://radar.io/pricing) pla
 
 On the Airship *APIs & Integrations* page, create a custom event token and copy the app key and access token. Under *Partner Integrations*, enable Radar to enable auto-population of custom event names and properties in the Airship Automation Composer.
 
-Then, on the Radar [Integrations page](/integrations) under *Urban Airship*, set *Enabled* to *Yes* and paste your app key and access token. Note that you can set separate API keys for the *Test* and *Live* environments.
+Then, on the Radar [Integrations page](/integrations) under *Airship*, set *Enabled* to *Yes* and paste your app key and access token. Note that you can set separate API keys for the *Test* and *Live* environments.
 
 Whenever events are generated, Radar will send custom events and tags to Airship. Note that for tags to populate, you must manually create [tag groups](https://docs.airship.com/guides/messaging/user-guide/audience/segmentation/tags/) in Airship first.
 
@@ -20,8 +20,8 @@ If you are using Airship SDK `13.x` or earlier with Radar iOS SDK `3.0.4` or ear
 
 ```swift
 Radar.setMetadata([
-  "airshipChannelId": channelId,
-  "airshipSessionId": sessionId
+  "airshipChannelId": Airship.channel.identifier,
+  "airshipSessionId": Airship.analytics.sessionID
 ])
 ```
 
