@@ -6,12 +6,14 @@ Radar can [start and stop trips](/trip-tracking) for customer arrival tracking w
 
 ## Configuration
 
-Ask your Olo account manager to enable a Radar webhook. When order events are triggered in Olo, Olo will call the Radar webhook. Copy your brand ID and secret key from Olo.
+Configure a Olo webhook to deliver to https://api.radar.io/webhooks/olo for the relevant Order Events via the Development Tools section of the Olo Dashboard (requires 2 factor authentication and at least Brand Manager permission). When order events are triggered in Olo, Olo will call the Radar webhook. Collect your brand ID from Olo.
 
-Then, on the Radar [Integrations page](https://radar.io/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste your brand ID and secret key. Enter a destination geofence tag (e.g., `restaurant`) and optionally map fields from the Olo webhook body to Radar trip metadata. Select the Olo order events that should trigger trip start and trip stop events.
+Then, on the Radar [Integrations page](https://radar.io/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste your brand ID. Enter a destination geofence tag (e.g., `restaurant`) and optionally map fields from the Olo webhook body to Radar trip metadata. Select the Olo order events that should trigger trip start and trip stop events.
 
-Finally, on the Radar [Geofences page](https://radar.io/dashboard/geofences), [import geofences](/geofences) for your restaurants. For tag, use the specified destination geofence tag. For external ID, use the store number from Olo.
+Finally, on the Radar [Geofences page](https://radar.io/dashboard/geofences), [import geofences](/geofences) for your restaurants. For destination geofence tag in the Olo configuration, use the tag used in the restaurant geofence configuration.
 
-Based on your settings, Radar will start and stop trips when orders are placed, fired, cancelled, or closed in Olo. You will need to call `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress, but you will not need to call `Radar.startTrip()` or `Radar.stopTrip()` when the integration is enabled.
+![Olo Webhook Configuration](/img/integrations/olo_webhook_configuration.png)
 
-Assuming the customer has granted location permissions and assuming location tracking has been started in your app, Radar will generate location-based `user.approaching_trip_destination` and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
+Based on your settings, Radar will start and stop trips when orders are placed, fired, cancelled, or closed in Olo. You will need to call `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress and `Radar.startTrip()` with just the olo order id as the trip options external Id.
+
+Assuming the customer has granted location permissions and location tracking has been started in your app, Radar will generate location-based `user.approaching_trip_destination` and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
