@@ -120,7 +120,7 @@ Use your `Test Publishable` key for testing and non-production environments. Use
 
 Radar respects [standard Android location permissions](https://developer.android.com/training/permissions/requesting.html).
 
-For foreground tracking or trip tracking with continuous mode, Radar requires the `FOREGROUND_SERVICE` permission to receive location updates. Additionally, it requires the `ACCESS_FINE_LOCATION` permission for precise location and/or the `ACCESS_COARSE_LOCATION` permission for [approximate location](https://developer.android.com/about/versions/12/approximate-location). These permissions are automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, and `RECEIVE_BOOT_COMPLETED` permissions.
+For foreground tracking or trip tracking with continuous mode, Radar requires the `ACCESS_FINE_LOCATION` permission for precise location and/or the `ACCESS_COARSE_LOCATION` permission for [approximate location](https://developer.android.com/about/versions/12/approximate-location). To start a [foreground service](https://developer.android.com/training/location/permissions#foreground), Radar requires the `FOREGROUND_SERVICE` permission. These permissions are automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, and `RECEIVE_BOOT_COMPLETED` permissions.
 
 For background tracking or geofencing with responsive mode, and if targeting API level `29` or higher, Radar also requires the new `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
 
@@ -130,9 +130,9 @@ For background tracking or geofencing with responsive mode, and if targeting API
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 </manifest>
