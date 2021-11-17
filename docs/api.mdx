@@ -1573,6 +1573,7 @@ Gets a geofence. The geofence can be uniquely referenced by Radar `_id` or by `t
 ###### Definition
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<br />
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
 
 ###### Default rate limit
@@ -1679,6 +1680,7 @@ Deletes a geofence. The geofence can be uniquely referenced by Radar `_id` or by
 ###### Definition
 
 <span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<br />
 <span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
 
 ###### Default rate limit
@@ -1827,8 +1829,8 @@ A beacon represents a bluetooth beacon in your project. Beacons can be uniquely 
 - **`externalId`** (optional, but recommended): An external ID for the beacon.
 - **`type`** (required): The type of beacon. `ibeacon` is currently supported.
 - **`uuid`** (required): The UUID of the beacon.
-- **`majorId`** (required): The major ID of the beacon.
-- **`minorId`** (required): The minor ID of the beacon.
+- **`major`** (required): The major ID of the beacon.
+- **`minor`** (required): The minor ID of the beacon.
 - **`geometry`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
 - **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
@@ -1921,7 +1923,9 @@ Gets a beacon. The beacon can be uniquely referenced by Radar `id` or by `uuid`,
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:id</code><span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:uuid/:major/:minor</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:id</code>
+<br />
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:uuid/:major/:minor</code>
 
 ###### Default rate limit
 
@@ -1971,8 +1975,8 @@ Creates a beacon.
 - **`externalId`** (optional, but recommended): An external ID for the beacon.
 - **`type`** (required): The type of beacon. `ibeacon` is currently supported.
 - **`uuid`** (required): The UUID of the beacon.
-- **`majorId`** (required): The major ID of the beacon.
-- **`minorId`** (required): The minor ID of the beacon.
+- **`major`** (required): The major ID of the beacon.
+- **`minor`** (required): The minor ID of the beacon.
 - **`coordinates`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
 - **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
