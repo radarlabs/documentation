@@ -1829,7 +1829,7 @@ A beacon represents a bluetooth beacon in your project. Beacons can be uniquely 
 - **`uuid`** (required): The UUID of the beacon.
 - **`majorId`** (required): The major ID of the beacon.
 - **`minorId`** (required): The minor ID of the beacon.
-- **`geometry`** (polygon): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
+- **`geometry`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
 - **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
@@ -2000,6 +2000,67 @@ curl "https://api.radar.io/v1/beacons" \
   -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
   -d "major=2298" \
   -d "minor=8515"
+```
+
+###### Sample response
+
+```json
+{
+    "meta": {
+        "code": 200
+    },
+    "beacon": {
+        "_id": "6116d947049aee0089a682a2",
+        "createdAt": "2021-08-13T20:42:47.711Z",
+        "updatedAt": "2021-08-13T20:42:47.711Z",
+        "live": true,
+        "description": "Beacon 1",
+        "tag": "drive-thru",
+    ...
+  }
+}
+```
+
+#### Upsert a beacon
+
+Upserts a beacon. The beacon can be uniquely referenced by `tag` and `externalId`. If a beacon with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
+
+###### Definition
+
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/beacons/:tag/:externalId</code>
+
+###### Body parameters
+
+- **`description`** (string, required): A display name for the beacon.
+- **`type`** (string, required): The type of beacon. `ibeacon` is currently supported.
+- **`uuid`** (string, required): The UUID of the beacon.
+- **`major`** (string, required): The major ID of the beacon.
+- **`minor`** (string, required): The minor ID of the beacon.
+- **`coordinates`** (point, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
+- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+- **`enabled`** (boolean, optional): If `true`, the beacon will generate events. If `false`, the beacon will not generate events. Defaults to `true`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/drive-thru/store123-beacon-1" \
+  -H "Authorization: prj_live_sk_..." \
+  -X PUT \
+  -d "description=Beacon 1" \
+  -d "type=ibeacon" \
+  -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
+  -d "major=2298" \
+  -d "minor=8515" \
+  -d "coordinates=[-105.94653744704361,35.70654086799666]" \
+  -d "enabled=true"
 ```
 
 ###### Sample response
