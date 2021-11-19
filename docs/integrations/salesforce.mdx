@@ -368,3 +368,26 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.entered_beacon
+
+Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_beacon
+
+Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `1.42`

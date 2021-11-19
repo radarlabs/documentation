@@ -45,6 +45,8 @@ Radar Event | Context Type | Branch Event
 `user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `approaching_trip_destination`
 `user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `arrived_at_trip_destination`
 `user.stopped_trip` | [Trip Tracking](/trip-tracking) | `stopped_trip`
+`user.entered_beacon` | [Beacons](/beacons) | `entered_beacon`
+`user.exited_beacon` | [Beacons](/beacons) | `exited_beacon`
 
 ### entered_geofence
 
@@ -272,3 +274,26 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### entered_beacon
+
+Radar Event Attribute | Branch Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### exited_beacon
+
+Radar Event Attribute | Branch Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `1.42`
