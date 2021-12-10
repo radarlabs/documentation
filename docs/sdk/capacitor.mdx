@@ -246,6 +246,10 @@ Radar.addListener('events', (result) => {
 Radar.addListener('error', (result) => {
   // do something with result.err
 });
+
+Radar.addListener('log', (result) => {
+  // do something with result.message
+});
 ```
 
 Add event listeners outside of your view lifecycle if you want them to work when the app is in the background.
