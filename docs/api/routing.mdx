@@ -1,0 +1,155 @@
+---
+title: Routing
+---
+
+## Distance
+
+Calculates the travel distance and duration between an origin and a destination.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/distance</code>
+
+###### Query parameters
+
+- **`origin`** (string, required): The origin. A string in the format `latitude,longitude`.
+- **`destination`** (string, required): The destination. A string in the format `latitude,longitude`.
+- **`modes`** (string, required): The [travel modes](/api#route-distance). A string, comma-separated, including one or more of `foot`, `bike`, and `car`.
+- **`units`** (string, required): The distance units. A string, `metric` or `imperial`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/route/distance?origin=40.78382,-73.97536&destination=40.70390,-73.98690&modes=foot,car&units=imperial" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "routes": {
+    "geodesic": {
+      "distance": {
+        "value": 29333.03,
+        "text": "5.6 mi"
+      }
+    },
+    "foot": {
+      "distance": {
+        "value": 54596.46,
+        "text": "10.3 mi",
+      },
+      "duration": {
+        "value": 98.48,
+        "text": "1 hr 38 min"
+      }
+    },
+    "car": {
+      "distance": {
+        "value": 42480.31,
+        "text": "8.0 mi"
+      },
+      "duration": {
+        "value": 19.9,
+        "text": "20 mins"
+      }
+    }
+  }
+}
+```
+
+## Matrix
+
+Calculates the travel distances and durations between multiple origins and destinations for up to 25 routes.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/matrix</code>
+
+###### Query parameters
+
+- **`origins`** (string, required): A list of origins. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`destinations`** (string, required): A list of destinations. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`mode`** (string, required): The travel mode. A string, one of `foot`, `bike`, or `car`.
+- **`units`** (string, required): The distance units. A string, `metric` or `imperial`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/route/matrix?origins=40.78382,-73.97536&destinations=40.70390,-73.98690|40.73237,-73.94884&mode=car&units=imperial" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "origins": [
+    {
+      "latitude": 40.78382,
+      "longitude": -73.97536
+    }
+  ],
+  "destinations": [
+    {
+      "latitude": 40.70390,
+      "longitude": -73.98670
+    },
+    {
+      "latitude": 40.73237,
+      "longitude": -73.94884
+    }
+  ],
+  "matrix": [
+    [
+      {
+        "distance": {
+          "value": 42480.31,
+          "text": "8.0 mi"
+        },
+        "duration": {
+          "value": 19.9,
+          "text": "20 mins"
+        },
+        "originIndex": 0,
+        "destinationIndex": 0
+      },
+      {
+        "distance": {
+          "value": 31108.92,
+          "text": "5.8 mi"
+        },
+        "duration": {
+          "value": 17.13,
+          "text": "17 mins"
+        },
+        "originIndex": 0,
+        "destinationIndex": 1
+      }
+    ]
+  ]
+}
+```

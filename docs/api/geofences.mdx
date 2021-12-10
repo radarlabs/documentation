@@ -1,0 +1,292 @@
+---
+title: Geofences
+---
+
+A geofence represents a custom region or place monitored in your project. Geofences can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
+
+###### Object fields
+
+- **`_id`** (string): The unique ID for the geofence, provided by Radar. An alphanumeric string.
+- **`createdAt`** (datetime): The datetime when the geofence was created.
+- **`live`** (boolean): `true` if the geofence was created with your `live` API key, `false` if the user was created with your `test` API key.
+- **`tag`** (string): An optional group for the geofence.
+- **`externalId`** (string): An optional external ID for the geofence that maps to your internal database.
+- **`description`** (string): A description for the geofence.
+- **`type`** (string): The type of geofence geometry, one of `circle`, `polygon`, or `isochrone`.
+- **`geometry`** (polygon): The geometry of the geofence. Coordinates for type `polygon`. A calculated polygon approximation for type `circle` and `isochrone`. A `Polygon` in [GeoJSON](http://geojson.org/) format.
+- **`geometryCenter`** (point): The center for type `circle`. The calculated centroid of the polygon for type `polygon`. The destination for type `isochrone`. A `Point` in [GeoJSON](http://geojson.org/) format.
+- **`geometryRadius`** (number): The radius in meters for type `circle`. The calculated approximate radius of the polygon for type `polygon`. The travel duration in minutes for type `isochrone`.
+- **`mode`** (string): The [travel mode](/api#route-distance) for type `isochrone`.
+- **`metadata`** (dictionary): An optional set of custom key-value pairs for the geofence.
+- **`userId`** (string): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
+- **`enabled`** (boolean): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
+
+###### Sample object
+
+```json
+{
+  "_id": "56db1f4613012711002229f5",
+  "createdAt": "2016-06-10T13:44:10.535Z",
+  "live": true,
+  "tag": "venue",
+  "externalId": "2",
+  "description": "Coffee Shop",
+  "type": "circle",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[...]]
+  },
+  "geometryCenter": {
+    "type": "Point",
+    "coordinates": [-73.97536, 40.78382]
+  },
+  "geometryRadius": 50,
+  "metadata": {
+    ...
+  },
+  "enabled": true
+}
+```
+
+## List geofences
+
+###### Definition
+
+Lists geofences. Geofences are sorted descending by `createdAt`.
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences</code>
+
+###### Query parameters
+
+- **`limit`** (number, optional): The max number of geofences to return. A number between 1 and 1000. Defaults to 100.
+- **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created before the specified datetime. A date or valid ISO date string.
+- **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created after the specified datetime. A date or valid ISO date string.
+- **`tag`** (string, optional): Retrieves geofences with the specified `tag`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Authentication level
+
+Secret
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200,
+    "hasMore": true
+  },
+  "geofences": [
+    {
+      "_id": "56db1f4613012711002229f5",
+      "createdAt": "2016-06-10T13:44:10.535Z",
+      "live": true,
+      "tag": "venue",
+      "externalId": "2",
+      "description": "Coffee Shop",
+      "type": "circle",
+      ...
+    },
+    ...
+  ]
+}
+```
+
+## Get a geofence
+
+Gets a geofence. The geofence can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "geofence": {
+    "_id": "56db1f4613012711002229f5",
+    "createdAt": "2016-06-10T13:44:10.535Z",
+    "live": true,
+    "tag": "venue",
+    "externalId": "2",
+    "description": "Coffee Shop",
+    "type": "circle",
+    ...
+  }
+}
+```
+
+## Upsert a geofence
+
+Upserts a geofence. The geofence can be uniquely referenced by `tag` and `externalId`. If a geofence with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
+
+###### Definition
+
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+
+###### Body parameters
+
+- **`description`** (string, required): A description for the geofence.
+- **`type`** (string, required): The type of geofence geometry. A string, one of `circle`, `polygon`, or `isochrone`.
+- **`coordinates`** (array, required): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 10,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
+- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number.
+- **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
+- **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
+- **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
+- **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
+- **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
+- **`mode`** (string, required for type `isochrone`): The [travel mode](/api#route-distance) for type `isochrone`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/venue/2" \
+  -H "Authorization: prj_live_sk_..." \
+  -X PUT \
+  -d "description=Coffee Shop" \
+  -d "type=circle" \
+  -d "coordinates=[-73.97536,40.78382]" \
+  -d "radius=50"
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "geofence": {
+    "_id": "56db1f4613012711002229f5",
+    "createdAt": "2016-06-10T13:44:10.535Z",
+    "live": true,
+    "tag": "venue",
+    "externalId": "2",
+    "description": "Coffee Shop",
+    "type": "circle",
+    ...
+  }
+}
+```
+
+## Delete a geofence
+
+Deletes a geofence. The geofence can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
+
+###### Definition
+
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
+  -H "Authorization: prj_live_sk_..." \
+  -X DELETE
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  }
+}
+```
+
+## Get users in a geofence
+
+Gets users currently in a geofence.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId/users</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geofences/venue/2/users" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Sample response
+
+```json
+{
+    "meta": {
+        "code": 200,
+        "hasMore": false
+    },
+    "users": [
+        {
+            "_id": "611ace2eb08f300047c904e9",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    73.97536,
+                    40.78382
+                ]
+            },
+            ...
+        }
+        ...
+    ]
+}
+```

@@ -43,7 +43,7 @@ On Android, this is not an issue.
 
 Yes, Radar supports location verification and fraud detection for gambling, media, payments, and more.
 
-First, you can use the [IP geocoding API](/api#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
+First, you can use the [IP geocoding API](/api/geocoding#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
 
 Second, you can use [Regions](/regions) to detect a user's country or state based on latitude and longitude. On Android, you can check the [`location.isMock`](https://developer.android.com/reference/android/location/Location#isMock()) flag determine if the user is mocking their location.
 
@@ -89,7 +89,7 @@ Radar supports custom data retention policies for enterprise customers. Contact 
 
 Yes, Radar is CCPA-compliant and GDPR-compliant. For more information, see our [commitment to privacy](https://radar.io/blog/our-commitment-to-privacy).
 
-For data deletion requests, you can delete a user manually from the user detail page in the dashboard or [delete a user programmatically](/api#delete-a-user) using the API. Deletions are immediate.
+For data deletion requests, you can delete a user manually from the user detail page in the dashboard or [delete a user programmatically](/api/users#delete-a-user) using the API. Deletions are immediate.
 
 For data access requests, you can export a user and all of their events and locations manually from the user detail page in the dashboard.
 

@@ -1,0 +1,186 @@
+---
+title: Geocoding
+---
+
+## Forward geocode
+
+Geocodes an address, converting address to coordinates.
+
+This endpoint is best for complete addresses. For partial addresses or place names, call the [autocomplete](#autocomplete) endpoint instead.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/forward</code>
+
+###### Query parameters
+
+- **`query`** (string, required): The address to geocode.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
+- **`country`** (string, optional): An optional country filter. A string, the unique 2-letter [country code](/regions/countries).
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "addresses": [
+    {
+      "latitude": 40.70390,
+      "longitude": -73.98670,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.98670, 40.70390]
+      },
+      "addressLabel": "20 Jay Street",
+      "formattedAddress": "20 Jay Street, Brooklyn, New York, NY 11201 USA",
+      "country": "United States",
+      "countryCode": "US",
+      "countryFlag": "🇺🇸",
+      "state": "New York",
+      "stateCode": "NY",
+      "postalCode": "11201",
+      "city": "New York",
+      "borough": "Brooklyn",
+      "county": "Kings County",
+      "neighborhood": "DUMBO",
+      "number": "20",
+      "confidence": "exact",
+      "layer": "address"
+    }
+  ]
+}
+```
+
+## Reverse geocode
+
+Reverse geocodes a location, converting coordinates to address.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/reverse</code>
+
+###### Query parameters
+
+- **`coordinates`** (string, required): The coordinates to reverse geocode. A string in the format `latitude,longitude`.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned. If not provided, results from all layers will be returned.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geocode/reverse?coordinates=40.70390,-73.98670" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "addresses": [
+    {
+      "latitude": 40.70390,
+      "longitude": -73.98670,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.98670, 40.70390]
+      },
+      "addressLabel": "20 Jay Street",
+      "formattedAddress": "20 Jay Street, Brooklyn, New York, NY 11201 USA",
+      "country": "United States",
+      "countryCode": "US",
+      "countryFlag": "🇺🇸",
+      "state": "New York",
+      "stateCode": "NY",
+      "postalCode": "11201",
+      "city": "New York",
+      "borough": "Brooklyn",
+      "county": "Kings County",
+      "neighborhood": "DUMBO",
+      "number": "20",
+      "distance": 5,
+      "layer": "address"
+    }
+  ]
+}
+```
+
+## IP geocode
+
+Geocodes an IP address, converting IP address to city, state, and country.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/ip</code>
+
+###### Query parameters
+
+- **`ip`** (string, optional): The IP address to geocode. Defaults to the request IP address.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/geocode/ip?ip=107.77.199.117" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "address": {
+    "latitude": 40.70390,
+    "longitude": -73.98670,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [-73.98670, 40.70390]
+    },
+    "country": "United States",
+    "countryCode": "US",
+    "countryFlag": "🇺🇸",
+    "state": "New York",
+    "stateCode": "NY",
+    "postalCode": "11201",
+    "city": "New York"
+  },
+  "proxy": false,
+  "ip": "107.77.199.117"
+}
+```
