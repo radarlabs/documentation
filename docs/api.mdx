@@ -10,7 +10,7 @@ The API is RESTful, with predictable, resource-oriented URLs. All responses, inc
 
 ## Authentication
 
-All requests must be authenticated. Authenticate using your API keys, found on the [Settings](https://radar.io/dashboard/settings) page. Include your API key in the `Authorization` header.
+All requests must be authenticated. Authenticate using your API keys, found on the [Settings](https://radar.com/dashboard/settings) page. Include your API key in the `Authorization` header.
 
 API endpoints with authentication level `Publishable` are safe to call client-side (e.g., [from the SDK](/sdk#authentication)). You should use your publishable API keys to call these endpoints. Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
 
@@ -19,7 +19,7 @@ API endpoints with authentication level `Secret` are only safe to call server-si
 ###### Sample request
 
 ```bash
-curl https://api.radar.io/v1/users \
+curl https://api.radar.com/v1/users \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -72,7 +72,7 @@ This endpoint is stateful. For anonymous or stateless context, call the [context
 
 ###### Definition
 
-<span className="badge badge--info">POST</span> <code>https://api.radar.io/v1/track</code>
+<span className="badge badge--info">POST</span> <code>https://api.radar.com/v1/track</code>
 
 ###### Body parameters
 
@@ -99,7 +99,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/track" \
+curl "https://api.radar.com/v1/track" \
   -H "Authorization: prj_live_pk_..." \
   -X POST \
   -d "deviceId=C305F2DB-56DC-404F-B6C1-BC52F0B680D8" \
@@ -305,7 +305,7 @@ This endpoint is stateless and anonymous. For stateful context, call the [track]
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/context</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/context</code>
 
 ###### Query parameters
 
@@ -322,7 +322,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/context?coordinates=40.78382,-73.97536" \
+curl "https://api.radar.com/v1/context?coordinates=40.78382,-73.97536" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -392,7 +392,7 @@ This endpoint is best for complete addresses. For partial addresses or place nam
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/forward</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/geocode/forward</code>
 
 ###### Query parameters
 
@@ -411,7 +411,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
+curl "https://api.radar.com/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -456,7 +456,7 @@ Reverse geocodes a location, converting coordinates to address.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/reverse</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/geocode/reverse</code>
 
 ###### Query parameters
 
@@ -474,7 +474,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geocode/reverse?coordinates=40.70390,-73.98670" \
+curl "https://api.radar.com/v1/geocode/reverse?coordinates=40.70390,-73.98670" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -519,7 +519,7 @@ Geocodes an IP address, converting IP address to city, state, and country.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/ip</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/geocode/ip</code>
 
 ###### Query parameters
 
@@ -536,7 +536,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geocode/ip?ip=107.77.199.117" \
+curl "https://api.radar.com/v1/geocode/ip?ip=107.77.199.117" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -575,7 +575,7 @@ Autocompletes partial addresses and place names, sorted by relevance.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/autocomplete</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/search/autocomplete</code>
 
 ###### Query parameters
 
@@ -596,7 +596,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/search/autocomplete?query=brooklyn+roasting&near=40.70390,-73.98670" \
+curl "https://api.radar.com/v1/search/autocomplete?query=brooklyn+roasting&near=40.70390,-73.98670" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -642,7 +642,7 @@ Searches for users near a location, sorted by distance.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/users</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/search/users</code>
 
 ###### Query parameters
 
@@ -663,7 +663,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/search/users?near=40.78382,-73.97536&radius=1000&limit=10" \
+curl "https://api.radar.com/v1/search/users?near=40.78382,-73.97536&radius=1000&limit=10" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -693,7 +693,7 @@ Searches for geofences near a location, sorted by distance.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/geofences</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/search/geofences</code>
 
 ###### Query parameters
 
@@ -714,7 +714,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/search/geofences?tags=store&metadata[offers]=true&near=40.783826,-73.975363&radius=1000&limit=10" \
+curl "https://api.radar.com/v1/search/geofences?tags=store&metadata[offers]=true&near=40.783826,-73.975363&radius=1000&limit=10" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -753,7 +753,7 @@ Searches for places near a location, sorted by distance.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/search/places</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/search/places</code>
 
 ###### Query parameters
 
@@ -776,7 +776,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/search/places?chains=starbucks&near=40.78382,-73.97779&radius=1000&limit=10" \
+curl "https://api.radar.com/v1/search/places?chains=starbucks&near=40.78382,-73.97779&radius=1000&limit=10" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -823,7 +823,7 @@ Calculates the travel distance and duration between an origin and a destination.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/distance</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/route/distance</code>
 
 ###### Query parameters
 
@@ -843,7 +843,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/route/distance?origin=40.78382,-73.97536&destination=40.70390,-73.98690&modes=foot,car&units=imperial" \
+curl "https://api.radar.com/v1/route/distance?origin=40.78382,-73.97536&destination=40.70390,-73.98690&modes=foot,car&units=imperial" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -891,7 +891,7 @@ Calculates the travel distances and durations between multiple origins and desti
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/matrix</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/route/matrix</code>
 
 ###### Query parameters
 
@@ -911,7 +911,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/route/matrix?origins=40.78382,-73.97536&destinations=40.70390,-73.98690|40.73237,-73.94884&mode=car&units=imperial" \
+curl "https://api.radar.com/v1/route/matrix?origins=40.78382,-73.97536&destinations=40.70390,-73.98690|40.73237,-73.94884&mode=car&units=imperial" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -1102,7 +1102,7 @@ Lists users. Users are sorted descending by `updatedAt`.
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/users</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/users</code>
 
 ###### Query parameters
 
@@ -1121,7 +1121,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/users" \
+curl "https://api.radar.com/v1/users" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1152,7 +1152,7 @@ Gets a user. The user can be referenced by Radar `_id`, `userId`, or `deviceId`.
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/users/:id</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/users/:id</code>
 
 ###### Default rate limit
 
@@ -1165,7 +1165,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
+curl "https://api.radar.com/v1/users/56db1f4613012711002229f4" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1192,7 +1192,7 @@ Deletes a user. The user can be referenced by Radar `_id`, `userId`, or `deviceI
 
 ###### Definition
 
-<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/users/:id</code>
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.com/v1/users/:id</code>
 
 ###### Default rate limit
 
@@ -1205,7 +1205,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
+curl "https://api.radar.com/v1/users/56db1f4613012711002229f4" \
   -H "Authorization: prj_live_sk_..." \
   -X DELETE
 ```
@@ -1302,7 +1302,7 @@ Gets a trip. The trip can be referenced by Radar `_id` or `externalId`.
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/trips/:id</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/trips/:id</code>
 
 ###### Default rate limit
 
@@ -1311,7 +1311,7 @@ Gets a trip. The trip can be referenced by Radar `_id` or `externalId`.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips/299" \
+curl "https://api.radar.com/v1/trips/299" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1354,7 +1354,7 @@ Secret
 
 Lists trips. Trips are sorted descending by `eta`.
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/trips</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/trips</code>
 
 ###### Query parameters
 
@@ -1369,7 +1369,7 @@ Lists trips. Trips are sorted descending by `eta`.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips?active=true&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
+curl "https://api.radar.com/v1/trips?active=true&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1431,7 +1431,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 
 ###### Definition
 
-<span className="badge badge--warning">PATCH</span> <code>https://api.radar.io/v1/trips/:id</code>
+<span className="badge badge--warning">PATCH</span> <code>https://api.radar.com/v1/trips/:id</code>
 
 ###### Query parameters
 
@@ -1444,7 +1444,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips/299" \
+curl "https://api.radar.com/v1/trips/299" \
   -H "Authorization: prj_live_sk_..."
   -X PATCH
   -d "status=completed"
@@ -1518,7 +1518,7 @@ A geofence represents a custom region or place monitored in your project. Geofen
 
 Lists geofences. Geofences are sorted descending by `createdAt`.
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/geofences</code>
 
 ###### Query parameters
 
@@ -1534,7 +1534,7 @@ Lists geofences. Geofences are sorted descending by `createdAt`.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geofences" \
+curl "https://api.radar.com/v1/geofences" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1572,9 +1572,9 @@ Gets a geofence. The geofence can be uniquely referenced by Radar `_id` or by `t
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/geofences/:id</code>
 <br />
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/geofences/:tag/:externalId</code>
 
 ###### Default rate limit
 
@@ -1587,7 +1587,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
+curl "https://api.radar.com/v1/geofences/56db1f4613012711002229f5" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1617,7 +1617,7 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 
 ###### Definition
 
-<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.com/v1/geofences/:tag/:externalId</code>
 
 ###### Body parameters
 
@@ -1644,7 +1644,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geofences/venue/2" \
+curl "https://api.radar.com/v1/geofences/venue/2" \
   -H "Authorization: prj_live_sk_..." \
   -X PUT \
   -d "description=Coffee Shop" \
@@ -1679,9 +1679,9 @@ Deletes a geofence. The geofence can be uniquely referenced by Radar `_id` or by
 
 ###### Definition
 
-<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.com/v1/geofences/:id</code>
 <br />
-<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.com/v1/geofences/:tag/:externalId</code>
 
 ###### Default rate limit
 
@@ -1694,7 +1694,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
+curl "https://api.radar.com/v1/geofences/56db1f4613012711002229f5" \
   -H "Authorization: prj_live_sk_..." \
   -X DELETE
 ```
@@ -1715,7 +1715,7 @@ Gets users currently in a geofence.
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId/users</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/geofences/:tag/:externalId/users</code>
 
 ###### Default rate limit
 
@@ -1728,7 +1728,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geofences/venue/2/users" \
+curl "https://api.radar.com/v1/geofences/venue/2/users" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1870,7 +1870,7 @@ Lists beacons. Beacons are sorted descending by `createdAt`.
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/beacons</code>
 
 ###### Query parameters
 
@@ -1891,7 +1891,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/beacons" \
+curl "https://api.radar.com/v1/beacons" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1923,9 +1923,9 @@ Gets a beacon. The beacon can be uniquely referenced by Radar `id` or by `uuid`,
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:id</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/beacons/:id</code>
 <br />
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:uuid/:major/:minor</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/beacons/:uuid/:major/:minor</code>
 
 ###### Default rate limit
 
@@ -1938,7 +1938,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/beacons/6109a4b16dbfe3de2cb03924" \
+curl "https://api.radar.com/v1/beacons/6109a4b16dbfe3de2cb03924" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1966,7 +1966,7 @@ Creates a beacon.
 
 ###### Definition
 
-<span className="badge badge--info">POST</span> <code>https://api.radar.io/v1/beacons</code>
+<span className="badge badge--info">POST</span> <code>https://api.radar.com/v1/beacons</code>
 
 ###### Body parameters
 
@@ -1992,7 +1992,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/beacons" \
+curl "https://api.radar.com/v1/beacons" \
   -H "Authorization: prj_live_sk_..." \
   -X POST \
   -d "description=Beacon 1" \
@@ -2031,7 +2031,7 @@ Upserts a beacon. The beacon can be uniquely referenced by `tag` and `externalId
 
 ###### Definition
 
-<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/beacons/:tag/:externalId</code>
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.com/v1/beacons/:tag/:externalId</code>
 
 ###### Body parameters
 
@@ -2055,7 +2055,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
+curl "https://api.radar.com/v1/beacons/drive-thru/store123-beacon-1" \
   -H "Authorization: prj_live_sk_..." \
   -X PUT \
   -d "description=Beacon 1" \
@@ -2092,7 +2092,7 @@ Deletes a beacon. Can be called via beacon `id` or via `uuid`,`major` and `minor
 
 ###### Definition
 
-<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/beacons/:id</code>
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.com/v1/beacons/:id</code>
 
 ###### Default rate limit
 
@@ -2105,7 +2105,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/beacons/56db1f4613012711002229f4" \
+curl "https://api.radar.com/v1/beacons/56db1f4613012711002229f4" \
   -H "Authorization: prj_live_sk_..." \
   -X DELETE
 ```
@@ -2136,7 +2136,7 @@ Get current place settings.
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/settings</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.com/v1/settings</code>
 
 ###### Default rate limit
 
@@ -2149,7 +2149,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/settings" \
+curl "https://api.radar.com/v1/settings" \
   -H "Authorization: prj_live_sk_..." \
   -X GET
 ```
@@ -2191,7 +2191,7 @@ Update current place settings.
 
 ###### Definition
 
-<span className="badge badge--warning">PATCH</span> <code>https://api.radar.io/v1/settings</code>
+<span className="badge badge--warning">PATCH</span> <code>https://api.radar.com/v1/settings</code>
 
 ###### Default rate limit
 
@@ -2204,7 +2204,7 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/settings" \
+curl "https://api.radar.com/v1/settings" \
   -H "Authorization: prj_live_sk_..." \
   -H "Content-Type: application/json" \
   -X PATCH \

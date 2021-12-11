@@ -22,7 +22,7 @@ In this tutorial, we show you how to use the Radar [iOS SDK](/sdk), [geofences](
 
 If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
 
-<a className="btn btn-large btn-primary" href="https://radar.io/signup">Get API Keys</a>
+<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a>
 
 ### Step 2: Create geofences
 
@@ -31,7 +31,7 @@ When a delivery is placed, call the [geofence upsert API](/api#upsert-a-geofence
 Optionally, set `disableAfter` to disable geofence entry events the delivery date, and set `userId` to the user ID of the delivery driver to enable geofence entry events only for that delivery driver.
 
 ```bash
-curl "https://api.radar.io/v1/geofences/delivery/123" \
+curl "https://api.radar.com/v1/geofences/delivery/123" \
   -H "Authorization: prj_live_sk_..." \
   -X PUT \
   -d "description=Delivery #123" \
@@ -45,7 +45,7 @@ curl "https://api.radar.io/v1/geofences/delivery/123" \
 If you do not already have the coordinates the delivery address, you can call the [forward geocode API](/api#forward-geocode) to convert the delivery address to coordinates.
 
 ```bash
-curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
+curl "https://api.radar.com/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -122,7 +122,7 @@ Listen for trip events and send text messages or push notifications to the custo
 Or, poll the get trip API to show a live ETA and location in the customer app.
 
 ```bash
-curl "https://api.radar.io/v1/trips/123" \
+curl "https://api.radar.com/v1/trips/123" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -137,4 +137,4 @@ Radar.stopTracking()
 
 ## Support
 
-Have questions or feedback on this documentation? Let us know! Email us at [support@radar.io](mailto:support@radar.io).
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.com](mailto:support@radar.com).
