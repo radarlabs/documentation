@@ -56,13 +56,17 @@ Beacon entry and exit events are sent to the SDK, to [webhooks](/integrations#we
 
 ## Create beacons
 
-You can create beacons via CSV import or through the API. You can create beacons in the Test environment for development and testing, and in the Live environment for production.
+You can create beacons via the dashboard, CSV import, or through the API. You can create beacons in the Test environment for development and testing, and in the Live environment for production.
 
 Like [geofences](/geofences), you also specify the metadata for beacons when you create them, including *tag* (a group for the beacon, e.g., `store-register`), external ID (an external ID for the beacon that maps to your internal database, e.g., `123-1`), *description* (a display name for the beacon, e.g., `Store #123 - Register #1`).
 
 You also specify the identifiers used to range the beacon, including `uuid`, `major`, and `minor`, as well as an approximate latitude and longitude used to sync nearby beacons (within 1 kilometer) to the SDK.
 
 **Beacons should be uniquely referenced by tag and external ID, assigned by you when a beacon is created. To disable or rotate identifiers for a beacon, re-import the beacon with the same tag and external ID.**
+
+### Dashboard
+
+To create a beacon via the dashboard, go to the [Beacons page](https://radar.com/dashboard/beacons) and click the _New_ button. Enter a description, type, tag, external ID, UUID, major, minor, optional metadata, and a latitude and longitude. Click _Create_ to create the beacon.
 
 ### CSV import
 
