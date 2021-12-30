@@ -86,9 +86,9 @@
            <li className={styles.menuFooter}>
             <a
               className={styles.menuHomeButton}
-              href="https://radar.io"
+              href="https://radar.com"
             >
-              Back to Radar.io
+              Back to radar.com
             </a>
           </li>
          </ul>
@@ -113,11 +113,11 @@
       <li className={styles.menuFooter}>
         <a
           className={styles.menuHomeButton}
-          href="https://radar.io"
+          href="https://radar.com"
         >
-          Back to Radar.io
+          Back to radar.com
         </a>
-        <ArrowLink href="https://radar.io/login">Dashboard</ArrowLink>
+        <ArrowLink href="https://radar.com/login">Dashboard</ArrowLink>
       </li>
      </ul>
    );
