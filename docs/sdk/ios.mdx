@@ -84,7 +84,7 @@ The SDK currently supports iOS 10 and higher.
 
 ## Initialize SDK
 
-When your app starts, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.io/dashboard/settings).
+When your app starts, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.com/dashboard/settings).
 
 Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
 
@@ -561,9 +561,9 @@ You may provide an optional `completionHandler` that receives the request status
 
 <div className="alert alert-warning">
   Build and run the app, then find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a>! To trigger an
+  <a href="https://radar.com/dashboard/users">Users page</a>! To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.io/geofences">create a geofence</a> if you haven't
+  <a href="https://radar.com/geofences">create a geofence</a> if you haven't
   already. Not seeing your user on the Users page? Check <code>status</code> in
   the <code>completionHandler</code> to see what went wrong.
 </div>
@@ -651,10 +651,10 @@ You only need to call these methods once, as these settings will be persisted ac
 
 <div className="alert alert-info">
   Don't forget! You can always find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
-  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an
+  <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.io/geofences">create a geofence</a> if you haven't
+  <a href="https://radar.com/geofences">create a geofence</a> if you haven't
   already.
 </div>
 
@@ -729,10 +729,10 @@ Learn more about starting, completing, and canceling trips in the [trip tracking
 
 <div className="alert alert-info">
   Don't forget! You can always find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
-  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an
+  <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.io/geofences">create a geofence</a> or{" "}
+  <a href="https://radar.com/geofences">create a geofence</a> or{" "}
   <a href="../trip-tracking">start a trip</a> if you haven't already. Also, check
   your device settings to make sure you've granted location permissions.
 </div>
@@ -781,10 +781,10 @@ Radar.mockTracking(
 
 <div className="alert alert-info">
   Don't forget! You can always find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
-  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an
+  <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.io/geofences">create a geofence</a> if you haven't
+  <a href="https://radar.com/geofences">create a geofence</a> if you haven't
   already.
 </div>
 
@@ -1021,7 +1021,7 @@ You only need to call these methods once, as these settings will be persisted ac
 
 Apple requires that you justify your use of background location. Add something materially similar to the following to the bottom of your App Store description: _This app uses background location to (insert use case here). Continued use of background location may decrease battery life._
 
-If you turned on the _Location updates_ background mode, Apple requires additional justification in your App Store review notes. If using `RadarTrackingOptions.presetResponsive`, add something like: _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the background location mode to support polygon geofences and nearby place detection, which cannot be accomplished with region monitoring or visit monitoring._ Or, if using `RadarTrackingOptions.presetContinuous`, add something like _This app uses the Radar SDK (https://radar.io) to (insert use case here). The Radar SDK requires the location background mode for live trip tracking and live ETAs._
+If you turned on the _Location updates_ background mode, Apple requires additional justification in your App Store review notes. If using `RadarTrackingOptions.presetResponsive`, add something like: _This app uses the Radar SDK (https://radar.com) to (insert use case here). The Radar SDK requires the background location mode to support polygon geofences and nearby place detection, which cannot be accomplished with region monitoring or visit monitoring._ Or, if using `RadarTrackingOptions.presetContinuous`, add something like _This app uses the Radar SDK (https://radar.com) to (insert use case here). The Radar SDK requires the location background mode for live trip tracking and live ETAs._
 
 Learn more about this requirement in section 2.5.4 of the App Store Review Guidelines [here](https://developer.apple.com/app-store/review/guidelines/#software-requirements).
 

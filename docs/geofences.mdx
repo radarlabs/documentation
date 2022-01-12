@@ -51,13 +51,13 @@ Radar generates a geofence entry event if a user enters a geofence (if [stop det
 
 You can create geofences via the dashboard, CSV import, the API, nightly sync, or integrations. You can create geofences in the _Test_ environment for development and testing, and in the _Live_ environment for production.
 
-You specify the metadata for geofences when you create them, including the _tag_ (an optional group for the geofence, e.g., `store`), _external ID_ (an optional external ID for the geofence that maps to your internal database, e.g., `123`), and _description_ (a display name for the geofence, e.g., `Store #123`).
+You specify the metadata for geofences when you create them, including the _tag_ (a group for the geofence, e.g., `store`), _external ID_ (an external ID for the geofence that maps to your internal database, e.g., `123`), and _description_ (a display name for the geofence, e.g., `Store #123`).
 
 **Geofences should be uniquely referenced by tag and external ID, assigned by you when a geofence is created. To disable or update metadata for a geofence, re-import the geofence with the same tag and external ID.**
 
 ### Dashboard
 
-To create a geofence via the dashboard, go to the [Geofences page](https://radar.io/dashboard/geofences) and click the _New_ button. Optionally search for an address or place, then enter a description, optional tag, optional external ID, and optional metadata. Choose _circle_ to create a circle geofence, _polygon_ to create a polygon geofence, or _isochrone_ to create an [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofence. Click _Create_ to create the geofence.
+To create a geofence via the dashboard, go to the [Geofences page](https://radar.com/dashboard/geofences) and click the _New_ button. Optionally search for an address or place, then enter a description, tag, external ID, and optional metadata. Choose _circle_ to create a circle geofence, _polygon_ to create a polygon geofence, or _isochrone_ to create an [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofence. Click _Create_ to create the geofence.
 
 ### CSV import
 
@@ -96,7 +96,7 @@ For example, to upsert a geofence representing a store via the [API](/api):
 
 ```bash
 curl https://api.radar.io/v1/geofences/store/123 \
-    -H "Authorization: prj_live_sk_8ca5fdbe82ab7d49a1ca5c3f" \
+    -H "Authorization: prj_live_sk_..." \
     -X PUT \
     -d "description=Store #123" \
     -d "type=circle" \
@@ -140,7 +140,7 @@ You may decide to ignore some events based on confidence levels.
 
 When _Geofence Stop Detection_ is on, Radar can understand the difference between a user walking or driving through a geofence and stopping in a geofence, and will only generate a geofence entry event when a user stops in a geofence (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`).
 
-Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.io/dashboard/settings), under _Geofences_.
+Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.com/dashboard/settings), under _Geofences_.
 
 ## Buffer Entries and Exits
 

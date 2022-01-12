@@ -27,7 +27,7 @@ const breadcrumbMetadata = (pageList) => {
       position: index + 1,
       name,
       item: {
-        '@id': `https://radar.io${page.path}`,
+        '@id': `https://radar.com${page.path}`,
         name,
       },
     };

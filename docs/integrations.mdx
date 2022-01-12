@@ -86,11 +86,13 @@ Radar supports a number of server-side integrations. *Event integrations* like w
 
 ### Filters
 
-Click *Show Advanced* on the [Integrations page](https://radar.io/dashboard/integrations) under an integration to show advanced filters.
+Click *Show Advanced* on the [Integrations page](https://radar.com/dashboard/integrations) under an integration to show advanced filters.
 
 To filter event types sent to an integration, select or unselect event types under *Event Type Whitelist*.
 
 To filter keys from the request body sent to an integration, add keys, comma-separated, to *Request Key Blacklist*. For example, to skip sending `radar_geofence_ids` to the Segment `identify` call and to skip sending `geofence_id` to the Segment `track` call, add `radar_geofence_ids,geofence_id` to *Request Key Blacklist*.
+
+To filter events sent to an integration based upon a [Geofence](/documentation/geofences) tag, add tags, comma-separated to *Geofence Tag Blacklist*. For example, to skip sending all events to the Amplitude integration for geofences tagged `gas-station` and `cafe`, add `gas-station,cafe` to *Geofence Tag Blacklist*.
 
 ## Geofence integrations
 

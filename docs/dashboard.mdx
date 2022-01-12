@@ -4,19 +4,19 @@ title: Dashboard
 id: dashboard
 ---
 
-Use the Radar [dashboard](https://radar.io/dashboard) to manage, explore, and analyze your Radar data, such as [geofences](/geofences), [users](https://radar.io/dashboard/users), [events](https://radar.io/dashboard/events), and [trips](/trip-tracking).
+Use the Radar [dashboard](https://radar.com/dashboard) to manage, explore, and analyze your Radar data, such as [geofences](/geofences), [users](https://radar.com/dashboard/users), [events](https://radar.com/dashboard/events), and [trips](/trip-tracking).
 
-The [dashboard](https://radar.io/dashboard) can also be used to configure [integrations](https://radar.io/dashboard/integrations), [project settings](https://radar.io/dashboard/settings) such as enabled features (e.g., [places](/places)) and event types (e.g., `user.exited_place`), and [custom data retention windows](https://radar.io/dashboard/privacy).
+The [dashboard](https://radar.com/dashboard) can also be used to configure [integrations](https://radar.com/dashboard/integrations), [project settings](https://radar.com/dashboard/settings) such as enabled features (e.g., [places](/places)) and event types (e.g., `user.exited_place`), and [custom data retention windows](https://radar.com/dashboard/privacy).
 
 ## Simulator
 
-The [simulator](https://radar.io/dashboard/simulate) is the easiest way to generate location updates to test and visualize entry and exit events at will. Gone are the days of needing to drive around or download spoofing apps to try out location-enabled features. The simulator acts as a playground to experiment with our API without any code!
+The [simulator](https://radar.com/dashboard/simulate) is the easiest way to generate location updates to test and visualize entry and exit events at will. Gone are the days of needing to drive around or download spoofing apps to try out location-enabled features. The simulator acts as a playground to experiment with our API without any code!
 
 ### How it works
 
-1. **Click around the map to generate locations and events.** The activity feed is populated in real-time to mirror how our APIs would surface locations and events in your app. The data generated flows through to your enabled [integrations](https://radar.io/dashboard/integrations) in the corresponding environment. The locations and events generated abide by your project's [settings](https://radar.io/dashboard/settings) and will persist across the dashboard. To avoid any production side effects, use the test environment with the default user provided (`simulated-user-id`).
+1. **Click around the map to generate locations and events.** The activity feed is populated in real-time to mirror how our APIs would surface locations and events in your app. The data generated flows through to your enabled [integrations](https://radar.com/dashboard/integrations) in the corresponding environment. The locations and events generated abide by your project's [settings](https://radar.com/dashboard/settings) and will persist across the dashboard. To avoid any production side effects, use the test environment with the default user provided (`simulated-user-id`).
 
-2. **Simulate a target user.** To simulate a given [user](/api#users), click into that specific user on the [users](https://radar.io/dashboard/users) page and hit the "Simulate" button. You can also set custom user metadata, app-specific information that downstream systems can act upon, such as whether a user has been activated or membership in a target cohort.
+2. **Simulate a target user.** To simulate a given [user](/api#users), click into that specific user on the [users](https://radar.com/dashboard/users) page and hit the "Simulate" button. You can also set custom user metadata, app-specific information that downstream systems can act upon, such as whether a user has been activated or membership in a target cohort.
 
 3. **Simulate a trip.** There are 3 fields necessary to simulate a [trip](/trip-tracking): `externalId`, `destinationGeofenceTag`, and `destinationGeofenceExternalId`. You can enter them manually or select a geofence on the map and click "Set as trip destination" to autofill these values. Then, click "Start Trip" to officially kick off and activate the trip! As you click around, you'll notice events such as `user.approaching_trip_destination` and `user.arrived_at_trip_destination`.
 
@@ -24,13 +24,13 @@ The [simulator](https://radar.io/dashboard/simulate) is the easiest way to gener
 
 ## User Activity
 
-The User Activity page is the most straightforward way to debug a user's recent locations and events. Navigate to the [Users page](https://radar.io/dashboard/users) and select *View* within the desired user row. Then, click *View Activity*. Filter the user's recent activity down to the minute to investigate why events did or did not fire, and understand [confidence levels](https://radar.io/documentation/geofences#confidence-and-accuracy) for events in real-world scenarios.
+The User Activity page is the most straightforward way to debug a user's recent locations and events. Navigate to the [Users page](https://radar.com/dashboard/users) and select *View* within the desired user row. Then, click *View Activity*. Filter the user's recent activity down to the minute to investigate why events did or did not fire, and understand [confidence levels](https://radar.com/documentation/geofences#confidence-and-accuracy) for events in real-world scenarios.
 
 ### How it works
 
 1. **See a unified view of locations, events, and geofences.** The User Activity map displays a user's recent locations and events alongside geofences to pin down exactly when entries and exits occurred.
 
-2. **Focus on an individual location or event.** Hover over a row in the Activity Feed to center the map view around those coordinates and to display the accuracy bubble for that location or event. An Event's [confidence level](https://radar.io/documentation/geofences#confidence-and-accuracy) is a function of the accuracy of the location and the geometry of the geofence. The smaller the geofence and the less accurate the location, the lower the confidence.
+2. **Focus on an individual location or event.** Hover over a row in the Activity Feed to center the map view around those coordinates and to display the accuracy bubble for that location or event. An Event's [confidence level](https://radar.com/documentation/geofences#confidence-and-accuracy) is a function of the accuracy of the location and the geometry of the geofence. The smaller the geofence and the less accurate the location, the lower the confidence.
 
 3. **Filter to a specific time period.** Move the bounds of the slider to isolate a range of time for investigation. The slider supports granularity down to the minute.
 
