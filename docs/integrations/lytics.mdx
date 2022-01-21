@@ -50,6 +50,13 @@ Radar User Field | Lytics User Data Field | Type | Example Value | Context Type
 `dma.code` | `radarRegionDMACode` | string | `"26"` | [Regions](/regions)
 `dma.name` | `radarRegionDMAName` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `radarRegionPostalCode` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `radarTripExternalId` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `radarTripDestinationGeofenceTag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `radarTripDestinationGeofenceExternalId` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `radarBeaconIds` | array[string] | `["5b2c0906f5874b001aecfd8f"]` | [Beacons](/beacons)
+`beacons[*].description` | `radarBeaconDescriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `radarBeaconTags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `radarBeaconExternalIds` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -259,3 +266,26 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.entered_beacon
+
+Radar Event Attribute | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_beacon
+
+Radar Event Attribute | Lytics Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `1.42`

@@ -55,6 +55,13 @@ Radar User Field | Mixpanel User Property | Type | Example Value | Context Type
 `dma.code` | `Radar Region DMA Code` | string | `"26"` | [Regions](/regions)
 `dma.name` | `Radar Region DMA Name` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `Radar Region Postal Code` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `Radar Trip External ID` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `Radar Trip Destination Geofence Tag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `Radar Trip Destination Geofence External ID` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `Radar Beacon IDs` | array[string] | `["5b2c0906f5874b001aecfd8f"]` | [Beacons](/beacons)
+`beacons[*].description` | `Radar Beacon Descriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `Radar Beacon Tags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `Radar Beacon External IDs` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -81,6 +88,8 @@ Radar Event | Context Type | Mixpanel Event
 `user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `Radar Approaching Trip Destination`
 `user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `Radar Arrived at Trip Destination`
 `user.stopped_trip` | [Trip Tracking](/trip-tracking) | `Radar Stopped Trip`
+`user.entered_beacon` | [Beacons](/beacons) | `Radar Beacon Entered`
+`user.exited_beacon` | [Beacons](/beacons) | `Radar Beacon Exited`
 
 ### Radar Geofence Entered
 
@@ -256,3 +265,26 @@ Radar Event Attribute | Mixpanel Event Property | Type | Example Value
 `trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+
+### Radar Beacon Entered
+
+Radar Event Attribute | Mixpanel Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `Beacon ID` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `Beacon Description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `Beacon Tag` | string | `"drive-thru"`
+`beacon.externalId` | `Beacon External ID` | string | `"123"`
+`beacon.metadata[{key}]` | `Beacon Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+
+### Radar Beacon Exited
+
+Radar Event Attribute | Mixpanel Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `Beacon ID` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `Beacon Description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `Beacon Tag` | string | `"drive-thru"`
+`beacon.externalId` | `Beacon External ID` | string | `"123"`
+`beacon.metadata[{key}]` | `Beacon Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+`duration` | `Duration` | number (minutes) | `1.42`

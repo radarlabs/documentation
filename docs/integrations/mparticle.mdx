@@ -85,6 +85,13 @@ Radar User Field | mParticle User Attribute | Type | Example Value | Context Typ
 `dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
 `dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `radar_trip_external_id` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `radar_beacon_ids` | array[string] | `["5b2c0906f5874b001aecfd8f]"` | [Beacons](/beacons)
+`beacons[*].description` | `radar_beacon_descriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `radar_beacon_tags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `radar_beacon_external_ids` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -262,3 +269,26 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.entered_beacon
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_beacon
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `1.42`
