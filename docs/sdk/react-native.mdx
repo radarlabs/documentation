@@ -264,11 +264,11 @@ On iOS and Android, to start a trip to a destination, call:
 
 ```javascript
 Radar.startTrip({
-    externalId: '299',
-    destinationGeofenceTag: 'store',
-    destinationGeofenceExternalId: '123',
-    mode: 'car'
-  }).then((result) => {
+  externalId: '299',
+  destinationGeofenceTag: 'store',
+  destinationGeofenceExternalId: '123',
+  mode: 'car'
+}).then((result) => {
   // do something with result.status
 });
 Radar.startTrackingContinuous();
@@ -277,17 +277,17 @@ Radar.startTrackingContinuous();
 Update information about the trip. Status can be set to 'unknown' to leave the status unchanged as it will update via location tracking.
 
 ```javascript
- Radar.updateTrip({
-   status:'arrived',
-   options: {
-      externalId: '299',
-      metadata: {
-         parkingSpot: '5'
-      }
-   }
+Radar.updateTrip({
+  status:'arrived',
+  options: {
+    externalId: '299',
+    metadata: {
+      parkingSpot: '5'
+    }
+  }
 }).then((result) => {
-   // do something with result.status
-})
+  // do something with result.status
+});
 ```
 
 Later, to complete the trip and stop tracking, call:
