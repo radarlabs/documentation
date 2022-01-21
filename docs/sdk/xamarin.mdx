@@ -139,7 +139,7 @@ To listen for events, location updates, and errors, you can add event listeners:
 ```cs
 Radar.ClientLocationUpdated += (result) =>
 {
-// do something with result.location, result.stopped, result.source
+    // do something with result.location, result.stopped, result.source
 };
 
 Radar.LocationUpdated += (result) =>
@@ -149,7 +149,7 @@ Radar.LocationUpdated += (result) =>
 
 Radar.EventsReceived += (result) =>
 {
-  // do something with result.events, result.user
+    // do something with result.events, result.user
 };
 
 Radar.Error += (err) => {
