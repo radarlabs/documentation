@@ -258,6 +258,58 @@ On Android, a receiver in the React Native module loads and parses the JavaScrip
   android:exported="false" />
 ```
 
+### Trip tracking
+
+On iOS and Android, to start a trip to a destination, call:
+
+```javascript
+Radar.startTrip({
+  externalId: '299',
+  destinationGeofenceTag: 'store',
+  destinationGeofenceExternalId: '123',
+  mode: 'car'
+}).then((result) => {
+  // do something with result.status
+});
+Radar.startTrackingContinuous();
+```
+
+Update information about the trip. Status can be set to 'unknown' to leave the status unchanged as it will update via location tracking.
+
+```javascript
+Radar.updateTrip({
+  status:'arrived',
+  options: {
+    externalId: '299',
+    metadata: {
+      parkingSpot: '5'
+    }
+  }
+}).then((result) => {
+  // do something with result.status
+});
+```
+
+Later, to complete the trip and stop tracking, call:
+
+```javascript
+Radar.completeTrip().then((result) => {
+  // do something with result.status
+});
+Radar.stopTracking();
+```
+
+Or, to cancel the trip and stop tracking, call:
+
+```javascript
+Radar.cancelTrip().then((result) => {
+  // do something with result.status
+});
+Radar.stopTracking();
+```
+
+Learn more about [trip tracking](/trip-tracking).
+
 ### Manual tracking
 
 You can manually update the user's location by calling:
