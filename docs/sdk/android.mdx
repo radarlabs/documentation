@@ -361,12 +361,11 @@ For trips, we recommend using `RadarTrackingOptions.continuous`. This preset tel
   <a href="https://developer.android.com/about/versions/oreo/background-location-limits">
     Background Location Limits
   </a>
-  , you should also start a <a href="https://developer.android.com/guide/components/foreground-services">
+  , the continuous preset starts a <a href="https://developer.android.com/guide/components/foreground-services">
     foreground service
-  </a> with a notification while tracking. Make sure to include <code>
-    android:foregroundServiceType="location"
-  </code> in your manifest. If you start a foreground service with a notification,
-  only foreground permissions are required for tracking.
+  </a> with a notification while tracking.  When the foreground service with a notification is running, only foreground permissions are required for tracking. See the <a href="/documentation/sdk/tracking#android-foreground-service-options">
+  tracking options reference
+  </a> to adjust the foreground service notification copy and behavior.
 </div>
 
 To start tracking for trips, call:
@@ -382,7 +381,6 @@ To start tracking for trips, call:
   <TabItem value="java">
 
   ```java
-  startForegroundService();
   Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
   ```
 
@@ -390,7 +388,6 @@ To start tracking for trips, call:
   <TabItem value="kotlin">
 
   ```kotlin
-  startForegroundService()
   Radar.startTracking(RadarTrackingOptions.CONTINUOUS)
   ```
 
@@ -411,7 +408,6 @@ To stop tracking (e.g., when the user logs out), call:
 
   ```java
   Radar.stopTracking();
-  stopForegroundService();
   ```
 
   </TabItem>
@@ -419,7 +415,6 @@ To stop tracking (e.g., when the user logs out), call:
 
   ```kotlin
   Radar.stopTracking()
-  stopForegroundService()
   ```
 
   </TabItem>

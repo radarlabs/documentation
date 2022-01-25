@@ -134,6 +134,30 @@ Radar.StopTracking();
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
+To listen for events, location updates, and errors, you can add event listeners:
+
+```cs
+Radar.ClientLocationUpdated += (result) =>
+{
+    // do something with result.location, result.stopped, result.source
+};
+
+Radar.LocationUpdated += (result) =>
+{
+    // do something with result.location, result.user
+};
+
+Radar.EventsReceived += (result) =>
+{
+    // do something with result.events, result.user
+};
+
+Radar.Error += (err) => {
+    // do something with err
+};
+
+```
+
 ### Mock tracking
 
 On iOS and Android, you can simulate a sequence of location updates for testing. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
