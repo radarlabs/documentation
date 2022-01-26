@@ -65,7 +65,6 @@ module.exports = {
     prism: {
       additionalLanguages: ['kotlin', 'java', 'swift'],
       theme: require('prism-react-renderer/themes/github'),
-      // additionalLanguages: [`csv`, 'java', 'kotlin', 'objc', 'swift', 'xml']
     },
     googleAnalytics: {
       trackingID: 'UA-83017101-1',
@@ -82,12 +81,6 @@ module.exports = {
             'https://github.com/radarlabs/docs/edit/main/',
           routeBasePath: '/',
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/edit/master/websitehttps://radar.com/blog/',
-        // },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },

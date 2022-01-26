@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/documentation/:asset*", "destination": "/:asset*" }
+  ],
+  "redirects": [
+    { "source": "/", "destination": "/documentation/", "permanent": true }
+  ],
+  "trailingSlash": false
+}

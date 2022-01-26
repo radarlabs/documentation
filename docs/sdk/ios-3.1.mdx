@@ -6,15 +6,16 @@ description: Documentation for iOS SDK v3.1
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 import InlineTabs from "../../src/components/InlineTabs";
 import InlineTabItem from "../../src/components/InlineTabItem";
-
 import DefaultContextValues from "../../src/components/DefaultContextValues";
 
 <DefaultContextValues/>
 
 <div className="alert alert-info">
-  These are the docs for iOS SDK v3.1. See docs for the latest version <a href="/documentation/sdk/ios">here</a>.
+  These are the docs for iOS SDK v3.1. See docs for the latest version <a href="/sdk/ios">here</a>.
 </div>
 
 The Radar SDK abstracts away cross-platform differences between location services, allowing you to add geofencing, location tracking, trip tracking, geocoding, and search to your apps with just a few lines of code.
@@ -579,7 +580,7 @@ Assuming the user has authorized background permissions, background tracking wil
 
 <div className="alert alert-info">
   Though we recommend using presets for most use cases, you can modify the
-  presets. See the <a href="../sdk/tracking">tracking options reference</a>.
+  presets. See the <a href={useBaseUrl('/sdk/tracking')}>tracking options reference</a>.
 </div>
 
 To start tracking for geofencing, call:
@@ -727,7 +728,7 @@ Learn more about starting, completing, and canceling trips in the [trip tracking
   <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
   <a href="https://radar.com/geofences">create a geofence</a> or{" "}
-  <a href="../trip-tracking">start a trip</a> if you haven't already. Also, check
+  <a href={useBaseUrl('/trip-tracking')}>start a trip</a> if you haven't already. Also, check
   your device settings to make sure you've granted location permissions.
 </div>
 
@@ -869,8 +870,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 
 <div className="alert alert-info">
   To listen for events server-side instead, add a{" "}
-  <a href="../integrations/webhooks">webhook</a> or enable an{" "}
-  <a href="../integrations">integration</a>.
+  <a href={useBaseUrl('/integrations/webhooks')}>webhook</a> or enable an{" "}
+  <a href={useBaseUrl('/integrations')}>integration</a>.
 </div>
 
 ## Manual tracking
@@ -949,7 +950,7 @@ where `userId` is a stable unique ID for the user.
 <div className="alert alert-warning">
   Do not send any PII, like names, email addresses, or publicly available IDs,
   for <code>userId</code>. See{" "}
-  <a href="../faqs#what-are-privacy-best-practices-for-radar">
+  <a href={useBaseUrl('/faqs#what-are-privacy-best-practices-for-radar')}>
     privacy best practices
   </a>{" "}
   for more information.
