@@ -15,7 +15,7 @@ import DefaultContextValues from "../../src/components/DefaultContextValues";
 <DefaultContextValues/>
 
 <div className="alert alert-info">
-  These are the docs for iOS SDK v3.1. See docs for the latest version <a href="/sdk/ios">here</a>.
+  These are the docs for iOS SDK v3.1. See docs for the latest version <a href={useBaseUrl('/sdk/ios')}>here</a>.
 </div>
 
 The Radar SDK abstracts away cross-platform differences between location services, allowing you to add geofencing, location tracking, trip tracking, geocoding, and search to your apps with just a few lines of code.
@@ -520,7 +520,7 @@ You may provide an optional `completionHandler` that receives the request status
         </strong>
       </InlineTabItem>
     </InlineTabs>
-    : too many requests (<a href="/api#track">rate limit</a> exceeded)
+    : too many requests (<a href={useBaseUrl('/api#track')}>rate limit</a> exceeded)
   </li>
   <li>
     <InlineTabs groupId="ios">
