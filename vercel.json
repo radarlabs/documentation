@@ -8,12 +8,7 @@
   "headers": [
     {
       "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex"
-        }
-      ]
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
   ],
   "trailingSlash": false
