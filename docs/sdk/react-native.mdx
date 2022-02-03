@@ -29,7 +29,7 @@ Then, install the [iOS SDK](/sdk/ios). Change to the `ios/` directory. In the `P
 Finally, before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* and *Add SDK to project* steps in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
 <div className="alert alert-warning">
-On iOS, you must add [location usage descriptions](/sdk/ios#request-permissions) and the *location* and *fetch* background modes to your `Info.plist` if leveraging responsive or continuous tracking. Once this is complete add the SDK to your project, preferably using CocoaPods. 
+On iOS, you must add [location usage descriptions](/sdk/ios#request-permissions) and the *Location updates* and *Background fetch* background modes to your `Info.plist` if leveraging responsive or continuous tracking. Once this is complete add the SDK to your project, preferably using CocoaPods. 
 </div>
   
 Finally, initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
