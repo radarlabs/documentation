@@ -1079,7 +1079,7 @@ With the [geofence search API](/api#search-geofences), search for geofences near
       near,
       1000, // radius (meters)
       {"store"}, // tags
-      nil, //metadata
+      null, //metadata
       10, // limit
       new RadarSearchGeofencesCallback() {
           @Override
@@ -1098,7 +1098,7 @@ With the [geofence search API](/api#search-geofences), search for geofences near
       near,
       1000, // radius (meters)
       arrayOf("store"), // tags
-      nil, // metadata
+      null, // metadata
       10 // limit
   ) { status, location, geofences ->
       // do something with geofences
