@@ -1,6 +1,7 @@
 // NOTE: this component is "swizzled" due to bug: https://github.com/facebook/docusaurus/issues/6315
+// npm run swizzle @docusaurus/theme-classic LayoutHead -- --danger
 //
-// (also swizzling: https://docusaurus.io/docs/advanced/swizzling)
+// (swizzling: https://docusaurus.io/docs/advanced/swizzling)
 
 
 /**
