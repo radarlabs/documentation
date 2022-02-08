@@ -2,18 +2,26 @@
 title: Olo
 ---
 
-Radar can [start and stop trips](/trip-tracking) for customer arrival tracking when orders are placed, fired, cancelled, or closed in [Olo](https://www.olo.com).
+Radar can [create and cancel trips](/trip-tracking) for customer arrival tracking when orders are placed or cancelled in [Olo](https://www.olo.com). Additionally, with *Order firing enabled*, location can power when an order should be manually fired to Olo (e.g. 5 minutes away).
 
 ## Configuration
 
 Configure a Olo webhook to deliver to https://api.radar.io/webhooks/olo for the relevant Order Events via the Development Tools section of the Olo Dashboard (requires 2 factor authentication and at least Brand Manager permission). When order events are triggered in Olo, Olo will call the Radar webhook. Collect your brand ID from Olo.
 
-Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste your brand ID. Enter a destination geofence tag (e.g., `restaurant`) and optionally map fields from the Olo webhook body to Radar trip metadata. Select the Olo order events that should trigger trip start and trip stop events.
+Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste your brand ID. Enter a destination geofence tag (e.g., `restaurant`), and optionally map fields from the Olo webhook body to Radar trip metadata. Select the applicable Olo *Handoff modes* that should trigger trip create and cancel events.
 
 Finally, on the Radar [Geofences page](https://radar.com/dashboard/geofences), [import geofences](/geofences) for your restaurants. For destination geofence tag in the Olo configuration, use the tag used in the restaurant geofence configuration.
 
 ![Olo Webhook Configuration](/img/integrations/olo_webhook_configuration.png)
 
-Based on your settings, Radar will start and stop trips when orders are placed, fired, cancelled, or closed in Olo. You will need to call `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress and `Radar.startTrip()` with just the olo order id as the trip options external Id.
+Based on your settings, Radar will automatically create trips when orders are placed and cancel trips cancelled in Olo. You will need to call `Radar.startTrip()` with just the olo order id as the trip options external Id and `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress.
 
-Assuming the customer has granted location permissions and location tracking has been started in your app, Radar will generate location-based `user.approaching_trip_destination` and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
+Assuming the customer has granted location permissions and location tracking has been started in your app, Radar will generate location-based `user.updated_trip`, `user.approaching_trip_destination`, and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
+
+## Order Firing
+
+In order for Radar to automatically fire your orders based on location proximity, you will need to submit your baskets to Olo as `ismanualfire` and will also need to set a `scheduledArrivalAt` datetime to the Radar trip as a fallback in the event location is disabled or the device is experiencing connectivity issues. This can be done using `Radar.updateTrip()` in the app or [Trips API](https://radar.com/documentation/api#trips) server-side.
+
+In addition to the above Olo and Radar configuration, you will need to generate API credentials for the Radar platform in the [Olo development portal](https://developer.olo.com/). On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, you will will need to set *Order firing enabled* to *Yes*, paste the Olo Radar `Client Id` and `Secret Key`, and `Save` your integration settings.
+
+Finally, in the Radar [Trips Settings](https://radar.com/dashboard/settings#trips-settings), set the *Approaching threshold (minutes)* value to the # of minutes away from arriving that the order should automatically be fired to Olo. Now when an active trip generates a `user.approaching_trip_destination` event, Radar will fire the order. In the event the `scheduledArrivalAt` set on the trip occurs first, this datetime will fire the order instead.
