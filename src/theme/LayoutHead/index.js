@@ -70,11 +70,14 @@ function CanonicalUrlHeaders({permalink}) {
     siteConfig: {url: siteUrl},
   } = useDocusaurusContext();
   const defaultCanonicalUrl = useDefaultCanonicalUrl();
-  const canonicalUrl = permalink
+
+  let canonicalUrl = permalink
     ? `${siteUrl}${permalink}`
     : defaultCanonicalUrl;
 
-  console.log({ siteUrl, permalink, canonicalUrl, defaultCanonicalUrl });
+  // FIX: https://github.com/facebook/docusaurus/issues/6315
+  // remove duplicate baseUrl's in the canoncial tag
+  canonicalUrl = canonicalUrl.replace('documentation/documentation', 'documentation');
 
   return (
     <Head>
