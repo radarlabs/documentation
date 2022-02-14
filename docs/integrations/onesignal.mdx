@@ -38,13 +38,13 @@ Radar User Field | OneSignal Tag Name | Type | Example Tag | Context Type
 --- | --- | --- | --- | ---
 `location.coordinates[1]` | `lat` | number | `39.525665`
 `location.coordinates[0]` | `long` | number | `-76.350663`
-`segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` | |
-`topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks"]` | |
-`topChains[*].externalId` | `radar_top_chain_external_ids` | array[string] | `["123"]` | |
-`geofences[*]._id` | `radar_geofence_ids` | array[string] | `["5b2c0906f5874b001aecfd8e"]` | [Geofences](/geofences)
-`geofences[*].description` | `radar_geofence_descriptions` | array[string] | `["Store #123"]` | [Geofences](/geofences)
-`geofences[*].tag` | `radar_geofence_tags` | array[string] | `["store"]` | [Geofences](/geofences)
-`geofences[*].externalId` | `radar_geofence_external_ids` | array[string] | `["123"]` | [Geofences](/geofences)
+`segments[*].externalId` | `radar_segment_external_ids` | string (comma-separated) | `"starbucks-visitors"` | |
+`topChains[*].slug` | `radar_top_chain_slugs` | string (comma-separated) | `"starbucks"` | |
+`topChains[*].externalId` | `radar_top_chain_external_ids` | string (comma-separated) | `"123"` | |
+`geofences[*]._id` | `radar_geofence_ids` | string (comma-separated) | `"5b2c0906f5874b001aecfd8e"` | [Geofences](/geofences)
+`geofences[*].description` | `radar_geofence_descriptions` | string (comma-separated) | `"Store #123"` | [Geofences](/geofences)
+`geofences[*].tag` | `radar_geofence_tags` | string (comma-separated) | `"store"` | [Geofences](/geofences)
+`geofences[*].externalId` | `radar_geofence_external_ids` | string (comma-separated) | `"123"` | [Geofences](/geofences)
 `place._id` | `radar_place_id` | string | `"59302bcf8f27e8a156bd4f91"` | [Places](/places)
 `place.name` | `radar_place_name` | string | `"Starbucks"` | [Places](/places)
 `place.categories` | `radar_place_categories` | string | `"coffee-shop"` | [Places](/places)
@@ -65,7 +65,7 @@ Radar User Field | OneSignal Tag Name | Type | Example Tag | Context Type
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"` | [Trip tracking](/trip-tracking)
 `trip.approached` | `radar_trip_approached` | boolean | `true` | [Trip tracking](/trip-tracking)
 `trip.arrived` | `radar_trip_arrived` | boolean | `false` | [Trip tracking](/trip-tracking)
-`beacons[*]._id` | `radar_beacon_ids` | array[string] | `["5b2c0906f5874b001aecfd8f"]` | [Beacons](/beacons)
-`beacons[*].description` | `radar_beacon_descriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
-`beacons[*].tag` | `radar_beacon_tags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
-`beacons[*].externalId` | `radar_beacon_external_ids` | array[string] | `["123"]` | [Beacons](/beacons)
+`beacons[*]._id` | `radar_beacon_ids` | string (comma-separated) | `"5b2c0906f5874b001aecfd8f"` | [Beacons](/beacons)
+`beacons[*].description` | `radar_beacon_descriptions` | string (comma-separated) | `"Store #123 - Drive-Thru"` | [Beacons](/beacons)
+`beacons[*].tag` | `radar_beacon_tags` | string (comma-separated) | `"drive-thru"` | [Beacons](/beacons)
+`beacons[*].externalId` | `radar_beacon_external_ids` | string (comma-separated) | `"123"` | [Beacons](/beacons)
