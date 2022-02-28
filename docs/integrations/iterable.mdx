@@ -16,6 +16,13 @@ Then, on the Radar [Integrations page](/integrations) under *Iterable*, set *Ena
 
 Whenever events are generated, Radar will send custom events and user data to Iterable.
 
+User IDs must be aligned between Iterable and Radar for the integration to function properly. To do this, make sure you set the Radar user ID to match the Iterable user ID. For example, on iOS:
+
+``` swift
+IterableAPI.userId = userId
+Radar.setUserId(userId)
+```
+
 ## User mapping
 
 Note that Radar uses the special string `"(null)"` to represent `null` user data field values.
