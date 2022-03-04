@@ -44,9 +44,6 @@ Radar User Field | Airship Tag Group Name | Type | Example Tag | Context Type
 `place.categories` | `radar_place_categories` | string | `"coffee-shop"` | [Places](/places)
 `place.chain.slug` | `radar_place_chain_slug` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
-`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
-`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
 `country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
 `state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
@@ -70,12 +67,6 @@ Radar Event | Context Type | Airship Event
 `user.exited_geofence` | [Geofences](/geofences) | `radar_geofence_exited`
 `user.entered_place` | [Places](/places) | `radar_place_entered`
 `user.exited_place` | [Places](/places) | `radar_place_exited`
-`user.entered_home` | [Insights](/geofences) | `radar_home_entered`
-`user.exited_home` | [Insights](/geofences) | `radar_home_exited`
-`user.entered_office` | [Insights](/geofences) | `radar_office_entered`
-`user.exited_office` | [Insights](/geofences) | `radar_office_exited`
-`user.started_traveling` | [Insights](/geofences) | `radar_traveling_started`
-`user.stopped_traveling` | [Insights](/geofences) | `radar_traveling_stopped`
 `user.entered_region_country` | [Regions](/regions) | `radar_country_entered`
 `user.exited_region_country` | [Regions](/regions) | `radar_country_exited`
 `user.entered_region_state` | [Regions](/regions) | `radar_state_entered`

@@ -246,14 +246,6 @@ curl "https://api.radar.io/v1/track" \
         ]
       }
     },
-    "insights": {
-      "state": {
-        "home": false,
-        "office": false,
-        "traveling": true,
-        "commuting" false
-      }
-    },
     "country": {
       "code": "US",
       "name": "United States",
@@ -998,7 +990,6 @@ A user represents a user tracked in your project. Users can be referenced by Rad
 - **`state`** (dictionary): When [Regions](/regions) is enabled, the user's current state. US-only.
 - **`dma`** (dictionary): When [Regions](/regions) is enabled, the user's current DMA (market area). US-only.
 - **`postalCode`** (dictionary): When [Regions](/regions) is enabled, the user's current postal code. US-only.
-- **`insights`** (dictionary): When [Insights](/insights) is enabled, the user's learned approximate home and office locations, and home, office, and traveling state.
 
 ###### Sample object
 
@@ -1059,33 +1050,6 @@ A user represents a user tracked in your project. Users can be referenced by Rad
   },
   "postalCode": {
     "code": "07302"
-  },
-  "insights": {
-    "locations": [
-      {
-        "type": "home",
-        "location": {
-          "type": "Point",
-          "coordinates": [-73.97491, 40.78697]
-        },
-        "confidence": 3,
-        "updatedAt": "2017-04-04T01:23:47.495Z"
-      },
-      {
-        "type": "office",
-        "location": {
-          "type": "Point",
-          "coordinates": [-73.98885, 40.76994],
-        },
-        "confidence": 1,
-        "updatedAt": "2017-04-04T01:23:47.495Z"
-      }
-    ],
-    "state": {
-      "home": false,
-      "office": false,
-      "traveling": false
-    }
   }
 }
 ```
@@ -1766,7 +1730,7 @@ An event represents a change in user state. Events can be uniquely referenced by
 - **`_id`** (string): The unique ID for the event, provided by Radar. An alphanumeric string.
 - **`createdAt`** (datetime): The datetime when the event was created.
 - **`live`** (boolean): `true` if the event was generated for a user and geofence created with your `live` API key, `false` if the event was generated for a user and geofence created with your `test` API key.
-- **`type`** (string): The type of event. By default, events are generated when a user enters a geofence (type `user.entered_geofence`) or exits a geofence (type `user.exited_geofence`). [Places](/places), [Regions](/regions), and [Insights](/insights) also generate events.
+- **`type`** (string): The type of event. By default, events are generated when a user enters a geofence (type `user.entered_geofence`) or exits a geofence (type `user.exited_geofence`). [Places](/places) and [Regions](/regions) also generate events.
 - **`user`** (dictionary): The user for which the event was generated.
 - **`geofence`** (dictionary): For `user.entered_geofence` and `user.exited_geofence` events, the geofence for which the event was generated, including `description`, `tag`, and `externalId`.
 - **`place`** (dictionary): For `user.entered_place` and `user.exited_place` events, the place for which the event was generated, including `name`, `categories`, `chain`, and `facebookId`.
