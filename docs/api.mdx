@@ -1381,15 +1381,15 @@ Secret
 }
 ```
 
-#### Start new trip
+#### Create a new trip
 
-To start a new trip, call the [track](#track) endpoint and specify `tripOptions`.
+Use the [SDK](/sdk) to start trips and track users.
 
-On iOS and Android, use the [SDK](/sdk) to start trips and track users.
+If a trip needs to be created outside of the SDK implementation, you can update a trip with status = `pending` and then use the SDK to start a matching trip and initiate tracking.
 
-#### Stop or restart trip
+#### Update trip status
 
-Stops or restarts a trip. The trip can be referenced by Radar `_id` or `externalId`.
+Updates the status of a trip. The trip can be referenced by Radar `_id` or `externalId`.
 
 On iOS and Android, use the [SDK](/sdk) to stop trips.
 
@@ -1399,7 +1399,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 
 ###### Query parameters
 
-- **`status`** (string, required): The new status of the trip, one of `started`, `approaching`, `arrived`, `completed`, or `canceled`.
+- **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
 
 ###### Default rate limit
 
