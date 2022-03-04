@@ -1,0 +1,60 @@
+.alert {
+  margin: 1rem 0 2rem;
+  padding: .5rem 1rem .5rem 3rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  /* Use variables for borders */
+  border: 1px solid #000;
+  text-transform: none;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  background-position: 1rem .75rem;
+  background-repeat: no-repeat;
+}
+
+.alert a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.alert a:hover {
+  text-decoration: underline;
+}
+
+.alertWarning {
+  background-color: #fff1e4;
+  border-color: rgba(109,51,0,.25);
+  color: #6d3300;
+  background-image: url(/static/img/warningIcon.svg);
+}
+
+.alertWarning a,
+.alertWarning strong {
+  color: #6d3300;
+}
+
+.alertInfo {
+  background-color: #dcedff;
+  border-color: rgba(0,56,117,.25);
+  color: #003875;
+  background-image: url(/static/img/infoIcon.svg);
+}
+
+.alertInfo a,
+.alertInfo strong {
+  color: #003875;
+}
+
+.alertSuccess {
+  background-color:#e8f9f0;
+  border-color:rgba(13,89,46,.25);
+  color:#0d592e;
+  background-image: url(/static/img/circleCheckMarkIcon.svg);
+}
+
+.alertSuccess a,
+.alertSuccess strong {
+  color: #0d592e;
+}

@@ -12,6 +12,7 @@ import TabItem from "@theme/TabItem";
 import InlineTabs from "../../src/components/InlineTabs";
 import InlineTabItem from "../../src/components/InlineTabItem";
 import DefaultContextValues from "../../src/components/DefaultContextValues";
+import Alert from "../../src/components/Alert";
 
 <DefaultContextValues/>
 
@@ -23,13 +24,13 @@ Learn how to integrate the iOS SDK below. You can also see the [source](https://
 
 The best way to install the SDK is via [CocoaPods](https://cocoapods.org) or [Carthage](https://github.com/Carthage/Carthage).
 
-<div className="alert alert-info">
+<Alert alertType="info">
   For details on the latest SDK releases, see the{" "}
   <a href="https://github.com/radarlabs/radar-sdk-ios/releases">
     releases page
   </a>{" "}
   on GitHub. You can also star ⭐️ and watch 👀 the repo.
-</div>
+</Alert>
 
 The SDK is small and typically adds less than 500 KB to your compiled app.
 
@@ -43,10 +44,10 @@ pod 'RadarSDK', '~> 3.3.0'
 
 Then, run `pod install`. You may also need to run `pod repo update`.
 
-<div className="alert alert-info">
+<Alert alertType="info">
   After installing, use the <code>.xcworkspace</code> file to open your project
   in Xcode instead of the <code>.xcproject</code> file.
-</div>
+</Alert>
 
 ### Swift Package Manager
 
@@ -84,11 +85,11 @@ When your app starts, initialize the SDK with your publishable API key, found on
 
 Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Note that you should always use your publishable API keys, which are
   restricted in scope, in the SDK. Do not use your secret API keys, which are
   unrestricted in scope, in any client-side code.
-</div>
+</Alert>
 
 <Tabs
   groupId="ios"
@@ -169,10 +170,10 @@ Radar respects [standard iOS location permissions](https://developer.apple.com/d
   </InlineTabs>.
 </p>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   If your app already requests the necessary location permissions, you can skip
   this step.
-</div>
+</Alert>
 
 Before requesting permissions, you must add location usage strings to your `Info.plist` file. For foreground permissions, you must add a value for `NSLocationWhenInUseUsageDescription` (_Privacy - Location When In Use Usage Description_). For background permissions, you must add a value for `NSLocationAlwaysAndWhenInUseUsageDescription` (_Privacy - Location Always and When In Use Usage Description_). These strings are displayed in permissions prompts.
 
@@ -303,16 +304,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   </TabItem>
 </Tabs>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Build and run the app to make sure permissions prompts are displayed!
-</div>
+</Alert>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Not seeing permissions prompts? First, make sure your location manager is in
   memory when you request permissions. Second, make sure you've added location
   usage strings to your <code>Info.plist</code> file. Finally, check your device
   settings to make sure you haven't already granted location permissions.
-</div>
+</Alert>
 
 If you are requesting background permissions, in your project settings, go to _Signing & Capabilities_, add _Background Modes_, and turn on _Background fetch_ and _Location updates_. Note that this requires additional justification during App Store review. Learn more [below](#submit-to-app-store).
 
@@ -555,14 +556,14 @@ You may provide an optional `completionHandler` that receives the request status
   </li>
 </ul>
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Build and run the app, then find your user on the{" "}
   <a href="https://radar.com/dashboard/users">Users page</a>! To trigger an
   event, you'll need to{" "}
   <a href="https://radar.com/geofences">create a geofence</a> if you haven't
   already. Not seeing your user on the Users page? Check <code>status</code> in
   the <code>completionHandler</code> to see what went wrong.
-</div>
+</Alert>
 
 ## Background tracking for geofencing
 
@@ -574,15 +575,15 @@ For geofencing, we recommend using `RadarTrackingOptions.presetResponsive`. This
 
 Assuming the user has authorized background permissions, background tracking will work even if the app has been backgrounded or killed, as iOS location services will wake up the app to deliver events.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Note that location updates may be delayed by if the device has connectivity
   issues, low battery, or wi-fi disabled.
-</div>
+</Alert>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Though we recommend using presets for most use cases, you can modify the
   presets. See the <a href="/sdk/tracking">tracking options reference</a>.
-</div>
+</Alert>
 
 To start tracking for geofencing, call:
 
@@ -638,31 +639,31 @@ Radar.stopTracking()
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   To test, go for a walk or a drive! Not seeing location updates or events?
   Remember that, once stopped, the device will need to move more than 100 meters
   to wake up and start moving again. Also, check your device settings to make
   sure you've granted background location permissions.
-</div>
+</Alert>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Don't forget! You can always find your user on the{" "}
   <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
   <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
   <a href="https://radar.com/geofences">create a geofence</a> if you haven't
   already.
-</div>
+</Alert>
 
 ## Background tracking for trips
 
 For trips, we recommend using `RadarTrackingOptions.presetContinuous`. This preset tells the SDK to send location updates to the server every 30 seconds, regardless of whether the device is moving.
 
-<div className="alert alert-info">
+<Alert alertType="info">
   By default, this preset shows the flashing blue status bar while tracking. If
   the flashing blue status bar is shown, only foreground permissions are
   required for tracking.
-</div>
+</Alert>
 
 To start tracking for trips, call:
 
@@ -690,10 +691,10 @@ Radar.startTracking(trackingOptions: RadarTrackingOptions.presetContinuous)
   </TabItem>
 </Tabs>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Not seeing the flashing blue status bar while tracking? Make sure you've added
   the <em>Location updates</em> background mode in your project settings.
-</div>
+</Alert>
 
 To stop tracking, call:
 
@@ -723,7 +724,7 @@ Radar.stopTracking()
 
 Learn more about starting, completing, and canceling trips in the [trip tracking documentation](/trip-tracking).
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Don't forget! You can always find your user on the{" "}
   <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
   <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
@@ -731,7 +732,7 @@ Learn more about starting, completing, and canceling trips in the [trip tracking
   <a href="https://radar.com/geofences">create a geofence</a> or{" "}
   <a href="/trip-tracking">start a trip</a> if you haven't already. Also, check
   your device settings to make sure you've granted location permissions.
-</div>
+</Alert>
 
 ## Mock tracking for testing
 
@@ -775,14 +776,14 @@ Radar.mockTracking(
   </TabItem>
 </Tabs>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Don't forget! You can always find your user on the{" "}
   <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
   <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
   <a href="https://radar.com/geofences">create a geofence</a> if you haven't
   already.
-</div>
+</Alert>
 
 ## Listening for events with a delegate
 
@@ -869,11 +870,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
   </TabItem>
 </Tabs>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   To listen for events server-side instead, add a{" "}
   <a href="/integrations/webhooks">webhook</a> or enable an{" "}
   <a href="/integrations">integration</a>.
-</div>
+</Alert>
 
 ## Manual tracking
 
@@ -948,14 +949,14 @@ Radar.setUserId(userId)
 
 where `userId` is a stable unique ID for the user.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Do not send any PII, like names, email addresses, or publicly available IDs,
   for <code>userId</code>. See{" "}
   <a href="/faqs#what-are-privacy-best-practices-for-radar">
     privacy best practices
   </a>{" "}
   for more information.
-</div>
+</Alert>
 
 To set a dictionary of custom metadata for the user, call:
 
