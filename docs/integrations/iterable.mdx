@@ -51,9 +51,6 @@ Radar User Field | Iterable User Data Field | Type | Example Value | Context Typ
 `place.categories` | `radarPlaceCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `radarPlaceChainSlug` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `radarPlaceChainName` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `radarInsightsStateHome` | boolean | `false` | [Insights](/insights)
-`insights.state.office` | `radarInsightsStateOffice` | boolean | `false` | [Insights](/insights)
-`insights.state.traveling` | `radarInsightsStateTraveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `radarRegionCountryCode` | string | `"US"` | [Regions](/regions)
 `country.name` | `radarRegionCountryName` | string | `"United States"` | [Regions](/regions)
 `state.code` | `radarRegionStateCode` | string | `"MD"` | [Regions](/regions)
@@ -77,12 +74,6 @@ Radar Event | Context Type | Iterable Event
 `user.exited_geofence` | [Geofences](/geofences) | `radarGeofenceExited`
 `user.entered_place` | [Places](/places) | `radarPlaceEntered`
 `user.exited_place` | [Places](/places) | `radarPlaceExited`
-`user.entered_home` | [Insights](/insights) | `radarHomeEntered`
-`user.exited_home` | [Insights](/insights) | `radarHomeExited`
-`user.entered_office` | [Insights](/insights) | `radarOfficeEntered`
-`user.exited_office` | [Insights](/insights) | `radarOfficeExited`
-`user.started_traveling` | [Insights](/insights) | `radarTravelingStarted`
-`user.stopped_traveling` | [Insights](/insights) | `radarTravelingStopped`
 `user.entered_region_country` | [Regions](/regions) | `radarCountryEntered`
 `user.exited_region_country` | [Regions](/regions) | `radarCountryExited`
 `user.entered_region_state` | [Regions](/regions) | `radarStateEntered`

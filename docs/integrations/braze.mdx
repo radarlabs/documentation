@@ -56,9 +56,6 @@ Radar User Field | Braze User Attribute | Type | Example Value | Context Type
 `place.categories` | `radar_place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `radar_place_chain_id` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
-`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
-`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
 `country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
 `state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
@@ -82,12 +79,6 @@ Radar Event | Context Type | Braze Event
 `user.exited_geofence` | [Geofences](/geofences) | `exited_geofence`
 `user.entered_place` | [Places](/places) | `entered_place`
 `user.exited_place` | [Places](/places) | `exited_place`
-`user.entered_home` | [Insights](/insights) | `entered_home`
-`user.exited_home` | [Insights](/insights) | `exited_home`
-`user.entered_office` | [Insights](/insights) | `entered_office`
-`user.exited_office` | [Insights](/insights) | `exited_office`
-`user.started_traveling` | [Insights](/insights) | `started_traveling`
-`user.stopped_traveling` | [Insights](/insights) | `stopped_traveling`
 `user.entered_region_country` | [Regions](/regions) | `entered_country`
 `user.exited_region_country` | [Regions](/regions) | `exited_country`
 `user.entered_region_state` | [Regions](/regions) | `entered_state`
