@@ -3,6 +3,8 @@ sidebar_position: 13
 title: FAQs
 id: faqs
 ---
+import Alert from "../src/components/Alert";
+
 ## Testing
 
 ### How should I test Radar battery drain?
@@ -107,6 +109,11 @@ If you need assistance, you can also forward requests to your customer success m
 Use the appropriate role (owner, admin, write, or read) for each co-worker's account. See [Radar security best practices](#what-are-security-best-practices-for-radar).
 
 ### How do data access controls work?
+<Alert alertType="info">
+  Data accesss controls are available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 In addition to the account roles above, owners can also control:
 - **Project access**: Access to specific projects in an organization
@@ -114,8 +121,6 @@ In addition to the account roles above, owners can also control:
 - **Data access**: Access to specific data and pages across projects in an organization
   - *User locations*: Access to data on the user details page (map and location information) and access to the user locations page
   - *Trip locations*: Access to data on the trip details page (map and location information) and access to the [trip tracking dashboard](/trip-tracking#in-the-radar-trip-tracking-dashboard)
-
-Data access controls are available to enterprise customers. Contact your customer success manager for more information.
 
 ### Does Radar have a bug bounty or responsible disclosure program?
 

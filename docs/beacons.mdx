@@ -3,6 +3,13 @@ sidebar_position: 5
 title: Beacons
 id: beacons
 ---
+import Alert from "../src/components/Alert";
+
+<Alert alertType="info">
+  Beacons is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 Beacons detects nearby Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. For example, you might create a store-level [geofence](/geofences) and monitor beacons installed at the entrance, in the drive-thru, on registers, on tables, in aisles, or in parking spaces at each store.
 
@@ -42,7 +49,6 @@ Beacons also provides the following events:
 
 You can receive events client-side via the [SDK](/sdk) or server-side via [event integrations](/integrations), including webhooks.
 
-Beacons is available on the [Team](https://radar.com/pricing) plan and higher.
 
 ## How it works
 
