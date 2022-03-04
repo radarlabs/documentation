@@ -27,7 +27,7 @@ const Alert = ({ children, alertType }) => {
         );
       }
   
-    return '';
+    return null;
 };
 
 export default Alert;
