@@ -173,7 +173,6 @@ module.exports = {
       ],
     },
     "faqs",
-    "insights", // deprecated
     "vulnerability-disclosure-policy",
   ],
 };
