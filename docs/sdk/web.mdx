@@ -267,14 +267,18 @@ With the [matrix API](/api#matrix), calculate the travel distances and durations
 
 ```javascript
 Radar.getMatrix({
-  origin: [{ 
+  origin: [{
     latitude: 40.70390, 
     longitude: -73.98690
   }],
-  destination: [
-    {latitude: 40.70390, longitude: -73.98690},
-    {latitude: 40.73237, longitude: -73.94884}
-  ],
+  destination: [{
+    latitude: 40.70390, 
+    longitude: -73.98690
+  },
+  {
+    latitude: 40.73237, 
+    longitude: -73.94884
+  }],
   modes: 'car',
   units: 'imperial'
 }, function(err, result) {
