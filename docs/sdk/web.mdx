@@ -261,6 +261,33 @@ Radar.getDistance({
 });
 ```
 
+#### Matrix
+
+With the [matrix API](/api#matrix), calculate the travel distances and durations between multiple origins and destinations for up to 25 routes:
+
+```javascript
+Radar.getMatrix({
+  origins: [{
+    latitude: 40.70390, 
+    longitude: -73.98690
+  }],
+  destinations: [{
+    latitude: 40.70390, 
+    longitude: -73.98690
+  },
+  {
+    latitude: 40.73237, 
+    longitude: -73.94884
+  }],
+  modes: 'car',
+  units: 'imperial'
+}, function(err, result) {
+  if (!err) {
+    // do something with result.matrix
+  }
+});
+```
+
 ## Support
 
 Have questions? We're here to help! Email us at [support@radar.com](mailto:support@radar.com).
