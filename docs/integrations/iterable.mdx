@@ -47,7 +47,9 @@ You'll need access to both Radar and Iterable to build this messaging campaign. 
 11. Add in a Push message, then click **Save Template**.
 12. Back in the *Journey*, double click on the **Send mobile push** node and change the template to the one you just created.
 
-That's it!
+To test this campaign, you can either trigger the Journey on a test app by moving physically into the geofence, *or* you can take advantage of the [Radar simulator](/dashboard#simulator). The simulator allows you to simulate a specific user as if they were moving throughout the world.
+
+Navigate to the **Users** page in Radar and select a user who exists in Iterable and is linked via id. Then, click the *Simulate* button at the top of the page. Click around on the map and enter a geofence which will trigger the campaign you built in the steps above. If hooked up correctly, you should receive the relevant notification on your device.
 
 ### Filter users in an Iterable Journey whose last known location is X minutes away from a store
 You'll need access to both Radar and Iterable to build this messaging campaign. In this example, we'll set up a push campaign that is sent to users who have opened an email associated with a specific Iterable campaign **and** are within 10 minutes drive of a store. We can add isochrone (time-based) geofences (via import, the UI, or the API) in Radar to support this use case.
@@ -63,6 +65,10 @@ You'll need access to both Radar and Iterable to build this messaging campaign. 
 10. We're going to customize the title of the Template using data from Radar so your message can say "You're near {{Store name}}", with {{Store name}} representing the name of the nearby store whose geofence the user has entered. In the **Title** text box, enter **{{radarGeofenceDescriptions}}**. This syntax is called *Handlebar* notation. You can read more about it in Iterable's [documentation](https://support.iterable.com/hc/en-us/articles/205480365-Using-Merge-Parameters-and-Handlebars-Logic-for-Personalization).
 11. Add in a Push message, then click **Save Template**.
 12. Back in the *Journey*, drag a *Send Push* action into the Journey builder. Double click on the **Send mobile push** node and change the template to the one you just created. Finally, drag from the *Yes* option under the *Filter users* node to the *Send Push* node to finish the Journey connection.
+
+To test this campaign, you can either trigger the Journey on a test app by moving physically into the geofence, *or* you can take advantage of the [Radar simulator](/dashboard#simulator). The simulator allows you to simulate a specific user as if they were moving throughout the world.
+
+Navigate to the **Users** page in Radar and select a user who exists in Iterable and is linked via id. Then, click the *Simulate* button at the top of the page. Click around on the map and enter a geofence which will trigger the campaign you built in the steps above. If hooked up correctly, you should receive the relevant notification on your device.
 
 ## User mapping
 
