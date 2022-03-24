@@ -29,7 +29,7 @@ Radar.setUserId(userId)
 ```
 
 ## Example use cases
-You can use Radar and Iterable together to power strong customer engagement use cases. 
+Radar and Iterable can be leveraged to create powerful and flexible location based marketing campaigns.
 
 ### Send a personalized push notification when user is near a store
 You'll need access to both Radar and Iterable to build this messaging campaign. In this campaign, we'll set up a simple push notification based on a Radar geofence entry event.
@@ -37,7 +37,7 @@ You'll need access to both Radar and Iterable to build this messaging campaign. 
 1. First, ensure your [Geofences](/geofences) are configured in Radar. For a "nearby" use case, we typically suggest something like a 500 meter radius. You may also want to take advantage of *isochrone* (time-based) geofences, which would allow you to define, for example, a geofence that shows all points within a 10 minute walk from your target location.
 2. Note the **tag** for the nearby geofences you've set up in step one. You can find your geofence tags in Radar by viewing your [geofences](https://radar.com/dashboard/geofences).
 3. In Iterable, navigate to [Journeys](https://app.iterable.com/workflows) and click **+ New journey**. For more on Journeys in Iterable, please refer to [Iterable's documentation](https://support.iterable.com/hc/en-us/articles/4405798856212-Introduction-to-Journeys-).
-4. Iterable will start your Journey with a "start" node by default. Double click this node and change the **Received Api Trigger** dropdown value to **Triggered Custom Event**. Under *Event name*, start typing *Radar* and you should see a list of available events begin to auto-populate. Select *radarGeofenceEntered*.
+4. New Journeys in Iterable have a "start" node by default. Double click this node and change the **Received Api Trigger** dropdown value to **Triggered Custom Event**. Under *Event name*, start typing *Radar* and you should see a list of available events begin to auto-populate. Select *radarGeofenceEntered*.
 5. Change the **Use Filter** option to *Yes*.
 6. Where it says **Select a property**, start typing *RadarGeofence* and look for the *radarGeofenceEntered.geofenceTag* property. Set this property equal to the tag you set up in step one and verified in step two.
 7. Click **Update Node**.
