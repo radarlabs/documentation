@@ -78,7 +78,7 @@ To create a beacon via the dashboard, go to the [Beacons page](https://radar.com
 
 To import beacons via CSV import, go to the [Beacons page](https://radar.com/dashboard/beacons) and click the *Import* button. Then, select a CSV to upload.
 
-The CSV must have 8 columns:
+The first row of your CSV should be the headers. The column order does not matter.
 
 - **`description`** (required): A display name for the beacon.
 - **`tag`** (optional, but recommended): A group for the beacon.
@@ -91,17 +91,16 @@ The CSV must have 8 columns:
 - **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
-Headers for the columns should be omitted. In other words, the first row of the CSV should correspond to the first geofence.
-
 If a beacon with the specified tag and external ID already exists, it will be updated. If not, it will be created.
 
 For example, to import beacons installed on registers and in parking spaces at a store, you could use the following CSV:
 
 ```json
+description,tag,external id,type,uuid,major,minor,coordinates,enabled,metadata
 "Store #123 - Register #1",store-register,123-1,ibeacon,"b9407f30-f5f8-466e-aff9-25556b57fe6d",100,1,"[-73.975363,40.783826]",true,{}
 "Store #123 - Register #2",store-register,123-2,ibeacon,"c9407f30-f5f8-466e-aff9-25556B57fe6d",100,1,"[-73.975363,40.783826]",true,{}
 "Store #123 - Parking Space #1",store-parking,123-1,ibeacon,"d9407f30-f5f8-466e-aff9-25556b57fe6d",101,1,"[-73.975363,40.783826]",true,{}
-"Store #123 - Parking Space #2",store-parking,123-2,ibeacon,"e9407f30-f5f8-466e-aff9-25556b57fe6d",101,2,"[-73.975363,40.783826]",true,{}
+"Store #123 - Parking Space #2",store-parking,123-2,ibeacon,"e9407f30-f5f8-466e-aff9-25556b57fe6d",101,2,"[-73.975363,40.783826]",true,"{""type"":""parking""}"
 ```
 
 ### API
