@@ -6,7 +6,7 @@ id: beacons
 import Alert from "../src/components/Alert";
 
 <Alert alertType="info">
-  Beacons is available on the {` `} 
+  Beacons is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
@@ -78,20 +78,24 @@ To create a beacon via the dashboard, go to the [Beacons page](https://radar.com
 
 To import beacons via CSV import, go to the [Beacons page](https://radar.com/dashboard/beacons) and click the *Import* button. Then, select a CSV to upload.
 
-The first row of your CSV should be the headers. The column order does not matter.
+<Alert alertType="info">
+  Include headers as the first row of your CSV. Column order does not matter.
+</Alert>
 
-- **`description`** (required): A display name for the beacon.
-- **`tag`** (optional, but recommended): A group for the beacon.
-- **`externalId`** (optional, but recommended): An external ID for the beacon that maps to your internal database.
-- **`type`** (required): The type of beacon. `ibeacon` is currently supported.
-- **`uuid`** (required): The UUID of the beacon.
-- **`major`** (required): The major ID of the beacon.
-- **`minor`** (required): The minor ID of the beacon.
-- **`coordinates`** (required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. A JSON string in the format `[longitude,latitude]`. **Note that longitude comes before latitude, a GeoJSON convention.**
-- **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
-- **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+The CSV may have the following columns:
 
-If a beacon with the specified tag and external ID already exists, it will be updated. If not, it will be created.
+- **`description`** (string, required): A display name for the beacon.
+- **`tag`** (string, optional): A group for the beacon.
+- **`externalId`** (string, optional): An external ID for the beacon that maps to your internal database.
+- **`type`** (string, required): The type of beacon. `ibeacon` is currently supported.
+- **`uuid`** (string, required): The UUID of the beacon.
+- **`major`** (string, required): The major ID of the beacon.
+- **`minor`** (string, required): The minor ID of the beacon.
+- **`coordinates`** (array, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. A JSON string in the format `[longitude,latitude]`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`enabled`** (boolean, required): If true, the beacon will generate events. If false, the beacon will not generate events.
+- **`metadata`** (dictionary, optional): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+
+**If a beacon with the specified tag and external ID already exists, it will be updated. If not, it will be created.**
 
 For example, to import beacons installed on registers and in parking spaces at a store, you could use the following CSV:
 
@@ -102,6 +106,10 @@ description,tag,external id,type,uuid,major,minor,coordinates,enabled,metadata
 "Store #123 - Parking Space #1",store-parking,123-1,ibeacon,"d9407f30-f5f8-466e-aff9-25556b57fe6d",101,1,"[-73.975363,40.783826]",true,{}
 "Store #123 - Parking Space #2",store-parking,123-2,ibeacon,"e9407f30-f5f8-466e-aff9-25556b57fe6d",101,2,"[-73.975363,40.783826]",true,"{""type"":""parking""}"
 ```
+
+**Again, note that longitude comes before latitude, a GeoJSON convention.**
+
+You can find a history of past imports on the [Beacon import history page](https://radar.com/dashboard/beacons/imports).
 
 ### API
 You can also create beacons programmatically via the [API](/api). You can create a beacon via <span className="badge badge--info">POST</span> `/api/v1/beacons`, or upsert a beacon based on tag and external ID via <span className="badge badge--warning">PUT</span> `/api/v1/beacons/:tag/:externalId`.
