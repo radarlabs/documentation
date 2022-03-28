@@ -3,6 +3,7 @@ sidebar_position: 2
 title: Geofences
 id: geofences
 ---
+import Alert from "../src/components/Alert";
 
 Geofences represent custom regions or places monitored in your project. Depending on your use case, a geofence might represent a retail store, a neighborhood, and so on.
 
@@ -63,23 +64,25 @@ To create a geofence via the dashboard, go to the [Geofences page](https://radar
 
 To create geofences via CSV import, go to the [Geofences page](/geofences) and click the _Import_ button. Then, select a CSV to upload.
 
+<Alert alertType="info">
+  Headers are required as the first row of the CSV.
+</Alert>
+
 The CSV may have the following columns:
 
+- **`description`** (string, required): A description for the geofence.
 - **`type`** (string, required): The type of geofence geometry. `polygon`, `circle`, and `isochrone` are supported.
 - **`tag`** (string, required): A group for the geofence.
 - **`externalId`** (string, required): An external ID for the geofence that maps to your internal database.
 - **`coordinates`** (array, required): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 10,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
 - **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
-- **`mode`** (required for type `isochrone`): the [travel mode](/api#routing) for type `isochrone`; possible values: `car`, `foot`, `bike`, `truck`, or `motorbike`; defaults to `car`
-- **`description`** (string, required): A description for the geofence.
+- **`mode`** (required for type `isochrone`): the [travel mode](/api#routing) for type `isochrone`.
 - **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number.
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
 - **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
-
-Please include headers as the first row of your CSV. Column order does not matter.
 
 **If a geofence with the specified tag and external ID already exists, it will be updated. If not, it will be created.**
 
@@ -94,7 +97,7 @@ description,tag,externalId,type,radius,mode,coordinates,enabled,metadata
 
 **Again, note that longitude comes before latitude, a GeoJSON convention.**
 
-You can find a history of past imports in the dashboard on the [Geofences import history page](https://radar.com/dashboard/geofences/imports).
+You can find a history of past imports on the [Geofences import history page](https://radar.com/dashboard/geofences/imports).
 
 ### API
 
