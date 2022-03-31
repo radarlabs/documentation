@@ -1596,6 +1596,7 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
 - **`mode`** (string, required for type `isochrone`): The [travel mode](/api#routing) for type `isochrone`.
+- **`tripApproachingThreshold`** (number): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
 
 ###### Default rate limit
 
