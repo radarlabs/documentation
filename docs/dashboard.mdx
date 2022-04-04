@@ -45,3 +45,5 @@ The User Activity page is the most straightforward way to debug a user's recent 
 - **`BEACON_EXIT`**: location update triggered by a client-side beacon exit
 - **`VISIT_ARRIVAL`** (iOS only): location update triggered by an arrival from the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service)
 - **`VISIT_DEPARTURE`** (iOS only): location update triggered by a departure [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service)
+- **`MANUAL_LOCATION`**: location update triggered by `Radar.trackOnce` passing in a location not collected by the Radar SDK
+- **`MOCK_LOCATION`**: location update triggered by `Radar.mockTracking`
