@@ -38,6 +38,8 @@ The User Activity page is the most straightforward way to debug a user's recent 
 
 ### Location sources
 - **`FOREGROUND_LOCATION`**: location update triggered by `Radar.trackOnce`
+- **`MANUAL_LOCATION`**: location update triggered by `Radar.trackOnce` passing in a location not collected by the Radar SDK
+- **`MOCK_LOCATION`**: location update triggered by `Radar.mockTracking`
 - **`BACKGROUND_LOCATION`**: location updated triggered by `Radar.startTracking`
 - **`GEOFENCE_ENTER`**: location update triggered by a client-side geofence entry, either nearby geofences synced from the server or a "bubble" geofence around the device's current location
 - **`GEOFENCE_EXIT`**: location updated triggered by client-side geofence exit, either nearby geofences synced from the server or a "bubble" geofence around the device's current location
