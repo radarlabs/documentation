@@ -2,21 +2,21 @@
 title: Olo
 ---
 
-Radar can [create and cancel trips](/trip-tracking) for customer arrival tracking when orders are placed or cancelled in [Olo](https://www.olo.com). Additionally, with *Order firing enabled*, location can power when an order should be manually fired to Olo (e.g. 5 minutes away).
+Radar can [create and manage trips](/trip-tracking) for customer arrival tracking when orders are placed or cancelled in [Olo](https://www.olo.com). Additionally, with *Order firing enabled* in Olo, Radar can power when an order should be manually fired to Olo based on how far a customer is from a restaurant (e.g. 5 minutes away).
 
 ## Configuration
 
-Configure a Olo webhook to deliver to https://api.radar.io/webhooks/olo for the relevant Order Events via the Development Tools section of the Olo Dashboard (requires 2 factor authentication and at least Brand Manager permission). When order events are triggered in Olo, Olo will call the Radar webhook. Collect your brand ID from Olo.
+Configure an Olo webhook to deliver to https://api.radar.io/webhooks/olo for the relevant order events via the Development Tools section of the Olo Dashboard (requires two-factor authentication and at least Brand Manager permission). When new order events are triggered, Olo will in turn call the Radar webhook.
 
-Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste your brand ID. Enter a destination geofence tag (e.g., `restaurant`), and optionally map fields from the Olo webhook body to Radar trip metadata. Select the applicable Olo *Handoff modes* that should trigger trip create and cancel events.
+On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste in your brand ID. Brand IDs required for the integration are provided by Olo. Enter a destination geofence tag (e.g., `restaurant`), and optionally map fields from the Olo webhook body to Radar trip metadata. Select the applicable Olo *Handoff modes* that should trigger trip create and cancel events.
 
 Finally, on the Radar [Geofences page](https://radar.com/dashboard/geofences), [import geofences](/geofences) for your restaurants. For destination geofence tag in the Olo configuration, use the tag used in the restaurant geofence configuration.
 
 ![Olo Webhook Configuration](/img/integrations/olo_webhook_configuration.png)
 
-Based on your settings, Radar will automatically create trips when orders are placed and cancel trips cancelled in Olo. You will need to call `Radar.startTrip()` with just the olo order id as the trip options external Id and `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress.
+Based on your settings, Radar will automatically create trips when new orders are placed and cancel trips when a cancellation occurs in Olo. You will need to call `Radar.startTrip()` with just the Olo order ID as the trip options external Id and `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress.
 
-Assuming the customer has granted location permissions and location tracking has been started in your app, Radar will generate location-based `user.updated_trip`, `user.approaching_trip_destination`, and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
+Assuming locations permissions have been granted and location tracking has been started in your app, Radar will generate location-based `user.updated_trip`, `user.approaching_trip_destination`, and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
 
 ## Order Firing
 
