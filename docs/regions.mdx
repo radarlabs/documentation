@@ -3,6 +3,13 @@ sidebar_position: 4
 title: Regions
 id: regions
 ---
+import Alert from "../src/components/Alert";
+
+<Alert alertType="info">
+  Regions is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 Regions detects a user's country, state, DMA (media market), or postal code.
 
@@ -42,15 +49,13 @@ Regions also provides the following events:
 - `user.entered_region_postal_code`
 - `user.exited_region_postal_code`
 
-Regions is available on the [Team](https://radar.io/pricing) plan and higher.
-
 ## Countries
 
 Regions supports country detection globally. Each country has a `name` and a unique 2-letter [ISO 3166](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) `code`. View the [full list of countries](/regions/countries).
 
-### Country whitelist or blacklist
+### Country allowlist or blocklist
 
-Regions can also be used to whitelist or blacklist location updates in specific countries for privacy or compliance reasons. Contact your customer success manager to enable this feature.
+Regions can also be used to allowlist or blocklist location updates in specific countries for privacy or compliance reasons. Contact your customer success manager to enable this feature.
 
 ## States
 

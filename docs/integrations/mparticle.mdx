@@ -1,14 +1,19 @@
 ---
 title: mParticle
 ---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The mParticle integration is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 Radar can send events and user attributes to [mParticle](https://www.mparticle.com) as an input feed. You can use events and user attributes to build audiences in mParticle, and mParticle can send events and user attributes to hundreds of outputs.
 
 The mParticle SDK can also install and initialize the [Radar SDK](/sdk) as a kit.
 
 Use the mParticle integration to build location-based audiences and to forward location events and user context to any outputs.
-
-The mParticle integration is available on the [Enterprise](https://radar.io/pricing) plan.
 
 ## Configuration
 
@@ -29,7 +34,7 @@ Radar.setMetadata(["mParticleCustomerId": customerid])
 
 ### Kit
 
-To configure the kit, on the Radar [Settings page](https://radar.io/dashboard/settings) under *Keys*, copy your test and live publishable keys. Then, in mParticle, add and enable Radar outputs for iOS and Android, paste your keys, and choose whether to run automatically.
+To configure the kit, on the Radar [Settings page](https://radar.com/dashboard/settings) under *Keys*, copy your test and live publishable keys. Then, in mParticle, add and enable Radar outputs for iOS and Android, paste your keys, and choose whether to run automatically.
 
 Install the kit using CocoaPods or Carthage on iOS and Gradle on Android. See the [iOS kit code and readme](https://github.com/mparticle-integrations/mparticle-apple-integration-radar), [Android kit code and readme](https://github.com/mparticle-integrations/mparticle-android-integration-radar), and [mParticle Kit documentation for Radar](https://docs.mparticle.com/integrations/radar/event/).
 
@@ -59,25 +64,6 @@ Radar User Field | mParticle User Attribute | Type | Example Value | Context Typ
 `place.categories` | `radar_place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `radar_place_chain_slug` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
-`insights.state.home.confidence` | `radar_insights_location_home_confidence` | string | `"high"` | [Insights](/insights)
-`insights.state.home.country.code` | `radar_insights_location_home_region_country_code` | string | `"US"` | [Regions](/regions)
-`insights.state.home.country.name` | `radar_insights_location_home_region_country_name` | string | `"United States"` | [Regions](/regions)
-`insights.state.home.state.code` | `radar_insights_location_home_region_state_code` | string | `"MD"` | [Regions](/regions)
-`insights.state.home.state.name` | `radar_insights_location_home_region_state_name` | string | `"Maryland"` | [Regions](/regions)
-`insights.state.home.dma.code` | `radar_insights_location_home_region_dma_code` | string | `"26"` | [Regions](/regions)
-`insights.state.home.dma.name` | `radar_insights_location_home_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
-`insights.state.home.postalCode.code` | `radar_insights_location_home_region_postal_code` | string | `"21014"` | [Regions](/regions)
-`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
-`insights.state.office.confidence` | `radar_insights_location_office_confidence` | string | `"high"` | [Insights](/insights)
-`insights.state.office.country.code` | `radar_insights_location_office_region_country_code` | string | `"US"` | [Regions](/regions)
-`insights.state.office.country.name` | `radar_insights_location_office_region_country_name` | string | `"United States"` | [Regions](/regions)
-`insights.state.office.state.code` | `radar_insights_location_office_region_state_code` | string | `"MD"` | [Regions](/regions)
-`insights.state.office.state.name` | `radar_insights_location_office_region_state_name` | string | `"Maryland"` | [Regions](/regions)
-`insights.state.office.dma.code` | `radar_insights_location_office_region_dma_code` | string | `"26"` | [Regions](/regions)
-`insights.state.office.dma.name` | `radar_insights_location_office_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
-`insights.state.office.postalCode.code` | `radar_insights_location_office_region_postal_code` | string | `"21014"` | [Regions](/regions)
-`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
 `country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
 `state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
@@ -85,6 +71,13 @@ Radar User Field | mParticle User Attribute | Type | Example Value | Context Typ
 `dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
 `dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `radar_trip_external_id` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `radar_beacon_ids` | array[string] | `["5b2c0906f5874b001aecfd8f]"` | [Beacons](/beacons)
+`beacons[*].description` | `radar_beacon_descriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `radar_beacon_tags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `radar_beacon_external_ids` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -133,42 +126,6 @@ Radar Event Field | mParticle Event Attribute | Type | Example Value
 `place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
-
-### user.entered_home
-
-Radar Event Field | mParticle Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### user.exited_home
-
-Radar Event Field | mParticle Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### user.entered_office
-
-Radar Event Field | mParticle Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### user.exited_office
-
-Radar Event Field | mParticle Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### user.started_traveling
-
-Radar Event Field | mParticle Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### user.stopped_traveling
-
-Radar Event Field | mParticle Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
 
 ### user.entered_region_country
 
@@ -262,3 +219,26 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.entered_beacon
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_beacon
+
+Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `1.42`

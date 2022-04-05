@@ -25,7 +25,7 @@ If you have an iOS and an Android project, add the package to each project.
 First, initialize the SDK:
 
 ```cs
-using Radar.Xamarin;
+using RadarIO.Xamarin
 namespace MyProject
 {
     public class Example
@@ -133,6 +133,30 @@ Radar.StopTracking();
 ```
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+To listen for events, location updates, and errors, you can add event listeners:
+
+```cs
+Radar.ClientLocationUpdated += (result) =>
+{
+    // do something with result.location, result.stopped, result.source
+};
+
+Radar.LocationUpdated += (result) =>
+{
+    // do something with result.location, result.user
+};
+
+Radar.EventsReceived += (result) =>
+{
+    // do something with result.events, result.user
+};
+
+Radar.Error += (err) => {
+    // do something with err
+};
+
+```
 
 ### Mock tracking
 
@@ -279,4 +303,4 @@ var (status, routes) = await Radar.GetDistance(origins, destinations, RadarRoute
 
 ## Support
 
-Have questions? We're here to help! Email us at [support@radar.io](mailto:support@radar.io).
+Have questions? We're here to help! Email us at [support@radar.com](mailto:support@radar.com).

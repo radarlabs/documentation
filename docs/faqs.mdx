@@ -3,6 +3,8 @@ sidebar_position: 13
 title: FAQs
 id: faqs
 ---
+import Alert from "../src/components/Alert";
+
 ## Testing
 
 ### How should I test Radar battery drain?
@@ -27,7 +29,7 @@ For example, if the iOS Battery screen shows 2% battery blame attributable to yo
 
 When using the efficient and responsive tracking presets, the SDK will wake up while the user is moving (usually every few minutes), then shut down when the user stops. To save battery, the SDK will not wake up when stopped. For most users, background tracking with these presets uses only 1-2% battery per day (measured in absolute percentage).
 
-See the [SDK documentation](/sdk) and [Navigating location services tradeoffs between accuracy, frequency, and battery efficiency](ttps://radar.io/blog/navigating-location-services-tradeoffs-between-accuracy-frequency-battery-efficiency) for more information.
+See the [SDK documentation](/sdk) and [Navigating location services tradeoffs between accuracy, frequency, and battery efficiency](ttps://radar.com/blog/navigating-location-services-tradeoffs-between-accuracy-frequency-battery-efficiency) for more information.
 
 ### Can I test Radar side-by-side with another location SDK?
 
@@ -53,15 +55,15 @@ Second, you can use [Regions](/regions) to detect a user's country or state base
 
 The Radar SDK collects location data (latitude, longitude), device IDs, IP addresses, and device info by default. We also collect any other user IDs (e.g., user IDs) or metadata that you choose to send us. Radar does not collect personally identifiable information like name or email by default.
 
-For more information, see our [privacy policy](https://radar.io/privacy), our [commitment to privacy](https://radar.io/blog/our-commitment-to-privacy), and our [location data privacy checklist](https://radar.io/blog/location-data-privacy-checklist).
+For more information, see our [privacy policy](https://radar.com/privacy), our [commitment to privacy](https://radar.com/blog/our-commitment-to-privacy), and our [location data privacy checklist](https://radar.com/blog/location-data-privacy-checklist).
 
 ### What are privacy best practices for Radar?
 
 - Do not send any PII, like names, email addresses, or publicly available IDs, to the Radar SDK or API.
-- Minimize the data you collect with Radar, turning on only the context types relevant to your use case (store visits for shopping apps, airport visits and traveling detection for travel apps, and so on).
+- Minimize the data you collect with Radar, turning on only the context types relevant to your use case (store visits for shopping apps, airport visits for travel apps, and so on).
 - Clearly explain to end users what data will be collected and how it will be used in your apps, in permissions prompts, and in your privacy policy.
 
-For more information, see our [location data privacy checklist](https://radar.io/blog/location-data-privacy-checklist).
+For more information, see our [location data privacy checklist](https://radar.com/blog/location-data-privacy-checklist).
 
 ### Why do I have multiple users with the same user ID or device ID?
 
@@ -77,17 +79,17 @@ The best location permission prompts are:
 
 Opt-in rates vary from app to app, but apps that follow best practices can expect 70-80% of users to grant location permissions, with 40-50% of users granting background ("always") location permissions on iOS.
 
-For more information, see our [location data privacy checklist](https://radar.io/blog/location-data-privacy-checklist).
+For more information, see our [location data privacy checklist](https://radar.com/blog/location-data-privacy-checklist).
 
 ### What is Radar's data retention policy?
 
 By default, users and events are retained for 1 year, trips are retained for 90 days, and location updates are retained for 7 days.
 
-Radar supports custom data retention policies for enterprise customers. Contact your customer success manager to enable this feature.
+Radar supports custom data retention policies for enterprise customers. Admins can adjust these settings in your Radar dashboard under the Privacy section.
 
 ### Is Radar CCPA-compliant and GDPR-compliant?
 
-Yes, Radar is CCPA-compliant and GDPR-compliant. For more information, see our [commitment to privacy](https://radar.io/blog/our-commitment-to-privacy).
+Yes, Radar is CCPA-compliant and GDPR-compliant. For more information, see our [commitment to privacy](https://radar.com/blog/our-commitment-to-privacy).
 
 For data deletion requests, you can delete a user manually from the user detail page in the dashboard or [delete a user programmatically](/api#delete-a-user) using the API. Deletions are immediate.
 
@@ -107,6 +109,11 @@ If you need assistance, you can also forward requests to your customer success m
 Use the appropriate role (owner, admin, write, or read) for each co-worker's account. See [Radar security best practices](#what-are-security-best-practices-for-radar).
 
 ### How do data access controls work?
+<Alert alertType="info">
+  Data accesss controls are available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 In addition to the account roles above, owners can also control:
 - **Project access**: Access to specific projects in an organization
@@ -114,8 +121,6 @@ In addition to the account roles above, owners can also control:
 - **Data access**: Access to specific data and pages across projects in an organization
   - *User locations*: Access to data on the user details page (map and location information) and access to the user locations page
   - *Trip locations*: Access to data on the trip details page (map and location information) and access to the [trip tracking dashboard](/trip-tracking#in-the-radar-trip-tracking-dashboard)
-
-Data access controls are available to enterprise customers. Contact your customer success manager for more information.
 
 ### Does Radar have a bug bounty or responsible disclosure program?
 

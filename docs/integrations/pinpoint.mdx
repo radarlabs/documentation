@@ -1,12 +1,17 @@
 ---
 title: AWS Pinpoint
 ---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The AWS Pinpoint integration is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 Radar can send events and user attributes to [AWS Pinpoint](https://aws.amazon.com/pinpoint/).
 
 Use the Pinpoint integration to send location-triggered and location-targeted messages to increase engagement and conversion.
-
-The Pinpoint integration is available on the [Enterprise](https://radar.io/pricing) plan.
 
 ## Configuration
 
@@ -46,9 +51,6 @@ Radar User Field | Pinpoint User Attribute | Type | Example Value | Context Type
 `place.categories` | `RadarPlaceCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `RadarPlaceChainId` | array[string] | `["starbucks"]` | [Places](/places)
 `place.chain.name` | `RadarPlaceChainName` | array[string] | `["Starbucks"]` | [Places](/places)
-`insights.state.home` | `RadarInsightsStateHome` | array[string] | `["false"]` | [Insights](/insights)
-`insights.state.office` | `RadarInsightsStateOffice` | array[string] | `["false"]` | [Insights](/insights)
-`insights.state.traveling` | `RadarInsightsStateTraveling` | array[string] | `["true"]` | [Insights](/insights)
 `country.code` | `RadarRegionCountryCode` | array[string] | `["US"]` | [Regions](/regions)
 `country.name` | `RadarRegionCountryName` | array[string] | `["United States"]` | [Regions](/regions)
 `state.code` | `RadarRegionStateCode` | array[string] | `["MD"]` | [Regions](/regions)
@@ -56,6 +58,13 @@ Radar User Field | Pinpoint User Attribute | Type | Example Value | Context Type
 `dma.code` | `RadarRegionDmaCode` | array[string] | `["26"]` | [Regions](/regions)
 `dma.name` | `RadarRegionDmaName` | array[string] | `["Baltimore"]` | [Regions](/regions)
 `postalCode.code` | `RadarRegionPostalCode` | array[string] | `["21014"]` | [Regions](/regions)
+`trip.externalId` | `RadarTripExternalId` | array[string] | `["299"]` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `RadarTripDestinationGeofenceTag` | array[string] | `["store"]` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `RadarTripDestinationGeofenceExternalId` | array[string] | `["123"]` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `RadarBeaconIds` | array[string] | `["5b2c0906f5874b001aecfd8f"]` | [Beacons](/beacons)
+`beacons[*].description` | `RadarBeaconDescriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `RadarBeaconTags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `RadarBeaconExternalIds` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -157,42 +166,6 @@ Radar Event Field | Pinpoint Event Attribute | Type | Example Value
 `dma.name` | `DmaName` | string | `"Baltimore"`
 `postalCode.code` | `PostalCode` | string | `"21014"`
 
-### user.entered_home
-
-Radar Event Field | Pinpoint Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-
-### user.exited_home
-
-Radar Event Field | Pinpoint Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-
-### user.entered_office
-
-Radar Event Field | Pinpoint Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-
-### user.exited_office
-
-Radar Event Field | Pinpoint Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-
-### user.started_traveling
-
-Radar Event Field | Pinpoint Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-
-### user.stopped_traveling
-
-Radar Event Field | Pinpoint Event Attribute | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
 ### user.entered_region_country
 
 Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
@@ -276,3 +249,26 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
 `trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+
+### user.entered_beacon
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `BeaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `BeaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `BeaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `BeaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `BeaconMetadata{key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+
+### user.exited_beacon
+
+Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `BeaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `BeaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `BeaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `BeaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `BeaconMetadata{key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+`duration` | `Duration` | number (minutes) | `1.42`

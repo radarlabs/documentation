@@ -1,12 +1,17 @@
 ---
 title: Segment
 ---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The Segment integration is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Team plan</a>
+  {` `} and higher.
+</Alert>
 
 Radar can send events and user traits to [Segment](https://segment.com) as a source. Segment can send those events and user traits to your warehouse and to hundreds of destinations.
 
 Use the Segment integration to forward location events and user context to any destinations or to build location-based user segments with Personas.
-
-The Segment integration is available on the [Team](https://radar.io/pricing) plan or higher.
 
 ## Configuration
 
@@ -50,9 +55,6 @@ Radar User Field | Segment User Trait | Type | Example Value | Context Type
 `place.categories` | `radar_place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `radar_place_chain_slug` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
-`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
-`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
 `country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
 `state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
@@ -60,6 +62,13 @@ Radar User Field | Segment User Trait | Type | Example Value | Context Type
 `dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
 `dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `radar_trip_external_id` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `radar_beacon_ids` | array[string] | `["5b2c0906f5874b001aecfd8f]"` | [Beacons](/beacons)
+`beacons[*].description` | `radar_beacon_descriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `radar_beacon_tags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `radar_beacon_external_ids` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -69,12 +78,6 @@ Radar Event | Context Type | Segment Event
 `user.exited_geofence` | [Geofences](/geofences) | `Geofence Exited`
 `user.entered_place` | [Places](/places) | `Place Entered`
 `user.exited_place` | [Places](/places) | `Place Exited`
-`user.entered_home` | [Insights](/insights) | `Home Entered`
-`user.exited_home` | [Insights](/insights) | `Home Exited`
-`user.entered_office` | [Insights](/insights) | `Office Entered`
-`user.exited_office` | [Insights](/insights) | `Office Exited`
-`user.started_traveling` | [Insights](/insights) | `Traveling Started`
-`user.stopped_traveling` | [Insights](/insights) | `Traveling Stopped`
 `user.entered_region_country` | [Regions](/regions) | `Country Entered`
 `user.exited_region_country` | [Regions](/regions) | `Country Exited`
 `user.entered_region_state` | [Regions](/regions) | `State Entered`
@@ -86,6 +89,8 @@ Radar Event | Context Type | Segment Event
 `user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `Trip Approaching Destination`
 `user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `Trip Arrived Destination`
 `user.stopped_trip` | [Trip Tracking](/trip-tracking) | `Trip Stopped`
+`user.entered_beacon` | [Beacons](/beacons) | `Beacon Entered`
+`user.exited_beacon` | [Beacons](/beacons) | `Beacon Exited`
 
 ### Geofence Entered
 
@@ -134,42 +139,6 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `place.categories` | `place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
-
-### Home Entered
-
-Radar Event Field | Segment Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### Home Exited
-
-Radar Event Field | Segment Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### Office Entered
-
-Radar Event Field | Segment Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### Office Exited
-
-Radar Event Field | Segment Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### Traveling Started
-
-Radar Event Field | Segment Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### Traveling Stopped
-
-Radar Event Field | Segment Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
 
 ### Country Entered
 
@@ -264,3 +233,25 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
 
+### Beacon Entered
+
+Radar Event Attribute | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### Beacon Exited
+
+Radar Event Attribute | Segment Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `1.42`

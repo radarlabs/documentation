@@ -10,7 +10,7 @@ The API is RESTful, with predictable, resource-oriented URLs. All responses, inc
 
 ## Authentication
 
-All requests must be authenticated. Authenticate using your API keys, found on the [Settings](https://radar.io/dashboard/settings) page. Include your API key in the `Authorization` header.
+All requests must be authenticated. Authenticate using your API keys, found on the [Settings](https://radar.com/dashboard/settings) page. Include your API key in the `Authorization` header.
 
 API endpoints with authentication level `Publishable` are safe to call client-side (e.g., [from the SDK](/sdk#authentication)). You should use your publishable API keys to call these endpoints. Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
 
@@ -38,7 +38,7 @@ The API uses standard HTTP response codes.
 - **`404`**: Not found
 - **`409`**: Conflict
 - **`429`**: Too many requests (rate limit exceeded, no state change, or selective throttling)
-- **`451`**: Unavailable for legal reasons (country blacklisted)
+- **`451`**: Unavailable for legal reasons (country blocklisted)
 - **`500`**: Internal server error
 - **`503`**: Service temporarily unavailable
 
@@ -246,14 +246,6 @@ curl "https://api.radar.io/v1/track" \
         ]
       }
     },
-    "insights": {
-      "state": {
-        "home": false,
-        "office": false,
-        "traveling": true,
-        "commuting" false
-      }
-    },
     "country": {
       "code": "US",
       "name": "United States",
@@ -398,7 +390,7 @@ This endpoint is best for complete addresses. For partial addresses or place nam
 
 - **`query`** (string, required): The address to geocode.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
-- **`country`** (string, optional): An optional country filter. A string, the unique 2-letter [country code](/regions/countries).
+- **`country`** (string, optional): An optional countries filter. A string of comma separated countries, the unique 2-letter [country code](/regions/countries).
 
 ###### Authentication level
 
@@ -583,7 +575,7 @@ Autocompletes partial addresses and place names, sorted by relevance.
 - **`near`** (string, optional): The location to search. A string in the format `latitude,longitude`. If not provided, the request IP address will be used to anchor the search.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
-- **`country`** (string, optional): An optional country filter. A string, the unique 2-letter [country code](/regions/countries).
+- **`country`** (string, optional): An optional countries filter. A string of comma separated countries, the unique 2-letter [country code](/regions/countries).
 
 ###### Authentication level
 
@@ -998,7 +990,6 @@ A user represents a user tracked in your project. Users can be referenced by Rad
 - **`state`** (dictionary): When [Regions](/regions) is enabled, the user's current state. US-only.
 - **`dma`** (dictionary): When [Regions](/regions) is enabled, the user's current DMA (market area). US-only.
 - **`postalCode`** (dictionary): When [Regions](/regions) is enabled, the user's current postal code. US-only.
-- **`insights`** (dictionary): When [Insights](/insights) is enabled, the user's learned approximate home and office locations, and home, office, and traveling state.
 
 ###### Sample object
 
@@ -1059,33 +1050,6 @@ A user represents a user tracked in your project. Users can be referenced by Rad
   },
   "postalCode": {
     "code": "07302"
-  },
-  "insights": {
-    "locations": [
-      {
-        "type": "home",
-        "location": {
-          "type": "Point",
-          "coordinates": [-73.97491, 40.78697]
-        },
-        "confidence": 3,
-        "updatedAt": "2017-04-04T01:23:47.495Z"
-      },
-      {
-        "type": "office",
-        "location": {
-          "type": "Point",
-          "coordinates": [-73.98885, 40.76994],
-        },
-        "confidence": 1,
-        "updatedAt": "2017-04-04T01:23:47.495Z"
-      }
-    ],
-    "state": {
-      "home": false,
-      "office": false,
-      "traveling": false
-    }
   }
 }
 ```
@@ -1417,15 +1381,15 @@ Secret
 }
 ```
 
-#### Start new trip
+#### Create a new trip
 
-To start a new trip, call the [track](#track) endpoint and specify `tripOptions`.
+Use the [SDK](/sdk) to start trips and track users.
 
-On iOS and Android, use the [SDK](/sdk) to start trips and track users.
+If a trip needs to be created outside of the SDK implementation, you can update a trip with status = `pending` and then use the SDK to start a matching trip and initiate tracking.
 
-#### Stop or restart trip
+#### Update trip status
 
-Stops or restarts a trip. The trip can be referenced by Radar `_id` or `externalId`.
+Updates the status of a trip. The trip can be referenced by Radar `_id` or `externalId`.
 
 On iOS and Android, use the [SDK](/sdk) to stop trips.
 
@@ -1435,7 +1399,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 
 ###### Query parameters
 
-- **`status`** (string, required): The new status of the trip, one of `started`, `approaching`, `arrived`, `completed`, or `canceled`.
+- **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
 
 ###### Default rate limit
 
@@ -1573,6 +1537,7 @@ Gets a geofence. The geofence can be uniquely referenced by Radar `_id` or by `t
 ###### Definition
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<br />
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
 
 ###### Default rate limit
@@ -1630,7 +1595,8 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 - **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
-- **`mode`** (string, required for type `isochrone`): The [travel mode](/api#route-distance) for type `isochrone`.
+- **`mode`** (string, required for type `isochrone`): The [travel mode](/api#routing) for type `isochrone`.
+- **`tripApproachingThreshold`** (number): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
 
 ###### Default rate limit
 
@@ -1679,6 +1645,7 @@ Deletes a geofence. The geofence can be uniquely referenced by Radar `_id` or by
 ###### Definition
 
 <span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:id</code>
+<br />
 <span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
 
 ###### Default rate limit
@@ -1764,7 +1731,7 @@ An event represents a change in user state. Events can be uniquely referenced by
 - **`_id`** (string): The unique ID for the event, provided by Radar. An alphanumeric string.
 - **`createdAt`** (datetime): The datetime when the event was created.
 - **`live`** (boolean): `true` if the event was generated for a user and geofence created with your `live` API key, `false` if the event was generated for a user and geofence created with your `test` API key.
-- **`type`** (string): The type of event. By default, events are generated when a user enters a geofence (type `user.entered_geofence`) or exits a geofence (type `user.exited_geofence`). [Places](/places), [Regions](/regions), and [Insights](/insights) also generate events.
+- **`type`** (string): The type of event. By default, events are generated when a user enters a geofence (type `user.entered_geofence`) or exits a geofence (type `user.exited_geofence`). [Places](/places) and [Regions](/regions) also generate events.
 - **`user`** (dictionary): The user for which the event was generated.
 - **`geofence`** (dictionary): For `user.entered_geofence` and `user.exited_geofence` events, the geofence for which the event was generated, including `description`, `tag`, and `externalId`.
 - **`place`** (dictionary): For `user.entered_place` and `user.exited_place` events, the place for which the event was generated, including `name`, `categories`, `chain`, and `facebookId`.
@@ -1827,9 +1794,9 @@ A beacon represents a bluetooth beacon in your project. Beacons can be uniquely 
 - **`externalId`** (optional, but recommended): An external ID for the beacon.
 - **`type`** (required): The type of beacon. `ibeacon` is currently supported.
 - **`uuid`** (required): The UUID of the beacon.
-- **`majorId`** (required): The major ID of the beacon.
-- **`minorId`** (required): The minor ID of the beacon.
-- **`geometry`** (polygon): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
+- **`major`** (required): The major ID of the beacon.
+- **`minor`** (required): The minor ID of the beacon.
+- **`geometry`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
 - **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
@@ -1921,7 +1888,9 @@ Gets a beacon. The beacon can be uniquely referenced by Radar `id` or by `uuid`,
 
 ###### Definition
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:id</code><span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:uuid/:major/:minor</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:id</code>
+<br />
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:uuid/:major/:minor</code>
 
 ###### Default rate limit
 
@@ -1971,8 +1940,8 @@ Creates a beacon.
 - **`externalId`** (optional, but recommended): An external ID for the beacon.
 - **`type`** (required): The type of beacon. `ibeacon` is currently supported.
 - **`uuid`** (required): The UUID of the beacon.
-- **`majorId`** (required): The major ID of the beacon.
-- **`minorId`** (required): The minor ID of the beacon.
+- **`major`** (required): The major ID of the beacon.
+- **`minor`** (required): The minor ID of the beacon.
 - **`coordinates`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
 - **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
@@ -2000,6 +1969,67 @@ curl "https://api.radar.io/v1/beacons" \
   -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
   -d "major=2298" \
   -d "minor=8515"
+```
+
+###### Sample response
+
+```json
+{
+    "meta": {
+        "code": 200
+    },
+    "beacon": {
+        "_id": "6116d947049aee0089a682a2",
+        "createdAt": "2021-08-13T20:42:47.711Z",
+        "updatedAt": "2021-08-13T20:42:47.711Z",
+        "live": true,
+        "description": "Beacon 1",
+        "tag": "drive-thru",
+    ...
+  }
+}
+```
+
+#### Upsert a beacon
+
+Upserts a beacon. The beacon can be uniquely referenced by `tag` and `externalId`. If a beacon with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
+
+###### Definition
+
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/beacons/:tag/:externalId</code>
+
+###### Body parameters
+
+- **`description`** (string, required): A display name for the beacon.
+- **`type`** (string, required): The type of beacon. `ibeacon` is currently supported.
+- **`uuid`** (string, required): The UUID of the beacon.
+- **`major`** (string, required): The major ID of the beacon.
+- **`minor`** (string, required): The minor ID of the beacon.
+- **`coordinates`** (point, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
+- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+- **`enabled`** (boolean, optional): If `true`, the beacon will generate events. If `false`, the beacon will not generate events. Defaults to `true`.
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
+  -H "Authorization: prj_live_sk_..." \
+  -X PUT \
+  -d "description=Beacon 1" \
+  -d "type=ibeacon" \
+  -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
+  -d "major=2298" \
+  -d "minor=8515" \
+  -d "coordinates=[-105.94653744704361,35.70654086799666]" \
+  -d "enabled=true"
 ```
 
 ###### Sample response

@@ -1,20 +1,32 @@
 ---
 title: Iterable
 ---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The Iterable integration is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 Radar can send custom events and user data to [Iterable](https://iterable.com).
 
 Use the Iterable integration to send location-triggered and location-targeted messages to increase engagement and conversion.
 
-The Iterable integration is available on the [Enterprise](https://radar.io/pricing) plan.
-
-## Configurable
+## Configuration
 
 On the Iterable *API Keys* page, create and copy a Mobile API key.
 
 Then, on the Radar [Integrations page](/integrations) under *Iterable*, set *Enabled* to *Yes* and paste your key. Note that you can set separate keys for the *Test* and *Live* environments.
 
 Whenever events are generated, Radar will send custom events and user data to Iterable.
+
+User IDs must be aligned between Iterable and Radar for the integration to function properly. To do this, make sure you set the Radar user ID to match the Iterable user ID. For example, on iOS:
+
+``` swift
+IterableAPI.userId = userId
+Radar.setUserId(userId)
+```
 
 ## User mapping
 
@@ -39,9 +51,6 @@ Radar User Field | Iterable User Data Field | Type | Example Value | Context Typ
 `place.categories` | `radarPlaceCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `radarPlaceChainSlug` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `radarPlaceChainName` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `radarInsightsStateHome` | boolean | `false` | [Insights](/insights)
-`insights.state.office` | `radarInsightsStateOffice` | boolean | `false` | [Insights](/insights)
-`insights.state.traveling` | `radarInsightsStateTraveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `radarRegionCountryCode` | string | `"US"` | [Regions](/regions)
 `country.name` | `radarRegionCountryName` | string | `"United States"` | [Regions](/regions)
 `state.code` | `radarRegionStateCode` | string | `"MD"` | [Regions](/regions)
@@ -49,6 +58,13 @@ Radar User Field | Iterable User Data Field | Type | Example Value | Context Typ
 `dma.code` | `radarRegionDMACode` | string | `"26"` | [Regions](/regions)
 `dma.name` | `radarRegionDMAName` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `radarRegionPostalCode` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `radarTripExternalId` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `radarTripDestinationGeofenceTag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `radarTripDestinationGeofenceExternalId` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `radarBeaconIds` | array[string] | `["5b2c0906f5874b001aecfd8f"]` | [Beacons](/beacons)
+`beacons[*].description` | `radarBeaconDescriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `radarBeaconTags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `radarBeaconExternalIds` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -58,12 +74,6 @@ Radar Event | Context Type | Iterable Event
 `user.exited_geofence` | [Geofences](/geofences) | `radarGeofenceExited`
 `user.entered_place` | [Places](/places) | `radarPlaceEntered`
 `user.exited_place` | [Places](/places) | `radarPlaceExited`
-`user.entered_home` | [Insights](/insights) | `radarHomeEntered`
-`user.exited_home` | [Insights](/insights) | `radarHomeExited`
-`user.entered_office` | [Insights](/insights) | `radarOfficeEntered`
-`user.exited_office` | [Insights](/insights) | `radarOfficeExited`
-`user.started_traveling` | [Insights](/insights) | `radarTravelingStarted`
-`user.stopped_traveling` | [Insights](/insights) | `radarTravelingStopped`
 `user.entered_region_country` | [Regions](/regions) | `radarCountryEntered`
 `user.exited_region_country` | [Regions](/regions) | `radarCountryExited`
 `user.entered_region_state` | [Regions](/regions) | `radarStateEntered`
@@ -75,6 +85,8 @@ Radar Event | Context Type | Iterable Event
 `user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `radarApproachingTripDestination`
 `user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `radarArrivedTripDestination`
 `user.stopped_trip` | [Trip Tracking](/trip-tracking) | `radarTripStopped`
+`user.entered_beacon` | [Beacons](/beacons) | `radarBeaconEntered`
+`user.exited_beacon` | [Beacons](/beacons) | `radarBeaconExited`
 
 ### radarGeofenceEntered
 
@@ -121,42 +133,6 @@ Radar Event Field | Iterable Event Data Field | Type | Example
 `place.categories` | `placeCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
-
-### radarHomeEntered
-
-Radar Event Field | Iterable Event Data Field | Type | Example
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### radarHomeExited
-
-Radar Event Field | Iterable Event Data Field | Type | Example
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### radarOfficeEntered
-
-Radar Event Field | Iterable Event Data Field | Type | Example
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### radarOfficeExited
-
-Radar Event Field | Iterable Event Data Field | Type | Example
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### radarTravelingStarted
-
-Radar Event Field | Iterable Event Data Field | Type | Example
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### radarTravelingStopped
-
-Radar Event Field | Iterable Event Data Field | Type | Example
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
 
 ### radarCountryEntered
 
@@ -241,3 +217,26 @@ Radar Event Attribute | Iterable Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `destinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `destinationGeofenceExternalId` | string | `"123"`
+
+### radarBeaconEntered
+
+Radar Event Attribute | Iterable Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### radarBeaconExited
+
+Radar Event Attribute | Iterable Event Data Field | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string | `"123"`
+`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `1.42`

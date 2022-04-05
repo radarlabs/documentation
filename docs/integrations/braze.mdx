@@ -1,12 +1,17 @@
 ---
 title: Braze
 ---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The Braze integration is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 Radar can send events and user attributes to [Braze](https://www.braze.com).
 
 Use the Braze integration to send location-triggered and location-targeted messages to increase engagement and conversion.
-
-The Braze integration is available on the [Enterprise](https://radar.io/pricing) plan.
 
 ## Configuration
 
@@ -51,9 +56,6 @@ Radar User Field | Braze User Attribute | Type | Example Value | Context Type
 `place.categories` | `radar_place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `radar_place_chain_id` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `radar_place_chain_name` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `radar_insights_state_home` | boolean | `false` | [Insights](/insights)
-`insights.state.office` | `radar_insights_state_office` | boolean | `false` | [Insights](/insights)
-`insights.state.traveling` | `radar_insights_state_traveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `radar_region_country_code` | string | `"US"` | [Regions](/regions)
 `country.name` | `radar_region_country_name` | string | `"United States"` | [Regions](/regions)
 `state.code` | `radar_region_state_code` | string | `"MD"` | [Regions](/regions)
@@ -61,6 +63,13 @@ Radar User Field | Braze User Attribute | Type | Example Value | Context Type
 `dma.code` | `radar_region_dma_code` | string | `"26"` | [Regions](/regions)
 `dma.name` | `radar_region_dma_name` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `radar_region_postal_code` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `radar_trip_external_id` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `radar_beacon_ids` | array[string] | `["5b2c0906f5874b001aecfd8f]"` | [Beacons](/beacons)
+`beacons[*].description` | `radar_beacon_descriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `radar_beacon_tags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `radar_beacon_external_ids` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -70,12 +79,6 @@ Radar Event | Context Type | Braze Event
 `user.exited_geofence` | [Geofences](/geofences) | `exited_geofence`
 `user.entered_place` | [Places](/places) | `entered_place`
 `user.exited_place` | [Places](/places) | `exited_place`
-`user.entered_home` | [Insights](/insights) | `entered_home`
-`user.exited_home` | [Insights](/insights) | `exited_home`
-`user.entered_office` | [Insights](/insights) | `entered_office`
-`user.exited_office` | [Insights](/insights) | `exited_office`
-`user.started_traveling` | [Insights](/insights) | `started_traveling`
-`user.stopped_traveling` | [Insights](/insights) | `stopped_traveling`
 `user.entered_region_country` | [Regions](/regions) | `entered_country`
 `user.exited_region_country` | [Regions](/regions) | `exited_country`
 `user.entered_region_state` | [Regions](/regions) | `entered_state`
@@ -87,6 +90,8 @@ Radar Event | Context Type | Braze Event
 `user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `approaching_trip_destination`
 `user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `arrived_at_trip_destination`
 `user.stopped_trip` | [Trip Tracking](/trip-tracking) | `stopped_trip`
+`user.entered_beacon` | [Beacons](/beacons) | `entered_beacon`
+`user.exited_beacon` | [Beacons](/beacons) | `exited_beacon`
 
 ### entered_geofence
 
@@ -186,42 +191,6 @@ Radar Event Field | Braze Event Property | Type | Example Value
 `dma.name` | `dma_name` | string | `"Baltimore"`
 `postalCode.code` | `postal_code` | string | `"21014"`
 
-### entered_home
-
-Radar Event Field | Braze Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### exited_home
-
-Radar Event Field | Braze Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### entered_office
-
-Radar Event Field | Braze Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### exited_office
-
-Radar Event Field | Braze Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### started_traveling
-
-Radar Event Field | Braze Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
-### stopped_traveling
-
-Radar Event Field | Braze Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `confidence` | string | `"high"`
-
 ### entered_country
 
 Radar Event Attribute | Braze Event Property | Type | Example Value
@@ -314,3 +283,26 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### entered_beacon
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `radar_beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `radar_beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `radar_beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### exited_beacon
+
+Radar Event Attribute | Braze Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `radar_beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `radar_beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `radar_beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `radar_duration` | number (minutes) | `1.42`

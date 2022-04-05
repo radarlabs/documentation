@@ -10,12 +10,9 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 import DefaultContextValues from "../../src/components/DefaultContextValues";
+import Alert from "../../src/components/Alert";
 
 <DefaultContextValues/>
-
-<div className="alert alert-info">
-  These are the docs for Android SDK v3.2. See docs for v3.1 <a href="/documentation/sdk/android-3.1">here</a>.
-</div>
 
 The Radar SDK abstracts away cross-platform differences between location services, allowing you to add geofencing, location tracking, trip tracking, geocoding, and search to your apps with just a few lines of code.
 
@@ -25,13 +22,13 @@ Learn how to integrate the Android SDK below. You can also see the [source](http
 
 The best way to add the SDK to your project is via Gradle in Android Studio.
 
-<div className="alert alert-info">
+<Alert alertType="info">
   For details on the latest SDK releases, see the{" "}
   <a href="https://github.com/radarlabs/radar-sdk-android/releases">
     releases page
   </a>{" "}
   on GitHub. You can also star ⭐️ and watch 👀 the repo.
-</div>
+</Alert>
 
 The SDK is small and typically adds less than 500 KB to your compiled app.
 
@@ -43,7 +40,7 @@ Add the SDK to the `dependencies` section of your app's `build.gradle` file:
 
 ```kotlin
 dependencies {
-    implementation 'io.radar:sdk:3.2.+'
+    implementation 'io.radar:sdk:3.3.+'
 }
 ```
 
@@ -61,15 +58,15 @@ The SDK currently supports API level `16` and higher.
 
 ## Initialize SDK
 
-When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.io/dashboard/settings).
+When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.com/dashboard/settings).
 
 Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Note that you should always use your publishable API keys, which are
   restricted in scope, in the SDK. Do not use your secret API keys, which are
   unrestricted in scope, in any client-side code.
-</div>
+</Alert>
 
 <Tabs
   groupId="android"
@@ -120,7 +117,7 @@ Use your `Test Publishable` key for testing and non-production environments. Use
 
 Radar respects [standard Android location permissions](https://developer.android.com/training/permissions/requesting.html).
 
-For foreground tracking or trip tracking with continuous mode, Radar requires the `ACCESS_FINE_LOCATION` permission for precise location and/or the `ACCESS_COARSE_LOCATION` permission for [approximate location](https://developer.android.com/about/versions/12/approximate-location). These permissions are automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, and `RECEIVE_BOOT_COMPLETED` permissions.
+For foreground tracking or trip tracking with continuous mode, Radar requires the `ACCESS_FINE_LOCATION` permission for precise location and/or the `ACCESS_COARSE_LOCATION` permission for [approximate location](https://developer.android.com/about/versions/12/approximate-location). To start a [foreground service](https://developer.android.com/training/location/permissions#foreground), Radar requires the `FOREGROUND_SERVICE` permission. These permissions are automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, and `RECEIVE_BOOT_COMPLETED` permissions.
 
 For background tracking or geofencing with responsive mode, and if targeting API level `29` or higher, Radar also requires the new `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
 
@@ -130,6 +127,7 @@ For background tracking or geofencing with responsive mode, and if targeting API
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
@@ -137,10 +135,10 @@ For background tracking or geofencing with responsive mode, and if targeting API
 </manifest>
 ```
 
-<div className="alert alert-info">
+<Alert alertType="Info">
   If your app already requests the necessary location permissions, you can skip
   this step.
-</div>
+</Alert>
 
 To request foreground and background permissions:
 <Tabs
@@ -175,15 +173,15 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
   </TabItem>
 </Tabs>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Build and run the app to make sure permissions prompts are displayed!
-</div>
+</Alert>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Not seeing permissions prompts? First, make sure you've added permissions to
   your manifest. Second, check your device settings to make sure you haven't
   already granted location permissions.
-</div>
+</Alert>
 
 ## Foreground tracking
 
@@ -238,13 +236,13 @@ You may provide an optional instance of `RadarCallback` with an implementation o
 - **`RadarStatus.ERROR_SERVER`**: internal server error
 - **`RadarStatus.ERROR_UNKNOWN`**: unknown error
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Build and run the app, then find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a>! To trigger an event, you'll need to{" "}
-  <a href="https://radar.io/geofences">create a geofence</a> if
+  <a href="https://radar.com/dashboard/users">Users page</a>! To trigger an event, you'll need to{" "}
+  <a href="https://radar.com/geofences">create a geofence</a> if
   you haven't already. Not seeing your user on the Users page? Check{" "}
   <code>status</code> in the callback to see what went wrong.
-</div>
+</Alert>
 
 ## Background tracking for geofencing
 
@@ -256,7 +254,7 @@ For geofencing, we recommend using `RadarTrackingOptions.RESPONSIVE`. This prese
 
 Assuming the user has authorized background permissions, background tracking will work even if the app has been backgrounded or killed, as Android location services will wake up the app to deliver events and the SDK uses `JobScheduler` to schedule network requests.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Note that location updates may be delayed significantly by{" "}
   <a href="https://developer.android.com/training/monitoring-device-state/doze-standby">
     Doze Mode
@@ -274,13 +272,13 @@ Assuming the user has authorized background permissions, background tracking wil
       requesting location, and slower otherwise.
     </strong>
   </em> These restrictions apply to all apps using location services, not just Radar.
-</div>
+</Alert>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Though we recommend using presets for most use cases, you can modify the
   presets. See the{" "}
-  <a href="../sdk/tracking">tracking options reference</a>.
-</div>
+  <a href="/sdk/tracking">tracking options reference</a>.
+</Alert>
 
 To start tracking for geofencing, call:
 
@@ -336,37 +334,36 @@ To stop tracking (e.g., when the user logs out), call:
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   To test, go for a walk or a drive! Not seeing location updates or events?
   Remember that, once stopped, the device will need to move more than 100 meters
   to wake up and start moving again. Also, check your device settings to make
   sure you've granted background location permissions.
-</div>
+</Alert>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Don't forget! You can always find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
-  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an event, you'll need
-  to <a href="https://radar.io/geofences">create a geofence</a> if
+  <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an event, you'll need
+  to <a href="https://radar.com/geofences">create a geofence</a> if
   you haven't already.
-</div>
+</Alert>
 
 ## Background tracking for trips
 
 For trips, we recommend using `RadarTrackingOptions.continuous`. This preset tells the SDK to send location updates to the server every 30 seconds, regardless of whether the device is moving.
 
-<div className="alert alert-info">
+<Alert alertType="info">
   To avoid{" "}
   <a href="https://developer.android.com/about/versions/oreo/background-location-limits">
     Background Location Limits
   </a>
-  , you should also start a <a href="https://developer.android.com/guide/components/foreground-services">
+  , the continuous preset starts a <a href="https://developer.android.com/guide/components/foreground-services">
     foreground service
-  </a> with a notification while tracking. Make sure to include <code>
-    android:foregroundServiceType="location"
-  </code> in your manifest. If you start a foreground service with a notification,
-  only foreground permissions are required for tracking.
-</div>
+  </a> with a notification while tracking.  When the foreground service with a notification is running, only foreground permissions are required for tracking. See the <a href="/sdk/tracking#android-foreground-service-options">
+  tracking options reference
+  </a> to adjust the foreground service notification copy and behavior.
+</Alert>
 
 To start tracking for trips, call:
 
@@ -381,7 +378,6 @@ To start tracking for trips, call:
   <TabItem value="java">
 
   ```java
-  startForegroundService();
   Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
   ```
 
@@ -389,7 +385,6 @@ To start tracking for trips, call:
   <TabItem value="kotlin">
 
   ```kotlin
-  startForegroundService()
   Radar.startTracking(RadarTrackingOptions.CONTINUOUS)
   ```
 
@@ -410,7 +405,6 @@ To stop tracking (e.g., when the user logs out), call:
 
   ```java
   Radar.stopTracking();
-  stopForegroundService();
   ```
 
   </TabItem>
@@ -418,7 +412,6 @@ To stop tracking (e.g., when the user logs out), call:
 
   ```kotlin
   Radar.stopTracking()
-  stopForegroundService()
   ```
 
   </TabItem>
@@ -426,14 +419,14 @@ To stop tracking (e.g., when the user logs out), call:
 
 Learn more about starting, completing, and canceling trips in the [trip tracking documentation](/trip-tracking).
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Don't forget! You can always find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
-  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an event, you'll need
-  to <a href="https://radar.io/geofences">create a geofence</a> or{" "}
-  <a href="../trip-tracking">start a trip</a> if you haven't
+  <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an event, you'll need
+  to <a href="https://radar.com/geofences">create a geofence</a> or{" "}
+  <a href="/trip-tracking">start a trip</a> if you haven't
   already.
-</div>
+</Alert>
 
 ## Mock tracking for testing
 
@@ -499,13 +492,13 @@ Can't go for a walk or a drive? You can simulate a sequence of location updates.
   </TabItem>
 </Tabs>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Don't forget! You can always find your user on the{" "}
-  <a href="https://radar.io/dashboard/users">Users page</a> or events on the{" "}
-  <a href="https://radar.io/dashboard/events">Events page</a>. To trigger an event, you'll need
-  to <a href="https://radar.io/geofences">create a geofence</a> if
+  <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
+  <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an event, you'll need
+  to <a href="https://radar.com/geofences">create a geofence</a> if
   you haven't already.
-</div>
+</Alert>
 
 ## Listening for events with a receiver
 
@@ -624,11 +617,11 @@ Your receiver should implement the following:
   </TabItem>
 </Tabs>
 
-<div className="alert alert-info">
+<Alert alertType="info">
   To listen for events server-side instead, add a{" "}
-  <a href="../integrations/webhooks">webhook</a> or enable an{" "}
-  <a href="../integrations">integration</a>.
-</div>
+  <a href="/integrations/webhooks">webhook</a> or enable an{" "}
+  <a href="/integrations">integration</a>.
+</Alert>
 
 ## Manual tracking
 
@@ -706,14 +699,14 @@ To set a custom `userId`, call:
 
 where `userId` is a stable unique ID for the user.
 
-<div className="alert alert-warning">
+<Alert alertType="warning">
   Do not send any PII, like names, email addresses, or publicly available IDs,
   for <code>userId</code>. See{" "}
-  <a href="../faqs#what-are-privacy-best-practices-for-radar">
+  <a href="/faqs#what-are-privacy-best-practices-for-radar">
     privacy best practices
   </a>{" "}
   for more information.
-</div>
+</Alert>
 
 To set a dictionary of custom metadata for the user, call:
 
@@ -1083,7 +1076,7 @@ With the [geofence search API](/api#search-geofences), search for geofences near
       near,
       1000, // radius (meters)
       {"store"}, // tags
-      nil, //metadata
+      null, //metadata
       10, // limit
       new RadarSearchGeofencesCallback() {
           @Override
@@ -1102,7 +1095,7 @@ With the [geofence search API](/api#search-geofences), search for geofences near
       near,
       1000, // radius (meters)
       arrayOf("store"), // tags
-      nil, // metadata
+      null, // metadata
       10 // limit
   ) { status, location, geofences ->
       // do something with geofences

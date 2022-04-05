@@ -1,12 +1,17 @@
 ---
 title: Amplitude
 ---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The Amplitude integration is available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Team plan</a>
+  {` `} and higher.
+</Alert>
 
 Radar can send events and user properties to [Amplitude](https://amplitude.com).
 
 Use the Amplitude integration to enrich behavioral events with location context, measure the ROI of location-based features, and build location-based user segments.
-
-The Amplitude integration is available on the [Team](https://radar.io/pricing) plan or higher.
 
 ## Configuration
 
@@ -40,9 +45,6 @@ Radar User Field | Amplitude User Property | Type | Example Value | Context Type
 `place.categories` | `[Radar] Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]` | [Places](/places)
 `place.chain.slug` | `[Radar] Place Chain Slug` | string | `"starbucks"` | [Places](/places)
 `place.chain.name` | `[Radar] Place Chain Name` | string | `"Starbucks"` | [Places](/places)
-`insights.state.home` | `[Radar] Insights State Home` | boolean | `false` | [Insights](/insights)
-`insights.state.office` | `[Radar] Insights State Office` | boolean | `false` | [Insights](/insights)
-`insights.state.traveling` | `[Radar] Insights State Traveling` | boolean | `true` | [Insights](/insights)
 `country.code` | `[Radar] Region Country Code` | string | `"US"` | [Regions](/regions)
 `country.name` | `[Radar] Region Country Name` | string | `"United States"` | [Regions](/regions)
 `state.code` | `[Radar] Region State Code` | string | `"MD"` | [Regions](/regions)
@@ -50,6 +52,13 @@ Radar User Field | Amplitude User Property | Type | Example Value | Context Type
 `dma.code` | `[Radar] Region DMA Code` | string | `"26"` | [Regions](/regions)
 `dma.name` | `[Radar] Region DMA Name` | string | `"Baltimore"` | [Regions](/regions)
 `postalCode.code` | `[Radar] Region Postal Code` | string | `"21014"` | [Regions](/regions)
+`trip.externalId` | `[Radar] Trip External ID` | string | `"299"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceTag` | `[Radar] Trip Destination Geofence Tag` | string | `"store"` | [Trip Tracking](/trip-tracking)
+`trip.destinationGeofenceExternalId` | `[Radar] Trip Destination Geofence External ID` | string | `"123"` | [Trip Tracking](/trip-tracking)
+`beacons[*]._id` | `[Radar] Beacon IDs` | array[string] | `["5b2c0906f5874b001aecfd8f"]` | [Beacons](/beacons)
+`beacons[*].description` | `[Radar] Beacon Descriptions` | array[string] | `["Store #123 - Drive-Thru"]` | [Beacons](/beacons)
+`beacons[*].tag` | `[Radar] Beacon Tags` | array[string] | `["drive-thru"]` | [Beacons](/beacons)
+`beacons[*].externalId` | `[Radar] Beacon External IDs` | array[string] | `["123"]` | [Beacons](/beacons)
 
 ## Event mapping
 
@@ -59,12 +68,6 @@ Radar Event | Context Type | Amplitude Event
 `user.exited_geofence` | [Geofences](/geofences) | `[Radar] Geofence Exited`
 `user.entered_place` | [Places](/places) | `[Radar] Place Entered`
 `user.exited_place` | [Places](/places) | `[Radar] Place Exited`
-`user.entered_home` | [Insights](/insights) | `[Radar] Home Entered`
-`user.exited_home` | [Insights](/insights) | `[Radar] Home Exited`
-`user.entered_office` | [Insights](/insights) | `[Radar] Office Entered`
-`user.exited_office` | [Insights](/insights) | `[Radar] Office Exited`
-`user.started_traveling` | [Insights](/insights) | `[Radar] Traveling Started`
-`user.stopped_traveling` | [Insights](/insights) | `[Radar] Traveling Stoppped`
 `user.entered_region_country` | [Regions](/regions) | `[Radar] Country Entered`
 `user.exited_region_country` | [Regions](/regions) | `[Radar] Country Exited`
 `user.entered_region_state` | [Regions](/regions) | `[Radar] State Entered`
@@ -76,6 +79,8 @@ Radar Event | Context Type | Amplitude Event
 `user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `[Radar] Approaching Trip Destination`
 `user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `[Radar] Arrived at Trip Destination`
 `user.stopped_trip` | [Trip Tracking](/trip-tracking) | `[Radar] Stopped Trip`
+`user.entered_beacon` | [Beacons](/beacons) | `[Radar] Beacon Entered`
+`user.exited_beacon` | [Beacons](/beacons) | `[Radar] Beacon Exited`
 
 ### &lbrack;Radar&rbrack; Geofence Entered
 
@@ -166,127 +171,6 @@ Radar Event Field | Amplitude Event Property | Type | Example Value
 `accuracy` | `Accuracy` | number (meters) | `5`
 `foreground` | `Foreground` | boolean | `true`
 `duration` | `Duration` | number (minutes) | `42.1`
-
-If [Regions](/regions) is enabled, Radar will also send the following attributes:
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`country.code` | `Country Code` | string | `"US"`
-`country.name` | `Country Name` | string | `"United States"`
-`state.code` | `State Code` | string | `"MD"`
-`state.name` | `State Name` | string | `"Maryland"`
-`dma.code` | `DMA Code` | string | `"26"`
-`dma.name` | `DMA Name` | string | `"Baltimore"`
-`postalCode.code` | `Postal Code` | string | `"21014"`
-
-### &lbrack;Radar&rbrack; Home Entered
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-`accuracy` | `Accuracy` | number (meters) | `5`
-`foreground` | `Foreground` | boolean | `true`
-
-If [Regions](/regions) is enabled, Radar will also send the following attributes:
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`country.code` | `Country Code` | string | `"US"`
-`country.name` | `Country Name` | string | `"United States"`
-`state.code` | `State Code` | string | `"MD"`
-`state.name` | `State Name` | string | `"Maryland"`
-`dma.code` | `DMA Code` | string | `"26"`
-`dma.name` | `DMA Name` | string | `"Baltimore"`
-`postalCode.code` | `Postal Code` | string | `"21014"`
-
-
-### &lbrack;Radar&rbrack; Home Exited
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-`accuracy` | `Accuracy` | number (meters) | `5`
-`foreground` | `Foreground` | boolean | `true`
-
-If [Regions](/regions) is enabled, Radar will also send the following attributes:
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`country.code` | `Country Code` | string | `"US"`
-`country.name` | `Country Name` | string | `"United States"`
-`state.code` | `State Code` | string | `"MD"`
-`state.name` | `State Name` | string | `"Maryland"`
-`dma.code` | `DMA Code` | string | `"26"`
-`dma.name` | `DMA Name` | string | `"Baltimore"`
-`postalCode.code` | `Postal Code` | string | `"21014"`
-
-### &lbrack;Radar&rbrack; Office Entered
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-`accuracy` | `Accuracy` | number (meters) | `5`
-`foreground` | `Foreground` | boolean | `true`
-
-If [Regions](/regions) is enabled, Radar will also send the following attributes:
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`country.code` | `Country Code` | string | `"US"`
-`country.name` | `Country Name` | string | `"United States"`
-`state.code` | `State Code` | string | `"MD"`
-`state.name` | `State Name` | string | `"Maryland"`
-`dma.code` | `DMA Code` | string | `"26"`
-`dma.name` | `DMA Name` | string | `"Baltimore"`
-`postalCode.code` | `Postal Code` | string | `"21014"`
-
-### &lbrack;Radar&rbrack; Office Exited
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-`accuracy` | `Accuracy` | number (meters) | `5`
-`foreground` | `Foreground` | boolean | `true`
-
-If [Regions](/regions) is enabled, Radar will also send the following attributes:
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`country.code` | `Country Code` | string | `"US"`
-`country.name` | `Country Name` | string | `"United States"`
-`state.code` | `State Code` | string | `"MD"`
-`state.name` | `State Name` | string | `"Maryland"`
-`dma.code` | `DMA Code` | string | `"26"`
-`dma.name` | `DMA Name` | string | `"Baltimore"`
-`postalCode.code` | `Postal Code` | string | `"21014"`
-
-### &lbrack;Radar&rbrack; Traveling Started
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-`accuracy` | `Accuracy` | number (meters) | `5`
-`foreground` | `Foreground` | boolean | `true`
-
-If [Regions](/regions) is enabled, Radar will also send the following attributes:
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`country.code` | `Country Code` | string | `"US"`
-`country.name` | `Country Name` | string | `"United States"`
-`state.code` | `State Code` | string | `"MD"`
-`state.name` | `State Name` | string | `"Maryland"`
-`dma.code` | `DMA Code` | string | `"26"`
-`dma.name` | `DMA Name` | string | `"Baltimore"`
-`postalCode.code` | `Postal Code` | string | `"21014"`
-
-### &lbrack;Radar&rbrack; Traveling Stopped
-
-Radar Event Field | Amplitude Event Property | Type | Example Value
---- | --- | --- | ---
-`confidence` | `Confidence` | string | `"high"`
-`accuracy` | `Accuracy` | number (meters) | `5`
-`foreground` | `Foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -534,6 +418,53 @@ Radar Event Attribute | Amplitude Event Property | Type | Example Value
 `trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
 `accuracy` | `Accuracy` | number (meters) | `5`
 `foreground` | `Foreground` | boolean | `true`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `Country Code` | string | `"US"`
+`country.name` | `Country Name` | string | `"United States"`
+`state.code` | `State Code` | string | `"MD"`
+`state.name` | `State Name` | string | `"Maryland"`
+`dma.code` | `DMA Code` | string | `"26"`
+`dma.name` | `DMA Name` | string | `"Baltimore"`
+`postalCode.code` | `Postal Code` | string | `"21014"`
+
+### &lbrack;Radar&rbrack; Beacon Entered
+
+Radar Event Attribute | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `Beacon ID` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `Beacon Description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `Beacon Tag` | string | `"drive-thru"`
+`beacon.externalId` | `Beacon External ID` | string | `"123"`
+`beacon.metadata[{key}]` | `Beacon Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `Country Code` | string | `"US"`
+`country.name` | `Country Name` | string | `"United States"`
+`state.code` | `State Code` | string | `"MD"`
+`state.name` | `State Name` | string | `"Maryland"`
+`dma.code` | `DMA Code` | string | `"26"`
+`dma.name` | `DMA Name` | string | `"Baltimore"`
+`postalCode.code` | `Postal Code` | string | `"21014"`
+
+### &lbrack;Radar&rbrack; Beacon Exited
+
+Radar Event Attribute | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `Beacon ID` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `Beacon Description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `Beacon Tag` | string | `"drive-thru"`
+`beacon.externalId` | `Beacon External ID` | string | `"123"`
+`beacon.metadata[{key}]` | `Beacon Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+`duration` | `Duration` | number (minutes) | `1.42`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 

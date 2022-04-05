@@ -2,7 +2,7 @@
 module.exports = {
   title: 'Documentation | Radar',
   tagline: 'Location data infrastructure | Geofencing SDK and API',
-  url: 'https://radar.io',
+  url: 'https://radar.com',
   baseUrl: '/documentation/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -16,11 +16,11 @@ module.exports = {
       { name: "og:site_name", content: "Radar" },
       { name: "og:type", content: "website" },
       { name: "og:description", content: "Location data infrastructure | Geofencing SDK and API" },
-      { name: "og:image", content: "https://radar.io/static/image/logo-social.png"},
-      { name: "og:image:url", content: "https://radar.io/static/image/logo-social.png"},
+      { name: "og:image", content: "https://radar.com/static/image/logo-social.png"},
+      { name: "og:image:url", content: "https://radar.com/static/image/logo-social.png"},
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@radarlabs" },
-      { name: "twitter:image", content: "https://radar.io/static/image/logo.png" },
+      { name: "twitter:image", content: "https://radar.com/static/image/logo.png" },
       { name: "twitter:description", content: "Location data infrastructure | Geofencing SDK and API"}
     ],
     navbar: {
@@ -31,19 +31,19 @@ module.exports = {
       items: [
         {
           // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
-          to: 'https://radar.io/pricing',
+          to: 'https://radar.com/pricing',
           label: 'Pricing',
           position: 'right',
         },
         {
           // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
-          to: 'https://radar.io/contact',
+          to: 'https://radar.com/contact',
           label: 'Contact Sales',
           position: 'right',
         },
         {
           // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
-          to: 'https://radar.io/login',
+          to: 'https://radar.com/login',
           label: 'Dashboard',
           position: 'right',
         },
@@ -65,7 +65,6 @@ module.exports = {
     prism: {
       additionalLanguages: ['kotlin', 'java', 'swift'],
       theme: require('prism-react-renderer/themes/github'),
-      // additionalLanguages: [`csv`, 'java', 'kotlin', 'objc', 'swift', 'xml']
     },
     googleAnalytics: {
       trackingID: 'UA-83017101-1',
@@ -82,12 +81,6 @@ module.exports = {
             'https://github.com/radarlabs/docs/edit/main/',
           routeBasePath: '/',
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/edit/master/websitehttps://radar.io/blog/',
-        // },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },

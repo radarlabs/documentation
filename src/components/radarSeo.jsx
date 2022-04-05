@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from '@docusaurus/Head';
-import {useThemeConfig, useTitleFormatter} from '@docusaurus/theme-common';
+import { useThemeConfig } from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const ROOT_BREADCRUMB = {
@@ -27,7 +27,7 @@ const breadcrumbMetadata = (pageList) => {
       position: index + 1,
       name,
       item: {
-        '@id': `https://radar.io${page.path}`,
+        '@id': `https://radar.com${page.path}`,
         name,
       },
     };
@@ -43,17 +43,17 @@ const breadcrumbMetadata = (pageList) => {
 export const getDocumentationBreadcrumbs = (slug, title) => {
   const breadcrumbs = [
     ROOT_BREADCRUMB,
-    { name: 'Documentation', path: '/documentation' },
+    { name: 'Documentation', path: useBaseUrl('/') },
   ];
 
   if (slug && title) {
     if (slug === 'places/categories' || slug === 'places/chains') {
       breadcrumbs.push(
-        { name: 'Places', path: '/documentation/places' },
+        { name: 'Places', path: useBaseUrl('places') },
       );
     }
     breadcrumbs.push(
-      { name: title, path: `/documentation/${slug}` },
+      { name: title, path: useBaseUrl(slug) },
     );
   }
 

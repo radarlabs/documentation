@@ -173,9 +173,6 @@ module.exports = {
       ],
     },
     "faqs",
-    "insights", // deprecated
     "vulnerability-disclosure-policy",
-    "sdk/ios-3.1",
-    "sdk/android-3.1",
   ],
 };
