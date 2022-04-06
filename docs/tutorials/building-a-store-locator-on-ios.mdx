@@ -39,6 +39,7 @@ The CSV should include 8 columns:
 - **`metadata`**: A set of custom key-value pairs for the geofence. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number. In this case, `{"parking": true}` or `{"parking": false}`.
 
 ```csv
+description,tag,externalId,type,radius,coordinates,enabled,metadata
 McRadar's #1,store,1,circle,100,"[-73.986752,40.703919]",true,"{""parking"":true}"
 McRadar's #2,store,2,circle,100,"[-73.993156,40.700554]",true,"{""parking"":false}"
 McRadar's #3,store,3,circle,100,"[-73.983295,40.697693]",true,"{""parking"":false}"
