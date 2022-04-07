@@ -1,0 +1,24 @@
+---
+title: AWS S3
+---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The AWS S3 integration is currently in <b>beta</b> and available on the {` `} 
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
+
+Radar can stream both events and locations to [AWS S3](https://aws.amazon.com/s3/).
+
+Use the AWS S3 integration to make Radar data available in a simple object storage format within your own systems, making your locations and events data more easily accessible by your engineers and data scientists.
+
+By having all of your event and location data in S3, you can integrate your location data with other analysis tools like Snowflake or Tableau. This can enable you to do custom dashboarding with visualizations of data like foot traffic, trip duration, or dwell time in a location.
+
+## Configuration
+
+While in beta, contact your customer success manager to enable this feature.
+
+The AWS S3 integration uses an [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/) to stream new Radar locations and events. Additionally, [AWS KMS](https://aws.amazon.com/kms/) can be used [to encrypt Kinesis data streams server-side](https://docs.aws.amazon.com/streams/latest/dev/server-side-encryption.html).
+
+![AWS S3 configuration diagram](/img/integrations/aws_s3_diagram.png)
