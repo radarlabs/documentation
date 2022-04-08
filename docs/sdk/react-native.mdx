@@ -28,7 +28,23 @@ Then, install the [iOS SDK](/sdk/ios). Change to the `ios/` directory. In the `P
 
 Finally, before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* and *Add SDK to project* steps in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-On iOS, you must add location usage descriptions and background modes to your `Info.plist`, then add the SDK to your project, preferably using CocoaPods. Finally, initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
+### iOS
+
+You must add location usage descriptions and background modes to your `Info.plist`. For foreground permissions, you must add a value for  `NSLocationWhenInUseUsageDescription` *(Privacy - Location When In Use Usage Description)*. For background permissions, you must add a value for `NSLocationAlwaysAndWhenInUseUsageDescription` *(Privacy - Location Always and When In Use Usage Description)*. These strings are displayed in permissions prompts.
+
+<img
+  className="large"
+  src="https://images.ctfassets.net/f2vbu16fzuly/66LUD7W9uTt7f2H5pMmpBp/1e5a2bb2baaf79328e88c3ea47a7f6ff/permissions.png"
+/>
+
+If you are requesting background permissions, in your project settings, go to _Signing & Capabilities_, add _Background Modes_, and turn on _Background fetch_ and _Location updates_. Note that this requires additional justification during App Store review. [Learn more](/sdk/ios#submit-to-app-store).
+
+<img
+  className="large"
+  src="https://images.ctfassets.net/f2vbu16fzuly/UUjdS7HyuFgu5bzGzuOYd/3eb568125cea0d6c4cf9384327446f08/modes.png"
+/>
+
+Add the SDK to your project, preferably using CocoaPods. Finally, initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
 
 ```objc
 #import <RadarSDK/RadarSDK.h>
@@ -40,8 +56,13 @@ On iOS, you must add location usage descriptions and background modes to your `I
   // ...
 }
 ```
+### Android
 
-On Android, you must add the Google Play Services library to your project, then add the SDK to your project, preferably using Gradle. Finally, initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key:
+You must add Google Play Services Location to your project *(use version 18 or higher)*.
+
+`implementation "com.google.android.gms:play-services-location:18.0.0"`
+
+Then add the SDK to your project and initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key:
 
 ```java
 import io.radar.sdk.Radar;
@@ -128,6 +149,10 @@ Radar.requestPermissions(background).then((status) => {
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
 
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+<div className="alert alert-info">
+  Build and run the app to make sure permissions prompts are displayed!
+</div>
 
 ### Foreground tracking
 
