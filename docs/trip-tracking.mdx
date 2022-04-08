@@ -22,7 +22,7 @@ Want to get started quickly? Follow these three steps:
 
 1. **Create geofences.** Import [geofences](/geofences) for your locations or register via [API](/api#upsert-a-geofence). Depending on your use case, a geofence might represent a store, restaurant, delivery location, and so on.
 
-2. **Integrate the Radar SDK into your app.** Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start tracking and start a trip with custom metadata (like order ID, license plate, or car model). Stop tracking and complete the trip when the order finishes. 
+2. **Integrate the Radar SDK into your app.** Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start tracking and start a trip with custom metadata (like order ID, license plate, or car model). Stop tracking and complete the trip when the order finishes.
 
 3. **Display live trips or trigger workflows with ETAs.** Display live ETAs on the trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing) plan. Or, display live ETAs in your own UI by polling the [list trips API](/api#list-trips) or listening for [trip events](/trip-tracking#trip-events) available through the [SDK](/sdk) events listener or server-side via [event integrations](/integrations).
 
@@ -32,7 +32,7 @@ Want to get started quickly? Follow these three steps:
 Integrate the [SDK](/sdk) into your app or website. When a order starts or the user taps "I'm on my way," start tracking and start a trip with an ID, a destination geofence, a travel mode, and custom metadata (e.g., customer name, car model, or license plate) depending on your use case.
 
 <Tabs
-  groupId="all-native"
+  groupId="trip-tracking"
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
@@ -122,7 +122,7 @@ Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
 As trips progress you can pass updates about the trip. This is commonly used to capture additional metadata as the trip progresses (i.e. in a pickup use case, car info provided on arrival), but can also be used to progress the trip status manually. The trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing), can receive notifications when trip metadata changes occur.
 
 <Tabs
-  groupId="all-native"
+  groupId="trip-tracking"
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
@@ -185,12 +185,12 @@ Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED,new Radar.RadarT
 
 ## Ending trips
 
-When the order is cancelled or picked up, stop tracking and stop the trip. This can be done either via the SDK or through Radar [APIs](/api#stop-or-restart-trip). 
+When the order is cancelled or picked up, stop tracking and stop the trip. This can be done either via the SDK or through Radar [APIs](/api#stop-or-restart-trip).
 
 The Radar settings page also allows for trip expiration based on a set number of hours after trip start. For organizations on the Radar [Enterprise](https://radar.io/pricing) plan, there is the ability to also automatically complete trips based on a configurable ETA following destination arrival.
 
 <Tabs
-  groupId="all-native"
+  groupId="trip-tracking"
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
@@ -229,13 +229,13 @@ The Radar settings page also allows for trip expiration based on a set number of
   <TabItem value="kotlin">
 
   ```kotlin
-  
+
   // order picked up or user taps "I'm here"
   Radar.completeTrip { status, trip, events ->
       // do something with status, trip, events
   }
   Radar.stopTracking()
-    
+
   // Order cancelled
   Radar.cancelTrip { status, trip, events ->
       // do something with status, trip, events
@@ -330,7 +330,7 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 
 ### In the Radar trip tracking dashboard
 <Alert alertType="info">
-  The trip tracking dashboard is available on the {` `} 
+  The trip tracking dashboard is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
@@ -375,7 +375,7 @@ Trip analytics apply to the environment in which you view the metrics. For examp
 - **`Median trip time`**: the median duration between the moment when the user starts a trip (`user.started_trip`) and the moment when they arrive at the destination (`user.arrived_at_trip_destination`). This statistic omits trips which are missing an arrival timestamp.
 - **`Repeat customers`**: the total number of your users who have completed more than one trip.
 
-The graphs for each card show the change over time in each statistic. The time windows of each graph are automatically determined by the dates set in the Filters button. To see data grouped by hour, set the date range to encompass 2 days or fewer. To see data grouped by day, set the date range to encompass 21 days or fewer. To see data grouped by weeks, set the date range to encompass 60 days or fewer. To see data grouped by month, the date range must encompass more than 60 days of data. 
+The graphs for each card show the change over time in each statistic. The time windows of each graph are automatically determined by the dates set in the Filters button. To see data grouped by hour, set the date range to encompass 2 days or fewer. To see data grouped by day, set the date range to encompass 21 days or fewer. To see data grouped by weeks, set the date range to encompass 60 days or fewer. To see data grouped by month, the date range must encompass more than 60 days of data.
 
 | Number of Days  | Time Grouping |
 | ------------- | ------------- |
@@ -401,7 +401,7 @@ The table has 6 sortable headers:
 
 **By Destination table filter box:** The text box in the By Destination table on the Analytics page also allows you to filter only the data in the table. You can filter by Destination, Tag, or Geofence ID. (The filters set in text box only apply to data in the By Destination table and do not apply to the overall trip metrics at the top of the page.)
 
-**Additional options in the table:** On the right side of each row, there is an icon with three dots that allows viewers to select additional options. Clicking on this icon offers two actions: 
+**Additional options in the table:** On the right side of each row, there is an icon with three dots that allows viewers to select additional options. Clicking on this icon offers two actions:
 
 - **`Filter by destination`**: This will filter the entire analytics page to only include this single destination.
 - **`View destination`**: This will bring you to the destination geofence's detail page.
