@@ -1201,11 +1201,13 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`eta`** (dictionary): For trips with a destination, the ETA to the destination geofence based on the travel mode for the trip, including `duration` in minutes and `distance` in meters.
 - **`createdAt`** (datetime): The datetime when the trip was started.
 - **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
+- **`scheduledArrivalAt`** (datetime): The backup datetime when the trip should be fired. Required with Olo order firing integration.
+- **`orderFiredAt`** (datetime): The datetime when the trip fired the order via the Olo integration.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
 - **`status`** (string): The status of the trip, one of `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
 - **`user`** (dictionary): The user for which the trip is being tracked.
-- **`locations`** (array): The location updates tracked while the trip was active. An array of `Point`s in [GeoJSON](http://geojson.org/) format.
+- **`locations`** (array): The location updates tracked while the trip was active. An array of `Points` in [GeoJSON](http://geojson.org/) format.
 
 ###### Sample object
 
