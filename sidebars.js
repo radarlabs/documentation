@@ -12,6 +12,7 @@
 module.exports = {
   defaultSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
+    { type: "doc", id: "developer-guide", label: "Developer Guide" },
     "geofences",
     {
       type: "category",
@@ -95,6 +96,7 @@ module.exports = {
   ],
   miscSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
+    { type: "doc", id: "developer-guide", label: "Developer Guide" },
     "geofences",
     {
       type: "category",
