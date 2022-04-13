@@ -27,36 +27,34 @@ Location based features are defined as the collection and enrichment location da
 
 ## How Radar works
 
-Radar is a suite of APIs that allow developers to create location-based experiences. By adding any of Radar's mobile or web SDKs, location collection and enrichment can be made easy by bringing API calls down to a few lines of code. 
+Radar is a suite of APIs that allow developers to create location-based experiences. By adding any of Radar's mobile or web [SDKs](sdk), location collection and enrichment can be made easy by bringing API calls down to a few lines of code. 
 
-The locations Radar retrieves, latitudes and longitudes, let you know where a user or device is. By interacting with Radar's APIs which have knowledge of the physical world, like Places (point of interest) or Regions (geographic boundaries), you can event off of where a user or device is. You can also use Radar's platform to supplement with your own geospatial data to determine your own eventing with Geofences (custom location boundaries), such as where a physical store or dropoff point is.
+When methods are called in Radar’s SDKs, device location data is collected including latitude, longitude and accuracy. This data is sent to various Radar APIs and enriched based on Radar's prebuilt geospatial understanding, [places](places) and [regions](regions) and [trips](trips), along with your own custom geospatial information including [geofences](geofences) and [beacons](beacons).
 
-When methods are called in Radar’s SDKs, the device location data is sent to various Radar APIs and a response is returned of objects containing enriched location context based on both Radar's geospatial understanding along with your own custom data. The APIs used by the SDKs can also be interacted with directly.
-
-When Radar’s location tracking SDK and API methods are called, stateful events are generated (like entering a custom geofence). These events can be consumed directly via webhooks or sent to downstream integrations with other platforms.
+Changes in state trigger events (like entering a custom geofence). These events can be consumed directly via webhooks or sent to downstream integrations with other platforms.
 
 ![Radar Data Flow](/img/developer-guide/radar-data-flow.svg)
 
 ## What we mean when we say location context
 
 We mean translating coordinates or other geospatial information into actionable data specific to your business. Some common examples include:
-- Translating a location update into a geofence entry through [Radar geofences](#geofences) and our SDKs’ location tracking methods
+- Translating a location update into a geofence entry through Radar [geofences](geofences) and our SDKs’ location tracking methods
 - Geocoding addresses to coordinates via our [forward geocoding API](api#geocoding)
-- Providing information on nearby retail chains through [Radar places](#places) and our [search methods](api#search-places)
+- Providing information on nearby retail chains through Radar [places](places) and our [search methods](api#search-places)
 
 ![API Request Response](/img/developer-guide/api-request-response-example.svg)
 
-Beyond the examples above, Radar Trips (#trip-tracking), Beacons (#beacons), Autocomplete (api#autocomplete), and Distance (api#routing) are all powerful building blocks to enrich location data and deliver best in class experiences.
+Beyond the examples above, [trips](trip-tracking), [beacons](beacons), [autocomplete](api#autocomplete), and [distance](api#routing) are all powerful building blocks to generate location context and deliver best in class experiences.
 
 ## How location tracking methods work
 
-The two most important methods exposed in Radar’s SDKs are `Radar.trackOnce()`, which provides a one-time location context, and `Radar.startTracking()`, which generates location context at regular intervals based on the defined [tracking options](#sdk/tracking).
+The two most important methods exposed in Radar’s SDKs are `Radar.trackOnce()`, which provides a one-time location context, and `Radar.startTracking()`, which generates location context at regular intervals based on the defined [tracking options](sdk/tracking).
 
 The tracking options exposed allow you to flexibly collect location to support your specific needs. The location information collected is sent to Radar APIs for contextualization.  
 
 ![Custom Tracking Code](/img/developer-guide/start-tracking-custom.svg)
 
-Different parts of this contextualization lifecycle are exposed through SDK listeners. This includes listeners for when location data is collected from a device (client location updated), when location is processed by Radar APIs (location updated), and events are triggered by location data (events). See the references for [iOS](ios#listening-for-events-with-a-delegate) and [android](#listening-for-events-with-a-receiver) or your corresponding SDK’s documentation for details.
+Different parts of this contextualization lifecycle are exposed through SDK listeners. This includes listeners for when location data is collected from a device (client location updated), when location is processed by Radar APIs (location updated), and events are triggered by location data (events). See the references for [iOS](sdk/ios#listening-for-events-with-a-delegate) and [android](sdk/android#listening-for-events-with-a-receiver) or your corresponding SDK’s documentation for details.
 
 ## Actioning on location context from tracking
 
@@ -68,7 +66,7 @@ When the `Radar.trackOnce()` and `Radar.startTracking()` methods are called, two
 
 ![Track Objects](/img/developer-guide/track-payload.svg)
 
-These two objects can be used differently based on the scenario. Event-driven functionality like [location-based messaging](#tutorials/showing-a-notification-when-a-user-enters-a-geofence) would trigger end-user app behaviors off of new Radar events, while an [in-store mode](tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode) or personalized content in an app would check against user state.
+These two objects can be used differently based on the scenario. Event-driven functionality like [location-based messaging](tutorials/showing-a-notification-when-a-user-enters-a-geofence) would trigger end-user app behaviors off of new Radar events, while an [in-store mode](tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode) or personalized content in an app would check against user state.
 
 ## Tracking Principles
 
