@@ -35,22 +35,24 @@ When Radar’s location tracking SDK and API methods are called, they will gener
 
 ## What we mean when we say location context
 
-We mean translating coordinates or other geospatial information into actionable data specific to your business. Some common examples are:
+We mean translating coordinates or other geospatial information into actionable data specific to your business. Some common examples include:
 - Translating a location update into a geofence entry through [Radar geofences](#geofences) and our SDKs’ location tracking methods
 - Geocoding addresses to coordinates via our [forward geocoding API](api#geocoding)
 - Providing information on nearby retail chains through [Radar places](#places) and our [search methods](api#search-places)
 
 ![API Request Response](/img/developer-guide/api-request-response-example.svg)
 
+Beyond the examples above, Radar Trips (#trip-tracking), Beacons (#beacons), Autocomplete (api#autocomplete), and Distance (api#routing) are all powerful building blocks to enrich location data and deliver best in class experiences.
+
 ## How location tracking methods work
 
-Two of the most important methods exposed in Radar’s SDKs are `Radar.trackOnce()`, which provides a one-time location context, and `Radar.startTracking()`, which generates location context at regular intervals based on the defined tracking options (#sdk/tracking).
+The two most important methods exposed in Radar’s SDKs are `Radar.trackOnce()`, which provides a one-time location context, and `Radar.startTracking()`, which generates location context at regular intervals based on the defined [tracking options](#sdk/tracking).
 
 The tracking options exposed allow you to flexibly collect location to support your specific needs. The location information collected is sent to Radar APIs for contextualization.  
 
 ![Custom Tracking Code](/img/developer-guide/start-tracking-custom.svg)
 
-Different parts of this contextualization lifecycle are exposed through SDK listeners. This includes listeners for when location data is collected from a device (client location updated), when location is processed by Radar APIs (location updated), and events are triggered by location data (events). See the references for iOS (ios#listening-for-events-with-a-delegate) and android (#listening-for-events-with-a-receiver) or your corresponding SDK’s documentation for details.
+Different parts of this contextualization lifecycle are exposed through SDK listeners. This includes listeners for when location data is collected from a device (client location updated), when location is processed by Radar APIs (location updated), and events are triggered by location data (events). See the references for [iOS](ios#listening-for-events-with-a-delegate) and [android](#listening-for-events-with-a-receiver) or your corresponding SDK’s documentation for details.
 
 ## Actioning on location context from tracking
 
@@ -62,7 +64,7 @@ When the `Radar.trackOnce()` and `Radar.startTracking()` methods are called, two
 
 ![Track Objects](/img/developer-guide/track-payload.svg)
 
-These two objects can be used very differently based on the functionality being built on top of Radar. Event driven functionality like [location triggered messaging](#tutorials/showing-a-notification-when-a-user-enters-a-geofence) would likely take advantage of events, while an [in store mode](tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode) or personalized content in an app would leverage user state (a user could open the application multiple times and user state would be used to ensure the right experience delivers each time).
+These two objects can be used very differently based on the functionality being built on top of Radar. Event driven functionality like [location triggered messaging](tutorials/showing-a-notification-when-a-user-enters-a-geofence) would likely take advantage of events, while an [in store mode](tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode) or personalized content in an app would leverage user state (a user could open the application multiple times and user state would be used to ensure the right experience delivers each time).
 
 ## Tracking Principles
 
@@ -74,7 +76,7 @@ One of the key controls in the SDK is around defining what the definition of a s
 
 It is important to consider these parameters because it optimizes battery use and is used for geofence and place entry detection (the former being true if stop detection is enabled for the geofences registered in Radar’s server).
 
-### Differences in services
+### Location service differences
 
 Native platforms expose different location collection methods with various behaviors as it relates to both frequency and accuracy. 
 
