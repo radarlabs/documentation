@@ -62,7 +62,7 @@ When the `Radar.trackOnce()` and `Radar.startTracking()` methods are called, two
 
 ![Track Objects](/img/developer-guide/track-payload.svg)
 
-These two objects can be used very differently based on the functionality being built on top of Radar. Event driven functionality like [location triggered messaging](#tutorials/showing-a-notification-when-a-user-enters-a-geofence) would likely take advantage of events, while an [in store mode](tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode) or personalized content in an app would leverage user state (a user could open the application multiple times and user state would be used to ensure the right experience delivers each time).
+These two objects can be used differently based on the scenario. Event-driven functionality like [location-based messaging](#tutorials/showing-a-notification-when-a-user-enters-a-geofence) would trigger end-user app behaviors off of new Radar events, while an [in-store mode](tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode) or personalized content in an app would check against user state.
 
 ## Tracking Principles
 
