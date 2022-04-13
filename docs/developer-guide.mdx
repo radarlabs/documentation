@@ -29,7 +29,7 @@ Location based features are defined as the collection and enrichment location da
 
 Radar contextualizes and enriches location data which can then be used to power location based features and analytics. When methods are called in Radar’s SDKs, location data is sent to various Radar APIs and a standard response is returned of different objects containing location context. The APIs leveraged by the SDKs can also be interacted with directly.  
 
-When Radar’s location tracking SDK and API methods are called, they will generate stateful events that can be listened for in the response or sent to downstream integrations directly from Radar’s servers.
+When Radar’s location tracking SDK and API methods are called, stateful events are generated (like entering a custom geofence). These events can be consumed directly via webhooks or sent to downstream integrations with other platforms.
 
 ![Radar Data Flow](/img/developer-guide/radar-data-flow.svg)
 
