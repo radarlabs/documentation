@@ -1335,7 +1335,7 @@ Lists trips. Trips are sorted descending by `eta`.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips?active=true&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
+curl "https://api.radar.io/v1/trips?status=started&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1354,7 +1354,7 @@ Secret
     {
       "_id": "5f3e50491c2b7d005c81f5d9",
       "live": true,
-      "active": true,
+      "status": "started",
       "externalId": "299",
       "metadata": {
         "Customer Name": "Jacob Pena",
