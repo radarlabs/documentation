@@ -48,9 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Step 3: Check to see if a user is mocking or proxying
 
 If monitoring location in the foreground (i.e. using `Radar.trackOnce()`):
+
 ```swift
-Radar.trackOnce { (status: RadarStatus, location: CLLocation?, events: [RadarEvent]?, user: RadarUser?) in
-    // do something with location, events, user
+Radar.trackOnce(completionHandler: {(status,location,events,user) in
+    if let user = user {
+        if (!user.mocked && !user.proxy) {
+        } else {
+            // user is spoofing location or on a proxy. Message about block.
+        }
+    }   
 }
 ```
 
@@ -59,23 +65,29 @@ If monitoring location in the background (i.e. using `Radar.startTracking()`):
 ```swift
 func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
     // check to ensure a user is neither proxying nor mocking
-    if (!user.proxy && !user.mocked){
-        // let the user proceed with app action
+    if let user = user {
+        if (!user.mocked && !user.proxy){
+            // let the user proceed with app action
+        }
+    } else {
+        // user is spoofing location or on a proxy. Message about block.
     }
 }
 ```
 
 ### (Optional) Step 4: Use Radar Regions to perform a third location check
 
-Let's say your application requires a user to be in a specific city or region. Radar's [Regions](/regions) functionality can be used to determine a user's regional context. An example of how to accomplish this, for example, would be to first check for proxying and mocking, and then as a third check, verify the user's regional location allows them to be eligible for your app's services:
+ Radar's [Regions](/regions) functionality can be used to determine a user's regional context. Let's say your application requires a user to be in a specific city or region to unlock certain app functionality. An example solution would be to first check for proxying and mocking, and then as a third check, verify the user's regional location allows them to be eligible for your app's services:
 
 ```swift
 func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
     // check to ensure a user is neither proxying nor mocking
-    if (!user.proxy && !user.mocked){
-        // check to make sure the user is in the state of Maryland
-        if (user.state?.code == "MD") {
-            // let the user proceed with app action
+    if let user = user {
+        if (!user.mocked && !user.proxy){
+            // check to make sure the user is in the state of Maryland
+            if (user.state?.code == "MD") {
+                // let the user proceed with app action
+            }
         }
     }
 }
