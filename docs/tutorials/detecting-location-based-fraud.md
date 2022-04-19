@@ -52,7 +52,7 @@ If monitoring location in the foreground (i.e. using `Radar.trackOnce()`):
 ```swift
 Radar.trackOnce(completionHandler: {(status,location,events,user) in
     if let user = user {
-        if (!user.mocked && !user.proxy) {
+        if !user.mocked && !user.proxy {
         } else {
             // user is spoofing location or on a proxy. Message about block.
         }
@@ -65,14 +65,11 @@ If monitoring location in the background (i.e. using `Radar.startTracking()`):
 ```swift
 func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
     // check to ensure a user is neither proxying nor mocking
-    if let user = user {
-        if (!user.mocked && !user.proxy){
-            // let the user proceed with app action
-        }
+    if !user.mocked && !user.proxy {
+        // let the user proceed with app action
     } else {
         // user is spoofing location or on a proxy. Message about block.
     }
-}
 ```
 
 ### (Optional) Step 4: Use Radar Regions to perform a third location check
@@ -82,12 +79,10 @@ func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
 ```swift
 func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
     // check to ensure a user is neither proxying nor mocking
-    if let user = user {
-        if (!user.mocked && !user.proxy){
-            // check to make sure the user is in the state of Maryland
-            if (user.state?.code == "MD") {
-                // let the user proceed with app action
-            }
+    if !user.mocked && !user.proxy {
+        // check to make sure the user is in the state of Maryland
+        if (user.state?.code == "MD") {
+            // let the user proceed with app action
         }
     }
 }
