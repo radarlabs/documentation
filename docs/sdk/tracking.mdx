@@ -8,6 +8,7 @@ import TabItem from "@theme/TabItem";
 
 For background tracking, Radar's SDK supports custom tracking options as well as three presets: **`EFFICIENT`**, **`RESPONSIVE`**, and **`CONTINUOUS`**.
 
+#### Configuring Tracking Options
 While it's recommended to use one of the three optimized presets, custom parameters can also be passed at the time of tracking initialization. Additionally, you can also choose to forgo setting background tracking options as part of SDK initialization and override to any of the three preset on the Radar dashboard using [Remote Tracking Options](#remote-tracking-options).
 
 <Tabs
@@ -57,7 +58,8 @@ Radar.startTracking(trackingOptions)
   </TabItem>
 </Tabs>
 
-The SDK has two states: **stopped** and **moving**. `stopDuration` and `stopDistance` determine whether a location update is considered stopped, and the other options determine tracking behavior depending on state.
+#### Tracking states
+The SDK has two states: **stopped** and **moving**. When a track call is made, a user occupies one of these two states. `stopDuration` and `stopDistance` are Tracking Options that can be adjusted to alter when a user is assumed to be stopped, while other Tracking Options related to stopped and moving determine tracking behavior based on the user state.
 
 ## iOS
 
