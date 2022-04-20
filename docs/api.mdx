@@ -1324,7 +1324,7 @@ Lists trips. Trips are sorted descending by `eta`.
 
 ###### Query parameters
 
-- **`active`** (boolean, optional): If `true`, returns only active trips. If `false`, returns only stopped trips. If not specified, returns all trips.
+- **`status`** (string, optional): Retrieves trips by status. A string, comma-separated including one or more of `pending`, `started`, `approaching`, `arrived`, `completed`, `canceled`, `expired`.
 - **`destinationGeofenceTag`** (string, optional): Retrieves trips with the destination geofence tag.
 - **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
 
@@ -1335,7 +1335,7 @@ Lists trips. Trips are sorted descending by `eta`.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips?active=true&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
+curl "https://api.radar.io/v1/trips?status=started&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
   -H "Authorization: prj_live_sk_..."
 ```
 
@@ -1354,7 +1354,7 @@ Secret
     {
       "_id": "5f3e50491c2b7d005c81f5d9",
       "live": true,
-      "active": true,
+      "status": "started",
       "externalId": "299",
       "metadata": {
         "Customer Name": "Jacob Pena",
