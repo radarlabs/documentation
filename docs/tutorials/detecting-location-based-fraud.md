@@ -3,7 +3,7 @@ sidebar_position: 5
 title: Detecting location-based fraud
 ---
 
-In this tutorial, we show you how to use the Radar [iOS SDK](/sdk) to detect a location-based fraud. Location-based fraud in this context includes users who are either using a [proxy server](https://en.wikipedia.org/wiki/Proxy_server) or GPS spoofing (*mocking*) to fake their location in order to gain access to certain app features.
+In this tutorial, we show you how to use the Radar [iOS SDK](/sdk) to detect location-based fraud. Location-based fraud in this context includes users who are either using a [proxy server](https://en.wikipedia.org/wiki/Proxy_server) or GPS spoofing (*mocking*) to fake their location in order to gain access to certain app features.
 
 ## Languages used
 
@@ -63,6 +63,7 @@ Radar.trackOnce(completionHandler: {(status,location,events,user) in
 If monitoring location in the background (i.e. using `Radar.startTracking()`): 
 
 ```swift
+
 func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
     // check to ensure a user is neither proxying nor mocking
     if !user.mocked && !user.proxy {
