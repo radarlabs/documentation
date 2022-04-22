@@ -3,11 +3,63 @@ sidebar_label: Tracking Options
 title: Tracking Options Reference
 ---
 
-For background tracking, the SDK supports custom tracking options as well as three presets: **`EFFICIENT`**, **`RESPONSIVE`**, and **`CONTINUOUS`**.
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-Though we recommend using presets for most use cases, you can modify them.
+For background tracking, Radar's SDK supports custom tracking options as well as three presets: **`EFFICIENT`**, **`RESPONSIVE`**, and **`CONTINUOUS`**.
 
-The SDK has two states: **stopped** and **moving**. `stopDuration` and `stopDistance` determine whether a location update is considered stopped, and the other options determine tracking behavior depending on state.
+#### Configuring Tracking Options
+While it's recommended to use one of the three optimized presets, custom parameters can also be passed at the time of tracking initialization. Additionally, you can also choose to forgo setting background tracking options as part of SDK initialization and override to any of the three preset on the Radar dashboard using [Remote Tracking Options](#remote-tracking-options).
+
+<Tabs
+  groupId="trackingOptions"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' },
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+let trackingOptions = RadarTrackingOptions.presetResponsive
+trackingOptions.beacons = true
+Radar.startTracking(trackingOptions: trackingOptions)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+RadarTrackingOptions *trackingOptions = RadarTrackingOptions.presetResponsive;
+trackingOptions.beacons = YES;
+[Radar startTrackingWithOptions:trackingOptions];
+```
+
+  </TabItem>
+  <TabItem value="java">
+
+```java
+RadarTrackingOptions trackingOptions = RadarTrackingOptions.RESPONSIVE;
+trackingOptions.beacons = true;
+Radar.startTracking(trackingOptions);
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+val trackingOptions = RadarTrackingOptions.RESPONSIVE
+trackingOptions.beacons = true
+Radar.startTracking(trackingOptions)
+```
+  </TabItem>
+</Tabs>
+
+#### Tracking states
+The SDK has two states: **stopped** and **moving**. After a location update is made, a user then occupies one of these two states. Tracking Options can be customized to alter the frequency of updates when a user is either stopped or moving. While less common to adjust, `stopDuration` and `stopDistance` are Tracking Options that alter the intervals after which a user is assumed to be stopped.
 
 ## iOS
 
@@ -126,3 +178,11 @@ Option | Efficient | Responsive | Continuous
 **`syncGeofencesLimit`** | `10` | `10` | `0`
 **`foregroundService`** | `null` | `null` | `null`
 **`beacons`** | `false` | `false` | `false`
+
+## Remote tracking options
+
+SDK tracking options can be set [in dashboard settings](https://radar.com/dashboard/settings?#sdk-settings) for iOS and Android with the three default presets.
+
+<img src="https://images.ctfassets.net/f2vbu16fzuly/3fTIXlesjMjmtDLlS2yIIc/be9458fa994ae783242e8e5d01cfe697/tracking_options_ios.png" alt="Remote tracking options" />
+
+Tracking options can be targeted by OS (Android and iOS) and environment (live and test). By setting tracking options, any client configuration for tracking options set in the SDK will be overridden.
