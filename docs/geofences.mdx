@@ -74,7 +74,8 @@ The CSV may have the following columns:
 - **`type`** (string, required): The type of geofence geometry. `polygon`, `circle`, and `isochrone` are supported.
 - **`tag`** (string, required): A group for the geofence.
 - **`externalId`** (string, required): An external ID for the geofence that maps to your internal database.
-- **`coordinates`** (array, required): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 2,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`coordinates`** (array, required if `address` is not included): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 2,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`address`** (string, required if `coordinates` are not included): An address to search for, and if found, will represent the center for type `circle` or destination for type `isochrone`. If `address` and `coordinates` are both provided, they must be within a certain distance of each other, and `coordinates` will take precedent. Ignored for type `polygon`.
 - **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
 - **`mode`** (required for type `isochrone`): the [travel mode](/api#routing) for type `isochrone`.
 - **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
@@ -89,14 +90,15 @@ The CSV may have the following columns:
 For example, to import a circle geofence representing a store and a polygon geofence representing a neighborhood, you could use the following CSV:
 
 ```json
-description,tag,externalId,type,radius,mode,coordinates,enabled,metadata,stopDetection,disableAfter,deleteAfter,userId
-"Store #123",store,123,circle,50,,"[-73.975363,40.783826]",true,"{""parking"":false}",,,,
-"SoHo",neighborhood,soho,polygon,,,"[[-73.996973,40.725660],[-73.998282,40.726294],[-74.001072,40.727660],[-74.002853,40.728603],[-74.003282,40.727936],[-74.003840,40.726310],[-74.004226,40.725351],[-74.004998,40.723530],[-74.005191,40.722993],[-74.005556,40.722115],[-74.004462,40.721334],[-74.001908,40.719496],[-73.999827,40.718016],[-73.997467,40.720863],[-73.997016,40.722212],[-73.996501,40.723497],[-73.995750,40.724278],[-73.995128,40.725107],[-73.996973,40.725660]]",true,,,,,
-"15 minutes driving to Disney World","car-15",disney,isochrone,15,car,"[-81.563874,28.385233]",true,"{""type"":""resort""}",,,,
-"Stopped Empire State Building",stopped,456,circle,50,,"[-73.9878531,40.7484445]",true,,true,,,
-"Disable and delete after New Years",newyears,2027,circle,50,,"[-73.9877313,40.7579787]",true,,,"2027-01-01T00:01:00-05:00","Jan 2, 2027",
-"Disable and delete after New Years 2",newyears2,2027,circle,50,,"[-73.9887289,40.7561842]",true,,,1/1/27,2027/1/2,
-"Simulated user geofence",user,simulated,circle,50,,"[-73.9934387,40.7505045]",true,,,,,"simulated-user-id"
+description,tag,externalId,type,radius,mode,coordinates,address,enabled,metadata,stopDetection,disableAfter,deleteAfter,userId
+"Store #123",store,123,circle,50,,"[-73.975363,40.783826]",,true,"{""parking"":false}",,,,
+"SoHo",neighborhood,soho,polygon,,,"[[-73.996973,40.725660],[-73.998282,40.726294],[-74.001072,40.727660],[-74.002853,40.728603],[-74.003282,40.727936],[-74.003840,40.726310],[-74.004226,40.725351],[-74.004998,40.723530],[-74.005191,40.722993],[-74.005556,40.722115],[-74.004462,40.721334],[-74.001908,40.719496],[-73.999827,40.718016],[-73.997467,40.720863],[-73.997016,40.722212],[-73.996501,40.723497],[-73.995750,40.724278],[-73.995128,40.725107],[-73.996973,40.725660]]",,true,,,,,
+"15 minutes driving to Disney World","car-15",disney,isochrone,15,car,"[-81.563874,28.385233]",,true,"{""type"":""resort""}",,,,
+"Stopped Empire State Building",stopped,456,circle,50,,"[-73.9878531,40.7484445]",,true,,true,,,
+"Madison Square Garden",address,123,circle,50,,,"4 Pennsylvania Plaza, New York, NY 10001",true,,,,,
+"Disable and delete after New Years",newyears,2027,circle,50,,"[-73.9877313,40.7579787]",,true,,,"2027-01-01T00:01:00-05:00","Jan 2, 2027",
+"Disable and delete after New Years 2",newyears2,2027,circle,50,,"[-73.9887289,40.7561842]",,true,,,1/1/27,2027/1/2,
+"Simulated user geofence",user,simulated,circle,50,,"[-73.9934387,40.7505045]",,true,,,,,"simulated-user-id"
 ```
 
 **Again, note that longitude comes before latitude, a GeoJSON convention.**
