@@ -5,26 +5,6 @@ title: Developer Guide
 slug: /developer-guide
 ---
 
-## Location fundamentals
-
-When building with Radar, it is helpful to first have a high level understanding of the different sensors and sources of location information that devices have access to:
-
-- **GPS:** system of satellites that triangulates signals sent to a device and determines location. Typically 5-20m accuracy.
-- **Wi-fi scanning:** nearby wifi access point locations are used to triangulate a device and determine location (passive connections, don’t need to be on wifi). Typically 10-100m accuracy.
-- **Cell tower triangulation:** nearby cell towers are used to triangulate a device and determine location. Typically 500m+ accuracy.
-- **Bluetooth ranging:** nearby broadcasting Bluetooth beacons are used to detect if a device is within close proximity to the broadcasting beacon. The distance between the receiving device and beacon can be estimated.
-- **IP address:** Uses known mappings of IP addresses to regions. Resolves to city level accuracy, but is dependent on the accuracy of IP mapping data.
-
-These different sources of location information are built into common devices.  Most smartphones and laptops today have antennas for GPS, wi-fi, and cell service. Additionally, major operating systems as well as web browsers offer location services that can access the devices’ location by leveraging these sensors and protocols. 
-
-## Location based features
-
-Location based features are defined as the collection and enrichment location data to drive business decisions and digital product experiences. This can include features like: 
-
-- Leveraging location to power [in app experiences](https://radar.com/blog/in-store-app-experiences)
-- Using location to monitor incoming arrivals to a facility or store
-- Using location to [trigger marketing messaging](https://radar.com/blog/case-study-retailmenot)
-
 ## How Radar works
 
 Radar is a suite of APIs that allow developers to create location-based experiences. By adding any of Radar's mobile or web [SDKs](sdk), location collection and enrichment can be made easy by bringing API calls down to a few lines of code. 
@@ -35,9 +15,9 @@ Changes in device state trigger events (like entering a custom geofence). These 
 
 ![Radar Data Flow](/img/developer-guide/radar-data-flow.svg)
 
-## What we mean when we say location context
+## What is location context
 
-We mean translating coordinates or other geospatial information into actionable data specific to your business. Some common examples include:
+Location context is translating coordinates or other geospatial information into actionable data specific to your business. Some common examples include:
 - Translating a location update into a geofence entry through Radar [geofences](geofences) and our SDKs’ location tracking methods
 - Geocoding addresses to coordinates via our [forward geocoding API](api#geocoding)
 - Providing information on nearby retail chains through Radar [places](places) and our [search methods](api#search-places)
