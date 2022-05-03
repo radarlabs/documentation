@@ -170,7 +170,7 @@ func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
     // check to ensure a user is neither proxying nor mocking
     if !user.mocked && !user.proxy {
         // check to make sure the user is in the state of Maryland
-        if (user.state?.code == "MD") {
+        if user.state?.code == "MD" {
             // let the user proceed with app action
         }
     }
