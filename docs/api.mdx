@@ -985,7 +985,7 @@ A user represents a user tracked in your project. Users can be referenced by Rad
 - **`updatedAt`** (datetime): The datetime when the user was created.
 - **`updatedAt`** (datetime): The datetime when the user's location was last updated.
 - **`geofences`** (array): An array of the user's current geofences.
-- **`trip`** (dictionary): When a [Trip](/trip-tracking) has been started, the user's current trip.
+- **`trip`** (dictionary): When a [Trip](/trip-tracking) has been started, the user's current trip. Present when the trip has a `status` of `started`, `approaching`, or `arrived`.
 - **`place`** (dictionary): When [Places](/places) is enabled, the user's current place.
 - **`country`** (dictionary): When [Regions](/regions) is enabled, the user's current country.
 - **`state`** (dictionary): When [Regions](/regions) is enabled, the user's current state. US-only.
@@ -1023,6 +1023,30 @@ A user represents a user tracked in your project. Users can be referenced by Rad
     },
     ...
   ],
+  "trip:": {
+    "_id": "5f3e50491c2b7d005c81f5d9",
+    "live": true,
+    "externalId": "299",
+    "metadata": {
+      "Customer Name": "Jacob Pena",
+      "Car Model": "Green Honda Civic"
+    },
+    "mode": "car",
+    "destinationGeofenceTag": "store",
+    "destinationGeofenceExternalId": "123",
+    "destinationLocation": {
+      "coordinates": [
+        -105.061198,
+        39.779366
+      ],
+      "type": "Point"
+    },
+    "eta": {
+      "duration": 5.5,
+      "distance": 1331
+    },
+    ...
+  },
   "place": {
     "_id": "56db1f4613012711002229f7",
     "facebookId": "37965424481",
@@ -1206,7 +1230,7 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`orderFiredAt`** (datetime): From the [Olo integration](https://radar.com/documentation/integrations/olo), the datetime when the trip fired the order.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
-- **`status`** (string): The status of the trip, one of `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
+- **`status`** (string): The status of the trip, one of `pending`, `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
 - **`user`** (dictionary): The user for which the trip is being tracked.
 - **`locations`** (array): The location updates tracked while the trip was active. An array of `Point`s in [GeoJSON](http://geojson.org/) format.
 
