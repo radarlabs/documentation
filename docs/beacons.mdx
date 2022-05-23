@@ -62,9 +62,9 @@ Beacon entry and exit events are sent to the SDK, to [webhooks](/integrations#we
 
 ### Ranging by UUID only
 
-By default, Radar will sync nearby beacons to the SDK on every location update using the `coordinates` of your beacons. The SDK will then range nearby beacons based on `uuid`, `major`, and `minor`.
+By default, Radar will sync nearby beacons to the SDK on every location update using the `coordinates` specified for each beacon. The SDK will then range nearby beacons based on `uuid`, `major`, and `minor`.
 
-Alternatively, the SDK can range beacons based on `uuid` only, regardless of the `coordinates` of your beacons. To enable this, set _iBeacon UUIDs_ on the [Settings page](https://radar.com/dashboard/settings), under _Beacons_. On iOS, you must also enable the _Location updates_ [background mode](/sdk/ios#background-modes)
+Alternatively, the SDK can range beacons based on `uuid` only, regardless of the `coordinates` specified for each beacon. To enable this, set _iBeacon UUIDs_ on the [Settings page](https://radar.com/dashboard/settings), under _Beacons_. On iOS, you must also enable the _Location updates_ [background mode](/sdk/ios#background-modes)
 
 ## Create beacons
 
