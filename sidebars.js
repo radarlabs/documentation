@@ -176,6 +176,7 @@ module.exports = {
         "tutorials/showing-a-notification-when-a-user-enters-a-geofence",
       ],
     },
+    "dashboard",
     "faqs",
     "vulnerability-disclosure-policy",
   ],
