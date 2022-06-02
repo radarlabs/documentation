@@ -1,0 +1,245 @@
+---
+title: Attentive
+---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The Attentive integration is available on the {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
+
+Radar can send events and user attributes to [Attentive](https://www.attentivemobile.com/).
+
+Use the Attentive integration to send location-triggered and location-targeted messages to increase engagement and conversion.
+
+## Configuration
+
+After logging in to the Attentive console, go to *Marketplace* and click *Create app*. Fill out the form to create your app, making sure to include the `Write` permission for *Custom Events*. Other permissions such as *Subscribers*, *Custom Attributes*, and *Identity* might be needed to assign users to subscription channels and modify their identifiers.
+
+Then, on the Radar [Integrations page](/integrations) under *Attentive*, set *Enabled* to *Yes* and paste your API key. Note that you can set separate API keys for the *Test* and *Live* environments.
+
+Whenever events are generated, Radar will send custom events and user mappings to Attentive. Once Attentive is receiving Radar custom events, set up a *Segment* or *Journey* to create triggers from those events to send messages.
+
+By default, Radar `userId` maps to Attentive `clientUserId`. However, you can specify custom mappings by setting Radar `metadata.attentiveUserId`. For example, on iOS:
+
+```swift
+// track users with a custom userId mapping (not required if using default mapping)
+Radar.setMetadata(["attentiveUserId": userId])
+```
+
+## Event mapping
+
+### user.entered_geofence
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### user.exited_geofence
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### user.entered_place
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Starbucks"`
+`place.chain.slug` | `place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `place_chain_name` | string | `"Starbucks"`
+`place.chain.externalId` | `place_chain_external_id` | string | `"123"`
+`place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
+`place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### user.exited_place
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
+`place.name` | `place_name` | string | `"Starbucks"`
+`place.chain.slug` | `place_chain_id` | string | `"starbucks"`
+`place.chain.name` | `place_chain_name` | string | `"Starbucks"`
+`place.chain.externalId` | `place_chain_external_id` | string | `"123"`
+`place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
+`place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### user.entered_country
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_country
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"US"`
+`region.name` | `region_name` | string | `"United States"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_state
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_state
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"MD"`
+`region.name` | `region_name` | string | `"Maryland"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.entered_dma
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_dma
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`region.code` | `region_code` | string | `"26"`
+`region.name` | `region_name` | string | `"Baltimore"`
+`confidence` | `confidence` | string | `"high"`
+
+### user.started_trip
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.updated_trip
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.approaching_trip_destination
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.arrived_at_trip_destination
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.stopped_trip
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`trip.externalId` | `trip_external_id` | string | `"299"`
+`trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
+`trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+
+### user.entered_beacon
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+
+### user.exited_beacon
+
+Radar Event Attribute | Attentive Event Property | Type | Example Value
+--- | --- | --- | ---
+`beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
+`beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beacon_tag` | string | `"drive-thru"`
+`beacon.externalId` | `beacon_external_id` | string | `"123"`
+`beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `radar_duration` | number (minutes) | `1.42`
