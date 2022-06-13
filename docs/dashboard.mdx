@@ -47,3 +47,28 @@ The User Activity page is the most straightforward way to debug a user's recent 
 - **`VISIT_DEPARTURE`** (iOS only): location update triggered by a departure [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service)
 - **`MANUAL_LOCATION`**: location update triggered by `Radar.trackOnce` passing in a location not collected by the Radar SDK
 - **`MOCK_LOCATION`**: location update triggered by `Radar.mockTracking`
+
+## Place matching
+
+Place matching is the simplest way to clean your geofence datasets while making sure they stay up-to-date and accurate over time. Navigate to the [Geofences](https://radar.com/dashboard/geofences) page and select *Import*. If [Places](/places) are enabled for your project, opt-in to this feature by toggling on *Enable place matching*. Select [chains](/places/chains) to match your Geofence dataset against. The import process will attempt to match each geofence against Radar's places for those chains.
+
+### How it works
+
+1. **Import your Geofences against Radar's places data.** Upon importing your geofences into Radar, select [chains](/places/chains) to match your geofences aganist. By default, Radar will search for [places](/places) for those chains within 10 kilometers (~6 miles) of each Geofence. The search radius can be configured as an advanced option at the time of import.
+
+2. **View the results of the place matching import.** After the import has completed, examine the results on the [Import history](https://radar.com/dashboard/geofences/imports) page. Click *View import* to see a summary as well as logs that indicate the outcome for each row. If the place match was successful, the import log will contain details such as a link to the Radar place and the distance that the geofence center was corrected. Select *Expand all* to display the input data and a map UI representing the transformation.
+
+3. **Filter and export the results for further analysis.** To perform more granular investigations, apply *Filters* to isolate rows that were not place matched, geofences that have large center correction values, or errors. Click *Export rows* to download a CSV of the filtered results to perform additional analysis in other tools.
+
+![PlaceMatching.gif](/gif/place_matching.gif)
+
+### Geofence types
+
+#### Circle
+By default, when a **circle** geofence is matched, the geofence will take on the polygon of the Radar place. This behavior can be changed to only adopt the center of the Radar place as an advanced option for place matching. This value can be changed by editing the geofence after the import.
+
+#### Isochrone
+When an **isochrone** geofence is matched, the geofence will only adopt the center of the Radar place, regenerating the **isochrone** geometry from the new center.
+
+#### Polygon
+When a **polygon** geofence is matched, the geofence will be linked to the Radar place, but not adopt the place polygon or geometry. This behavior supports **polygon** geofences that represent areas such as parking lots and drive-thru lanes.
