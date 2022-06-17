@@ -140,7 +140,7 @@ Radar.getLocationPermissionsStatus().then((result) => {
 To request location permissions for the app, call:
 
 ```javascript
-Radar.requestLocationPermissions({ background });
+Radar.requestLocationPermissions({ background: true });
 ```
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
