@@ -50,7 +50,7 @@ The User Activity page is the most straightforward way to debug a user's recent 
 
 ## Place matching
 
-Place matching is the simplest way to clean your geofence datasets while making sure they stay up-to-date and accurate over time. Navigate to the [geofences](https://radar.com/dashboard/geofences) page and select *Import*. If [places](/places) are enabled for your project, opt-in to this feature by toggling on *Enable place matching*. Select [chains](/places/chains) to match your geofences against. The import process will attempt to match each geofence against Radar's places for those chains.
+Place matching is the simplest way to make sure your geofences are accurate and stay up-to-date over time. Cleaning your geofence datasets via Radar's import process will reduce false positives by making sure that entry events are correct, trip approaching and arrived signals are improved, and messaging for nearby locations is relevant. Navigate to the [geofences](https://radar.com/dashboard/geofences) page and select *Import*. If [places](/places) are enabled for your project, opt-in to this feature by toggling on *Enable place matching*. Select [chains](/places/chains) to match your geofences against. The import process will attempt to match each geofence against Radar's places for those chains.
 
 ### How it works
 
@@ -78,3 +78,9 @@ When an **isochrone** geofence is matched, the geofence will only adopt the cent
 When a **polygon** geofence is matched, the geofence will be linked to the Radar place, but not adopt the place center or geometry. This behavior supports geofences that represent areas such as parking lots and drive-thru lanes.
 
 ![Place matching polygon](/img/place-matching/place_matching_polygon.png)
+
+### Advanced options
+
+- **Search radius.** Place matching will look for the nearest location within 10 kilometers, consistent with our [search places](/api#search-places) endpoint. This value can be reduced if a tighter search window is desired.
+- **Geofence tag(s).** Filter the rows for which place matching is attempted. For example, place matching can only happen where the geofence tag is store, but not parking lot.
+- **Use Radar's place geometry.** By default, if a place match is found, [circle geofences](/dashboard#circle) will adopt both the center and geometry of the Radar place. This behavior can be changed such that circle geofences only take on the center but not the polygon.
