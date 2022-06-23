@@ -749,7 +749,7 @@ Searches for places near a location, sorted by distance.
 
 ###### Query parameters
 
-- **`chains`** (string, optional): [Chain slug](/places#chains) filters. A string, comma-separated. If not provided, one of `categories` or `groups` must be provided.
+- **`chains`** (string, optional): [Chain Slug](/places#chains) or [Chain Mapping](/places#mappings) filters. A string, comma-separated. If not provided, one of `categories` or `groups` must be provided.
 - **`categories`** (string, optional): [Category](/places#categories) filters. A string, comma-separated. If not provided, one of `chains` or `groups` must be provided.
 - **`groups`** (string, optional): [Group](/places#groups) filters. A string, comma-separated. If not provided, one of `chains` or `categories` must be provided.
 - **`chainMetadata[key]`** (optional): Optional [chain metadata](/places#metadata) filters. Values may be of type string, boolean, or number. Type will be automatically inferred. For example, to match on `offers == true`, use `&chainMetadata[offers]=true`.
