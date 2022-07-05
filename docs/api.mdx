@@ -1759,7 +1759,8 @@ An event represents a change in user state. Events can be uniquely referenced by
 ###### Object fields
 
 - **`_id`** (string): The unique ID for the event, provided by Radar. An alphanumeric string.
-- **`createdAt`** (datetime): The datetime when the event was created.
+- **`createdAt`** (datetime): The datetime when the event was created on the mobile client.
+- **`actualCreatedAt`** (datetime): The datetime when the event was created on the server. Mobile operating systems can deliver location updates on a delay, resulting in a delta between this field and `createdAt`.
 - **`live`** (boolean): `true` if the event was generated for a user and geofence created with your `live` API key, `false` if the event was generated for a user and geofence created with your `test` API key.
 - **`type`** (string): The type of event. By default, events are generated when a user enters a geofence (type `user.entered_geofence`) or exits a geofence (type `user.exited_geofence`). [Places](/places) and [Regions](/regions) also generate events.
 - **`user`** (dictionary): The user for which the event was generated.
