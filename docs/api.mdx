@@ -1606,11 +1606,13 @@ curl "https://api.radar.io/v1/geofences/56db1f4613012711002229f5" \
 
 #### Upsert a geofence
 
-Upserts a geofence. The geofence can be uniquely referenced by `tag` and `externalId`. If a geofence with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
+Upserts a geofence. The geofence can be uniquely referenced by `tag` and `externalId` or by the Radar `_id`. If a geofence with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
 
 ###### Definition
 
 <span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/geofences/:tag/:externalId</code>
+<br />
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/geofences/:id</code>
 
 ###### Body parameters
 
