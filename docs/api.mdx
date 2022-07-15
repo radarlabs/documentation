@@ -1812,7 +1812,7 @@ On iOS and Android, use the [SDK](/sdk) to track users.
 
 #### Create a custom event
 
-Create a custom event to analyze alongside your entry and exit events. This can represent anything from a conversion or purchase to engagement with an in-app feature.
+Create a custom event to analyze alongside other location activity in your app. This can represent anything from a conversion or purchase to engagement with an in-app feature.
 
 ###### Definition
 
@@ -1820,8 +1820,8 @@ Create a custom event to analyze alongside your entry and exit events. This can 
 
 ###### Body parameters
 
-- **`type`** (string, required): The type of the custom event.
-- **`metadata`** (dictionary, optional): The metadata of the custom event.
+- **`type`** (string, required): The type of the custom event. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
+- **`metadata`** (dictionary, optional): The metadata of the custom event. This data cannot contain any sensitive or personally identifiable information.
 - **`userId`** (string, required): The stable unique ID for the user. Used to identify logged in users.
 - **`deviceId`** (string, optional): A device ID for the user. Used to identify logged out users.
 
