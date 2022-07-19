@@ -3,6 +3,7 @@ sidebar_position: 8
 title: API Reference
 id: api
 ---
+import Alert from "../src/components/Alert";
 
 Use Radar APIs as [building blocks for location-based products and services](#building-blocks) like pickup and delivery tracking, location-triggered notifications, location verification, store locators, address autocomplete, and more. Or, use Radar APIs to [manage your Radar data](#manage-your-radar-data), including users, geofences, and events.
 
@@ -1811,6 +1812,12 @@ To create an entry or exit event, call the [track](#track) endpoint to trigger a
 On iOS and Android, use the [SDK](/sdk) to track users.
 
 #### Create a custom event
+
+<Alert alertType="info">
+  Custom events are available on the {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 Create a custom event to analyze alongside other location activity in your app. This can represent anything from a conversion or purchase to engagement with an in-app feature.
 
