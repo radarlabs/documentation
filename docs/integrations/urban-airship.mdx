@@ -70,6 +70,7 @@ Radar Event | Context Type | Airship Event
 --- | --- | ---
 `user.entered_geofence` | [Geofences](/geofences) | `radar_geofence_entered`
 `user.exited_geofence` | [Geofences](/geofences) | `radar_geofence_exited`
+`user.dwelled_in_geofence` | [Geofences](/geofences) | `radar_dwelled_in_geofence`
 `user.entered_place` | [Places](/places) | `radar_place_entered`
 `user.exited_place` | [Places](/places) | `radar_place_exited`
 `user.entered_region_country` | [Regions](/regions) | `radar_country_entered`
@@ -108,6 +109,18 @@ Radar Event Field | Airship Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `radar_geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `radar_confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `42.1`
+
+### radar_dwelled_in_geofence
+
+Radar Event Field | Airship Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `radar_geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `radar_geofence_description` | string | `"Store #123"`
+`geofence.tag` | `radar_geofence_tag` | string | `"store"`
+`geofence.externalId` | `radar_geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `radar_geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `radar_confidence` | string | `"high"`
+`duration` | `radar_duration` | number (minutes) | `5`
 
 ### radar_place_entered
 

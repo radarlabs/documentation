@@ -125,6 +125,7 @@ Radar Event | Context Type | Iterable Event
 --- | --- | ---
 `user.entered_geofence` | [Geofences](/geofences) | `radarGeofenceEntered`
 `user.exited_geofence` | [Geofences](/geofences) | `radarGeofenceExited`
+`user.dwelled_in_geofence` | [Geofences](/geofences) | `radarDwelledInGeofence`
 `user.entered_place` | [Places](/places) | `radarPlaceEntered`
 `user.exited_place` | [Places](/places) | `radarPlaceExited`
 `user.entered_region_country` | [Regions](/regions) | `radarCountryEntered`
@@ -163,6 +164,18 @@ Radar Event Field | Iterable Event Data Field | Type | Example
 `geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+
+### radarDwelledInGeofence
+
+Radar Event Field | Iterable Event Data Field | Type | Example
+--- | --- | --- | ---
+`geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `5`
 
 ### radarPlaceEntered
 
