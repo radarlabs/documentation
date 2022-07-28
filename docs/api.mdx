@@ -1476,6 +1476,8 @@ A geofence represents a custom region or place monitored in your project. Geofen
 - **`mode`** (string): The [travel mode](/api#route-distance) for type `isochrone`.
 - **`metadata`** (dictionary): An optional set of custom key-value pairs for the geofence.
 - **`userId`** (string): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
+- **`tripApproachingThreshold`** (number): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
+- **`dwellThreshold`** (number): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes).
 - **`enabled`** (boolean): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
 
 ###### Sample object
@@ -1628,7 +1630,8 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
 - **`mode`** (string, required for type `isochrone`): The [travel mode](/api#routing) for type `isochrone`.
-- **`tripApproachingThreshold`** (number): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
+- **`tripApproachingThreshold`** (number, optional): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
+- **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes).
 
 ###### Default rate limit
 

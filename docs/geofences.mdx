@@ -37,7 +37,6 @@ Geofences also provides the following events:
 - `user.exited_geofence`
 - `user.dwelled_in_geofence`
 
-
 You can receive events client-side via the [SDK](/sdk) or server-side via [event integrations](/integrations), including webhooks.
 
 You can [create geofences](#create-geofences) via the dashboard, CSV import, the API, nightly sync, or integrations.
@@ -160,7 +159,7 @@ You may decide to ignore some events based on confidence levels.
 
 When _Geofence Stop Detection_ is on, Radar can understand the difference between a user walking or driving through a geofence and stopping in a geofence, and will only generate a geofence entry event when a user stops in a geofence (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`).
 
-Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.com/dashboard/settings), under _Geofences_.
+Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
 
 ## Buffer Entries and Exits
 
@@ -171,9 +170,9 @@ When _Buffer Exits_ is on, Radar will use the accuracy of the location reported 
 ## Dwell events
 
 <Alert alertType="info">
-  Dwell events are currently in beta
+  Dwell events are currently in beta.
 </Alert>
 
 Dwell events are triggered when a geofence is occupied for more time than a given threshold (in minutes). When `user.dwelled_in_geofence` is enabled for a project, dwell time thresholds can be set on individual geofences via import (by adding a `dwellThreshold` column) or globally across all geofences by contacting your account representative. Dwell events will trigger on the first track call that occurs after the dwell threshold is exceeded. As a result, increasing tracking frequency when inside of a geofence will decrease the time gap from when the threshold is first exceed and the event is fired.
 
-Turn on `user.dwelled_in_geofence` events at the project level on the [Settings page](https://radar.com/dashboard/settings), under _Geofences_.
+Turn on `user.dwelled_in_geofence` events at the project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
