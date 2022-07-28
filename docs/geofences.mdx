@@ -35,6 +35,8 @@ Geofences also provides the following events:
 
 - `user.entered_geofence`
 - `user.exited_geofence`
+- `user.dwelled_in_geofence` (beta)
+
 
 You can receive events client-side via the [SDK](/sdk) or server-side via [event integrations](/integrations), including webhooks.
 
@@ -84,6 +86,7 @@ The CSV may have the following columns:
 - **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
+- **`dwellThreshold`** (number, optional): An optional field to trigger an event when a user dwells in the geofence longer than a specified threshold in minutes. For example, when `user.dwelled_in_geofence` is enabled in settings, a value of `10` would result in an event on the next track call 10 minutes after geofence entry.
 
 **If a geofence with the specified tag and external ID already exists, it will be updated. If not, it will be created.**
 
@@ -164,3 +167,13 @@ Turn on _Geofence Stop Detection_ at a project level on the [Settings page](http
 When _Buffer Entries_ is on, Radar will use the accuracy of the location reported to determine overlap with the geofence boundary to generate a geofence entry event. See the [confidence and accuracy](/geofences#confidence-and-accuracy) for more on this detection logic. When off, the location reported will need to fall within the boundaries of the geofence to trigger the entry event.
 
 When _Buffer Exits_ is on, Radar will use the accuracy of the location reported as a buffering distance from the geofence edge before generating a geofence exit event. This buffering minimizes premature exit detection.  When off, the first location reported falling outside the boundaries of a geofence will trigger the exit event.
+
+## Dwell events
+
+<Alert alertType="info">
+  Dwell events are currently in beta, for additional information or to share feedback contact your account representative.
+</Alert>
+
+Dwell events are triggered when a geofence is occupied for more time than a given threshold (in minutes). When `user.dwelled_in_geofence` is enabled for a project, dwell time thresholds can be set on individual geofences via import (by adding a `dwellThreshold` column) or globally across all geofences by contacting your account representative. Dwell events will trigger on the first track call that occurs after the dwell threshold is exceeded. As a result, increasing tracking frequency when inside of a geofence will decrease the time gap from when the threshold is first exceed and the event is fired.
+
+Turn on `user.dwelled_in_geofence` events at the project level on the [Settings page](https://radar.com/dashboard/settings), under _Geofences_.
