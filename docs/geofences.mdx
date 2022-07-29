@@ -173,6 +173,6 @@ When _Buffer Exits_ is on, Radar will use the accuracy of the location reported 
   Dwell events are currently in beta.
 </Alert>
 
-Dwell events are triggered when a geofence is occupied for more time than a given threshold (in minutes). When `user.dwelled_in_geofence` is enabled for a project, dwell time thresholds can be set on individual geofences via import (by adding a `dwellThreshold` column) or globally across all geofences by contacting your account representative. Dwell events will trigger on the first track call that occurs after the dwell threshold is exceeded. As a result, increasing tracking frequency when inside of a geofence will decrease the time gap from when the threshold is first exceed and the event is fired.
+Dwell events are triggered when a geofence is occupied for more time than a given threshold (in minutes). When `user.dwelled_in_geofence` is enabled for a project, dwell time thresholds can be set on individual geofences via import (by adding a `dwellThreshold` column), the API, or globally across all geofences by contacting your account representative. Dwell events will trigger on the first track call that occurs after the dwell threshold is exceeded. As a result, increasing tracking frequency when inside of a geofence will decrease the time gap from when the threshold is first exceed and the event is fired.
 
 Turn on `user.dwelled_in_geofence` events at the project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
