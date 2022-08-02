@@ -1479,7 +1479,7 @@ With the [custom events API](/api#create-a-custom-event), create a custom event,
 
 ```swift
 Radar.sendEvent(
-    type: type,
+    customType: customType,
     metadata: metadata,
 ) { (status: RadarStatus, location: CLLocation?, events: [RadarEvent]?, user: RadarUser?) in
   // do something with location, events, user
@@ -1491,7 +1491,7 @@ Radar.sendEvent(
   <TabItem value="objc">
 
 ```objc
-[Radar sendEvent:type
+[Radar sendEvent:customType
         metadata:metadata
 completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarEvent *> *events, RadarUser *user) {
   // do something with location, events, user
