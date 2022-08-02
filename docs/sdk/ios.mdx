@@ -1462,3 +1462,42 @@ Radar.getMatrix(
 
   </TabItem>
 </Tabs>
+
+### Custom events
+
+With the [custom events API](/api#send-a-custom-event), send a custom event, such as a conversion or purchase, to analyze alongside your app's location activity:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.sendEvent(
+    customType: customType,
+    metadata: metadata,
+) { (status: RadarStatus, location: CLLocation?, events: [RadarEvent]?, user: RadarUser?) in
+  // do something with location, events, user
+  // events[0] is the custom event
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar sendEvent:customType
+        metadata:metadata
+completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarEvent *> *events, RadarUser *user) {
+  // do something with location, events, user
+  // events[0] is the custom event
+}];
+```
+
+  </TabItem>
+</Tabs>
