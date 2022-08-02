@@ -87,4 +87,10 @@ module.exports = {
       },
     ],
   ],
+  scripts: [
+    {
+      src: 'js/fullstory.js',
+      async: true,
+    }
+  ]
 };
