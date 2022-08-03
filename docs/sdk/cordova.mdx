@@ -222,6 +222,77 @@ cordova.plugins.radar.offEvents();
 cordova.plugins.radar.offError();
 ```
 
+### Trip tracking
+
+On iOS and Android, to start a trip to a destination, call:
+
+```javascript
+cordova.plugins.radar.startTrip({
+  externalId: '299',
+  destinationGeofenceTag: 'store',
+  destinationGeofenceExternalId: '123',
+  mode: 'car'
+}).then((result) => {
+  // do something with result.status
+});
+cordova.plugins.radar.startTrackingContinuous();
+```
+
+Update information about the trip. Status can be set to 'unknown' to leave the status unchanged as it will update via location tracking.
+
+```javascript
+cordova.plugins.radar.updateTrip({
+  status:'arrived',
+  options: {
+    externalId: '299',
+    metadata: {
+      parkingSpot: '5'
+    }
+  }
+}).then((result) => {
+  // do something with result.status
+});
+```
+
+Later, to complete the trip and stop tracking, call:
+
+```javascript
+cordova.plugins.radar.completeTrip().then((result) => {
+  // do something with result.status
+});
+cordova.plugins.radar.stopTracking();
+```
+
+Or, to cancel the trip and stop tracking, call:
+
+```javascript
+cordova.plugins.radar.cancelTrip().then((result) => {
+  // do something with result.status
+});
+cordova.plugins.radar.stopTracking();
+```
+
+Learn more about [trip tracking](/trip-tracking).
+
+### Manual tracking
+
+You can manually update the user's location by calling:
+
+```javascript
+cordova.plugins.radar.trackOnce({
+  latitude: 39.2904,
+  longitude: -76.6122,
+  accuracy: 65
+}).then((result) => {
+  // do something with result.events, result.user
+}).catch((err) => {
+  // optionally, do something with err
+});
+```
+
+Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+
 ### Manual tracking
 
 You can manually update the user's location by calling:
