@@ -71,7 +71,7 @@
 
    return (
      <div
-       className={clsx(styles.sidebar, {
+       className={clsx(styles.sidebar, 'fs-unmask', {
          [styles.sidebarWithHideableNavbar]: hideOnScroll,
          [styles.sidebarHidden]: isHidden,
        })}>
@@ -104,7 +104,7 @@
    path,
  }) => {
    return (
-     <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
+     <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list', 'fs-unmask')}>
        <DocSidebarItems
          items={sidebar}
          activePath={path}

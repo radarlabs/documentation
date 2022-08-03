@@ -57,7 +57,7 @@
         }}
       />
 
-      <div className="row">
+      <div className="row fs-unmask">
         <div
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
