@@ -66,6 +66,7 @@ Radar Event | Context Type | Amplitude Event
 --- | --- | ---
 `user.entered_geofence` | [Geofences](/geofences) | `[Radar] Geofence Entered`
 `user.exited_geofence` | [Geofences](/geofences) | `[Radar] Geofence Exited`
+`user.dwelled_in_geofence` | [Geofences](/geofences) | `[Radar] Dwelled in Geofence`
 `user.entered_place` | [Places](/places) | `[Radar] Place Entered`
 `user.exited_place` | [Places](/places) | `[Radar] Place Exited`
 `user.entered_region_country` | [Regions](/regions) | `[Radar] Country Entered`
@@ -120,6 +121,32 @@ Radar Event Field | Amplitude Event Property | Type | Example Value
 `accuracy` | `Accuracy` | number (meters) | `5`
 `foreground` | `Foreground` | boolean | `true`
 `duration` | `Duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `Country Code` | string | `"US"`
+`country.name` | `Country Name` | string | `"United States"`
+`state.code` | `State Code` | string | `"MD"`
+`state.name` | `State Name` | string | `"Maryland"`
+`dma.code` | `DMA Code` | string | `"26"`
+`dma.name` | `DMA Name` | string | `"Baltimore"`
+`postalCode.code` | `Postal Code` | string | `"21014"`
+
+### &lbrack;Radar&rbrack; Dwelled in Geofence
+
+Radar Event Field | Amplitude Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `Geofence ID` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `Geofence Description` | string | `"Store #123"`
+`geofence.tag` | `Geofence Tag` | string | `"store"`
+`geofence.externalId` | `Geofence External ID` | string | `"123"`
+`geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
+`confidence` | `Confidence` | string | `"high"`
+`accuracy` | `Accuracy` | number (meters) | `5`
+`foreground` | `Foreground` | boolean | `true`
+`duration` | `Duration` | number (minutes) | `5`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 

@@ -31,6 +31,7 @@ Radar Event | Context Type | Branch Event
 --- | --- | ---
 `user.entered_geofence` | [Geofences](/geofences) | `entered_geofence`
 `user.exited_geofence` | [Geofences](/geofences) | `exited_geofence`
+`user.dwelled_in_geofence` | [Geofences](/geofences) | `dwelled_in_geofence`
 `user.entered_place` | [Places](/places) | `entered_place`
 `user.exited_place` | [Places](/places) | `exited_place`
 `user.entered_region_country` | [Regions](/regions) | `entered_country`
@@ -81,6 +82,30 @@ Radar Event Field | Branch Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Branch Event Property | Type | Example Value
+--- | --- | --- | ---
+`country.code` | `country_code` | string | `"US"`
+`country.name` | `country_name` | string | `"United States"`
+`state.code` | `state_code` | string | `"MD"`
+`state.name` | `state_name` | string | `"Maryland"`
+`dma.code` | `dma_code` | string | `"26"`
+`dma.name` | `dma_name` | string | `"Baltimore"`
+`postalCode.code` | `postal_code` | string | `"21014"`
+
+### dwelled_in_geofence
+
+Radar Event Field | Branch Event Property | Type | Example Value
+--- | --- | --- | ---
+`geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofence_description` | string | `"Store #123"`
+`geofence.tag` | `geofence_tag` | string | `"store"`
+`geofence.externalId` | `geofence_external_id` | string | `"123"`
+`geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `5`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 

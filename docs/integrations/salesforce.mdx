@@ -84,6 +84,33 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 `dma.name` | `dmaName` | string | `"Baltimore"`
 `postalCode.code` | `postalCode` | string | `"21014"`
 
+### user.dwelled_in_geofence
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`type` | `type` | string | `"user.exited_geofence"`
+`user.userId` | `userUserId` | string | `"1"`
+`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
+`geofence.description` | `geofenceDescription` | string | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string | `"123"`
+`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`confidence` | `confidence` | string | `"high"`
+`duration` | `duration` | number (minutes) | `5`
+
+If [Regions](/regions) is enabled, Radar will also send the following attributes:
+
+Radar Event Field | Salesforce Event Attribute | Type | Example
+--- | --- | --- | ---
+`country.code` | `countryCode` | string | `"US"`
+`country.name` | `countryName` | string | `"United States"`
+`state.code` | `stateCode` | string | `"MD"`
+`state.name` | `stateName` | string | `"Maryland"`
+`dma.code` | `dmaCode` | string | `"26"`
+`dma.name` | `dmaName` | string | `"Baltimore"`
+`postalCode.code` | `postalCode` | string | `"21014"`
+
 ### user.entered_place
 
 Radar Event Field | Salesforce Event Attribute | Type | Example
