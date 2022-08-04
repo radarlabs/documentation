@@ -1633,6 +1633,7 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 - **`mode`** (string, required for type `isochrone`): The [travel mode](/api#routing) for type `isochrone`.
 - **`tripApproachingThreshold`** (number, optional): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes).
+- **`geofence.minimumConfidence`** (number, optional): An optional field to limit events to a defined minimal [geofence confidence](https://radar.com/documentation/geofences#confidence-and-accuracy). Use the following values for the minimum confidence level: `3`(high), `2` (medium), `1` (low)
 
 ###### Default rate limit
 
