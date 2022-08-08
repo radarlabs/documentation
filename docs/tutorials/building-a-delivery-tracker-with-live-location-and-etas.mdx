@@ -28,7 +28,7 @@ If you haven't already, sign up for Radar to get your API key. You can create up
 
 When a delivery is placed, call the [geofence upsert API](/api#upsert-a-geofence) to create a geofence for the delivery. In this case, use `delivery` for the geofence `tag` and the delivery ID for the geofence `externalId`.
 
-Optionally, set `disableAfter` to disable geofence entry events the delivery time, and set `userId` to the user ID of the delivery driver to enable geofence entry events only for that delivery driver.
+Optionally, set `disableAfter` to disable geofence entry events after the delivery time, and set `userId` to the user ID of the delivery driver to enable geofence entry events only for that delivery driver.
 
 ```bash
 curl "https://api.radar.io/v1/geofences/delivery/123" \
