@@ -292,23 +292,6 @@ cordova.plugins.radar.trackOnce({
 
 Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-
-### Manual tracking
-
-You can manually update the user's location by calling:
-
-```javascript
-cordova.plugins.radar.trackOnce({
-  latitude: 39.2904,
-  longitude: -76.6122,
-  accuracy: 65
-}, (result) => {
-  // do something with result.status, result.location, result.events, result.user
-});
-```
-
-Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
-
 ### Other APIs
 
 The Cordova plugin also exposes APIs for anonymous context, geocoding, search, and distance.
