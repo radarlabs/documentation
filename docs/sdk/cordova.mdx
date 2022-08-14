@@ -283,10 +283,8 @@ cordova.plugins.radar.trackOnce({
   latitude: 39.2904,
   longitude: -76.6122,
   accuracy: 65
-}).then((result) => {
-  // do something with result.events, result.user
-}).catch((err) => {
-  // optionally, do something with err
+}, (result) => {
+  // do something with result.status, result.location, result.events, result.user
 });
 ```
 
