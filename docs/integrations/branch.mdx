@@ -4,7 +4,7 @@ title: Branch
 import Alert from "../../src/components/Alert";
 
 <Alert alertType="info">
-  The Branch integration is available on the {` `} 
+  The Branch integration is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Team plan</a>
   {` `} and higher.
 </Alert>
@@ -27,8 +27,8 @@ Radar `deviceId` maps to `idfv` for iOS devices and `android_id` for Android dev
 
 ```js
 // track web devices with a Branch fingerprint mapping
-branch.getBrowserFingerprintId(function(err, data) { 
-  Radar.setMetadata({'branchFingerprintId':data});
+branch.getBrowserFingerprintId(function(err, data) {
+  Radar.setMetadata({ 'branchFingerprintId': data });
 });
 ```
 
