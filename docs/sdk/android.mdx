@@ -586,6 +586,11 @@ Your receiver should implement the following:
           // do something with status
       }
 
+      @Override
+      public void onLog(Context context, String message) {
+          // print message for debug logs
+      }
+
   }
   ```
 
@@ -609,6 +614,10 @@ Your receiver should implement the following:
 
       override fun onError(context: Context, status: RadarStatus) {
           // do something with status
+      }
+
+      override fun onLog(context: Context, message: String) {
+          // print message for debug logs
       }
 
   }
