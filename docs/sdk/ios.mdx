@@ -835,6 +835,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
         // do something with status
     }
 
+    func didLog(message: String) {
+        // print message for debug logs
+    }
+
 }
 ```
 
@@ -868,6 +872,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 
 - (void)didFailWithStatus:(RadarStatus)status {
     // do something with status
+}
+
+- (void)didLogMessage:(NSString *_Nonnull)message {
+    // print message for debug logs
 }
 
 @end
