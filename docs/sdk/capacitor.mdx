@@ -205,6 +205,17 @@ You only need to call these methods once, as these settings will be persisted ac
 Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
 
 ```javascript
+// optionally adjust foreground service options for android
+Radar.setForegroundServiceOptions({
+  options: {
+    text: "Location tracking started",
+    title: "Location updates",
+    updatesOnly: false,
+    importance: 2,
+    activity: 'com.yourapp.MainActivity'
+  }
+});
+
 Radar.startTrackingCustom({
   options: {
     desiredStoppedUpdateInterval: 180,
@@ -215,7 +226,8 @@ Radar.startTrackingCustom({
     stopDistance: 70,
     sync: 'all',
     replay: 'none',
-    showBlueBar: true
+    showBlueBar: true,
+    foregroundServiceEnabled: true
   }
 });
 ```
