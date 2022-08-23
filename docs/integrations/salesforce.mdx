@@ -36,13 +36,13 @@ Whenever events are generated, Radar will send events to your Salesforce Marketi
 Radar Event Field | Salesforce Event Attribute | Type | Example
 --- | --- | --- | ---
 `type` | `type` | string | `"user.entered_geofence"`
-`user.userId` | `userUserId` | string | `"1"`
-`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`user.userId` | `userUserId` | string (max length 100) | `"1"`
+`user.deviceId` | `userDeviceId` | string (max length 100) | `"10974a2ee035770b9"`
 `geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
-`geofence.description` | `geofenceDescription` | string | `"Store #123"`
-`geofence.tag` | `geofenceTag` | string | `"store"`
-`geofence.externalId` | `geofenceExternalId` | string | `"123"`
-`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`geofence.description` | `geofenceDescription` | string (max length 100) | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string (max length 100) | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string (max length 100) | `"123"`
+`geofence.metadata` | `geofenceMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `confidence` | `confidence` | string | `"high"`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
@@ -62,13 +62,13 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 Radar Event Field | Salesforce Event Attribute | Type | Example
 --- | --- | --- | ---
 `type` | `type` | string | `"user.exited_geofence"`
-`user.userId` | `userUserId` | string | `"1"`
-`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`user.userId` | `userUserId` | string (max length 100) | `"1"`
+`user.deviceId` | `userDeviceId` | string (max length 100) | `"10974a2ee035770b9"`
 `geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
-`geofence.description` | `geofenceDescription` | string | `"Store #123"`
-`geofence.tag` | `geofenceTag` | string | `"store"`
-`geofence.externalId` | `geofenceExternalId` | string | `"123"`
-`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`geofence.description` | `geofenceDescription` | string (max length 100) | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string (max length 100) | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string (max length 100) | `"123"`
+`geofence.metadata` | `geofenceMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
 
@@ -89,13 +89,13 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 Radar Event Field | Salesforce Event Attribute | Type | Example
 --- | --- | --- | ---
 `type` | `type` | string | `"user.exited_geofence"`
-`user.userId` | `userUserId` | string | `"1"`
-`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`user.userId` | `userUserId` | string (max length 100) | `"1"`
+`user.deviceId` | `userDeviceId` | string (max length 100) | `"10974a2ee035770b9"`
 `geofence._id` | `geofenceId` | string | `"5b2c0906f5874b001aecfd8e"`
-`geofence.description` | `geofenceDescription` | string | `"Store #123"`
-`geofence.tag` | `geofenceTag` | string | `"store"`
-`geofence.externalId` | `geofenceExternalId` | string | `"123"`
-`geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
+`geofence.description` | `geofenceDescription` | string (max length 100) | `"Store #123"`
+`geofence.tag` | `geofenceTag` | string (max length 100) | `"store"`
+`geofence.externalId` | `geofenceExternalId` | string (max length 100) | `"123"`
+`geofence.metadata` | `geofenceMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `5`
 
@@ -116,13 +116,13 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 Radar Event Field | Salesforce Event Attribute | Type | Example
 --- | --- | --- | ---
 `type` | `type` | string | `"user.entered_place"`
-`user.userId` | `userUserId` | string | `"1"`
-`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`user.userId` | `userUserId` | string (max length 100) | `"1"`
+`user.deviceId` | `userDeviceId` | string (max length 100) | `"10974a2ee035770b9"`
 `place._id` | `placeId` | string | `"59302bcf8f27e8a156bd4f91"`
 `place.name` | `placeName` | string | `"Starbucks"`
 `place.chain.slug` | `placeChainSlug` | string | `"starbucks"`
 `place.chain.name` | `placeChainName` | string | `"Starbucks"`
-`place.chain.metadata[{key}]` | `placeChainMetadata{key}` | {type} | `{value}`
+`place.chain.metadata` | `placeChainMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `place.categories` | `placeCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
 
@@ -143,13 +143,13 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 Radar Event Field | Salesforce Event Attribute | Type | Example
 --- | --- | --- | ---
 `type` | `type` | string | `"user.exited_place"`
-`user.userId` | `userUserId` | string | `"1"`
-`user.deviceId` | `userDeviceId` | string | `"10974a2ee035770b9"`
+`user.userId` | `userUserId` | string (max length 100) | `"1"`
+`user.deviceId` | `userDeviceId` | string (max length 100) | `"10974a2ee035770b9"`
 `place._id` | `placeId` | string | `"59302bcf8f27e8a156bd4f91"`
 `place.name` | `placeName` | string | `"Starbucks"`
 `place.chain.slug` | `placeChainSlug` | string | `"starbucks"`
 `place.chain.name` | `placeChainName` | string | `"Starbucks"`
-`place.chain.metadata[{key}]` | `placeChainMetadata{key}` | {type} | `{value}`
+`place.chain.metadata` | `placeChainMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `place.categories` | `placeCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
@@ -236,56 +236,56 @@ Radar Event Field | Salesforce Event Attribute | Type | Example Value
 
 Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 --- | --- | --- | ---
-`trip.externalId` | `tripExternalId` | string | `"299"`
-`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
-`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
-`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`trip.externalId` | `tripExternalId` | string (max length 100) | `"299"`
+`trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
 
 ### user.updated_trip
 
 Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 --- | --- | --- | ---
-`trip.externalId` | `tripExternalId` | string | `"299"`
-`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
-`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
-`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`trip.externalId` | `tripExternalId` | string (max length 100) | `"299"`
+`trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
 
 ### user.approaching_trip_destination
 
 Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 --- | --- | --- | ---
-`trip.externalId` | `tripExternalId` | string | `"299"`
-`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
-`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
-`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`trip.externalId` | `tripExternalId` | string (max length 100) | `"299"`
+`trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
 
 ### user.arrived_at_trip_destination
 
 Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 --- | --- | --- | ---
-`trip.externalId` | `tripExternalId` | string | `"299"`
-`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
-`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
-`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`trip.externalId` | `tripExternalId` | string (max length 100) | `"299"`
+`trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
 
 ### user.stopped_trip
 
 Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 --- | --- | --- | ---
-`trip.externalId` | `tripExternalId` | string | `"299"`
-`trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
-`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
-`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`trip.externalId` | `tripExternalId` | string (max length 100) | `"299"`
+`trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
+`trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
+`trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
 
 ### user.entered_beacon
 
 Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
-`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
-`beacon.tag` | `beaconTag` | string | `"drive-thru"`
-`beacon.externalId` | `beaconExternalId` | string | `"123"`
-`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`beacon.description` | `beaconDescription` | string (max length 100) | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string (max length 100) | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string (max length 100) | `"123"`
+`beacon.metadata` | `beaconMetadata` | string (max length 4,000) | `'{"type":"parking"}'`
 `confidence` | `confidence` | string | `"high"`
 
 ### user.exited_beacon
@@ -293,9 +293,9 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `beacon._id` | `beaconId` | string | `"5b2c0906f5874b001aecfd8f"`
-`beacon.description` | `beaconDescription` | string | `"Store #123 - Drive-Thru"`
-`beacon.tag` | `beaconTag` | string | `"drive-thru"`
-`beacon.externalId` | `beaconExternalId` | string | `"123"`
-`beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
+`beacon.description` | `beaconDescription` | string (max length 100) | `"Store #123 - Drive-Thru"`
+`beacon.tag` | `beaconTag` | string (max length 100) | `"drive-thru"`
+`beacon.externalId` | `beaconExternalId` | string (max length 100) | `"123"`
+`beacon.metadata` | `beaconMetadata` | string (max length 4,000) | `'{"type":"parking"}'`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `1.42`
