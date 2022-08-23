@@ -21,6 +21,7 @@ Beacons provides the following user context:
 {
   beacons: [
     {
+      type: "ibeacon",
       uuid: "b9407f30-f5f8-466e-aff9-25556b57fe6d",
       major: "100",
       minor: "1",
@@ -30,6 +31,7 @@ Beacons provides the following user context:
       enabled: true
     },
     {
+      type: "ibeacon",
       uuid: "c9407f30-f5f8-466e-aff9-25556b57fe6d",
       major: "100",
       minor: "2",
@@ -52,7 +54,9 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 
 ## How it works
 
-Beacon detection works on iOS and Android in the foreground and in the background. After you import beacons, Radar will sync nearby beacons to the SDK on every location update. Radar can range any beacons compatible with [iBeacon](https://developer.apple.com/ibeacon/).
+Beacon detection works on iOS and Android in the foreground and in the background. After you import beacons, Radar will sync nearby beacons to the SDK on every location update.
+
+Radar can range any beacons compatible with [iBeacon](https://developer.apple.com/ibeacon/) or [Eddystone-UID](https://github.com/google/eddystone).
 
 Just like the Radar generates `user.entered_geofence` events after you import [geofences](/geofences), Radar will generate `user.entered_beacon` events after you import beacons.
 
@@ -62,9 +66,9 @@ Beacon entry and exit events are sent to the SDK, to [webhooks](/integrations#we
 
 ### Ranging by UUID only
 
-By default, Radar will sync nearby beacons to the SDK on every location update using the `coordinates` specified for each beacon. The SDK will then range nearby beacons based on `uuid`, `major`, and `minor`.
+By default, Radar will sync nearby beacons to the SDK on every location update using the `coordinates` specified for each beacon. The SDK will then range nearby beacons based on `uuid`, `major`, and `minor` for iBeacon or `uid` and `instance` for Eddystone.
 
-Alternatively, the SDK can range beacons based on `uuid` only, regardless of the `coordinates` specified for each beacon. To enable this, set _iBeacon UUIDs_ on the [Settings page](https://radar.com/dashboard/settings), under _Beacons_. On iOS, you must also enable the _Location updates_ [background mode](/sdk/ios#background-modes)
+Alternatively, the SDK can range beacons based on `uuid` or `uid` only, regardless of the `coordinates` specified for each beacon. To enable this, set _iBeacon UUIDs_ and/or `Eddystone UIDs` on the [Settings page](https://radar.com/dashboard/settings), under _Beacons_. On iOS, you must also enable the _Location updates_ [background mode](/sdk/ios#background-modes).
 
 ## Create beacons
 
@@ -72,7 +76,7 @@ You can create beacons via the dashboard, CSV import, or through the API. You ca
 
 Like [geofences](/geofences), you also specify the metadata for beacons when you create them, including *tag* (a group for the beacon, e.g., `store-register`), external ID (an external ID for the beacon that maps to your internal database, e.g., `123-1`), *description* (a display name for the beacon, e.g., `Store #123 - Register #1`).
 
-You also specify the identifiers used to range the beacon, including `uuid`, `major`, and `minor`, as well as an approximate latitude and longitude used to sync nearby beacons (within 1 kilometer) to the SDK.
+You also specify the identifiers used to range the beacon, including `uuid`, `major`, and `minor` for iBeacon or `uid` and `instance` for Eddystone, as well as an approximate latitude and longitude used to sync nearby beacons (within 1 kilometer) to the SDK.
 
 **Beacons should be uniquely referenced by tag and external ID, assigned by you when a beacon is created. To disable or rotate identifiers for a beacon, re-import the beacon with the same tag and external ID.**
 
@@ -93,7 +97,7 @@ The CSV may have the following columns:
 - **`description`** (string, required): A display name for the beacon.
 - **`tag`** (string, optional): A group for the beacon.
 - **`externalId`** (string, optional): An external ID for the beacon that maps to your internal database.
-- **`type`** (string, required): The type of beacon. `ibeacon` is currently supported.
+- **`type`** (string, required): The type of beacon. `ibeacon` and `eddystone` are currently supported.
 - **`uuid`** (string, required): The UUID of the beacon.
 - **`major`** (string, required): The major ID of the beacon.
 - **`minor`** (string, required): The minor ID of the beacon.
@@ -106,11 +110,13 @@ The CSV may have the following columns:
 For example, to import beacons installed on registers and in parking spaces at a store, you could use the following CSV:
 
 ```json
-description,tag,external id,type,uuid,major,minor,coordinates,enabled,metadata
-"Store #123 - Register #1",store-register,123-1,ibeacon,"b9407f30-f5f8-466e-aff9-25556b57fe6d",100,1,"[-73.975363,40.783826]",true,{}
-"Store #123 - Register #2",store-register,123-2,ibeacon,"c9407f30-f5f8-466e-aff9-25556B57fe6d",100,1,"[-73.975363,40.783826]",true,{}
-"Store #123 - Parking Space #1",store-parking,123-1,ibeacon,"d9407f30-f5f8-466e-aff9-25556b57fe6d",101,1,"[-73.975363,40.783826]",true,{}
-"Store #123 - Parking Space #2",store-parking,123-2,ibeacon,"e9407f30-f5f8-466e-aff9-25556b57fe6d",101,2,"[-73.975363,40.783826]",true,"{""type"":""parking""}"
+description,tag,externalId,type,uuid,major,minor,uid,instance,coordinates,enabled,metadata
+"Store #123 - Register #1",store-register,123-1,ibeacon,"b9407f30-f5f8-466e-aff9-25556b57fe6d",100,1,,,"[-73.975384,40.783747]",true,{}
+"Store #123 - Register #2",store-register,123-2,ibeacon,"c9407f30-f5f8-466e-aff9-25556B57fe6d",100,2,,,"[-73.975384,40.783747]",true,{}
+"Store #123 - Parking Space #1",store-parking,123-1,ibeacon,"d9407f30-f5f8-466e-aff9-25556b57fe6d",101,1,,,"[-73.975363,40.783826]",true,{}
+"Store #123 - Parking Space #2",store-parking,123-2,ibeacon,"e9407f30-f5f8-466e-aff9-25556b57fe6d",101,2,,,"[-73.975363,40.783826]",true,"{""type"":""parking""}"
+"Store #123 - Aisle A",store-aisle,123-A,eddystone,,,,"f7826da6bc5b71e0893e","4456384b726a","[-73.974317,40.785541]",true,{}
+"Store #123 - Aisle B",store-aisle,123-B,eddystone,,,,"f7826da6bc5b71e0893e","4456384b726b","[-73.974317,40.785541]",true,{}
 ```
 
 **Again, note that longitude comes before latitude, a GeoJSON convention.**

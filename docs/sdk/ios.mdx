@@ -39,7 +39,7 @@ The SDK is small and typically adds less than 500 KB to your compiled app.
 Install [CocoaPods](https://cocoapods.org). If you don't have an existing `Podfile`, run `pod init` in your project directory. Add the following to your `Podfile`:
 
 ```swift
-pod 'RadarSDK', '~> 3.4.0'
+pod 'RadarSDK', '~> 3.5.0'
 ```
 
 Then, run `pod install`. You may also need to run `pod repo update`.
@@ -58,13 +58,13 @@ In Xcode, go to *File* > *Swift Packages* > *Add Package Dependency*. Enter `htt
 Install [Carthage](https://github.com/Carthage/Carthage). To include Radar as a `github` origin, add the following to your `Cartfile`:
 
 ```swift
-github "radarlabs/radar-sdk-ios" ~> 3.3.0
+github "radarlabs/radar-sdk-ios" ~> 3.5.0
 ```
 
 To include Radar as a `binary` origin, add the following to your `Cartfile`:
 
 ```swift
-binary "https://raw.githubusercontent.com/radarlabs/radar-sdk-ios/master/RadarSDK.json" ~> 3.3.0
+binary "https://raw.githubusercontent.com/radarlabs/radar-sdk-ios/master/RadarSDK.json" ~> 3.5.0
 ```
 
 Then, run `carthage update` and drag `Build/iOS/RadarSDK.framework` into the _Linked Frameworks and Libraries_ section of your target. Do not add the framework as an input to your `copy-frameworks` run script.

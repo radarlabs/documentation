@@ -40,7 +40,7 @@ Add the SDK to the `dependencies` section of your app's `build.gradle` file:
 
 ```kotlin
 dependencies {
-    implementation 'io.radar:sdk:3.4.+'
+    implementation 'io.radar:sdk:3.5.+'
 }
 ```
 
@@ -50,9 +50,11 @@ You can also add the SDK to your project manually. Download [the current release
 
 ## Dependencies
 
-The SDK depends on [AndroidX](https://developer.android.com/jetpack/androidx) and Play Services Location version `17.1.0` and higher. These libraries will be automatically included as transitive dependencies by Gradle. Learn more about managing dependencies in Gradle [here](https://docs.gradle.org/current/userguide/introduction_dependency_management.html#sec:dependency_resolution).
+The SDK depends on [AndroidX](https://developer.android.com/jetpack/androidx) and [Google Play Services Location](https://developer.android.com/training/location) version `17.1.0` and higher. These libraries will be automatically included as transitive dependencies by Gradle. Learn more about managing dependencies in Gradle [here](https://docs.gradle.org/current/userguide/core_dependency_management.html).
 
-If you haven't already configured your project for Play Services, follow the instructions [here](https://developers.google.com/android/guides/google-services-plugin).
+If you haven't already configured your project for Google Play Services, follow the instructions [here](https://developers.google.com/android/guides/google-services-plugin).
+
+As an alternative to Google Play Services, the SDK also optionally supports [Huawei Mobile Services](#huawei).
 
 The SDK currently supports API level `16` and higher.
 
@@ -70,7 +72,7 @@ Use your `Test Publishable` key for testing and non-production environments. Use
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -143,7 +145,7 @@ For background tracking or geofencing with responsive mode, and if targeting API
 To request foreground and background permissions:
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java'},
     { label: 'Kotlin', value: 'kotlin' }
@@ -191,7 +193,7 @@ To track the user's location in the foreground, call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -284,7 +286,7 @@ To start tracking for geofencing, call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -310,7 +312,7 @@ To stop tracking (e.g., when the user logs out), call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -369,7 +371,7 @@ To start tracking for trips, call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -395,7 +397,7 @@ To stop tracking (e.g., when the user logs out), call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -434,7 +436,7 @@ Can't go for a walk or a drive? You can simulate a sequence of location updates.
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -506,7 +508,7 @@ To listen for events, location updates, and errors client-side, create a class t
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -555,7 +557,7 @@ Your receiver should implement the following:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -638,7 +640,7 @@ If you want to manage location services yourself, you can manually update the us
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -684,7 +686,7 @@ To set a custom `userId`, call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -721,7 +723,7 @@ To set a dictionary of custom metadata for the user, call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -749,7 +751,7 @@ Finally, to set an optional description for the user, displayed in the dashboard
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -785,7 +787,7 @@ To range beacons in the foreground, call:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -818,7 +820,7 @@ To monitor beacons in the background, update your tracking options:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -852,7 +854,7 @@ Get a single location update without sending it to the server:
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -887,7 +889,7 @@ With the [context API](/api#context), get context for a location without sending
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -922,7 +924,7 @@ With the [forward geocoding API](/api#forward-geocode), geocode an address, conv
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -958,7 +960,7 @@ With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a locati
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -994,7 +996,7 @@ With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP ad
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -1030,7 +1032,7 @@ With the [autocomplete API](/api#autocomplete), autocomplete partial addresses a
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -1072,7 +1074,7 @@ With the [geofence search API](/api#search-geofences), search for geofences near
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -1118,7 +1120,7 @@ With the [places search API](/api#search-places), search for places near a locat
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -1168,7 +1170,7 @@ With the [distance API](/api#distance), calculate the travel distance and durati
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -1214,7 +1216,7 @@ With the [matrix API](/api#matrix), calculate the travel distance and duration b
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -1260,7 +1262,7 @@ With the [custom events API](/api#send-a-custom-event), send a custom event, suc
 
 <Tabs
   groupId="android"
-  defaultValue="java"
+  defaultValue="kotlin"
   values={[
     { label: 'Java', value: 'java' },
     { label: 'Kotlin', value: 'kotlin' }
@@ -1293,6 +1295,46 @@ With the [custom events API](/api#send-a-custom-event), send a custom event, suc
       // do something with location, events, user
       // events[0] is the custom event
   }
+  ```
+
+  </TabItem>
+</Tabs>
+
+## Huawei
+
+By default, the SDK [depends on](#dependencies) [Google Play Services Location](https://developer.android.com/training/location). However, you can use [Huawei Mobile Services Location Kit](https://developer.huawei.com/consumer/en/hms/huawei-locationkit/) instead.
+
+If you haven't already configured your project for Huawei Mobile Services, follow the instructions [here](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides/integrate-as-sdk-0000001050168936).
+
+Then, add the dependency to your app's `build.gradle` file:
+
+```kotlin
+dependencies {
+    implementation 'com.huawei.hms:location:6.4.0.300'
+}
+```
+
+Finally, pass in `RadarLocationServicesProvider.HUAWEI` when you initialize the SDK:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  Radar.initialize(this, publishableKey, receiver, RadarLocationServicesProvider.HUAWEI);
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  Radar.initialize(context, publishableKey, receiver, RadarLocationServicesProvider.HUAWEI)
   ```
 
   </TabItem>
