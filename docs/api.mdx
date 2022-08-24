@@ -1909,24 +1909,24 @@ A beacon represents a Bluetooth beacon monotired in your project. Beacons can be
   "createdAt": "2021-07-20T14:27:22.283Z",
   "updatedAt": "2021-07-20T14:27:22.283Z",
   "live": false,
-  "description": "Beacon 1",
-  "tag": "drive-thru",
-  "externalId": "store123-beacon-1",
-  "metadata": {
-    "store": "store123"
-  },
-  "enabled": true,
+  "description": "Store #123 - Register #1",
+  "tag": "store-register",
+  "externalId": "123-1",
+  "type": "ibeacon",
+  "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+  "major": "100",
+  "minor": "1",
   "geometry": {
     "type": "Point",
     "coordinates": [
-      -105.94653744704361,
-      35.70654086799666
+      -73.975384,
+      40.783747
     ]
   },
-  "type": "ibeacon",
-  "uuid": "f7826da6-0000-0000-0000-bc5b71e0893e",
-  "major": "2",
-  "minor": "8511"
+  "enabled": true,
+  "metadata": {
+    "supportsContactlessPayments": true
+  }
 }
 ```
 
@@ -1975,7 +1975,7 @@ curl "https://api.radar.io/v1/beacons" \
       "createdAt": "2021-08-03T20:18:57.888Z",
       "updatedAt": "2021-08-03T20:18:57.888Z",
       "live": true,
-      "description": "Beacon 1",
+      "description": "Store #123 - Register #1",
       ...
     },
     ...
@@ -1985,7 +1985,7 @@ curl "https://api.radar.io/v1/beacons" \
 
 #### Get a beacon
 
-Gets a beacon. The beacon can be uniquely referenced by Radar `id` or by `tag` and `externalId`.
+Gets a beacon. The beacon can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
 
 ###### Definition
 
@@ -2020,7 +2020,7 @@ curl "https://api.radar.io/v1/beacons/6109a4b16dbfe3de2cb03924" \
     "createdAt": "2021-08-03T20:18:57.888Z",
     "updatedAt": "2021-08-03T20:18:57.888Z",
     "live": true,
-    "description": "Beacon 1",
+    "description": "Store #123 - Register #1",
     ...
   }
 }
@@ -2063,15 +2063,15 @@ Secret
 curl "https://api.radar.io/v1/beacons" \
   -H "Authorization: prj_live_sk_..." \
   -X POST \
-  -d "description=Beacon 1" \
+  -d "description=Store #123 - Register #1" \
+  -d "tag=store-register" \
+  -d "tag=123-1" \
   -d "type=ibeacon" \
+  -d "uuid=b9407f30-f5f8-466e-aff9-25556b57fe6d" \
+  -d "major=100" \
+  -d "minor=1"
   -d "coordinates=[-105.94653744704361,35.70654086799666]" \
-  -d "enabled=true" \
-  -d "externalId=store123-beacon-1" \
-  -d "tag=drive-thru" \
-  -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
-  -d "major=2298" \
-  -d "minor=8515"
+  -d "enabled=true"
 ```
 
 ###### Sample response
@@ -2086,8 +2086,7 @@ curl "https://api.radar.io/v1/beacons" \
     "createdAt": "2021-08-13T20:42:47.711Z",
     "updatedAt": "2021-08-13T20:42:47.711Z",
     "live": true,
-    "description": "Beacon 1",
-    "tag": "drive-thru",
+    "description": "Store #123 - Register #1"
     ...
   }
 }
@@ -2095,10 +2094,12 @@ curl "https://api.radar.io/v1/beacons" \
 
 #### Upsert a beacon
 
-Upserts a beacon. The beacon can be uniquely referenced by `tag` and `externalId`. If a beacon with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
+Upserts a beacon. The beacon can be uniquely referenced by Radar `_id` or by `tag` and `externalId`. If a beacon with the specified `tag` and `externalId` already exists, it will be updated. If not, it will be created.
 
 ###### Definition
 
+<span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/beacons/:id</code>
+<br />
 <span className="badge badge--warning">PUT</span> <code>https://api.radar.io/v1/beacons/:tag/:externalId</code>
 
 ###### Body parameters
@@ -2125,14 +2126,16 @@ Secret
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
+curl "https://api.radar.io/v1/beacons/store-register/123-1" \
   -H "Authorization: prj_live_sk_..." \
   -X PUT \
-  -d "description=Beacon 1" \
+  -d "description=Store #123 - Register #1" \
+  -d "tag=store-register" \
+  -d "externalId=123-1" \
   -d "type=ibeacon" \
-  -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
-  -d "major=2298" \
-  -d "minor=8515" \
+  -d "uuid=b9407f30-f5f8-466e-aff9-25556b57fe6d" \
+  -d "major=100" \
+  -d "minor=1" \
   -d "coordinates=[-105.94653744704361,35.70654086799666]" \
   -d "enabled=true"
 ```
@@ -2149,8 +2152,7 @@ curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
     "createdAt": "2021-08-13T20:42:47.711Z",
     "updatedAt": "2021-08-13T20:42:47.711Z",
     "live": true,
-    "description": "Beacon 1",
-    "tag": "drive-thru",
+    "description": "Store #123 - Register #1"
     ...
   }
 }
@@ -2158,11 +2160,13 @@ curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
 
 #### Delete a beacon
 
-Deletes a beacon.
+Deletes a beacon. The beacon can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
 
 ###### Definition
 
 <span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/beacons/:id</code>
+<br />
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/beacons/:tag/:externalId</code>
 
 ###### Default rate limit
 

@@ -27,7 +27,7 @@ Beacons provides the following user context:
       minor: "1",
       description: "Store #123 - Register #1",
       tag: "store-register",
-      externalId: "1",
+      externalId: "123-1",
       enabled: true
     },
     {
@@ -133,12 +133,14 @@ For example, to upsert a beacon within a store via the [API](/api):
 curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
     -H "Authorization: prj_live_sk_..." \
     -X PUT \
-    -d "description=Beacon 1" \
+    -d "description=Store #123 - Register #1" \
+    -d "tag=store-register" \
+    -d "tag=123-1" \
     -d "type=ibeacon" \
-    -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
-    -d "major=2298" \
-    -d "minor=8515" \
-    -d "coordinates=[-105.94653744704361,35.70654086799666]" \
+    -d "uuid=b9407f30-f5f8-466e-aff9-25556b57fe6d" \
+    -d "major=100" \
+    -d "minor=1" \
+    -d "coordinates=[-73.975384,40.783747]" \
     -d "enabled=true"
 ```
 
