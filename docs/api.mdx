@@ -1888,9 +1888,9 @@ A beacon represents a Bluetooth beacon monotired in your project. Beacons can be
 - **`createdAt`** (datetime): The datetime when the beacon was created.
 - **`updatedAt`** (datetime): The datetime when the beacon was last updated.
 - **`live`** (boolean): `true` if the beacon was created with your `live` API key, `false` if the beacon was created with your `test` API key.
-- **`description`** (string, required): A display name for the beacon.
-- **`tag`** (string, optional): A group for the beacon.
-- **`externalId`** (optional): An external ID for the beacon.
+- **`description`** (string): A display name for the beacon.
+- **`tag`** (string): A group for the beacon.
+- **`externalId`** (string): An external ID for the beacon.
 - **`type`** (string, required): The type of beacon, one of `ibeacon` (supported on iOS and Android) or `eddystone` (supported on Android only).
 - **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
 - **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
@@ -1898,8 +1898,8 @@ A beacon represents a Bluetooth beacon monotired in your project. Beacons can be
 - **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
 - **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`geometry`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
-- **`enabled`** (boolean, required): If true, the beacon will generate events. If false, the beacon will not generate events.
-- **`metadata`** (boolean, required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+- **`enabled`** (boolean): If true, the beacon will generate events. If false, the beacon will not generate events.
+- **`metadata`** (boolean): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
 ###### Sample object
 
