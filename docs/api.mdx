@@ -2100,7 +2100,7 @@ Upserts a beacon. The beacon can be uniquely referenced by `tag` and `externalId
 ###### Body parameters
 
 - **`description`** (string, required): A display name for the beacon.
-- **`type`** (string, required): The type of beacon. `ibeacon` and `eddystone` are currently supported.
+- **`type`** (string, required): The type of beacon, one of `ibeacon` or `eddystone`.
 - **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
 - **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
 - **`minor`** (string, required for `ibeacon`): For iBeacons, the minor ID of the beacon.
