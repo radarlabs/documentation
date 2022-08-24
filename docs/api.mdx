@@ -1928,7 +1928,7 @@ A beacon represents a bluetooth beacon in your project. Beacons can be uniquely 
 }
 ```
 
-#### List Beacons
+#### List beacons
 
 Lists beacons. Beacons are sorted descending by `createdAt`.
 
@@ -2100,10 +2100,12 @@ Upserts a beacon. The beacon can be uniquely referenced by `tag` and `externalId
 ###### Body parameters
 
 - **`description`** (string, required): A display name for the beacon.
-- **`type`** (string, required): The type of beacon. `ibeacon` is currently supported.
-- **`uuid`** (string, required): The UUID of the beacon.
-- **`major`** (string, required): The major ID of the beacon.
-- **`minor`** (string, required): The minor ID of the beacon.
+- **`type`** (string, required): The type of beacon. `ibeacon` and `eddystone` are currently supported.
+- **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
+- **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
+- **`minor`** (string, required for `ibeacon`): For iBeacons, the minor ID of the beacon.
+- **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
+- **`minor`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`coordinates`** (point, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 - **`enabled`** (boolean, optional): If `true`, the beacon will generate events. If `false`, the beacon will not generate events. Defaults to `true`.

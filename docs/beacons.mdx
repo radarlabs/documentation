@@ -11,7 +11,7 @@ import Alert from "../src/components/Alert";
   .
 </Alert>
 
-Beacons detects nearby Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. For example, you might create a store-level [geofence](/geofences) and monitor beacons installed at the entrance, in the drive-thru, on registers, on tables, in aisles, or in parking spaces at each store.
+Beacons detects nearby [iBeacon](https://developer.apple.com/ibeacon/) and [Eddystone-UID](https://github.com/google/eddystone) Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. For example, you might create a store-level [geofence](/geofences) and monitor beacons installed at the entrance, in the drive-thru, on registers, on tables, in aisles, or in parking spaces at each store.
 
 <img src="https://images.ctfassets.net/f2vbu16fzuly/tU9ITnOkNzy0wPUmepuIR/bcb4292390be1641b2ab80fa488f9d11/beacons.svg" className="hero-image" />
 
@@ -31,13 +31,12 @@ Beacons provides the following user context:
       enabled: true
     },
     {
-      type: "ibeacon",
-      uuid: "c9407f30-f5f8-466e-aff9-25556b57fe6d",
-      major: "100",
-      minor: "2",
-      description: "Store #123 - Register #2",
-      tag: "store-register",
-      externalId: "123-2",
+      type: "eddystone",
+      uid: "f7826da6bc5b71e0893e",
+      instance: "4456384b726a",
+      description: "Store #123 - Aisle A",
+      tag: "store-aisle",
+      externalId: "123-A",
       enabled: true
     }
   ]
