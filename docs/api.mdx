@@ -1880,7 +1880,7 @@ curl "https://api.radar.io/v1/events" \
 
 ### Beacons
 
-A beacon represents a bluetooth beacon in your project. Beacons can be uniquely referenced by Radar `_id` or `uuid` and `major` and `minor`  or `tag` and `externalId`.
+A beacon represents a Bluetooth beacon in your project. Beacons can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
 
 ###### Object fields
 
@@ -1888,16 +1888,18 @@ A beacon represents a bluetooth beacon in your project. Beacons can be uniquely 
 - **`createdAt`** (datetime): The datetime when the beacon was created.
 - **`updatedAt`** (datetime): The datetime when the beacon was last updated.
 - **`live`** (boolean): `true` if the beacon was created with your `live` API key, `false` if the beacon was created with your `test` API key.
-- **`description`** (required): A display name for the beacon.
-- **`tag`** (optional, but recommended): A group for the beacon.
-- **`externalId`** (optional, but recommended): An external ID for the beacon.
-- **`type`** (required): The type of beacon. `ibeacon` is currently supported.
-- **`uuid`** (required): The UUID of the beacon.
-- **`major`** (required): The major ID of the beacon.
-- **`minor`** (required): The minor ID of the beacon.
+- **`description`** (string, required): A display name for the beacon.
+- **`tag`** (string, optional): A group for the beacon.
+- **`externalId`** (optional): An external ID for the beacon.
+- **`type`** (string, required): The type of beacon, one of `ibeacon` (supported on iOS and Android) or `eddystone` (supported on Android only).
+- **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
+- **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
+- **`minor`** (string, required for `ibeacon`): For iBeacons, the minor ID of the beacon.
+- **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
+- **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`geometry`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
-- **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
-- **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+- **`enabled`** (boolean, required): If true, the beacon will generate events. If false, the beacon will not generate events.
+- **`metadata`** (boolean, required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
 ###### Sample object
 
@@ -1983,13 +1985,13 @@ curl "https://api.radar.io/v1/beacons" \
 
 #### Get a beacon
 
-Gets a beacon. The beacon can be uniquely referenced by Radar `id` or by `uuid`,`major` and `minor`.
+Gets a beacon. The beacon can be uniquely referenced by Radar `id` or by `tag` and `externalId`.
 
 ###### Definition
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:id</code>
 <br />
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:uuid/:major/:minor</code>
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/beacons/:tag/:externalId</code>
 
 ###### Default rate limit
 
@@ -2034,16 +2036,18 @@ Creates a beacon.
 
 ###### Body parameters
 
-- **`description`** (required): A display name for the beacon.
-- **`tag`** (optional, but recommended): A group for the beacon.
-- **`externalId`** (optional, but recommended): An external ID for the beacon.
-- **`type`** (required): The type of beacon. `ibeacon` is currently supported.
-- **`uuid`** (required): The UUID of the beacon.
-- **`major`** (required): The major ID of the beacon.
-- **`minor`** (required): The minor ID of the beacon.
-- **`coordinates`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
-- **`enabled`** (required): If true, the beacon will generate events. If false, the beacon will not generate events.
-- **`metadata`** (required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+- **`description`** (string, required): A display name for the beacon.
+- **`tag`** (string, required): A group for the beacon.
+- **`externalId`** (string, required): An external ID for the beacon.
+- **`type`** (string, required): The type of beacon, one of `ibeacon` (supported on iOS and Android) or `eddystone` (supported on Android only).
+- **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
+- **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
+- **`minor`** (string, required for `ibeacon`): For iBeacons, the minor ID of the beacon.
+- **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
+- **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
+- **`coordinates`** (point, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
+- **`enabled`** (boolean, required): If true, the beacon will generate events. If false, the beacon will not generate events.
+- **`metadata`** (dictionary, required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
 ###### Default rate limit
 
@@ -2100,12 +2104,12 @@ Upserts a beacon. The beacon can be uniquely referenced by `tag` and `externalId
 ###### Body parameters
 
 - **`description`** (string, required): A display name for the beacon.
-- **`type`** (string, required): The type of beacon, one of `ibeacon` or `eddystone`.
+- **`type`** (string, required): The type of beacon, one of `ibeacon` (supported on iOS and Android) or `eddystone` (supported on Android only).
 - **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
 - **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
 - **`minor`** (string, required for `ibeacon`): For iBeacons, the minor ID of the beacon.
 - **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
-- **`minor`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
+- **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`coordinates`** (point, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 - **`enabled`** (boolean, optional): If `true`, the beacon will generate events. If `false`, the beacon will not generate events. Defaults to `true`.
@@ -2154,7 +2158,7 @@ curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
 
 #### Delete a beacon
 
-Deletes a beacon. Can be called via beacon `id` or via `uuid`,`major` and `minor`.
+Deletes a beacon.
 
 ###### Definition
 

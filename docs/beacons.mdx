@@ -11,7 +11,7 @@ import Alert from "../src/components/Alert";
   .
 </Alert>
 
-Beacons detects nearby [iBeacon](https://developer.apple.com/ibeacon/) and [Eddystone-UID](https://github.com/google/eddystone) Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. For example, you might create a store-level [geofence](/geofences) and monitor beacons installed at the entrance, in the drive-thru, on registers, on tables, in aisles, or in parking spaces at each store.
+Beacons detects nearby Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. For example, you might create a store-level [geofence](/geofences) and monitor beacons installed at the entrance, in the drive-thru, on registers, on tables, in aisles, or in parking spaces at each store.
 
 <img src="https://images.ctfassets.net/f2vbu16fzuly/tU9ITnOkNzy0wPUmepuIR/bcb4292390be1641b2ab80fa488f9d11/beacons.svg" className="hero-image" />
 
@@ -55,7 +55,7 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 
 Beacon detection works on iOS and Android in the foreground and in the background. After you import beacons, Radar will sync nearby beacons to the SDK on every location update.
 
-Radar can range any beacons compatible with [iBeacon](https://developer.apple.com/ibeacon/) or [Eddystone-UID](https://github.com/google/eddystone).
+On iOS and Android, Radar can range any beacons compatible with [iBeacon](https://developer.apple.com/ibeacon/). On Android, the SDK can also range any beacons compatible with [Eddystone-UID](https://github.com/google/eddystone).
 
 Just like the Radar generates `user.entered_geofence` events after you import [geofences](/geofences), Radar will generate `user.entered_beacon` events after you import beacons.
 
@@ -96,10 +96,12 @@ The CSV may have the following columns:
 - **`description`** (string, required): A display name for the beacon.
 - **`tag`** (string, optional): A group for the beacon.
 - **`externalId`** (string, optional): An external ID for the beacon that maps to your internal database.
-- **`type`** (string, required): The type of beacon. `ibeacon` and `eddystone` are currently supported.
-- **`uuid`** (string, required): The UUID of the beacon.
-- **`major`** (string, required): The major ID of the beacon.
-- **`minor`** (string, required): The minor ID of the beacon.
+- **`type`** (string, required): The type of beacon, one of `ibeacon` (supported on iOS and Android) or `eddystone` (supported on Android only).
+- **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
+- **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
+- **`minor`** (string, required for `ibeacon`): For iBeacons, the minor ID of the beacon.
+- **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
+- **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`coordinates`** (array, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. A JSON string in the format `[longitude,latitude]`. **Note that longitude comes before latitude, a GeoJSON convention.**
 - **`enabled`** (boolean, required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (dictionary, optional): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
