@@ -1899,7 +1899,7 @@ A beacon represents a Bluetooth beacon monotired in your project. Beacons can be
 - **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`geometry`** (point): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates for type `point` in `[longitude,latitude]` format.
 - **`enabled`** (boolean): If true, the beacon will generate events. If false, the beacon will not generate events.
-- **`metadata`** (boolean): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+- **`metadata`** (dictionary): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
 ###### Sample object
 
@@ -2021,6 +2021,8 @@ curl "https://api.radar.io/v1/beacons/6109a4b16dbfe3de2cb03924" \
     "updatedAt": "2021-08-03T20:18:57.888Z",
     "live": true,
     "description": "Store #123 - Register #1",
+    "tag": "store-register",
+    "externalId": "123-1",
     ...
   }
 }
@@ -2046,8 +2048,8 @@ Creates a beacon.
 - **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
 - **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`coordinates`** (point, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. Coordinates in `[longitude,latitude]` format.
-- **`enabled`** (boolean, required): If true, the beacon will generate events. If false, the beacon will not generate events.
-- **`metadata`** (dictionary, required): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
+- **`enabled`** (boolean, optional): If true, the beacon will generate events. If false, the beacon will not generate events.
+- **`metadata`** (dictionary, optional): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
 
 ###### Default rate limit
 
@@ -2086,7 +2088,9 @@ curl "https://api.radar.io/v1/beacons" \
     "createdAt": "2021-08-13T20:42:47.711Z",
     "updatedAt": "2021-08-13T20:42:47.711Z",
     "live": true,
-    "description": "Store #123 - Register #1"
+    "description": "Store #123 - Register #1",
+    "tag": "store-register",
+    "externalId": "123-1",
     ...
   }
 }
@@ -2152,7 +2156,9 @@ curl "https://api.radar.io/v1/beacons/store-register/123-1" \
     "createdAt": "2021-08-13T20:42:47.711Z",
     "updatedAt": "2021-08-13T20:42:47.711Z",
     "live": true,
-    "description": "Store #123 - Register #1"
+    "description": "Store #123 - Register #1",
+    "tag": "store-register",
+    "externalId": "123-1",
     ...
   }
 }
