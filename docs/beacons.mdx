@@ -27,17 +27,16 @@ Beacons provides the following user context:
       minor: "1",
       description: "Store #123 - Register #1",
       tag: "store-register",
-      externalId: "1",
+      externalId: "123-1",
       enabled: true
     },
     {
-      type: "ibeacon",
-      uuid: "c9407f30-f5f8-466e-aff9-25556b57fe6d",
-      major: "100",
-      minor: "2",
-      description: "Store #123 - Register #2",
-      tag: "store-register",
-      externalId: "123-2",
+      type: "eddystone",
+      uid: "f7826da6bc5b71e0893e",
+      instance: "4456384b726a",
+      description: "Store #123 - Aisle A",
+      tag: "store-aisle",
+      externalId: "123-A",
       enabled: true
     }
   ]
@@ -56,7 +55,7 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 
 Beacon detection works on iOS and Android in the foreground and in the background. After you import beacons, Radar will sync nearby beacons to the SDK on every location update.
 
-Radar can range any beacons compatible with [iBeacon](https://developer.apple.com/ibeacon/) or [Eddystone-UID](https://github.com/google/eddystone).
+On iOS and Android, Radar can range any beacons compatible with [iBeacon](https://developer.apple.com/ibeacon/). On Android, the SDK can also range any beacons compatible with [Eddystone-UID](https://github.com/google/eddystone).
 
 Just like the Radar generates `user.entered_geofence` events after you import [geofences](/geofences), Radar will generate `user.entered_beacon` events after you import beacons.
 
@@ -97,10 +96,12 @@ The CSV may have the following columns:
 - **`description`** (string, required): A display name for the beacon.
 - **`tag`** (string, optional): A group for the beacon.
 - **`externalId`** (string, optional): An external ID for the beacon that maps to your internal database.
-- **`type`** (string, required): The type of beacon. `ibeacon` and `eddystone` are currently supported.
-- **`uuid`** (string, required): The UUID of the beacon.
-- **`major`** (string, required): The major ID of the beacon.
-- **`minor`** (string, required): The minor ID of the beacon.
+- **`type`** (string, required): The type of beacon, one of `ibeacon` (supported on iOS and Android) or `eddystone` (supported on Android only).
+- **`uuid`** (string, required for `ibeacon`): For iBeacons, the UUID of the beacon.
+- **`major`** (string, required for `ibeacon`): For iBeacons, the major ID of the beacon.
+- **`minor`** (string, required for `ibeacon`): For iBeacons, the minor ID of the beacon.
+- **`uid`** (string, required for `eddystone`): For Eddystone beacons, the UID of the beacon.
+- **`instance`** (string, required for `eddystone`): For Eddystone beacons, the instance ID of the beacon.
 - **`coordinates`** (array, required): The approximate location of the beacon, used to sync nearby beacons (within 1 kilometer) to the SDK. A JSON string in the format `[longitude,latitude]`. **Note that longitude comes before latitude, a GeoJSON convention.**
 - **`enabled`** (boolean, required): If true, the beacon will generate events. If false, the beacon will not generate events.
 - **`metadata`** (dictionary, optional): A set of custom key-value pairs for the beacon. A JSON string representing a dictionary with up to 16 keys and values of type string, boolean, or number.
@@ -132,12 +133,14 @@ For example, to upsert a beacon within a store via the [API](/api):
 curl "https://api.radar.io/v1/beacons/drive-thru/store123-beacon-1" \
     -H "Authorization: prj_live_sk_..." \
     -X PUT \
-    -d "description=Beacon 1" \
+    -d "description=Store #123 - Register #1" \
+    -d "tag=store-register" \
+    -d "tag=123-1" \
     -d "type=ibeacon" \
-    -d "uuid=f7826da6-4fa2-4e98-0000-bc5b71e0893e" \
-    -d "major=2298" \
-    -d "minor=8515" \
-    -d "coordinates=[-105.94653744704361,35.70654086799666]" \
+    -d "uuid=b9407f30-f5f8-466e-aff9-25556b57fe6d" \
+    -d "major=100" \
+    -d "minor=1" \
+    -d "coordinates=[-73.975384,40.783747]" \
     -d "enabled=true"
 ```
 
