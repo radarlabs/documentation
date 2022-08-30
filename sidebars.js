@@ -87,6 +87,7 @@ module.exports = {
         "tutorials/showing-a-notification-when-a-user-enters-a-geofence",
         "tutorials/building-an-app-with-location-enabled-curbside-pickup",
         "tutorials/building-a-delivery-tracker-with-live-location-and-etas",
+        "tutorials/building-a-delivery-tracking-app",
         "tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode",
         "tutorials/building-a-store-locator-on-ios",
         "tutorials/localizing-a-website-based-on-current-country-or-city",
@@ -170,6 +171,7 @@ module.exports = {
       items: [
         { type: "doc", id: "tutorials", label: "Overview" },
         "tutorials/building-a-delivery-tracker-with-live-location-and-etas",
+        "tutorials/building-a-delivery-tracking-app",
         "tutorials/building-a-store-locator-on-ios",
         "tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode",
         "tutorials/building-an-app-with-location-enabled-curbside-pickup",
