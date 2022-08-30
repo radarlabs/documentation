@@ -1633,7 +1633,7 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 - **`mode`** (string, required for type `isochrone`): The [travel mode](/api#routing) for type `isochrone`.
 - **`tripApproachingThreshold`** (number, optional): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes).
-- **`placeId`** (string, optional): For [place matching](/dashboard#place-matching), an optional `id` of the Radar [place](/places) to match to the geofence. If provided and found, the place centroid will override `coordinates` and `address`.
+- **`placeId`** (string, required if `coordinates` and `address` are not included): For [place matching](/dashboard#place-matching), an optional `id` of the Radar [place](/places) to match to the geofence. If provided and found, the place centroid will override `coordinates` and `address`.
 
 ###### Default rate limit
 
