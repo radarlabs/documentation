@@ -1621,8 +1621,8 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 
 - **`description`** (string, required): A description for the geofence.
 - **`type`** (string, required): The type of geofence geometry. A string, one of `circle`, `polygon`, or `isochrone`.
-- **`coordinates`** (array, required if `address` is not included): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 2,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
-- **`address`** (string, required if `coordinates` are not included): An address to search for, and if found, will represent the center for type `circle` or `isochrone`. If `address` and `coordinates` are both provided, they must be nearby, and `coordinates` will take precedent. Ignored for type `polygon`.
+- **`coordinates`** (array, required if `address` and `placeId` are not included): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 2,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`address`** (string, required if `coordinates` and `placeId` are not included): An address to search for, and if found, will represent the center for type `circle` or `isochrone`. If `address` and `coordinates` are both provided, they must be nearby, and `coordinates` will take precedent. Ignored for type `polygon`.
 - **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number.
 - **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
@@ -1633,7 +1633,7 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 - **`mode`** (string, required for type `isochrone`): The [travel mode](/api#routing) for type `isochrone`.
 - **`tripApproachingThreshold`** (number, optional): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence. Overrides the project-level trip approaching threshold setting.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes).
-- **`placeId`** (string, optional): For [place matching](/dashboard#place-matching), an optional `id` of the Radar [place](/places) to match to the geofence.
+- **`placeId`** (string, optional): For [place matching](/dashboard#place-matching), an optional `id` of the Radar [place](/places) to match to the geofence. If provided, the place centroid will override `coordinates` and `address`.
 
 ###### Default rate limit
 
