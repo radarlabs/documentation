@@ -86,7 +86,7 @@ The CSV may have the following columns:
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes). For example, a value of `10` would result in a dwell event on the next track call after a user has occupied a geofence for 10 minutes.
-- **`placeId`** (string, optional): For [place matching](/dashboard#place-matching), an optional `id` of the Radar [place](/places) to match to the geofence. If provided, the place centroid will override `coordinates` and `address`.
+- **`placeId`** (string, required if `coordinates` and `address` are not included): For [place matching](/dashboard#place-matching), an optional `id` of the Radar [place](/places) to match to the geofence. If provided, the place centroid will override `coordinates` and `address`.
 
 **If a geofence with the specified tag and external ID already exists, it will be updated. If not, it will be created.**
 
