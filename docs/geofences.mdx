@@ -75,8 +75,8 @@ The CSV may have the following columns:
 - **`type`** (string, required): The type of geofence geometry. `polygon`, `circle`, and `isochrone` are supported.
 - **`tag`** (string, required): A group for the geofence.
 - **`externalId`** (string, required): An external ID for the geofence that maps to your internal database.
-- **`coordinates`** (array, required if `address` is not included): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 2,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
-- **`address`** (string, required if `coordinates` are not included): An address to search for, and if found, will represent the center for type `circle` or `isochrone`. If `address` and `coordinates` are both provided, they must be nearby, and `coordinates` will take precedent. Ignored for type `polygon`.
+- **`coordinates`** (array, required if `address` and `placeId` are not included): An array or JSON string representing a center for type `circle` or a destination for type `isochrone` in the format `[longitude,latitude]`. A two-dimensional array or JSON string representing a closed ring of between 4 and 2,000 coordinates in the format `[[longitude0, latitude0],[longitude1,latitude1],[longitude2,latitude2],...,[longitude0,latitude0]]` for type `polygon`. **Note that longitude comes before latitude, a GeoJSON convention.**
+- **`address`** (string, required if `coordinates` and `placeId` are not included): An address to search for, and if found, will represent the center for type `circle` or `isochrone`. If `address` and `coordinates` are both provided, they must be nearby, and `coordinates` will take precedent. Ignored for type `polygon`.
 - **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
 - **`mode`** (required for type `isochrone`): the [travel mode](/api#routing) for type `isochrone`.
 - **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
@@ -86,6 +86,7 @@ The CSV may have the following columns:
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes). For example, a value of `10` would result in a dwell event on the next track call after a user has occupied a geofence for 10 minutes.
+- **`placeId`** (string, required if `coordinates` and `address` are not included): For [place matching](/dashboard#place-matching), an optional `id` of the Radar [place](/places) to match to the geofence. If provided and found, the place centroid will override `coordinates` and `address`.
 
 **If a geofence with the specified tag and external ID already exists, it will be updated. If not, it will be created.**
 
