@@ -5,7 +5,7 @@ title: Building a Delivery Tracking App
 
 import Alert from "../../src/components/Alert";
 
-In this tutorial, we will build a delivery tracking iOS application which uses Radar's trip tracking capabilities to monitor deliveries with live location tracking, progress notifications, and ETAs. The full source code for the project is ready to clone and run in the section below. This tutorial will walk step-by-step through setting up and using Radar's location building blocks to rebuild this sample app, in which a dispatcher can assign upcoming deliveries and monitor its progress from start to completion.
+In this tutorial, we will build a delivery tracking iOS application which uses Radar's trip tracking capabilities to monitor deliveries with live location tracking, progress notifications, and ETAs. The full source code for the project is ready to clone and run in the section below. This tutorial will walk step-by-step through setting up and using Radar's location building blocks to rebuild this sample app, which allows the user to dispatch upcoming deliveries and monitor their progress from start to completion.
 
 ## Source Code
 
@@ -14,6 +14,7 @@ In this tutorial, we will build a delivery tracking iOS application which uses R
 ## Languages used
 
 - Swift
+- SwiftUI user interfaces
 
 ## Features used
 
@@ -27,7 +28,7 @@ In this tutorial, we will build a delivery tracking iOS application which uses R
 
 You will need a Radar account to get started with the location building blocks used in this application. [Log in](https://radar.com/login) to your account, or [Sign up](https://radar.com/signup) for a free account if you don't have one yet.
 
-Find your API keys on the [Get Started page](https://radar.com/dashboard) page. We will be using your Live publishable (client) key in the iOS app, and the Live secret (server) key for curl commands and any server logic you add on.
+Find your API keys on the [Get Started](https://radar.com/dashboard) page. We will be using your Live publishable (client) key in the iOS app.
 
 <p> <a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a> </p>
 
@@ -41,6 +42,8 @@ Finally, let's create your first geofences if you haven't done so already. We wi
 <!-- Insert picture for geofence creation -->
 
 ### Step 2: Install the Radar iOS SDK
+
+Create an XCode project with a SwiftUI interface, named `DeliveryTracker`.
 
 The recommended method of installing the iOS SDK is with Cocoapods. See the [iOS SDK](/sdk) docs for alternatives.
 
@@ -79,7 +82,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 ```
 
-Finally, assign an observed variable to the shared LocationManager in the declaration of the App object in the `ContentView.swift` file which we rename to `PickUp_DriverApp.swift`.
+Finally, assign an observed variable to the shared LocationManager in the declaration of the App object in the `ContentView.swift` file which we rename to `DeliveryTrackerApp.swift`.
 
 ```swift
 @ObservedObject var locationManager = LocationManager.shared
@@ -129,7 +132,7 @@ func requestLocationPermissions() {
 
 At this point, you should be able to launch the app and see a prompt asking for location permissions. Accept these permissions!
 
-If you are following along with the sample app implementation in this tutorial, let's set up the sample app skeleton at this point. Copy these SwiftUI view files from the source code into your project: `JobListView.swift`, `AcceptedJobView.swift`, `AcceptedJobDetailView.swift`, `JobCard.swift`, `JobListView.swift`. Copy over the definition of the Job struct in `Job.swift` as well. Then in `ContentView.swift`, set JobListView to be the scene in the App body.
+If you are following the step-by-step app implementation in this tutorial, let's set up the sample app skeleton at this point. Copy these SwiftUI view files from the source code into your project: `JobListView.swift`, `AcceptedJobView.swift`, `AcceptedJobDetailView.swift`, `JobCard.swift`, `JobListView.swift`. Copy over the definition of the Job struct in `Job.swift` as well. Then in `ContentView.swift`, set JobListView to be the scene in the App body.
 
 ```swift
 var body: some Scene {
@@ -143,9 +146,9 @@ In the next few steps, we will set up trip tracking capabilities to power these 
 
 ### Step 5: Add trip start logic
 
-When a delivery starts, we create a trip to the destination geofence and start tracking the live location for the user. From the sample app source code, `AcceptedJobDetailView.swift` is the view that contains a button to start a trip for a given job. The `Job.swift` file defines the Job struct, which is passed into this and other job specific views, as well as the action method for the button.
+When a delivery starts, we create a trip to the destination geofence and start tracking the live location for the user. From the source code, `AcceptedJobDetailView.swift` is the view that contains the button to start a trip for a given job. The `Job.swift` file defines the Job struct, which is passed into this and other job specific views, as well as the action method for the button.
 
-The button action contains trip start logic (and trip cancel logic for in progress trips) shown below. An existing delivery id should be used for the trip `externalId` when applicable. Otherwise use a uuid as we do here, and set your destination geofence from Step 1. If you set `userId` when creating delivery geofences, [identify the user](/sdk/ios#identify) by calling `Radar.setUserId()`.
+The button action contains trip start logic (and trip cancel logic for in progress trips) shown below. We use a uuid for the trip `externalId`, although existing delivery ids should be used here when applicable. Set your destination geofence from Step 1. If you set `userId` when creating delivery geofences in Step 1, you should also [identify the user](/sdk/ios#identify) by calling `Radar.setUserId()`.
 
 ```swift
 var onTrip = false
@@ -188,12 +191,12 @@ func didAccept(job: Job) {
     }
 ```
 
-Notice that we use `Radar.mockTracking()` instead of track for now, which helps simulate a sequence of location updates from an origin to a destination for testing. In this case, we simulate a sequence of 10 location updates every 3 seconds by car from the `origin` to the `destination`.
+Notice that we use `Radar.mockTracking()` instead of track for now, which helps simulate a sequence of location updates from an origin to a destination for testing. In this case, we simulate a sequence of 10 location updates, each 2 seconds apart, by car from the `origin` to the `destination`.
 
 
 ### Step 6: Add trip completion logic
 
-We will use the destination geofence exit as the signal that a delivery is complete. To do this, we need to listen for the corrosponding event, then complete the trip and stop tracking when it is detected. Update the LocationManager to be our RadarDelegate as shown below, with trip completion logic added to the didReceiveEvents method when it is called with the `userArrivedAtTripDestination` event type.
+We will use the destination geofence exit as a signal that the delivery is complete. To do this, we need to listen for the corrosponding event, then complete the trip and stop tracking when it is detected. Update the LocationManager to be our RadarDelegate as shown below, with trip completion logic added to the didReceiveEvents method when it is called with the `userArrivedAtTripDestination` event type.
 
 ```swift
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, RadarDelegate {
@@ -241,12 +244,12 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, Ra
 
 With the steps we've covered so far, you are ready to create your first trip in the app! Run the app, and click the start button in the AcceptedJobView. Now head to your [trips dashboard](https://radar.com/dashboard/trips) where you will find all current and past trips. Ensure that a new trip appears in the started state at the top of your dashboard. With mock tracking automatically making progress on the trip in the background, the trip status should change to completed within the next minute.
 
-In the final few steps, we will surface the progress of the trip in app by sending notifications on status updates and adding a live map view with an ETA.
-
 <p><img
   className="large"
   src="https://images.ctfassets.net/8lppgnrkmboj/2HpKQDmFmej13PJRdoZH96/080ed748c888a5a20c852d9e164e8583/Screen_Shot_2022-08-29_at_1.28.23_PM.png"
 /></p>
+
+In the final few steps, we will surface the progress of the trip in app by sending notifications on status updates and adding a live map view with an ETA.
 
 ### Step 7: Send trip update notifications
 
@@ -305,7 +308,7 @@ Then initialize a LocalNotificationManager in the LocationManager class.
     var notificationManager = LocalNotificationManager()
 ```
 
-Finally, we need to update the listener logic from Step 6 in LocationManager to the following:
+Finally, we need to update the listener logic from Step 6 in LocationManager to the following in order to send notifications:
 
 ```swift
 func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
@@ -338,7 +341,7 @@ You should now see notifications as a trip progresses!
 ### Step 8: Display live map location and ETA
 Lastly, we will create a map view with live location tracking for the ongoing trip, complete with a live ETA.
 
-Create this map view is defined in a new view file called `TrackMapView.swift`.
+Create this map view in a new view file named `TrackMapView.swift` with these contents:
 
 ```swift
 import SwiftUI
@@ -366,7 +369,7 @@ struct TrackMapView: View {
 }
 ```
 
-This view uses the shared instance of the location manager as an observed variable to refresh the map markers, region, and ETA. Now, update the LocationManager with definitions and updates for the published variables that will hold this information as shown below.
+This view uses the shared instance of the location manager as an observed variable to refresh the map markers, region, and ETA when there are location updates. Now, update the LocationManager with definitions and updates for the published variables that will hold this information as shown below.
 
 ```swift
 import Foundation
@@ -476,7 +479,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, Ra
 }
 ```
 
-The `currentLocation`, `region`, and `eta` variables update with events in the listener logic, and the map view refreshes as they change. You shoulld now see the live map view and ETAs for your trips in the app!
+The `currentLocation`, `region`, and `eta` variables update with events in the listener logic, and the map view refreshes as they change. You should now see the live map view and ETAs for your trips in the app!
 
 <p><img
   className="large"
@@ -487,11 +490,11 @@ The `currentLocation`, `region`, and `eta` variables update with events in the l
 
 Congratulations on finishing the tutorial! This is an illustrative example to get started with trip tracking. Here are some next steps and considerations before using these features in a production setting:
 
-1) Replace the mock tracking call with a track call in the application that the user to be tracked is using.
+1) On trip start, replace the mock tracking call with a track call in the application that the users to be tracked will be using.
 
 2) Set trip destinations to geofences created via the [geofence upsert API](/api#upsert-a-geofence) with the delivery location instead the test geofence.
 
-3) Use a server side listener and push instead of local notifications if the party that should be notified is different from the user starting the trip and being tapped.
+3) Use a server side listener and push instead of local notifications when the party be notified is different from the on the trip.
 
 Explore resources on the [Trip Tracking page](/trip-tracking), [API documentation](/api), and [SDK guides](/sdk) for more information.
 
