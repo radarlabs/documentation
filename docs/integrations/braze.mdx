@@ -44,6 +44,8 @@ Radar User Field | Braze User Attribute | Type | Example Value | Context Type
 `location` | `current_location` | location | `(39.525665, -76.350663)` |
 `_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
 `updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"`|
+`locationAccuracyAuthorization` | `radar_location_accuracy_authorization` | string | `"FULL"`|
 `segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` |
 `topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks", "walmart"]` |
 `topChains[*].externalId` | `radar_top_chain_external_ids` | array[string] | `["123", "456"]` |
@@ -104,6 +106,7 @@ Radar Event Field | Braze Event Property | Type | Example Value
 `geofence.externalId` | `geofence_external_id` | string | `"123"`
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -128,6 +131,7 @@ Radar Event Field | Braze Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -152,6 +156,7 @@ Radar Event Field | Braze Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `5`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -177,6 +182,7 @@ Radar Event Field | Braze Event Property | Type | Example Value
 `place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
 `place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -203,6 +209,7 @@ Radar Event Field | Braze Event Property | Type | Example Value
 `place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -223,6 +230,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_country
 
@@ -231,6 +239,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### entered_state
 
@@ -239,6 +248,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_state
 
@@ -247,6 +257,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### entered_dma
 
@@ -255,6 +266,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_dma
 
@@ -263,6 +275,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### started_trip
 
@@ -272,6 +285,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### updated_trip
 
@@ -281,6 +295,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### approaching_trip_destination
 
@@ -290,6 +305,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### arrived_at_trip_destination
 
@@ -299,6 +315,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### stopped_trip
 
@@ -308,6 +325,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### entered_beacon
 
@@ -319,6 +337,7 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `beacon.externalId` | `radar_beacon_external_id` | string | `"123"`
 `beacon.metadata[{key}]` | `radar_beacon_metadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_beacon
 
@@ -331,3 +350,4 @@ Radar Event Attribute | Braze Event Property | Type | Example Value
 `beacon.metadata[{key}]` | `radar_beacon_metadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `1.42`
+`foreground` | `foreground` | boolean | `true`

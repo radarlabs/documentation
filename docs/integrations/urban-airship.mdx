@@ -36,6 +36,8 @@ Radar User Field | Airship Tag Group Name | Type | Example Tag | Context Type
 --- | --- | --- | --- | ---
 `location.coordinates[0]` | `radar_location_longitude` | number | `-76.350663` |
 `location.coordinates[1]` | `radar_location_latitude` | number | `39.525665` |
+`locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"` |
+`locationAccuracyAuthorization` | `radar_location_accuracy_authorization` | string | `"FULL"` |
 `updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
 `segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` | |
 `topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks"]` | |
@@ -97,6 +99,7 @@ Radar Event Field | Airship Event Property | Type | Example Value
 `geofence.externalId` | `radar_geofence_external_id` | string | `"123"`
 `geofence.metadata[{key}]` | `radar_geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_geofence_exited
 
@@ -109,6 +112,7 @@ Radar Event Field | Airship Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `radar_geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `radar_confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `42.1`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_dwelled_in_geofence
 
@@ -121,6 +125,7 @@ Radar Event Field | Airship Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `radar_geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `radar_confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `5`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_place_entered
 
@@ -133,6 +138,7 @@ Radar Event Field | Airship Event Property | Type | Example Value
 `place.chain.metadata[{key}]` | `radar_place_chain_metadata_{key}` | {type} | `{value}`
 `place.categories` | `radar_place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_place_exited
 
@@ -146,6 +152,7 @@ Radar Event Field | Airship Event Property | Type | Example Value
 `place.categories` | `radar_place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `radar_confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `42.1`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_country_entered
 
@@ -154,6 +161,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `region.code` | `radar_region_code` | string | `"US"`
 `region.name` | `radar_region_name` | string | `"United States"`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_country_exited
 
@@ -162,6 +170,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `region.code` | `radar_region_code` | string | `"US"`
 `region.name` | `radar_region_name` | string | `"United States"`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_state_entered
 
@@ -170,6 +179,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `region.code` | `radar_region_code` | string | `"MD"`
 `region.name` | `radar_region_name` | string | `"Maryland"`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_state_exited
 
@@ -178,6 +188,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `region.code` | `radar_region_code` | string | `"MD"`
 `region.name` | `radar_region_name` | string | `"Maryland"`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_dma_entered
 
@@ -186,6 +197,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `region.code` | `radar_region_code` | string | `"26"`
 `region.name` | `radar_region_name` | string | `"Baltimore"`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_dma_exited
 
@@ -194,6 +206,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `region.code` | `radar_region_code` | string | `"26"`
 `region.name` | `radar_region_name` | string | `"Baltimore"`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_started_trip
 
@@ -203,6 +216,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_updated_trip
 
@@ -212,6 +226,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_approaching_trip_destination
 
@@ -221,6 +236,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_arrived_at_trip_destination
 
@@ -230,6 +246,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_stopped_trip
 
@@ -239,6 +256,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `trip.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `radar_trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `radar_trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_beacon_entered
 
@@ -250,6 +268,7 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `beacon.externalId` | `radar_beacon_external_id` | string | `"123"`
 `beacon.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `confidence` | `radar_confidence` | string | `"high"`
+`foreground` | `radar_foreground` | boolean | `true`
 
 ### radar_beacon_exited
 
@@ -262,3 +281,4 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `beacon.metadata[{key}]` | `radar_trip_metadata_{key}` | {type} | `{value}`
 `confidence` | `radar_confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `1.42`
+`foreground` | `radar_foreground` | boolean | `true`

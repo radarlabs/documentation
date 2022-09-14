@@ -65,6 +65,8 @@ Radar Event Field | Branch Event Property | Type | Example Value
 `geofence.externalId` | `geofence_external_id` | string | `"123"`
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
+
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -89,6 +91,7 @@ Radar Event Field | Branch Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -113,6 +116,7 @@ Radar Event Field | Branch Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `5`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -138,6 +142,7 @@ Radar Event Field | Branch Event Property | Type | Example Value
 `place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
 `place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -164,6 +169,7 @@ Radar Event Field | Branch Event Property | Type | Example Value
 `place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -184,6 +190,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_country
 
@@ -192,6 +199,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### entered_state
 
@@ -200,6 +208,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_state
 
@@ -208,6 +217,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### entered_dma
 
@@ -216,6 +226,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_dma
 
@@ -224,6 +235,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### started_trip
 
@@ -233,6 +245,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### updated_trip
 
@@ -242,6 +255,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### approaching_trip_destination
 
@@ -251,6 +265,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### arrived_at_trip_destination
 
@@ -260,6 +275,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### stopped_trip
 
@@ -269,6 +285,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### entered_beacon
 
@@ -280,6 +297,7 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `beacon.externalId` | `beacon_external_id` | string | `"123"`
 `beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### exited_beacon
 
@@ -292,3 +310,4 @@ Radar Event Attribute | Branch Event Property | Type | Example Value
 `beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `1.42`
+`foreground` | `foreground` | boolean | `true`

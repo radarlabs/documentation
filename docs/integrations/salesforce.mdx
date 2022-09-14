@@ -44,6 +44,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 `geofence.externalId` | `geofenceExternalId` | string (max length 100) | `"123"`
 `geofence.metadata` | `geofenceMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -70,7 +71,8 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 `geofence.externalId` | `geofenceExternalId` | string (max length 100) | `"123"`
 `geofence.metadata` | `geofenceMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `confidence` | `confidence` | string | `"high"`
-`duration` | `duration` | number (minutes) | `42.1`
+`duration` | `duration` | number (minutes) | `42.1``foreground` | `foreground` | boolean | `true`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -98,6 +100,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 `geofence.metadata` | `geofenceMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `5`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -125,6 +128,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 `place.chain.metadata` | `placeChainMetadata` | string (max length 4,000) | `'{"parking":false}'`
 `place.categories` | `placeCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -153,6 +157,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example
 `place.categories` | `placeCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -176,6 +181,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example Value
 `region.code` | `regionCode` | string | `"US"`
 `region.name` | `regionName` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_region_country
 
@@ -187,6 +193,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example Value
 `region.code` | `regionCode` | string | `"US"`
 `region.name` | `regionName` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_region_state
 
@@ -198,6 +205,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example Value
 `region.code` | `regionCode` | string | `"MD"`
 `region.name` | `regionName` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_region_state
 
@@ -209,6 +217,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example Value
 `region.code` | `regionCode` | string | `"MD"`
 `region.name` | `regionName` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_region_dma
 
@@ -220,6 +229,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example Value
 `region.code` | `regionCode` | string | `"26"`
 `region.name` | `regionName` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_region_dma
 
@@ -231,6 +241,7 @@ Radar Event Field | Salesforce Event Attribute | Type | Example Value
 `region.code` | `regionCode` | string | `"26"`
 `region.name` | `regionName` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.started_trip
 
@@ -240,6 +251,7 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.updated_trip
 
@@ -249,6 +261,7 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.approaching_trip_destination
 
@@ -258,6 +271,7 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.arrived_at_trip_destination
 
@@ -267,6 +281,7 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.stopped_trip
 
@@ -276,6 +291,7 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `trip.metadata` | `tripMetadata` | string (max length 4,000) | `'{"Car Model":"Green Honda Civic"}'`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string (max length 100) | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string (max length 100) | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_beacon
 
@@ -287,6 +303,7 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `beacon.externalId` | `beaconExternalId` | string (max length 100) | `"123"`
 `beacon.metadata` | `beaconMetadata` | string (max length 4,000) | `'{"type":"parking"}'`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_beacon
 
@@ -299,3 +316,4 @@ Radar Event Attribute | Salesforce Event Attribute | Type | Example Value
 `beacon.metadata` | `beaconMetadata` | string (max length 4,000) | `'{"type":"parking"}'`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `1.42`
+`foreground` | `foreground` | boolean | `true`

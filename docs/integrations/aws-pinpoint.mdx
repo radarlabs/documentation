@@ -38,6 +38,8 @@ Radar User Field | Pinpoint User Attribute | Type | Example Value | Context Type
 `_id` | `RadarId` | array[string] | `["5b2c0906f5874b001aecfd8d"]` |
 `location.coordinates[1]` | `RadarLocationLatitude` | array[string] | `[39.525665]` |
 `location.coordinates[0]` | `RadarLocationLongitude` | array[string] | `[-76.350663]` |
+`locationAuthorization` | `RadarLocationAuthorization` | array[string] | `["GRANTED_FOREGROUND"]` |
+`locationAccuracyAuthorization` | `RadarLocationAccuracyAuthorization` | array[string] | `["FULL"]` |
 `updatedAt` | `RadarUpdatedAt` | array[string] | `["2018-06-22T15:23:39.000Z"]` |
 `segments[*].externalId` | `RadarSegmentExternalIds` | array[string] | `["starbucks-visitors"]` |
 `topChains[*].slug` | `RadarTopChainSlugs` | array[string] | `["starbucks", "walmart"]` |
@@ -78,6 +80,7 @@ Radar Event Field | Pinpoint Event Attribute | Type | Example Value
 `geofence.externalId` | `GeofenceExternalId` | string | `"123"`
 `geofence.metadata[{key}]` | `GeofenceMetadata{key}` | string | `"value"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -102,6 +105,7 @@ Radar Event Field | Pinpoint Event Attribute | Type | Example Value
 `geofence.metadata[{key}]` | `GeofenceMetadata{key}` | string | `"value"`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | string | `"42.1"`
+`foreground` | `Foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -126,6 +130,7 @@ Radar Event Field | Pinpoint Event Attribute | Type | Example Value
 `geofence.metadata[{key}]` | `GeofenceMetadata{key}` | string | `"value"`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | string | `"5"`
+`foreground` | `Foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -151,6 +156,7 @@ Radar Event Field | Pinpoint Event Attribute | Type | Example Value
 `place.chain.metadata[{key}]` | `PlaceChainMetadata{key}` | string | `"value"`
 `place.categories` | `PlaceCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -177,6 +183,7 @@ Radar Event Field | Pinpoint Event Attribute | Type | Example Value
 `place.categories` | `PlaceCategories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | string | `"42.1"`
+`foreground` | `Foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -197,6 +204,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `region.code` | `RegionCode` | string | `"US"`
 `region.name` | `RegionName` | string | `"United States"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.exited_region_country
 
@@ -205,6 +213,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `region.code` | `RegionCode` | string | `"US"`
 `region.name` | `RegionName` | string | `"United States"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.entered_region_state
 
@@ -213,6 +222,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `region.code` | `RegionCode` | string | `"MD"`
 `region.name` | `RegionName` | string | `"Maryland"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.exited_region_state
 
@@ -221,6 +231,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `region.code` | `RegionCode` | string | `"MD"`
 `region.name` | `RegionName` | string | `"Maryland"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.entered_region_dma
 
@@ -229,6 +240,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `region.code` | `RegionCode` | string | `"26"`
 `region.name` | `RegionName` | string | `"Baltimore"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.exited_region_dma
 
@@ -237,6 +249,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `region.code` | `RegionCode` | string | `"26"`
 `region.name` | `RegionName` | string | `"Baltimore"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.started_trip
 
@@ -246,6 +259,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
 `trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.approaching_trip_destination
 
@@ -255,6 +269,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
 `trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.arrived_at_trip_destination
 
@@ -264,6 +279,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
 `trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.stopped_trip
 
@@ -273,6 +289,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `trip.metadata[{key}]` | `TripMetadata{key}` | string | `"value"`
 `trip.destinationGeofenceTag` | `TripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `TripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.entered_beacon
 
@@ -284,6 +301,7 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `beacon.externalId` | `BeaconExternalId` | string | `"123"`
 `beacon.metadata[{key}]` | `BeaconMetadata{key}` | {type} | `{value}`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### user.exited_beacon
 
@@ -296,3 +314,4 @@ Radar Event Attribute | Pinpoint Event Attribute | Type | Example Value
 `beacon.metadata[{key}]` | `BeaconMetadata{key}` | {type} | `{value}`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | number (minutes) | `1.42`
+`foreground` | `Foreground` | boolean | `true`

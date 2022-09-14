@@ -31,6 +31,8 @@ Radar User Field | Lytics User Data Field | Type | Example Value | Context Type
 `deviceId` | `radarDeviceId` | string | `"10974a2ee035770b9"` |
 `location.coordinates[0]` | `radarLocationLongitude` | number | `-76.350663` |
 `location.coordinates[1]` | `radarLocationLatitude` | number | `39.525665` |
+`locationAuthorization` | `radarLocationAuthorization` | string | `"GRANTED_FOREGROUND"` |
+`locationAccuracyAuthorization` | `radarLocationAccuracyAuthorization` | string | `"FULL"` |
 `_id` | `radarId` | string | `"5b2c0906f5874b001aecfd8d"` |
 `updatedAt` | `radarUpdatedAt` | timestamp | `"2018-06-22T15:23:39.000Z"` |
 `segments[*].externalId` | `radarSegmentExternalIds` | array[string] | `["starbucks-visitors"]` |
@@ -74,6 +76,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example
 `geofence.externalId` | `geofenceExternalId` | string | `"123"`
 `geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_geofence
 
@@ -88,6 +91,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example
 `geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.dwelled_in_geofence
 
@@ -102,6 +106,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example
 `geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `5`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_place
 
@@ -115,6 +120,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example
 `place.chain.name` | `placeChainName` | string | `"Starbucks"`
 `place.categories` | `placeCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_place
 
@@ -129,6 +135,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example
 `place.categories` | `placeCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_region_country
 
@@ -139,6 +146,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"US"`
 `region.name` | `regionName` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_region_country
 
@@ -149,6 +157,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"US"`
 `region.name` | `regionName` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_region_state
 
@@ -159,6 +168,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"MD"`
 `region.name` | `regionName` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_region_state
 
@@ -169,6 +179,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"MD"`
 `region.name` | `regionName` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_region_dma
 
@@ -179,6 +190,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"26"`
 `region.name` | `regionName` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_region_dma
 
@@ -189,6 +201,7 @@ Radar Event Field | Lytics Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"26"`
 `region.name` | `regionName` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.started_trip
 
@@ -198,6 +211,7 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.updated_trip
 
@@ -207,6 +221,7 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.approaching_trip_destination
 
@@ -216,6 +231,7 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.arrived_at_trip_destination
 
@@ -225,6 +241,7 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.stopped_trip
 
@@ -234,6 +251,7 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `tripDestinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `tripDestinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_beacon
 
@@ -245,6 +263,7 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `beacon.externalId` | `beaconExternalId` | string | `"123"`
 `beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_beacon
 
@@ -257,3 +276,4 @@ Radar Event Attribute | Lytics Event Data Field | Type | Example Value
 `beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `1.42`
+`foreground` | `foreground` | boolean | `true`
