@@ -43,6 +43,8 @@ Radar User Field | OneSignal Tag Name | Type | Example Tag | Context Type
 --- | --- | --- | --- | ---
 `location.coordinates[1]` | `lat` | number | `39.525665`
 `location.coordinates[0]` | `long` | number | `-76.350663`
+`locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"`|
+`locationAccuracyAuthorization` | `radar_location_accuracy_authorization` | string | `"FULL"`|
 `segments[*].externalId` | `radar_segment_external_ids` | string (comma-separated) | `"starbucks-visitors"` | |
 `topChains[*].slug` | `radar_top_chain_slugs` | string (comma-separated) | `"starbucks"` | |
 `topChains[*].externalId` | `radar_top_chain_external_ids` | string (comma-separated) | `"123"` | |

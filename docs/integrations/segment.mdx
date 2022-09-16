@@ -42,6 +42,8 @@ Radar User Field | Segment User Trait | Type | Example Value | Context Type
 `_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
 `location.coordinates[1]` | `radar_location_latitude` | number | `39.525665` |
 `location.coordinates[0]` | `radar_location_longitude` | number | `-76.350663` |
+`locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"` |
+`locationAccuracyAuthorization` | `radar_location_accuracy_authorization` | string | `"FULL"` |
 `updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
 `segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` |
 `topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks", "walmart"]` |
@@ -103,6 +105,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `geofence.externalId` | `geofence_external_id` | string | `"123"`
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Geofence Exited
 
@@ -115,6 +118,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 ### Dwelled in Geofence
 
@@ -127,6 +131,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 ### Place Entered
 
@@ -139,6 +144,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
 `place.categories` | `place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Place Exited
 
@@ -152,6 +158,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `place.categories` | `place_categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 ### Country Entered
 
@@ -160,6 +167,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Country Exited
 
@@ -168,6 +176,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### State Entered
 
@@ -176,6 +185,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### State Exited
 
@@ -184,6 +194,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### DMA Entered
 
@@ -192,6 +203,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### DMA Exited
 
@@ -200,6 +212,7 @@ Radar Event Field | Segment Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Trip Started
 
@@ -209,6 +222,7 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Trip Updated
 
@@ -218,6 +232,7 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Trip Approaching Destination
 
@@ -227,6 +242,7 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Trip Arrived Destination
 
@@ -236,6 +252,7 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Trip Stopped
 
@@ -245,6 +262,7 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Beacon Entered
 
@@ -256,6 +274,7 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `beacon.externalId` | `beacon_external_id` | string | `"123"`
 `beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### Beacon Exited
 
@@ -268,3 +287,4 @@ Radar Event Attribute | Segment Event Property | Type | Example Value
 `beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `1.42`
+`foreground` | `foreground` | boolean | `true`

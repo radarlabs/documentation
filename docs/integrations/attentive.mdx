@@ -40,6 +40,7 @@ Radar Event Field | Attentive Event Property | Type | Example Value
 `geofence.externalId` | `geofence_external_id` | string | `"123"`
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -64,6 +65,7 @@ Radar Event Field | Attentive Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -88,6 +90,7 @@ Radar Event Field | Attentive Event Property | Type | Example Value
 `geofence.metadata[{key}]` | `geofence_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `5`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -113,6 +116,7 @@ Radar Event Field | Attentive Event Property | Type | Example Value
 `place.chain.metadata[{key}]` | `place_chain_metadata_{key}` | {type} | `{value}`
 `place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -139,6 +143,7 @@ Radar Event Field | Attentive Event Property | Type | Example Value
 `place.categories` | `place_categories` | string (comma-separated) | `"food-beverage,cafe,coffee-shop"`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
@@ -159,6 +164,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_country
 
@@ -167,6 +173,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_state
 
@@ -175,6 +182,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_state
 
@@ -183,6 +191,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_dma
 
@@ -191,6 +200,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.exited_dma
 
@@ -199,6 +209,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.started_trip
 
@@ -208,6 +219,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.updated_trip
 
@@ -217,6 +229,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.approaching_trip_destination
 
@@ -226,6 +239,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.arrived_at_trip_destination
 
@@ -235,6 +249,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.stopped_trip
 
@@ -244,6 +259,7 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `trip_destination_geofence_tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### user.entered_beacon
 
@@ -255,6 +271,8 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `beacon.externalId` | `beacon_external_id` | string | `"123"`
 `beacon.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
+
 
 ### user.exited_beacon
 
@@ -267,3 +285,5 @@ Radar Event Attribute | Attentive Event Property | Type | Example Value
 `beacon.metadata[{key}]` | `beacon_metadata_{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `1.42`
+`foreground` | `foreground` | boolean | `true`
+

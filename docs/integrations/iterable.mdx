@@ -90,6 +90,8 @@ Radar User Field | Iterable User Data Field | Type | Example Value | Context Typ
 `userId` | `userId` | string | `"1"` |
 `location.coordinates[0]` | `radarLocationLongitude` | number | `-76.350663` |
 `location.coordinates[1]` | `radarLocationLatitude` | number | `39.525665` |
+`locationAuthorization` | `radarLocationAuthorization` | string | `"GRANTED_FOREGROUND"`|
+`locationAccuracyAuthorization` | `radarLocationAccuracyAuthorization` | string | `"FULL"`|
 `_id` | `radarId` | string | `"5b2c0906f5874b001aecfd8d"` |
 `updatedAt` | `radarUpdatedAt` | timestamp | `"2018-06-22T15:23:39.000Z"` |
 `segments[*].externalId` | `radarSegmentExternalIds` | array[string] | `["starbucks-visitors"]` |
@@ -152,6 +154,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example
 `geofence.externalId` | `geofenceExternalId` | string | `"123"`
 `geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarGeofenceExited
 
@@ -164,6 +167,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example
 `geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarDwelledInGeofence
 
@@ -176,6 +180,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example
 `geofence.metadata[{key}]` | `geofenceMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `5`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarPlaceEntered
 
@@ -187,6 +192,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example
 `place.chain.name` | `placeChainName` | string | `"Starbucks"`
 `place.categories` | `placeCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarPlaceExited
 
@@ -199,6 +205,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example
 `place.categories` | `placeCategories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `42.1`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarCountryEntered
 
@@ -207,6 +214,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"US"`
 `region.name` | `regionName` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarCountryExited
 
@@ -215,6 +223,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"US"`
 `region.name` | `regionName` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarStateEntered
 
@@ -223,6 +232,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"MD"`
 `region.name` | `regionName` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarStateExited
 
@@ -231,6 +241,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"MD"`
 `region.name` | `regionName` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarDMAEntered
 
@@ -239,6 +250,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"26"`
 `region.name` | `regionName` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarDMAExited
 
@@ -247,6 +259,7 @@ Radar Event Field | Iterable Event Data Field | Type | Example Value
 `region.code` | `regionCode` | string | `"26"`
 `region.name` | `regionName` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarTripStarted
 
@@ -256,6 +269,7 @@ Radar Event Attribute | Iterable Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `destinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `destinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarApproachingTripDestination
 
@@ -265,6 +279,7 @@ Radar Event Attribute | Iterable Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `destinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `destinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarArrivedTripDestination
 
@@ -274,6 +289,7 @@ Radar Event Attribute | Iterable Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `destinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `destinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarTripStopped
 
@@ -283,6 +299,7 @@ Radar Event Attribute | Iterable Event Data Field | Type | Example Value
 `trip.metadata[{key}]` | `tripMetadata{key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `destinationGeofenceTag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `destinationGeofenceExternalId` | string | `"123"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarBeaconEntered
 
@@ -294,6 +311,7 @@ Radar Event Attribute | Iterable Event Data Field | Type | Example Value
 `beacon.externalId` | `beaconExternalId` | string | `"123"`
 `beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
+`foreground` | `foreground` | boolean | `true`
 
 ### radarBeaconExited
 
@@ -306,3 +324,4 @@ Radar Event Attribute | Iterable Event Data Field | Type | Example Value
 `beacon.metadata[{key}]` | `beaconMetadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
 `duration` | `duration` | number (minutes) | `1.42`
+`foreground` | `foreground` | boolean | `true`

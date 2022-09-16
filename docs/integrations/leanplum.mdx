@@ -30,6 +30,8 @@ Radar User Field | Leanplum User Attribute | Type | Example Value | Context Type
 `userId` | `Distinct ID` | string | `"1"` |
 `location.coordinates[0]` | `Radar Location Longitude` | number | `-76.350663` |
 `location.coordinates[1]` | `Radar Location Latitude` | number | `39.525665` |
+`locationAuthorization` | `Radar Location Authorization` | string | `"GRANTED_FOREGROUND"` |
+`locationAccuracyAuthorization` | `Radar Location Accuracy Authorization` | string | `"FULL"` |
 `_id` | `Radar ID` | string | `"5b2c0906f5874b001aecfd8d"` |
 `segments[*].externalId` | `Radar Segment External IDs` | array[string] | `["starbucks-visitors"]` |
 `topChains[*].slug` | `Radar Top Chain Slugs` | array[string] | `["starbucks", "walmart"]` |
@@ -92,6 +94,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example
 `geofence.externalId` | `Geofence External ID` | string | `"123"`
 `geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Geofence Exited
 
@@ -104,6 +107,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example
 `geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | number (minutes) | `42.1`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Dwelled in Geofence
 
@@ -116,6 +120,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example
 `geofence.metadata[{key}]` | `Geofence Metadata {key}` | {type} | `{value}`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | number (minutes) | `5`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Place Entered
 
@@ -127,6 +132,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example
 `place.chain.name` | `Place Chain Name` | string | `"Starbucks"`
 `place.categories` | `Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Place Exited
 
@@ -139,6 +145,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example
 `place.categories` | `Place Categories` | array[string] | `["food-beverage", "cafe", "coffee-shop"]`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | number (minutes) | `42.1`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Country Entered
 
@@ -147,6 +154,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example Value
 `region.code` | `Region Code` | string | `"US"`
 `region.name` | `Region Name` | string | `"United States"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Country Exited
 
@@ -155,6 +163,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example Value
 `region.code` | `Region Code` | string | `"US"`
 `region.name` | `Region Name` | string | `"United States"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar State Entered
 
@@ -163,6 +172,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example Value
 `region.code` | `Region Code` | string | `"MD"`
 `region.name` | `Region Name` | string | `"Maryland"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar State Exited
 
@@ -171,6 +181,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example Value
 `region.code` | `Region Code` | string | `"MD"`
 `region.name` | `Region Name` | string | `"Maryland"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar DMA Entered
 
@@ -179,6 +190,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example Value
 `region.code` | `Region Code` | string | `"26"`
 `region.name` | `Region Name` | string | `"Baltimore"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar DMA Exited
 
@@ -187,6 +199,7 @@ Radar Event Field | Leanplum Event Parameter | Type | Example Value
 `region.code` | `Region Code` | string | `"26"`
 `region.name` | `Region Name` | string | `"Baltimore"`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Started Trip
 
@@ -196,6 +209,7 @@ Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
 `trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Approaching Trip Destination
 
@@ -205,6 +219,7 @@ Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
 `trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Arrived at Trip Destination
 
@@ -214,6 +229,7 @@ Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
 `trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Stopped Trip
 
@@ -223,6 +239,7 @@ Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
 `trip.metadata[{key}]` | `Trip Metadata {key}` | {type} | `{value}`
 `trip.destinationGeofenceTag` | `Trip Destination Geofence Tag` | string | `"store"`
 `trip.destinationGeofenceExternalId` | `Trip Destination Geofence External ID` | string | `"123"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Beacon Entered
 
@@ -234,6 +251,7 @@ Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
 `beacon.externalId` | `Beacon External ID` | string | `"123"`
 `beacon.metadata[{key}]` | `Beacon Metadata {key}` | {type} | `{value}`
 `confidence` | `Confidence` | string | `"high"`
+`foreground` | `Foreground` | boolean | `true`
 
 ### Radar Beacon Exited
 
@@ -246,3 +264,4 @@ Radar Event Attribute | Leanplum Event Parameter | Type | Example Value
 `beacon.metadata[{key}]` | `Beacon Metadata {key}` | {type} | `{value}`
 `confidence` | `Confidence` | string | `"high"`
 `duration` | `Duration` | number (minutes) | `1.42`
+`foreground` | `Foreground` | boolean | `true`
