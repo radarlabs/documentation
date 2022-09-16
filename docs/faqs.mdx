@@ -45,23 +45,23 @@ On Android, this is not an issue.
 
 Yes, Radar supports location verification and fraud detection for gambling, media, payments, and more.
 
-You can use [Regions](/regions) to detect a user's country or state based on latitude and longitude and verify the device is not spoofing location or using a proxy via attributes associated with the Radar user.  See the [location based fraud tutorial](/tutorials/detecting-location-based-fraud) for additional information.
+You can use [Regions](/regions) to detect a user's country or state based on latitude and longitude and verify the device is not spoofing location or using a proxy via attributes associated with the Radar user.  See the [location verification tutorial](/tutorials/detecting-location-based-fraud) for additional information.
 
-First, you can use the [IP geocoding API](/api#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
+Alternatively, you can use the [IP geocoding API](/api#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
 
 ## Troubleshooting
 
 ### Why is a device not appearing in the Radar dashboard?
 
-A user will only appear in the Radar dashboard on the Users page if a location update has been successfully sent via the SDK or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been enabled and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) is being executed. If this has been verified and a user is still not appearing in the Radar dashboard, setup the error listener in the SDK to monitor for errors or set SDK logging to the debug level to see if there are errors.
+A device will only appear in the Radar dashboard on the Users page if a location update has been successfully sent via the SDK or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been enabled and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) is being executed. If this has been verified and a device is still not appearing in the Radar dashboard, setup the error listener in the SDK to monitor for errors or set SDK logging to the debug level.
 
 ### Why are there multiple user records for a single device in the Radar dashboard?
 
 Radar generates a new user record on each reinstall of a given application. If you are seeing multiple user ids generating without uninstalls, it indicates a potential issue setting user ids in the SDK (i.e. passing in a null value for user id in certain scenarios).
 
-### I am not seeing events trigger in Radar
+### I am not seeing geofence events trigger in Radar
 
-Verify location updates are successfully being sent to Radar on the Users detail page (Location section shows last update sent to Radar) and historically on the [User Activity](/dashboard#user-activity) page. If it turns out location updates are not occurring at the expected intervals, verify tracking options are set to appropriate values and being properly applied. If the events are not triggering, verify geofence entry and exit settings and that the device is currently detected as being outside the boundary (need to exit a geofence before a subsequent entry event will generate).
+Verify the last location update time on the Users detail page (Location section shows last update sent to Radar) and view recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected intervals, verify tracking options are set to appropriate values and being properly applied. If events are not triggering, verify geofence entry and exit settings (/geofences#stop-detection). Also, note that a device needs to exit a geofence before a subsequent entry event so ensure that the device has been detected outside of the geofence prior to testing another entry.
 
 ## Privacy
 
