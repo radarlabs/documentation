@@ -32,7 +32,9 @@ Note that you can also receive events client-side via the [SDK](/sdk).
         "metadata": {
           "customId": "abc",
           "customFlag": false
-        }
+        },
+        "locationAuthorization": "GRANTED_FOREGROUND",
+        "locationAccuracyAuthorization": "FULL"
       },
       "geofence": {
         "tag": "store",
@@ -51,6 +53,7 @@ Note that you can also receive events client-side via the [SDK](/sdk).
       },
       "locationAccuracy": 5,
       "confidence": 3,
+      "foreground": true,
       "actualCreatedAt": "2018-06-12T13:44:10.535Z"
     },
     {
@@ -65,7 +68,9 @@ Note that you can also receive events client-side via the [SDK](/sdk).
         "metadata": {
           "customId": "abc",
           "customFlag": false
-        }
+        },
+        "locationAuthorization": "GRANTED_FOREGROUND",
+        "locationAccuracyAuthorization": "FULL",
       },
       "place": {
         "name": "Starbucks",
@@ -98,6 +103,7 @@ Note that you can also receive events client-side via the [SDK](/sdk).
       },
       "locationAccuracy": 5,
       "confidence": 2,
+      "foreground": true,
       "actualCreatedAt": "2018-06-12T13:44:10.535Z"
     }
   ],
@@ -120,6 +126,8 @@ Note that you can also receive events client-side via the [SDK](/sdk).
       ]
     },
     "locationAccuracy": 5,
+    "locationAuthorization": "GRANTED_FOREGROUND",
+    "locationAccuracyAuthorization": "FULL",
     "stopped": true,
     "foreground": false,
     "deviceType": "iOS",
