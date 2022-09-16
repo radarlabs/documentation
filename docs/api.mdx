@@ -1229,8 +1229,8 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`approachingThreshold`** (number): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 - **`createdAt`** (datetime): The datetime when the trip was started.
 - **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the trip should be fired.
-- **`orderFiredAt`** (datetime): From the [Olo integration](https://radar.com/documentation/integrations/olo), the datetime when the trip fired the order.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the order associated with the trip should be fired.
+- **`orderFiredAt`** (datetime): From the [Olo integration](https://radar.com/documentation/integrations/olo), the datetime when the order associated with the trip was fired.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
 - **`status`** (string): The status of the trip, one of `pending`, `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
@@ -1840,6 +1840,7 @@ Sends a custom event to analyze alongside other location activity in your app. T
 - **`metadata`** (dictionary, optional): The metadata of the custom event. This data cannot contain any sensitive or personally identifiable information.
 - **`userId`** (string, required): The stable unique ID for the user. Used to identify logged in users.
 - **`deviceId`** (string, optional): A device ID for the user. Used to identify logged out users.
+- **`createdAt`** (string, optional): The datetime when the event occurred.
 
 ###### Authentication level
 
