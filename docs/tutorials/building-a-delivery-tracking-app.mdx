@@ -90,14 +90,14 @@ Before requesting permissions, you must add location usage strings to the custom
 
 <p><img
   className="large"
-  src="https://images.ctfassets.net/8lppgnrkmboj/5SzVaYXQI4Q9LClK5YGhsU/69c54d8ebd251024de1de69d89c11c84/final_xcode_location_perm_AdobeExpress.gif"
+  src="https://images.ctfassets.net/8lppgnrkmboj/vNseL2LoYe4WSBbHcuS1q/ee615cf199900925071a99ad8c2f70d3/xcodepermissionstring.gif"
 /></p>
 
 You will also need to enable location updates and background fetch for the application. In your project settings, go to Signing & Capabilities, click the plus icon and add a capability for Background Modes, and turn on _Location updates_ and _Background fetch_.
 
 <p><img
   className="large"
-  src="https://images.ctfassets.net/8lppgnrkmboj/3fykVgtBt7ZNTtDKmFV8GE/31545e2928f9cdbb8d2132fe33374a5a/Screen_Shot_2022-08-29_at_8.44.23_AM.png"
+  src="https://images.ctfassets.net/8lppgnrkmboj/69GmWQXSt6NNiGY7gLemZF/3bf85128d4419cea7578d0f30993c08b/Screen_Shot_2022-09-26_at_8.41.40_AM.png"
 /></p>
 
 Then, request these permissions in the app by adding the following into the `LocationManager` class:
@@ -189,7 +189,7 @@ func didAccept(job: Job) {
     }
 ```
 
-Notice that we use `Radar.mockTracking()` instead of track for now, which helps simulate a sequence of location updates from an origin to a destination for testing. In this case, we simulate a sequence of 10 location updates, each 2 seconds apart, by car from the `origin` to the `destination`.
+Notice that we use `Radar.mockTracking()` instead of track for now, which helps simulate a sequence of location updates from an origin to a destination quickly for testing. In this case, we simulate a sequence of 10 location updates, each 2 seconds apart, by car from the `origin` to the `destination`.
 
 
 ### Step 6: Add trip completion logic
@@ -328,9 +328,9 @@ func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
 
 You should now see notifications as a trip progresses!
 
-<p><img
+<p className="text--center"><img
   className="large"
-  src="https://images.ctfassets.net/8lppgnrkmboj/4T7rH0X1rcfwRa9qyzc7JR/10b6cc4d15729302dba74fc9decb1c45/Screen_Shot_2022-08-02_at_3.20.37_PM.png"
+  src="https://images.ctfassets.net/8lppgnrkmboj/3NIihQVE7r83Yb4H9umdhZ/606219a3279dd989e32aac700ffbdd29/approachingnotification_sampleapp.png"
 /></p>
 
 ### Step 8: Display live map location and ETA
@@ -421,10 +421,12 @@ func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
 
 The `currentLocation`, `region`, and `eta` variables update with events in the listener logic, and the map view refreshes as they change. You should now see the live map view and ETAs for your trips in the app!
 
-<p><img
-  className="large"
-  src="https://images.ctfassets.net/8lppgnrkmboj/4OfnKbQF86w5Y30KPERMBX/171b2a4c05aaff92e6dcdeb0eb80d6f7/Screen_Shot_2022-08-29_at_5.00.00_PM.png"
-/></p>
+<p className="text--center">
+<video width="450" height="976" controls>
+  <source src="https://videos.ctfassets.net/8lppgnrkmboj/57IsKRqArgn2sZta5Qs4nX/361764bc0f9688c4c2a729c4d3ea4a05/mapviewvideo_sampleapp.mp4" type="video/mp4"/>
+Your browser does not support the video tag.
+</video>
+</p>
 
 ### Step 9: Next steps
 
