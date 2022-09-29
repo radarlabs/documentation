@@ -671,7 +671,7 @@ For trips, we recommend using `RadarTrackingOptions.presetContinuous`. This pres
   required for tracking.
 </Alert>
 
-To start tracking for trips, call:
+Tracking for trips is started or updated by including trackingOptions in trip start calls, which apply for the duration of the trip:
 
 <Tabs
   groupId="ios"
@@ -684,14 +684,14 @@ To start tracking for trips, call:
   <TabItem value="swift">
 
 ```swift
-Radar.startTracking(trackingOptions: RadarTrackingOptions.presetContinuous)
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-[Radar startTrackingWithOptions:RadarTrackingOptions.presetContinuous];
+[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous];
 ```
 
   </TabItem>
