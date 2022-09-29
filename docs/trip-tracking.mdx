@@ -29,7 +29,7 @@ Want to get started quickly? Follow these three steps:
 
 ## Starting trips
 
-Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start tracking and start a trip with an ID, a destination geofence, a travel mode, and custom metadata (e.g., customer name, car model, or license plate) depending on your use case.
+Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start a trip with trip options which include an ID, a destination geofence, a travel mode, and custom metadata (e.g., customer name, car model, or license plate) depending on your use case, and tracking options that will be used to track for the duration of the trip. After the trip has completed or stopped, tracking will stop if tracking was off at the start of the trip, or  tracking options from before the start of the trip will be restored otherwise.
 
 <Tabs
   groupId="trip-tracking"
@@ -51,8 +51,7 @@ tripOptions.metadata = [
   "Customer Name": "Jacob Pena",
   "Car Model": "Green Honda Civic"
 ]
-Radar.startTrip(options: tripOptions)
-Radar.startTracking(trackingOptions: .presetContinuous)
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
 ```
 
   </TabItem>
@@ -68,8 +67,7 @@ NSMutableDictionary *metadataDict = [NSMutableDictionary new];
 metadataDict[@"Customer Name"] = @"Jacob Pena";
 metadataDict[@"Car Model"] = @"Green Honda Civic";
 tripOptions.metadata = metadataDict;
-[Radar startTripWithOptions:tripOptions];
-[Radar startTrackingWithOptions:RadarTrackingOptions.presetContinuous];
+[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous];
 ```
 
   </TabItem>
@@ -85,8 +83,7 @@ tripMetadata.put("Customer Name", "Jacob Pena")
 tripMetadata.put("Car Model","Green Honda Civic")
 val routeMode = Radar.RadarRouteMode.CAR
 val tripOptions = RadarTripOptions(tripExternalId, tripMetadata, destinationGeofenceTag, destinationGeofenceExternalId, routeMode)
-Radar.startTrip(tripOptions)
-Radar.startTracking(RadarTrackingOptions.CONTINUOUS)
+Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS)
 ```
 
   </TabItem>
@@ -109,9 +106,8 @@ Radar.startTrip(tripOptions, new Radar.RadarTripCallback() {
                     public void onComplete(Radar.RadarStatus radarStatus,RadarTrip radarTrip, RadarEvent[] radarEvents) {
                 // do something with status, trip, events
             }
-        }
+        }, RadarTrackingOptions.CONTINUOUS
 );
-Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
 ```
 
   </TabItem>
@@ -185,7 +181,7 @@ Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED,new Radar.RadarT
 
 ## Ending trips
 
-When the order is cancelled or picked up, stop tracking and stop the trip. This can be done either via the SDK or through Radar [APIs](/api#stop-or-restart-trip).
+When the order is cancelled or picked up, stop the trip. This can be done either via the SDK or through Radar [APIs](/api#stop-or-restart-trip).
 
 The Radar settings page also allows for trip expiration based on a set number of hours after trip start. For organizations on the Radar [Enterprise](https://radar.io/pricing) plan, there is the ability to also automatically complete trips based on a configurable ETA following destination arrival.
 
@@ -204,11 +200,9 @@ The Radar settings page also allows for trip expiration based on a set number of
   ```swift
   // order picked up or user taps "I'm here"
   Radar.completeTrip()
-  Radar.stopTracking()
 
   // Order cancelled
   Radar.cancelTrip()
-  Radar.stopTracking()
 
   ```
 
@@ -218,11 +212,9 @@ The Radar settings page also allows for trip expiration based on a set number of
   ```objc
   // order picked up or user taps "I'm here"
   [Radar completeTrip];
-  [Radar stopTracking];
 
   // Order cancelled
   [Radar cancelTrip];
-  [Radar stopTracking];
   ```
 
   </TabItem>
@@ -234,13 +226,11 @@ The Radar settings page also allows for trip expiration based on a set number of
   Radar.completeTrip { status, trip, events ->
       // do something with status, trip, events
   }
-  Radar.stopTracking()
 
   // Order cancelled
   Radar.cancelTrip { status, trip, events ->
       // do something with status, trip, events
   }
-  Radar.stopTracking()
   ```
 
   </TabItem>
