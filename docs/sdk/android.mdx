@@ -367,7 +367,7 @@ For trips, we recommend using `RadarTrackingOptions.continuous`. This preset tel
   </a> to adjust the foreground service notification copy and behavior.
 </Alert>
 
-Tracking for trips is started or updated by including trackingOptions in trip start calls, which apply for the duration of the trip:
+Tracking for the duration of a trip is started or updated by including tracking options in the trip start call:
 
 <Tabs
   groupId="android"
@@ -381,19 +381,26 @@ Tracking for trips is started or updated by including trackingOptions in trip st
 
   ```java
   Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
+  Radar.startTrip(tripOptions, new Radar.RadarTripCallback() {
+            @Override
+                    public void onComplete(Radar.RadarStatus radarStatus,RadarTrip radarTrip, RadarEvent[] radarEvents) {
+                // do something with status, trip, events
+            }
+        }, RadarTrackingOptions.CONTINUOUS
+  );
   ```
 
   </TabItem>
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.startTracking(RadarTrackingOptions.CONTINUOUS)
+  Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS)
   ```
 
   </TabItem>
 </Tabs>
 
-To stop tracking (e.g., when the user logs out), call:
+Tracking will stop after the trip ends if it was disabled before trip start. Otherwise, it will continue with the tracking options used before trip start:
 
 <Tabs
   groupId="android"
@@ -406,14 +413,36 @@ To stop tracking (e.g., when the user logs out), call:
   <TabItem value="java">
 
   ```java
-  Radar.stopTracking();
+  // Complete trip
+  Radar.completeTrip(new Radar.RadarTripCallback() {
+      @Override
+      public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
+      // do something with status, trip, events
+      }
+  });
+
+  // Cancel trip
+  Radar.cancelTrip(new Radar.RadarTripCallback() {
+      @Override
+      public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
+      // do something with status, trip, events
+      }
+  });
   ```
 
   </TabItem>
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.stopTracking()
+  //Complete trip
+  Radar.completeTrip { status, trip, events ->
+      // do something with status, trip, events
+  }
+
+  //Cancel trip
+  Radar.cancelTrip { status, trip, events ->
+      // do something with status, trip, events
+  }
   ```
 
   </TabItem>

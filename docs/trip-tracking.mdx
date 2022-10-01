@@ -22,14 +22,14 @@ Want to get started quickly? Follow these three steps:
 
 1. **Create geofences.** Import [geofences](/geofences) for your locations or register via [API](/api#upsert-a-geofence). Depending on your use case, a geofence might represent a store, restaurant, delivery location, and so on.
 
-2. **Integrate the Radar SDK into your app.** Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start tracking and start a trip with custom metadata (like order ID, license plate, or car model). Stop tracking and complete the trip when the order finishes.
+2. **Integrate the Radar SDK into your app.** Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start a trip with custom metadata (like order ID, license plate, or car model). Complete the trip when the order finishes.
 
 3. **Display live trips or trigger workflows with ETAs.** Display live ETAs on the trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing) plan. Or, display live ETAs in your own UI by polling the [list trips API](/api#list-trips) or listening for [trip events](/trip-tracking#trip-events) available through the [SDK](/sdk) events listener or server-side via [event integrations](/integrations).
 
 
 ## Starting trips
 
-Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start a trip with trip options which include an ID, a destination geofence, a travel mode, and custom metadata (e.g., customer name, car model, or license plate) depending on your use case, and tracking options that will be used to track for the duration of the trip. After the trip has completed or stopped, tracking will stop if tracking was off at the start of the trip, or  tracking options from before the start of the trip will be restored otherwise.
+Integrate the [SDK](/sdk) into your app or website. Set a user ID for the trip to attach to. When an order starts or the user taps "I'm on my way," start a trip with trip options which include an ID, a destination geofence, a travel mode, and custom metadata (e.g., customer name, car model, or license plate) depending on your use case, and tracking options that will be used to track for the duration of the trip.
 
 <Tabs
   groupId="trip-tracking"
@@ -45,6 +45,7 @@ Integrate the [SDK](/sdk) into your app or website. When an order starts or the 
 
 ```swift
 // order placed or user taps "I'm on my way"
+Radar.setUserId("001")
 let tripOptions = RadarTripOptions(externalId: "299", destinationGeofenceTag: "store", destinationGeofenceExternalId: "123")
 tripOptions.mode = .car
 tripOptions.metadata = [
@@ -59,6 +60,7 @@ Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
 
 ```objc
 // order placed or user taps "I'm on my way"
+[Radar setUserId:"001"];
 RadarTripOptions *tripOptions = [[RadarTripOptions alloc] initWithExternalId:@"299"];
 tripOptions.destinationGeofenceTag = @"store";
 tripOptions.destinationGeofenceExternalId = @"123";
@@ -75,6 +77,7 @@ tripOptions.metadata = metadataDict;
 
 ```kotlin
 // order placed or user taps "I'm on my way"
+Radar.setUserId("001")
 val tripExternalId = "299"
 val destinationGeofenceExternalId = "123"
 val destinationGeofenceTag = "store"
@@ -91,6 +94,7 @@ Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS)
 
 ```java
 // order placed or user taps "I'm on my way"
+Radar.setUserId("001");
 final JSONObject tripOptionsMetadata = new JSONObject();
 tripOptionsMetadata.put("Customer Name","Jacob Pena");
 tripOptionsMetadata.put("Car Model","Green Honda Civic");
@@ -181,7 +185,7 @@ Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED,new Radar.RadarT
 
 ## Ending trips
 
-When the order is cancelled or picked up, stop the trip. This can be done either via the SDK or through Radar [APIs](/api#stop-or-restart-trip).
+When the order is cancelled or picked up, stop the trip. This can be done either via the SDK or through Radar [APIs](/api#stop-or-restart-trip). Tracking will stop after the trip ends if it was disabled before trip start. Otherwise, tracking will continue with the tracking options used before trip start.
 
 The Radar settings page also allows for trip expiration based on a set number of hours after trip start. For organizations on the Radar [Enterprise](https://radar.io/pricing) plan, there is the ability to also automatically complete trips based on a configurable ETA following destination arrival.
 

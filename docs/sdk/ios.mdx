@@ -671,7 +671,7 @@ For trips, we recommend using `RadarTrackingOptions.presetContinuous`. This pres
   required for tracking.
 </Alert>
 
-Tracking for trips is started or updated by including trackingOptions in trip start calls, which apply for the duration of the trip:
+Tracking for the duration of a trip is started or updated by including tracking options in the trip start call:
 
 <Tabs
   groupId="ios"
@@ -702,7 +702,7 @@ Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
   the <em>Location updates</em> background mode in your project settings.
 </Alert>
 
-To stop tracking, call:
+Tracking will stop after the trip ends if it was disabled before trip start. Otherwise, it will continue with the tracking options used before trip start:
 
 <Tabs
   groupId="ios"
@@ -715,14 +715,22 @@ To stop tracking, call:
   <TabItem value="swift">
 
 ```swift
-Radar.stopTracking()
+// complete trip
+Radar.completeTrip()
+
+// cancel trip
+Radar.cancelTrip()
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-[Radar stopTracking];
+// complete trip
+[Radar completeTrip];
+
+// cancel trip
+[Radar cancelTrip];
 ```
 
   </TabItem>
