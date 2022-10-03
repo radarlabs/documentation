@@ -53,15 +53,15 @@ Alternatively, you can use the [IP geocoding API](/api#ip-geocode) to detect a u
 
 ### Why is a device not appearing in the Radar dashboard?
 
-A device will only appear in the Radar dashboard on the Users page if a location update has been successfully sent via the SDK or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been enabled and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) is being executed. If this has been verified and a device is still not appearing in the Radar dashboard, setup the error listener in the SDK to monitor for errors or set SDK logging to the debug level.
+A device will only appear on the [Users page](https://radar.com/dashboard/users) in the Radar dashboard if a location update has been successfully sent via the [SDK](/sdk), [simulator](/dashboard#simulator), or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been granted and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) has been called. If a device is still not appearing in the Radar dashboard, set up the error listener in the SDK to monitor for errors and set the SDK logging level to debug.
 
-### Why are there multiple user records for a single device in the Radar dashboard?
+### Why do I have multiple users with the same user ID or device ID?
 
-Radar generates a new user record on each reinstall of a given application. If you are seeing multiple user ids generating without uninstalls, it indicates a potential issue setting user ids in the SDK (i.e. passing in a null value for user id in certain scenarios).
+The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values. Multiple users generating without uninstalls indicates a potential issue setting the `userId` in the SDK (i.e. passing in `null` for the `userId` in certain scenarios).
 
-### I am not seeing geofence events trigger in Radar
+### Why am I not seeing geofence events trigger in Radar?
 
-Verify the last location update time on the Users detail page (Location section shows last update sent to Radar) and view recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected intervals, verify tracking options are set to appropriate values and being properly applied. If events are not triggering, verify geofence entry and exit settings (/geofences#stop-detection). Also, note that a device needs to exit a geofence before a subsequent entry event so ensure that the device has been detected outside of the geofence prior to testing another entry.
+On the Users detail page, verify the time that the last location update sent to Radar via the Location section. View recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected interval, verify your [tracking options](/sdk/tracking) are correct and being applied properly. If events are not triggering, verify geofence [entry and exit settings](/geofences#stop-detection). **Note that a device needs to exit a geofence before generating a subsequent entry event. So, ensure that the device has been detected outside of the geofence prior to testing another entry.**
 
 ## Privacy
 
@@ -78,10 +78,6 @@ For more information, see our [privacy policy](https://radar.com/privacy), our [
 - Clearly explain to end users what data will be collected and how it will be used in your apps, in permissions prompts, and in your privacy policy.
 
 For more information, see our [location data privacy checklist](https://radar.com/blog/location-data-privacy-checklist).
-
-### Why do I have multiple users with the same user ID or device ID?
-
-The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values.
 
 ### What are location permission prompt best practices?
 
@@ -124,7 +120,7 @@ Use the appropriate role (owner, admin, write, or read) for each co-worker's acc
 
 ### How do data access controls work?
 <Alert alertType="info">
-  Data access controls are available on the {` `} 
+  Data access controls are available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
@@ -175,8 +171,8 @@ SSO is an enterprise-only feature. Contact your customer success manager to enab
 
 #### SAML
 
-To set up your SAML identity provider, reach out to your customer success team who will provide the assertion consumer service URL
-and application callback URL. They will request the following information in return:
+To set up your SAML identity provider, reach out to your customer success manager who will provide the assertion consumer service URL
+and application callback URL. They will need the following information in return:
 
 - SAML protocol URL
 - Sign-in URL
