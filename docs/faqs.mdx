@@ -53,7 +53,7 @@ Alternatively, you can use the [IP geocoding API](/api#ip-geocode) to detect a u
 
 ### Why is a device not appearing in the Radar dashboard?
 
-A device will only appear on the [Users page](https://radar.com/dashboard/users) in the Radar dashboard if a location update has been successfully sent via the [SDK](/sdk), [simulator](/dashboard#simulator), or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been granted and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) has been called. If a device is still not appearing in the Radar dashboard, set up the error listener in the SDK to monitor for errors and set the SDK logging level to debug.
+A device will only appear on the [Users page](https://radar.com/dashboard/users) in the Radar dashboard if a location update has been successfully sent via the [SDK](/sdk), [simulator](/dashboard#simulator), or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been granted and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) has been called. If a device is still not appearing in the Radar dashboard, set up the error listener in the SDK to monitor for errors and set the SDK log level to `debug`.
 
 ### Why do I have multiple users with the same user ID or device ID?
 
