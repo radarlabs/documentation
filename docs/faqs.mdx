@@ -45,9 +45,23 @@ On Android, this is not an issue.
 
 Yes, Radar supports location verification and fraud detection for gambling, media, payments, and more.
 
-First, you can use the [IP geocoding API](/api#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
+You can use [Regions](/regions) to detect a user's country or state based on latitude and longitude and verify the device is not spoofing location or using a proxy via attributes associated with the Radar user.  See the [location verification tutorial](/tutorials/detecting-location-based-fraud) for additional information.
 
-Second, you can use [Regions](/regions) to detect a user's country or state based on latitude and longitude. On Android, you can check the [`location.isMock`](https://developer.android.com/reference/android/location/Location#isMock()) flag, and on iOS 15 and above, you can use the [`location.sourceInformation.isSimulatedBySoftware`](https://developer.apple.com/documentation/corelocation/cllocationsourceinformation/3861807-issimulatedbysoftware) flag to determine if the user is mocking their location.
+Alternatively, you can use the [IP geocoding API](/api#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
+
+## Troubleshooting
+
+### Why is a device not appearing in the Radar dashboard?
+
+A device will only appear on the [Users page](https://radar.com/dashboard/users) in the Radar dashboard if a location update has been successfully sent via the [SDK](/sdk), [simulator](/dashboard#simulator), or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been granted and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) has been called. If a device is still not appearing in the Radar dashboard, set up the error listener in the SDK to monitor for errors and set the SDK log level to `debug`.
+
+### Why do I have multiple users with the same user ID or device ID?
+
+The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values. Multiple users generating without uninstalls indicates a potential issue setting the `userId` in the SDK (i.e. passing in `null` for the `userId` in certain scenarios).
+
+### Why am I not seeing geofence events trigger in Radar?
+
+On the Users detail page, verify the time that the last location update sent to Radar via the Location section. View recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected interval, verify your [tracking options](/sdk/tracking) are correct and being applied properly. If events are not triggering, verify geofence [entry and exit settings](/geofences#stop-detection). **Note that a device needs to exit a geofence before generating a subsequent entry event. So, ensure that the device has been detected outside of the geofence prior to testing another entry.**
 
 ## Privacy
 
@@ -65,10 +79,6 @@ For more information, see our [privacy policy](https://radar.com/privacy), our [
 
 For more information, see our [location data privacy checklist](https://radar.com/blog/location-data-privacy-checklist).
 
-### Why do I have multiple users with the same user ID or device ID?
-
-The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values.
-
 ### What are location permission prompt best practices?
 
 The best location permission prompts are:
@@ -85,7 +95,7 @@ For more information, see our [location data privacy checklist](https://radar.co
 
 By default, users and events are retained for 1 year, trips are retained for 90 days, and location updates are retained for 7 days.
 
-Radar supports custom data retention policies for enterprise customers. Admins can adjust these settings in your Radar dashboard under the Privacy section.
+Radar supports custom data retention settings. Admins can adjust these settings in the Radar dashboard under the Privacy section.
 
 ### Is Radar CCPA-compliant and GDPR-compliant?
 
@@ -110,7 +120,7 @@ Use the appropriate role (owner, admin, write, or read) for each co-worker's acc
 
 ### How do data access controls work?
 <Alert alertType="info">
-  Data access controls are available on the {` `} 
+  Data access controls are available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
@@ -161,18 +171,14 @@ SSO is an enterprise-only feature. Contact your customer success manager to enab
 
 #### SAML
 
-To set up your SAML identity provider, we will need:
+To set up your SAML identity provider, reach out to your customer success manager who will provide the assertion consumer service URL
+and application callback URL. They will need the following information in return:
 
 - SAML protocol URL
 - Sign-in URL
 - Sign-out URL (optional)
 - X509 Signing Certificate (.pem file)
 - User ID attribute (defaults to http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier then http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn then http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name)
-
-Once your SAML identity provider is set up, we will provide:
-
-- Assertion consumer service URL
-- Application callback URL
 
 ### Is Radar SOC 2 type II-certified?
 
