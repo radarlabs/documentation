@@ -13,7 +13,7 @@ import InlineTabItem from "../src/components/InlineTabItem";
 import DefaultContextValues from "../src/components/DefaultContextValues";
 
 <Alert alertType="info">
-  These docs are for iOS and Android SDKs v3.5.5. See docs for earlier versions <a href="/trip-tracking-3.5.4">here</a>.
+  See docs for iOS and Android SDK versions older than v3.5.5 <a href="/trip-tracking-3.5.4">here</a>.
 </Alert>
 
 <DefaultContextValues/>
@@ -30,10 +30,13 @@ Want to get started quickly? Follow these three steps:
 
 3. **Display live trips or trigger workflows with ETAs.** Display live ETAs on the trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing) plan. Or, display live ETAs in your own UI by polling the [list trips API](/api#list-trips) or listening for [trip events](/trip-tracking#trip-events) available through the [SDK](/sdk) events listener or server-side via [event integrations](/integrations).
 
+## Radar SDK Setup
+
+Integrate the [SDK](/sdk) into your app or website as instructed in the SDK docs. Be sure to [identify the user](/sdk/ios#identify-user) with an external user ID for trip tracking.
 
 ## Starting trips
 
-Integrate the [SDK](/sdk) into your app or website, making sure to [identify the user](/sdk/ios#identify-user) with a user ID to be able to start trips server-side as well. When an order starts or the user taps "I'm on my way," start a trip with trip options (an external ID for this trip, a destination geofence, a travel mode, and custom metadata), and tracking options that will be used to track for the duration of the trip.
+When an order starts or the user taps "I'm on my way," start a trip with trip options (an external ID for this trip, a destination geofence, a travel mode, and custom metadata), and tracking options that will be used to track for the duration of the trip.
 
 <Tabs
   groupId="trip-tracking"
