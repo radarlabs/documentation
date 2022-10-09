@@ -380,14 +380,12 @@ Tracking for the duration of a trip is started or updated by including tracking 
   <TabItem value="java">
 
   ```java
-  Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
   Radar.startTrip(tripOptions, new Radar.RadarTripCallback() {
-            @Override
-                    public void onComplete(Radar.RadarStatus radarStatus,RadarTrip radarTrip, RadarEvent[] radarEvents) {
-                // do something with status, trip, events
-            }
-        }, RadarTrackingOptions.CONTINUOUS
-  );
+      @Override
+      public void onComplete(Radar.RadarStatus radarStatus,RadarTrip radarTrip, RadarEvent[] radarEvents) {
+          // do something with status, trip, events
+      }
+  }, RadarTrackingOptions.CONTINUOUS);
   ```
 
   </TabItem>
@@ -400,7 +398,7 @@ Tracking for the duration of a trip is started or updated by including tracking 
   </TabItem>
 </Tabs>
 
-Tracking will stop after the trip ends if it was disabled before trip start. Otherwise, it will continue with the tracking options used before trip start:
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options before the trip started:
 
 <Tabs
   groupId="android"
@@ -417,7 +415,7 @@ Tracking will stop after the trip ends if it was disabled before trip start. Oth
   Radar.completeTrip(new Radar.RadarTripCallback() {
       @Override
       public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
-      // do something with status, trip, events
+          // do something with status, trip, events
       }
   });
 
@@ -425,7 +423,7 @@ Tracking will stop after the trip ends if it was disabled before trip start. Oth
   Radar.cancelTrip(new Radar.RadarTripCallback() {
       @Override
       public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
-      // do something with status, trip, events
+          // do something with status, trip, events
       }
   });
   ```
@@ -434,7 +432,7 @@ Tracking will stop after the trip ends if it was disabled before trip start. Oth
   <TabItem value="kotlin">
 
   ```kotlin
-  //Complete trip
+  // Complete trip
   Radar.completeTrip { status, trip, events ->
       // do something with status, trip, events
   }

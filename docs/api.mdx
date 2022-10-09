@@ -1417,11 +1417,11 @@ Secret
 
 #### Create a new trip
 
-The recommended way to start trips and track users in most cases is via the [SDK](/sdk).
+Use the [SDK](/sdk) to start trips and track users in most cases.
 
-If a trip is created outside of the SDK implementation, it will be created with status = `pending` and can be started from the SDK or the update trip endpoint.
+Trips can also be created with status = `pending` server-side or through integrations (e.g. Olo). They can be started from the SDK or the update trip endpoint.
 
-A user ID needs to be provided for a trip to update based on client-side tracking. A destination needs to provided for a trip to generate ETA updates. Including these parameters is strongly recommended when applicable.
+A `userId` needs to be provided for a trip to update based on client-side tracking. A destination needs to provided for a trip to generate ETA updates. Including these parameters is strongly recommended when applicable.
 
 ###### Definition
 
@@ -1433,7 +1433,7 @@ Creates a new trip.
 - **`externalId`** (string, required): A stable unique ID for the trip. Depending on your use case, it may represent an order ID, a delivery ID, or something else.
 - **`destinationGeofenceTag`** (string, optional): For trips with a destination, the tag of the destination geofence.
 - **`destinationGeofenceExternalId`** (string, optional): For trips with a destination, the external ID of the destination geofence.
-- **`userId`** (string, optional): The ID of the user for which the trip is being tracked.
+- **`userId`** (string, optional): The ID of the [user](/api#users) for which the trip is being tracked.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`. Defaults to `car`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 
