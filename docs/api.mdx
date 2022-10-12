@@ -1469,6 +1469,7 @@ A geofence represents a custom region or place monitored in your project. Geofen
 
 - **`_id`** (string): The unique ID for the geofence, provided by Radar. An alphanumeric string.
 - **`createdAt`** (datetime): The datetime when the geofence was created.
+- **`updatedAt`** (datetime): The most recent datetime when the geofence was updated.
 - **`live`** (boolean): `true` if the geofence was created with your `live` API key, `false` if the user was created with your `test` API key.
 - **`tag`** (string): An optional group for the geofence.
 - **`externalId`** (string): An optional external ID for the geofence that maps to your internal database.
@@ -1490,6 +1491,7 @@ A geofence represents a custom region or place monitored in your project. Geofen
 {
   "_id": "56db1f4613012711002229f5",
   "createdAt": "2016-06-10T13:44:10.535Z",
+  "updatedAt": "2016-06-10T14:40:10.535Z",
   "live": true,
   "tag": "venue",
   "externalId": "2",
@@ -1515,7 +1517,7 @@ A geofence represents a custom region or place monitored in your project. Geofen
 
 ###### Definition
 
-Lists geofences. Geofences are sorted descending by `createdAt`.
+Lists geofences. Geofences are sorted descending by `updatedAt`.
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences</code>
 
