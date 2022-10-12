@@ -983,7 +983,7 @@ A user represents a user tracked in your project. Users can be referenced by Rad
 - **`foreground`** (boolean): `true` if the user's current was updated in the foreground, `false` if the user's current location was updated in the background.
 - **`stopped`** (boolean): `true` if the user's current location was updated while stopped, `false` if the user's current location was updated while moving.
 - **`deviceType`** (string): The user's device type, one of `iOS`, `Android`, or `Web`.
-- **`updatedAt`** (datetime): The datetime when the user was created.
+- **`createdAt`** (datetime): The datetime when the user was created.
 - **`updatedAt`** (datetime): The datetime when the user's location was last updated.
 - **`geofences`** (array): An array of the user's current geofences.
 - **`trip`** (dictionary): When a [Trip](/trip-tracking) has been started, the user's current trip. Present when the trip has a `status` of `started`, `approaching`, or `arrived`.
@@ -1469,7 +1469,7 @@ A geofence represents a custom region or place monitored in your project. Geofen
 
 - **`_id`** (string): The unique ID for the geofence, provided by Radar. An alphanumeric string.
 - **`createdAt`** (datetime): The datetime when the geofence was created.
-- **`updatedAt`** (datetime): The most recent datetime when the geofence was updated.
+- **`updatedAt`** (datetime): The datetime when the geofence was last updated.
 - **`live`** (boolean): `true` if the geofence was created with your `live` API key, `false` if the user was created with your `test` API key.
 - **`tag`** (string): An optional group for the geofence.
 - **`externalId`** (string): An optional external ID for the geofence that maps to your internal database.
