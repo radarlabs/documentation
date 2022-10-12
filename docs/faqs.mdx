@@ -53,7 +53,7 @@ Alternatively, you can use the [IP geocoding API](/api#ip-geocode) to detect a u
 
 Yes, if background location permissions have been granted. If the app is killed on iOS (i.e. user swipes app away from the tray), the SDK is able to wake back up and start collecting location again if it receives certain types of location updates from the OS. These services can be activated on iOS by ensuring you have enabled the [location updates background mode](/sdk/ios#background-modes) and are tracking using at least one of following [tracking options](/sdk/tracking): `useStoppedGeofence`, `syncGeofences`, `useMovingGeofence`, `useSignificantLocationChanges` and `useVisits`.
 
-On android, Radar will continue to receive location updates if the app is swiped away, but not if the app is force killed (either manually by the user or via the phone manufacturer aggressively killing background services). 
+On Android, Radar will continue to receive location updates if the app is swiped away, but not if the app is force killed (either manually by the user or via the phone manufacturer aggressively killing background services). 
 
 ## Troubleshooting
 
@@ -67,9 +67,9 @@ The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generat
 
 ### Why am I not seeing geofence events trigger in Radar?
 
-On the Users detail page, verify the time that the last location update was sent to Radar via the Location section. View recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected interval, verify your [tracking options](/sdk/tracking) are correct and being applied properly. If events are not triggering, verify geofence [entry and exit settings](/geofences#stop-detection). **Note that a device needs to exit a geofence before generating a subsequent entry event. So, ensure that the device has been detected outside of the geofence prior to testing another entry.**
+On the Users detail page, verify the time that the last location update was sent to Radar via the Location section. View recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected interval, verify your [tracking options](/sdk/tracking) are correct and being applied properly. If events are not triggering, verify geofence [entry and exit settings](/geofences#stop-detection). **Note that a device needs to exit a geofence before generating a subsequent entry event, so ensure that the device has been detected outside of the geofence prior to testing another entry.**
 
-### Why am I not seeing rate limit errors when tracking location?
+### Why am I seeing rate limit errors when tracking location?
 
 Radar has device specific rate limits per second, hour and day associated with the [track API endpoint](/api#track) which is used to send location updates to Radar servers. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to be less frequent. If hitting the per hour or day rate limits during testing, a reinstall of the application with the Radar SDK will reset rate limits. 
 
