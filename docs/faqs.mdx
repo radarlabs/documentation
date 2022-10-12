@@ -69,7 +69,7 @@ The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generat
 
 On the Users detail page, verify the time that the last location update was sent to Radar via the Location section. View recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected interval, verify your [tracking options](/sdk/tracking) are correct and being applied properly. If events are not triggering, verify geofence [entry and exit settings](/geofences#stop-detection). **Note that a device needs to exit a geofence before generating a subsequent entry event. So, ensure that the device has been detected outside of the geofence prior to testing another entry.**
 
-### Why am I not seeing rate limit errors when i am tracking location?
+### Why am I not seeing rate limit errors when tracking location?
 
 Radar has device specific rate limits per second, hour and day associated with the [track API endpoint](/api#track) which is used to send location updates to Radar servers. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to be less frequent. If hitting the per hour or day rate limits during testing, a reinstall of the application with the Radar SDK will reset rate limits. 
 
