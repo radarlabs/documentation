@@ -1471,8 +1471,8 @@ A geofence represents a custom region or place monitored in your project. Geofen
 - **`createdAt`** (datetime): The datetime when the geofence was created.
 - **`updatedAt`** (datetime): The datetime when the geofence was last updated.
 - **`live`** (boolean): `true` if the geofence was created with your `live` API key, `false` if the user was created with your `test` API key.
-- **`tag`** (string): An optional group for the geofence.
-- **`externalId`** (string): An optional external ID for the geofence that maps to your internal database.
+- **`tag`** (string): A group for the geofence.
+- **`externalId`** (string): An external ID for the geofence that maps to your internal database.
 - **`description`** (string): A description for the geofence.
 - **`type`** (string): The type of geofence geometry, one of `circle`, `polygon`, or `isochrone`.
 - **`geometry`** (polygon): The geometry of the geofence. Coordinates for type `polygon`. A calculated polygon approximation for type `circle` and `isochrone`. A `Polygon` in [GeoJSON](http://geojson.org/) format.
