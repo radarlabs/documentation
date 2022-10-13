@@ -1524,9 +1524,12 @@ Lists geofences. Geofences are sorted descending by `updatedAt`.
 ###### Query parameters
 
 - **`limit`** (number, optional): The max number of geofences to return. A number between 1 and 1000. Defaults to 100.
-- **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created before the specified datetime. A date or valid ISO date string.
-- **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created after the specified datetime. A date or valid ISO date string.
+- **`createdBefore`** (datetime, optional): Retrieves geofences created before the specified datetime. A date or valid ISO date string.
+- **`createdAfter`** (datetime, optional): Retrieves geofences created after the specified datetime. A date or valid ISO date string.
+- **`updatedBefore`** (datetime, optional): A cursor for use in pagination. Retrieves geofences updated before the specified datetime. A date or valid ISO date string.
+- **`updatedAfter`** (datetime, optional): A cursor for use in pagination. Retrieves geofences updated after the specified datetime. A date or valid ISO date string.
 - **`tag`** (string, optional): Retrieves geofences with the specified `tag`.
+- **`externalId`** (string, optional): Retrieves geofences with the specified `externalId`.
 
 ###### Default rate limit
 
