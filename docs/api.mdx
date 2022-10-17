@@ -983,7 +983,7 @@ A user represents a user tracked in your project. Users can be referenced by Rad
 - **`foreground`** (boolean): `true` if the user's current was updated in the foreground, `false` if the user's current location was updated in the background.
 - **`stopped`** (boolean): `true` if the user's current location was updated while stopped, `false` if the user's current location was updated while moving.
 - **`deviceType`** (string): The user's device type, one of `iOS`, `Android`, or `Web`.
-- **`updatedAt`** (datetime): The datetime when the user was created.
+- **`createdAt`** (datetime): The datetime when the user was created.
 - **`updatedAt`** (datetime): The datetime when the user's location was last updated.
 - **`geofences`** (array): An array of the user's current geofences.
 - **`trip`** (dictionary): When a [Trip](/trip-tracking) has been started, the user's current trip. Present when the trip has a `status` of `started`, `approaching`, or `arrived`.
@@ -1469,9 +1469,10 @@ A geofence represents a custom region or place monitored in your project. Geofen
 
 - **`_id`** (string): The unique ID for the geofence, provided by Radar. An alphanumeric string.
 - **`createdAt`** (datetime): The datetime when the geofence was created.
+- **`updatedAt`** (datetime): The datetime when the geofence was last updated.
 - **`live`** (boolean): `true` if the geofence was created with your `live` API key, `false` if the user was created with your `test` API key.
-- **`tag`** (string): An optional group for the geofence.
-- **`externalId`** (string): An optional external ID for the geofence that maps to your internal database.
+- **`tag`** (string): A group for the geofence.
+- **`externalId`** (string): An external ID for the geofence that maps to your internal database.
 - **`description`** (string): A description for the geofence.
 - **`type`** (string): The type of geofence geometry, one of `circle`, `polygon`, or `isochrone`.
 - **`geometry`** (polygon): The geometry of the geofence. Coordinates for type `polygon`. A calculated polygon approximation for type `circle` and `isochrone`. A `Polygon` in [GeoJSON](http://geojson.org/) format.
@@ -1490,6 +1491,7 @@ A geofence represents a custom region or place monitored in your project. Geofen
 {
   "_id": "56db1f4613012711002229f5",
   "createdAt": "2016-06-10T13:44:10.535Z",
+  "updatedAt": "2016-06-10T14:40:10.535Z",
   "live": true,
   "tag": "venue",
   "externalId": "2",
@@ -1515,16 +1517,19 @@ A geofence represents a custom region or place monitored in your project. Geofen
 
 ###### Definition
 
-Lists geofences. Geofences are sorted descending by `createdAt`.
+Lists geofences. Geofences are sorted descending by `updatedAt`.
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geofences</code>
 
 ###### Query parameters
 
 - **`limit`** (number, optional): The max number of geofences to return. A number between 1 and 1000. Defaults to 100.
-- **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created before the specified datetime. A date or valid ISO date string.
-- **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves geofences created after the specified datetime. A date or valid ISO date string.
+- **`createdBefore`** (datetime, optional): Retrieves geofences created before the specified datetime. A date or valid ISO date string.
+- **`createdAfter`** (datetime, optional): Retrieves geofences created after the specified datetime. A date or valid ISO date string.
+- **`updatedBefore`** (datetime, optional): A cursor for use in pagination. Retrieves geofences updated before the specified datetime. A date or valid ISO date string.
+- **`updatedAfter`** (datetime, optional): A cursor for use in pagination. Retrieves geofences updated after the specified datetime. A date or valid ISO date string.
 - **`tag`** (string, optional): Retrieves geofences with the specified `tag`.
+- **`externalId`** (string, optional): Retrieves geofences with the specified `externalId`.
 
 ###### Default rate limit
 
