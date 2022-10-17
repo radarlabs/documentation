@@ -55,8 +55,8 @@ Yes, if background location permissions have been granted.
 
 On iOS, if the app is killed (e.g., swiped up from the App Switcher), the SDK is able to wake up and start collecting locations again if it receives certain types of location updates from the OS. These services can be activated on iOS by enabling the [location updates background mode](/sdk/ios#background-modes) and using at least one of following [tracking options](/sdk/tracking#ios-options):
 
-- `useStoppedGeofence`
 - `syncGeofences`
+- `useStoppedGeofence`
 - `useMovingGeofence`
 - `useSignificantLocationChanges`
 - `useVisits`
