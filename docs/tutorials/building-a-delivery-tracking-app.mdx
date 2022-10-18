@@ -78,7 +78,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 }
 ```
 
-In the `ContentView.swift` file, control-click on the ContentView class name, choose Refactor, and rename it to `DeliveryTrackerApp`. Rename the file to `DeliveryTrackerApp.swift` as well. Finally, add an @ObservedObject property to the DeliveryTrackerApp class as shown below.
+Finally, add an @ObservedObject property to the `DeliveryTrackerApp` class in `DeliveryTrackerApp.swift` as shown below.
 
 ```swift
 @ObservedObject var locationManager = LocationManager.shared
@@ -128,7 +128,7 @@ func requestLocationPermissions() {
 
 At this point, you should be able to launch the app and see a prompt asking for location permissions. Accept these permissions!
 
-If you are following the step-by-step app implementation in this tutorial, let's set up the sample app skeleton at this point. Copy these SwiftUI view files from the source code into your project: `JobListView.swift`, `AcceptedJobView.swift`, `AcceptedJobDetailView.swift`, `JobCard.swift`, `JobListView.swift`. Copy over the definition of the Job struct in `Job.swift` as well. Then in `ContentView.swift`, set `JobListView` to be the scene in the App body.
+If you are following the step-by-step app implementation in this tutorial, let's set up the sample app skeleton at this point. Copy these SwiftUI view files from the source code into your project: `JobListView.swift`, `AcceptedJobView.swift`, `AcceptedJobDetailView.swift`, `JobCard.swift`, `JobListView.swift`. Copy over `Job.swift` as well, which defines the Job struct and contains sample jobs. Then in `DeliveryTrackerApp.swift`, set `JobListView` to be the scene in the App body:
 
 ```swift
 var body: some Scene {
@@ -142,15 +142,15 @@ In the next few steps, we will set up trip tracking capabilities to power these 
 
 ### Step 5: Add trip start logic
 
-When a delivery starts, we create a trip to the destination geofence and start tracking the live location for the user. From the source code, `AcceptedJobDetailView.swift` is the view that contains the button to start a trip for a given job. The `Job.swift` file defines the Job struct, which is passed into this and other job specific views, as well as the action method for the button.
+When a delivery starts, we create a trip to the destination geofence and start tracking the live location for the user. From the source code, `AcceptedJobDetailView.swift` contains the button to start a trip for a given job. We will now define its action `startOrStopTrip` in the `LocationManager` class.
 
-The button action contains trip start logic (and trip cancel logic for in progress trips) shown below. We use a uuid for the trip `externalId`, although existing delivery ids should be used here when applicable. Set your destination geofence from Step 1.
+The button action contains trip start logic (and trip cancel logic for in progress trips) as shown below. We use a uuid for the trip `externalId`, although existing delivery ids should be used here when applicable. Set your destination geofence from Step 1.
 
 ```swift
-var onTrip = false
-var currentTrip = ""
+@Published var onTrip = false
+var activeTrip = ""
 
-func didAccept(job: Job) {
+func startOrStopTrip(job: Job) {
     if !onTrip {
         let uuid = UUID().uuidString
         let tripOptions = RadarTripOptions(
@@ -178,13 +178,13 @@ func didAccept(job: Job) {
               print("mock track", status, location)
         }
         
-        currentTrip = uuid
+        activeTrip = uuid
         onTrip = true
 
     } else {
         Radar.cancelTrip()
         Radar.stopTracking()
-        print("Trip cancelled", currentTrip)
+        print("Trip cancelled", activeTrip)
         onTrip = false
     }
 ```
@@ -194,48 +194,41 @@ Notice that we use `Radar.mockTracking()` instead of track for now, which helps 
 
 ### Step 6: Add trip completion logic
 
-We will use the destination geofence exit as a signal that the delivery is complete. To do this, we need to listen for the corresponding event, then complete the trip and stop tracking when it is detected. Update the `LocationManager` to be our `RadarDelegate` as shown below, with trip completion logic added to the `didReceiveEvents` method when it is called with the `userArrivedAtTripDestination` event type.
+We will use the destination geofence exit as a signal that the delivery is complete. To do this, we need to listen for the corresponding event, then complete the trip and stop tracking when it is detected. Update the `LocationManager` to be our `RadarDelegate`:
 
 ```swift
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, RadarDelegate {
-    let locationManager = CLLocationManager()
-    @Published var currentLocation: CLLocation?
-    static let shared = LocationManager()
-    
-    override init() {
-        super.init()
-        Radar.initialize(publishableKey: "prj_live_pk...")
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, RadarDelegate
+```
 
-        Radar.setDelegate(self)
-        self.locationManager.delegate = self
-    }
+Then, add a `didReceiveEvents` method with trip completion logic when it is called with the `userArrivedAtTripDestination` event type, and add in the other RadarDelgate methods:
 
-    // RadarDelegate methods
-    func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
-        for event in events {            
-            if event.type == RadarEventType.userArrivedAtTripDestination {
-                Radar.completeTrip()
-                Radar.stopTracking()
-                print("Trip completed", currentTrip)
-            }
+```swift
+// RadarDelegate methods
+func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
+    for event in events {            
+        if event.type == RadarEventType.userArrivedAtTripDestination {
+            Radar.completeTrip()
+            Radar.stopTracking()
+            print("Trip completed", activeTrip)
         }
     }
+}
 
-    func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
-        return
-    }
-        
-    func didUpdateClientLocation(_ location: CLLocation, stopped: Bool, source: RadarLocationSource) {
-        return
-    }
+func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
+    return
+}
+    
+func didUpdateClientLocation(_ location: CLLocation, stopped: Bool, source: RadarLocationSource) {
+    return
+}
 
-    func didFail(status: RadarStatus) {
-        return
-    }
+func didFail(status: RadarStatus) {
+    return
+}
 
-    func didLog(message: String) {
-        return
-    }
+func didLog(message: String) {
+    return
+}
 ```
 
 ### Checkpoint: Create a trip!
@@ -409,7 +402,7 @@ func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
             
             Radar.completeTrip()
             Radar.stopTracking()
-            print("Trip completed", currentTrip)
+            print("Trip completed", activeTrip)
         }
         
         if event.type == RadarEventType.userUpdatedTrip {
