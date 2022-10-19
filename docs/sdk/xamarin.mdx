@@ -33,7 +33,8 @@ namespace MyProject
     {
         void Example ()
         {
-            Radar.Initialize(publishableKey, new RadarSDKImpl());
+            RadarSingleton.Initialize(new RadarSDKImpl())
+            Radar.Initialize(publishableKey);
         }
     }
 }
