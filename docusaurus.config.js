@@ -55,8 +55,8 @@ module.exports = {
       ],
     },
     algolia: {
-      apiKey: 'c6ef22def89d89fa4c79364b415590aa',
-      appId: 'BH4D9OD16A',
+      apiKey: '604d5f6f90cc8e49f532cd33b4b6c37e',
+      appId: 'HNJN02FL1I',
       indexName: 'radar',
     },
     colorMode: {
