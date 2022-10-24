@@ -26,6 +26,10 @@ User IDs must be aligned between Iterable and Radar for the integration to funct
 ``` swift
 IterableAPI.userId = userId
 Radar.setUserId(userId)
+let dataField = [
+  "userId": userId,
+]
+IterableAPI.updateUser(dataField, mergeNestedObjects: false)
 ```
 
 ## Example use cases
