@@ -4,7 +4,7 @@ title: Iterable
 import Alert from "../../src/components/Alert";
 
 <Alert alertType="info">
-  The Iterable integration is available on the {` `} 
+  The Iterable integration is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
@@ -26,6 +26,8 @@ User IDs must be aligned between Iterable and Radar for the integration to funct
 ``` swift
 IterableAPI.userId = userId
 Radar.setUserId(userId)
+let dataField = ["userId": userId]
+IterableAPI.updateUser(dataField, mergeNestedObjects: false)
 ```
 
 ## Example use cases
