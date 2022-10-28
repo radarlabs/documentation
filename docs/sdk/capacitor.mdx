@@ -6,6 +6,8 @@ id: capacitor
 description: Documentation for Capacitor Plugin
 ---
 
+import Alert from "../../src/components/Alert";
+
 This is the documentation for the Capacitor plugin. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
 See the source on GitHub [here](https://github.com/radarlabs/capacitor-radar). Or, see the `capacitor-radar` package on npm [here](https://www.npmjs.com/package/capacitor-radar).
@@ -71,13 +73,19 @@ public class MainActivity extends BridgeActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
     Radar.initialize(this, publishableKey);
+
+    super.onCreate(savedInstanceState);
   }
 
 }
 ```
+
+<Alert alertType="warning">
+  Note that <code>Radar.initialize(this, publishableKey)</code> must be called before{" "}
+  <code>super.onCreate(savedInstanceState)</code> on Capacitor v4 and higher because of changes to{" "}
+  <a href="https://capacitorjs.com/docs/updating/4-0#change-registerplugin-order">plugin loading</a>.
+</Alert>
 
 ## Integrate
 
