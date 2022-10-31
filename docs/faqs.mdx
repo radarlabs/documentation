@@ -63,6 +63,10 @@ On iOS, if the app is killed (e.g., swiped up from the App Switcher), the SDK is
 
 On Android, Radar will continue to receive location updates if the app is swiped out of the Recent Apps list. Radar will not receive location updates if the phone manufacturer aggressively kills background services or the user presses _Force stop_.
 
+### Do I need to request background location permissions to access location if the user backgrounds my app?
+
+You can leverage the background location indicator on iOS and a foreground service on android to continue to receive location updates in the background with just foreground location permissions.  These are activated via the `showBlueBar` [tracking option](/sdk/tracking) on iOS and the `foregroundService` [tracking option](/sdk/tracking) on android.  iOS devices will display a blue location icon when activated, while android deivces will display a persistent notification. Use of these visual indicators is common for operational use cases (fleet tracking, delivery, pickup, etc).
+
 ## Troubleshooting
 
 ### Why is a device not appearing in the Radar dashboard?
