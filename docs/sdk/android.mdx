@@ -775,6 +775,34 @@ Finally, to set an optional description for the user, displayed in the dashboard
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
 
+## Debug logging
+
+By default, only critical errors are logged to console. To enable debug logging call:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  Radar.setLogLevel(Radar.RadarLogLevel.DEBUG);
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  Radar.setLogLevel(level = Radar.RadarLogLevel.DEBUG)
+  ```
+
+  </TabItem>
+</Tabs>
+
 ## Other APIs
 
 The Android SDK also exposes APIs for beacons, anonymous context, geocoding, search, and distance.
