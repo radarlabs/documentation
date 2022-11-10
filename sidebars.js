@@ -94,6 +94,7 @@ module.exports = {
       ],
     },
     "dashboard",
+    "troubleshooting",
     "faqs",
   ],
   miscSidebar: [
@@ -179,6 +180,7 @@ module.exports = {
       ],
     },
     "dashboard",
+    "troubleshooting",
     "faqs",
     "vulnerability-disclosure-policy",
   ],
