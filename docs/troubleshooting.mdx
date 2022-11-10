@@ -3,18 +3,75 @@ sidebar_position: 13
 title: Troubleshooting
 id: troubleshooting
 ---
-### Why is a device not appearing in the Radar dashboard?
 
-A device will only appear on the [Users page](https://radar.com/dashboard/users) in the Radar dashboard if a location update has been successfully sent via the [SDK](/sdk), [simulator](/dashboard#simulator), or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been granted and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) has been called. If a device is still not appearing in the Radar dashboard, set up the error listener in the SDK to monitor for errors and set the SDK log level to `debug`.
+This document provides various tips to help troubleshoot location tracking and event generation.
 
-### Why do I have multiple users with the same user ID or device ID?
+## Device not showing up in the dashboard
+
+A device will show up in the Radar dashboard once a successful track API call has been sent to Radar servers for the device in question. Track API calls are sent for location updates collected by the Radar SDK.
+
+**Common causes of issues**
+* Location permissions have not been granted
+* The Radar SDK has not been properly initialized
+* The Radar tracking methods have not been implemented correctly
+
+**Troubleshooting steps**
+1. Verify location permissions have been granted.
+2. Verify SDK initialization uses the correct publishable API key and initialization is happening in application launch. This initialization should happen in the OnCreate() method of the application class on Android and didFinishLaunchingWithOptions method of the ApplicationDelegate on iOS.
+3. Implement Radar.trackOnce() on application launch and log the status in the completion handler/callback. Reference the associated SDK’s foreground tracking documentation section for an explanation of status values.
+4. Set the Radar SDK log level to debug and monitor for errors in logging.
+
+Radar API request logs should look like the line below and you should see a corresponding user in the Radar dashboard.
+
+Log line indicating Radar track API calls are succeeding:
+```
+2022-11-08 11:33:01.784759-0500 RadarImplementation[6947:250060] 📍 Radar API response | method = POST; url = https://api.radar.io/v1/track; statusCode = 200; res = {
+    ...
+```
+
+Verify Radar is registering users on the Users dashboard page:
+![UserRecord.png](/troubleshooting/user_record.png)
+
+## Events are not firing when the app is backgrounded
+
+Devices appearing in the Radar Users dashboard page are a signal that location updates can be delivered to Radar servers via the Radar track API. As device location updates are collected by the Radar SDK and sent to Radar servers they can trigger events based on what context has been activated (i.e. device has an active trip or device moves into or out of a geofence). If location updates are working as expected to trigger events, these events should appear on the Events page of the dashboard. Additionally, if the device's last location is in a geofence or at a place, you can view this on the Users dashboard page.
+
+Verifying event firing in recent events:
+![RecentEvents.png](/troubleshooting/recent_events.png)
+
+Verifying current geofences device is in (User Details dashboard page):
+![UserContent.png](/troubleshooting/user_context.png)
+
+**Common causes of issues**
+* Testing background detection without the location indicator or foreground service, but background location permissions have not been granted
+* Radar events are not enabled in settings
+* The Radar tracking methods have not been implemented correctly
+* The test device has an issue leading to failed location updates (simulator location sensors not working) 
+* Not properly testing based on tracking options (i.e. geofence stop detection is on, but not dwelling long enough in test for Radar to detect a stop)
+
+**Troubleshooting steps**
+1. Verify SDK initialization uses the correct publishable API key and initialization is happening in application launch. This initialization should happen in the OnCreate() method of the application class on android and didFinishLaunchingWithOptions method of the ApplicationDelegate on iOS.  On iOS verify that location updates background mode has been enabled if using the responsive or continuous presets.
+2. Confirm events are set to deliver for the context type being tested (dashboard/settings).
+3. Confirm Radar.startTracking() is being executed.
+4. Based on tracking options in use, determine what is needed to trigger location updates and verify location updates appear in the Radar dashboard. For example, if using hte responsive preset and the device is detected stopped, have the device move over 200m to trigger a location update. Location updates can be verified in the dashboard by the updated at time on the User dashboard page and in the user activity feed.
+5. If location updates are not appearing in the previous step, set Radar log level to debug and monitor for location updates and errors in logging.
+
+## Event listeners are not delivering
+
+**Common causes of issues**
+* Radar event listeners are not implemented correctly
+* Radar events are not triggering
+
+**Troubleshooting steps**
+1. Verify the Radar delegate on iOS and receiver on android are implemented following SDK documentation. For cross platform frameworks, ensure the listeners are setup outside of the view lifecycle and verify the correct native SDK version is in use (can look up user records in teh radar dashboard and compare to the sdk pinned version in the sdk repo).
+2. Ensure expected events are actually firing when testing the listeners. Specifically the location listeners (onClientLocationUpdated and locationUpdated) will only fire if location updates are actively being collected (former) and being processed by Radar servers (latter). The Radar events listener (onEventsReceived) will only fire if Radar is triggering events from location updates.
+
+## Additional behavior
+
+### Multiple Radar users with the same user ID or device ID
 
 The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values. Multiple users generating without uninstalls indicates a potential issue setting the `userId` in the SDK (i.e. passing in `null` for the `userId` in certain scenarios).
 
-### Why am I not seeing geofence events trigger in Radar?
-
-On the Users detail page, verify the time that the last location update was sent to Radar via the Location section. View recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected interval, verify your [tracking options](/sdk/tracking) are correct and applied properly. If events are not triggering, verify geofence [entry and exit settings](/geofences#stop-detection). **Note that a device needs to exit a geofence before generating a subsequent entry event, so ensure that the device has been detected outside of the geofence prior to testing another entry.**
-
-### Why am I seeing rate limit errors when tracking location?
+### Rate limit errors when tracking location
 
 Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstsalling the application with the Radar SDK will reset the rate limits.
