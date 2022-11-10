@@ -30,17 +30,17 @@ Log line indicating Radar track API calls are succeeding:
 ```
 
 Verify Radar is registering users on the Users dashboard page:
-![UserRecord.png](/troubleshooting/user_record.png)
+![User Record](/img/troubleshooting/user_record.png)
 
 ## Events are not firing when the app is backgrounded
 
 Devices appearing in the Radar Users dashboard page are a signal that location updates can be delivered to Radar servers via the Radar track API. As device location updates are collected by the Radar SDK and sent to Radar servers they can trigger events based on what context has been activated (i.e. device has an active trip or device moves into or out of a geofence). If location updates are working as expected to trigger events, these events should appear on the Events page of the dashboard. Additionally, if the device's last location is in a geofence or at a place, you can view this on the Users dashboard page.
 
 Verifying event firing in recent events:
-![RecentEvents.png](/troubleshooting/recent_events.png)
+![Recent Events](/img/troubleshooting/recent_events.png)
 
 Verifying current geofences device is in (User Details dashboard page):
-![UserContent.png](/troubleshooting/user_context.png)
+![User Content](/img/troubleshooting/user_context.png)
 
 **Common causes of issues**
 * Testing background detection without the location indicator or foreground service, but background location permissions have not been granted
@@ -65,8 +65,9 @@ Verifying current geofences device is in (User Details dashboard page):
 **Troubleshooting steps**
 1. Verify the Radar delegate on iOS and receiver on android are implemented following SDK documentation. For cross platform frameworks, ensure the listeners are setup outside of the view lifecycle and verify the correct native SDK version is in use (can look up user records in teh radar dashboard and compare to the sdk pinned version in the sdk repo).
 2. Ensure expected events are actually firing when testing the listeners. Specifically the location listeners (onClientLocationUpdated and locationUpdated) will only fire if location updates are actively being collected (former) and being processed by Radar servers (latter). The Radar events listener (onEventsReceived) will only fire if Radar is triggering events from location updates.
+3. Log error listener methods (didFail or onError) to determine if these are firing. Review the error messages returned to diagnose root cause.
 
-## Additional behavior
+## Additional behavior troubleshooting
 
 ### Multiple Radar users with the same user ID or device ID
 
