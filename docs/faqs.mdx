@@ -67,6 +67,10 @@ On Android, Radar will continue to receive location updates if the app is swiped
 
 You can leverage the background location indicator on iOS and a foreground service on android to continue to receive location updates in the background with just foreground location permissions.  These are activated via the `showBlueBar` [tracking option](/sdk/tracking) on iOS and the `foregroundService` [tracking option](/sdk/tracking) on android.  iOS devices will display a blue location icon when activated, while android deivces will display a persistent notification. Use of these visual indicators is common for operational use cases (fleet tracking, delivery, pickup, etc).
 
+### What are the different event listeners and how should I use them?
+
+Each listener can support different use cases and will have different data available to action on. `onClientLocationUpdated` is updated anytime the Radar location manager receives a location update, and can be used to collect a stream of location updates without enrichment by Radar servers. The `onLocationUpdated` listener fires any time a location update is processed by Radar and will return updated user context. This can be used to deliver in app experiences based on user context (force a location update on application launch with `Radar.TrackOnce()`). `onEventsReceived` can be used to listen for Radar events and trigger workflows.
+
 ## Troubleshooting
 
 ### Why is a device not appearing in the Radar dashboard?
@@ -84,6 +88,10 @@ On the Users detail page, verify the time that the last location update was sent
 ### Why am I seeing rate limit errors when tracking location?
 
 Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstsalling the application with the Radar SDK will reset the rate limits.
+
+### Why am I not seeing Radar SDK event listeners trigger?
+
+Ensure you have followed the documentation on event listener setup for the SDK in use. Additionally, ensure the SDK is initialized during application launch and outside of view loading. On android this is in the onCreate() method of the application class and in the didFinishLaunchingWithOptions method of the iOS ApplicationDelegate. Once these have been validated, confirm local logging is observed for the various event listeners. If error listener methods are executing (didFail,onError), determine the status value and root cause.
 
 ## Privacy
 
