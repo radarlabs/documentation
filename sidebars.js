@@ -96,6 +96,7 @@ module.exports = {
     "dashboard",
     "troubleshooting",
     "faqs",
+    "testing"
   ],
   miscSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
@@ -182,6 +183,7 @@ module.exports = {
     "dashboard",
     "troubleshooting",
     "faqs",
+    "testing",
     "vulnerability-disclosure-policy",
   ],
 };

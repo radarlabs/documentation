@@ -1,0 +1,68 @@
+---
+sidebar_position: 14
+title: Testing
+id: testing
+---
+
+The resources below provide best practices when testing Radar and checks prior to go live.
+
+## Testing tools
+
+A variety of tools are available that can be used for different testing scenarios.
+
+### Radar simulator
+**Use:** Test Radar event [integrations](/integrations)
+
+** Instructions:**  Use the [Radar Simulator](/dashboard#simulator). If you need to send specific user parameters used in integration events to test behavior (i.e. user id), simulate a target user or adjust the simulated user metadata.
+
+** Verification:**  Use the event details and integration logs pages to verify successful event delivery to integrations.
+
+*Example of event integration verification:*
+![Event integrations](/img/testing/event_integrations.png)
+
+###  Manual and mock tracking
+**Use:** Execute automated tests
+
+**Instructions:**  Execute either [mock tracking](/sdk/ios#mock-tracking-for-testing) or [manual tracking](/sdk/ios#manual-tracking) methods in the corresponding SDK. Mock tracking should be used to test a sequence of events (point A to B following a route), whereas manual tracking should be used verify data at a specific location. These methods are often integrated into a testing suite or QA panel.
+
+**Verification:**  Use SDK event listeners, logs or the Radar dashboard to confirm the expected user or events data is present.
+
+### Location spoofing
+**Use:** Verify data collection and generation at test locations.
+
+**Instructions:** Both Xcode and Android Device Manager (AVD) support location simulation (custom locations, GPX or KML files).  For physical devices not connected to a development environment, various tools support spoofing. On android, these include [lockito](https://play.google.com/store/apps/details?id=fr.dvilleneuve.lockito) or similar GPS spoofing apps. On iOS, these include [mockgo](https://www.foneazy.com/mockgo-iphone-gps-spoofer/) or idevicesetlocation from [libimobiledevice](https://libimobiledevice.org/).
+
+** Verification:**  Use logs or the Radar dashboard to confirm the expected user or events data is present.
+
+*Example of location simulation in Xcode:*
+![Xcode Location Spoofing](/img/testing/xcode_location_spoofing.png)
+
+### Real world testing
+**Use:** Verify real world behavior at test locations.
+
+**Instructions:** Setup test geofences at various locations to verify detection behavior. Another effective setup is to use the Radar dashboard or APIs to enable or disable geofences. This will allow you to trigger enters (enabled) and exits (disabled) to verify in app behavior. When testing, be aware of location tracking settings in use. As an example, if using the [responsive tracking preset](/sdk/tracking#ios-presets) if the device is detected stopped, it will need to move at least 100m before a subsequent location update is triggered. This is reliant on an exit from the client side geofence around the detected device stop.
+
+**Verification:** Use Radar User Activity page to verify location collection and Radar events page to verify event delivery.
+
+## Go live checks
+
+Below are some important checks to go through before releasing functionality powered by Radar:
+
+[ ] Different location permission flows for different OS versions behave as expected. **Note:** major versions to consider are Android 10 where background permissions and android 12 where devices are redirected to settings for background permissions
+
+[ ] Foreground and background operation work as expected
+
+[ ] Integrations have been configured and tested for the Radar live environment
+
+[ ] The publishable key in the production application uses the Radar live key
+
+[ ] Geofences and other Radar dashboard settings have been mirrored between Radar test and live environments
+
+[ ] Data [retention controls](/faqs#what-is-radars-data-retention-policy) have been adjusted to align with privacy policy
+
+## App store submission
+
+Ensure submission information has been updated to reflect changes in location use:
+
+- If introducing the location background mode on iOS, ensure your [app store description](/sdk/ios#submit-to-app-store) has been updated with required language.
+- If leveraging background location on android (ACCESS_BACKGROUND_LOCATION in your manifest), ensure you follow [app store review guidelines](https://radar.com/blog/guide-to-play-store-background-location-approval) as part of submission.
