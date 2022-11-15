@@ -1,7 +1,5 @@
 ---
-sidebar_position: 12
 title: Testing
-id: testing
 ---
 
 The resources below provide best practices when testing Radar and checks prior to go live.
@@ -30,7 +28,7 @@ A variety of tools are available that can be used for different testing scenario
 ### Location spoofing
 **Use:** Verify data collection and generation at test locations.
 
-**Instructions:** Both Xcode and Android Device Manager (AVD) support location simulation (custom locations, GPX or KML files).  For physical devices not connected to a development environment, various tools support spoofing. On Android, these include [lockito](https://play.google.com/store/apps/details?id=fr.dvilleneuve.lockito) or similar GPS spoofing apps. On iOS, these include [mockgo](https://www.foneazy.com/mockgo-iphone-gps-spoofer/) or idevicesetlocation from [libimobiledevice](https://libimobiledevice.org/).
+**Instructions:** Both Xcode and Android Device Manager (AVD) support location simulation (custom locations, GPX or KML files).  For physical devices not connected to a development environment, various tools support spoofing. On android, these include [lockito](https://play.google.com/store/apps/details?id=fr.dvilleneuve.lockito) or similar GPS spoofing apps. On iOS, these include [mockgo](https://www.foneazy.com/mockgo-iphone-gps-spoofer/) or idevicesetlocation from [libimobiledevice](https://libimobiledevice.org/).
 
 ** Verification:**  Use logs or the Radar dashboard to confirm the expected user or events data is present.
 
@@ -44,29 +42,25 @@ A variety of tools are available that can be used for different testing scenario
 
 **Verification:** Use Radar User Activity page to verify location collection and Radar events page to verify event delivery.
 
-## Launch readiness
-
-Make sure you’re ready to take your app to production.
-
-### Go-live checks
+## Go live checks
 
 Below are some important checks to go through before releasing functionality powered by Radar:
 
-<div><input type="checkbox" /> Different location permission flows for different OS versions behave as expected. <b>Note: the major versions to consider are Android 10 where background permissions and Android 12 where devices are redirected to settings for background permissions.</b></div>
+[ ] Different location permission flows for different OS versions behave as expected. **Note:** major versions to consider are Android 10 where background permissions and android 12 where devices are redirected to settings for background permissions
 
-<div><input type="checkbox" /> Foreground and background tracking work as expected.</div>
+[ ] Foreground and background operation work as expected
 
-<div><input type="checkbox" /> Integrations have been configured and tested in the Radar live environment.</div>
+[ ] Integrations have been configured and tested for the Radar live environment
 
-<div><input type="checkbox" /> Your production application uses the Radar live key as the publishable key.</div>
+[ ] The publishable key in the production application uses the Radar live key
 
-<div><input type="checkbox" /> Geofences and other Radar dashboard settings have been mirrored between the test and live environments.</div>
+[ ] Geofences and other Radar dashboard settings have been mirrored between Radar test and live environments
 
-<div><input type="checkbox" /> Data <a href="/faqs#what-is-radars-data-retention-policy">retention controls</a> have been adjusted to align with your privacy policy.</div>
+[ ] Data [retention controls](/faqs#what-is-radars-data-retention-policy) have been adjusted to align with privacy policy
 
-### App store submission
+## App store submission
 
 Ensure submission information has been updated to reflect changes in location use:
 
 - If introducing the location background mode on iOS, ensure your [app store description](/sdk/ios#submit-to-app-store) has been updated with required language.
-- If leveraging background location on Android (ACCESS_BACKGROUND_LOCATION in your manifest), ensure you follow [app store review guidelines](https://radar.com/blog/guide-to-play-store-background-location-approval) as part of submission.
+- If leveraging background location on android (ACCESS_BACKGROUND_LOCATION in your manifest), ensure you follow [app store review guidelines](https://radar.com/blog/guide-to-play-store-background-location-approval) as part of submission.
