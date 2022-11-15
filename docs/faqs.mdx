@@ -228,6 +228,15 @@ On Android, the SDK checks the `ACCESS_FINE_LOCATION` and `ACCESS_BACKGROUND_LOC
 - **`Denied`**: The `ACCESS_FINE_LOCATION` permission is denied and `shouldShowRequestPermissionRationale()` returns `false`, meaning that the user has denied location permissions and checked "Never ask again."
 - **`Not Determined`**: None of the above criteria are true, meaning that the user has not yet been prompted for location permissions.
 
+### What is a tracked user?
+A tracked user is any opted-in user whose location is tracked by Radar.
+
+### What is an active user?
+An active user is any user, regardless of permissions, that has an [App Session](#what-qualifies-as-an-app-session) with Radar’s SDK installed.
+
 ### What qualifies as an app session?
 
 An app session represents a period of user activity within your app. A new app session is started whenever the app is opened, assuming at least 5 minutes have elapsed since the app was last closed.
+
+### Why are counts of active users different from tracked users?
+A user may have an App Session (open the application) but not utilize features that require them to be tracked by Radar. They may also be tracked in the background (with appropriate permissions), but not open the application.
