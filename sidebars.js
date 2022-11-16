@@ -169,7 +169,6 @@ module.exports = {
       label: "Tutorials",
       items: [
         { type: "doc", id: "tutorials", label: "Overview" },
-        "tutorials/building-a-delivery-tracker-with-live-location-and-etas",
         "tutorials/building-a-delivery-tracking-app",
         "tutorials/building-a-store-locator-on-ios",
         "tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode",

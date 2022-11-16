@@ -71,7 +71,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     override init() {
 
         super.init()
-        Radar.initialize(publishableKey: "prj_live_pk...")
+        Radar.initialize(publishableKey: "prj_test_pk...")
 
         self.locationManager.delegate = self
     }
@@ -86,25 +86,16 @@ Finally, add an @ObservedObject property to the `DeliveryTrackerApp` class in `D
 
 ### Step 4: Request location permissions
 
-Before requesting permissions, you must add location usage strings to the custom iOS Target Properties found in the Info tab of the app settings. To request foreground and background permissions in the app, add a new property with the key `NSLocationAlwaysAndWhenInUseUsageDescription` (_Privacy - Location Always and When In Use Usage Description_). The value is displayed in the location permission prompts. Enter a message such as `Your location will be used to share ETA and arrival notifications to customers`.
+Before requesting permissions, you must add location usage strings to the custom iOS Target Properties found in the Info tab of the app settings. To request foreground permissions in the app, add a new property with the key `NSLocationWhenInUseUsageDescription` (_Privacy - Location When In Use Usage Description_). The value is displayed in the location permission prompts. Enter a message such as `Your location will be used to share ETA and arrival notifications to customers`.
 
 <p><img
   className="large"
-  src="https://images.ctfassets.net/8lppgnrkmboj/vNseL2LoYe4WSBbHcuS1q/ee615cf199900925071a99ad8c2f70d3/xcodepermissionstring.gif"
-/></p>
-
-You will also need to enable location updates and background fetch for the application. In your project settings, go to Signing & Capabilities, click the plus icon and add a capability for Background Modes, and turn on _Location updates_ and _Background fetch_.
-
-<p><img
-  className="large"
-  src="https://images.ctfassets.net/8lppgnrkmboj/69GmWQXSt6NNiGY7gLemZF/3bf85128d4419cea7578d0f30993c08b/Screen_Shot_2022-09-26_at_8.41.40_AM.png"
+  src="https://images.ctfassets.net/8lppgnrkmboj/4pAq86XYVNhXq27DTfzUAi/f41c1bcf60cb0266c37c7970f4c27e12/updatedinfoplist.gif"
 /></p>
 
 Then, request these permissions in the app by adding the following into the `LocationManager` class:
 
 ```swift
-let locationManager = CLLocationManager()
-
 func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         self.requestLocationPermissions()
 }
@@ -114,8 +105,6 @@ func requestLocationPermissions() {
 
     if status == .notDetermined {
         self.locationManager.requestWhenInUseAuthorization()
-    } else if status == .authorizedWhenInUse {
-        self.locationManager.requestAlwaysAuthorization()
     }
 
     if status == .authorizedAlways || status == .authorizedWhenInUse {
@@ -128,7 +117,7 @@ func requestLocationPermissions() {
 
 At this point, you should be able to launch the app and see a prompt asking for location permissions. Accept these permissions!
 
-If you are following the step-by-step app implementation in this tutorial, let's set up the sample app skeleton at this point. Copy these SwiftUI view files from the source code into your project: `JobListView.swift`, `AcceptedJobView.swift`, `AcceptedJobDetailView.swift`, `JobCard.swift`, `JobListView.swift`. Copy over `Job.swift` as well, which defines the Job struct and contains sample jobs. Then in `DeliveryTrackerApp.swift`, set `JobListView` to be the scene in the App body:
+If you are following the step-by-step app implementation in this tutorial, let's set up the sample app skeleton at this point. Copy these SwiftUI view files from the source code or this [zip file](https://assets.ctfassets.net/8lppgnrkmboj/2K0sMrIXqlLpMaf5fEZoTL/883324a82709279dbb966180344135f8/tutorial-files.zip) into your project: `JobListView.swift`, `DispatchJobView.swift`, `AcceptedJobDetailView.swift`, `JobCard.swift`, `JobDetailView.swift`. Copy over `Job.swift` as well, which defines the Job struct and contains sample jobs. Then in `DeliveryTrackerApp.swift`, set `JobListView` to be the scene in the App body:
 
 ```swift
 var body: some Scene {
@@ -142,9 +131,9 @@ In the next few steps, we will set up trip tracking capabilities to power these 
 
 ### Step 5: Add trip start logic
 
-When a delivery starts, we create a trip to the destination geofence and start tracking the live location for the user. From the source code, `AcceptedJobDetailView.swift` contains the button to start a trip for a given job. We will now define its action `startOrStopTrip` in the `LocationManager` class.
+When a delivery starts, we create a trip to the destination geofence and start tracking the live location for the user. From the source code, `DispatchJobDetailView.swift` contains the button to start a trip for a given job. We will now define its action `startOrStopTrip` in the `LocationManager` class.
 
-The button action contains trip start logic (and trip cancel logic for in progress trips) as shown below. We use a uuid for the trip `externalId`, although existing delivery ids should be used here when applicable. Set your destination geofence from Step 1.
+The button action contains trip start logic (and trip cancel logic for in progress trips) as shown below. We use a uuid for the trip `externalId`, although existing delivery ids should be used here when applicable. Set your destination geofence from [Step 1](/tutorials/building-a-delivery-tracking-app#step-1-set-up-your-radar-account).
 
 ```swift
 @Published var onTrip = false
@@ -189,12 +178,12 @@ func startOrStopTrip(job: Job) {
     }
 ```
 
-Notice that we use `Radar.mockTracking()` instead of track for now, which helps simulate a sequence of location updates from an origin to a destination quickly for testing. In this case, we simulate a sequence of 10 location updates, each 2 seconds apart, by car from the `origin` to the `destination`.
+Notice that we use `Radar.mockTracking()` instead of [track](/api#track) for now, which helps simulate a sequence of location updates from an origin to a destination quickly for testing. In this case, we simulate a sequence of 10 location updates, each 2 seconds apart, by car from the `origin` to the `destination`.
 
 
 ### Step 6: Add trip completion logic
 
-We will use the destination geofence exit as a signal that the delivery is complete. To do this, we need to listen for the corresponding event, then complete the trip and stop tracking when it is detected. Update the `LocationManager` to be our `RadarDelegate`:
+We will use arrival at the trip destination as a signal that the delivery is complete. To do this, we need to listen for the corresponding event, then complete the trip and stop tracking when it is detected. Update the `LocationManager` to be our `RadarDelegate`:
 
 ```swift
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, RadarDelegate
@@ -233,7 +222,7 @@ func didLog(message: String) {
 
 ### Checkpoint: Create a trip!
 
-With the steps we've covered so far, you are ready to create your first trip in the app! Run the app, and click the start button in the AcceptedJobView. Now head to the [Trips](https://radar.com/dashboard/trips) page where you will find all current and past trips. Ensure that a new trip appears in the started state at the top of your dashboard. With mock tracking automatically making progress on the trip in the background, the trip status should change to completed within the next minute.
+With the steps we've covered so far, you are ready to create your first trip in the app! Run the app, and click the start button in the DispatchJobView. Now head to the [Trips](https://radar.com/dashboard/trips) page where you will find all current and past trips. Ensure that a new trip appears in the started state at the top of your dashboard. With mock tracking automatically making progress on the trip in the background, the trip status should change to completed within the next minute.
 
 <p><img
   className="large"
@@ -423,13 +412,13 @@ Your browser does not support the video tag.
 
 ### Step 9: Next steps
 
-Congratulations on finishing the tutorial! This is an illustrative example to get started with trip tracking. Here are some next steps and considerations before using these features in a production setting:
+Congratulations on finishing the tutorial! This is an illustrative example to get started with [trip tracking](/trip-tracking). Here are some next steps and considerations before using these features in a production setting:
 
 1) On trip start, replace the mock tracking call with `Radar.startTracking` in the application that the users to be tracked will be using.
 
-2) Set trip destinations to geofences created via the [geofence upsert API](/api#upsert-a-geofence) with the delivery location instead of the test geofence.
+2) Set trip destinations to geofences with delivery locations instead of the test geofence. Geofences can also be created programatically via the [geofence upsert API](/api#upsert-a-geofence).
 
-3) Use [Braze](integrations/braze) to send push instead of local notifications when the party be notified is different from the on the trip.
+3) Use [Braze](integrations/braze) to send push instead of local notifications to other users with different devices.
 
 Explore resources on the [Trip Tracking page](/trip-tracking), [API documentation](/api), and [SDK guides](/sdk) for more information.
 
