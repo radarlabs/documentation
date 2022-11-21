@@ -1028,6 +1028,34 @@ Radar.setDescription(description)
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
 
+## Debug logging
+
+By default, only critical errors are logged to the console. To enable debug logging, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.setLogLevel(RadarLogLevel.debug)
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar setLogLevel:RadarLogLevelDebug];
+```
+
+  </TabItem>
+</Tabs>
+
 ## Submit to App Store
 
 Apple requires that you justify your use of background location. Add something materially similar to the following to the bottom of your App Store description: _This app uses background location to (insert use case here). Continued use of background location may decrease battery life._

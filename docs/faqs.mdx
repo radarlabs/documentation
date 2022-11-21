@@ -63,6 +63,14 @@ On iOS, if the app is killed (e.g., swiped up from the App Switcher), the SDK is
 
 On Android, Radar will continue to receive location updates if the app is swiped out of the Recent Apps list. Radar will not receive location updates if the phone manufacturer aggressively kills background services or the user presses _Force stop_.
 
+### If a user backgrounds my app, do I need to request background location permissions to access location?
+
+With just foreground location permissions, you can leverage the [background location indicator](https://developer.apple.com/documentation/corelocation/cllocationmanager/2923541-showsbackgroundlocationindicator) on iOS or a [foreground service](https://developer.android.com/guide/components/foreground-services) on Android to continue to receive location updates in the background. These are activated via the `showBlueBar` [tracking option](/sdk/tracking#ios-options) on iOS or the `foregroundService` [tracking option](/sdk/tracking#android-options) on Android. iOS devices will display a blue location icon when activated, and Android deivces will display a persistent notification. Use of these visual indicators is common for operational use cases such as fleet tracking and delivery.
+
+### What are the different event listeners and how should I use them?
+
+Each listener can support different use cases and exposes different data to take actions. The client location listener (`onClientLocationUpdated` on Android, `didUpdateClientLocation` on iOS) is fired whenever the Radar SDK receives a location update from the device. It can be used to collect a stream of location updates before they hit Radar servers. The location updated listener (`onLocationUpdated` on Android, `didUpdateLocation` on iOS) delivers location updates processed by Radar servers and will return refreshed user context. This listener can be used to deliver in-app experiences based on user context, including when `Radar.trackOnce()` is called on application launch. The Radar events listener (`didReceiveEvents` on Android and iOS) can be used to listen for Radar events and trigger workflows.
+
 ## Troubleshooting
 
 ### Why is a device not appearing in the Radar dashboard?
