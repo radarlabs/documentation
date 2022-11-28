@@ -45,14 +45,14 @@ Before writing any JavaScript, you must integrate the Radar SDK with your iOS an
 
 ### iOS
 
-You must add location usage descriptions and background modes to your `Info.plist`. For foreground permissions, you must add a value for  `NSLocationWhenInUseUsageDescription` *(Privacy - Location When In Use Usage Description)*. For background permissions, you must add a value for `NSLocationAlwaysAndWhenInUseUsageDescription` *(Privacy - Location Always and When In Use Usage Description)*. These strings are displayed in permissions prompts.
+For foreground permissions, you must add a value for  `NSLocationWhenInUseUsageDescription` *(Privacy - Location When In Use Usage Description)*. For background permissions, you must also add a value for `NSLocationAlwaysAndWhenInUseUsageDescription` *(Privacy - Location Always and When In Use Usage Description)*. These strings are displayed in permissions prompts.
 
 <img
   className="large"
   src="https://images.ctfassets.net/f2vbu16fzuly/66LUD7W9uTt7f2H5pMmpBp/1e5a2bb2baaf79328e88c3ea47a7f6ff/permissions.png"
 />
 
-If you are planning to leverage background tracking, such as responsive or continuous mode, in your project settings, go to _Signing & Capabilities_, add _Background Modes_, and turn on _Background fetch_ and _Location updates_. Note that this requires additional justification during App Store review. [Learn more](/sdk/ios#submit-to-app-store).
+If planning to leverage background tracking, in your project settings go to _Signing & Capabilities_, add _Background Modes_, and turn on _Background fetch_ and _Location updates_. Note that this requires additional justification during App Store review. [Learn more](/sdk/ios#submit-to-app-store).
 
 <img
   className="large"
@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 On Android, you must add the Android SDK to your project, preferably using Gradle. Implement the Android SDK version so it matches the dependency version in use in the `radar-capacitor` module's `build.gradle`. Ensure Google Play Services Location is a dependency in your project *(use version 18 or higher)*.
 
 <Alert alertType="info">
-  On any Capacitor SDK upgrades, ensure the Android SDK version is updated to match the latest plugin release. For details on the latest SDK releases, see the{" "}
+  On any SDK upgrades, ensure the Android SDK version is updated to match the plugin's pinned version. For details on the latest SDK releases, see the{" "}
   <a href="https://github.com/radarlabs/capacitor-radar/releases">
     releases page
   </a>{" "}
@@ -114,7 +114,7 @@ public class MainActivity extends BridgeActivity {
   <a href="https://capacitorjs.com/docs/updating/4-0#change-registerplugin-order">plugin loading</a>.
 </Alert>
 
-For background tracking without a foreground service and targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
+For background tracking without a foreground service and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
