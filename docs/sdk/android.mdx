@@ -809,7 +809,20 @@ The Android SDK also exposes APIs for beacons, anonymous context, geocoding, sea
 
 ### Beacons
 
-To range and monitor [beacons](/beacons), you must [request Bluetooth permissions](https://developer.android.com/about/versions/12/features/bluetooth-permissions#declare-new-permissions).
+To range and monitor [beacons](/beacons), you must [request Bluetooth permissions](https://developer.android.com/about/versions/12/features/bluetooth-permissions#declare-new-permissions). Both `BLUETOOTH_CONNECT` and `BLUETOOTH_SCAN` are required runtime permissions if targeting API level 31 and higher.
+
+Radar requires the following bluetooth permissions be added to your manifest. 
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+</manifest>
+```
 
 To range beacons in the foreground, call:
 
