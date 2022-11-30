@@ -1,5 +1,5 @@
 ---
-sidebar_position: 13
+sidebar_position: 14
 title: FAQs
 id: faqs
 ---
@@ -70,24 +70,6 @@ With just foreground location permissions, you can leverage the [background loca
 ### What are the different event listeners and how should I use them?
 
 Each listener can support different use cases and exposes different data to take actions. The client location listener (`onClientLocationUpdated` on Android, `didUpdateClientLocation` on iOS) is fired whenever the Radar SDK receives a location update from the device. It can be used to collect a stream of location updates before they hit Radar servers. The location updated listener (`onLocationUpdated` on Android, `didUpdateLocation` on iOS) delivers location updates processed by Radar servers and will return refreshed user context. This listener can be used to deliver in-app experiences based on user context, including when `Radar.trackOnce()` is called on application launch. The Radar events listener (`didReceiveEvents` on Android and iOS) can be used to listen for Radar events and trigger workflows.
-
-## Troubleshooting
-
-### Why is a device not appearing in the Radar dashboard?
-
-A device will only appear on the [Users page](https://radar.com/dashboard/users) in the Radar dashboard if a location update has been successfully sent via the [SDK](/sdk), [simulator](/dashboard#simulator), or manually to Radar's [track API](/api#track). If using the SDK, verify location permissions have been granted and a Radar tracking method (`Radar.trackOnce()` or `Radar.startTracking()`) has been called. If a device is still not appearing in the Radar dashboard, set up the error listener in the SDK to monitor for errors and set the SDK log level to `debug`.
-
-### Why do I have multiple users with the same user ID or device ID?
-
-The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values. Multiple users generating without uninstalls indicates a potential issue setting the `userId` in the SDK (i.e. passing in `null` for the `userId` in certain scenarios).
-
-### Why am I not seeing geofence events trigger in Radar?
-
-On the Users detail page, verify the time that the last location update was sent to Radar via the Location section. View recent location updates and events on the [User Activity](/dashboard#user-activity) page. If location updates are not delivering at the expected interval, verify your [tracking options](/sdk/tracking) are correct and applied properly. If events are not triggering, verify geofence [entry and exit settings](/geofences#stop-detection). **Note that a device needs to exit a geofence before generating a subsequent entry event, so ensure that the device has been detected outside of the geofence prior to testing another entry.**
-
-### Why am I seeing rate limit errors when tracking location?
-
-Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstsalling the application with the Radar SDK will reset the rate limits.
 
 ## Privacy
 
