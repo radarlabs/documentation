@@ -56,7 +56,7 @@ If you haven't already configured your project for Google Play Services, follow 
 
 As an alternative to Google Play Services, the SDK also optionally supports [Huawei Mobile Services](#huawei).
 
-The SDK currently supports API level `16` and higher.
+The SDK currently supports API level `16` or above.
 
 ## Initialize SDK
 
@@ -121,7 +121,7 @@ Radar respects [standard Android location permissions](https://developer.android
 
 For foreground tracking or trip tracking with continuous mode, Radar requires the `ACCESS_FINE_LOCATION` permission for precise location and/or the `ACCESS_COARSE_LOCATION` permission for [approximate location](https://developer.android.com/about/versions/12/approximate-location). To start a [foreground service](https://developer.android.com/training/location/permissions#foreground), Radar requires the `FOREGROUND_SERVICE` permission. These permissions are automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, and `RECEIVE_BOOT_COMPLETED` permissions.
 
-For background tracking or geofencing with responsive mode, and if targeting API level `29` or higher, Radar also requires the new `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
+For background tracking or geofencing with responsive mode, and if targeting API level `29` or above, Radar also requires the new `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -809,7 +809,7 @@ The Android SDK also exposes APIs for beacons, anonymous context, geocoding, sea
 
 ### Beacons
 
-To range and monitor [beacons](/beacons), you must [request Bluetooth permissions](https://developer.android.com/about/versions/12/features/bluetooth-permissions#declare-new-permissions). If targeting API level 31 or above, both `BLUETOOTH_CONNECT` and `BLUETOOTH_SCAN` are required runtime permissions.
+To range and monitor [beacons](/beacons), you must [request Bluetooth permissions](https://developer.android.com/about/versions/12/features/bluetooth-permissions#declare-new-permissions). If targeting API level `31` or above, both `BLUETOOTH_CONNECT` and `BLUETOOTH_SCAN` are required runtime permissions.
 
 The following bluetooth permissions must be added to your manifest:
 
