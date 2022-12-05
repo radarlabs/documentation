@@ -73,8 +73,8 @@ To take advantage of Radar's custom events API, you need to determine events tha
 | Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
 | app_open   | Understand where users are engaging with the app to prioritize location personalized features                       | After home view load completes      | NA                                                                             |
-| sign_up    | Measure which stores are driving sign ups through at store promotions                                               | After the sign up flow is completed | referrer: <string> rewards: boolean                                            |
-| purchase   | 1. Measure revenue driven from in store mode powered by Radar 2. Understand distance from store at time of purchase | After order submission              | amount: <number> mode: "pickup"\|"curbside"\|"delivery" in_store_mode: boolean |
+| sign_up    | Measure which stores are driving sign ups through at store promotions                                               | After the sign up flow is completed | referrer: string rewards: boolean                                            |
+| purchase   | 1. Measure revenue driven from in store mode powered by Radar 2. Understand distance from store at time of purchase | After order submission              | amount: number mode: "pickup"\|"curbside"\|"delivery" in_store_mode: boolean |
 
 ## Step 4: Send custom events via the Radar SDK
 
@@ -109,6 +109,5 @@ Radar.sendEvent(
     Log.v("example", "Custom event type = ${events?.first()?.customType}: status = $status; location = $location; events = $events; user = $user")
 }
 ```
-  </TabItem>
   </TabItem>
 </Tabs>
