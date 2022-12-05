@@ -1,7 +1,10 @@
 ---
-sidebar_position: 6
+sidebar_position: 8
 title: Using custom events
 ---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 In this tutorial, we show you how to use Radar's [custom events API](/api#send-a-custom-event), which allows you to send a custom event to analyze alongside other location activity in your app. This can represent anything from a conversion or purchase to engagement with an in-app feature.
 
@@ -93,7 +96,7 @@ The following example demonstrates how to send a custom event to Radar on app op
 ```swift
 // on sign up event received
 Radar.sendEvent(customType: "signup", metadata: ["referrer":"google"],["rewards": true]) { (status, location, events, user) in
-            print("Send event: status = \(Radar.stringForStatus(status)); location = \(String(describing: location)); events = \(String(describing: events)); user = \(String(describing: user))")
+  print("Send event: status = \(Radar.stringForStatus(status)); location = \(String(describing: location)); events = \(String(describing: events)); user = \(String(describing: user))")
 }
 ```
 
