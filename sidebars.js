@@ -93,10 +93,10 @@ module.exports = {
         "tutorials/detecting-location-based-fraud",
       ],
     },
-    "dashboard",
+    "testing",
     "troubleshooting",
+    "dashboard",
     "faqs",
-    "testing"
   ],
   miscSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
@@ -180,10 +180,10 @@ module.exports = {
         "tutorials/detecting-location-based-fraud",
       ],
     },
-    "dashboard",
-    "troubleshooting",
-    "faqs",
     "testing",
+    "troubleshooting",
+    "dashboard",
+    "faqs",
     "vulnerability-disclosure-policy",
   ],
 };

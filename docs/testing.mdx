@@ -1,5 +1,5 @@
 ---
-sidebar_position: 14
+sidebar_position: 12
 title: Testing
 id: testing
 ---
@@ -44,23 +44,27 @@ A variety of tools are available that can be used for different testing scenario
 
 **Verification:** Use Radar User Activity page to verify location collection and Radar events page to verify event delivery.
 
-## Go live checks
+## Launch readiness
+
+Make sure you’re ready to take your app to production.
+
+### Go-live checks
 
 Below are some important checks to go through before releasing functionality powered by Radar:
 
-[ ] Different location permission flows for different OS versions behave as expected. **Note:** major versions to consider are Android 10 where background permissions and Android 12 where devices are redirected to settings for background permissions
+<div><input type="checkbox" /> Different location permission flows for different OS versions behave as expected. <b>Note: the major versions to consider are Android 10 where background permissions and Android 12 where devices are redirected to settings for background permissions.</b></div>
 
-[ ] Foreground and background operation work as expected
+<div><input type="checkbox" /> Foreground and background tracking work as expected.</div>
 
-[ ] Integrations have been configured and tested for the Radar live environment
+<div><input type="checkbox" /> Integrations have been configured and tested in the Radar live environment.</div>
 
-[ ] The publishable key in the production application uses the Radar live key
+<div><input type="checkbox" /> Your production application uses the Radar live key as the publishable key.</div>
 
-[ ] Geofences and other Radar dashboard settings have been mirrored between Radar TEST and LIVE environments
+<div><input type="checkbox" /> Geofences and other Radar dashboard settings have been mirrored between the test and live environments.</div>
 
-[ ] Data [retention controls](/faqs#what-is-radars-data-retention-policy) have been adjusted to align with privacy policy
+<div><input type="checkbox" /> Data <a href="/faqs#what-is-radars-data-retention-policy">retention controls</a> have been adjusted to align with your privacy policy.</div>
 
-## App store submission
+### App store submission
 
 Ensure submission information has been updated to reflect changes in location use:
 
