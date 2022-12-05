@@ -1,0 +1,81 @@
+---
+sidebar_position: 2
+id: developer-guide
+title: Developer Guide
+slug: /developer-guide
+---
+
+## How Radar works
+
+Radar is a suite of APIs that allow developers to create location-based experiences. By adding any of Radar's mobile or web [SDKs](sdk), location collection and enrichment can be made easy by bringing API calls down to a few lines of code. 
+
+When methods are called in Radar’s SDKs, device location data is collected including latitude, longitude and accuracy. This data is sent to various Radar APIs and enriched based on Radar's prebuilt geospatial understanding, [places](places) and [regions](regions) and [trips](trip-tracking), along with your own custom geospatial information including [geofences](geofences) and [beacons](beacons).
+
+Changes in device state trigger events (like entering a custom geofence). These events can be consumed directly via webhooks or sent to downstream integrations with other platforms.
+
+![Radar Data Flow](/img/developer-guide/radar-data-flow.svg)
+
+## What is location context
+
+Location context is translating coordinates or other geospatial information into actionable data specific to your business. Some common examples include:
+- Translating a location update into a geofence entry through Radar [geofences](geofences) and our SDKs’ location tracking methods
+- Geocoding addresses to coordinates via our [forward geocoding API](api#geocoding)
+- Providing information on nearby retail chains through Radar [places](places) and our [search methods](api#search-places)
+
+![API Request Response](/img/developer-guide/api-request-response-example.svg)
+
+Beyond the examples above, [trips](trip-tracking), [beacons](beacons), [search](api#search), and [routing](api#routing) are all powerful building blocks to generate location context and deliver best in class experiences.
+
+## How location tracking methods work
+
+The two most important methods exposed in Radar’s SDKs are `Radar.trackOnce()`, which provides one-time location context, and `Radar.startTracking()`, which generates location context at regular intervals based on the defined [tracking options](sdk/tracking).
+
+The tracking options exposed allow you to flexibly collect location to support your specific needs. The location information collected is sent to Radar APIs for contextualization.  
+
+![Custom Tracking Code](/img/developer-guide/start-tracking-custom.svg)
+
+Different parts of this contextualization lifecycle are exposed through SDK listeners. This includes listeners for when location data is collected from a device (client location updated), when location is processed by Radar APIs (location updated), and events are triggered by location data (events). See the references for [iOS](sdk/ios#listening-for-events-with-a-delegate) and [Android](sdk/android#listening-for-events-with-a-receiver) or your corresponding SDK’s documentation for details.
+
+## Actioning on location context from tracking
+
+When the `Radar.trackOnce()` and `Radar.startTracking()` methods are called, two main objects will be returned to the SDK and through any Radar server side integrations enabled:
+
+**User:** what is the device's current location context?
+
+**Events:** what has changed about a device’s location context?
+
+![Track Objects](/img/developer-guide/track-payload.svg)
+
+These two objects can be used differently based on the scenario. Event-driven functionality like [location-based messaging](tutorials/showing-a-notification-when-a-user-enters-a-geofence) would trigger end-user app behaviors off of new Radar events, while an [in-store mode](tutorials/building-an-app-experience-that-changes-based-on-location-in-store-mode) or personalized content in an app would check against user state.
+
+## Tracking Principles
+
+There are a few key principles to understand when it comes to the controls bundled with the SDK’s location tracking options – specifically when it comes to `Radar.startTracking()`. There are well defined [presets](sdk/tracking#ios-presets) exposed in the SDKs that have been used effectively across a wide variety of use cases, but it is important to understand both their expected behavior as well as what options can be tuned to optimize the specifics of your use cases.
+
+### Stop detection
+
+One of the key controls in the SDK is around defining what the definition of a stop is. Detecting stops is based on distance and time thresholds (device doesn’t move more than X meters in Y minutes) and is controlled by the `stopDuration` and `stopDistance` tracking options. You can specify the tracking options such that it should reduce collection of location updates when stopped (`desiredStoppedUpdateInterval` tracking option) or even fully shut down the SDK’s time interval based location updates and rely on a client side geofence exit (more on this below) of the detected stop to wake Radar’s SDK back up.  
+
+It is important to consider these parameters because it optimizes battery use and is used for geofence and place entry detection (the former being true if stop detection is enabled for the geofences registered with Radar’s server).
+
+### Location service differences
+
+Native platforms expose different location collection methods with various behaviors as it relates to both frequency and accuracy. 
+
+Specifically of importance are iOS background location services including the significant location changes (`useSignificantLocationChanges` tracking option) and visits (`useVisits` tracking option) services. The former can help ensure detection of major movement  (1000m+ changes in position) with low battery consumption but inaccurate updates while visits can help monitor dwells at various points of interest.
+
+On Android, the `fastestStoppedUpdateInterval` and `fastestMovingUpdateInterval` tracking options are used to receive location updates requested by other applications, which will not contribute to battery drain or vitals associated with your application.
+
+On both iOS and Android, there are different mechanisms to get location updates when the device is in the background even with only foreground location permissions. On iOS this involves a location indicator (`showBlueBar` tracking option) and on Android a foreground service (`foregroundService` tracking option)
+
+### Sync behavior
+
+Sync is what defines how frequently and what types of locations should be contextualized by Radar. The syncInterval tracking option is the minimum amount of time between subsequent processing of location updates. Adjusting the Sync tracking option can be used to only send all location updates (`ALL`), location updates that are detected with the device stopped or when a device can exit a place or geofence (`STOPS_AND_EXITs`) or none at all (`NONE`) if purely using the Radar SDK for location collection.
+
+### Client side geofences
+
+Both iOS and Android support client side geofencing capabilities, but these have various limitations (accurate only to 100m radii, only circular, limited to register only up to 20 on iOS and 100 on Android).  Radar instead leverages client side geofencing as just another location collection mechanism to optimize responsiveness and minimize battery drain. Radar exposes the ability to use client side geofences in a few different ways:
+- As a mechanism to fully stop location updates when a device is detected to be stopped and wait for an exit to restart updates (`useStoppedGeofence` and `stoppedGeofenceRadius` tracking options). The SDK will not wake up until the exit transition from the geofence.
+- As a mechanism to request distance based location updates (`useMovingGeofence` and `movingGeofenceRadius` tracking options). This generates a geofence centered around each location update while the device is moving monitoring for dwells or exits from the geofence.
+- As a mechanism to improve responsiveness at server side registered geofences (`syncGeofences` tracking option). The SDK mirrors the server side setup for nearby geofences based on last known location monitoring for entry, exits and dwells.
+

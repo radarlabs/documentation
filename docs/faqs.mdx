@@ -71,6 +71,18 @@ With just foreground location permissions, you can leverage the [background loca
 
 Each listener can support different use cases and exposes different data to take actions. The client location listener (`onClientLocationUpdated` on Android, `didUpdateClientLocation` on iOS) is fired whenever the Radar SDK receives a location update from the device. It can be used to collect a stream of location updates before they hit Radar servers. The location updated listener (`onLocationUpdated` on Android, `didUpdateLocation` on iOS) delivers location updates processed by Radar servers and will return refreshed user context. This listener can be used to deliver in-app experiences based on user context, including when `Radar.trackOnce()` is called on application launch. The Radar events listener (`didReceiveEvents` on Android and iOS) can be used to listen for Radar events and trigger workflows.
 
+### What are the sources of location information used in Radar's SDK?
+
+There are different sensors and sources of location information that devices have access to:
+
+- **GPS:** system of satellites that triangulates signals sent to a device and determines location. Typically 5-20m accuracy.
+- **Wi-fi scanning:** nearby wifi access point locations are used to triangulate a device and determine location (passive connections, doesn’t need to be connected wifi). Typically 10-100m accuracy.
+- **Cell tower triangulation:** nearby cell towers are used to triangulate a device and determine location. Typically 500m+ accuracy.
+- **Bluetooth ranging:** nearby broadcasting Bluetooth beacons are used to detect if a device is within close proximity to the broadcasting beacon. The distance between the receiving device and beacon can be estimated.
+- **IP address:** Uses known mappings of IP addresses to regions. Resolves to city level accuracy, but is dependent on the accuracy of IP mapping data.
+
+These different sources of location information are built into common devices.  Most smartphones and laptops today have antennas for GPS, wi-fi, and cell service. Additionally, major operating systems as well as web browsers offer location services that can access the devices’ location by leveraging these sensors and protocols. 
+
 ## Privacy
 
 ### What data does the Radar SDK collect?
