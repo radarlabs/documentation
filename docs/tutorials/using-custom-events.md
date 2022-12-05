@@ -5,6 +5,13 @@ title: Using custom events
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  Custom events are available on the {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
 
 In this tutorial, we show you how to use Radar's [custom events API](/api#send-a-custom-event), which allows you to send a custom event to analyze alongside other location activity in your app. This can represent anything from a conversion or purchase to engagement with an in-app feature.
 
@@ -77,11 +84,11 @@ To take advantage of Radar's custom events API, you need to determine events tha
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
 | app_open   | Understand where users are engaging with the app to prioritize location personalized features                       | After home view load completes      | NA                                                                             |
 | sign_up    | Measure which stores are driving sign ups through at store promotions                                               | After the sign up flow is completed | referrer: string rewards: boolean                                            |
-| purchase   | 1. Measure revenue driven from in store mode powered by Radar 2. Understand distance from store at time of purchase | After order submission              | amount: number mode: "pickup"\|"curbside"\|"delivery" in_store_mode: boolean |
+| purchase   | Measure revenue driven from in store mode powered by Radar, understand distance from store at time of purchase | After order submission              | amount: number mode: "pickup"\|"curbside"\|"delivery" in_store_mode: boolean |
 
-## Step 4: Send custom events via the Radar SDK
+### Step 4: Send custom events via the Radar SDK
 
-The following example demonstrates how to send a custom event to Radar on app open.
+The following example demonstrates how to send a custom event to Radar on user signup.
 
 <Tabs
   groupId="custom-events"
@@ -104,6 +111,7 @@ Radar.sendEvent(customType: "signup", metadata: ["referrer":"google"],["rewards"
   <TabItem value="kotlin">
 
 ```kotlin
+// on sign up event received
 val metadata = JSONObject(mapOf("referrer" to "google", "rewards" to true))
 Radar.sendEvent(
     "signup",
@@ -114,3 +122,15 @@ Radar.sendEvent(
 ```
   </TabItem>
 </Tabs>
+
+### Step 5: Use the Radar dashboard to view custom events
+You can see when and where custom events were generated directly in the Radar dashboard. On the [Radar events](https://radar.com/dashboard/events) page, watch as custom events start to stream in:
+
+![Custom events dashboard](/img/tutorials/custom-events-dashboard.png)
+
+Click the **View** icon on the right-hand side to view details about a custom event:
+![Custom events detail page](/img/tutorials/custom-events-detail-page.gif)
+
+Finally, use the **Analysis** tool on the Radar event page to view all of your custom events sliced by different metrics:
+
+![Custom events analysis](/img/tutorials/custom-events-analysis.png)
