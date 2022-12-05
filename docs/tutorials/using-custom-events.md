@@ -83,8 +83,8 @@ To take advantage of Radar's custom events API, you need to determine events tha
 | Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
 | app_open   | Understand where users are engaging with the app to prioritize location personalized features                       | After home view load completes      | NA                                                                             |
-| sign_up    | Measure which stores are driving sign ups through at store promotions                                               | After the sign up flow is completed | referrer: string rewards: boolean                                            |
-| purchase   | Measure revenue driven from in store mode powered by Radar, understand distance from store at time of purchase | After order submission              | amount: number mode: "pickup"\|"curbside"\|"delivery" in_store_mode: boolean |
+| sign_up    | Measure which stores are driving sign ups through at store promotions                                               | After the sign up flow is completed | referrer: string <br /> rewards: boolean                                            |
+| purchase   | Measure revenue driven from in store mode powered by Radar, understand distance from store at time of purchase | After order submission              | amount: number <br /> mode: "pickup"\|"curbside" <br /> in_store_mode: boolean |
 
 ### Step 4: Send custom events via the Radar SDK
 
