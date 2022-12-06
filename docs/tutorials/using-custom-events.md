@@ -133,4 +133,4 @@ Click the **View** icon on the right-hand side to view details about a custom ev
 
 Finally, use the **Analysis** tool on the Radar event page to view all of your custom events sliced by different metrics:
 
-![Custom events analysis](/img/tutorials/custom-events-analysis.png)
+![Custom events analysis](/img/tutorials/custom-event-analysis.png)
