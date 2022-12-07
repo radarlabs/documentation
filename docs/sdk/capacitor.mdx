@@ -41,9 +41,25 @@ If successful, you will see:
 ✔ update ios
 ```
 
-Before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* steps in the [iOS SDK documentation](/sdk/ios#configure-xcode-project) and [Android SDK documentation](/sdk/android#configure-android-studio-project).
+Finally, before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* and *Add SDK to project* steps in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-On iOS, you must add location usage descriptions and background modes to your `Info.plist`. Initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.swift`, passing in your Radar publishable API key:
+### iOS
+
+You must add location usage descriptions and background modes to your `Info.plist`. For foreground permissions, you must add a value for  `NSLocationWhenInUseUsageDescription` *(Privacy - Location When In Use Usage Description)*. For background permissions, you must add a value for `NSLocationAlwaysAndWhenInUseUsageDescription` *(Privacy - Location Always and When In Use Usage Description)*. These strings are displayed in permissions prompts.
+
+<img
+  className="large"
+  src="https://images.ctfassets.net/f2vbu16fzuly/66LUD7W9uTt7f2H5pMmpBp/1e5a2bb2baaf79328e88c3ea47a7f6ff/permissions.png"
+/>
+
+If you are planning to leverage background tracking, such as responsive or continuous mode, in your project settings, go to _Signing & Capabilities_, add _Background Modes_, and turn on _Background fetch_ and _Location updates_. Note that this requires additional justification during App Store review. [Learn more](/sdk/ios#submit-to-app-store).
+
+<img
+  className="large"
+  src="https://images.ctfassets.net/f2vbu16fzuly/UUjdS7HyuFgu5bzGzuOYd/3eb568125cea0d6c4cf9384327446f08/modes.png"
+/>
+
+Add the SDK to your project, preferably using CocoaPods. Finally, initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.swift`, passing in your Radar publishable API key:
 
 ```swift
 import Capacitor
@@ -60,8 +76,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 ```
+### Android
 
-On Android, you must add the Google Play Services library to your project, then add the SDK to your project, preferably using Gradle. Finally, initialize the SDK and the plugin in `onCreate()` in `MainActivity.java`, passing in your Radar publishable API key:
+You must add Google Play Services Location to your project *(use version 18 or higher)*.
+
+`implementation "com.google.android.gms:play-services-location:18.0.0"`
+
+Make sure that the Android SDK version matches the version in the `radar-capacitor` module's `build.gradle`.
+
+<Alert alertType="info">
+  When upgrading the SDK, ensure the Android SDK version is updated to match the plugin's pinned version. For details on the latest SDK releases, see the{" "}
+  <a href="https://github.com/radarlabs/capacitor-radar/releases">
+    releases page
+  </a>{" "}
+  on GitHub.
+</Alert>
+
+Add the SDK to your project, preferably using Gradle. Finally, initialize the SDK and the plugin in `onCreate()` in `MainActivity.java`, passing in your Radar publishable API key:
 
 ```java
 import android.os.Bundle;
@@ -86,6 +117,16 @@ public class MainActivity extends BridgeActivity {
   <code>super.onCreate(savedInstanceState)</code> on Capacitor v4 and higher because of changes to{" "}
   <a href="https://capacitorjs.com/docs/updating/4-0#change-registerplugin-order">plugin loading</a>.
 </Alert>
+
+For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+</manifest>
+```
 
 ## Integrate
 
