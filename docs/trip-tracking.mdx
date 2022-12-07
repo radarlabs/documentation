@@ -13,7 +13,7 @@ import InlineTabItem from "../src/components/InlineTabItem";
 import DefaultContextValues from "../src/components/DefaultContextValues";
 
 <Alert alertType="info">
-  See docs for iOS and Android SDK versions older than v3.5.5 <a href="/trip-tracking-3.5.4">here</a>.
+  See docs for iOS and Android SDK versions older than v3.5.9 <a href="/trip-tracking-3.5.8">here</a>.
 </Alert>
 
 <DefaultContextValues/>
@@ -51,22 +51,26 @@ When an order starts or the user taps "I'm on my way," start a trip with trip op
   <TabItem value="swift">
 
 ```swift
-// order placed or user taps "I'm on my way"
 let tripOptions = RadarTripOptions(externalId: "299", destinationGeofenceTag: "store", destinationGeofenceExternalId: "123")
 tripOptions.mode = .car
 tripOptions.metadata = [
   "Customer Name": "Jacob Pena",
   "Car Model": "Green Honda Civic"
 ]
-Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
+
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous) { (status: RadarStatus, trip: RadarTrip?, events: [RadarEvent]?) in
+  if status == .success {
+    // do something
+  } else {
+    // handle error
+  }
+}
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-// order placed or user taps "I'm on my way"
-[Radar setUserId:"001"];
 RadarTripOptions *tripOptions = [[RadarTripOptions alloc] initWithExternalId:@"299"];
 tripOptions.destinationGeofenceTag = @"store";
 tripOptions.destinationGeofenceExternalId = @"123";
@@ -75,15 +79,21 @@ NSMutableDictionary *metadataDict = [NSMutableDictionary new];
 metadataDict[@"Customer Name"] = @"Jacob Pena";
 metadataDict[@"Car Model"] = @"Green Honda Civic";
 tripOptions.metadata = metadataDict;
-[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous];
+
+[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous
+          completionHandler:^(RadarStatus status, RadarTrip * _Nullable trip, NSArray<RadarEvent *> * _Nullable events) {
+  if (status == RadarStatusSuccess) {
+    // do something
+  } else {
+    // handle error
+  }
+}];
 ```
 
   </TabItem>
   <TabItem value="kotlin">
 
 ```kotlin
-// order placed or user taps "I'm on my way"
-Radar.setUserId("001")
 val tripExternalId = "299"
 val destinationGeofenceExternalId = "123"
 val destinationGeofenceTag = "store"
@@ -92,15 +102,20 @@ tripMetadata.put("Customer Name", "Jacob Pena")
 tripMetadata.put("Car Model","Green Honda Civic")
 val routeMode = Radar.RadarRouteMode.CAR
 val tripOptions = RadarTripOptions(tripExternalId, tripMetadata, destinationGeofenceTag, destinationGeofenceExternalId, routeMode)
-Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS)
+
+Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS) { status, trip, events ->
+  if (status == Radar.RadarStatus.SUCCESS) {
+    // do something
+  } else {
+    // handle error
+  }
+}
 ```
 
   </TabItem>
   <TabItem value="java">
 
 ```java
-// order placed or user taps "I'm on my way"
-Radar.setUserId("001");
 final JSONObject tripOptionsMetadata = new JSONObject();
 tripOptionsMetadata.put("Customer Name","Jacob Pena");
 tripOptionsMetadata.put("Car Model","Green Honda Civic");
@@ -111,12 +126,17 @@ tripOptionsJson.put("destinationGeofenceExternalId","123");
 tripOptionsJson.put("mode", Radar.RadarRouteMode.CAR);
 tripOptionsJson.put("metadata",tripOptionsMetadata);
 RadarTripOptions tripOptions = RadarTripOptions.fromJson(tripOptionsJson);
-Radar.startTrip(tripOptions, new Radar.RadarTripCallback() {
-            @Override
-                    public void onComplete(Radar.RadarStatus radarStatus,RadarTrip radarTrip, RadarEvent[] radarEvents) {
-                // do something with status, trip, events
-            }
-        }, RadarTrackingOptions.CONTINUOUS
+
+Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS, new Radar.RadarTripCallback() {
+  @Override
+    public void onComplete(@NonNull Radar.RadarStatus status, @Nullable RadarTrip trip, @Nullable RadarEvent[] events) {
+      if (status == Radar.RadarStatus.SUCCESS) {
+        // do something
+      } else {
+        // handle error
+      }
+    }
+  }
 );
 ```
 
@@ -144,18 +164,33 @@ As trips progress you can pass updates about the trip. This is commonly used to 
   tripOptions.metadata = [
   "Parking Spot": "1",
   ]
-  Radar.updateTrip(options: tripOptions,status: RadarTripStatus.arrived)
+
+  Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED) { status, trip, events ->
+    if (status == Radar.RadarStatus.SUCCESS) {
+      // do something
+    } else {
+      // handle error
+    }
+  }
   ```
 
   </TabItem>
     <TabItem value="objc">
 
   ```objc
-    RadarTripOptions tripOptions = [Radar getTripOptions];
-    NSMutableDictionary *tripMetadata = [tripOptions.metadata mutableCopy];
-    tripMetadata[@"Parking Spot"] = @"1";
-    tripOptions.metadata = tripMetadata;
-    [Radar updateTripWithOptions:tripOptions status:RadarTripStatusArrived completionHandler:nil];
+  RadarTripOptions tripOptions = [Radar getTripOptions];
+  NSMutableDictionary *tripMetadata = [tripOptions.metadata mutableCopy];
+  tripMetadata[@"Parking Spot"] = @"1";
+  tripOptions.metadata = tripMetadata;
+
+  [Radar updateTripWithOptions:tripOptions status:RadarTripStatusArrived
+         completionHandler:^(RadarStatus status, RadarTrip * _Nullable trip, NSArray<RadarEvent *> * _Nullable events) {
+    if (status == RadarStatusSuccess) {
+      // do something
+    } else {
+      // handle error
+    }
+}];
   ```
 
   </TabItem>
@@ -166,7 +201,14 @@ As trips progress you can pass updates about the trip. This is commonly used to 
   var tripMetadata = tripOptions?.metadata
   tripMetadata?.put("Parking Spot","1")
   tripOptions?.metadata = tripMetadata
-  Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED)
+
+  Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED) { status, trip, events ->
+    if (status == Radar.RadarStatus.SUCCESS) {
+      // do something
+    } else {
+      // handle error
+    }
+  }
   ```
 
   </TabItem>
@@ -177,7 +219,7 @@ RadarTripOptions tripOptions = Radar.getTripOptions();
 JSONObject tripMetadata = tripOptions.getMetadata();
 tripMetadata.put("Spot Number","1");
 tripOptions.setMetadata(tripMetadata);
-Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED,new Radar.RadarTripCallback() {
+Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED, new Radar.RadarTripCallback() {
     @Override
     public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
         // do something with status, trip, events
@@ -208,10 +250,10 @@ The Radar settings page also allows for trip expiration based on a set number of
   <TabItem value="swift">
 
   ```swift
-  // order picked up or user taps "I'm here"
+  // trip complete
   Radar.completeTrip()
 
-  // Order cancelled
+  // trip cancelled
   Radar.cancelTrip()
 
   ```
@@ -220,7 +262,7 @@ The Radar settings page also allows for trip expiration based on a set number of
   <TabItem value="objc">
 
   ```objc
-  // order picked up or user taps "I'm here"
+  // trip complete
   [Radar completeTrip];
 
   // Order cancelled
@@ -232,12 +274,12 @@ The Radar settings page also allows for trip expiration based on a set number of
 
   ```kotlin
 
-  // order picked up or user taps "I'm here"
+  // trip complete
   Radar.completeTrip { status, trip, events ->
       // do something with status, trip, events
   }
 
-  // Order cancelled
+  // trip cancelled
   Radar.cancelTrip { status, trip, events ->
       // do something with status, trip, events
   }
@@ -247,14 +289,14 @@ The Radar settings page also allows for trip expiration based on a set number of
   <TabItem value="java">
 
   ```java
-  // order picked up or user taps "I'm here"
+  // trip complete
   Radar.completeTrip(new Radar.RadarTripCallback() {
       @Override
       public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
       // do something with status, trip, events
       }
   });
-  // Order cancelled
+  // trip cancelled
   Radar.cancelTrip(new Radar.RadarTripCallback() {
       @Override
       public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {

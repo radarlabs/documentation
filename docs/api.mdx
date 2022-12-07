@@ -1234,7 +1234,8 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
 - **`status`** (string): The status of the trip, one of `pending`, `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
-- **`user`** (dictionary): The user for which the trip is being tracked.
+- **`user`** (dictionary): The [user](/api#users) for which the trip is being tracked.
+- **`userId`** (string): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`locations`** (array): The location updates tracked while the trip was active. An array of `Point`s in [GeoJSON](http://geojson.org/) format.
 
 ###### Sample object
@@ -1271,6 +1272,7 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
     "userId": "1",
     "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8"
   },
+  "userId": "1",
   "locations": [
     {
       "type": "Point",
@@ -1419,9 +1421,7 @@ Secret
 
 Use the [SDK](/sdk) to start trips and track users in most cases.
 
-Trips can also be created with status = `pending` server-side or through integrations (e.g. Olo). They can be started from the SDK or the update trip endpoint.
-
-A `userId` needs to be provided for a trip to update based on client-side tracking. A destination needs to provided for a trip to generate ETA updates. Including these parameters is strongly recommended when applicable.
+Trips can also be created server-side or through integrations (e.g. Olo). Location updates with the specified `userId` from the [SDK](/sdk) will update the trip.
 
 ###### Definition
 
@@ -1433,7 +1433,7 @@ Creates a new trip.
 - **`externalId`** (string, required): A stable unique ID for the trip. Depending on your use case, it may represent an order ID, a delivery ID, or something else.
 - **`destinationGeofenceTag`** (string, optional): For trips with a destination, the tag of the destination geofence.
 - **`destinationGeofenceExternalId`** (string, optional): For trips with a destination, the external ID of the destination geofence.
-- **`userId`** (string, optional): The ID of the [user](/api#users) for which the trip is being tracked.
+- **`userId`** (string, optional): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`. Defaults to `car`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 
@@ -1497,7 +1497,7 @@ Publishable
 }
 ```
 
-#### Update trip status
+#### Update trip
 
 Updates the status of a trip. The trip can be referenced by Radar `_id` or `externalId`.
 
