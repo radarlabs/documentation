@@ -684,14 +684,27 @@ Tracking for the duration of a trip is started or updated by including tracking 
   <TabItem value="swift">
 
 ```swift
-Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous) { (status: RadarStatus, trip: RadarTrip?, events: [RadarEvent]?) in
+  if status == .success {
+    // do something
+  } else {
+    // handle error
+  }
+}
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous];
+[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous
+          completionHandler:^(RadarStatus status, RadarTrip * _Nullable trip, NSArray<RadarEvent *> * _Nullable events) {
+  if (status == RadarStatusSuccess) {
+    // do something
+  } else {
+    // handle error
+  }
+}];
 ```
 
   </TabItem>

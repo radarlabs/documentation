@@ -380,19 +380,30 @@ Tracking for the duration of a trip is started or updated by including tracking 
   <TabItem value="java">
 
   ```java
-  Radar.startTrip(tripOptions, new Radar.RadarTripCallback() {
-      @Override
-      public void onComplete(Radar.RadarStatus radarStatus,RadarTrip radarTrip, RadarEvent[] radarEvents) {
-          // do something with status, trip, events
+  Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS, new Radar.RadarTripCallback() {
+    @Override
+      public void onComplete(@NonNull Radar.RadarStatus status, @Nullable RadarTrip trip, @Nullable RadarEvent[] events) {
+        if (status == Radar.RadarStatus.SUCCESS) {
+          // do something
+        } else {
+          // handle error
+        }
       }
-  }, RadarTrackingOptions.CONTINUOUS);
+    }
+  );
   ```
 
   </TabItem>
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS)
+  Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS) { status, trip, events ->
+    if (status == Radar.RadarStatus.SUCCESS) {
+      // do something
+    } else {
+      // handle error
+    }
+  }
   ```
 
   </TabItem>
@@ -415,7 +426,7 @@ If tracking was disabled before the trip started, it will stop after the trip en
   Radar.completeTrip(new Radar.RadarTripCallback() {
       @Override
       public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
-          // do something with status, trip, events
+          // do something
       }
   });
 
@@ -423,7 +434,7 @@ If tracking was disabled before the trip started, it will stop after the trip en
   Radar.cancelTrip(new Radar.RadarTripCallback() {
       @Override
       public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
-          // do something with status, trip, events
+          // do something
       }
   });
   ```
@@ -434,12 +445,12 @@ If tracking was disabled before the trip started, it will stop after the trip en
   ```kotlin
   // Complete trip
   Radar.completeTrip { status, trip, events ->
-      // do something with status, trip, events
+      // do something
   }
 
   //Cancel trip
   Radar.cancelTrip { status, trip, events ->
-      // do something with status, trip, events
+      // do something
   }
   ```
 
