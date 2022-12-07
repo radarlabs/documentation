@@ -165,7 +165,7 @@ As trips progress you can pass updates about the trip. This is commonly used to 
   "Parking Spot": "1",
   ]
 
-  Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED) { status, trip, events ->
+  Radar.updateTrip(options: tripOptions, status: RadarTripStatus.ARRIVED) { status, trip, events ->
     if (status == Radar.RadarStatus.SUCCESS) {
       // do something
     } else {
