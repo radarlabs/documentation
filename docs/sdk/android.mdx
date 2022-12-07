@@ -367,7 +367,7 @@ For trips, we recommend using `RadarTrackingOptions.continuous`. This preset tel
   </a> to adjust the foreground service notification copy and behavior.
 </Alert>
 
-Tracking for the duration of a trip is started or updated by including tracking options in the trip start call:
+Tracking for the duration of a trip is started or updated by including tracking options in the `startTrip` call:
 
 <Tabs
   groupId="android"
@@ -409,7 +409,7 @@ Tracking for the duration of a trip is started or updated by including tracking 
   </TabItem>
 </Tabs>
 
-If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options before the trip started:
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started:
 
 <Tabs
   groupId="android"
@@ -448,7 +448,7 @@ If tracking was disabled before the trip started, it will stop after the trip en
       // do something
   }
 
-  //Cancel trip
+  // Cancel trip
   Radar.cancelTrip { status, trip, events ->
       // do something
   }

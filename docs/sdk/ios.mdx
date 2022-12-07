@@ -671,7 +671,7 @@ For trips, we recommend using `RadarTrackingOptions.presetContinuous`. This pres
   required for tracking.
 </Alert>
 
-Tracking for the duration of a trip is started or updated by including tracking options in the trip start call:
+Tracking for the duration of a trip is started or updated by including tracking options in the `startTrip` call:
 
 <Tabs
   groupId="ios"
@@ -715,7 +715,7 @@ Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous) { (sta
   the <em>Location updates</em> background mode in your project settings.
 </Alert>
 
-Tracking will stop after the trip ends if it was disabled before trip start. Otherwise, it will continue with the tracking options used before trip start:
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started:
 
 <Tabs
   groupId="ios"
