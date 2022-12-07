@@ -337,7 +337,7 @@ Radar.mockTracking({
 
 ### Trip tracking
 
-On iOS and Android, to start a trip to a destination, call:
+To start a trip to a destination, call:
 
 ```javascript
 Radar.startTrip({
@@ -346,20 +346,19 @@ Radar.startTrip({
     destinationGeofenceTag: 'store',
     destinationGeofenceExternalId: '123',
     mode: 'car'
-  }
+  },
+  trackingOptions: RadarTrackingOptions.presetContinuous
 }).then((result) => {
   // do something with result.status
 });
-Radar.startTrackingContinuous();
 ```
 
-Later, to complete the trip and stop tracking, call:
+Later, to complete the trip and revert tracking, call:
 
 ```javascript
 Radar.completeTrip().then((result) => {
   // do something with result.status
 });
-Radar.stopTracking();
 ```
 
 Or, to cancel the trip and stop tracking, call:
@@ -368,7 +367,6 @@ Or, to cancel the trip and stop tracking, call:
 Radar.cancelTrip().then((result) => {
   // do something with result.status
 });
-Radar.stopTracking();
 ```
 
 Learn more about [trip tracking](/trip-tracking).
