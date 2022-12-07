@@ -66,10 +66,6 @@ module.exports = {
       additionalLanguages: ['kotlin', 'java', 'swift'],
       theme: require('prism-react-renderer/themes/github'),
     },
-    googleAnalytics: {
-      trackingID: 'UA-83017101-1',
-      anonymizeIP: true,
-    },
   },
   presets: [
     [
@@ -83,6 +79,10 @@ module.exports = {
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+        },
+        gtag: {
+          trackingID: 'UA-83017101-1',
+          anonymizeIP: true,
         },
       },
     ],
