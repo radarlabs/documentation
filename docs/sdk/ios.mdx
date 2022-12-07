@@ -671,7 +671,7 @@ For trips, we recommend using `RadarTrackingOptions.presetContinuous`. This pres
   required for tracking.
 </Alert>
 
-To start tracking for trips, call:
+Tracking for the duration of a trip is started or updated by including tracking options in the `startTrip` call:
 
 <Tabs
   groupId="ios"
@@ -684,14 +684,27 @@ To start tracking for trips, call:
   <TabItem value="swift">
 
 ```swift
-Radar.startTracking(trackingOptions: RadarTrackingOptions.presetContinuous)
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous) { (status: RadarStatus, trip: RadarTrip?, events: [RadarEvent]?) in
+  if status == .success {
+    // do something
+  } else {
+    // handle error
+  }
+}
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-[Radar startTrackingWithOptions:RadarTrackingOptions.presetContinuous];
+[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous
+          completionHandler:^(RadarStatus status, RadarTrip * _Nullable trip, NSArray<RadarEvent *> * _Nullable events) {
+  if (status == RadarStatusSuccess) {
+    // do something
+  } else {
+    // handle error
+  }
+}];
 ```
 
   </TabItem>
@@ -702,7 +715,7 @@ Radar.startTracking(trackingOptions: RadarTrackingOptions.presetContinuous)
   the <em>Location updates</em> background mode in your project settings.
 </Alert>
 
-To stop tracking, call:
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started:
 
 <Tabs
   groupId="ios"
@@ -715,14 +728,22 @@ To stop tracking, call:
   <TabItem value="swift">
 
 ```swift
-Radar.stopTracking()
+// complete trip
+Radar.completeTrip()
+
+// cancel trip
+Radar.cancelTrip()
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-[Radar stopTracking];
+// complete trip
+[Radar completeTrip];
+
+// cancel trip
+[Radar cancelTrip];
 ```
 
   </TabItem>

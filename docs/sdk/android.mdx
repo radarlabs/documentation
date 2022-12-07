@@ -367,7 +367,7 @@ For trips, we recommend using `RadarTrackingOptions.continuous`. This preset tel
   </a> to adjust the foreground service notification copy and behavior.
 </Alert>
 
-To start tracking for trips, call:
+Tracking for the duration of a trip is started or updated by including tracking options in the `startTrip` call:
 
 <Tabs
   groupId="android"
@@ -380,20 +380,36 @@ To start tracking for trips, call:
   <TabItem value="java">
 
   ```java
-  Radar.startTracking(RadarTrackingOptions.CONTINUOUS);
+  Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS, new Radar.RadarTripCallback() {
+    @Override
+      public void onComplete(@NonNull Radar.RadarStatus status, @Nullable RadarTrip trip, @Nullable RadarEvent[] events) {
+        if (status == Radar.RadarStatus.SUCCESS) {
+          // do something
+        } else {
+          // handle error
+        }
+      }
+    }
+  );
   ```
 
   </TabItem>
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.startTracking(RadarTrackingOptions.CONTINUOUS)
+  Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS) { status, trip, events ->
+    if (status == Radar.RadarStatus.SUCCESS) {
+      // do something
+    } else {
+      // handle error
+    }
+  }
   ```
 
   </TabItem>
 </Tabs>
 
-To stop tracking (e.g., when the user logs out), call:
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started:
 
 <Tabs
   groupId="android"
@@ -406,14 +422,36 @@ To stop tracking (e.g., when the user logs out), call:
   <TabItem value="java">
 
   ```java
-  Radar.stopTracking();
+  // Complete trip
+  Radar.completeTrip(new Radar.RadarTripCallback() {
+      @Override
+      public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
+          // do something
+      }
+  });
+
+  // Cancel trip
+  Radar.cancelTrip(new Radar.RadarTripCallback() {
+      @Override
+      public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
+          // do something
+      }
+  });
   ```
 
   </TabItem>
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.stopTracking()
+  // Complete trip
+  Radar.completeTrip { status, trip, events ->
+      // do something
+  }
+
+  // Cancel trip
+  Radar.cancelTrip { status, trip, events ->
+      // do something
+  }
   ```
 
   </TabItem>
