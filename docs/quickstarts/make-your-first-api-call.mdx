@@ -67,7 +67,7 @@ For a successful request, you'll receive a response like the following, keyed by
 
 Radar's [places search](/api#search-places) endpoint allows you to search for places near a location, sorted by distance. At least one [chain](/places/chains), such as `"mcdonalds"`, or [category](/places/categories), such as `"shopping-retail"`, is required. This capability can power use cases such as nearby retailers, store locators, and rewards apps. The image below displays the data available from the search places API:
 
-![Places search](/img/quickstarts/search_places.png)
+![Places search UI](/img/quickstarts/search_places.png)
 
 To retrieve this data, make the following API call:
 
@@ -114,10 +114,156 @@ For a successful request, you'll receive data similar to the following, keyed by
 
 ## Geocoding
 
+Geocoding is the process of converting between addresses and coordinates. Geo computations require coordinates, but addresses are more human friendly format than latitude and longitude pairs.
+
 ### Forward geocoding
 
+Use Radar's [forward geocoding](/api#forward-geocode) endpoint to transform an address to coordinates. This API provides the data necessary to power functionality such as determining a pickup location on a rideshare app or finding the nearest store. Forward geocoding is necessary for any use case where a user inputs an address, and that address needs to be displayed on a map, as shown below:
+
+![Forward geocoding UI](/img/quickstarts/forward_geocoding.png)
+
+To receive the coordinates for an address, make the following API call:
+
+```bash
+curl "https://api.radar.io/v1/geocode/forward?query=841+broadway%2C+New+York%2C+NY+10003&country=US" \
+  -H "Authorization: {YOUR_PUBLISHABLE_KEY}"
+```
+
+For the above request, you'll receive the following data, keyed by the `addresses` field:
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "addresses": [
+    {
+      "latitude": 40.734288,
+      "longitude": -73.991057,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.991057,
+          40.734288
+        ]
+      },
+      "country": "United States",
+      "countryCode": "US",
+      "countryFlag": "🇺🇸",
+      "distance": 0,
+      "confidence": "exact",
+      "borough": "Manhattan",
+      "city": "New York",
+      "number": "841",
+      "neighborhood": "Greenwich Village",
+      "postalCode": "10003",
+      "stateCode": "NY",
+      "state": "New York",
+      "street": "Broadway",
+      "layer": "address",
+      "formattedAddress": "841 Broadway, Manhattan, New York, NY 10003 USA",
+      "addressLabel": "841 Broadway"
+    }
+  ]
+}
+```
+
 ### Reverse geocoding
+
+To convert coordinates to addresses, use the [reverse geocoding](/api#reverse-geocode) endpoint. Reverse geocoding is required for any functionality that needs to display locations in a human-readable way, such as to confirm the delivery address of an e-commerce order or to verify that a courier has made the correct stops along a route.
+
+For example, if you had the coordinates `(38.8977, -77.0365)`, here's how you'd convert them to an address:
+
+```bash
+curl "https://api.radar.io/v1/geocode/reverse?coordinates=38.8977%2C-77.0365" \
+  -H "Authorization: {YOUR_PUBLISHABLE_KEY}"
+```
+
+You'll notice that these are the coordinates of The White House! For the above request, the data returned will be the following, keyed by the `addresses` field:
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "addresses": [
+    {
+      "latitude": 38.89768,
+      "longitude": -77.03655,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.03655,
+          38.89768
+        ]
+      },
+      "country": "United States",
+      "countryCode": "US",
+      "countryFlag": "🇺🇸",
+      "distance": 5,
+      "city": "Washington",
+      "number": "1600",
+      "neighborhood": "White House Grounds",
+      "postalCode": "20500",
+      "stateCode": "DC",
+      "state": "District of Columbia",
+      "street": "Pennsylvania Ave Nw",
+      "layer": "address",
+      "formattedAddress": "1600 Pennsylvania Ave Nw, Washington, DC 20500 USA",
+      "addressLabel": "1600 Pennsylvania Ave Nw"
+    }
+  ]
+}
+```
 
 ## Routing
 
 ### Distance
+
+Radar's [distance](/api#distance) endpoint allows you to receive the travel distance and duration between two points. Various modes of transport are supported such as car, foot, bike, truck, and motorbike. This endpoint can power use cases like calculating the length of a [trip](/trip-tracking), determining when a delivery will arrive, and locating the nearest store. The image below shows the distance API in action:
+
+![Distance UI](/img/quickstarts/distance.png)
+
+To calculate the distance between two points, in this case from Union Square to Central Park in New York City by bike or car, make the below API call:
+
+```bash
+curl "https://api.radar.io/v1/route/distance?origin=40.7359%2C-73.9911&destination=40.7826%2C-73.9656&modes=bike%2Ccar" \
+  -H "Authorization: {YOUR_PUBLISHABLE_KEY}"
+```
+
+After making a successful request, you'll receive data like the following, keyed by the `routes` field, with nested keys for each travel mode:
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "routes": {
+    "geodesic": {
+      "distance": {
+        "value": 18442.255405159725,
+        "text": "3.5 mi"
+      }
+    },
+    "bike": {
+      "distance": {
+        "value": 23828.74092,
+        "text": "4.5 mi"
+      },
+      "duration": {
+        "value": 27.357683333333334,
+        "text": "27 mins"
+      }
+    },
+    "car": {
+      "distance": {
+        "value": 29504.59412,
+        "text": "5.6 mi"
+      },
+      "duration": {
+        "value": 13.312283333333333,
+        "text": "13 mins"
+      }
+    }
+  }
+}
+```
