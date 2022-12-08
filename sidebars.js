@@ -97,6 +97,14 @@ module.exports = {
     "troubleshooting",
     "dashboard",
     "faqs",
+    {
+      type: "category",
+      label: "Quickstarts",
+      items: [
+        { type: "doc", id: "quickstarts", label: "Overview" },
+        "quickstarts/make-your-first-api-call",
+      ],
+    },
   ],
   miscSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
@@ -184,6 +192,14 @@ module.exports = {
     "troubleshooting",
     "dashboard",
     "faqs",
+    {
+      type: "category",
+      label: "Quickstarts",
+      items: [
+        { type: "doc", id: "quickstarts", label: "Overview" },
+        "quickstarts/make-your-first-api-call",
+      ],
+    },
     "vulnerability-disclosure-policy",
   ],
 };
