@@ -12,6 +12,16 @@
 module.exports = {
   defaultSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
+    {
+      type: "category",
+      label: "Quickstarts",
+      items: [
+        { type: "doc", id: "quickstarts", label: "Overview" },
+        "quickstarts/create-your-first-geofence",
+        "quickstarts/generate-your-first-event",
+        "quickstarts/make-your-first-api-call",
+      ],
+    },
     "geofences",
     {
       type: "category",
@@ -97,6 +107,9 @@ module.exports = {
     "troubleshooting",
     "dashboard",
     "faqs",
+  ],
+  miscSidebar: [
+    { type: "doc", id: "overview", label: "Overview" },
     {
       type: "category",
       label: "Quickstarts",
@@ -107,9 +120,6 @@ module.exports = {
         "quickstarts/make-your-first-api-call",
       ],
     },
-  ],
-  miscSidebar: [
-    { type: "doc", id: "overview", label: "Overview" },
     "geofences",
     {
       type: "category",
@@ -194,16 +204,6 @@ module.exports = {
     "troubleshooting",
     "dashboard",
     "faqs",
-    {
-      type: "category",
-      label: "Quickstarts",
-      items: [
-        { type: "doc", id: "quickstarts", label: "Overview" },
-        "quickstarts/make-your-first-api-call",
-        "quickstarts/generate-your-first-event",
-        "quickstarts/create-your-first-geofence",
-      ],
-    },
     "vulnerability-disclosure-policy",
   ],
 };
