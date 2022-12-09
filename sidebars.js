@@ -103,6 +103,7 @@ module.exports = {
       items: [
         { type: "doc", id: "quickstarts", label: "Overview" },
         "quickstarts/create-your-first-geofence",
+        "quickstarts/generate-your-first-event",
         "quickstarts/make-your-first-api-call",
       ],
     },
@@ -199,6 +200,7 @@ module.exports = {
       items: [
         { type: "doc", id: "quickstarts", label: "Overview" },
         "quickstarts/make-your-first-api-call",
+        "quickstarts/generate-your-first-event",
         "quickstarts/create-your-first-geofence",
       ],
     },
