@@ -102,6 +102,7 @@ module.exports = {
       label: "Quickstarts",
       items: [
         { type: "doc", id: "quickstarts", label: "Overview" },
+        "quickstarts/create-your-first-geofence",
         "quickstarts/make-your-first-api-call",
       ],
     },
@@ -198,6 +199,7 @@ module.exports = {
       items: [
         { type: "doc", id: "quickstarts", label: "Overview" },
         "quickstarts/make-your-first-api-call",
+        "quickstarts/create-your-first-geofence",
       ],
     },
     "vulnerability-disclosure-policy",
