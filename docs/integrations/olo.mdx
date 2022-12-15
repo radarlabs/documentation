@@ -21,13 +21,110 @@ Finally, on the Radar [Geofences page](https://radar.com/dashboard/geofences), [
 
 ![Olo Webhook Configuration](/img/integrations/olo_webhook_configuration.png)
 
-Based on your settings, Radar will automatically create trips when new orders are placed and cancel trips when a cancellation occurs in Olo. You will need to call `Radar.startTrip()` with just the Olo order ID as the trip options external Id and `Radar.startTracking()` and `Radar.stopTracking()` to start and stop location tracking in your app when a trip is in progress.
+Based on your settings, Radar can automatically cancel trips when a cancellation occurs in Olo. You will need to call `Radar.startTrip()` with trip options that include the Olo `orderIdString` as `externalId`, Olo restaurant `vendorid` as `destinationGeofenceExternalId`, Olo `orderGuid` as `oloOrderGuid`, and Olo `deliveryMethod` as `oloHandoffMode`. 
+
+<Tabs
+  groupId="olo-trip-tracking"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Java', value: 'java' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+let tripOptions = RadarTripOptions(externalId: "14809040040804352", orderGuid: "92f0bca9-737c-ed11-a9d1-a4b45f7b7ea5", oloHandoffMode: "pickup", destinationGeofenceTag: "store", destinationGeofenceExternalId: "12345")
+tripOptions.mode = .car
+    
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous) { (status: RadarStatus, trip: RadarTrip?, events: [RadarEvent]?) in
+  if status == .success {
+    // do something
+  } else {
+    // handle error
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+RadarTripOptions *tripOptions = [[RadarTripOptions alloc] initWithExternalId:@"14809040040804352"];
+tripOptions.orderGuid = @"92f0bca9-737c-ed11-a9d1-a4b45f7b7ea5";    
+tripOptions.oloHandoffMode = @"pickup";    
+tripOptions.destinationGeofenceTag = @"store";
+tripOptions.destinationGeofenceExternalId = @"12345"; 
+tripOptions.mode = RadarRouteModeCar;
+
+[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous
+          completionHandler:^(RadarStatus status, RadarTrip * _Nullable trip, NSArray<RadarEvent *> * _Nullable events) {
+  if (status == RadarStatusSuccess) {
+    // do something
+  } else {
+    // handle error
+  }
+}];
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+val tripExternalId = "14809040040804352"
+val tripOloOrderGuid = "92f0bca9-737c-ed11-a9d1-a4b45f7b7ea5" 
+val tripOloHandoffMode = "pickup"        
+val destinationGeofenceExternalId = "12345"
+val destinationGeofenceTag = "store"
+
+val routeMode = Radar.RadarRouteMode.CAR
+val tripOptions = RadarTripOptions(tripExternalId, destinationGeofenceTag, destinationGeofenceExternalId, tripOloOrderGuid, tripOloHandoffMode, routeMode)
+
+Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS) { status, trip, events ->
+  if (status == Radar.RadarStatus.SUCCESS) {
+    // do something
+  } else {
+    // handle error
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="java">
+
+```java
+final JSONObject tripOptionsJson = new JSONObject();
+tripOptionsJson.put("externalId","14809040040804352");
+tripOptionsJson.put("orderGuid","92f0bca9-737c-ed11-a9d1-a4b45f7b7ea5");
+tripOptionsJson.put("oloHandoffMode","pickup");
+tripOptionsJson.put("destinationGeofenceTag","store");
+tripOptionsJson.put("destinationGeofenceExternalId","12345");    
+tripOptionsJson.put("mode", Radar.RadarRouteMode.CAR);
+RadarTripOptions tripOptions = RadarTripOptions.fromJson(tripOptionsJson);
+
+Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS, new Radar.RadarTripCallback() {
+  @Override
+    public void onComplete(@NonNull Radar.RadarStatus status, @Nullable RadarTrip trip, @Nullable RadarEvent[] events) {
+      if (status == Radar.RadarStatus.SUCCESS) {
+        // do something
+      } else {
+        // handle error
+      }
+    }
+  }
+);
+```
+
+  </TabItem>
+</Tabs>
 
 Assuming locations permissions have been granted and location tracking has been started in your app, Radar will generate location-based `user.updated_trip`, `user.approaching_trip_destination`, and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
 
 ## Order Firing
 
-In order for Radar to automatically fire your orders based on location proximity, you will need to submit your baskets to Olo as `ismanualfire` and will also need to set a `scheduledArrivalAt` datetime to the Radar trip as a fallback in the event location is disabled or the device is experiencing connectivity issues. This can be done using `Radar.updateTrip()` in the app or [Trips API](https://radar.com/documentation/api#trips) server-side.
+In order for Radar to automatically fire your orders based on location proximity, you will need to submit your baskets to Olo as `ismanualfire` and will also need to set a `scheduledArrivalAt` datetime to the Radar trip options as a fallback in the event location is disabled or the device is experiencing connectivity issues. This can be done on `Radar.startTrip()`, updated later using `Radar.updateTrip()` in the app, or [Trips API](https://radar.com/documentation/api#trips) server-side.
 
 In addition to the above Olo and Radar configuration, you will need to generate API credentials for the Radar platform in the [Olo development portal](https://developer.olo.com/). On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, you will will need to set *Order firing enabled* to *Yes*, paste the Olo Radar `Client Id` and `Secret Key`, and `Save` your integration settings.
 
