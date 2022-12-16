@@ -34,6 +34,6 @@ In addition to the above Olo and Radar configuration, you will need to generate 
 Finally, in the Radar [Trips Settings](https://radar.com/dashboard/settings#trips-settings), set the *Approaching threshold (minutes)* value to the # of minutes away from arriving that the order should automatically be fired to Olo. Now when an active trip generates a `user.approaching_trip_destination` event, Radar will fire the order. In the event the `scheduledArrivalAt` set on the trip occurs first, this datetime will fire the order instead.
 
 ## Olo Expo
-Radar is a Customer Arrival Olo partner and can automatically provide Approaching and Arrival status updates to Olo Expo based on Radar trip tracking events. This keeps in-store teams up-to-date with real-time status updates on tracked mobile orders.
+Radar is a Customer Arrival Olo partner and can automatically provide Approaching and Arrival status updates to Olo Expo based on Radar trip tracking [events](/api#events). This keeps in-store teams up-to-date with real-time status updates on tracked mobile orders.
 
 To enable this integration, visit the Radar [Integrations page](https://radar.com/dashboard/integrations). Under *Olo*, you will need to set *Expo updates enabled* to *Yes*, and `Save` your integration settings.
