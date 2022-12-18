@@ -5,11 +5,5 @@
   "redirects": [
     { "source": "/", "destination": "/documentation/", "permanent": true }
   ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
-    }
-  ],
   "trailingSlash": false
 }
