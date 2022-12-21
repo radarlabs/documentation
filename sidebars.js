@@ -12,6 +12,15 @@
 module.exports = {
   defaultSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
+    {
+      type: "category",
+      label: "Quickstart guides",
+      items: [
+        "quickstarts/create-a-geofence",
+        "quickstarts/generate-an-event",
+        "quickstarts/make-an-api-call",
+      ],
+    },
     "geofences",
     {
       type: "category",
@@ -99,6 +108,15 @@ module.exports = {
   ],
   miscSidebar: [
     { type: "doc", id: "overview", label: "Overview" },
+    {
+      type: "category",
+      label: "Quickstart guides",
+      items: [
+        "quickstarts/create-a-geofence",
+        "quickstarts/generate-an-event",
+        "quickstarts/make-an-api-call",
+      ],
+    },
     "geofences",
     {
       type: "category",
