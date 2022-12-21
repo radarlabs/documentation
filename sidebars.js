@@ -14,12 +14,11 @@ module.exports = {
     { type: "doc", id: "overview", label: "Overview" },
     {
       type: "category",
-      label: "Quickstarts",
+      label: "Quickstart guides",
       items: [
-        { type: "doc", id: "quickstarts", label: "Overview" },
-        "quickstarts/create-your-first-geofence",
-        "quickstarts/generate-your-first-event",
-        "quickstarts/make-your-first-api-call",
+        "quickstarts/create-a-geofence",
+        "quickstarts/generate-an-event",
+        "quickstarts/make-an-api-call",
       ],
     },
     "geofences",
@@ -111,12 +110,11 @@ module.exports = {
     { type: "doc", id: "overview", label: "Overview" },
     {
       type: "category",
-      label: "Quickstarts",
+      label: "Quickstart guides",
       items: [
-        { type: "doc", id: "quickstarts", label: "Overview" },
-        "quickstarts/create-your-first-geofence",
-        "quickstarts/generate-your-first-event",
-        "quickstarts/make-your-first-api-call",
+        "quickstarts/create-a-geofence",
+        "quickstarts/generate-an-event",
+        "quickstarts/make-an-api-call",
       ],
     },
     "geofences",
