@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: Using custom events
+title: Analyzing the location context of customer interactions
 ---
 
 import Tabs from "@theme/Tabs";
@@ -13,7 +13,9 @@ import Alert from "../../src/components/Alert";
   .
 </Alert>
 
-In this tutorial, we show you how to use Radar's [custom events API](/api#send-a-custom-event), which allows you to send a custom event to analyze alongside other location activity in your app. This can represent anything from a conversion or purchase to engagement with an in-app feature.
+In this tutorial, we show you how to use Radar's [custom events API](/api#send-a-custom-event) to analyze the location context associated with key customer interactions. Custom events can represent anything from a conversion or purchase to engagement with an in-app feature.
+
+When these events are enriched with Radar's location context, they can be used to assess prioritization and measure the value of location based features.
 
 ## Languages used
 
@@ -30,7 +32,7 @@ In this tutorial, we show you how to use Radar's [custom events API](/api#send-a
 
 ### Step 1: Sign up for Radar
 
-If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+If you haven't already, sign up for Radar to get your API key.
 
 <a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a>
 
@@ -78,15 +80,20 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
   }
   ```
 ### Step 3: Determine the events you wish to track
-To take advantage of Radar's custom events API, you need to determine events that are important to your business. These events will be enriched with Radar's location context. Here are some examples:
+To take advantage of Radar's custom events API, you need to determine events that are important to your business. Here are some examples:
 
 | Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
 | app_open   | Understand where users are engaging with the app to prioritize location personalized features                       | After home view load completes      | NA                                                                             |
 | sign_up    | Measure which stores are driving sign ups through at store promotions                                               | After the sign up flow is completed | referrer: string <br /> rewards: boolean                                            |
+| product_search    | Understand where customers are searching for products (i.e. in certain stores or at competitors)                                               |  | section: string                                         |
 | purchase   | Measure revenue driven from in store mode powered by Radar, understand distance from store at time of purchase | After order submission              | amount: number <br /> mode: "pickup"\|"curbside" <br /> in_store_mode: boolean |
 
-### Step 4: Send custom events via the Radar SDK
+### Step 4: Setup Radar geofences or places
+
+On the [Geofences page](https://radar.com/dashboard/geofences), import geofences for relevant locations and on the [Settings page](https://radar.com/dashboard/settings), setup relevant place chains and categories. When custom events are sent, Radar will determine if they are performed at any of these geofences or places.
+
+### Step 5: Send custom events via the Radar SDK
 
 The following example demonstrates how to send a custom event to Radar on user signup.
 
@@ -101,8 +108,8 @@ The following example demonstrates how to send a custom event to Radar on user s
   <TabItem value="swift">
 
 ```swift
-// on sign up event received
-Radar.sendEvent(customType: "signup", metadata: ["referrer":"google"],["rewards": true]) { (status, location, events, user) in
+// on customer sign up
+Radar.sendEvent(customType: "product_search", metadata: ["section":"furniture"]) { (status, location, events, user) in
   print("Send event: status = \(Radar.stringForStatus(status)); location = \(String(describing: location)); events = \(String(describing: events)); user = \(String(describing: user))")
 }
 ```
@@ -111,10 +118,10 @@ Radar.sendEvent(customType: "signup", metadata: ["referrer":"google"],["rewards"
   <TabItem value="kotlin">
 
 ```kotlin
-// on sign up event received
-val metadata = JSONObject(mapOf("referrer" to "google", "rewards" to true))
+// on customer sign up
+val metadata = JSONObject(mapOf("section" to "furniture"))
 Radar.sendEvent(
-    "signup",
+    "product_search",
     metadata
 ) { status, location, events, user ->
     Log.v("example", "Custom event type = ${events?.first()?.customType}: status = $status; location = $location; events = $events; user = $user")

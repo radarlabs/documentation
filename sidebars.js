@@ -196,6 +196,7 @@ module.exports = {
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/showing-a-notification-when-a-user-enters-a-geofence",
         "tutorials/detecting-location-based-fraud",
+        "tutorials/analyzing-the-location-context-of-customer-interactions",
       ],
     },
     "dashboard",
