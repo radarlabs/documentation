@@ -100,7 +100,7 @@ module.exports = {
         "tutorials/building-a-store-locator-on-ios",
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/detecting-location-based-fraud",
-        "tutorials/using-custom-events",
+        "tutorials/analyzing-the-location-context-of-customer-interactions",
       ],
     },
     "dashboard",
