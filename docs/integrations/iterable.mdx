@@ -3,11 +3,20 @@ title: Iterable
 ---
 import Alert from "../../src/components/Alert";
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import InlineTabs from "../src/components/InlineTabs";
+import InlineTabItem from "../src/components/InlineTabItem";
+
+import DefaultContextValues from "../src/components/DefaultContextValues";
+
 <Alert alertType="info">
   The Iterable integration is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
+
+<DefaultContextValues/>
 
 Radar can send custom events and user data to [Iterable](https://iterable.com).
 
@@ -23,12 +32,38 @@ Whenever events are generated, Radar will send custom events and user data to It
 
 User IDs must be aligned between Iterable and Radar for the integration to function properly. To do this, make sure you set the Radar user ID to match the Iterable user ID. For example, on iOS:
 
+<Tabs
+  groupId="iterable-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
 ``` swift
 IterableAPI.userId = userId
 Radar.setUserId(userId)
 let dataField = ["userId": userId]
 IterableAPI.updateUser(dataField, mergeNestedObjects: false)
 ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+IterableApi.getInstance().setUserId(userId)
+val dataFields = JSONObject()
+dataFields.put("userId",userId)
+IterableApi.getInstance().updateUser(dataFields)
+```
+
+  </TabItem>
+</Tabs>
+
+
+
 
 ## Example use cases
 Learn how to create powerful location-based messaging campaigns using Radar and Iterable.
