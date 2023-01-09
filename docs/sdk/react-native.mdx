@@ -5,6 +5,7 @@ title: React Native SDK
 id: react-native
 description: Documentation for React Native SDK
 ---
+import Alert from "../../src/components/Alert";
 
 This is the documentation for the React Native module. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
@@ -26,7 +27,7 @@ expo eject
 
 Then, install the [iOS SDK](/sdk/ios). Change to the `ios/` directory. In the `Podfile`, update `platform :ios` to `10.0` or higher. Then, run `pod install`. Learn about [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md).
 
-Finally, before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* and *Add SDK to project* steps in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+Finally, before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* and *Add SDK to project* steps in the [iOS SDK documentation](/sdk/ios), [Android SDK documentation](/sdk/android) and [Web SDK documentation](/sdk/web).
 
 ### iOS
 
@@ -78,6 +79,22 @@ public class MainApplication extends Application implements ReactApplication {
 
 }
 ```
+### Web 
+
+You must create a platform specific App component (e.g `App.web.js`) and write all the web code in this file.
+
+Before using any functions, You must initialize the SDK, and pass in your Radar publishable keys:
+
+```javascript
+import Radar from 'react-native-radar';
+
+export default function App() {  
+  Radar.initialize(publishableKey);
+  // ...
+}
+```
+
+
 
 ## Integrate
 
@@ -117,7 +134,7 @@ where `description` is a string.
 
 You only need to call these functions once, as these settings will be persisted across app sessions.
 
-Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios), [Android SDK documentation](/sdk/android) and [Web SDK documentation](/sdk/web).
 
 ### Request permissions
 
@@ -148,7 +165,10 @@ Radar.requestPermissions(background).then((status) => {
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
 
-Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios), [Android SDK documentation](/sdk/android) and [Web SDK documentation](/sdk/web).
+<Alert alertType="warning">
+  Note that you don't need to call this function for the web app.
+</Alert>
 
 <div className="alert alert-info">
   Build and run the app to make sure permissions prompts are displayed!
@@ -183,11 +203,15 @@ Radar.trackOnce().then((result) => {
 - **`ERROR_SERVER`**: internal server error
 - **`ERROR_UNKNOWN`**: unknown error
 
-Learn about platform-specific implementations of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+Learn about platform-specific implementations of this function in the [iOS SDK documentation](/sdk/ios), [Android SDK documentation](/sdk/android) and [Web SDK documentation](/sdk/web).
 
 ### Background tracking
 
 Once you have initialized the SDK and the user has granted permissions, you can start tracking the user's location in the background.
+
+<Alert alertType="warning">
+  Web app does not support background tracking and event listeners.
+</Alert>
 
 For background tracking, the SDK supports custom tracking options as well as three presets:
 
@@ -297,7 +321,7 @@ On Android, a receiver in the React Native module loads and parses the JavaScrip
 
 ### Trip tracking
 
-On iOS and Android, to start a trip to a destination, call:
+On iOS, Android and Web, to start a trip to a destination, call:
 
 ```javascript
 Radar.startTrip({
@@ -363,7 +387,7 @@ Radar.trackOnce({
 });
 ```
 
-Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios), [Android SDK documentation](/sdk/android) and [Web SDK documentation](/sdk/web).
 
 ### Other APIs
 
