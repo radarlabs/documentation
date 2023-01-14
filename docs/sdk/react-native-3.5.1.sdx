@@ -1,45 +1,28 @@
 ---
-sidebar_position: 7
-sidebar_label: Capacitor
-title: Capacitor Plugin
-id: capacitor
-description: Documentation for Capacitor Plugin
+title: React Native SDK <3.5.2
+id: react-native-3.5.1
+description: Documentation for React Native SDK versions <3.5.2
 ---
 
-import Alert from "../../src/components/Alert";
+This is the documentation for the React Native module. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
-This is the documentation for the Capacitor plugin. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
-
-See the source on GitHub [here](https://github.com/radarlabs/capacitor-radar). Or, see the `capacitor-radar` package on npm [here](https://www.npmjs.com/package/capacitor-radar).
+See the source on GitHub [here](https://github.com/radarlabs/react-native-radar). Or, see the `react-native-radar` package on npm [here](https://www.npmjs.com/package/react-native-radar).
 
 ## Install
 
 Install the package from npm:
 
 ```bash
-npm install --save capacitor-radar
+npm install --save react-native-radar
 ```
 
-Then, update dependencies:
+If you are using Expo, you must eject:
 
 ```bash
-npx cap sync
+expo eject
 ```
 
-If successful, you will see:
-
-```bash
-✔ Updating Android plugins
-  Found 1 Capacitor plugin for android:
-    capacitor-radar
-✔ update android
-...
-✔ Updating iOS plugins
-  Found 1 Capacitor plugin for ios:
-    capacitor-radar
-✔ Updating iOS native dependencies with "pod install" (may take several minutes)
-✔ update ios
-```
+Then, install the [iOS SDK](/sdk/ios). Change to the `ios/` directory. In the `Podfile`, update `platform :ios` to `10.0` or higher. Then, run `pod install`. Learn about [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md).
 
 Finally, before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* and *Add SDK to project* steps in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
@@ -59,21 +42,16 @@ If you are planning to leverage background tracking, such as responsive or conti
   src="https://images.ctfassets.net/f2vbu16fzuly/UUjdS7HyuFgu5bzGzuOYd/3eb568125cea0d6c4cf9384327446f08/modes.png"
 />
 
-Add the SDK to your project, preferably using CocoaPods. Finally, initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.swift`, passing in your Radar publishable API key:
+Add the SDK to your project, preferably using CocoaPods. Finally, initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
 
-```swift
-import Capacitor
-import RadarSDK
+```objc
+#import <RadarSDK/RadarSDK.h>
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+@implementation AppDelegate
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    Radar.initialize(publishableKey: publishableKey)
-
-    return true
-  }
-
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [Radar initializeWithPublishableKey:publishableKey];
+  // ...
 }
 ```
 ### Android
@@ -82,50 +60,21 @@ You must add Google Play Services Location to your project *(use version 18 or h
 
 `implementation "com.google.android.gms:play-services-location:18.0.0"`
 
-Make sure that the Android SDK version matches the version in the `radar-capacitor` module's `build.gradle`.
-
-<Alert alertType="info">
-  When upgrading the SDK, ensure the Android SDK version is updated to match the plugin's pinned version. For details on the latest SDK releases, see the{" "}
-  <a href="https://github.com/radarlabs/capacitor-radar/releases">
-    releases page
-  </a>{" "}
-  on GitHub.
-</Alert>
-
-Add the SDK to your project, preferably using Gradle. Finally, initialize the SDK and the plugin in `onCreate()` in `MainActivity.java`, passing in your Radar publishable API key:
+Then add the SDK to your project and initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key:
 
 ```java
-import android.os.Bundle;
-
-import com.getcapacitor.BridgeActivity;
 import io.radar.sdk.Radar;
 
-public class MainActivity extends BridgeActivity {
+public class MainApplication extends Application implements ReactApplication {
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
+  public void onCreate() {
+    super.onCreate();
     Radar.initialize(this, publishableKey);
-
-    super.onCreate(savedInstanceState);
+    // ...
   }
 
 }
-```
-
-<Alert alertType="warning">
-  Note that <code>Radar.initialize(this, publishableKey)</code> must be called before{" "}
-  <code>super.onCreate(savedInstanceState)</code> on Capacitor v4 and higher because of changes to{" "}
-  <a href="https://capacitorjs.com/docs/updating/4-0#change-registerplugin-order">plugin loading</a>.
-</Alert>
-
-For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
-
-```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-</manifest>
 ```
 
 ## Integrate
@@ -135,7 +84,7 @@ For background tracking without a foreground service, and if targeting API level
 First, import the module:
 
 ```javascript
-import { Radar } from 'capacitor-radar';
+import Radar from 'react-native-radar';
 ```
 
 ### Identify user
@@ -175,26 +124,33 @@ Before tracking the user's location, the user must have granted location permiss
 To determine the whether user has granted location permissions for the app, call:
 
 ```javascript
-Radar.getLocationPermissionsStatus().then((result) => {
-  // do something with result.status
+Radar.getPermissionsStatus().then((status) => {
+  // do something with status
 });
 ```
 
-`result.status` will be a string, one of:
+`status` will be a string, one of:
 
-- `GRANTED`
-- `DENIED`
-- `UNKNOWN`
+- **`GRANTED_BACKGROUND`**
+- **`GRANTED_FOREGROUND`**
+- **`NOT_DETERMINED`**
+- **`DENIED`**
 
 To request location permissions for the app, call:
 
 ```javascript
-Radar.requestLocationPermissions({ background: true });
+Radar.requestPermissions(background).then((status) => {
+  // do something with status
+});
 ```
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
 
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+<div className="alert alert-info">
+  Build and run the app to make sure permissions prompts are displayed!
+</div>
 
 ### Foreground tracking
 
@@ -204,7 +160,7 @@ To track the user's location in the foreground, call:
 
 ```javascript
 Radar.trackOnce().then((result) => {
-  // do something with result.location, result.events, result.user.geofences
+  // do something with result.location, result.events, result.user
 }).catch((err) => {
   // optionally, do something with err
 });
@@ -229,7 +185,7 @@ Learn about platform-specific implementations of this function in the [iOS SDK d
 
 ### Background tracking
 
-On iOS and Android, once you have initialized the SDK and the user has granted permissions, you can start tracking the user's location in the background.
+Once you have initialized the SDK and the user has granted permissions, you can start tracking the user's location in the background.
 
 For background tracking, the SDK supports custom tracking options as well as three presets:
 
@@ -266,18 +222,16 @@ Radar.setForegroundServiceOptions({
 });
 
 Radar.startTrackingCustom({
-  options: {
-    desiredStoppedUpdateInterval: 180,
-    desiredMovingUpdateInterval: 60,
-    desiredSyncInterval: 50,
-    desiredAccuracy: 'high',
-    stopDuration: 140,
-    stopDistance: 70,
-    sync: 'all',
-    replay: 'none',
-    showBlueBar: true,
-    foregroundServiceEnabled: true
-  }
+  desiredStoppedUpdateInterval: 180,
+  desiredMovingUpdateInterval: 60,
+  desiredSyncInterval: 50,
+  desiredAccuracy: 'high',
+  stopDuration: 140,
+  stopDistance: 70,
+  sync: 'all',
+  replay: 'none',
+  showBlueBar: true,
+  foregroundServiceEnabled: true
 });
 ```
 
@@ -292,69 +246,83 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 To listen for events, location updates, and errors, you can add event listeners:
 
 ```javascript
-Radar.addListener('clientLocation', (result) => {
-  // do something with result.location, result.stopped, result.source
+Radar.on('clientLocation', (result) => {
+  // do something with result.location
 });
 
-Radar.addListener('location', (result) => {
+Radar.on('location', (result) => {
   // do something with result.location, result.user
 });
 
-Radar.addListener('events', (result) => {
+Radar.on('events', (result) => {
   // do something with result.events, result.user
 });
 
-Radar.addListener('error', (result) => {
-  // do something with result.err
-});
-
-Radar.addListener('log', (result) => {
-  // do something with result.message
+Radar.on('error', (err) => {
+  // do something with err
 });
 ```
 
-Add event listeners outside of your view lifecycle if you want them to work when the app is in the background.
+Add event listeners outside of your component lifecycle (e.g., outside of `componentDidMount`) if you want them to work when the app is in the background.
 
-### Mock tracking
-
-On iOS and Android, you can simulate a sequence of location updates for testing. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
+You can also remove event listeners:
 
 ```javascript
-Radar.mockTracking({
-  origin: {
-    latitude: 40.714708,
-    longitude: -74.035807
-  },
-  destination: {
-    latitude: 40.717410,
-    longitude: -74.053334
-  },
-  mode: 'car',
-  steps: 10,
-  interval: 3
-});
+Radar.off('clientLocation');
+
+Radar.off('location');
+
+Radar.off('events');
+
+Radar.off('error');
+```
+
+### Battery usage
+
+Because React Native loads and parses your JavaScript bundle on each app launch, and because background tracking may launch the app in the background, background tracking with the React Native module can increase battery usage.
+
+On iOS, the app loads and parses the JavaScript bundle when the app is launched. If you do not want to receive events in JavaScript and you want to disable this in the background, check `launchOptions` for the `UIApplicationLaunchOptionsLocationKey` to conditionally parse and load the JavaScript bundle. Learn more about this key [here](https://developer.apple.com/uikit/uiapplicationlaunchoptionslocationkey).
+
+On Android, a receiver in the React Native module loads and parses the JavaScript bundle when the app is launched in the background. If you do not want to receive events in JavaScript and you want to disable this, add an override to your manifest:
+
+```xml
+<receiver
+  tools:replace="android:enabled"
+  android:name="io.radar.react.RNRadarReceiver"
+  android:enabled="false"
+  android:exported="false" />
 ```
 
 ### Trip tracking
-
-<Alert alertType="info">
-  See trip tracking docs for versions older than v3.5.2 <a href="/sdk/capacitor-3.5.1#trip-tracking">here</a>.
-</Alert>
 
 On iOS and Android, to start a trip to a destination, call:
 
 ```javascript
 Radar.startTrip({
-  options: {
-    externalId: '299',
-    destinationGeofenceTag: 'store',
-    destinationGeofenceExternalId: '123',
-    mode: 'car'
-  }
+  externalId: '299',
+  destinationGeofenceTag: 'store',
+  destinationGeofenceExternalId: '123',
+  mode: 'car'
 }).then((result) => {
   // do something with result.status
 });
 Radar.startTrackingContinuous();
+```
+
+Update information about the trip. Status can be set to 'unknown' to leave the status unchanged as it will update via location tracking.
+
+```javascript
+Radar.updateTrip({
+  status:'arrived',
+  options: {
+    externalId: '299',
+    metadata: {
+      parkingSpot: '5'
+    }
+  }
+}).then((result) => {
+  // do something with result.status
+});
 ```
 
 Later, to complete the trip and stop tracking, call:
@@ -386,8 +354,10 @@ Radar.trackOnce({
   latitude: 39.2904,
   longitude: -76.6122,
   accuracy: 65
-}, (result) => {
-  // do something with result.status, result.location, result.events, result.user
+}).then((result) => {
+  // do something with result.events, result.user
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -395,15 +365,17 @@ Learn about platform-specific implementation of this function in the [iOS SDK do
 
 ### Other APIs
 
-The Capacitor plugin also exposes APIs for anonymous context, geocoding, search, and distance.
+The React Native module also exposes APIs for anonymous context, geocoding, search, and distance.
 
 #### Get location
 
 Get a single location update without sending it to the server:
 
 ```javascript
-Radar.getLocation((result) => {
-  // do something with result.status, result.location
+Radar.getLocation().then((result) => {
+  // do something with result.location
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -416,8 +388,10 @@ Radar.getContext({
   latitude: 40.783826,
   longitude: -73.975363,
   accuracy: 65
-}, (result) => {
-  // do something with result.status, result.context
+}).then((result) => {
+  // do something with result.context
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -426,10 +400,10 @@ Radar.getContext({
 With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
 
 ```javascript
-Radar.geocode({
-  query: '20 jay st brooklyn ny'
-}, (result) => {
-  // do something with result.status, result.addresses
+Radar.geocode('20 jay st brooklyn ny').then((result) => {
+  // do something with result.addresses
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -439,16 +413,20 @@ With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a locati
 Radar.reverseGeocode({
   latitude: 40.783826,
   longitude: -73.975363
-}, (result) => {
-  // do something with result.status, result.addresses
+}).then((result) => {
+  // do something with result.addresses
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
 With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
 
 ```javascript
-Radar.ipGeocode((result) => {
-  // do something with result.status, result.address
+Radar.ipGeocode().then((result) => {
+  // do something with result.address
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -464,8 +442,10 @@ Radar.autocomplete({
     longitude: -73.975363
   },
   limit: 10
-}, (result) => {
-  // do something with result.status, result.addresses
+}).then((result) => {
+  // do something with result.addresses
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -476,8 +456,10 @@ Radar.searchGeofences({
   radius: 1000,
   tags: ['venue'],
   limit: 10
-}, (result) => {
-  // do something with result.status, result.geofences
+}).then((result) => {
+  // do something with result.geofences
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -492,8 +474,10 @@ Radar.searchPlaces({
   radius: 1000,
   chains: ['starbucks'],
   limit: 10
-}, (result) => {
-  // do something with result.status, result.places
+}).then((result) => {
+  // do something with result.places
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
@@ -516,8 +500,45 @@ Radar.getDistance({
     'car'
   ],
   units: 'imperial'
-}, (result) => {
-  // do something with result.status, result.routes
+}).then((result) => {
+  // do something with result.routes
+}).catch((err) => {
+  // optionally, do something with err
+});
+```
+
+#### Matrix
+
+With the [matrix API](/api#matrix), calculate the travel distance and duration between multiple origins and destinations for up to 25 routes:
+
+```javascript
+Radar.getMatrix({
+  origins: [
+    {
+      latitude: 40.78382,
+      longitude: -73.97536
+    },
+    {
+      latitude: 40.70390,
+      longitude: -73.98670
+    }
+  ],
+  destinations: [
+    {
+      latitude: 40.64189,
+      longitude: -73.78779
+    },
+    {
+      latitude: 35.99801,
+      longitude: -78.94294
+    }
+  ],
+  mode: 'car',
+  units: 'imperial'
+}).then((result) => {
+  // do something with result.matrix
+}).catch((err) => {
+  // optionally, do something with err
 });
 ```
 
