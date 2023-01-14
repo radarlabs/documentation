@@ -377,7 +377,7 @@ Radar.startTrip({
 });
 ```
 
-Later, to complete the trip and revert tracking, call:
+Later, complete the trip by calling:
 
 ```javascript
 Radar.completeTrip().then((result) => {
@@ -385,13 +385,15 @@ Radar.completeTrip().then((result) => {
 });
 ```
 
-Or, to cancel the trip and revert tracking, call:
+Or cancel the trip by calling:
 
 ```javascript
 Radar.cancelTrip().then((result) => {
   // do something with result.status
 });
 ```
+
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started.
 
 Learn more about [trip tracking](/trip-tracking).
 
