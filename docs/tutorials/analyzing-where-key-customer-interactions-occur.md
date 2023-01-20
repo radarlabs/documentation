@@ -84,7 +84,7 @@ To take advantage of Radar's custom events API, you need to identify the events 
 
 | Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
-| `app_open`  | Understand where users are engaging with the app to prioritize personalized features                       | After loading the app completes      | NA                                                                             |
+| `app_open`  | Understand where users are engaging with the app to prioritize personalized features                       | After app load completes      | NA                                                                             |
 | `sign_up`    | Measure which stores are driving sign ups through store promotions                                               | After a user completes the signup flow | `referrer` (string) <br /> `rewards` (boolean)                                            |
 | `product_search`    | Understand where customers are searching for products (i.e. in specific stores or at competitor locations)                                               |  | `section` (string)                                         |
 | `purchase`   | Measure the revenue driven from in store mode and understand the distance from the store at the time of purchase | After a user submits an order              | `amount` (number) <br /> `mode` (string) <br /> `in_store_mode` (boolean) |
@@ -130,7 +130,7 @@ Radar.sendEvent(
   </TabItem>
 </Tabs>
 
-### Step 5: Use the Radar dashboard to view custom events
+### Step 6: Use the Radar dashboard to view custom events
 You can see when and where custom events were generated directly in the Radar dashboard. On the [Events](https://radar.com/dashboard/events) page, watch as custom events start to stream in:
 
 ![Custom events dashboard](/img/tutorials/custom-events-dashboard.png)
