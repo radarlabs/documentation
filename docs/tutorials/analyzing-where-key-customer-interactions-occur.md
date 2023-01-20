@@ -15,7 +15,7 @@ import Alert from "../../src/components/Alert";
 
 In this tutorial, we show you how to use Radar's [custom events API](/api#send-a-custom-event) to analyze the location context associated with key customer interactions. Custom events can represent anything from a conversion or purchase to engagement with an in-app feature.
 
-When these events are enriched with Radar's location context, they can be used to assess prioritization and measure the value of location based features.
+When these events are enriched with Radar's location context, they can be used to determine where these key interactions occur and measure the value of location based features.
 
 ## Languages used
 
@@ -32,7 +32,7 @@ When these events are enriched with Radar's location context, they can be used t
 
 ### Step 1: Sign up for Radar
 
-If you haven't already, sign up for Radar to get your API key.
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
 
 <a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a>
 
@@ -41,7 +41,7 @@ If you haven't already, sign up for Radar to get your API key.
 #### iOS
 If you're starting from scratch, create a new Xcode project of type Single View App.
 
-[Install the Radar SDK](/sdk) using CocoaPods or Carthage (recommended) or by [downloading the framework](https://github.com/radarlabs/radar-sdk-ios/releases) and dragging it into your project.
+[Install the iOS SDK](/sdk/ios#install-sdk) using CocoaPods or Carthage (recommended) or by [downloading the framework](https://github.com/radarlabs/radar-sdk-ios/releases) and dragging it into your project.
 
 Initialize the SDK in your `AppDelegate` class with your publishable API key.
 
@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ```
 
 #### Android
-The best way to add the SDK to your project is via Gradle. See the [SDK installation guide](/sdk/android#install-sdk).
+The best way to add the SDK to your project is via Gradle. See the [Android SDK installation guide](/sdk/android#install-sdk).
 
 When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key.
 
@@ -79,23 +79,23 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
 
   }
   ```
-### Step 3: Determine the events you wish to track
-To take advantage of Radar's custom events API, you need to determine events that are important to your business. Here are some examples:
+### Step 3: Determine the events you want to track
+To take advantage of Radar's custom events API, you need to identify the events that are important to your business. Here are some examples:
 
 | Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
-| app_open   | Understand where users are engaging with the app to prioritize location personalized features                       | After home view load completes      | NA                                                                             |
-| sign_up    | Measure which stores are driving sign ups through at store promotions                                               | After the sign up flow is completed | referrer: string <br /> rewards: boolean                                            |
-| product_search    | Understand where customers are searching for products (i.e. in certain stores or at competitors)                                               |  | section: string                                         |
-| purchase   | Measure revenue driven from in store mode powered by Radar, understand distance from store at time of purchase | After order submission              | amount: number <br /> mode: "pickup"\|"curbside" <br /> in_store_mode: boolean |
+| `app_open`  | Understand where users are engaging with the app to prioritize personalized features                       | After loading the app completes      | NA                                                                             |
+| `sign_up`    | Measure which stores are driving sign ups through store promotions                                               | After a user completes the signup flow | `referrer` (string) <br /> `rewards` (boolean)                                            |
+| `product_search`    | Understand where customers are searching for products (i.e. in specific stores or at competitor locations)                                               |  | `section` (string)                                         |
+| `purchase`   | Measure the revenue driven from in store mode and understand the distance from the store at the time of purchase | After a user submits an order              | `amount` (number) <br /> `mode` (string) <br /> `in_store_mode` (boolean) |
 
-### Step 4: Setup Radar geofences or places
+### Step 4: Set up Radar geofences or places
 
-On the [Geofences page](https://radar.com/dashboard/geofences), import geofences for relevant locations and on the [Settings page](https://radar.com/dashboard/settings), setup relevant place chains and categories. When custom events are sent, Radar will determine if they are performed at any of these geofences or places.
+On the [Geofences page](https://radar.com/dashboard/geofences), import geofences for your locations. For places, on the [Settings page](https://radar.com/dashboard/settings), monitor your desired place chains and categories. When processing custom events, Radar will determine if they happen at any of these geofences or places.
 
 ### Step 5: Send custom events via the Radar SDK
 
-The following example demonstrates how to send a custom event to Radar on user signup.
+The following example demonstrates how to send a custom event when a user searches for a product.
 
 <Tabs
   groupId="custom-events"
@@ -108,7 +108,7 @@ The following example demonstrates how to send a custom event to Radar on user s
   <TabItem value="swift">
 
 ```swift
-// on customer sign up
+// on searching for a product
 Radar.sendEvent(customType: "product_search", metadata: ["section":"furniture"]) { (status, location, events, user) in
   print("Send event: status = \(Radar.stringForStatus(status)); location = \(String(describing: location)); events = \(String(describing: events)); user = \(String(describing: user))")
 }
@@ -118,7 +118,7 @@ Radar.sendEvent(customType: "product_search", metadata: ["section":"furniture"])
   <TabItem value="kotlin">
 
 ```kotlin
-// on customer sign up
+// on searching for a product
 val metadata = JSONObject(mapOf("section" to "furniture"))
 Radar.sendEvent(
     "product_search",
@@ -131,13 +131,13 @@ Radar.sendEvent(
 </Tabs>
 
 ### Step 5: Use the Radar dashboard to view custom events
-You can see when and where custom events were generated directly in the Radar dashboard. On the [Radar events](https://radar.com/dashboard/events) page, watch as custom events start to stream in:
+You can see when and where custom events were generated directly in the Radar dashboard. On the [Events](https://radar.com/dashboard/events) page, watch as custom events start to stream in:
 
 ![Custom events dashboard](/img/tutorials/custom-events-dashboard.png)
 
-Click the **View** icon on the right-hand side to view details about a custom event:
+Click the _View_ icon on the right to view a custom event's details:
 ![Custom events detail page](/img/tutorials/custom-events-detail-page.gif)
 
-Finally, use the **Analysis** tool on the Radar event page to view all of your custom events sliced by different metrics:
+Finally, select _Analysis_ within the dropdown on the [Events](https://radar.com/dashboard/events) page to view all of your custom events sliced by different dimensions, such as place chain or geofence tag:
 
 ![Custom events analysis](/img/tutorials/custom-event-analysis.png)
