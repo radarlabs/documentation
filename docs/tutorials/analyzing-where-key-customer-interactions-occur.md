@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: Analyzing the location context of customer interactions
+title: Analyzing where key customer interactions occur
 ---
 
 import Tabs from "@theme/Tabs";
