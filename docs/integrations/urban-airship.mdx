@@ -3,11 +3,20 @@ title: Airship
 ---
 import Alert from "../../src/components/Alert";
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import InlineTabs from "../../src/components/InlineTabs";
+import InlineTabItem from "../../src/components/InlineTabItem";
+
+import DefaultContextValues from "../../src/components/DefaultContextValues";
+
 <Alert alertType="info">
-  The Airship integration is available on the {` `} 
+  The Airship integration is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Team plan</a>
   {` `} and higher.
 </Alert>
+
+<DefaultContextValues/>
 
 Radar can send events and tags to [Airship](https://www.airship.com).
 
@@ -15,7 +24,7 @@ Use the Airship integration to send location-triggered and location-targeted mes
 
 ## Configuration
 
-On the Airship *APIs & Integrations* page, create a custom event token and copy the app key and access token. Under *Partner Integrations*, enable Radar to enable auto-population of custom event names and properties in the Airship Automation Composer.
+On the Airship *Tokens* page in #Settings#, create a token with the *All Access* role and copy the app key and access token. Under *Partner Integrations*, enable Radar to enable auto-population of custom event names and properties in the Airship Automation Composer.
 
 Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Airship*, set *Enabled* to *Yes* and paste your app key and access token. Note that you can set separate API keys for the *Test* and *Live* environments.
 
@@ -23,12 +32,38 @@ Whenever events are generated, Radar will send custom events and tags to Airship
 
 If you are using Airship SDK `13.x` or earlier with Radar iOS SDK `3.0.4` or earlier or Radar Android SDK `3.0.6` or earlier, the Radar SDK will automatically collect Airship channel ID and Airship session ID. However, if you are using Airship SDK `14.0` or later with Radar iOS SDK `3.0.5` or later or Radar Android SDK `3.0.7` or later, you must set Radar `metadata.airshipChannelId` and `metadata.airshipSessionId` manually to collect Airship channel ID and Airship session ID. For example, on iOS:
 
+<Tabs
+  groupId="braze-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
 ```swift
 Radar.setMetadata([
   "airshipChannelId": Airship.channel.identifier,
   "airshipSessionId": Airship.analytics.sessionID
 ])
 ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+    // track logged out users with alias (deviceId recommended, not required if not tracking logged out users)
+  Radar.setMetadata(JSONObject().put("brazeAlias",deviceId))
+  Braze.getInstance(context).currentUser.addAlias(deviceId,"radarAlias")
+
+  // track logged in users with custom external_id mapping (not required if using default mapping)
+  Radar.setMetadata(JSONObject().put("brazeExternalId",userId))
+  Braze.getInstance(context).changeUser(userId)
+```
+
+  </TabItem>
+</Tabs>
 
 It is recommended to set the Radar user metadata once the Airship channel ID becomes available. This can be performed via the `addChannelListener` [Airship methods](https://docs.airship.com/platform/mobile/audience/#accessing-the-airship-channel-id).
 
@@ -284,3 +319,109 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `confidence` | `radar_confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `1.42`
 `foreground` | `radar_foreground` | boolean | `true`
+
+## Verify integration data delivery
+
+To test if the API keys are correct and the integration can deliver data, leverage the [simulator](/dashboard#simulator) to generate the desired event and leverage the dashboard event details page's **Logs** section to verify delivery. A similar test can be performed if leveraging a test build with Radar location tracking enabled (spoof location or move into the relevant boundary).
+
+![Verify integration event delivery](/gif/integrations/airship/verify_airship_integration_delivery.gif)
+
+All integration delivery can be monitored in the integration event logs by clicking on **View Event Logs** on the Integrations tab.
+
+## Example use cases
+
+### Send a personalized push notification when user arrives at a store
+1. Configure [Geofences](/geofences) in Radar with the geofence tag set to `store`. Read more about creating geofences [here](/geofences#create-geofences). The geofence tag will be used to trigger messaging just for the subset of entries where this tag is present.
+2. Setup a Airship campaign triggered from the Radar geofence entry event, `radar_geofence_entered` custom event in Airship, and add property filtering where `radar_geofence_tag` is `store`. These same events can be used as part of a Airship and the event properties can be used in message personalization with handlebars.
+
+![Radar triggered Airship campaign](/img/integrations/airship/airship_radar_entered_geofence.png)
+
+### Message all users nearby a store
+1. Configure [Geofences](/geofences) in Radar to represent nearby store boundaries with geofence tag set to `nearby-store`. Read more about creating geofences [here](/geofences#create-geofences). The geofence tag will be used to target messaging just for the subset of geofences where this tag is set.
+2. Setup a Airship campaign targeted with the `radar_geofence_tags` tag group Radar sends. Radar will send Airship tags for all geofence tags the user is currently detected in, so set the tag to match the value of `nearby-store` for the radar_geofence_tag group. Additional attribute filtering can be performed for more complex targeting including regional targeting.
+
+![Radar targeted Airship campaign](/img/integrations/airship/airship_radar_targeted_messaging.png)
+
+## In app messaging
+
+To trigger in app messaging from detected user state on app open, custom events need to deliver through the Airship SDK rather than server side via Radar's server to server integration with Airship.  To support this, implement custom logic leveraging Radar's location update listener to send foreground detection's to Airship. The example code below assumes you are calling `Radar.trackOnce()` on application launch.
+
+<Tabs
+  groupId="braze-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import RadarSDK
+import AirshipKit
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
+   ...
+  func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
+    if (user.foreground  && user.source == RadarLocationSource.foregroundLocation) {
+      if let place = user.place {
+          let event = CustomEvent(name: "radar_fg_place_detected");
+          event.interactionType = "location"
+          event.properties = [
+              "radar_place_name": place.name,
+              "radar_place_categories": place.categories.joined(separator: ","),
+              "radar_place_chain_slug": place.chain?.slug ?? ""
+          ]
+          event.track()
+      }
+      if let geofences = user.geofences {
+          let event = CustomEvent(name: "radar_fg_geofences_detected");
+          event.interactionType = "location"
+          event.properties = [
+          "radar_geofence_descriptions": geofences.compactMap({ $0.description }),
+          "radar_geofence_tags": geofences.compactMap({ $0.tag }),
+          "radar_geofence_external_ids": geofences.compactMap({ $0.externalId })
+          ]
+          event.track()
+      }
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+  class MyRadarReceiver: RadarReceiver() {
+    override fun onLocationUpdated(context: Context, location: Location, user: RadarUser) {
+        if (user.foreground && user.source == RadarLocationSource.FOREGROUND_LOCATION) {
+            var userGeofences = user.geofences
+            var userPlace = user.place
+            if (userGeofences != null) {
+                if (userGeofences.isNotEmpty()) {
+                    CustomEvent.newBuilder("radar_fg_geofences_entered")
+                        .addProperty("geofence_descriptions", userGeofences.map { it.description }.joinToString())
+                        .addProperty("geofence_tags", userGeofences.map { it.tag }.joinToString())
+                        .addProperty("geofence_external_ids", userGeofences.map { it.externalId }.joinToString())
+                        .build()
+                        .track()
+                }
+            }
+            if (userPlace != null) {
+                val chain: String =  userPlace.chain?.slug ?: ""
+                CustomEvent.newBuilder("radar_fg_place_entered")
+                    .addProperty("place_name", userPlace.name)
+                    .addProperty("place_chain", chain)
+                    .addProperty("categories", userPlace.categories.joinToString())
+                    .build()
+                    .track()
+            }
+        }
+    }
+  }
+```
+
+  </TabItem>
+</Tabs>
