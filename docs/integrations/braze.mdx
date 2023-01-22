@@ -393,7 +393,7 @@ To test if the API keys are correct and the integration can deliver data, levera
 
 ![Verify integration event delivery](/gif/integrations/braze/verify_braze_integration_delivery.gif)
 
-All integration delivery can be monitored in the integration event logs by clicking on `View Event Logs` in the integrations tab.
+All integration delivery can be monitored in the integration event logs by clicking on **View Event Logs** on the Integrations tab.
 
 ## Example use cases
 
@@ -403,7 +403,7 @@ All integration delivery can be monitored in the integration event logs by click
 
 ![Radar triggered Braze campaign](/img/integrations/braze/braze_radar_entered_geofence.png)
 
-### Messages all users nearby a store
+### Message all users nearby a store
 1. Configure [Geofences](/geofences) in Radar to represent nearby store boundaries with geofence tag set to `nearby-store`. Read more about creating geofences [here](/geofences#create-geofences). The geofence tag will be used to target messaging just for the subset of geofences where this tag is set.
 2. Setup a Braze campaign targeted with the `radar_geofence_tags` user attribute Radar sends. This will be an array of all geofences the user is currently detected in, so set the attribute to include the value of `nearby-store`. Additional attribute filtering can be performed for more complex targeting including how recently the location was updated via the `radar_updated_at` user attribute.
 
