@@ -306,7 +306,7 @@ On Android, a receiver in the React Native module loads and parses the JavaScrip
 To start a trip to a destination, call:
 
 ```javascript
-Radar.startTrip(
+Radar.startTrip({
   tripOptions: {
     externalId: '299',
     destinationGeofenceTag: 'store',
@@ -334,7 +334,7 @@ Radar.startTrip(
       "beacons": false,
       "foregroundServiceEnabled": false
   }
-).then((result) => {
+}).then((result) => {
   // do something with result.status
 });
 ```
