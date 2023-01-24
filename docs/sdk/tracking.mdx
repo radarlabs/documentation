@@ -81,15 +81,15 @@ The SDK has two states: **stopped** and **moving**. After a location update is m
 - **`useMovingGeofence`**: Determines whether to use the [iOS region monitoring service (geofencing)](https://developer.apple.com/documentation/corelocation/monitoring_the_user_s_proximity_to_geographic_regions) to create a client-side geofence "bubble" around the device's current location when moving.
 - **`movingGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when moving.
 - **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness.
-- **`useVisits`**: Determines whether to use the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service).
-- **`useSignificantLocationChanges`**: Determines whether to use the [iOS significant location change service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_significant-change_location_service).
+- **`useVisits`**: Determines whether to use the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/clvisit).
+- **`useSignificantLocationChanges`**: Determines whether to use the [iOS significant location change service](https://developer.apple.com/documentation/corelocation/cllocationmanager/1423531-startmonitoringsignificantlocati?language=objc).
 - **`beacons`**: Determines whether to monitor beacons.
 
 ### iOS presets
 
 - **`RadarTrackingOptions.presetContinuous`**: Updates about every 30 seconds while moving or stopped. Moderate battery usage. Shows the flashing blue status bar during tracking.
 - **`RadarTrackingOptions.presetResponsive`**: Updates about every 2.5 minutes when moving and shuts down when stopped to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage. Requires the `location` background mode.
-- **`RadarTrackingOptions.presetEfficient`**: Uses the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to update only on stops and exits. Once stopped, the device will need to move several hundred meters and trigger a [visit departure](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location/using_the_visits_location_service) to wake up and start moving again. Lowest battery usage.
+- **`RadarTrackingOptions.presetEfficient`**: Uses the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/clvisit) to update only on stops and exits. Once stopped, the device will need to move several hundred meters and trigger a visit departure to wake up and start moving again. Lowest battery usage.
 
 Option | Efficient | Responsive | Continuous
 --- | --- | --- | ---
