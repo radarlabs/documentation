@@ -338,7 +338,7 @@ Radar.mockTracking({
 ### Trip tracking
 
 <Alert alertType="info">
-  See trip tracking docs for versions older than v3.5.2 <a href="/sdk/capacitor-3.5.1#trip-tracking">here</a>.
+  See docs for Capacitor SDK versions older than v3.5.2 <a href="/sdk/capacitor-3.5.1#trip-tracking">here</a>.
 </Alert>
 
 To start a trip to a destination, call:
@@ -352,25 +352,23 @@ Radar.startTrip(options: {
     mode: 'car'
   },
   trackingOptions: {
-    "desiredStoppedUpdateInterval": 30,
-    "fastestStoppedUpdateInterval": 30,
-    "desiredMovingUpdateInterval": 30,
-    "fastestMovingUpdateInterval": 30,
-    "desiredSyncInterval": 20,
-    "desiredAccuracy": "HIGH",
-    "stopDuration": 0,
-    "stopDistance": 0,
-    "replay": "none",
-    "sync": "all",
-    "showBlueBar": true,
-    "useStoppedGeofence": false,
-    "stoppedGeofenceRadius": 0,
-    "useMovingGeofence": false,
-    "movingGeofenceRadius": 0,
-    "syncGeofences": false,
-    "syncGeofencesLimit": 0,
-    "beacons": false,
-    "foregroundServiceEnabled": false
+    desiredStoppedUpdateInterval: 30,
+    fastestStoppedUpdateInterval: 30,
+    desiredMovingUpdateInterval: 30,
+    "fastestMovingUpdateInterval: 30,
+    desiredSyncInterval: 20,
+    desiredAccuracy: "high",
+    stopDuration: 0,
+    stopDistance: 0,
+    replay: "none",
+    sync: "all",
+    showBlueBar: true,
+    stoppedGeofenceRadius: 0,
+    movingGeofenceRadius: 0,
+    syncGeofences: false,
+    syncGeofencesLimit: 0,
+    beacons: false,
+    foregroundServiceEnabled: true
   }
 }).then((result) => {
   // do something with result.status
