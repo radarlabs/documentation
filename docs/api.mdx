@@ -417,27 +417,29 @@ curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
   },
   "addresses": [
     {
-      "latitude": 40.70390,
-      "longitude": -73.98670,
+      "latitude": 40.7041,
+      "longitude": -73.9867,
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.98670, 40.70390]
+        "coordinates": [-73.9867,40.7041]
       },
-      "addressLabel": "20 Jay Street",
-      "formattedAddress": "20 Jay Street, Brooklyn, New York, NY 11201 USA",
       "country": "United States",
       "countryCode": "US",
       "countryFlag": "🇺🇸",
-      "state": "New York",
-      "stateCode": "NY",
-      "postalCode": "11201",
-      "city": "New York",
-      "borough": "Brooklyn",
       "county": "Kings County",
-      "neighborhood": "DUMBO",
-      "number": "20",
+      "distance": 0,
       "confidence": "exact",
-      "layer": "address"
+      "borough": "Brooklyn",
+      "city": "Brooklyn",
+      "number": "20",
+      "neighborhood": "DUMBO",
+      "postalCode": "11201",
+      "stateCode": "NY",
+      "state": "New York",
+      "street": "Jay St",
+      "layer": "address",
+      "formattedAddress": "20 Jay St, Brooklyn, New York, NY 11201 USA",
+      "addressLabel": "20 Jay St"
     }
   ]
 }
@@ -602,28 +604,28 @@ curl "https://api.radar.io/v1/search/autocomplete?query=brooklyn+roasting&near=4
   },
   "addresses": [
     {
-      "latitude": 40.70390,
-      "longitude": -73.98670,
+      "latitude": 40.695779,
+      "longitude": -73.991489,
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.98670, 40.70390]
+        "coordinates": [-73.991489,40.695779]
       },
-      "placeLabel": "Brooklyn Roasting Company",
-      "addressLabel": "25 Jay Street",
-      "formattedAddress": "25 Jay Street, Brooklyn, New York, NY 11201 USA",
       "country": "United States",
       "countryCode": "US",
       "countryFlag": "🇺🇸",
-      "state": "New York",
-      "stateCode": "NY",
-      "postalCode": "11201",
-      "city": "New York",
-      "borough": "Brooklyn",
       "county": "Kings County",
-      "neighborhood": "DUMBO",
-      "number": "25",
-      "distance": 5,
-      "layer": "place"
+      "distance": 990,
+      "borough": "Brooklyn",
+      "city": "Brooklyn",
+      "number": "1",
+      "neighborhood": "Brooklyn Heights",
+      "postalCode": "11201",
+      "stateCode": "NY",
+      "state": "New York",
+      "street": "Clinton St",
+      "layer": "place",
+      "formattedAddress": "1 Clinton St, Brooklyn, New York, NY 11201 USA",
+      "placeLabel": "Brooklyn Roasting Company"
     }
   ]
 }
