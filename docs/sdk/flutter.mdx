@@ -85,7 +85,7 @@ import RadarSDK
   </TabItem>
 </Tabs>
 
-On Android, add the Radar android SDK to the `dependencies` section of your android app's `build.gradle` file. Ensure the Android SDK version matches the version of your Radar Flutter package.
+On Android, add the Radar Android SDK to the `dependencies` section of your Android app's `build.gradle` file. Ensure the Android SDK version matches the version of your Radar Flutter package.
 
 ```kotlin
 dependencies {
@@ -101,7 +101,7 @@ dependencies {
   on GitHub.
 </Alert>
 
-Initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key. If your flutter android app is in Kotlin, add a `Application.kt` file and reference this as the appliation name in your Android manifest.
+Initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key. If your Flutter Android app is in Kotlin, add a `Application.kt` file and reference this as the appliation name in your Android manifest.
 
 <Tabs
   groupId="android"
@@ -272,7 +272,7 @@ You only need to call these methods once, as these settings will be persisted ac
 Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
 
 ```dart
-// optionally adjust foreground service options for android
+// optionally adjust foreground service options for Android
 Radar.setForegroundServiceOptions({
   'text': "Location tracking started",
   'title': "Location updates",
