@@ -16,7 +16,7 @@ Add the package to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_radar: ^3.0.2
+  flutter_radar: ^3.1.3
 ```
 
 Then, update dependencies:
@@ -64,6 +64,32 @@ public class MainApplication extends FlutterApplication {
     }
 
 }
+```
+
+Add the Radar android SDK to the `dependencies` section of your android app's `build.gradle` file. Ensure the Android SDK version matches the version of your Radar Flutter package.
+
+```kotlin
+dependencies {
+    implementation 'io.radar:sdk:3.5.9'
+}
+```
+
+<Alert alertType="info">
+  When upgrading the SDK, ensure the Android SDK version is updated to match the plugin's pinned version. For details on the latest SDK releases, see the{" "}
+  <a href="https://github.com/radarlabs/flutter-radar/releases">
+    releases page
+  </a>{" "}
+  on GitHub.
+</Alert>
+
+For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+</manifest>
 ```
 
 ## Integrate
@@ -121,6 +147,7 @@ String status = await Radar.getPermissionsStatus();
 - `GRANTED_FOREGROUND`
 - `GRANTED_BACKGROUND`
 - `DENIED`
+- `NOT_DETERMINED`
 
 To request location permissions for the app, call:
 
@@ -211,27 +238,37 @@ Radar.mockTracking(
 On iOS and Android, to start a trip to a destination, call:
 
 ```dart
-Radar.startTrip({
-  'externalId': '299',
-  'destinationGeofenceTag': 'store',
-  'destinationGeofenceExternalId': '123',
-  'mode': 'car'
-});
-Radar.startTracking('continuous');
+Radar.startTrip(
+  tripOptions: {
+  "externalId": '299',
+  "destinationGeofenceTag": 'store',
+  "destinationGeofenceExternalId": '123',
+  "mode": 'car'
+  },
+  trackingOptions: {
+    "desiredStoppedUpdateInterval": 30,
+    "fastestStoppedUpdateInterval": 30,
+    "desiredMovingUpdateInterval": 30,
+    "fastestMovingUpdateInterval": 30,
+    "desiredSyncInterval": 20,
+    "desiredAccuracy": "high",
+    "sync": "all",
+    "showBlueBar": true,
+    "foregroundServiceEnabled": true
+  }
+);
 ```
 
 Later, to complete the trip and stop tracking, call:
 
 ```dart
 Radar.completeTrip();
-Radar.stopTracking();
 ```
 
 Or, to cancel the trip and stop tracking, call:
 
 ```dart
 Radar.cancelTrip();
-Radar.stopTracking();
 ```
 
 Learn more about [trip tracking](/trip-tracking).
