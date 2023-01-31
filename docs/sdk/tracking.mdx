@@ -85,8 +85,6 @@ The SDK has two states: **stopped** and **moving**. After a location update is m
 - **`useSignificantLocationChanges`**: Determines whether to use the [iOS significant location change service](https://developer.apple.com/documentation/corelocation/cllocationmanager/1423531-startmonitoringsignificantlocati?language=objc). Defaults to `false`.
 - **`beacons`**: Determines whether to monitor beacons. Defaults to `false`.
 
-Defaults for integers are `0`, desiredAccuracy is `.medium`, replay is `.replayNone`,syncLocations is `all`, and booleans are `false`.
-
 ### iOS presets
 
 - **`RadarTrackingOptions.presetContinuous`**: Updates about every 30 seconds while moving or stopped. Moderate battery usage. Shows the flashing blue status bar during tracking.
@@ -143,7 +141,7 @@ Option | Efficient | Responsive | Continuous
 
 ### Android foreground service options
 
-To avoid [Background Location Limits](https://developer.android.com/about/versions/oreo/background-location-limits), you can start a foreground service and show a notification during tracking. If using Android SDK < 3.4.1, set `trackingOptions.foregroundService` to an instance of `RadarTrackingOptionsForegroundService`. If using Android > 3.4.1, use `Radar.setForegroundServiceOptions()` to customize the foreground service notification appearance passing in a instance of `RadarTrackingOptionsForegroundService`.
+To avoid [Background Location Limits](https://developer.android.com/about/versions/oreo/background-location-limits), you can start a foreground service and show a notification during tracking. If using Android SDK < 3.4.1, set `trackingOptions.foregroundService` to an instance of `RadarTrackingOptionsForegroundService`. If using Android SDK >= 3.4.1, use `Radar.setForegroundServiceOptions()` to customize the foreground service notification appearance passing in an instance of `RadarTrackingOptionsForegroundService`.
 
 - **`text`**: Determines the notification text. Defaults to `"Location tracking started"`.
 - **`title`**: Determines the notification title. Optional.
