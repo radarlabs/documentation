@@ -2,8 +2,8 @@
 sidebar_position: 7
 sidebar_label: Capacitor
 title: Capacitor Plugin
-id: capacitor
-description: Documentation for Capacitor Plugin
+id: capacitor-3.5.1
+description: Documentation for Capacitor Plugin v3.5.1 and Below
 ---
 
 import Alert from "../../src/components/Alert";
@@ -338,58 +338,42 @@ Radar.mockTracking({
 ### Trip tracking
 
 <Alert alertType="info">
-  See docs for Capacitor SDK versions older than v3.5.2 <a href="/sdk/capacitor-3.5.1#trip-tracking">here</a>.
+  See trip tracking docs for Capacitor SDK versions older versions v3.5.2 and above <a href="/sdk/capacitor#trip-tracking">here</a>.
 </Alert>
 
-To start a trip to a destination, call:
+On iOS and Android, to start a trip to a destination, call:
 
 ```javascript
-Radar.startTrip(options: {
-  tripOptions: {
+Radar.startTrip({
+  options: {
     externalId: '299',
     destinationGeofenceTag: 'store',
     destinationGeofenceExternalId: '123',
-    mode: 'car' as RadarRouteMode
-  },
-  trackingOptions: {
-    desiredStoppedUpdateInterval: 30,
-    fastestStoppedUpdateInterval: 30,
-    desiredMovingUpdateInterval: 30,
-    fastestMovingUpdateInterval: 30,
-    desiredSyncInterval: 20,
-    desiredAccuracy: 'high' as RadarTrackingOptionsDesiredAccuracy,
-    stopDuration: 0,
-    stopDistance: 0,
-    replay: "none",
-    sync: "all",
-    showBlueBar: true,
-    syncGeofences: false,
-    syncGeofencesLimit: 0,
-    beacons: false,
-    foregroundServiceEnabled: true
+    mode: 'car'
   }
 }).then((result) => {
   // do something with result.status
 });
+Radar.startTrackingContinuous();
 ```
 
-Later, complete the trip by calling:
+Later, to complete the trip and stop tracking, call:
 
 ```javascript
 Radar.completeTrip().then((result) => {
   // do something with result.status
 });
+Radar.stopTracking();
 ```
 
-Or cancel the trip by calling:
+Or, to cancel the trip and stop tracking, call:
 
 ```javascript
 Radar.cancelTrip().then((result) => {
   // do something with result.status
 });
+Radar.stopTracking();
 ```
-
-If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started.
 
 Learn more about [trip tracking](/trip-tracking).
 
