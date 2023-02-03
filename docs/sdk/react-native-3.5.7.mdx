@@ -2,8 +2,8 @@
 sidebar_position: 4
 sidebar_label: React Native
 title: React Native SDK
-id: react-native
-description: Documentation for React Native SDK
+id: react-native-3.5.1
+description: Documentation for React Native SDK 3.5.1 and Below
 ---
 
 import Alert from "../../src/components/Alert";
@@ -152,9 +152,9 @@ where `background` is a boolean indicating whether to request background locatio
 
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-<Alert alertType="info">
+<div className="alert alert-info">
   Build and run the app to make sure permissions prompts are displayed!
-</Alert>
+</div>
 
 ### Foreground tracking
 
@@ -300,39 +300,21 @@ On Android, a receiver in the React Native module loads and parses the JavaScrip
 ### Trip tracking
 
 <Alert alertType="info">
-  See trip tracking docs for React Native SDK versions older than v3.5.8 <a href="/sdk/react-native-3.5.1#trip-tracking">here</a>.
+  See trip tracking docs for React Native SDK versions v3.5.8 and above <a href="/sdk/react-native#trip-tracking">here</a>.
 </Alert>
 
-To start a trip to a destination, call:
+On iOS and Android, to start a trip to a destination, call:
 
 ```javascript
 Radar.startTrip({
-  tripOptions: {
-    externalId: '299',
-    destinationGeofenceTag: 'store',
-    destinationGeofenceExternalId: '123',
-    mode: 'car'
-  },
-  trackingOptions:{
-      desiredStoppedUpdateInterval: 30,
-      fastestStoppedUpdateInterval: 30,
-      desiredMovingUpdateInterval: 30,
-      fastestMovingUpdateInterval: 30,
-      desiredSyncInterval: 20,
-      desiredAccuracy: "high",
-      stopDuration: 0,
-      stopDistance: 0,
-      replay: "none",
-      sync: "all",
-      showBlueBar: true,
-      syncGeofences: false,
-      syncGeofencesLimit: 0,
-      beacons: false,
-      foregroundServiceEnabled: true
-  }
+  externalId: '299',
+  destinationGeofenceTag: 'store',
+  destinationGeofenceExternalId: '123',
+  mode: 'car'
 }).then((result) => {
   // do something with result.status
 });
+Radar.startTrackingContinuous();
 ```
 
 Update information about the trip. Status can be set to 'unknown' to leave the status unchanged as it will update via location tracking.
@@ -351,23 +333,23 @@ Radar.updateTrip({
 });
 ```
 
-Later, complete the trip by calling:
+Later, to complete the trip and stop tracking, call:
 
 ```javascript
 Radar.completeTrip().then((result) => {
   // do something with result.status
 });
+Radar.stopTracking();
 ```
 
-Or, cancel the trip by calling:
+Or, to cancel the trip and stop tracking, call:
 
 ```javascript
 Radar.cancelTrip().then((result) => {
   // do something with result.status
 });
+Radar.stopTracking();
 ```
-
-If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started.
 
 Learn more about [trip tracking](/trip-tracking).
 
@@ -567,20 +549,7 @@ Radar.getMatrix({
   // optionally, do something with err
 });
 ```
-#### Custom events
 
-With the [custom events API](/api#send-a-custom-event), send a custom event, such as a conversion or purchase, to analyze alongside your app's location activity:
-
-```javascript
-Radar.sendEvent(
-  customType,
-  metadata
-).then((result) => {
-  // do something with result
-}).catch((err) => {
-  // optionally, do something with err
-});
-```
 ## Support
 
 Have questions? We're here to help! Email us at [support@radar.com](mailto:support@radar.com).
