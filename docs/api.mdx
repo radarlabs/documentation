@@ -508,15 +508,11 @@ curl "https://api.radar.io/v1/geocode/reverse?coordinates=40.70390,-73.98670" \
 
 #### IP geocode
 
-Geocodes an IP address, converting IP address to city, state, and country.
+Geocodes the requester's IP, converting IP address to city, state, and country.
 
 ###### Definitions
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/ip</code>
-
-###### Query parameters
-
-- **`ip`** (string, optional): The IP address to geocode. Defaults to the request IP address.
 
 ###### Authentication level
 
@@ -529,7 +525,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geocode/ip?ip=107.77.199.117" \
+curl "https://api.radar.io/v1/geocode/ip" \
   -H "Authorization: prj_live_pk_..."
 ```
 
