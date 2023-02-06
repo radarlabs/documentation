@@ -45,11 +45,9 @@ where `publishableKey` is a string containing your Radar publishable API key.
 Optionally, to cache location updates for a period of time and avoid re-prompting for location,
 provide a `cacheLocationMinutes` value as an option when initializing:
 ```javascript
-Radar.initialize(publishableKey,
-  {
-    cacheLocationMinutes: 30
-  }
-);
+Radar.initialize(publishableKey, {
+  cacheLocationMinutes: 30
+});
 ```
 
 ### Identify user
