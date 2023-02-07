@@ -13,7 +13,7 @@ Radar can sync locations from [Yext](http://www.yext.com) as geofences in Radar.
 
 ## Configuration
 
-On the Radar [Integrations page](/integrations) under *Yext*, set *Enabled* to *Yes* and optionally configure any additional settings.
+On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Yext*, set *Enabled* to *Yes* and optionally configure any additional settings.
 
 ### Default Settings
 Radar will use the following default mappings when syncing Yext locations to Radar geofences:
@@ -44,7 +44,7 @@ The available overrides include:
 Additionally, you can map up to 16 Yext fields to Radar geofence metadata. Use *dot notation* to access nested Yext fields.  For example, if you have a Yext location with the following property: `"schemaTypes": ["Restaurant"]`, you can store the value `"Restaurant"` by adding `schemaTypes.0` as a *Yext Key*.  If you include a Yext field in the metadata mapping and that field is not found, or the value in Yext is undefined or `null`, the value will not be copied over to the geofence.
 
 ### Syncing Data
-Once configured, click *Connect & Sync* and you will be redirected to Yext, where you can authorize Radar. Then, you will be redirected back to the Radar [Integrations page](/integrations) with an indication of whether the authorization succeeded or failed.  If the authorization succeeded, your Yext locations will immediately begin syncing to Radar [geofences](/geofences).
+Once configured, click *Connect & Sync* and you will be redirected to Yext, where you can authorize Radar. Then, you will be redirected back to the Radar [Integrations page](https://radar.com/dashboard/integrations) with an indication of whether the authorization succeeded or failed.  If the authorization succeeded, your Yext locations will immediately begin syncing to Radar [geofences](/geofences).
 
 Radar will automatically keep geofences in sync when you create or update locations in Yext.  Radar will sync geofences both to the *Test* and *Live* environments.  **If you update the geometry of a geofence in Radar that has been synced with Yext, your changes will not be overwritten in Radar with subsequent updates from Yext.**
 

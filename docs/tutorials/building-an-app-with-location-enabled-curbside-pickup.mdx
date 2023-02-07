@@ -63,8 +63,7 @@ let tripOptions = RadarTripOptions(externalId: "456")
 tripOptions.destinationGeofenceTag = "restaurant"
 tripOptions.destinationGeofenceExternalId = "123"
 tripOptions.mode = .car
-Radar.startTrip(options: tripOptions)
-Radar.startTracking(trackingOptions: .presetContinuous)
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
 ```
 
 Optionally, instead of calling `Radar.startTracking()`, we can simulate a sequence of location updates from an origin to a destination with `Radar.mockTracking()`. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
