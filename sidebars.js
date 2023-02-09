@@ -16,6 +16,7 @@ module.exports = {
       type: "category",
       label: "Quickstart guides",
       items: [
+        { type: "doc", id: "quickstarts", label: "Overview" },
         "quickstarts/create-a-geofence",
         "quickstarts/generate-an-event",
         "quickstarts/make-an-api-call",

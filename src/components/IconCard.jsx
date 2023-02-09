@@ -1,17 +1,32 @@
-import React from 'react';
-import styles from './IconCard.module.css';
-import Card from './Card.jsx';
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import React from "react";
+import styles from "./IconCard.module.css";
+import Tag from "./Tag";
 
-const IconCard = ({ icon, children, title }) => (
-  <Card title={title} className={styles.IconCard}>
-    <div className={styles.icon}>
-      {icon}
-    </div>
-    <div className={styles.content}>
+const IconCard = ({
+  icon,
+  children,
+  title,
+  href,
+  linkText,
+  smallIcon = false,
+  tagContent,
+}) => (
+  <div className={styles.IconCard}>
+    <div>
+      <div
+        className={`${styles.icon} ${smallIcon ? styles[`icon--small`] : ""}`}
+      >
+        {icon}
+      </div>
       <div className={styles.CardTitle}>{title}</div>
-      <p className={styles.description}>{children}</p>
+      {tagContent && <Tag>{tagContent}</Tag>}
+      {children && <p className={styles.description}>{children}</p>}
     </div>
-  </Card>
+    <a className={styles.link} href={useBaseUrl(href)}>
+      {linkText}
+    </a>
+  </div>
 );
 
 export default IconCard;

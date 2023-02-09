@@ -1,0 +1,37 @@
+.StatementCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.75rem 2rem 2rem;
+  gap: 1.25rem;
+
+  flex: 0 0 calc((100% - ((2 - 1) * 1.5rem)) / 2);
+
+  box-shadow: 0px 1px 4px rgba(6, 26, 43, 0.1);
+  border-radius: 8px;
+}
+
+.StatementCard--primary {
+  /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+  background: radial-gradient(103.29% 283.3% at -7.42% 15.07%, #1363BB 0%, #11317B 32.13%, #11256C 49.84%, #1D2472 67.08%, #651F96 100%);
+}
+
+.StatementCard--secondary {
+  background: #007AFF;
+}
+
+.description {
+  margin: 0 0 0;
+  color: #061A2B;
+}
+
+.CardTitle{
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 2.8125rem;
+  color: #FFFFFF;
+}
+
+.link{
+  text-decoration: none;
+}

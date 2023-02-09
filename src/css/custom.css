@@ -208,6 +208,20 @@ h2 {
   margin-right: 60px;
 }
 
+.deck-col-3 {
+  display: grid;
+  grid-template-columns: calc(100%/3) calc(100%/3) calc(100%/3);
+  grid-gap: 1.5rem;
+  padding-right: 3rem;
+}
+
+.deck-col-2 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .logo {
   max-height: 100%;
   max-width: 100%;
@@ -216,6 +230,12 @@ h2 {
 .sdk-logo {
   height: 5rem;
   width: 5rem;
+}
+
+.overview-logo {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 0.5rem;
 }
 
 .integrations-logo {
@@ -428,4 +448,9 @@ table th, table td {
 /* Override the top padding on the DocPage component */
 .container.padding-top--md {
   padding-top: 2rem !important;
+}
+
+.divider {
+  border-top: 1px solid var(--radar-gray-2);
+  padding-top: 32px;
 }

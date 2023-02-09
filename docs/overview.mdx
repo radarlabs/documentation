@@ -1,167 +1,163 @@
 ---
 sidebar_position: 1
 id: overview
-title: Documentation
+title: Welcome to Radar, the leading geofencing platform
 slug: /
 ---
 
-import LinkCard from '../src/components/LinkCard'
-import IconCard from '../src/components/IconCard'
-import Card from '../src/components/TileCard';
+import LinkCard from "../src/components/LinkCard";
+import IconCard from "../src/components/IconCard";
+import StatementCard from "../src/components/StatementCard";
+import Card from "../src/components/TileCard";
 
-Radar is the leading geofencing and location tracking platform. You can use our [SDKs](/sdk) and [APIs](/api) to build a wide range of location-based product and service experiences, including pickup and delivery tracking, location-triggered notifications, location verification, store locators, address autocomplete, and more.
+import BookIcon from "@site/static/img/book.svg";
+import IntegrationsIcon from "@site/static/img/integrations.svg";
 
-## Quickstart
+Radar is the leading geofencing and location tracking platform. You can use our [SDKs](/sdk) and [APIs](/api) to build a wide range of location-based product and service experiences.
 
-Want to get started quickly? Follow these three steps:
+<div className="divider" />
 
-1. **Configure geofencing.** Create custom [geofences](/geofences) or enable out-of-the-box geofences for [Places](/places) (place, chain, and category detection) or [Regions](/regions) (country, state, DMA, and postal code detection).
-
-2. **Integrate the Radar SDK or API into your app or website.** Integrate the [SDK](/sdk) or [API](/api). Or, before integrating, test geofencing with our [toolkit apps](/toolkit) for iOS and Android.
-
-3. **Enable integrations.** Create a [webhook](/integrations#webhooks) or enable server-side [integrations](/integrations) to send Radar events and user context to other systems.
-
-## Geofencing
-
-Geofencing turns location data into context and events to help you build contextual app experiences. Go beyond on-device limits with support for unlimited geofences, polygon geofences, isochrone geofences, out-of-the-box geofences for places and regions, and more.
-
-<div className="card-stack">
-  <LinkCard linkTo="/geofences">
-    <IconCard
-      title="Geofences"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/6rO181S83gFjPrFNmiUbXU/d6c81683a8ef4208fbca9ef1ceaaa24c/geofences.svg"/>
-      }
-    >
-      Radar geofencing is more powerful than native iOS or Android geofencing, with cross-platform support for unlimited geofences, polygon geofences, isochrone (time-based) geofences, temporary geofences, and stop detection.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/places">
-    <IconCard title="Places"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/5CyKMbZMvP4o2FlljKGxrK/fe18f5ecd370bc861f77756277046f6b/places.svg" />
-      }
-    >
-      Use our place database to detect when a user visits a place, chain, or category. Tap into best-in-class POI data from Yelp and other providers.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/regions">
-    <IconCard title="Regions"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/1hDJzlo8jqh8mWNGmxlLrm/b68061f89a24c683d4c87d8525370144/regions.svg" />
-      }
-    >
-      Detect a user's country, state, DMA (market area), and postal code. Change the app experience based on region, or blocklist location updates in specific countries or states for compliance reasons.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/beacons">
-    <IconCard title="Beacons"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/1ENDk60lfUzCsqwR1qfaky/33e7325edb746e1f1dd3573fa3c58060/beacons.svg" />
-      }
-    >
-      Detect nearby Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. Compatible with any iBeacons.
-    </IconCard>
-  </LinkCard>
+<div className="deck-col-2" style={{ marginBottom: "1.5rem" }}>
+  <StatementCard
+    title="Learn Radar’s concepts and start building today"
+    href="/quickstarts"
+    linkText="Quickstart guides"
+  ></StatementCard>
+  <StatementCard
+    title="Try Radar IRL with our Toolkit apps"
+    href="/toolkit"
+    linkText="Get Toolkit"
+    type="secondary"
+  >
+    <img
+      className="logo overview-logo"
+      src="https://images.ctfassets.net/f2vbu16fzuly/1h7LIGOy91PGb9OIlJkvhq/40ab496e9cee48a3791ef4839a44add3/sdk-android.png"
+    />
+    <img
+      className="logo overview-logo"
+      src="https://images.ctfassets.net/f2vbu16fzuly/5nxMfOV1AEV42ukkHiNEqY/005508c8f85c145079d37634b937daa0/sdk-ios.png"
+    />
+  </StatementCard>
 </div>
 
-## Geo APIs
-
-Use our APIs to build location-based app experiences. Search your own geofence data or tap into our best-in-class address and place data from Yelp, Pitney Bowes, and other providers.
-
-<div className="card-stack">
-  <LinkCard linkTo="/api#geocoding">
-    <IconCard title="Geocoding"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/3s9QryJGkIPcIq90BFuOvp/d5e14589fd68c6ab6e7a128506d8b4c7/geocoding.svg" />
-      }
-    >
-      Flexible and affordable forward, reverse, and IP geocoding APIs. Up to 10x cheaper than Google Maps geocoding APIs.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/api#search">
-    <IconCard title="Search APIs"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/wQgRaU0OQvmLhRRjjnO37/f7925ac0a0feaf16197c141efddb762e/search.svg" />
-      }
-    >
-      Autocomplete, place, and geofence search APIs. Search your own geofence data or tap into our best-in-class address and place data from Yelp, Pitney Bowes, and other providers.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/api#routing">
-    <IconCard title="Distance APIs"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/73pNAAJXtWErBEruCVQLcB/c20397366642f637b2e819e50d84b8ac/routing.svg" />
-      }
-    >
-      Distance and matrix APIs to calculate travel distance and duration by foot, bike, or car. Up to 10x cheaper than Google Maps routing APIs.
-    </IconCard>
-  </LinkCard>
+<div className="deck-col-3">
+  <IconCard
+    title="Explore our cross-platform open-source SDKs"
+    icon={<BookIcon />}
+    smallIcon
+    href="/sdk"
+    linkText="SDK reference"
+  />
+  <IconCard
+    title="Explore how Radar’s location APIs can level up your app"
+    icon={<BookIcon />}
+    smallIcon
+    href="/api"
+    linkText="API reference"
+  />
+  <IconCard
+    title="Supercharge your location experiences with integrations"
+    icon={<IntegrationsIcon />}
+    smallIcon
+    href="/integrations"
+    linkText="Try integrations"
+  />
 </div>
 
-## Trip tracking
+### Products
 
-Use our industry-leading location [SDK](/sdk) to build experiences for curbside and in-store pickup, delivery tracking, and more.
-
-<div className="card-stack">
-  <LinkCard linkTo="/trip-tracking">
-    <IconCard title="Trip tracking"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/42zLSPFObN3CbGsjT2Go4P/274c58a286b9fa1a9a31b61ebbd2458d/trips.svg" />
-      }
-    >
-      Use our industry-leading location SDK to build experiences for curbside and in-store pickup, delivery tracking, and more. Display live ETAs on Radar's extensible trips dashboard or in your own UI.
-    </IconCard>
-  </LinkCard>
+<div className="deck-col-3">
+  <IconCard
+    title="Geofences"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/6rO181S83gFjPrFNmiUbXU/d6c81683a8ef4208fbca9ef1ceaaa24c/geofences.svg" />
+    }
+    href="/geofences"
+    linkText="Learn geofences"
+  >
+    Create circle, polygon, or isochrone geofences representing custom places or
+    regions.
+  </IconCard>
+  <IconCard
+    title="Places"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/5CyKMbZMvP4o2FlljKGxrK/fe18f5ecd370bc861f77756277046f6b/places.svg" />
+    }
+    href="/places"
+    linkText="Learn places"
+  >
+    Understand when a user visits a place, chain, or category using Radar’s
+    places database.
+  </IconCard>
+  <IconCard
+    title="Regions"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/1hDJzlo8jqh8mWNGmxlLrm/b68061f89a24c683d4c87d8525370144/regions.svg" />
+    }
+    href="/regions"
+    linkText="Learn regions"
+  >
+    Detect a user’s country, state, DMA, and postal code for in-app behavior and
+    compliance.
+  </IconCard>
+  <IconCard
+    title="Beacons"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/1ENDk60lfUzCsqwR1qfaky/33e7325edb746e1f1dd3573fa3c58060/beacons.svg" />
+    }
+    href="/beacons"
+    linkText="Learn beacons"
+  >
+    Trigger app experiences based on nearby Bluetooth beacons accurate down to a
+    few meters.
+  </IconCard>
+  <IconCard
+    title="Trips"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/42zLSPFObN3CbGsjT2Go4P/274c58a286b9fa1a9a31b61ebbd2458d/trips.svg" />
+    }
+    href="/trip-tracking"
+    linkText="Learn trips"
+  >
+    Build features for curbside and in-store pickup, delivery tracking, and more
+    with live ETAs.
+  </IconCard>
 </div>
 
-## Developer tools
+### APIs
 
-Integrate Radar into your product or service using our best-in-class developer tools, including open-source [SDKs](/sdk) for iOS, Android, and web, simple and flexible [APIs](/api), and [integrations](/integrations) with leading platforms like Segment, Amplitude, Braze, and more.
-
-<div className="card-stack">
-  <LinkCard linkTo="/sdk">
-    <IconCard title="SDK reference"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/316liiuHbIwIoss2mFLRwI/803bc94cde2078bf6180c201b9ed48e3/sdk.svg" />
-      }
-    >
-      Open-source SDKs for iOS, Android, and web that make location simple. Use the Radar SDK to add location context and tracking to your apps with just a few lines of code.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/api">
-    <IconCard title="API reference"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/50bd5vIUh4cewCzl0obxW7/1b0a6efc36e9095a3985995eac41c523/api.svg" />
-      }
-    >
-      Use the Radar APIs as building blocks for location-based products and services. Or, use Radar APIs to manage your Radar data, including users, trips, geofences, and events.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/integrations">
-    <IconCard title="Integrations"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/7JzCleHIpXZ5lZuqIKLxa/844415e94b2194eb894cd8a9bebe859d/integrations.svg" />
-      }
-    >
-      Event integrations like webhooks, Segment, Braze, and Amplitude allow you to send events from Radar to other systems. Geofence integrations like Yext allow you to sync geofences from other systems to Radar.
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/toolkit">
-    <IconCard title="Toolkit"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/19adrZaPnWzFowzDuoNS8y/bb798fd9055e0a8892e0555c17ec64d1/toolkit.svg" />
-      }
-    >
-      Use our Radar Toolkit apps for iOS and Android to test Radar geofencing before integrating the SDK, or to test your implementation of Radar side-by-side with a complete implementation.
-    </IconCard>
-  </LinkCard>
+<div className="deck-col-3">
+  <IconCard
+    title="Geocoding"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/3s9QryJGkIPcIq90BFuOvp/d5e14589fd68c6ab6e7a128506d8b4c7/geocoding.svg" />
+    }
+    href="/api#geocoding"
+    linkText="Learn geocoding APIs"
+  >
+    Flexible and affordable forward, reverse, and IP geocoding APIs up to 10x
+    cheaper than other companies.
+  </IconCard>
+  <IconCard
+    title="Search"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/wQgRaU0OQvmLhRRjjnO37/f7925ac0a0feaf16197c141efddb762e/search.svg" />
+    }
+    href="/api#search"
+    linkText="Learn search APIs"
+  >
+    Autocomplete and place search APIs with best-in-class address and place
+    data.
+  </IconCard>
+  <IconCard
+    title="Distance"
+    icon={
+      <img src="https://images.ctfassets.net/f2vbu16fzuly/73pNAAJXtWErBEruCVQLcB/c20397366642f637b2e819e50d84b8ac/routing.svg" />
+    }
+    href="/api#routing"
+    linkText="Learn distance APIs"
+  >
+    Distance and matrix APIs to calculate travel distance and duration by foot,
+    bike, and car.
+  </IconCard>
 </div>

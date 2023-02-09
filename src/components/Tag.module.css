@@ -1,0 +1,14 @@
+.Tag {
+  padding: 0.25rem 0.5rem;
+  height: 1.25rem;
+  background: #EEF3F8;
+  border-radius: 0.25rem;
+
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+
+  letter-spacing: 0.86px;
+  text-transform: uppercase;
+  color: #061A2B;
+}
