@@ -369,7 +369,7 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 ```
 
 ## Delay detection
-Delay detection flags trips at risk of being delayed or incomplete. To enable this feature, configure a *Delay Threshold* on the  [Project settings](https://radar.com/dashboard/settings#trips-settings) page under *Trips*. Then, ensure that `scheduledArrivalAt` is set for trips.  When a trip is predicted to be delayed by more than the chosen threshold, it will be marked as delayed. 
+Delay detection identifies trips at risk of being delayed or incomplete. To enable this feature, configure a *Delay Threshold* on the  [Project settings](https://radar.com/dashboard/settings#trips-settings) page under *Trips*. Then, ensure that `scheduledArrivalAt` is set for trips.  When a trip is predicted to be delayed by more than the chosen threshold, it will be marked as delayed. 
 
 Delay risks are captured in a trip's `delay` field. It contains a `scheduledArrivalTimeDelay` value, which is the predicted arrival delay for the trip from the `scheduledArrivalAt` time in minutes. It also contains a `delayed` flag as well which is set to `true` when `scheduledArrivalTimeDelay` exceeds your delay threshold.
 
