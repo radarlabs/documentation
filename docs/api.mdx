@@ -1235,6 +1235,7 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`user`** (dictionary): The [user](/api#users) for which the trip is being tracked.
 - **`userId`** (string): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`locations`** (array): The location updates tracked while the trip was active. An array of `Point`s in [GeoJSON](http://geojson.org/) format.
+- **`delay`** (dictionary): The predicted delay for the trip, including a `delayed` boolean flag and a `scheduledArrivalTimeDelay` with the delay amount in minutes.
 
 ###### Sample object
 
@@ -1288,7 +1289,11 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
       ],
       "updatedAt": "2020-08-20T10:30:55.837Z"
     }
-  ]
+  ],
+  "delay": {
+    "delayed": false,
+    "scheduledArrivalTimeDelay": 0
+  }
 }
 ```
 #### Get a trip
