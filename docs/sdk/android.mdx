@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
       new AlertDialog.Builder(this)
         .setTitle("Background location permissions needed")
-        .setMessage("Background Location Permission Needed, tap \"Allow all time in the next screen\"")
+        .setMessage("Background location permissions needed, tap \"Allow all the time\" on the next screen")
         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -221,8 +221,8 @@ import io.radar.sdk.Radar
 import android.os.Build
 
 class MainActivity : AppCompatActivity() {
-  private val foregroundLocationPermissionsRequestCode = 0
-  private val backgroundLocationPermissionsRequestCode = 1
+  private val foregroundLocationPermissionsRequestCode = 1
+  private val backgroundLocationPermissionsRequestCode = 2
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -246,7 +246,7 @@ class MainActivity : AppCompatActivity() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
           AlertDialog.Builder(this)
               .setTitle("Background location permissions needed")
-              .setMessage("Background Location Permission Needed, tap \"Allow all time in the next screen\"")
+              .setMessage("Background location permission needed, tap \"Allow all the time\" on the next screen")
               .setPositiveButton(
                   "OK"
               ) { _, _ ->
