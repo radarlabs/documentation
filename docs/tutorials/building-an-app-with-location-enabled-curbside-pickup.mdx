@@ -133,8 +133,7 @@ class ViewController: UIViewController {
             tripOptions.destinationGeofenceTag = "restaurant"
             tripOptions.destinationGeofenceExternalId = "123"
             tripOptions.mode = .car
-            Radar.startTrip(options: tripOptions)
-            Radar.startTracking(trackingOptions: .presetContinuous)
+            Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous)
             sender.setTitle("I'm here", for: .normal)
             pickupStarted = true
         } else {
