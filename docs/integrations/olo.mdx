@@ -4,7 +4,7 @@ title: Olo
 import Alert from "../../src/components/Alert";
 
 <Alert alertType="info">
-  The Olo integration is available on the {` `} 
+  The Olo integration is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
@@ -29,7 +29,7 @@ Assuming locations permissions have been granted and location tracking has been 
 
 In order for Radar to automatically fire your orders based on location proximity, you will need to submit your baskets to Olo as `ismanualfire` and will also need to set a `scheduledArrivalAt` datetime to the Radar trip as a fallback in the event location is disabled or the device is experiencing connectivity issues. This can be done using `Radar.updateTrip()` in the app or [Trips API](https://radar.com/documentation/api#trips) server-side.
 
-In addition to the above Olo and Radar configuration, you will need to generate API credentials for the Radar platform in the [Olo development portal](https://developer.olo.com/). This process will require you to reach out to your Olo Support Agent to have the keys created on your behalf. On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, you will will need to set *Order firing enabled* to *Yes*, paste the Olo Radar `Client Id` and `Secret Key`, and `Save` your integration settings.
+In addition to the above Olo and Radar configuration, you will need to generate API credentials for the Radar platform in the [Olo development portal](https://developer.olo.com/). Reach out to your Olo Support Agent to have the keys created on your behalf. On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, you will will need to set *Order firing enabled* to *Yes*, paste the Olo Radar `Client Id` and `Secret Key`, and `Save` your integration settings.
 
 Finally, in the Radar [Trips Settings](https://radar.com/dashboard/settings#trips-settings), set the *Approaching threshold (minutes)* value to the # of minutes away from arriving that the order should automatically be fired to Olo. Now when an active trip generates a `user.approaching_trip_destination` event, Radar will fire the order. In the event the `scheduledArrivalAt` set on the trip occurs first, this datetime will fire the order instead.
 
