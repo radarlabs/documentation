@@ -202,7 +202,7 @@ To track the user's location in the foreground, call:
   <TabItem value="java">
 
   ```java
-  Radar.trackOnce(new RadarCallback() {
+  Radar.trackOnce(new RadarTrackCallback() {
       @Override
       public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
           // do something with location, events, user
@@ -222,7 +222,7 @@ To track the user's location in the foreground, call:
   </TabItem>
 </Tabs>
 
-You may provide an optional instance of `RadarCallback` with an implementation of `onComplete()` that receives the request status, the user's location, the events generated, if any, and the user. The request status can be:
+You may provide an optional instance of `RadarTrackCallback` with an implementation of `onComplete()` that receives the request status, the user's location, the events generated, if any, and the user. The request status can be:
 
 - **`RadarStatus.SUCCESS`**: success
 - **`RadarStatus.ERROR_PUBLISHABLE_KEY`**: SDK not initialized
@@ -497,7 +497,7 @@ Can't go for a walk or a drive? You can simulate a sequence of location updates.
       Radar.RadarRouteMode.CAR,
       10,
       3,
-      new RadarCallback() {
+      new RadarTrackCallback() {
           @Override
           public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
               // do something with location, events, user
@@ -689,7 +689,7 @@ If you want to manage location services yourself, you can manually update the us
   ```java
   Radar.trackOnce(
       location,
-      new RadarCallback() {
+      new RadarTrackCallback() {
           @Override
           public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
               // do something with location, events, user
@@ -875,7 +875,7 @@ To range beacons in the foreground, call:
   <TabItem value="java">
 
   ```java
-  Radar.trackOnce(RadarTrackingOptionsDesiredAccuracy.HIGH, true, new RadarCallback() {
+  Radar.trackOnce(RadarTrackingOptionsDesiredAccuracy.HIGH, true, new RadarTrackCallback() {
     @Override
     public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
         // do something with user.beacons
