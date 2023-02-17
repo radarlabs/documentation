@@ -222,7 +222,7 @@ To track the user's location in the foreground, call:
   </TabItem>
 </Tabs>
 
-You may provide an optional instance of `RadarCallback` with an implementation of `onComplete()` that receives the request status, the user's location, the events generated, if any, and the user. The request status can be:
+You may provide an optional instance of `RadarTrackCallback` with an implementation of `onComplete()` that receives the request status, the user's location, the events generated, if any, and the user. The request status can be:
 
 - **`RadarStatus.SUCCESS`**: success
 - **`RadarStatus.ERROR_PUBLISHABLE_KEY`**: SDK not initialized
