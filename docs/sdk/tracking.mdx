@@ -66,7 +66,7 @@ The SDK has two states: **stopped** and **moving**. After a location update is m
 ### iOS options
 
 - **`desiredStoppedUpdateInterval`**: Determines the desired location update interval in seconds when stopped. Use `0` to shut down when stopped. Defaults to `0`.
-- **`desiredMovingUpdateInterval`**: Determines the desired location update interval in seconds when moving. Defaults to `0`. **Note that location updates may be delayed significantly by Low Power Mode, or if the device has connectivity issues, low battery, or wi-fi disabled.** 
+- **`desiredMovingUpdateInterval`**: Determines the desired location update interval in seconds when moving. Defaults to `0`. **Note that location updates may be delayed significantly by Low Power Mode, or if the device has connectivity issues, low battery, or wi-fi disabled.**
 - **`desiredSyncInterval`**: Determines the desired sync interval in seconds. Defaults to `0`.
 - **`desiredAccuracy`**: Determines the desired accuracy of location updates.  `.high` uses `kCLLocationAccuracyBest`, `.medium` uses `kCLLocationAccuracyHundredMeters`, `.low` uses `kCLLocationAccuracyKilometer`. Defaults to `.medium`.
 - **`stopDuration`**: With `stopDistance`, determines the duration in seconds after which the device is considered stopped. Defaults to `0`.
@@ -125,7 +125,7 @@ Option | Efficient | Responsive | Continuous
 - **`desiredAccuracy`**: Determines the desired accuracy of location updates. `HIGH` uses `PRIORITY_HIGH_ACCURACY`, `MEDIUM` uses `PRIORITY_BALANCED_POWER_ACCURACY`, `LOW` uses `PRIORITY_LOW_POWER`, `NONE` uses `PRIORITY_NO_POWER`. Defaults to `MEDIUM`.
 - **`stopDuration`**: With `stopDistance`, determines the duration in seconds after which the device is considered stopped. Defaults to `0`.
 - **`stopDistance`**: With `stopDuration`, determines the distance in meters within which the device is considered stopped. Defaults to `0`.
-- **`startTrackingAfter`**: Determines when to start tracking. Use `null` to start tracking when `startTracking()` is called. 
+- **`startTrackingAfter`**: Determines when to start tracking. Use `null` to start tracking when `startTracking()` is called.
 - **`stopTrackingAfter`**: Determines when to stop tracking. Use `null` to track until `stopTracking()` is called.
 - **`replay`**: Determines which failed location updates to replay to the server. `STOPS` replays failed stops, `NONE` replays no location updates. Defaults to `NONE`.
 - **`sync`**: Determines which location updates to sync to the server. `ALL` syncs all location updates to the server, `STOPS_AND_EXITS` syncs only stops and exits to the server, `NONE` syncs no location updates to the server. Defaults to `STOPS_AND_EXITS`.
@@ -150,7 +150,7 @@ To avoid [Background Location Limits](https://developer.android.com/about/versio
 - **`activity`**: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
 - **`importance`**: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
 - **`id`**: Determines the id of the notification. Optional, defaults to `20160525`.
-- **`channelName`**: Determines the name of the notification channel. Optional.
+- **`channelName`**: Determines the name of the notification channel. Optional, defaults to `"Location Services"`.
 
 ### Android presets
 
