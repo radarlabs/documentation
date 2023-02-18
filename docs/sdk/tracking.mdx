@@ -129,9 +129,9 @@ Option | Efficient | Responsive | Continuous
 - **`stopTrackingAfter`**: Determines when to stop tracking. Use `null` to track until `stopTracking()` is called.
 - **`replay`**: Determines which failed location updates to replay to the server. `STOPS` replays failed stops, `NONE` replays no location updates. Defaults to `NONE`.
 - **`sync`**: Determines which location updates to sync to the server. `ALL` syncs all location updates to the server, `STOPS_AND_EXITS` syncs only stops and exits to the server, `NONE` syncs no location updates to the server. Defaults to `STOPS_AND_EXITS`.
-- **`useStoppedGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when stopped. Defaults to `0`.
+- **`useStoppedGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when stopped. Defaults to `false`.
 - **`stoppedGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when stopped. Use smaller values (e.g., `100` meters) for faster exit events or larger values (e.g., `200` meters) to avoid jumpy exits while stopped. Defaults to `0`.
-- **`useMovingGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when moving. Defaults to `0`.
+- **`useMovingGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when moving. Defaults to `false`.
 - **`movingGeofenceRadius`**: Determines the radius in meters of the client geofence around the device's current location when moving. Defaults to `0`.
 - **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness. Defaults to `false`.
 - **`syncGeofencesLimit`**: Determines how many nearby geofences to sync from the server to the client when `syncGeofences` is enabled. Defaults to `0`.
