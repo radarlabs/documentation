@@ -135,13 +135,13 @@ Option | Efficient | Responsive | Continuous
 - **`movingGeofenceRadius`**: Determines the radius in meters of the client geofence around the device's current location when moving. Defaults to `0`.
 - **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness. Defaults to `false`.
 - **`syncGeofencesLimit`**: Determines how many nearby geofences to sync from the server to the client when `syncGeofences` is enabled. Defaults to `0`.
-- **`foregroundService`**: If set, starts a [foreground service](https://developer.android.com/guide/components/foreground-services) and shows a notification during tracking. Deprecated in Android SDK 3.4.1.
+- **`foregroundService`**: If set, starts a [foreground service](https://developer.android.com/guide/components/foreground-services) and shows a notification during tracking. Deprecated in Android SDK [3.4.1](https://github.com/radarlabs/radar-sdk-android/blob/master/MIGRATION.md#33x-to-34x).
 - **`foregroundServiceEnabled`**: If set, starts a [foreground service](https://developer.android.com/guide/components/foreground-services) and shows a notification during tracking. Defaults to `false`.
 - **`beacons`**: Determines whether to monitor beacons. Defaults to `false`.
 
 ### Android foreground service options
 
-To avoid [Background Location Limits](https://developer.android.com/about/versions/oreo/background-location-limits), you can start a foreground service and show a notification during tracking. If using Android SDK < 3.4.1, set `trackingOptions.foregroundService` to an instance of `RadarTrackingOptionsForegroundService`. If using Android SDK >= 3.4.1, use `Radar.setForegroundServiceOptions()` to customize the foreground service notification appearance passing in an instance of `RadarTrackingOptionsForegroundService`.
+To avoid [Background Location Limits](https://developer.android.com/about/versions/oreo/background-location-limits), you can start a foreground service and show a notification during tracking. If using Android SDK < [3.4.1](https://github.com/radarlabs/radar-sdk-android/releases/tag/3.1.9), set `trackingOptions.foregroundService` to an instance of `RadarTrackingOptionsForegroundService`. If using Android SDK >= [3.4.1](https://github.com/radarlabs/radar-sdk-android/blob/master/MIGRATION.md#33x-to-34x), use `Radar.setForegroundServiceOptions()` to customize the foreground service notification appearance passing in an instance of `RadarTrackingOptionsForegroundService`.
 
 - **`text`**: Determines the notification text. Defaults to `"Location tracking started"`.
 - **`title`**: Determines the notification title. Optional.
