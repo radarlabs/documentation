@@ -313,7 +313,7 @@ Radar.addListener('log', (result) => {
 });
 ```
 
-Add event listeners outside of your view lifecycle if you want them to work when the app is in the background.
+Add event listeners outside of your view lifecycle if you want them to work when the app is in the background. If you are using a foreground service on Android, it is possible for it to outlive the javascript engine due to Capacitor destroying the WebView when the activity is destroyed (e.g. swiped away). Logic that needs to outlive the WebView should be performed server side.
 
 ### Mock tracking
 
