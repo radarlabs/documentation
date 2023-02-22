@@ -383,11 +383,11 @@ Geocodes an address, converting address to coordinates.
 
 This endpoint is best for complete addresses. For partial addresses or place names, call the [autocomplete](#autocomplete) endpoint instead.
 
-Returns a confidence level, as defined below: 
+Returns a confidence level, as defined below:
 
-- **`exact`** describes results that matches the query sent.
-- **`interpolated`** describes results where there is a record for the street but not the exact building number, so an interpolation is done to locate the specific building number.
-- **`fallback`** describes results where Radar does not have a matching record, and cannot interpolate the results. Radar falls back to reporting the region containing the query.
+- **`exact`**: The result matches the query sent.
+- **`interpolated`**: A result where there is a record for the street but not the exact building number, so the value is calculated between two known building numbers.
+- **`fallback`**: A result where Radar does not have a matching record and cannot interpolate the results. Radar falls back to the region containing the query.
 
 ###### Definitions
 
