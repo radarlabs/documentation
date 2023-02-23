@@ -1232,7 +1232,7 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`approachingThreshold`** (number): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 - **`createdAt`** (datetime): The datetime when the trip was started.
 - **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the latest backstop datetime when the device associated with the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 - **`orderFiredAt`** (datetime): From the [Olo integration](https://radar.com/documentation/integrations/olo), the datetime when the order associated with the trip was fired.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
