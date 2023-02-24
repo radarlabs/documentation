@@ -154,15 +154,15 @@ To request foreground and background permissions:
   <TabItem value="java">
 
 ```java
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import android.Manifest;
 import androidx.core.app.ActivityCompat;
-import io.radar.sdk.Radar;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import io.radar.sdk.Radar;
 
 public class MainActivity extends AppCompatActivity {
   private final int FOREGROUND_LOCATION_PERMISSION_CODE = 1;
@@ -218,13 +218,13 @@ public class MainActivity extends AppCompatActivity {
 
 ```kotlin
 import android.Manifest
-import android.content.pm.PackageManager
-
 import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
+
 import androidx.core.app.ActivityCompat
 
 import io.radar.sdk.Radar
-import android.os.Build
 
 class MainActivity : AppCompatActivity() {
   private val foregroundLocationPermissionsRequestCode = 1
@@ -246,7 +246,7 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<String>, grantResults: IntArray) {
+  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     if (requestCode == foregroundLocationPermissionsRequestCode && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
       if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
