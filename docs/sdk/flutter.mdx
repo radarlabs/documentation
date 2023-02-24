@@ -24,7 +24,7 @@ Add the package to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_radar: ^3.1.4
+  flutter_radar: ^3.1.5
 ```
 
 Then, update dependencies:
@@ -32,6 +32,8 @@ Then, update dependencies:
 ```bash
 flutter pub get
 ```
+
+### iOS
 
 Change to the `ios/` directory. In the `Podfile`, add `platform :ios, '10.0'` or higher to your target.
 
@@ -50,6 +52,7 @@ On iOS, you must add location usage descriptions and background modes to your `I
 ```swift
 import UIKit
 import Flutter
+
 import RadarSDK
 
 @UIApplicationMain
@@ -66,10 +69,10 @@ import RadarSDK
   <TabItem value="objc">
 
 ```objc
-#import <RadarSDK/RadarSDK.h>
-
 #import "AppDelegate.h"
 #import "GeneratedPluginRegistrant.h"
+
+#import <RadarSDK/RadarSDK.h>
 
 @implementation AppDelegate
 
@@ -84,6 +87,8 @@ import RadarSDK
 
   </TabItem>
 </Tabs>
+
+### Android
 
 On Android, add the Radar Android SDK to the `dependencies` section of your Android app's `build.gradle` file. Ensure the Android SDK version matches the version of your Radar Flutter package.
 
@@ -116,6 +121,7 @@ Initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Ra
   ```java
 import io.flutter.app.FlutterApplication;
 import io.flutter.view.FlutterMain;
+
 import io.radar.sdk.Radar;
 
 public class MainApplication extends FlutterApplication {
@@ -126,7 +132,6 @@ public class MainApplication extends FlutterApplication {
         Radar.initialize(this, "prj_test_pk_...");
         FlutterMain.startInitialization(this);
     }
-
 }
   ```
 
@@ -138,6 +143,7 @@ import io.flutter.app.FlutterApplication
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugins.GeneratedPluginRegistrant
+
 import io.radar.sdk.Radar
 
 class Application : FlutterApplication(), PluginRegistry.PluginRegistrantCallback {
@@ -291,7 +297,7 @@ Radar.startTrackingCustom({
   sync: 'all',
   replay: 'none',
   showBlueBar: true,
-  foregroundServiceEnabled: true  
+  foregroundServiceEnabled: true
 });
 ```
 
