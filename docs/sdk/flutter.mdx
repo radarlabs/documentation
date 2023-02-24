@@ -6,6 +6,14 @@ slug: flutter
 description: Documentation for Flutter Package
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+import DefaultContextValues from "../../src/components/DefaultContextValues";
+import Alert from "../../src/components/Alert";
+
+<DefaultContextValues/>
+
 This is the documentation for the Flutter package. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
 See the source on GitHub [here](https://github.com/radarlabs/flutter-radar). Or, see the `flutter_radar` package on pub.dev [here](https://pub.dev/packages/flutter_radar).
@@ -16,7 +24,7 @@ Add the package to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_radar: ^3.0.2
+  flutter_radar: ^3.1.5
 ```
 
 Then, update dependencies:
@@ -25,33 +33,95 @@ Then, update dependencies:
 flutter pub get
 ```
 
+### iOS
+
 Change to the `ios/` directory. In the `Podfile`, add `platform :ios, '10.0'` or higher to your target.
 
-On iOS, you must add location usage descriptions and background modes to your `Info.plist`. Initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
+On iOS, you must add location usage descriptions and background modes to your `Info.plist`. Initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m` or `AppDelegate.swift`, passing in your Radar publishable API key.
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
 
 ```swift
-#import <RadarSDK/RadarSDK.h>
+import UIKit
+import Flutter
 
+import RadarSDK
+
+@UIApplicationMain
+@objc class AppDelegate: FlutterAppDelegate {
+  override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    Radar.initialize(publishableKey: "prj_test_pk_...")
+    GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
 #import "AppDelegate.h"
 #import "GeneratedPluginRegistrant.h"
+
+#import <RadarSDK/RadarSDK.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [GeneratedPluginRegistrant registerWithRegistry:self];
-  [Radar initializeWithPublishableKey:publishableKey];
+  [Radar initializeWithPublishableKey:"prj_test_pk_..."];
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 @end
-
 ```
 
-On Android, initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key:
+  </TabItem>
+</Tabs>
 
-```java
+### Android
+
+On Android, add the Radar Android SDK to the `dependencies` section of your Android app's `build.gradle` file. Ensure the Android SDK version matches the version of your Radar Flutter package.
+
+```kotlin
+dependencies {
+    implementation 'io.radar:sdk:3.5.9'
+}
+```
+
+<Alert alertType="info">
+  When upgrading the SDK, ensure the Android SDK version is updated to match the plugin's pinned version. For details on the latest SDK releases, see the{" "}
+  <a href="https://github.com/radarlabs/flutter-radar/releases">
+    releases page
+  </a>{" "}
+  on GitHub.
+</Alert>
+
+Initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key. If your Flutter Android app is in Kotlin, add a `Application.kt` file and reference this as the appliation name in your Android manifest.
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
 import io.flutter.app.FlutterApplication;
 import io.flutter.view.FlutterMain;
+
 import io.radar.sdk.Radar;
 
 public class MainApplication extends FlutterApplication {
@@ -59,11 +129,46 @@ public class MainApplication extends FlutterApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Radar.initialize(this, publishableKey);
+        Radar.initialize(this, "prj_test_pk_...");
         FlutterMain.startInitialization(this);
     }
-
 }
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+import io.flutter.app.FlutterApplication
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.PluginRegistry
+import io.flutter.plugins.GeneratedPluginRegistrant
+
+import io.radar.sdk.Radar
+
+class Application : FlutterApplication(), PluginRegistry.PluginRegistrantCallback {
+
+    override fun onCreate() {
+        super.onCreate()
+        Radar.initialize(this, "prj_test_pk_...")
+    }
+
+    override fun registerWith(registry: PluginRegistry) {
+        GeneratedPluginRegistrant.registerWith(FlutterEngine(this))
+    }
+}
+  ```
+
+  </TabItem>
+</Tabs>
+
+
+For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+</manifest>
 ```
 
 ## Integrate
@@ -121,6 +226,7 @@ String status = await Radar.getPermissionsStatus();
 - `GRANTED_FOREGROUND`
 - `GRANTED_BACKGROUND`
 - `DENIED`
+- `NOT_DETERMINED`
 
 To request location permissions for the app, call:
 
@@ -172,6 +278,15 @@ You only need to call these methods once, as these settings will be persisted ac
 Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
 
 ```dart
+// optionally adjust foreground service options for Android
+Radar.setForegroundServiceOptions({
+  'text': "Location tracking started",
+  'title': "Location updates",
+  'importance': 2,
+  'updatesOnly': false,
+  'activity': 'com.yourapp.MainActivity'
+});
+
 Radar.startTrackingCustom({
   desiredStoppedUpdateInterval: 180,
   desiredMovingUpdateInterval: 60,
@@ -181,7 +296,8 @@ Radar.startTrackingCustom({
   stopDistance: 70,
   sync: 'all',
   replay: 'none',
-  showBlueBar: true
+  showBlueBar: true,
+  foregroundServiceEnabled: true
 });
 ```
 
@@ -211,28 +327,40 @@ Radar.mockTracking(
 On iOS and Android, to start a trip to a destination, call:
 
 ```dart
-Radar.startTrip({
-  'externalId': '299',
-  'destinationGeofenceTag': 'store',
-  'destinationGeofenceExternalId': '123',
-  'mode': 'car'
-});
-Radar.startTracking('continuous');
+Radar.startTrip(
+  tripOptions: {
+  "externalId": '299',
+  "destinationGeofenceTag": 'store',
+  "destinationGeofenceExternalId": '123',
+  "mode": 'car'
+  },
+  trackingOptions: {
+    "desiredStoppedUpdateInterval": 30,
+    "fastestStoppedUpdateInterval": 30,
+    "desiredMovingUpdateInterval": 30,
+    "fastestMovingUpdateInterval": 30,
+    "desiredSyncInterval": 20,
+    "desiredAccuracy": "high",
+    "sync": "all",
+    "showBlueBar": true,
+    "foregroundServiceEnabled": true
+  }
+);
 ```
 
-Later, to complete the trip and stop tracking, call:
+Later, to complete the trip, call:
 
 ```dart
 Radar.completeTrip();
-Radar.stopTracking();
 ```
 
-Or, to cancel the trip and stop tracking, call:
+Or, to cancel the trip, call:
 
 ```dart
 Radar.cancelTrip();
-Radar.stopTracking();
 ```
+
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started.
 
 Learn more about [trip tracking](/trip-tracking).
 
