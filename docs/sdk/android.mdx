@@ -156,15 +156,18 @@ To request foreground and background permissions:
 ```java
 import android.content.pm.PackageManager;
 import android.os.Build;
+
 import android.Manifest;
 import androidx.core.app.ActivityCompat;
 import io.radar.sdk.Radar;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 public class MainActivity extends AppCompatActivity {
   private final int FOREGROUND_LOCATION_PERMISSION_CODE = 1;
   private final int BACKGROUND_LOCATION_PERMISSION_CODE = 2;
+
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Radar.initialize(this, "prj_test_pk_..");
@@ -173,11 +176,11 @@ public class MainActivity extends AppCompatActivity {
 
   private void requestLocationPermissions() {
     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, BACKGROUND_LOCATION_PERMISSION_CODE);
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, FOREGROUND_LOCATION_PERMISSION_CODE);
-        }
+      if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, BACKGROUND_LOCATION_PERMISSION_CODE);
+      } else {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, FOREGROUND_LOCATION_PERMISSION_CODE);
+      }
     }
   }
 
@@ -185,10 +188,10 @@ public class MainActivity extends AppCompatActivity {
   public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     if (requestCode == FOREGROUND_LOCATION_PERMISSION_CODE) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-          askPermissionForBackgroundUsage();
-        }
-        return;
+      if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        askPermissionForBackgroundUsage();
+      }
+      return;
     }
   }
 
@@ -198,12 +201,13 @@ public class MainActivity extends AppCompatActivity {
         .setTitle("Background location permissions needed")
         .setMessage("Background location permissions needed, tap \"Allow all the time\" on the next screen")
         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, BACKGROUND_LOCATION_PERMISSION_CODE);
-            }
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, BACKGROUND_LOCATION_PERMISSION_CODE);
+          }
         })
-        .create().show();
+        .create()
+        .show();
     }
   }
 }
@@ -215,15 +219,17 @@ public class MainActivity extends AppCompatActivity {
 ```kotlin
 import android.Manifest
 import android.content.pm.PackageManager
+
 import android.app.AlertDialog
 import androidx.core.app.ActivityCompat
+
 import io.radar.sdk.Radar
 import android.os.Build
 
 class MainActivity : AppCompatActivity() {
   private val foregroundLocationPermissionsRequestCode = 1
   private val backgroundLocationPermissionsRequestCode = 2
-  
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     Radar.initialize(this, "prj_test_pk_...")
@@ -231,30 +237,30 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun requestLocationPermissions() {
-    if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
       if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
       } else {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
       }
     }
   }
 
   override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<String>, grantResults: IntArray) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    if (requestCode==foregroundLocationPermissionsRequestCode && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
-          AlertDialog.Builder(this)
-              .setTitle("Background location permissions needed")
-              .setMessage("Background location permission needed, tap \"Allow all the time\" on the next screen")
-              .setPositiveButton(
-                  "OK"
-              ) { _, _ ->
-                  ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
-              }
-              .create()
-              .show()
-        }
+    if (requestCode == foregroundLocationPermissionsRequestCode && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+        AlertDialog.Builder(this)
+          .setTitle("Background location permissions needed")
+          .setMessage("Background location permission needed, tap \"Allow all the time\" on the next screen")
+          .setPositiveButton(
+            "OK"
+          ) { _, _ ->
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
+          }
+          .create()
+          .show()
+      }
     }
   }
 }
