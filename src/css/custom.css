@@ -62,7 +62,7 @@
   --ifm-color-warning: #ff8c26;
   --ifm-color-success: #3fcd7d;
   --ifm-color-error: #ff3126;
-  --ifm-font-family-base: "Graphik";
+  --ifm-font-family-base: "Graphik", sans-serif;
   --ifm-font-family-monospace: "Basis Grotesque";
 
   --ifm-code-font-size: 95%;
