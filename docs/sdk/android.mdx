@@ -658,7 +658,7 @@ To listen for events, location updates, and errors client-side, create a class t
           super.onCreate();
 
           MyRadarReceiver receiver = new MyRadarReceiver();
-          Radar.initialize(this, "prj_test_pk...", receiver);
+          Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE);
       }
 
   }
