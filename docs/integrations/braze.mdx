@@ -114,18 +114,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
   func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
     if (user.foreground && user.source == RadarLocationSource.foregroundLocation) {
       if let geofences = user.geofences {
-          var customEventProperties = [String:Array<String>]()
-          customEventProperties["radar_geofence_descriptions"] = geofences.compactMap({ $0.__description })
-          customEventProperties["radar_geofence_tags"] = geofences.compactMap({ $0.tag })
-          customEventProperties["radar_geofence_external_ids"] = geofences.compactMap({ $0.externalId })
-          Appboy.sharedInstance()?.logCustomEvent("radar_fg_geofences_entered", withProperties: customEventProperties)
+        var customEventProperties = [String:Array<String>]()
+        customEventProperties["radar_geofence_descriptions"] = geofences.compactMap({ $0.__description })
+        customEventProperties["radar_geofence_tags"] = geofences.compactMap({ $0.tag })
+        customEventProperties["radar_geofence_external_ids"] = geofences.compactMap({ $0.externalId })
+        Appboy.sharedInstance()?.logCustomEvent("radar_fg_geofences_entered", withProperties: customEventProperties)
       }
       if let place = user.place {
-          var customEventProperties = [String:Any]()
-          customEventProperties["radar_place_name"] = place.name
-          customEventProperties["radar_place_categories"] = place.categories
-          customEventProperties["radar_place_chain_slug"] = place.chain?.slug ?? ""
-          Appboy.sharedInstance()?.logCustomEvent("radar_fg_place_entered", withProperties: customEventProperties)
+        var customEventProperties = [String:Any]()
+        customEventProperties["radar_place_name"] = place.name
+        customEventProperties["radar_place_categories"] = place.categories
+        customEventProperties["radar_place_chain_slug"] = place.chain?.slug ?? ""
+        Appboy.sharedInstance()?.logCustomEvent("radar_fg_place_entered", withProperties: customEventProperties)
       }
     }
     return
@@ -141,23 +141,21 @@ class MyRadarReceiver: RadarReceiver() {
   override fun onLocationUpdated(context: Context, location: Location, user: RadarUser) {
     var userGeofences = user.geofences
     var userPlace = user.place
-    if (userGeofences != null) {
-        if (userGeofences.isNotEmpty()) {
-            var eventPropertiesJson = JSONObject()
-            eventPropertiesJson.put("geofenceTags", userGeofences.map { it.tag })
-            eventPropertiesJson.put("geofenceDescriptions", userGeofences.map { it.description })
-            eventPropertiesJson.put("geofenceExternalIds", userGeofences.map { it.externalId })
-            var eventProperties = BrazeProperties (eventPropertiesJson)
-            Braze.getInstance(context).logCustomEvent("radar_fg_geofences_entered", eventProperties)
-        }
+    if (userGeofences != null && userGeofences.isNotEmpty()) {
+      var eventPropertiesJson = JSONObject()
+      eventPropertiesJson.put("geofenceTags", userGeofences.map { it.tag })
+      eventPropertiesJson.put("geofenceDescriptions", userGeofences.map { it.description })
+      eventPropertiesJson.put("geofenceExternalIds", userGeofences.map { it.externalId })
+      var eventProperties = BrazeProperties (eventPropertiesJson)
+      Braze.getInstance(context).logCustomEvent("radar_fg_geofences_entered", eventProperties)
     }
     if (userPlace != null) {
-        var eventPropertiesJson = JSONObject()
-        eventPropertiesJson.put("placeChainSlug", userPlace.chain?.slug ?: "")
-        eventPropertiesJson.put("placeName", userPlace.name)
-        eventPropertiesJson.put("placeCategories",userPlace.categories.toList())
-        var eventProperties = BrazeProperties (eventPropertiesJson)
-        Braze.getInstance(context).logCustomEvent("radar_fg_place_entered", eventProperties)
+      var eventPropertiesJson = JSONObject()
+      eventPropertiesJson.put("placeChainSlug", userPlace.chain?.slug ?: "")
+      eventPropertiesJson.put("placeName", userPlace.name)
+      eventPropertiesJson.put("placeCategories",userPlace.categories.toList())
+      var eventProperties = BrazeProperties (eventPropertiesJson)
+      Braze.getInstance(context).logCustomEvent("radar_fg_place_entered", eventProperties)
     }
   }
 }
