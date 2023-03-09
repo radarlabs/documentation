@@ -67,6 +67,110 @@ Braze.getInstance(context).changeUser(userId)
 
 It is recommended to set the Radar user metadata once the Airship channel ID becomes available. This can be performed via the `addChannelListener` [Airship methods](https://docs.airship.com/platform/mobile/audience/#accessing-the-airship-channel-id).
 
+## Verify integration data delivery
+
+To test if the API keys are correct and the integration can deliver data, use the [Simulator](/dashboard#simulator) to generate events and use the *Logs* section on the event details page to verify delivery. Perform a similar test with a test build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
+
+![Verify integration event delivery](/gif/integrations/airship/verify_airship_integration_delivery.gif)
+
+All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations).
+
+## Example use cases
+
+### Send a personalized push notification when user arrives at a store
+1. Create [Geofences](/geofences#create-geofences) in Radar with the geofence tag set to `store`. The geofence tag will be used to trigger messages for the subset of geofence entries where this tag is present.
+2. Set up an Airship campaign triggered from the Radar geofence entry event, the `radar_geofence_entered` custom event in Airship, and add property filtering where `radar_geofence_tag` is `store`. These same events can be used as part of a Airship and the event properties can be used in message personalization with [handlebars](https://handlebarsjs.com/).
+
+![Radar triggered Airship campaign](/img/integrations/airship/airship_radar_entered_geofence.png)
+
+### Message all users nearby a store
+1. Create [Geofences](/geofences#create-geofences) in Radar to represent nearby store boundaries with geofence tag set to `nearby-store`. The geofence tag will be used to target messages for the subset of geofences where this tag is present.
+2. Set up an Airship campaign targeted with the `radar_geofence_tags` tag group that Radar sends. This will be an array of all geofences the user is currently in, so set the tag to match the value of `nearby-store` for the `radar_geofence_tag` group. Additional attribute filtering can be performed for more complex targeting, including regional targeting.
+
+![Radar targeted Airship campaign](/img/integrations/airship/airship_radar_targeted_messaging.png)
+
+### In-app messaging
+
+To trigger in-app messaging from detected user state on app open, custom events need to deliver through Airship's SDK rather than via Radar's server to server integration with Airship. To support this, implement custom logic in the SDK leveraging Radar's location update listener, on [iOS](/sdk/ios#listening-for-events-with-a-delegate) or [Android](/sdk/android#listening-for-events-with-a-receiver), to send foreground detections to Airship. The example code below assumes you are calling `Radar.trackOnce()` on application launch. See the [iOS](/sdk/ios#foreground-tracking) and [Android](/sdk/android#foreground-tracking) tracking references if needed.
+
+<Tabs
+  groupId="braze-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import RadarSDK
+import AirshipKit
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
+
+  func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
+    if (user.foreground  && user.source == RadarLocationSource.foregroundLocation) {
+      if let place = user.place {
+        let event = CustomEvent(name: "radar_fg_place_detected");
+        event.interactionType = "location"
+        event.properties = [
+          "radar_place_name": place.name,
+          "radar_place_categories": place.categories.joined(separator: ","),
+          "radar_place_chain_slug": place.chain?.slug ?? ""
+        ]
+        event.track()
+      }
+      if let geofences = user.geofences {
+        let event = CustomEvent(name: "radar_fg_geofences_detected");
+        event.interactionType = "location"
+        event.properties = [
+          "radar_geofence_descriptions": geofences.compactMap({ $0.description }),
+          "radar_geofence_tags": geofences.compactMap({ $0.tag }),
+          "radar_geofence_external_ids": geofences.compactMap({ $0.externalId })
+        ]
+        event.track()
+      }
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+class MyRadarReceiver: RadarReceiver() {
+  override fun onLocationUpdated(context: Context, location: Location, user: RadarUser) {
+    if (user.foreground && user.source == RadarLocationSource.FOREGROUND_LOCATION) {
+      var userGeofences = user.geofences
+      var userPlace = user.place
+      if (userGeofences != null && userGeofences.isNotEmpty()) {
+        CustomEvent.newBuilder("radar_fg_geofences_entered")
+          .addProperty("geofence_descriptions", userGeofences.map { it.description }.joinToString())
+          .addProperty("geofence_tags", userGeofences.map { it.tag }.joinToString())
+          .addProperty("geofence_external_ids", userGeofences.map { it.externalId }.joinToString())
+          .build()
+          .track()
+      }
+      if (userPlace != null) {
+        val chain: String =  userPlace.chain?.slug ?: ""
+        CustomEvent.newBuilder("radar_fg_place_entered")
+          .addProperty("place_name", userPlace.name)
+          .addProperty("place_chain", chain)
+          .addProperty("categories", userPlace.categories.joinToString())
+          .build()
+          .track()
+      }
+    }
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
 ## User mapping
 
 Radar User Field | Airship Tag Group Name | Type | Example Tag | Context Type
@@ -319,107 +423,3 @@ Radar Event Attribute | Airship Event Property | Type | Example Value
 `confidence` | `radar_confidence` | string | `"high"`
 `duration` | `radar_duration` | number (minutes) | `1.42`
 `foreground` | `radar_foreground` | boolean | `true`
-
-## Verify integration data delivery
-
-To test if the API keys are correct and the integration can deliver data, leverage the [Simulator](/dashboard#simulator) to generate events and use the *Logs* section on the event details page to verify delivery. Perform a similar test with a test build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
-
-![Verify integration event delivery](/gif/integrations/airship/verify_airship_integration_delivery.gif)
-
-All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations).
-
-## Example use cases
-
-### Send a personalized push notification when user arrives at a store
-1. Create [Geofences](/geofences#create-geofences) in Radar with the geofence tag set to `store`. The geofence tag will be used to trigger messages for the subset of geofence entries where this tag is present.
-2. Set up an Airship campaign triggered from the Radar geofence entry event, the `radar_geofence_entered` custom event in Airship, and add property filtering where `radar_geofence_tag` is `store`. These same events can be used as part of a Airship and the event properties can be used in message personalization with [handlebars](https://handlebarsjs.com/).
-
-![Radar triggered Airship campaign](/img/integrations/airship/airship_radar_entered_geofence.png)
-
-### Message all users nearby a store
-1. Create [Geofences](/geofences#create-geofences) in Radar to represent nearby store boundaries with geofence tag set to `nearby-store`. The geofence tag will be used to target messages for the subset of geofences where this tag is present.
-2. Set up an Airship campaign targeted with the `radar_geofence_tags` tag group that Radar sends. This will be an array of all geofences the user is currently in, so set the tag to match the value of `nearby-store` for the `radar_geofence_tag` group. Additional attribute filtering can be performed for more complex targeting, including regional targeting.
-
-![Radar targeted Airship campaign](/img/integrations/airship/airship_radar_targeted_messaging.png)
-
-## In-app messaging
-
-To trigger in-app messaging from detected user state on app open, custom events need to deliver through Airship's SDK rather than via Radar's server to server integration with Airship. To support this, implement custom logic in the SDK leveraging Radar's location update listener, on [iOS](/sdk/ios#listening-for-events-with-a-delegate) or [Android](/sdk/android#listening-for-events-with-a-receiver), to send foreground detections to Airship. The example code below assumes you are calling `Radar.trackOnce()` on application launch. See the [iOS](/sdk/ios#foreground-tracking) and [Android](/sdk/android#foreground-tracking) tracking references if needed.
-
-<Tabs
-  groupId="braze-radar"
-  defaultValue="swift"
-  values={[
-    { label: 'Swift', value: 'swift' },
-    { label: 'Kotlin', value: 'kotlin' }
-  ]}
->
-  <TabItem value="swift">
-
-```swift
-import RadarSDK
-import AirshipKit
-
-@main
-class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
-
-  func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
-    if (user.foreground  && user.source == RadarLocationSource.foregroundLocation) {
-      if let place = user.place {
-        let event = CustomEvent(name: "radar_fg_place_detected");
-        event.interactionType = "location"
-        event.properties = [
-          "radar_place_name": place.name,
-          "radar_place_categories": place.categories.joined(separator: ","),
-          "radar_place_chain_slug": place.chain?.slug ?? ""
-        ]
-        event.track()
-      }
-      if let geofences = user.geofences {
-        let event = CustomEvent(name: "radar_fg_geofences_detected");
-        event.interactionType = "location"
-        event.properties = [
-          "radar_geofence_descriptions": geofences.compactMap({ $0.description }),
-          "radar_geofence_tags": geofences.compactMap({ $0.tag }),
-          "radar_geofence_external_ids": geofences.compactMap({ $0.externalId })
-        ]
-        event.track()
-      }
-    }
-  }
-}
-```
-
-  </TabItem>
-  <TabItem value="kotlin">
-
-```kotlin
-class MyRadarReceiver: RadarReceiver() {
-  override fun onLocationUpdated(context: Context, location: Location, user: RadarUser) {
-    if (user.foreground && user.source == RadarLocationSource.FOREGROUND_LOCATION) {
-      var userGeofences = user.geofences
-      var userPlace = user.place
-      if (userGeofences != null && userGeofences.isNotEmpty()) {
-        CustomEvent.newBuilder("radar_fg_geofences_entered")
-          .addProperty("geofence_descriptions", userGeofences.map { it.description }.joinToString())
-          .addProperty("geofence_tags", userGeofences.map { it.tag }.joinToString())
-          .addProperty("geofence_external_ids", userGeofences.map { it.externalId }.joinToString())
-          .build()
-          .track()
-      }
-      if (userPlace != null) {
-        val chain: String =  userPlace.chain?.slug ?: ""
-        CustomEvent.newBuilder("radar_fg_place_entered")
-          .addProperty("place_name", userPlace.name)
-          .addProperty("place_chain", chain)
-          .addProperty("categories", userPlace.categories.joinToString())
-          .build()
-          .track()
-      }
-    }
-  }
-}
-```
-
-  </TabItem>
-</Tabs>
