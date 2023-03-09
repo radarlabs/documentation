@@ -79,7 +79,7 @@ All integration delivery can be monitored via the integration's event logs by cl
 
 ### Send a personalized push notification when user arrives at a store
 1. Create [Geofences](/geofences#create-geofences) in Radar with the geofence tag set to `store`. The geofence tag will be used to trigger messages for the subset of geofence entries where this tag is present.
-2. Set up an Airship campaign triggered from the Radar geofence entry event, the `radar_geofence_entered` custom event in Airship, and add property filtering where `radar_geofence_tag` is `store`. These same events can be used as part of a Airship and the event properties can be used in message personalization with [handlebars](https://handlebarsjs.com/).
+2. Set up an Airship campaign triggered from the Radar geofence entry event, the `radar_geofence_entered` custom event in Airship, and add property filtering where `radar_geofence_tag` is `store`. These same events can be used as part of an Airship campaign and the event properties can be used in message personalization with [handlebars](https://handlebarsjs.com/).
 
 ![Radar triggered Airship campaign](/img/integrations/airship/airship_radar_entered_geofence.png)
 
