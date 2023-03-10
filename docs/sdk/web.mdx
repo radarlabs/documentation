@@ -243,6 +243,21 @@ Radar.searchPlaces({
 });
 ```
 
+With the [address validation API](/api#validate-an-address), validate a structured address in US or Canada:
+```javascript
+Radar.validateAddress({
+    addressLabel: "841 Broadway Fl 7",
+    city: "New York",
+    stateCode: "NY",
+    postalCode: "10003",
+    countryCode: "US",
+    }, function(err, {address, result}) {
+  if (!err) {
+    // do something with address and validation result
+  }
+});
+```
+
 #### Distance
 
 With the [distance API](/api#distance), calculate the travel distance and duration between two locations:
