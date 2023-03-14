@@ -8,7 +8,7 @@ const IconCard = ({ icon, children, title }) => (
       {icon}
     </div>
     <div className={styles.content}>
-      <div className={styles.CardTitle}>{title}</div>
+      <h3 className={styles.CardTitle}>{title}</h3>
       <p className={styles.description}>{children}</p>
     </div>
   </Card>
