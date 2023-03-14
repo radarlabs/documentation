@@ -65,11 +65,17 @@ If you call `Radar.trackVerified()`, Radar exposes the following flags in `user.
 
 While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
 
-## Bypassing and blocking users
+## Bypassing checks for testing
 
-If desired, you can bypass fraud checks for individual users using the *Mark as Bypassed* button on the user detail page. If a user is marked as bypassed, `user.fraud.bypassed = true` and `user.fraud.passed = true`, regardless of whether the user passes fraud checks.
+If desired, you can bypass fraud checks for individual users using the *Mark as Bypassed* button on the user detail page.
 
-You can also manually block a user using the *Mark as Blocked* button on the user detail page. If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false`, regardless of whether the user passes fraud checks.
+If a user is marked as bypassed, `user.fraud.bypassed = true` and `user.fraud.passed = true`, regardless of whether the user passes fraud checks.
+
+## Blocking users
+
+You can also manually block a user using the *Mark as Blocked* button on the user detail page.
+
+If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false`, regardless of whether the user passes fraud checks.
 
 ## Allowed states and countries
 
