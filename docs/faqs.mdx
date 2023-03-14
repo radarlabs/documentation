@@ -68,14 +68,6 @@ The following table describes data coverage for each of these APIs, by country, 
 🌎 Other (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
 🌎 Other (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
 
-### Does Radar support location verification or fraud detection?
-
-Yes, Radar supports location verification and fraud detection for gambling, media, payments, and more.
-
-You can use [Regions](/regions) to detect a user's country or state based on latitude and longitude and verify the device is not spoofing location or using a proxy via attributes associated with the Radar user.  See the [location verification tutorial](/tutorials/detecting-location-based-fraud) for additional information.
-
-Alternatively, you can use the [IP geocoding API](/api#ip-geocode) to detect a user's country or state based on IP address. You can check the `proxy` flag in the response to determine if the user is using a known proxy, VPN, data center, or Tor exit node.
-
 ### Is Radar still able to track location in the background if the app is killed?
 
 Yes, if background location permissions have been granted.
