@@ -44,6 +44,7 @@ module.exports = {
     },
     "beacons",
     "trip-tracking",
+    "fraud",
     {
       type: "category",
       label: "SDK Reference",
