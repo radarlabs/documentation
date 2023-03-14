@@ -75,7 +75,7 @@ If you call `Radar.trackVerified()`, Radar exposes your settings in `user.countr
 
 ## Configuring SSL pinning
 
-To prevent man-in-the-middle attacks, the Radar SDK supports SSL pinning.
+To prevent man-in-the-middle attacks, you should configure SSL pinning before calling `Radar.trackVerified()`.
 
 On iOS, add the following to your `Info.plist` file:
 
