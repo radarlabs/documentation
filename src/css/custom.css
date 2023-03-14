@@ -120,7 +120,7 @@ h6 {
 
 code {
   border: none;
-  font-variant-ligatures: none;
+  font-variant-ligatures: no-common-ligatures;
 }
 
 .DocSearch {
@@ -142,6 +142,7 @@ code {
 }
 
 .DocSearch-Button-Placeholder {
+  font-family: Graphik !important;
   padding: 0 1rem 0 0.5rem !important;
 }
 
