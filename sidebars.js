@@ -26,10 +26,10 @@ module.exports = {
       label: "Products",
       items: [
         "geofences",
+        "trip-tracking",
         "places",
         "regions",
         "beacons",
-        "trip-tracking",
         "fraud",
       ],
     },
