@@ -81,6 +81,16 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
+For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+</manifest>
+```
+
 ## Integrate
 
 ### Import module
@@ -300,7 +310,7 @@ On Android, a receiver in the React Native module loads and parses the JavaScrip
 ### Trip tracking
 
 <Alert alertType="info">
-  See trip tracking docs for React Native SDK versions older than v3.5.8 <a href="/sdk/react-native-3.5.1#trip-tracking">here</a>.
+  See trip tracking docs for React Native SDK versions v3.5.7 and below <a href="/sdk/react-native-3.5.7#trip-tracking">here</a>.
 </Alert>
 
 To start a trip to a destination, call:
