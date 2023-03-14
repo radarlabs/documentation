@@ -14,37 +14,25 @@ module.exports = {
     { type: "doc", id: "overview", label: "Overview" },
     {
       type: "category",
-      label: "Quickstart guides",
+      label: "Quickstarts",
       items: [
         "quickstarts/create-a-geofence",
         "quickstarts/generate-an-event",
         "quickstarts/make-an-api-call",
       ],
     },
-    "geofences",
     {
       type: "category",
-      label: "Places",
+      label: "Products",
       items: [
-        { type: "doc", id: "places", label: "Overview" },
-        "places/categories",
-        "places/chains",
-        "places/groups"
+        "geofences",
+        "places",
+        "regions",
+        "beacons",
+        "trip-tracking",
+        "fraud",
       ],
     },
-    {
-      type: "category",
-      label: "Regions",
-      items: [
-        { type: "doc", id: "regions", label: "Overview" },
-        "regions/countries",
-        "regions/states",
-        "regions/dmas",
-      ],
-    },
-    "beacons",
-    "trip-tracking",
-    "fraud",
     {
       type: "category",
       label: "SDK Reference",
