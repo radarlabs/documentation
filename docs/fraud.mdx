@@ -5,6 +5,11 @@ id: fraud
 ---
 import Alert from "../src/components/Alert";
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import InlineTabs from "../src/components/InlineTabs";
+import InlineTabItem from "../src/components/InlineTabItem";
+
 <Alert alertType="info">
   Fraud is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
@@ -140,7 +145,7 @@ Learn more about [Network Security Configuration on Android](https://developer.a
 Client-side, you can verify a user's location with just a few lines of code:
 
 <Tabs
-  groupId="trip-tracking"
+  groupId="fraud"
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
