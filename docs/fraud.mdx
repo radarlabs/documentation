@@ -1,0 +1,181 @@
+---
+sidebar_position: 8
+title: Fraud
+id: fraud
+---
+import Alert from "../src/components/Alert";
+
+<Alert alertType="info">
+  Fraud is available on the {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
+
+Fraud detects GPS spoofing, proxy and VPN usage, and device tampering.
+
+You can use Fraud with [Regions](/documentation/regions) to detect a user's country and state and mark specific regions as allowed or denied to comply with regulations.
+
+<img src="https://images.ctfassets.net/f2vbu16fzuly/6XHQyOZGH04IYuQuyxNbBh/aefe353d1f7b62437b6d01a9c8db3dbd/fraud.svg" className="hero-image" />
+
+Together, Fraud and Regions provide the following user context:
+
+```json
+{
+  fraud: {
+    passed: false,
+    bypassed: false,
+    verified: true,
+    mocked: true,
+    jumped: false,
+    compromised: false,
+    proxy: false,
+    sharing: false
+  },
+  country: {
+    name: "United States",
+    flag: "🇺🇸"
+    allowed: true
+  },
+  state: {
+    code: "MD",
+    name: "Maryland"
+    allowed: false
+  }
+}
+```
+
+## How it works
+
+You can call `Radar.trackOnce()` to accurately detect a user's current [geofences](/documentation/geofences), current [place](/documentation/places), or current [country and state](/documentation/regions).
+
+However, users can spoof a device's location. For example, a gambling app user may spoof their location to access sports betting features only available in specific states. Or, a retail app user may spoof their location to access offers only available inside a store geofence.
+
+To ensure you can trust a user's location, you can call `Radar.trackVerified()` instead. Radar will collect a variety of fraud signals and perform fraud checks, exposing flags that you can use for fraud detection and location verification in your app.
+
+## Fraud flags
+
+If you call `Radar.trackVerified()`, Radar exposes the following flags in `user.fraud`:
+- `mocked`: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US))
+- `compromised`: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android
+- `jumped`: Indicates whether the user moved too far too fast (e.g., jumping across the country in only a few seconds)
+- `sharing`: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/))
+- `proxy`: Indicates whether the user's IP address is a known proxy, VPN, Tor exit node, etc.
+- `verified`: Indicates whether the request was made with SSL pinning (i.e., no man-in-the-middle attack)
+
+While you can work with individual flags, Radar also exposes a number of configurable flags to make your code simpler:
+- `passed`: Indicates whether all fraud checks passed
+- `bypassed`: Indicates whether a user's device has been bypassed for testing
+- `blocked`: Indicates whether a user's device has been manually blocked
+
+## Allowed states and countries
+
+You can mark specific states and countries as allowed or denied to comply with regulations. For example, a gambling app may only be allowed to operate in specific states.
+
+If you call `Radar.trackVerified()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
+
+## Configuring SSL pinning
+
+To prevent man-in-the-middle attacks, the Radar SDK supports SSL pinning.
+
+On iOS, add the following to your `Info.plist` file:
+
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <false/>
+    <key>NSPinnedDomains</key>
+    <dict>
+        <key>api-verified.radar.io</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSPinnedLeafIdentities</key>
+            <array>
+                <dict>
+                    <key>SPKI-SHA256-BASE64</key>
+                    <string>15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</string>
+                </dict>
+                <dict>
+                    <key>SPKI-SHA256-BASE64</key>
+                    <string>15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</string>
+                </dict>
+            </array>
+        </dict>
+    </dict>
+</dict>
+```
+
+Learn more about [SSL pinning on iOS](https://developer.apple.com/news/?id=g9ejcf8y).
+
+On Android, add a `res/xml/network_security_config.xml` file:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">api-verified.radar.io</domain>
+        <pin-set>
+            <pin digest="SHA-256">15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</pin>
+            <pin digest="SHA-256">15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>
+```
+
+Learn more about [Network Security Configuration on Android](https://developer.android.com/training/articles/security-config).
+
+## Verifying a user's location
+
+Client-side, you can verify a user's location with just a few lines of code:
+
+<Tabs
+  groupId="trip-tracking"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.trackVerified { (status, location, events, user) in
+    if user?.fraud?.passed == true &&
+        user?.country?.allowed == true &&
+        user?.state?.allowed == true {
+        // allow access to feature
+    } else {
+        // deny access to feature
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.trackVerified { status, location, events, user ->
+    if (user?.fraud?.passed == true &&
+        user.country?.allowed == true &&
+        user.state?.allowed == true) {
+        // allow access to feature
+    } else {
+        // deny access to feature        
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+<Alert alertType="warning">
+  Fraud is not yet supported with `Radar.startTracking()`.
+</Alert>
+
+Server-side, you can also [get a user](/documentation/api#get-a-user) and check fraud flags server-side for an additional layer of verification:
+
+```bash
+curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
+  -H "Authorization: prj_live_sk_..."
+```
