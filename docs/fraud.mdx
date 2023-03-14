@@ -61,16 +61,19 @@ If you call `Radar.trackVerified()`, Radar exposes the following flags in `user.
 - `jumped`: Indicates whether the user moved too far too fast (e.g., jumping across the country in only a few seconds)
 - `sharing`: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/))
 - `proxy`: Indicates whether the user's IP address is a known proxy, VPN, Tor exit node, etc.
-- `verified`: Indicates whether the request was made with SSL pinning (i.e., no man-in-the-middle attack)
+- `verified`: Indicates whether the request was made with [SSL pinning configured successfully](#configuring-ssl-pinning)
 
-While you can work with individual flags, Radar also exposes a number of configurable flags to make your code simpler:
-- `passed`: Indicates whether all fraud checks passed
-- `bypassed`: Indicates whether a user's device has been bypassed for testing
-- `blocked`: Indicates whether a user's device has been manually blocked
+While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
+
+## Bypassing and blocking users
+
+If desired, you can bypass fraud checks for individual users using the *Mark as Bypassed* button on the user detail page. If a user is marked as bypassed, `user.fraud.bypassed = true` and `user.fraud.passed = true`, regardless of whether the user passes fraud checks.
+
+You can also manually block a user using the *Mark as Blocked* button on the user detail page. If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false`, regardless of whether the user passes fraud checks.
 
 ## Allowed states and countries
 
-You can mark specific states and countries as allowed or denied to comply with regulations. For example, a gambling app may only be allowed to operate in specific states.
+With [Regions](/documentation/regions), you can mark specific states and countries as allowed or denied to comply with regulations. For example, a gambling app may only be allowed to operate in specific states.
 
 If you call `Radar.trackVerified()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 
