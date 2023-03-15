@@ -61,12 +61,12 @@ To ensure you can trust a user's location, you can call `Radar.trackVerified()` 
 ## Fraud flags
 
 If you call `Radar.trackVerified()`, Radar exposes the following flags in `user.fraud`:
-- **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US))
-- **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android
-- **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds)
-- **`sharing`**: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/))
+- **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
+- **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android.
+- **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
+- **`sharing`**: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy, VPN, Tor exit node, etc.
-- **`verified`**: Indicates whether the request was made with [SSL pinning configured successfully](#configuring-ssl-pinning)
+- **`verified`**: Indicates whether the request was made with [SSL pinning configured successfully](#configuring-ssl-pinning).
 
 While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
 
@@ -156,13 +156,13 @@ Client-side, you can verify a user's location with just a few lines of code:
 
 ```swift
 Radar.trackVerified { (status, location, events, user) in
-    if user?.fraud?.passed == true &&
-        user?.country?.allowed == true &&
-        user?.state?.allowed == true {
-        // allow access to feature
-    } else {
-        // deny access to feature
-    }
+  if user?.fraud?.passed == true &&
+    user?.country?.allowed == true &&
+    user?.state?.allowed == true {
+    // allow access to feature
+  } else {
+    // deny access to feature
+  }
 }
 ```
 
@@ -171,13 +171,13 @@ Radar.trackVerified { (status, location, events, user) in
 
 ```kotlin
 Radar.trackVerified { status, location, events, user ->
-    if (user?.fraud?.passed == true &&
-        user.country?.allowed == true &&
-        user.state?.allowed == true) {
-        // allow access to feature
-    } else {
-        // deny access to feature        
-    }
+  if (user?.fraud?.passed == true &&
+    user.country?.allowed == true &&
+    user.state?.allowed == true) {
+    // allow access to feature
+  } else {
+    // deny access to feature
+  }
 }
 ```
 
