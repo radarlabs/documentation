@@ -1337,6 +1337,42 @@ With the [places search API](/api#search-places), search for places near a locat
   </TabItem>
 </Tabs>
 
+With the [address validation API](/api#validate-an-address) (currently in beta), validate a structured address in the US or Canada:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  Radar.validateAddress(
+      address, // query
+      new RadarValidateAddressCallback() {
+          @Override
+          public void onComplete(RadarStatus status, RadarAddress address, ValidationResult result) {
+              // do something with validation result and address
+          }
+      }
+  );
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  Radar.validateAddress(address) { status, address, result ->
+      // do something with validation result and address
+  }
+  ```
+
+  </TabItem>
+</Tabs>
+
 ### Distance
 
 With the [distance API](/api#distance), calculate the travel distance and duration from an origin to a destination:
