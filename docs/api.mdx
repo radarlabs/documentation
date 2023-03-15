@@ -580,7 +580,7 @@ Autocompletes partial addresses and place names, sorted by relevance.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
 - **`country`** (string, optional): An optional countries filter. A string of comma separated countries, the unique 2-letter [country code](/regions/countries).
-- **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for each unit in a building. Only available for `layers="address"`, and for the countries `US` and `CA`. Defaults to `false`. While in beta, contact your customer success manager for early access to this parameter.
+- **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for each unit in a building. Only available for `layers="address"` and for the countries `US` and `CA`. Defaults to `false`. While in beta, contact your customer success manager for early access to this parameter.
 
 ###### Authentication level
 
@@ -839,7 +839,7 @@ Returns a `verificationStatus` as part of the `result`, as defined below:
 - **`stateCode`** (string, required): The 2-letter state abbreviation (e.g., `NY`).
 - **`postalCode`** (string, required): The postal or zip code. Plus 4 codes are accepted but not required.
 - **`countryCode`** (string, required): The unique 2-letter [country code](/regions/countries) (e.g., `US`).
-- **`number`** (string, optional): The building or P.O. box number. If not provided, `addressLabel` must be provided. 
+- **`number`** (string, optional): The building or P.O. box number. If not provided, `addressLabel` must be provided.
 - **`street`** (string, optional): The street name. If not provided, `addressLabel` must be provided.
 - **`unit`** (string, optional): The unit number, such as apartment or suite (e.g., `Apt 3`).
 - **`addressLabel`** (string, optional): The first line of the address, including the building number, street name, and unit number if applicable (e.g., `20 Jay St Apt 3`). If not provided, `number` and `street` must be provided.
