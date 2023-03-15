@@ -156,13 +156,13 @@ Client-side, you can verify a user's location with just a few lines of code:
 
 ```swift
 Radar.trackVerified { (status, location, events, user) in
-    if user?.fraud?.passed == true &&
-      user?.country?.allowed == true &&
-      user?.state?.allowed == true {
-      // allow access to feature
-    } else {
-      // deny access to feature
-    }
+  if user?.fraud?.passed == true &&
+    user?.country?.allowed == true &&
+    user?.state?.allowed == true {
+    // allow access to feature
+  } else {
+    // deny access to feature
+  }
 }
 ```
 
@@ -171,13 +171,13 @@ Radar.trackVerified { (status, location, events, user) in
 
 ```kotlin
 Radar.trackVerified { status, location, events, user ->
-    if (user?.fraud?.passed == true &&
-      user.country?.allowed == true &&
-      user.state?.allowed == true) {
-      // allow access to feature
-    } else {
-      // deny access to feature
-    }
+  if (user?.fraud?.passed == true &&
+    user.country?.allowed == true &&
+    user.state?.allowed == true) {
+    // allow access to feature
+  } else {
+    // deny access to feature
+  }
 }
 ```
 
