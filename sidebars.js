@@ -159,6 +159,7 @@ module.exports = {
         "integrations/branch",
         "integrations/brandify",
         "integrations/braze",
+        "integrations/census",
         "integrations/iterable",
         "integrations/leanplum",
         "integrations/lytics",
