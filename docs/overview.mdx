@@ -9,21 +9,9 @@ import LinkCard from '../src/components/LinkCard'
 import IconCard from '../src/components/IconCard'
 import Card from '../src/components/TileCard';
 
-Radar is the leading geofencing and location tracking platform. You can use our [SDKs](/sdk) and [APIs](/api) to build a wide range of location-based product and service experiences, including pickup and delivery tracking, location-triggered notifications, location verification, store locators, address autocomplete, and more.
+Radar is location infrastructure for every product and service. You can use our [SDKs](/sdk) and [APIs](/api) to build a wide range of use cases, including pickup and delivery tracking, location-based messaging, location verification, store locators, address autocomplete, and more.
 
-## Quickstart
-
-Want to get started quickly? Follow these three steps:
-
-1. **Configure geofencing.** Create custom [geofences](/geofences) or enable out-of-the-box geofences for [Places](/places) (place, chain, and category detection) or [Regions](/regions) (country, state, DMA, and postal code detection).
-
-2. **Integrate the Radar SDK or API into your app or website.** Integrate the [SDK](/sdk) or [API](/api). Or, before integrating, test geofencing with our [toolkit apps](/toolkit) for iOS and Android.
-
-3. **Enable integrations.** Create a [webhook](/integrations#webhooks) or enable server-side [integrations](/integrations) to send Radar events and user context to other systems.
-
-## Geofencing
-
-Geofencing turns location data into context and events to help you build contextual app experiences. Go beyond on-device limits with support for unlimited geofences, polygon geofences, isochrone geofences, out-of-the-box geofences for places and regions, and more.
+## Products
 
 <div className="card-stack">
   <LinkCard linkTo="/geofences">
@@ -33,7 +21,17 @@ Geofencing turns location data into context and events to help you build context
         <img src="https://images.ctfassets.net/f2vbu16fzuly/6rO181S83gFjPrFNmiUbXU/d6c81683a8ef4208fbca9ef1ceaaa24c/geofences.svg"/>
       }
     >
-      Radar geofencing is more powerful than native iOS or Android geofencing, with cross-platform support for unlimited geofences, polygon geofences, isochrone (time-based) geofences, temporary geofences, and stop detection.
+      Industry-leading accuracy with unlimited geofences, polygon geofences, and more
+    </IconCard>
+  </LinkCard>
+
+  <LinkCard linkTo="/trip-tracking">
+    <IconCard title="Trip tracking"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/42zLSPFObN3CbGsjT2Go4P/274c58a286b9fa1a9a31b61ebbd2458d/trips.svg" />
+      }
+    >
+      Trip tracking, live ETAs, arrival detection, and routing for pickups and deliveries
     </IconCard>
   </LinkCard>
 
@@ -43,7 +41,7 @@ Geofencing turns location data into context and events to help you build context
         <img src="https://images.ctfassets.net/f2vbu16fzuly/5CyKMbZMvP4o2FlljKGxrK/fe18f5ecd370bc861f77756277046f6b/places.svg" />
       }
     >
-      Use our place database to detect when a user visits a place, chain, or category. Tap into best-in-class POI data from Yelp and other providers.
+      Points-of-interest (POI) dataset to detect visits to millions of places
     </IconCard>
   </LinkCard>
 
@@ -53,7 +51,7 @@ Geofencing turns location data into context and events to help you build context
         <img src="https://images.ctfassets.net/f2vbu16fzuly/1hDJzlo8jqh8mWNGmxlLrm/b68061f89a24c683d4c87d8525370144/regions.svg" />
       }
     >
-      Detect a user's country, state, DMA (market area), and postal code. Change the app experience based on region, or blocklist location updates in specific countries or states for compliance reasons.
+      Admin boundary dataset for country, state, and postal code detection
     </IconCard>
   </LinkCard>
 
@@ -63,23 +61,27 @@ Geofencing turns location data into context and events to help you build context
         <img src="https://images.ctfassets.net/f2vbu16fzuly/1ENDk60lfUzCsqwR1qfaky/33e7325edb746e1f1dd3573fa3c58060/beacons.svg" />
       }
     >
-      Detect nearby Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. Compatible with any iBeacons.
+      Hardware-enabled micro-geofences accurately detect location down to a meter or less
     </IconCard>
   </LinkCard>
-</div>
 
-## Geo APIs
-
-Use our APIs to build location-based app experiences. Search your own geofence data or tap into our best-in-class address and place data from Yelp, Pitney Bowes, and other providers.
-
-<div className="card-stack">
+  <LinkCard linkTo="/fraud">
+    <IconCard title="Fraud"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/41a3RbZjEIgmd7DLdBwhK7/10c970ae0d34d55b324cbe5a33b7aa3c/fraud.svg" />
+      }
+    >
+      Detect GPS spoofing, proxy and VPN usage, and device tampering
+    </IconCard>
+  </LinkCard>
+  
   <LinkCard linkTo="/api#geocoding">
-    <IconCard title="Geocoding"
+    <IconCard title="Geocoding APIs"
       icon={
         <img src="https://images.ctfassets.net/f2vbu16fzuly/3s9QryJGkIPcIq90BFuOvp/d5e14589fd68c6ab6e7a128506d8b4c7/geocoding.svg" />
       }
     >
-      Flexible and affordable forward, reverse, and IP geocoding APIs. Up to 10x cheaper than Google Maps geocoding APIs.
+      Forward, reverse, and IP geocoding APIs
     </IconCard>
   </LinkCard>
 
@@ -89,7 +91,7 @@ Use our APIs to build location-based app experiences. Search your own geofence d
         <img src="https://images.ctfassets.net/f2vbu16fzuly/wQgRaU0OQvmLhRRjjnO37/f7925ac0a0feaf16197c141efddb762e/search.svg" />
       }
     >
-      Autocomplete, place, and geofence search APIs. Search your own geofence data or tap into our best-in-class address and place data from Yelp, Pitney Bowes, and other providers.
+      Autocomplete and place search APIs
     </IconCard>
   </LinkCard>
 
@@ -99,30 +101,12 @@ Use our APIs to build location-based app experiences. Search your own geofence d
         <img src="https://images.ctfassets.net/f2vbu16fzuly/73pNAAJXtWErBEruCVQLcB/c20397366642f637b2e819e50d84b8ac/routing.svg" />
       }
     >
-      Distance and matrix APIs to calculate travel distance and duration by foot, bike, or car. Up to 10x cheaper than Google Maps routing APIs.
-    </IconCard>
-  </LinkCard>
-</div>
-
-## Trip tracking
-
-Use our industry-leading location [SDK](/sdk) to build experiences for curbside and in-store pickup, delivery tracking, and more.
-
-<div className="card-stack">
-  <LinkCard linkTo="/trip-tracking">
-    <IconCard title="Trip tracking"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/42zLSPFObN3CbGsjT2Go4P/274c58a286b9fa1a9a31b61ebbd2458d/trips.svg" />
-      }
-    >
-      Use our industry-leading location SDK to build experiences for curbside and in-store pickup, delivery tracking, and more. Display live ETAs on Radar's extensible trips dashboard or in your own UI.
+      Distance and matrix APIs to calculate travel distance and duration
     </IconCard>
   </LinkCard>
 </div>
 
 ## Developer tools
-
-Integrate Radar into your product or service using our best-in-class developer tools, including open-source [SDKs](/sdk) for iOS, Android, and web, simple and flexible [APIs](/api), and [integrations](/integrations) with leading platforms like Segment, Amplitude, Braze, and more.
 
 <div className="card-stack">
   <LinkCard linkTo="/sdk">
@@ -131,7 +115,7 @@ Integrate Radar into your product or service using our best-in-class developer t
         <img src="https://images.ctfassets.net/f2vbu16fzuly/316liiuHbIwIoss2mFLRwI/803bc94cde2078bf6180c201b9ed48e3/sdk.svg" />
       }
     >
-      Open-source SDKs for iOS, Android, and web that make location simple. Use the Radar SDK to add location context and tracking to your apps with just a few lines of code.
+      Add location to your apps with just a few lines of code
     </IconCard>
   </LinkCard>
 
@@ -141,7 +125,7 @@ Integrate Radar into your product or service using our best-in-class developer t
         <img src="https://images.ctfassets.net/f2vbu16fzuly/50bd5vIUh4cewCzl0obxW7/1b0a6efc36e9095a3985995eac41c523/api.svg" />
       }
     >
-      Use the Radar APIs as building blocks for location-based products and services. Or, use Radar APIs to manage your Radar data, including users, trips, geofences, and events.
+      APIs for server-side implementations
     </IconCard>
   </LinkCard>
 
@@ -151,7 +135,7 @@ Integrate Radar into your product or service using our best-in-class developer t
         <img src="https://images.ctfassets.net/f2vbu16fzuly/7JzCleHIpXZ5lZuqIKLxa/844415e94b2194eb894cd8a9bebe859d/integrations.svg" />
       }
     >
-      Event integrations like webhooks, Segment, Braze, and Amplitude allow you to send events from Radar to other systems. Geofence integrations like Yext allow you to sync geofences from other systems to Radar.
+      Send Radar events and user context to other systems server-to-server
     </IconCard>
   </LinkCard>
 
@@ -161,7 +145,7 @@ Integrate Radar into your product or service using our best-in-class developer t
         <img src="https://images.ctfassets.net/f2vbu16fzuly/19adrZaPnWzFowzDuoNS8y/bb798fd9055e0a8892e0555c17ec64d1/toolkit.svg" />
       }
     >
-      Use our Radar Toolkit apps for iOS and Android to test Radar geofencing before integrating the SDK, or to test your implementation of Radar side-by-side with a complete implementation.
+      Use our toolkit apps to test Radar before integrating the SDK
     </IconCard>
   </LinkCard>
 </div>

@@ -394,6 +394,12 @@ Geocodes an address, converting address to coordinates.
 
 This endpoint is best for complete addresses. For partial addresses or place names, call the [autocomplete](#autocomplete) endpoint instead.
 
+Returns a confidence level, as defined below:
+
+- **`exact`**: The result matches the query sent.
+- **`interpolated`**: A result where there is a record for the street but not the exact building number, so the value is calculated between two known building numbers.
+- **`fallback`**: A result where Radar does not have a matching record and cannot interpolate the results. Radar falls back to the region containing the query.
+
 ###### Definitions
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/forward</code>
@@ -428,27 +434,28 @@ curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
   },
   "addresses": [
     {
-      "latitude": 40.70390,
-      "longitude": -73.98670,
+      "latitude": 40.7041,
+      "longitude": -73.9867,
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.98670, 40.70390]
+        "coordinates": [-73.9867,40.7041]
       },
-      "addressLabel": "20 Jay Street",
-      "formattedAddress": "20 Jay Street, Brooklyn, New York, NY 11201 USA",
       "country": "United States",
       "countryCode": "US",
       "countryFlag": "🇺🇸",
-      "state": "New York",
-      "stateCode": "NY",
-      "postalCode": "11201",
-      "city": "New York",
-      "borough": "Brooklyn",
       "county": "Kings County",
-      "neighborhood": "DUMBO",
-      "number": "20",
       "confidence": "exact",
-      "layer": "address"
+      "borough": "Brooklyn",
+      "city": "Brooklyn",
+      "number": "20",
+      "neighborhood": "DUMBO",
+      "postalCode": "11201",
+      "stateCode": "NY",
+      "state": "New York",
+      "street": "Jay St",
+      "layer": "address",
+      "formattedAddress": "20 Jay St, Brooklyn, New York, NY 11201 USA",
+      "addressLabel": "20 Jay St"
     }
   ]
 }
@@ -519,15 +526,11 @@ curl "https://api.radar.io/v1/geocode/reverse?coordinates=40.70390,-73.98670" \
 
 #### IP geocode
 
-Geocodes an IP address, converting IP address to city, state, and country.
+Geocodes the requester's IP, converting IP address to city, state, and country.
 
 ###### Definitions
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/ip</code>
-
-###### Query parameters
-
-- **`ip`** (string, optional): The IP address to geocode. Defaults to the request IP address.
 
 ###### Authentication level
 
@@ -540,7 +543,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/geocode/ip?ip=107.77.199.117" \
+curl "https://api.radar.io/v1/geocode/ip" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -588,6 +591,7 @@ Autocompletes partial addresses and place names, sorted by relevance.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
 - **`country`** (string, optional): An optional countries filter. A string of comma separated countries, the unique 2-letter [country code](/regions/countries).
+- **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for each unit in a building. Only available for `layers="address"` and for the countries `US` and `CA`. Defaults to `false`. While in beta, contact your customer success manager for early access to this parameter.
 
 ###### Authentication level
 
@@ -613,28 +617,28 @@ curl "https://api.radar.io/v1/search/autocomplete?query=brooklyn+roasting&near=4
   },
   "addresses": [
     {
-      "latitude": 40.70390,
-      "longitude": -73.98670,
+      "latitude": 40.695779,
+      "longitude": -73.991489,
       "geometry": {
         "type": "Point",
-        "coordinates": [-73.98670, 40.70390]
+        "coordinates": [-73.991489,40.695779]
       },
-      "placeLabel": "Brooklyn Roasting Company",
-      "addressLabel": "25 Jay Street",
-      "formattedAddress": "25 Jay Street, Brooklyn, New York, NY 11201 USA",
       "country": "United States",
       "countryCode": "US",
       "countryFlag": "🇺🇸",
-      "state": "New York",
-      "stateCode": "NY",
-      "postalCode": "11201",
-      "city": "New York",
-      "borough": "Brooklyn",
       "county": "Kings County",
-      "neighborhood": "DUMBO",
-      "number": "25",
-      "distance": 5,
-      "layer": "place"
+      "distance": 990,
+      "borough": "Brooklyn",
+      "city": "Brooklyn",
+      "number": "1",
+      "neighborhood": "Brooklyn Heights",
+      "postalCode": "11201",
+      "stateCode": "NY",
+      "state": "New York",
+      "street": "Clinton St",
+      "layer": "place",
+      "formattedAddress": "1 Clinton St, Brooklyn, New York, NY 11201 USA",
+      "placeLabel": "Brooklyn Roasting Company"
     }
   ]
 }
@@ -818,6 +822,86 @@ curl "https://api.radar.io/v1/search/places?chains=starbucks&near=40.78382,-73.9
   ]
 }
 ```
+
+#### Validate an address
+
+<Alert alertType="info">
+  Address validation is currently in beta.
+</Alert>
+
+Validates an address. Currently only available for US and Canada addresses.
+
+This endpoint is best for validating complete structured addresses. For partial addresses or place names, call the [autocomplete](#autocomplete) endpoint instead.
+
+Returns a `verificationStatus` as part of the `result`, as defined below:
+
+- **`verified`**: The input has a complete and unique match with a result.
+- **`partially verified`**: The input has a partial match with a result.
+- **`ambiguous`**: The input closely matches multiple results.
+- **`unverified`**: Unable to verify the input address.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/addresses/validate</code>
+
+###### Query parameters
+
+- **`city`** (string, required): The city name.
+- **`stateCode`** (string, required): The 2-letter state abbreviation (e.g., `NY`).
+- **`postalCode`** (string, required): The postal or zip code. Plus 4 codes are accepted but not required.
+- **`countryCode`** (string, required): The unique 2-letter [country code](/regions/countries) (e.g., `US`).
+- **`number`** (string, optional): The building or P.O. box number. If not provided, `addressLabel` must be provided.
+- **`street`** (string, optional): The street name. If not provided, `addressLabel` must be provided.
+- **`unit`** (string, optional): The unit number, such as apartment or suite (e.g., `Apt 3`).
+- **`addressLabel`** (string, optional): The first line of the address, including the building number, street name, and unit number if applicable (e.g., `20 Jay St Apt 3`). If not provided, `number` and `street` must be provided.
+
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/addresses/validate?countryCode=US&stateCode=NY&city=New%20York&number=841&postalCode=10003&street=Broadway%20St&unit=Fl%7" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "address": {
+    "country": "United States",
+    "countryCode": "US",
+    "city": "New York",
+    "number": "841",
+    "postalCode": "10003",
+    "plus4": "4704"
+    "stateCode": "NY",
+    "state": "New York",
+    "street": "Broadway",
+    "unit": "Fl 7",
+    "formattedAddress": "841 Broadway Fl 7, New York, NY 10003-4704, USA",
+    "addressLabel": "20 Jay St",
+    "metadata": {
+      "propertyType": "residential"
+    }
+  },
+  "result": {
+    "verificationStatus": "verified"
+  }
+}
+```
+
+While in beta, contact your customer success manager for early access the address validation API.
 
 ### Routing
 
@@ -1240,7 +1324,7 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`approachingThreshold`** (number): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 - **`createdAt`** (datetime): The datetime when the trip was started.
 - **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the order associated with the trip should be fired.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 - **`orderFiredAt`** (datetime): From the [Olo integration](https://radar.com/documentation/integrations/olo), the datetime when the order associated with the trip was fired.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
@@ -1248,6 +1332,7 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`user`** (dictionary): The [user](/api#users) for which the trip is being tracked.
 - **`userId`** (string): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`locations`** (array): The location updates tracked while the trip was active. An array of `Point`s in [GeoJSON](http://geojson.org/) format.
+- **`delay`** (dictionary): The predicted delay for the trip, including a `delayed` boolean flag and a `scheduledArrivalTimeDelay` with the delay amount in minutes.
 
 ###### Sample object
 
@@ -1301,7 +1386,11 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
       ],
       "updatedAt": "2020-08-20T10:30:55.837Z"
     }
-  ]
+  ],
+  "delay": {
+    "delayed": false,
+    "scheduledArrivalTimeDelay": 0
+  }
 }
 ```
 #### Get a trip
@@ -1447,6 +1536,7 @@ Creates a new trip.
 - **`userId`** (string, optional): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`. Defaults to `car`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 
 ###### Default rate limit
 
@@ -1524,6 +1614,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 
 - **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 
 ###### Default rate limit
 
@@ -1532,7 +1623,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips/299" \
+curl "https://api.radar.io/v1/trips/299/update" \
   -H "Authorization: prj_live_sk_..."
   -X PATCH
   -d "status=completed"
@@ -1548,6 +1639,33 @@ Publishable
 {
   "meta": {
     "code": 200
+    },
+   "trip": {
+    "_id": "6334960ad9735600116b7ab5",
+    "live": false,
+    "externalId": "123",
+    "userId": "001",
+    "mode": "car",
+    "status": "completed",
+    "destinationGeofenceTag": "store",
+    "destinationGeofenceExternalId": "1",
+    "destinationLocation": {
+      "type": "Point",
+      "coordinates": [
+        -73.977797,
+        40.783826
+      ]
+    },
+    "metadata": {
+      "foo": "bar"
+    },
+    "approachingThreshold": 3,
+    "user": {
+      "_id": "56db1f4613012711002229f4",
+      "userId": "001",
+      "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8"
+    },
+    "locations": [],
   }
 }
 ```

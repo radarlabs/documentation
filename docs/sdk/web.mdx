@@ -15,7 +15,7 @@ See the source on GitHub [here](https://github.com/radarlabs/radar-sdk-js). Or, 
 In an HTML page, include the SDK using a `<script>` tag:
 
 ```html
-<script src="https://js.radar.com/v3/radar.min.js"></script>
+<script src="https://js.radar.com/v3.6.1/radar.min.js"></script>
 ```
 
 In a web app, install the package from npm, then import the library:
@@ -243,6 +243,21 @@ Radar.searchPlaces({
 });
 ```
 
+With the [address validation API](/api#validate-an-address) (currently in beta), validate a structured address in the US or Canada:
+```javascript
+Radar.validateAddress({
+  addressLabel: "841 Broadway Fl 7",
+  city: "New York",
+  stateCode: "NY",
+  postalCode: "10003",
+  countryCode: "US",
+}, function(err, { address, result }) {
+  if (!err) {
+    // do something with address and validation result
+  }
+});
+```
+
 #### Distance
 
 With the [distance API](/api#distance), calculate the travel distance and duration between two locations:
@@ -276,15 +291,15 @@ With the [matrix API](/api#matrix), calculate the travel distances and durations
 ```javascript
 Radar.getMatrix({
   origins: [{
-    latitude: 40.70390, 
+    latitude: 40.70390,
     longitude: -73.98690
   }],
   destinations: [{
-    latitude: 40.70390, 
+    latitude: 40.70390,
     longitude: -73.98690
   },
   {
-    latitude: 40.73237, 
+    latitude: 40.73237,
     longitude: -73.94884
   }],
   modes: 'car',

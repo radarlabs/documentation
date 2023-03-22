@@ -3,11 +3,20 @@ title: Braze
 ---
 import Alert from "../../src/components/Alert";
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import InlineTabs from "../../src/components/InlineTabs";
+import InlineTabItem from "../../src/components/InlineTabItem";
+
+import DefaultContextValues from "../../src/components/DefaultContextValues";
+
 <Alert alertType="info">
   The Braze integration is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
+
+<DefaultContextValues/>
 
 Radar can send events and user attributes to [Braze](https://www.braze.com).
 
@@ -17,11 +26,21 @@ Use the Braze integration to send location-triggered and location-targeted messa
 
 On the Braze *Developer Console* page under *Rest API Keys*, create and copy a new app group API key with `users.track` permissions. Under *Identification*, copy your iOS and Android app identifiers.
 
-Then, on the Radar [Integrations page](/integrations) under *Braze*, set *Enabled* to *Yes* and paste your API key and app identifiers. Note that you can set separate API keys and app identifiers for the *Test* and *Live* environments. Finally, if your account is not on `https://rest.iad-01.braze.com`, select the appropriate *API Endpoint*.
+Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Braze*, set *Enabled* to *Yes* and paste your API key and app identifiers. Note that you can set separate API keys and app identifiers for the *Test* and *Live* environments. Finally, if your account is not on `https://rest.iad-01.braze.com`, select the appropriate *API Endpoint*.
 
 Whenever events are generated, Radar will send custom events and user attributes to Braze. Events and user attributes from iOS devices will be sent using your iOS app identifiers, and events and user attributes from Android devices will be sent using your Android app identifiers.
 
 By default, Radar `userId` maps to Braze `external_id` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.brazeAlias` or `metadata.brazeExternalId`. If you set `metadata.brazeAlias`, you must also add a matching alias in Braze with label `radarAlias`. For example, on iOS:
+
+<Tabs
+  groupId="braze-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
 
 ```swift
 // track logged out users with alias (deviceId recommended, not required if not tracking logged out users)
@@ -32,6 +51,122 @@ Appboy.sharedInstance()?.user.addAlias(deviceId, withLabel: "radarAlias")
 Radar.setMetadata(["brazeExternalId": userId])
 Appboy.sharedInstance()?.changeUser(userId)
 ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+// track logged out users with alias (deviceId recommended, not required if not tracking logged out users)
+Radar.setMetadata(JSONObject().put("brazeAlias",deviceId))
+Braze.getInstance(context).currentUser.addAlias(deviceId,"radarAlias")
+
+// track logged in users with custom external_id mapping (not required if using default mapping)
+Radar.setMetadata(JSONObject().put("brazeExternalId",userId))
+Braze.getInstance(context).changeUser(userId)
+```
+
+  </TabItem>
+</Tabs>
+
+## Verify integration data delivery
+
+To test if the API keys are correct and the integration can deliver data, use the [Simulator](/dashboard#simulator) to generate events and use the *Logs* section on the event details page to verify delivery. Perform a similar test with a test build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
+
+![Verify integration event delivery](/gif/integrations/braze/verify_braze_integration_delivery.gif)
+
+All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations).
+
+## Example use cases
+
+### Send a personalized push notification when a user arrives at a store
+1. Create [Geofences](/geofences#create-geofences) in Radar with the geofence tag set to `store`. The geofence tag will be used to trigger messages for the subset of geofence entries where this tag is present.
+2. Set up a Braze campaign triggered from the Radar geofence entry event, the `entered_geofence` custom event in Braze, and add property filtering where `geofence_tag` is `store`. These same events can be used as part of a Braze [Canvas](https://www.braze.com/docs/user_guide/engagement_tools/canvas) and the event properties can be used in message personalization with [Liquid](https://www.braze.com/docs/user_guide/personalization_and_dynamic_content/liquid).
+
+![Radar triggered Braze campaign](/img/integrations/braze/braze_radar_entered_geofence.png)
+
+### Message all users nearby a store
+1. Create [Geofences](/geofences#create-geofences) in Radar to represent nearby store boundaries with geofence tag set to `nearby-store`. The geofence tag will be used to target messages for the subset of geofences where this tag is present.
+2. Set up a Braze campaign targeted with the `radar_geofence_tags` user attribute that Radar sends. This will be an array of all geofences the user is currently in, so set the attribute to include the value of `nearby-store`. Additional attribute filtering can be performed for more complex targeting, including how recently the location was updated via the `radar_updated_at` user attribute.
+
+![Radar targeted Braze campaign](/img/integrations/braze/braze_radar_targeted_messaging.png)
+
+### In-app messaging
+
+To trigger in-app messaging from the user state detected on app open, custom events need to deliver through Braze's SDK rather than via Radar's server to server integration with Braze. To support this, implement custom logic in the SDK leveraging Radar's location update listener, on [iOS](/sdk/ios#listening-for-events-with-a-delegate) or [Android](/sdk/android#listening-for-events-with-a-receiver), to send foreground detections to Braze. The example code below assumes you are calling `Radar.trackOnce()` on application launch. See the [iOS](/sdk/ios#foreground-tracking) and [Android](/sdk/android#foreground-tracking) tracking references if needed.
+
+<Tabs
+  groupId="braze-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import RadarSDK
+import Appboy_iOS_SDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
+
+  func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
+    if (user.foreground && user.source == RadarLocationSource.foregroundLocation) {
+      if let geofences = user.geofences {
+        var customEventProperties = [String:Array<String>]()
+        customEventProperties["radar_geofence_descriptions"] = geofences.compactMap({ $0.__description })
+        customEventProperties["radar_geofence_tags"] = geofences.compactMap({ $0.tag })
+        customEventProperties["radar_geofence_external_ids"] = geofences.compactMap({ $0.externalId })
+        Appboy.sharedInstance()?.logCustomEvent("radar_fg_geofences_entered", withProperties: customEventProperties)
+      }
+      if let place = user.place {
+        var customEventProperties = [String:Any]()
+        customEventProperties["radar_place_name"] = place.name
+        customEventProperties["radar_place_categories"] = place.categories
+        customEventProperties["radar_place_chain_slug"] = place.chain?.slug ?? ""
+        Appboy.sharedInstance()?.logCustomEvent("radar_fg_place_entered", withProperties: customEventProperties)
+      }
+    }
+    return
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+class MyRadarReceiver: RadarReceiver() {
+  override fun onLocationUpdated(context: Context, location: Location, user: RadarUser) {
+    var userGeofences = user.geofences
+    var userPlace = user.place
+    if (userGeofences != null && userGeofences.isNotEmpty()) {
+      var eventPropertiesJson = JSONObject()
+      eventPropertiesJson.put("geofenceTags", userGeofences.map { it.tag })
+      eventPropertiesJson.put("geofenceDescriptions", userGeofences.map { it.description })
+      eventPropertiesJson.put("geofenceExternalIds", userGeofences.map { it.externalId })
+      var eventProperties = BrazeProperties (eventPropertiesJson)
+      Braze.getInstance(context).logCustomEvent("radar_fg_geofences_entered", eventProperties)
+    }
+    if (userPlace != null) {
+      var eventPropertiesJson = JSONObject()
+      eventPropertiesJson.put("placeChainSlug", userPlace.chain?.slug ?: "")
+      eventPropertiesJson.put("placeName", userPlace.name)
+      eventPropertiesJson.put("placeCategories",userPlace.categories.toList())
+      var eventProperties = BrazeProperties (eventPropertiesJson)
+      Braze.getInstance(context).logCustomEvent("radar_fg_place_entered", eventProperties)
+    }
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+### Connected content
+
+[Radar APIs](/api) can be used in Braze connected content. See Braze's [documentation](https://www.braze.com/docs/partners/message_personalization/location/radar/#connected-content) for a connected content example. Use the [API explorer](https://radar.com/dashboard/explore) in the dashboard to test relevant APIs.
 
 ## User mapping
 

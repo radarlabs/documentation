@@ -6,6 +6,8 @@ id: react-native
 description: Documentation for React Native SDK
 ---
 
+import Alert from "../../src/components/Alert";
+
 This is the documentation for the React Native module. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
 See the source on GitHub [here](https://github.com/radarlabs/react-native-radar). Or, see the `react-native-radar` package on npm [here](https://www.npmjs.com/package/react-native-radar).
@@ -79,6 +81,16 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
+For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+</manifest>
+```
+
 ## Integrate
 
 ### Import module
@@ -150,9 +162,9 @@ where `background` is a boolean indicating whether to request background locatio
 
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-<div className="alert alert-info">
+<Alert alertType="info">
   Build and run the app to make sure permissions prompts are displayed!
-</div>
+</Alert>
 
 ### Foreground tracking
 
@@ -297,18 +309,40 @@ On Android, a receiver in the React Native module loads and parses the JavaScrip
 
 ### Trip tracking
 
-On iOS and Android, to start a trip to a destination, call:
+<Alert alertType="info">
+  See trip tracking docs for React Native SDK versions v3.5.7 and below <a href="/sdk/react-native-3.5.7#trip-tracking">here</a>.
+</Alert>
+
+To start a trip to a destination, call:
 
 ```javascript
 Radar.startTrip({
-  externalId: '299',
-  destinationGeofenceTag: 'store',
-  destinationGeofenceExternalId: '123',
-  mode: 'car'
+  tripOptions: {
+    externalId: '299',
+    destinationGeofenceTag: 'store',
+    destinationGeofenceExternalId: '123',
+    mode: 'car'
+  },
+  trackingOptions:{
+    desiredStoppedUpdateInterval: 30,
+    fastestStoppedUpdateInterval: 30,
+    desiredMovingUpdateInterval: 30,
+    fastestMovingUpdateInterval: 30,
+    desiredSyncInterval: 20,
+    desiredAccuracy: "high",
+    stopDuration: 0,
+    stopDistance: 0,
+    replay: "none",
+    sync: "all",
+    showBlueBar: true,
+    syncGeofences: false,
+    syncGeofencesLimit: 0,
+    beacons: false,
+    foregroundServiceEnabled: true
+  }
 }).then((result) => {
   // do something with result.status
 });
-Radar.startTrackingContinuous();
 ```
 
 Update information about the trip. Status can be set to 'unknown' to leave the status unchanged as it will update via location tracking.
@@ -327,23 +361,23 @@ Radar.updateTrip({
 });
 ```
 
-Later, to complete the trip and stop tracking, call:
+Later, complete the trip by calling:
 
 ```javascript
 Radar.completeTrip().then((result) => {
   // do something with result.status
 });
-Radar.stopTracking();
 ```
 
-Or, to cancel the trip and stop tracking, call:
+Or, cancel the trip by calling:
 
 ```javascript
 Radar.cancelTrip().then((result) => {
   // do something with result.status
 });
-Radar.stopTracking();
 ```
+
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started.
 
 Learn more about [trip tracking](/trip-tracking).
 

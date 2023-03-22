@@ -80,7 +80,8 @@ The CSV may have the following columns:
 - **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
 - **`mode`** (required for type `isochrone`): the [travel mode](/api#routing) for type `isochrone`.
 - **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
-- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number.
+- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number. **Cannot be used with `metadata.{key}` columns.**
+- **`metadata.{key}`** (string, optional): Instead of converting `metadata` to stringified JSON, use columns of this format to add a key-value pairs to `metadata`. For example, the column header `metadata.pickup-mode` with a value of `"drive-thru"` will resolve to `{ pickup-mode: "drive-thru" }`. Avoid using spaces and commas for keys. **Cannot be used with the `metadata` column.**
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
 - **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
@@ -130,7 +131,7 @@ curl https://api.radar.io/v1/geofences/store/123 \
 
 Finally, you can sync geofences nightly from a CSV.
 
-On the Radar [Integrations page](/integrations) under _Geofence Sync_, set _Enabled_ to _Yes_. Enter a _Notification Email_ to receive success and failure confirmation emails. Then, choose a _Protocol_:
+On the Radar [Integrations page](https://radar.com/dashboard/integrations) under _Geofence Sync_, set _Enabled_ to _Yes_. Enter a _Notification Email_ to receive success and failure confirmation emails. Then, choose a _Protocol_:
 
 - Choose _HTTP_ for geofence CSVs at public HTTP or HTTPS URLs. Enter the URLs of the geofence CSVs.
 - Or, choose _AWS S3_ for geofence CSVs in a private S3 bucket. Enter an S3 bucket region, S3 bucket name, and the S3 object keys of the geofence CSVs. Finally, enter the AWS access key ID and secret access key of an IAM user with `GetObject` permissions for the specified S3 bucket and objects.
@@ -160,7 +161,7 @@ When _Geofence Stop Detection_ is on, Radar can understand the difference betwee
 
 Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
 
-## Buffer Entries and Exits
+## Buffer entries and exits
 
 When _Buffer Entries_ is on, Radar will use the accuracy of the location reported to determine overlap with the geofence boundary to generate a geofence entry event. See the [confidence and accuracy](/geofences#confidence-and-accuracy) for more on this detection logic. When off, the location reported will need to fall within the boundaries of the geofence to trigger the entry event.
 

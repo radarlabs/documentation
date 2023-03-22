@@ -313,7 +313,7 @@ Radar.addListener('log', (result) => {
 });
 ```
 
-Add event listeners outside of your view lifecycle if you want them to work when the app is in the background.
+Add event listeners outside of your view lifecycle if you want them to work when the app is in the background. Capacitor event listeners will only fire while the Capacitor WebView and JavaScript engine are alive. When the Android activity is killed (e.g., swiped away), these services will shut down. To process locations in the background, implement the native event emitters (`RadarDelegate` on [iOS](/sdk/ios#listening-for-events-with-a-delegate), `RadarReceiver` on [Android](/sdk/android#listening-for-events-with-a-receiver)) or use Radar's server-side [integrations](/integrations).
 
 ### Mock tracking
 
@@ -337,39 +337,59 @@ Radar.mockTracking({
 
 ### Trip tracking
 
-On iOS and Android, to start a trip to a destination, call:
+<Alert alertType="info">
+  See docs for Capacitor SDK versions older than v3.5.2 <a href="/sdk/capacitor-3.5.1#trip-tracking">here</a>.
+</Alert>
+
+To start a trip to a destination, call:
 
 ```javascript
-Radar.startTrip({
-  options: {
+Radar.startTrip(options: {
+  tripOptions: {
     externalId: '299',
     destinationGeofenceTag: 'store',
     destinationGeofenceExternalId: '123',
-    mode: 'car'
+    mode: 'car' as RadarRouteMode
+  },
+  trackingOptions: {
+    desiredStoppedUpdateInterval: 30,
+    fastestStoppedUpdateInterval: 30,
+    desiredMovingUpdateInterval: 30,
+    fastestMovingUpdateInterval: 30,
+    desiredSyncInterval: 20,
+    desiredAccuracy: 'high' as RadarTrackingOptionsDesiredAccuracy,
+    stopDuration: 0,
+    stopDistance: 0,
+    replay: "none",
+    sync: "all",
+    showBlueBar: true,
+    syncGeofences: false,
+    syncGeofencesLimit: 0,
+    beacons: false,
+    foregroundServiceEnabled: true
   }
 }).then((result) => {
   // do something with result.status
 });
-Radar.startTrackingContinuous();
 ```
 
-Later, to complete the trip and stop tracking, call:
+Later, complete the trip by calling:
 
 ```javascript
 Radar.completeTrip().then((result) => {
   // do something with result.status
 });
-Radar.stopTracking();
 ```
 
-Or, to cancel the trip and stop tracking, call:
+Or cancel the trip by calling:
 
 ```javascript
 Radar.cancelTrip().then((result) => {
   // do something with result.status
 });
-Radar.stopTracking();
 ```
+
+If tracking was disabled before the trip started, it will stop after the trip ends. Otherwise, it will revert to the tracking options in use before the trip started.
 
 Learn more about [trip tracking](/trip-tracking).
 

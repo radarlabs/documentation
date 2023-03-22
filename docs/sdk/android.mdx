@@ -154,10 +154,62 @@ To request foreground and background permissions:
   <TabItem value="java">
 
 ```java
-if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION }, 0);
-} else {
-    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION }, 0);
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import androidx.core.app.ActivityCompat;
+
+import io.radar.sdk.Radar;
+
+public class MainActivity extends AppCompatActivity {
+  private final int FOREGROUND_LOCATION_PERMISSION_CODE = 1;
+  private final int BACKGROUND_LOCATION_PERMISSION_CODE = 2;
+
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Radar.initialize(this, "prj_test_pk_..");
+    requestLocationPermissions();
+  }
+
+  private void requestLocationPermissions() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, BACKGROUND_LOCATION_PERMISSION_CODE);
+      } else {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, FOREGROUND_LOCATION_PERMISSION_CODE);
+      }
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if (requestCode == FOREGROUND_LOCATION_PERMISSION_CODE) {
+      if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        askPermissionForBackgroundUsage();
+      }
+      return;
+    }
+  }
+
+  private void askPermissionForBackgroundUsage() {
+    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+      new AlertDialog.Builder(this)
+        .setTitle("Background location permissions needed")
+        .setMessage("Background location permissions needed, tap \"Allow all the time\" on the next screen")
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, BACKGROUND_LOCATION_PERMISSION_CODE);
+          }
+        })
+        .create()
+        .show();
+    }
+  }
 }
 ```
 
@@ -165,10 +217,52 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
   <TabItem value="kotlin">
 
 ```kotlin
-if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), 0)
-} else {
-    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 0)
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
+
+import androidx.core.app.ActivityCompat
+
+import io.radar.sdk.Radar
+
+class MainActivity : AppCompatActivity() {
+  private val foregroundLocationPermissionsRequestCode = 1
+  private val backgroundLocationPermissionsRequestCode = 2
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    Radar.initialize(this, "prj_test_pk_...")
+    requestLocationPermissions()
+  }
+
+  private fun requestLocationPermissions() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
+      } else {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
+      }
+    }
+  }
+
+  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    if (requestCode == foregroundLocationPermissionsRequestCode && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+        AlertDialog.Builder(this)
+          .setTitle("Background location permissions needed")
+          .setMessage("Background location permission needed, tap \"Allow all the time\" on the next screen")
+          .setPositiveButton(
+            "OK"
+          ) { _, _ ->
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
+          }
+          .create()
+          .show()
+      }
+    }
+  }
 }
 ```
 
@@ -202,7 +296,7 @@ To track the user's location in the foreground, call:
   <TabItem value="java">
 
   ```java
-  Radar.trackOnce(new RadarCallback() {
+  Radar.trackOnce(new RadarTrackCallback() {
       @Override
       public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
           // do something with location, events, user
@@ -222,7 +316,7 @@ To track the user's location in the foreground, call:
   </TabItem>
 </Tabs>
 
-You may provide an optional instance of `RadarCallback` with an implementation of `onComplete()` that receives the request status, the user's location, the events generated, if any, and the user. The request status can be:
+You may provide an optional instance of `RadarTrackCallback` with an implementation of `onComplete()` that receives the request status, the user's location, the events generated, if any, and the user. The request status can be:
 
 - **`RadarStatus.SUCCESS`**: success
 - **`RadarStatus.ERROR_PUBLISHABLE_KEY`**: SDK not initialized
@@ -497,7 +591,7 @@ Can't go for a walk or a drive? You can simulate a sequence of location updates.
       Radar.RadarRouteMode.CAR,
       10,
       3,
-      new RadarCallback() {
+      new RadarTrackCallback() {
           @Override
           public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
               // do something with location, events, user
@@ -564,7 +658,7 @@ To listen for events, location updates, and errors client-side, create a class t
           super.onCreate();
 
           MyRadarReceiver receiver = new MyRadarReceiver();
-          Radar.initialize(this, "prj_test_pk...", receiver);
+          Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE);
       }
 
   }
@@ -582,7 +676,7 @@ To listen for events, location updates, and errors client-side, create a class t
           super.onCreate()
 
           val receiver = MyRadarReceiver()
-          Radar.initialize(this, "prj_test_pk...", receiver)
+          Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE)
       }
 
   }
@@ -689,7 +783,7 @@ If you want to manage location services yourself, you can manually update the us
   ```java
   Radar.trackOnce(
       location,
-      new RadarCallback() {
+      new RadarTrackCallback() {
           @Override
           public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
               // do something with location, events, user
@@ -875,7 +969,7 @@ To range beacons in the foreground, call:
   <TabItem value="java">
 
   ```java
-  Radar.trackOnce(RadarTrackingOptionsDesiredAccuracy.HIGH, true, new RadarCallback() {
+  Radar.trackOnce(RadarTrackingOptionsDesiredAccuracy.HIGH, true, new RadarTrackCallback() {
     @Override
     public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
         // do something with user.beacons
@@ -1237,6 +1331,42 @@ With the [places search API](/api#search-places), search for places near a locat
       10 // limit
   ) { status, location, places ->
       // do something with places
+  }
+  ```
+
+  </TabItem>
+</Tabs>
+
+With the [address validation API](/api#validate-an-address) (currently in beta), validate a structured address in the US or Canada:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  Radar.validateAddress(
+      address, // query
+      new RadarValidateAddressCallback() {
+          @Override
+          public void onComplete(RadarStatus status, RadarAddress address, ValidationResult result) {
+              // do something with validation result and address
+          }
+      }
+  );
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  Radar.validateAddress(address) { status, address, result ->
+      // do something with validation result and address
   }
   ```
 

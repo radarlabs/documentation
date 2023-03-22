@@ -4,9 +4,9 @@ title: OneSignal
 import Alert from "../../src/components/Alert";
 
 <Alert alertType="info">
-  The OneSignal integration is available on the {` `} 
-  <a href="https://radar.com/pricing" target="_blank">Team plan</a>
-  {` `} and higher.
+  The OneSignal integration is available on the {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
 </Alert>
 
 Radar can send tags to and trigger notifications in [OneSignal](https://onesignal.com). You can create notifications triggered by tag changes.
@@ -17,7 +17,7 @@ Use the OneSignal integration to send location-triggered and location-targeted m
 
 On the OneSignal *Settings* page under *Keys & IDs*, copy your REST API key.
 
-Then, on the Radar [Integrations page](/integrations) under *OneSignal*, set *Enabled* to *Yes* and paste your API key. Note that you can set separate API keys for the *Test* and *Live* environments.
+Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *OneSignal*, set *Enabled* to *Yes* and paste your API key. Note that you can set separate API keys for the *Test* and *Live* environments.
 
 Whenever events are generated, Radar will call the [edit device API](https://documentation.onesignal.com/reference/edit-device) and set tags in OneSignal. You can create notifications triggered by tag changes.
 
@@ -33,7 +33,7 @@ On Android:
 ```java
 String playerId = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
 JSONObject metadata = new JSONObject();
-metadata.put("oneSignalPlayerId", playerId);
+metadata.put("oneSignalPlayerId",playerId);
 Radar.setMetadata(metadata);
 ```
 

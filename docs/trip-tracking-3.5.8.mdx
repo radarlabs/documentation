@@ -85,7 +85,7 @@ val tripExternalId = "299"
 val destinationGeofenceExternalId = "123"
 val destinationGeofenceTag = "store"
 val tripMetadata = JSONObject()
-tripMetadata.put("Customer Name", "Jacob Pena")
+tripMetadata.put("Customer Name","Jacob Pena")
 tripMetadata.put("Car Model","Green Honda Civic")
 val routeMode = Radar.RadarRouteMode.CAR
 val tripOptions = RadarTripOptions(tripExternalId, tripMetadata, destinationGeofenceTag, destinationGeofenceExternalId, routeMode)
@@ -105,7 +105,7 @@ final JSONObject tripOptionsJson = new JSONObject();
 tripOptionsJson.put("externalId","299");
 tripOptionsJson.put("destinationGeofenceTag","store");
 tripOptionsJson.put("destinationGeofenceExternalId","123");
-tripOptionsJson.put("mode", Radar.RadarRouteMode.CAR);
+tripOptionsJson.put("mode",Radar.RadarRouteMode.CAR);
 tripOptionsJson.put("metadata",tripOptionsMetadata);
 RadarTripOptions tripOptions = RadarTripOptions.fromJson(tripOptionsJson);
 Radar.startTrip(tripOptions, new Radar.RadarTripCallback() {
