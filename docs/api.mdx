@@ -24,6 +24,17 @@ curl https://api.radar.io/v1/users \
   -H "Authorization: prj_live_sk_..."
 ```
 
+### Domain Restrictions
+Additionally, you can restrict domains that use your API keys. You can change this on the [settings](https://radar.com/dashboard/settings/#website-restrictions) page
+
+Example valid URLs:
+- Any URL in a single domain: **https://example.com** or **example.com**
+- Any url in a single subdomain: **https://sub.example.com**
+- Any subdomain in a single domain, using a wildcard asterisk (\*): **https://\*.example.com**
+- A domain and all its subdomains, using a wildcard (\*) asterisk: **https://example.com** and **https://\*.example.com**
+- A URL with a non-standard port: **http://www.example.com:8000**
+- Any localhost URL for testing: **localhost:8080**
+
 ## Errors
 
 The API uses standard HTTP response codes.
