@@ -161,10 +161,6 @@ When _Geofence Stop Detection_ is on, Radar can understand the difference betwee
 
 Turn on _Geofence Stop Detection_ at a project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
 
-<Alert alertType="info">
-  Dwell Events and dwell time are generated in relation to the geofence entry event. With stop detection enabled, the geofence entry event will postpone the dwell event and reduce the total reported dwell time.
-</Alert>
-
 ## Buffer entries and exits
 
 When _Buffer Entries_ is on, Radar will use the accuracy of the location reported to determine overlap with the geofence boundary to generate a geofence entry event. See the [confidence and accuracy](/geofences#confidence-and-accuracy) for more on this detection logic. When off, the location reported will need to fall within the boundaries of the geofence to trigger the entry event.
@@ -175,6 +171,10 @@ When _Buffer Exits_ is on, Radar will use the accuracy of the location reported 
 
 <Alert alertType="info">
   Dwell events are currently in beta.
+</Alert>
+
+<Alert alertType="info">
+  Dwell events and dwell time require that the relevant geofence entry event be fired first. The dwell time will be calculated as the time since the geofence entry event up until the geofence exit event. The timer for firing the dwell event will also be in relation to the geofence entry event.
 </Alert>
 
 Dwell events are triggered when a geofence is occupied for more time than a given threshold (in minutes). When `user.dwelled_in_geofence` is enabled for a project, dwell time thresholds can be set on individual geofences via import (by adding a `dwellThreshold` column), the API, or globally across all geofences by contacting your account representative. Dwell events will trigger on the first track call that occurs after the dwell threshold is exceeded. As a result, increasing tracking frequency when inside of a geofence will decrease the time gap from when the threshold is first exceed and the event is fired.
