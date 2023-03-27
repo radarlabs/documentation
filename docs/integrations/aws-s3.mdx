@@ -25,6 +25,7 @@ The AWS S3 integration uses an [AWS Kinesis Data Firehose](https://aws.amazon.co
 
 ### Create a bucket
 Create an S3 bucket for Radar to deliver data to, for example, `s3://com.example.bucket/`. Data will be delivered to `s3://com.example.bucket/events/project=$PROJECT/dt=YYYY-MM-DD/X.parquet.snappy`
+
 ### Create an AWS Cross-Account IAM policy
 Create an IAM Policy that allows Radar to deliver data to this bucket. To do this, implement step #2 in the [Cross-Account Delivery to an Amazon S3 Destination IAM Policy documentation](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#cross-account-delivery-s3). Radar will implement steps #1 and #3.  Contact your Customer Support Manager to obtain the values for the `accountA-id` and `iam-role-name` values to use in the IAM Policy.
 
