@@ -1518,7 +1518,7 @@ Creates a new trip.
 
 <span className="badge badge--success">POST</span> <code>https://api.radar.io/v1/trips</code>
 
-###### Query parameters
+###### Body parameters
 - **`externalId`** (string, required): A stable unique ID for the trip. Depending on your use case, it may represent an order ID, a delivery ID, or something else.
 - **`destinationGeofenceTag`** (string, optional): For trips with a destination, the tag of the destination geofence.
 - **`destinationGeofenceExternalId`** (string, optional): For trips with a destination, the external ID of the destination geofence.
@@ -1599,7 +1599,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 <br />
 <span className="badge badge--warning">PATCH</span> <code> https://api.radar.io/v1/trips/:externalId/update</code>
 
-###### Query parameters
+###### Body parameters
 
 - **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
