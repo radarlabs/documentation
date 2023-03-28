@@ -1599,7 +1599,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 <br />
 <span className="badge badge--warning">PATCH</span> <code> https://api.radar.io/v1/trips/:externalId/update</code>
 
-###### Query parameters
+###### Body parameters
 
 - **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
