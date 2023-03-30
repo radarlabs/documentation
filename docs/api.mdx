@@ -2023,15 +2023,15 @@ To generate an entry or exit event, call the [track](#track) endpoint to trigger
 
 On iOS and Android, use the [SDK](/sdk) to track users.
 
-#### Send a custom event
+#### Log a conversion event
 
 <Alert alertType="info">
-  Custom events are available on the {` `}
+  Conversion events are available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
 
-Sends a custom event to analyze alongside other location activity in your app. This can represent anything from a conversion or purchase to engagement with an in-app feature.
+Logs a conversion event to analyze alongside other location activity in your app. This can represent anything from a purchase or signup to engagement with an in-app feature.
 
 ###### Definition
 
@@ -2039,8 +2039,8 @@ Sends a custom event to analyze alongside other location activity in your app. T
 
 ###### Body parameters
 
-- **`type`** (string, required): The type of the custom event. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
-- **`metadata`** (dictionary, optional): The metadata of the custom event. This data cannot contain any sensitive or personally identifiable information.
+- **`type`** (string, required): The type of the conversion event. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
+- **`metadata`** (dictionary, optional): The metadata of the conversion event. This data cannot contain any sensitive or personally identifiable information.
 - **`userId`** (string, required): The stable unique ID for the user. Used to identify logged in users.
 - **`deviceId`** (string, optional): A device ID for the user. Used to identify logged out users.
 - **`createdAt`** (string, optional): The datetime when the event occurred.
