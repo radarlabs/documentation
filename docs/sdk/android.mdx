@@ -1467,9 +1467,9 @@ With the [matrix API](/api#matrix), calculate the travel distance and duration b
   </TabItem>
 </Tabs>
 
-### Custom events
+### Conversion events
 
-With the [custom events API](/api#send-a-custom-event), send a custom event, such as a conversion or purchase, to analyze alongside your app's location activity:
+With the [conversion events API](/api#log-a-conversion-event), log a conversion event, such as a purchase or signup, to analyze alongside your app's location activity:
 
 <Tabs
   groupId="android"
@@ -1482,14 +1482,13 @@ With the [custom events API](/api#send-a-custom-event), send a custom event, suc
   <TabItem value="java">
 
   ```java
-  Radar.sendEvent(
-      customType,
+  Radar.logConversion(
+      name,
       metadata,
-      new RadarSendEventCallback() {
+      new RadarLogConversionCallback() {
           @Override
-          public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
-              // do something with location, events, user
-              // events[0] is the custom event
+          public void onComplete(RadarStatus status, RadarEvent event) {
+              // do something with the conversion event
           }
       }
   )
@@ -1499,12 +1498,11 @@ With the [custom events API](/api#send-a-custom-event), send a custom event, suc
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.sendEvent(
-      customType,
+  Radar.logConversion(
+      name,
       metadata,
-  ) { status, location, events, user ->
-      // do something with location, events, user
-      // events[0] is the custom event
+  ) { status, event ->
+      // do something with the conversion event
   }
   ```
 

@@ -577,16 +577,16 @@ Radar.getMatrix({
   // optionally, do something with err
 });
 ```
-#### Custom events
+#### Conversion events
 
-With the [custom events API](/api#send-a-custom-event), send a custom event, such as a conversion or purchase, to analyze alongside your app's location activity:
+With the [conversion events API](/api#log-a-conversion-event), send a conversion event, such as a purchase or signup, to analyze alongside your app's location activity:
 
 ```javascript
-Radar.sendEvent(
-  customType,
+Radar.logConversion(
+  name,
   metadata
 ).then((result) => {
-  // do something with result
+  // do something with result.event
 }).catch((err) => {
   // optionally, do something with err
 });
