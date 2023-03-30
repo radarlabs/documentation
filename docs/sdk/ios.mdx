@@ -1555,7 +1555,7 @@ Radar.getMatrix(
 
 ### Conversion events
 
-With the [conversion events API](/api#log-a-conversion-event), send a conversion event, such as a conversion or purchase, to analyze alongside your app's location activity:
+With the [conversion events API](/api#log-a-conversion-event), log a conversion event, such as a conversion or purchase, to analyze alongside your app's location activity:
 
 <Tabs
   groupId="ios"
@@ -1574,6 +1574,14 @@ Radar.logConversion(
 ) { (status: RadarStatus, event: RadarEvent?) in
   // do something with the conversion event
 }
+
+Radar.logConversion(
+  name: name,
+  revenue: revenue,
+  metadata: metadata,
+) { (status: RadarStatus, event: RadarEvent?) in
+  // do something with the conversion event
+}
 ```
 
   </TabItem>
@@ -1581,6 +1589,13 @@ Radar.logConversion(
 
 ```objc
 [Radar logConversionWithName:name
+                    metadata:metadata
+           completionHandler:^(RadarStatus status, RadarEvent *event) {
+  // do something with the conversion event
+}];
+
+[Radar logConversionWithName:name
+                     revenue:revenue
                     metadata:metadata
            completionHandler:^(RadarStatus status, RadarEvent *event) {
   // do something with the conversion event

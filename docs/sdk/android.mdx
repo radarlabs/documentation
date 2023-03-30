@@ -1490,6 +1490,18 @@ With the [conversion events API](/api#log-a-conversion-event), log a conversion 
           }
       }
   )
+
+  Radar.logConversion(
+      name,
+      revenue,
+      metadata,
+      new RadarLogConversionCallback() {
+          @Override
+          public void onComplete(RadarStatus status, RadarEvent event) {
+              // do something with the conversion event
+          }
+      }
+  )
   ```
 
   </TabItem>
@@ -1498,6 +1510,14 @@ With the [conversion events API](/api#log-a-conversion-event), log a conversion 
   ```kotlin
   Radar.logConversion(
       name,
+      metadata,
+  ) { status, event ->
+      // do something with the conversion event
+  }
+
+  Radar.logConversion(
+      name,
+      revenue,
       metadata,
   ) { status, event ->
       // do something with the conversion event
