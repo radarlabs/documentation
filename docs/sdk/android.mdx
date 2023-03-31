@@ -58,6 +58,10 @@ As an alternative to Google Play Services, the SDK also optionally supports [Hua
 
 The SDK currently supports API level `16` or above.
 
+### Google Play Services Location conflicts
+
+As of version `3.8.0`, the SDK uses `play-services-location:21.0.1` If you have another module that uses `play-services-location` and version conflicts are causing issues, you can exclude the dependency from each module and import Play Services Location at the project level. We strongly recommend using `21.0.1`. The previously supported version was `18.0.0` — versions lower than that should be expected to break performance.
+
 ## Initialize SDK
 
 When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.com/dashboard/settings).
