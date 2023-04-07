@@ -2041,10 +2041,12 @@ Logs a conversion to analyze alongside other location activity in your app. This
 
 - **`type`** (string, required): The type of the conversion. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
 - **`metadata`** (dictionary, optional): The metadata of the conversion. This data cannot contain any sensitive or personally identifiable information.
-- **`userId`** (string, required): The stable unique ID for the user. Used to identify logged in users.
-- **`deviceId`** (string, optional): A device ID for the user. Used to identify logged out users.
 - **`revenue`** (number, optional): The revenue of the conversion. Used to associate an amount with a transactional conversion such as a purchase or coupon redemption.
+- **`userId`** (string, optional): The stable unique ID for the user. Used to identify logged in users.
+- **`deviceId`** (string, optional): A device ID for the user. Used to identify logged out users.
+- **`installId`** (string, optional): An install ID for the user. Used to identify users who have opted out of location permissions.
 - **`createdAt`** (string, optional): The datetime when the conversion occurred.
+- **`duration`** (number, optional): The duration of the conversion in minutes.
 
 ###### Authentication level
 
