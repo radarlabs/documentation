@@ -54,13 +54,11 @@ The SDK depends on [Google Play Services Location](https://developer.android.com
 
 If you haven't already configured your project for Google Play Services, follow the instructions [here](https://developers.google.com/android/guides/google-services-plugin).
 
+As of version `3.8.0`, the SDK uses `play-services-location:21.0.1`. If you have another module that uses `play-services-location` that causes version conflicts, you can exclude the dependency from each module and import Play Services Location at the project level. We strongly recommend using `21.0.1`. Lower versions should be expected to break performance.
+
 As an alternative to Google Play Services, the SDK also optionally supports [Huawei Mobile Services](#huawei).
 
 The SDK currently supports API level `16` or above.
-
-### Google Play Services Location
-
-As of version `3.8.0`, the SDK uses `play-services-location:21.0.1`. If you have another module that uses `play-services-location` that causes version conflicts, you can exclude the dependency from each module and import Play Services Location at the project level. We strongly recommend using `21.0.1`. The previously supported version was `18.0.0`. Lower versions should be expected to break performance.
 
 ## Initialize SDK
 
