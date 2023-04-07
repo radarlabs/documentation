@@ -2023,15 +2023,15 @@ To generate an entry or exit event, call the [track](#track) endpoint to trigger
 
 On iOS and Android, use the [SDK](/sdk) to track users.
 
-#### Log a conversion event
+#### Log a conversion
 
 <Alert alertType="info">
-  Conversion events are available on the {` `}
+  Conversions are available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
 
-Logs a conversion event to analyze alongside other location activity in your app. This can represent anything from a purchase or signup to engagement with an in-app feature.
+Logs a conversion to analyze alongside other location activity in your app. This can represent anything from a purchase or signup to engagement with an in-app feature.
 
 ###### Definition
 
@@ -2039,11 +2039,12 @@ Logs a conversion event to analyze alongside other location activity in your app
 
 ###### Body parameters
 
-- **`type`** (string, required): The type of the conversion event. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
-- **`metadata`** (dictionary, optional): The metadata of the conversion event. This data cannot contain any sensitive or personally identifiable information.
+- **`type`** (string, required): The type of the conversion. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
+- **`metadata`** (dictionary, optional): The metadata of the conversion. This data cannot contain any sensitive or personally identifiable information.
 - **`userId`** (string, required): The stable unique ID for the user. Used to identify logged in users.
 - **`deviceId`** (string, optional): A device ID for the user. Used to identify logged out users.
-- **`createdAt`** (string, optional): The datetime when the event occurred.
+- **`revenue`** (number, optional): The revenue of the conversion. Used to associate an amount with a transactional conversion such as a purchase or coupon redemption.
+- **`createdAt`** (string, optional): The datetime when the conversion occurred.
 
 ###### Authentication level
 
