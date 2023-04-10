@@ -26,9 +26,9 @@ On the Salesforce Marketing Cloud *Setup* menu, under *Installed Packages*, clic
 
 Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Salesforce Marketing Cloud*, set *Enabled* to *Yes* and paste these values. When you click *Save*, Radar will create an event definition and data extension with the specified event definition key (`radar-event` by default). Whenever events are generated, Radar will send events to your Salesforce Marketing Cloud data extension to trigger journeys.
 
-In Salesforce Marketing Cloud's *Contact Builder*, under *Data Designer*, connect the Radar data extension to your Customer Data by linking *Contact Key* to the Radar Data Extension's *contactKey* field in a one to many relationship.
+In Salesforce Marketing Cloud's *Contact Builder*, under *Data Designer*, connect the Radar data extension to your data model by linking the Customer Data's *Contact Key* field to the Radar Data Extension's *contactKey* field in a one to many relationship.
 
-By default, Radar `userId` maps to Salesforce Marketing Cloud `contactKey` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.salesforceContactKey`. For example, on iOS:
+By default, Radar `userId` maps to Salesforce Marketing Cloud `contactKey` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.salesforceContactKey`.
 
 <Tabs
   groupId="salesforce-radar"
