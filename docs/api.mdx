@@ -1659,6 +1659,40 @@ Publishable
 }
 ```
 
+#### Delete a trip
+
+Deletes a trip. The user trip be referenced by Radar `_id` or `externalId`.
+
+###### Definition
+
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/trips/:id</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/trips/56db1f4613012711002229f4" \
+  -H "Authorization: prj_live_sk_..." \
+  -X DELETE
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  }
+}
+```
+
 ### Geofences
 
 A geofence represents a custom region or place monitored in your project. Geofences can be uniquely referenced by Radar `_id` or by `tag` and `externalId`.
