@@ -3,6 +3,13 @@ title: Salesforce Marketing Cloud
 ---
 import Alert from "../../src/components/Alert";
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import InlineTabs from "../../src/components/InlineTabs";
+import InlineTabItem from "../../src/components/InlineTabItem";
+
+import DefaultContextValues from "../../src/components/DefaultContextValues";
+
 <Alert alertType="info">
   The Salesforce Marketing Cloud integration is available on the {` `} 
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
@@ -17,17 +24,69 @@ Use the Salesforce Marketing Cloud integration to send location-triggered messag
 
 On the Salesforce Marketing Cloud *Setup* menu, under *Installed Packages*, click *New*. Add an installed package with the name *Radar*. On the package details page, add an *API Integration* component with the *Server-to-Server* integration type and all permissions for the *Automation*, *Contacts*, *Cross Cloud Platform*, and *Data* scopes. Copy your *Client ID*, *Client Secret*, *Authentication Base URI*, and *REST Base URI*.
 
-Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Salesforce Marketing Cloud*, set *Enabled* to *Yes* and paste these values. When you click *Save*, Radar will create an event definition and data extension with the specified event definition key (`radar-event` by default).
+Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Salesforce Marketing Cloud*, set *Enabled* to *Yes* and paste these values. When you click *Save*, Radar will create an event definition and data extension with the specified event definition key (`radar-event` by default). Whenever events are generated, Radar will send events to your Salesforce Marketing Cloud data extension to trigger journeys.
 
-Finally, in the Salesforce Marketing Cloud *Journey Builder*, create a new journey with an *API Event* entry source using this event definition and data extension.
+In Salesforce Marketing Cloud's *Contact Builder*, under *Data Designer*, connect the Radar data extension to your Customer Data by linking *Contact Key* to the Radar Data Extension's *contactKey* field in a one to many relationship.
 
 By default, Radar `userId` maps to Salesforce Marketing Cloud `contactKey` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.salesforceContactKey`. For example, on iOS:
 
+<Tabs
+  groupId="salesforce-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
 ```swift
+let contactKey = SFMCSdk.mp.contactKey()
 Radar.setMetadata(["salesforceContactKey": contactKey])
 ```
 
-Whenever events are generated, Radar will send events to your Salesforce Marketing Cloud data extension to trigger journeys.
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+SFMCSdk.requestSdk { sdk ->
+    sdk.mp {
+        val contactKey = it.moduleIdentity.profileId
+        Radar.setMetadata(JSONObject().put("salesforceContactKey",contactKey))
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+
+## Verify integration data delivery
+
+To test if the API keys are correct and the integration can deliver data, use the [Simulator](/dashboard#simulator) to generate events and use the *Logs* section on the event details page to verify delivery. Perform a similar verification with a test app build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
+
+![Verify integration event delivery](/gif/integrations/salesforce/verify_salesforce_integration_delivery.gif)
+
+Additionally, check the Radar data extension in Salesforce's *Contact Builder* to verify records are delivering.
+
+All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations).
+
+## Example use cases
+
+### Send a personalized push notification when a user arrives at a store
+
+1. Create [Geofences](/geofences#create-geofences) in Radar with the geofence tag set to `store`. The geofence tag will be used to trigger messages for the subset of geofence entries where this tag is present.
+2. Create a Salesforce Journey triggered by an API Event from the Radar data extension. The Radar data extension will be filtered on `user.entered_geofence` as the `type` attribute and `store` as the `geofenceTag` attribute.
+
+![Radar triggered Salesforce campaign](/img/integrations/salesforce/salesforce_radar_triggered_messaging.png)
+
+### Message all users who have been nearby a store
+
+1. Create [Geofences](/geofences#create-geofences) in Radar to represent nearby store boundaries with geofence tag set to `nearby-store`. The geofence tag will be used to target messages for the subset of geofences where this tag has been present on an event in the last 7 days.
+2. Create a Salesforce Mobile List filtered on the Radar data extension attributes of `type` equal to `user.entered_geofence`, `geofenceTag` equal to `nearby` and `createdAt` set to the last 7 days.
+3. Create a Salesforce MobilePush Message with audience targeting set to the Salesforce Mobile List created in the step above.
+
+![Radar targeted Salesforce campaign](/img/integrations/salesforce/salesforce_radar_targeted_messaging.png)
 
 ## Event mapping
 
