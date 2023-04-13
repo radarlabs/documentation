@@ -181,6 +181,17 @@ Yes. For more information, see the [Vulnerability Disclosure Policy](/vulnerabil
 - Use Test keys for development and Live keys for production.
 - Use [Publishable keys](/sdk#authentication), which are restricted in scope in client-side code. Never use [Secret keys](/api#authentication), which can read or write any data.
 
+#### Domain Restrictions
+Additionally, you can restrict domains that use your API keys. You can add or modify domains on the [settings](https://radar.com/dashboard/settings/#website-restrictions) page
+
+Examples of valid URLs:
+- Any URL in a single domain: **https://example.com** or **example.com**
+- Any url in a single subdomain: **https://sub.example.com**
+- Any subdomain in a single domain, using a wildcard asterisk (\*): **https://\*.example.com**
+- A domain and all its subdomains, using a wildcard (\*) asterisk: **https://example.com** and **https://\*.example.com**
+- A URL with a non-standard port: **http://www.example.com:8000**
+- Any localhost URL for testing: **localhost:8080**
+
 #### Data management
 
 - Encrypt data stored outside of Radar (e.g., data sent to integrations or sent to webhooks and stored in a data warehouse).
