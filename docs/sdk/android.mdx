@@ -50,9 +50,11 @@ You can also add the SDK to your project manually. Download [the current release
 
 ## Dependencies
 
-The SDK depends on [AndroidX](https://developer.android.com/jetpack/androidx) and [Google Play Services Location](https://developer.android.com/training/location) version `17.1.0` and higher. These libraries will be automatically included as transitive dependencies by Gradle. Learn more about managing dependencies in Gradle [here](https://docs.gradle.org/current/userguide/core_dependency_management.html).
+The SDK depends on [Google Play Services Location](https://developer.android.com/training/location) version `21.0.1` and higher, which will be automatically included as a transitive dependency by Gradle. Learn more about managing dependencies in Gradle [here](https://docs.gradle.org/current/userguide/core_dependency_management.html).
 
 If you haven't already configured your project for Google Play Services, follow the instructions [here](https://developers.google.com/android/guides/google-services-plugin).
+
+As of version `3.8.0`, the SDK uses `play-services-location:21.0.1`. If you have another module that uses `play-services-location` that causes version conflicts, you can exclude the dependency from each module and import Play Services Location at the project level. We strongly recommend using `21.0.1`. Lower versions should be expected to break performance.
 
 As an alternative to Google Play Services, the SDK also optionally supports [Huawei Mobile Services](#huawei).
 
@@ -1465,9 +1467,9 @@ With the [matrix API](/api#matrix), calculate the travel distance and duration b
   </TabItem>
 </Tabs>
 
-### Custom events
+### Conversions
 
-With the [custom events API](/api#send-a-custom-event), send a custom event, such as a conversion or purchase, to analyze alongside your app's location activity:
+With the [conversions API](/api#log-a-conversion), log a conversion, such as a purchase or signup, to analyze alongside your app's location activity:
 
 <Tabs
   groupId="android"
@@ -1480,14 +1482,26 @@ With the [custom events API](/api#send-a-custom-event), send a custom event, suc
   <TabItem value="java">
 
   ```java
-  Radar.sendEvent(
-      customType,
+  Radar.logConversion(
+      name,
       metadata,
-      new RadarSendEventCallback() {
+      new RadarLogConversionCallback() {
           @Override
-          public void onComplete(RadarStatus status, Location location, RadarEvent[] events, RadarUser user) {
-              // do something with location, events, user
-              // events[0] is the custom event
+          public void onComplete(RadarStatus status, RadarEvent event) {
+              // do something with the conversion event
+          }
+      }
+  )
+
+  // Conversion with revenue
+  Radar.logConversion(
+      name,
+      revenue,
+      metadata,
+      new RadarLogConversionCallback() {
+          @Override
+          public void onComplete(RadarStatus status, RadarEvent event) {
+              // do something with the conversion event
           }
       }
   )
@@ -1497,12 +1511,20 @@ With the [custom events API](/api#send-a-custom-event), send a custom event, suc
   <TabItem value="kotlin">
 
   ```kotlin
-  Radar.sendEvent(
-      customType,
+  Radar.logConversion(
+      name,
       metadata,
-  ) { status, location, events, user ->
-      // do something with location, events, user
-      // events[0] is the custom event
+  ) { status, event ->
+      // do something with the conversion event
+  }
+
+  // Conversion with revenue
+  Radar.logConversion(
+      name,
+      revenue,
+      metadata,
+  ) { status, event ->
+      // do something with the conversion event
   }
   ```
 

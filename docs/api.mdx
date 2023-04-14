@@ -907,7 +907,7 @@ Calculates the travel distance and duration between an origin and a destination.
 - **`origin`** (string, required): The origin. A string in the format `latitude,longitude`.
 - **`destination`** (string, required): The destination. A string in the format `latitude,longitude`.
 - **`modes`** (string, required): The [travel modes](/api#route-distance). A string, comma-separated, including one or more of `foot`, `bike`, and `car`.
-- **`units`** (string, required): The distance units. A string, `metric` or `imperial`.
+- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
 
 ###### Authentication level
 
@@ -964,7 +964,7 @@ curl "https://api.radar.io/v1/route/distance?origin=40.78382,-73.97536&destinati
 
 #### Matrix
 
-Calculates the travel distances and durations between multiple origins and destinations for up to 25 routes.
+Calculates the travel distances and durations between multiple origins and destinations for up to 100 routes.
 
 ###### Definitions
 
@@ -975,7 +975,7 @@ Calculates the travel distances and durations between multiple origins and desti
 - **`origins`** (string, required): A list of origins. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
 - **`destinations`** (string, required): A list of destinations. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
 - **`mode`** (string, required): The travel mode. A string, one of `foot`, `bike`, or `car`.
-- **`units`** (string, required): The distance units. A string, `metric` or `imperial`.
+- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
 
 ###### Authentication level
 
@@ -1518,7 +1518,7 @@ Creates a new trip.
 
 <span className="badge badge--success">POST</span> <code>https://api.radar.io/v1/trips</code>
 
-###### Query parameters
+###### Body parameters
 - **`externalId`** (string, required): A stable unique ID for the trip. Depending on your use case, it may represent an order ID, a delivery ID, or something else.
 - **`destinationGeofenceTag`** (string, optional): For trips with a destination, the tag of the destination geofence.
 - **`destinationGeofenceExternalId`** (string, optional): For trips with a destination, the external ID of the destination geofence.
@@ -1599,7 +1599,7 @@ On iOS and Android, use the [SDK](/sdk) to stop trips.
 <br />
 <span className="badge badge--warning">PATCH</span> <code> https://api.radar.io/v1/trips/:externalId/update</code>
 
-###### Query parameters
+###### Body parameters
 
 - **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
@@ -1655,6 +1655,40 @@ Publishable
       "deviceId": "C305F2DB-56DC-404F-B6C1-BC52F0B680D8"
     },
     "locations": [],
+  }
+}
+```
+
+#### Delete a trip
+
+Deletes a trip. The trip can be referenced by Radar `_id` or `externalId`.
+
+###### Definition
+
+<span className="badge badge--danger">DELETE</span> <code>https://api.radar.io/v1/trips/:id</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Authentication level
+
+Secret
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/trips/56db1f4613012711002229f4" \
+  -H "Authorization: prj_live_sk_..." \
+  -X DELETE
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
   }
 }
 ```
@@ -2023,15 +2057,15 @@ To generate an entry or exit event, call the [track](#track) endpoint to trigger
 
 On iOS and Android, use the [SDK](/sdk) to track users.
 
-#### Send a custom event
+#### Log a conversion
 
 <Alert alertType="info">
-  Custom events are available on the {` `}
+  Conversions are available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
 
-Sends a custom event to analyze alongside other location activity in your app. This can represent anything from a conversion or purchase to engagement with an in-app feature.
+Logs a conversion to analyze alongside other location activity in your app. This can represent anything from a purchase or signup to engagement with an in-app feature.
 
 ###### Definition
 
@@ -2039,11 +2073,14 @@ Sends a custom event to analyze alongside other location activity in your app. T
 
 ###### Body parameters
 
-- **`type`** (string, required): The type of the custom event. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
-- **`metadata`** (dictionary, optional): The metadata of the custom event. This data cannot contain any sensitive or personally identifiable information.
-- **`userId`** (string, required): The stable unique ID for the user. Used to identify logged in users.
+- **`type`** (string, required): The type of the conversion. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
+- **`metadata`** (dictionary, optional): The metadata of the conversion. This data cannot contain any sensitive or personally identifiable information.
+- **`revenue`** (number, optional): The revenue of the conversion. Used to associate an amount with a transactional conversion such as a purchase or coupon redemption.
+- **`userId`** (string, optional): The stable unique ID for the user. Used to identify logged in users.
 - **`deviceId`** (string, optional): A device ID for the user. Used to identify logged out users.
-- **`createdAt`** (string, optional): The datetime when the event occurred.
+- **`installId`** (string, optional): An install ID for the user. Used to identify users who have opted out of location permissions. Can be a random alphanumeric string for users that don't exist in Radar.
+- **`createdAt`** (string, optional): The datetime when the conversion occurred.
+- **`duration`** (number, optional): The duration of the conversion in minutes.
 
 ###### Authentication level
 

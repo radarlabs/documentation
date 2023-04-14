@@ -1,0 +1,34 @@
+---
+title: Census
+---
+import Alert from "../../src/components/Alert";
+
+<Alert alertType="info">
+  The Census integration is available on the {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
+
+With [Census](http://www.getcensus.com), Radar can sync locations stored in a data warehouse as geofences in Radar, powered by the [geofence upsert API](/api#upsert-a-geofence).
+
+Census supports syncing data from all major data warehouses, including Amazon Athena and Redshift, Snowflake, Azure Synapse, and Google BigQuery.
+
+## Configuration
+
+First, in [Census](http://www.getcensus.com), add Radar as a service. Copy and paste your secret key from the Radar [dashboard](https://radar.com/dashboard). When naming the service, include a reference for the environment, `test` or `live`, that corresponds to the API key being used.
+
+![Create geofence services](https://images.ctfassets.net/f2vbu16fzuly/2Cx10qidbiZyx8mqmXiWFk/7cac90ef591a8c53731bd2ffac2d2081/image2.png)
+
+Second, create a data model and connect your data warehouse as a source.
+
+![Create a data model](https://images.ctfassets.net/f2vbu16fzuly/47fA2yX4jeWihpciRItnff/f8f44cd4ba1edb9ae473b34b40aef47c/image4.png)
+
+Third, create a sync and map properties from the data model to [Radar geofence attributes](/geofences#create-geofences) like `description`, `tag`, `externalId`, `type`, and `radius`.
+
+![Map properties from the data model](https://images.ctfassets.net/f2vbu16fzuly/6zy6FlXFWuceG08oA1OrBl/0b0a72c9e31afb6c968b558780eb1a21/image3.png)
+
+Finally, schedule your sync.
+
+![Schedule a sync](https://images.ctfassets.net/f2vbu16fzuly/7nHYqPFk7h2M9EMz32bSX2/f71874fd4c903908e2510f78d2d1aa83/image5.png)
+
+For more information, visit the [Census docs](https://www.getcensus.com/integrations/radar).
