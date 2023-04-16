@@ -141,11 +141,11 @@ You can see when and where conversions were generated directly in the Radar dash
 ### Step 7: Analyze conversions across different dimensions
 On the [Events](https://radar.com/dashboard/events) page, watch as conversions start to stream in:
 
-![Custom events dashboard](/img/tutorials/custom-events-dashboard.png)
+![Custom events dashboard](/img/tutorials/conversion-events-feed.png)
 
 Click the _View_ icon on the right to view a conversion's details:
-![Custom events detail page](/img/tutorials/custom-events-detail-page.gif)
+![Custom events detail page](/img/tutorials/conversion-event-detail-page.gif)
 
 Finally, select _Analysis_ within the dropdown on the [Events](https://radar.com/dashboard/events) page to view all of your conversions sliced by different dimensions, such as place chain or geofence tag:
 
-![Custom events analysis](/img/tutorials/custom-event-analysis.png)
+![Custom events analysis](/img/tutorials/conversion-events-analysis.png)
