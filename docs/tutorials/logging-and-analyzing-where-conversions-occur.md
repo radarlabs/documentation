@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: Analyzing where key customer interactions occur
+title: Logging and analyzing where conversions occur
 ---
 
 import Tabs from "@theme/Tabs";
@@ -8,14 +8,14 @@ import TabItem from "@theme/TabItem";
 import Alert from "../../src/components/Alert";
 
 <Alert alertType="info">
-  Custom events are available on the {` `}
+  Conversions are available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
   .
 </Alert>
 
-In this tutorial, we show you how to use Radar's [custom events API](/api#send-a-custom-event) to analyze the location context associated with key customer interactions. Custom events can represent anything from a conversion or purchase to engagement with an in-app feature.
+In this tutorial, we show you how to use Radar's [conversions API](/api#log-a-conversion) to analyze the location context associated with key customer interactions. Conversions can represent anything from a purchase or signup to engagement with an in-app feature.
 
-When these events are enriched with Radar's location context, they can be used to determine where these key interactions occur and measure the value of location based features.
+When these events are enriched with Radar's location context, they can be used to determine where these conversions occur and measure the value of location based features.
 
 ## Languages used
 
@@ -26,7 +26,7 @@ When these events are enriched with Radar's location context, they can be used t
 
 - [iOS SDK](/sdk/ios)
 - [Android SDK](/sdk/android)
-- [Custom events API](/api#send-a-custom-event)
+- [Conversions API](/api#log-a-conversion)
 
 ## Steps
 
@@ -80,25 +80,25 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
   }
   ```
 ### Step 3: Determine the events you want to track
-To take advantage of Radar's custom events API, you need to identify the events that are important to your business. Here are some examples:
+To take advantage of Radar's conversions API, you need to identify the events that are important to your business. Here are some examples:
 
 | Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
-| `app_open`  | Understand where users are engaging with the app to prioritize personalized features                       | After app load completes      | NA                                                                             |
+| `purchase`   | Measure the revenue driven from in store mode and understand the distance from the store at the time of purchase | After a user makes a purchase              | `revenue` (number) <br /> `mode` (string) <br /> `in_store_mode` (boolean) |
+| `order_placed`  | Understand where users are placing orders within the app to prioritize personalized features                       | After a user places an order      | `revenue` (number) <br /> `applied_coupon` (boolean)                                                                             |
 | `sign_up`    | Measure which stores are driving sign ups through store promotions                                               | After a user completes the signup flow | `referrer` (string) <br /> `rewards` (boolean)                                            |
-| `product_search`    | Understand where customers are searching for products (i.e. in specific stores or at competitor locations)                                               |  | `section` (string)                                         |
-| `purchase`   | Measure the revenue driven from in store mode and understand the distance from the store at the time of purchase | After a user submits an order              | `amount` (number) <br /> `mode` (string) <br /> `in_store_mode` (boolean) |
+| `product_search`    | Understand where customers are searching for products (i.e., in specific stores or at competitor locations)                                               |  | `section` (string)                                         |
 
 ### Step 4: Set up Radar geofences or places
 
-On the [Geofences page](https://radar.com/dashboard/geofences), import geofences for your locations. For places, on the [Settings page](https://radar.com/dashboard/settings), monitor your desired place chains and categories. When processing custom events, Radar will determine if they happen at any of these geofences or places.
+On the [Geofences page](https://radar.com/dashboard/geofences), import geofences for your locations. For places, on the [Settings page](https://radar.com/dashboard/settings), monitor your desired place chains and categories. When processing conversions, Radar will determine if they happen at any of these geofences or places.
 
-### Step 5: Send custom events via the Radar SDK
+### Step 5: Log conversions via the Radar SDK
 
-The following example demonstrates how to send a custom event when a user searches for a product.
+The following example demonstrates how to log a conversion when a user makes a purchase.
 
 <Tabs
-  groupId="custom-events"
+  groupId="conversions"
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
@@ -108,9 +108,13 @@ The following example demonstrates how to send a custom event when a user search
   <TabItem value="swift">
 
 ```swift
-// on searching for a product
-Radar.sendEvent(customType: "product_search", metadata: ["section":"furniture"]) { (status, location, events, user) in
-  print("Send event: status = \(Radar.stringForStatus(status)); location = \(String(describing: location)); events = \(String(describing: events)); user = \(String(describing: user))")
+// on making a purchase
+Radar.logConversion(
+  name: "purchase",
+  revenue: 12.50,
+  metadata: ["product":"shirt"]
+) { (status, event) in
+  print("Logged conversion: status = \(Radar.stringForStatus(status)); event = \(String(describing: event))")
 }
 ```
 
@@ -119,25 +123,29 @@ Radar.sendEvent(customType: "product_search", metadata: ["section":"furniture"])
 
 ```kotlin
 // on searching for a product
-val metadata = JSONObject(mapOf("section" to "furniture"))
+val metadata = JSONObject(mapOf("product" to "shirt"))
 Radar.sendEvent(
-    "product_search",
+    "purchase",
+    12.50,
     metadata
-) { status, location, events, user ->
-    Log.v("example", "Custom event type = ${events?.first()?.customType}: status = $status; location = $location; events = $events; user = $user")
+) { status, event ->
+    Log.v("example", "Conversion = ${event?.type}: status = $status; event = $event")
 }
 ```
   </TabItem>
 </Tabs>
 
-### Step 6: Use the Radar dashboard to view custom events
-You can see when and where custom events were generated directly in the Radar dashboard. On the [Events](https://radar.com/dashboard/events) page, watch as custom events start to stream in:
+### Step 6: Conversions page in the Radar dashboard
+You can see when and where conversions were generated directly in the Radar dashboard.
+
+### Step 7: Analyze conversions across different dimensions
+On the [Events](https://radar.com/dashboard/events) page, watch as conversions start to stream in:
 
 ![Custom events dashboard](/img/tutorials/custom-events-dashboard.png)
 
-Click the _View_ icon on the right to view a custom event's details:
+Click the _View_ icon on the right to view a conversion's details:
 ![Custom events detail page](/img/tutorials/custom-events-detail-page.gif)
 
-Finally, select _Analysis_ within the dropdown on the [Events](https://radar.com/dashboard/events) page to view all of your custom events sliced by different dimensions, such as place chain or geofence tag:
+Finally, select _Analysis_ within the dropdown on the [Events](https://radar.com/dashboard/events) page to view all of your conversions sliced by different dimensions, such as place chain or geofence tag:
 
 ![Custom events analysis](/img/tutorials/custom-event-analysis.png)
