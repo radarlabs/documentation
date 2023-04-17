@@ -135,17 +135,21 @@ Radar.sendEvent(
   </TabItem>
 </Tabs>
 
-### Step 6: Conversions page in the Radar dashboard
-You can see when and where conversions were generated directly in the Radar dashboard.
+### Step 6: Conversions overview in the Radar dashboard
+The [Report](https://radar.com/dashboard/report&view=conversions) page of the Radar dashboard has a _Conversions_ tab that provides an overview of all conversions logged for a project. Understand how engagement with your app differs between opted-in and opted-out users. See the total revenue across all conversions that have been logged with the `revenue` parameter.
+
+The below is an example of a fully populated _Conversions_ page with engagement metrics and logged conversions with and without a `revenue` amount:
+![Conversions report page](/img/tutorials/conversions-report-page.png)
+
 
 ### Step 7: Analyze conversions across different dimensions
-On the [Events](https://radar.com/dashboard/events) page, watch as conversions start to stream in:
+You can see when and where conversions were generated directly in the Radar dashboard. On the [Events](https://radar.com/dashboard/events) page, watch as conversions start to stream in:
 
-![Custom events dashboard](/img/tutorials/conversion-events-feed.png)
+![Conversion events feed](/img/tutorials/conversion-events-feed.png)
 
 Click the _View_ icon on the right to view a conversion's details:
-![Custom events detail page](/img/tutorials/conversion-event-detail-page.gif)
+![Conversion event detail page](/img/tutorials/conversion-event-detail-page.gif)
 
 Finally, select _Analysis_ within the dropdown on the [Events](https://radar.com/dashboard/events) page to view all of your conversions sliced by different dimensions, such as place chain or geofence tag:
 
-![Custom events analysis](/img/tutorials/conversion-events-analysis.png)
+![Conversion events analysis](/img/tutorials/conversion-events-analysis.png)
