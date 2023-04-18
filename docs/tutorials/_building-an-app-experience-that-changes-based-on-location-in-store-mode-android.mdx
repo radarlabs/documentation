@@ -53,7 +53,7 @@ class MyApplication : Application() {
 }
 ```
 
-In the `MainActvity` class implementation a request for foreground location permissions.
+In the `MainActvity` class implementation a request for foreground location permissions. This will require Android manifest additions for the ACCESS_COARSE_LOCATION and ACCESS_FINE_LOCATION permissions.
 
 ```kotlin
 import io.radar.sdk.Radar
@@ -138,97 +138,11 @@ class InStoreMode : AppCompatActivity() {
 }
 ```
 
-## Below is full code for the experience
+### Step 5: Verify in store mode triggers when in a geofence.
 
-MainApplication
+Either simulate location on your phone or adjust the geofence location to your testing device's location. When you open the app, verify the in store mode triggers when in a geofence, but not when outside the geofence.  You should also see a user record appear on the Users page of the Radar dashboard with the detected geofences.
 
-```kotlin
-
-import io.radar.sdk.Radar
-
-class MyApplication : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-        Radar.initialize(this, "prj_test_pk...")
-    }
-}
-
-```
-
-MainActivity
-
-```kotlin
-
-import io.radar.sdk.Radar
-
-class MainActivity : AppCompatActivity() {
-    private val foregroundLocationPermissionsRequestCode = 0
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        requestLocationPermissions()
-
-        Radar.trackOnce { status, location, events, user ->
-            if (user !=  null) {
-                if (user.geofences?.any{ geofence -> geofence.tag == "store" } == true) {
-                    var storeGeofence = user.geofences?.find { geofence -> geofence.tag == "store" }
-                    if (storeGeofence != null) {
-                        storeGeofence.externalId?.let { showInStoreMode(storeGeofence.description, it) }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showInStoreMode(storeName: String, storeId: String) {
-        val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setMessage("Enter store experience at $storeName")
-            .setCancelable(false)
-            .setPositiveButton("Activate", DialogInterface.OnClickListener {
-                    _, _ ->
-                val intent = Intent(applicationContext, InStoreMode::class.java)
-                intent.putExtra("storeId", storeId)
-                intent.putExtra("storeName", storeName)
-                startActivity(intent)
-            })
-            .setNegativeButton("Cancel", DialogInterface.OnClickListener {
-                    dialog, _ -> dialog.cancel()
-            })
-        val alert = dialogBuilder.create()
-        alert.setTitle("In Store Mode Now Available")
-        alert.show()
-    }
-
-    private fun requestLocationPermissions() {
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
-            }
-        }
-    }
-}
-```
-
-InStoreMode class
-
-```kotlin
-class InStoreMode : AppCompatActivity() {
-    private lateinit var title: TextView
-    private lateinit var subTitle: TextView
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_in_store)
-        title = findViewById<View>(R.id.title) as TextView
-        subTitle = findViewById<View>(R.id.sub_title) as TextView
-        val intent = intent
-        val storeName = intent.getStringExtra("storeName")
-        val storeId = intent.getStringExtra("storeId")
-        title.text = "Welcome to $storeName"
-        subTitle.text = "($storeId)"
-    }
-}
-```
+![In Store Mode Verification](/gif/tutorials/in-store-mode/verify_in_store_mode_android.gif)
 
 ## Support
 

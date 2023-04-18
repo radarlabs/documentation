@@ -37,21 +37,35 @@ RadarMart #3,store,3,circle,100,"[-73.983295,40.697693]",true,"{""parking"":fals
 
 [Install the Radar SDK](/sdk/ios).
 
-Initialize the SDK in your `AppDelegate` class with your publishable API key.
+Initialize the SDK in your `AppDelegate` class with your publishable API key and request `When In Use` location permissions. You must add location usage strings to the custom iOS Target Properties found in the Info tab of the app settings. To request foreground permissions in the app, add a new property with the key `NSLocationWhenInUseUsageDescription` (_Privacy - Location When In Use Usage Description_). The value is displayed in the location permission prompts. Enter a message such as `Your location will be used to personalize in app experiences`.
+
 
 ```swift
 import UIKit
 import RadarSDK
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+
+    let locationManager = CLLocationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Radar.initialize(publishableKey: "prj_test_pk_...")
-
+        self.locationManager.delegate = self
         return true
     }
 
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        self.requestLocationPermissions()
+    }
+
+    func requestLocationPermissions() {
+        let status = locationManager.authorizationStatus
+
+        if status == .notDetermined {
+            self.locationManager.requestWhenInUseAuthorization()
+        }
+    }
 }
 ```
 
@@ -61,65 +75,54 @@ Call `Radar.trackOnce()` to track the user's location in the foreground. In the 
 
 ```swift
 Radar.trackOnce { (status, location, events, user) in
-    let isInStore = user?.geofences?.contains { $0.tag == "store" }
-    if isInStore {
-        showInStoreMode()
-    }
-}
-```
-
-```swift
-@IBOutlet var tabBarController: UITabBarController?
-
-func showInStoreMode() {
-    tabBarController?.selectedIndex = 1 // in-store tab
-
-    let alertController = UIAlertController(title: "Welcome to RadarMart!", message: nil, preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-    if let viewController = tabBarController?.viewControllers?[1] {
-        alertController.show(viewController, sender: self)
-    }
-}
-```
-
-## Sample code
-
-```swift
-// AppDelegate.swift
-
-import UIKit
-import RadarSDK
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    @IBOutlet var tabBarController: UITabBarController?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Radar.initialize(publishableKey: "prj_test_pk_...")
-
-        Radar.trackOnce { (status, location, events, user) in
-            let isInStore = user?.geofences?.contains { $0.tag == "store" }
-            if isInStore {
-                showInStoreMode()
-            }
-        }
-
-        return true
-    }
-
-    func showInStoreMode() {
-        tabBarController?.selectedIndex = 1
-
-        let alertController = UIAlertController(title: "Welcome to RadarMart!", message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        if let viewController = tabBarController?.viewControllers?[1] {
-            alertController.show(viewController, sender: self)
+    if let isInStore = user?.geofences?.contains(where: { $0.tag == "store" }) {
+        if isInStore {
+            self.showInStoreMode(user: user)
         }
     }
-
 }
 ```
+
+The `showInStoreMode()` method in this tutorial will trigger a UI alert that redirects the user to an In Store Mode ViewController. The geofence `description` and `externalId` attributes will be used to dynamically set information relevant to the specific store detected in the in store mode view.
+
+See the github repository linked at the top of the tutorial for a full code implementation.
+
+```swift
+class ViewController: UITabBarController {
+    
+    let tabInStore = TabInStoreViewController()
+
+    ...
+
+    func showInStoreMode(user: RadarUser?) {
+        var storeDescription = "RadarMart"
+        var storeId: String?
+        if let geofenceDescription = user?.geofences?.first(where: { $0.tag == "store" })?.__description {
+            storeDescription = geofenceDescription
+        }
+        if let geofenceExternalId = user?.geofences?.first(where: { $0.tag == "store" })?.externalId {
+            storeId = geofenceExternalId
+        }
+        let confirmAction = UIAlertAction(
+            title: "OK", style: UIAlertAction.Style.default) { (action) in
+                self.selectedIndex = 1
+                self.tabInStore.inStoreTitle.text = storeDescription
+                if (storeId != nil) {
+                    self.tabInStore.inStoreSubtitle.text = "Store #: \(String(describing: storeId))"
+                }
+        }
+        
+        let alertController = UIAlertController(title: "Welcome to \(storeDescription)!", message: nil, preferredStyle: .alert)
+        alertController.addAction(confirmAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+```
+
+### Step 5: Verify in store mode triggers when in a geofence.
+
+Either simulate location on your phone or adjust the geofence location to your testing device's location. When you open the app, verify the in store mode triggers when in a geofence, but not when outside the geofence.  You should also see a user record appear on the Users page of the Radar dashboard with the detected geofences.
+
+![In Store Mode Verification](/gif/tutorials/in-store-mode/verify_in_store_mode_ios.gif)
 
 ## Support
 

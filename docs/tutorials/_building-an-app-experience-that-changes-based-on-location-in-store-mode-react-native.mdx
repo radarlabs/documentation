@@ -37,75 +37,114 @@ RadarMart #3,store,3,circle,100,"[-73.983295,40.697693]",true,"{""parking"":fals
 
 [Install the Radar SDK](/sdk/react-native).
 
-Since only foreground tracking is needed, the React Native SDK can be initialized in javascript.
+Since only foreground tracking is needed, the React Native SDK can be initialized in javascript. Additionally, ensure foreground location permissions are requested. In this tutorial, we will just check for permissions on each home screen render:
 
 
 ```javascript
 
+import Radar from 'react-native-radar';
+
+Radar.initialize("prj_test_pk_...");
+
+export default HomeScreen = () => {
+  
+    useEffect(() => {
+      requestPermissions();
+      // other on render logic
+    }, []);
+
+    const requestPermissions = () => {
+      Radar.getPermissionsStatus().then((status) => {
+       if (status === 'NOT_DETERMINED') {
+        Radar.requestPermissions(false).then((status) => {
+          if (status === 'GRANTED_FOREGROUND') {
+            // in store mode check if permissions granted
+          }
+        });
+       }
+      }).catch((error) => console.log(error.message)) 
+    }
+}
 ```
 
 Additionally, this example will use React Navigation to direct the user to the in store mode. See here for details on installation: https://reactnative.dev/docs/navigation
 
 ### Step 4: Check if the user is in a geofence, then change the UI
 
-Call `Radar.trackOnce()` to track the user's location in the foreground. In the callback, check `user.geofences` to determine if the user is in a geofence, then show a message and default to the in-store tab.
+Call `Radar.trackOnce()` to track the user's location in the foreground. In the callback, check `user.geofences` to determine if the user is in a geofence, then display a modal to navigate the user to in store mode.
+
+Additionally, the callback is used to get the store id, geofence external id, which is used to present information specific to the given store on the in store screen.
 
 ```javascript
 
-```
+import {useNavigation} from '@react-navigation/native';
 
-```swift
-@IBOutlet var tabBarController: UITabBarController?
-
-func showInStoreMode() {
-    tabBarController?.selectedIndex = 1 // in-store tab
-
-    let alertController = UIAlertController(title: "Welcome to RadarMart!", message: nil, preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-    if let viewController = tabBarController?.viewControllers?[1] {
-        alertController.show(viewController, sender: self)
+export default HomeScreen = () => {
+    const myNavigation = useNavigation();
+    const [inStoreModalMessageVisible, setInStoreModalMessageVisible] = useState(false);
+    const [storeId, setStoreId] = useState('');
+  
+    useEffect(() => {
+      requestPermissions();
+      inStoreModeLoader();
+    }, []);
+  
+    const startInStoreMode = () => {
+        myNavigation.navigate('inStoreMode', {storeId: storeId})
     }
+  
+    const inStoreModeLoader = async () => {
+      Radar.trackOnce({"desiredAccuracy":"high"}).then(result => {
+        if (result.status === "SUCCESS") {
+          if (result.user?.geofences?.some(geofence => geofence.tag == "store")) {
+            setInStoreModalMessageVisible(true);
+            let storesDetected = result.user?.geofences?.filter(geofence => geofence.tag == "store")
+            let storeIdDetected = storesDetected[0].externalId
+            setStoreId(storeIdDetected)
+          }
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+
+    return(
+      <SafeAreaView style={backgroundStyle}>
+       // other react elements to render
+        <Modal visible={inStoreModalMessageVisible} transparent={true} animationType="slide">
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text>Welcome to the store!</Text>
+              <View>
+                <Button
+                  onPress={startInStoreMode}
+                  title="Activate in store mode"
+                  color="#841584"
+                />
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    )
 }
 ```
 
-## Sample code
-
-```swift
-// AppDelegate.swift
-
-import UIKit
-import RadarSDK
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    @IBOutlet var tabBarController: UITabBarController?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Radar.initialize(publishableKey: "prj_test_pk_...")
-
-        Radar.trackOnce { (status, location, events, user) in
-            let isInStore = user?.geofences?.contains { $0.tag == "store" }
-            if isInStore {
-                showInStoreMode()
-            }
-        }
-
-        return true
-    }
-
-    func showInStoreMode() {
-        tabBarController?.selectedIndex = 1
-
-        let alertController = UIAlertController(title: "Welcome to RadarMart!", message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        if let viewController = tabBarController?.viewControllers?[1] {
-            alertController.show(viewController, sender: self)
-        }
-    }
-
-}
+```javascript
+export default InStoreScreen = ({route}) => {
+  return (
+    <SafeAreaView style={backgroundStyle}>
+        // other react elements to render
+        <View>
+          <Text>Welcome to store #{route.params.storeId}</Text>
+        </View>
+    </SafeAreaView>
+)};
 ```
+
+### Step 5: Verify in store mode triggers when in a geofence.
+
+Either simulate location on your phone or adjust the geofence location to your testing device's location. When you open the app, verify the in store mode triggers when in a geofence, but not when outside the geofence.  You should also see a user record appear on the Users page of the Radar dashboard with the detected geofences.
 
 ## Support
 
