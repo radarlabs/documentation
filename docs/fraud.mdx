@@ -90,7 +90,7 @@ If you call `Radar.trackVerified()`, Radar exposes your settings in `user.countr
 
 ## Configuring SSL pinning
 
-To prevent man-in-the-middle attacks, you should configure SSL pinning before calling `Radar.trackVerified()`.
+To prevent man-in-the-middle attacks, you must configure SSL pinning before calling `Radar.trackVerified()`.
 
 On iOS, add the following to your `Info.plist` file:
 
@@ -140,9 +140,27 @@ On Android, add a `res/xml/network_security_config.xml` file:
 
 Learn more about [Network Security Configuration on Android](https://developer.android.com/training/articles/security-config).
 
+## Configuring the Play Integrity API
+
+On Android, Radar uses the [Play Integrity API](https://developer.android.com/google/play/integrity) to detect the user's device or app has been compromised.
+
+If the user's device or app does not meet [basic integrity](https://developer.android.com/google/play/integrity/verdict#device-integrity-field), `user.fraud.compromised = true`.
+
+You must add the Play Integrity API dependency before calling `Radar.trackVerified()`.
+
+Add the dependency to the `dependencies` section of your app's `build.gradle` file:
+
+```kotlin
+dependencies {
+    implementation 'com.google.android.play:integrity:1.0.2'
+}
+```
+
+If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, the Play Services version on the device may be out of date.
+
 ## Verifying user locations
 
-Client-side, you can verify a user's location with just a few lines of code:
+Once the above configuration is complete, you can verify a user's location client-side with just a few lines of code:
 
 <Tabs
   groupId="fraud"
@@ -186,7 +204,7 @@ Radar.trackVerified { status, location, events, user ->
 
 Fraud is not yet supported with `Radar.startTracking()`.
 
-Server-side, you can also [get a user](/documentation/api#get-a-user) and check fraud flags server-side for an additional layer of verification:
+You can also [get a user](/documentation/api#get-a-user) and check fraud flags server-side for an additional layer of verification:
 
 ```bash
 curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
