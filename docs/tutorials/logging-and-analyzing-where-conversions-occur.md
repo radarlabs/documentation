@@ -84,7 +84,7 @@ To take advantage of Radar's conversions API, you need to identify the events th
 
 | Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
-| `purchase`   | Measure the revenue driven from in store mode and understand the distance from the store at the time of purchase | After a user makes a purchase              | `revenue` (number) <br /> `mode` (string) <br /> `in_store_mode` (boolean) |
+| `purchase`   | Measure the revenue driven from location-enabled features | After a user makes a purchase              | `revenue` (number) <br /> `pickup` (boolean) <br /> `in_store_mode` (boolean) |
 | `order_placed`  | Understand where users are placing orders within the app to prioritize personalized features                       | After a user places an order      | `revenue` (number) <br /> `applied_coupon` (boolean)                                                                             |
 | `sign_up`    | Measure which stores are driving sign ups through store promotions                                               | After a user completes the signup flow | `referrer` (string) <br /> `rewards` (boolean)                                            |
 | `product_search`    | Understand where customers are searching for products (i.e., in specific stores or at competitor locations)                                               |  | `section` (string)                                         |
@@ -142,7 +142,7 @@ The below is an example of a fully populated _Conversions_ page with engagement 
 ![Conversions report page](/img/tutorials/conversions-report-page.png)
 
 
-### Step 7: Analyze conversions across different dimensions
+### Step 7: Analyze conversions across location context types
 You can see when and where conversions were generated directly in the Radar dashboard. On the [Events](https://radar.com/dashboard/events) page, watch as conversions start to stream in:
 
 ![Conversion events feed](/img/tutorials/conversion-events-feed.png)
