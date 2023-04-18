@@ -142,9 +142,9 @@ Learn more about [Network Security Configuration on Android](https://developer.a
 
 ## Configuring the Play Integrity API
 
-On Android, Radar uses the [Play Integrity API](https://developer.android.com/google/play/integrity) to detect the user's device or app has been compromised.
+On Android, the SDK uses the [Play Integrity API](https://developer.android.com/google/play/integrity) to detect whether the user's device or app has been compromised.
 
-If the user's device or app does not meet [basic integrity](https://developer.android.com/google/play/integrity/verdict#device-integrity-field), `user.fraud.compromised = true`.
+If the user's device or app does not meet [basic integrity checks](https://developer.android.com/google/play/integrity/verdict#device-integrity-field), `user.fraud.compromised = true`.
 
 You must add the Play Integrity API dependency before calling `Radar.trackVerified()`.
 
@@ -156,7 +156,7 @@ dependencies {
 }
 ```
 
-If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, the Play Services version on the device may be out of date.
+If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The Play Services version on the device may be out of date.
 
 ## Verifying user locations
 
