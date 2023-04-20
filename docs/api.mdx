@@ -2073,7 +2073,7 @@ Logs a conversion to analyze alongside other location activity in your app. This
 
 ###### Body parameters
 
-- **`type`** (string, required): The type of the conversion. Should be named generically (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
+- **`name`** (string, required): The name of the conversion. Should be generic (e.g., `in_app_purchase`). Only alphanumeric characters and underscores are supported.
 - **`metadata`** (dictionary, optional): The metadata of the conversion. This data cannot contain any sensitive or personally identifiable information.
 - **`revenue`** (number, optional): The revenue of the conversion. Used to associate an amount with a transactional conversion such as a purchase or coupon redemption.
 - **`userId`** (string, optional): The stable unique ID for the user. Used to identify logged in users.
