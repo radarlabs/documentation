@@ -79,15 +79,15 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
 
   }
   ```
-### Step 3: Determine the events you want to track
+### Step 3: Determine the conversions you want to track
 To take advantage of Radar's conversions API, you need to identify the events that are important to your business. Here are some examples:
 
-| Event name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
+| Conversion name | Example purpose                                                                                                     | Placement                           | Event properties                                                               |
 |------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------------|--------------------------------------------------------------------------------|
 | `purchase`   | Measure the revenue driven from location-enabled features | After a user makes a purchase              | `revenue` (number) <br /> `pickup` (boolean) <br /> `in_store_mode` (boolean) |
 | `order_placed`  | Understand where users are placing orders within the app to prioritize personalized features                       | After a user places an order      | `revenue` (number) <br /> `applied_coupon` (boolean)                                                                             |
 | `sign_up`    | Measure which stores are driving sign ups through store promotions                                               | After a user completes the signup flow | `referrer` (string) <br /> `rewards` (boolean)                                            |
-| `product_search`    | Understand where customers are searching for products (i.e., in specific stores or at competitor locations)                                               |  | `section` (string)                                         |
+| `product_search`    | Understand where customers are searching for products (i.e., in specific stores or at competitor locations)                                               | After a user searches for a product  | `section` (string)                                         |
 
 ### Step 4: Set up Radar geofences or places
 
@@ -136,9 +136,9 @@ Radar.sendEvent(
 </Tabs>
 
 ### Step 6: Conversions overview in the Radar dashboard
-The [Report](https://radar.com/dashboard/report&view=conversions) page of the Radar dashboard has a _Conversions_ tab that provides an overview of all conversions logged for a project. Understand how engagement with your app differs between opted-in and opted-out users. See the total revenue across all conversions that have been logged with the `revenue` parameter.
+The [Report](https://radar.com/dashboard/report&view=conversions) page of the Radar dashboard has a _Conversions_ tab that provides an overview of all conversions logged for a project. Understand how engagement with your app differs between opted-in and opted-out users. See the total revenue across all conversions that have been logged with `revenue`.
 
-The below is an example of a fully populated _Conversions_ page with engagement metrics and logged conversions with and without a `revenue` amount:
+Below is an example of a fully populated _Conversions_ page for a project that has logged conversions for `purchase` and `opened_notification` events:
 ![Conversions report page](/img/tutorials/conversions-report-page.png)
 
 
