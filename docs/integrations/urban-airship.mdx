@@ -25,11 +25,11 @@ Use the Airship integration to send location-triggered and location-targeted mes
 
 On the Airship *Tokens* page in *Settings*, create a token with the *All Access* role and copy the app key and access token. Under *Partner Integrations*, enable Radar to enable auto-population of custom event names and properties in the Airship Automation Composer.
 
-Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Airship*, set *Enabled* to *Yes* and paste your app key and access token. Note that you can set separate API keys for the *Test* and *Live* environments.
+Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations#airship) under *Airship*, set *Enabled* to *Yes* and paste your app key and access token. Note that you can set separate API keys for the *Test* and *Live* environments.
 
 Whenever events are generated, Radar will send custom events and tags to Airship. Note that for tags to populate, you must manually create [tag groups](https://docs.airship.com/guides/messaging/user-guide/audience/segmentation/tags/) in Airship first.
 
-If you are using Airship SDK `13.x` or earlier with Radar iOS SDK `3.0.4` or earlier or Radar Android SDK `3.0.6` or earlier, the Radar SDK will automatically collect Airship channel ID and Airship session ID. However, if you are using Airship SDK `14.0` or later with Radar iOS SDK `3.0.5` or later or Radar Android SDK `3.0.7` or later, you must set Radar `metadata.airshipChannelId` and `metadata.airshipSessionId` manually to collect Airship channel ID and Airship session ID. For example, on iOS:
+If you are using Airship SDK `13.x` or earlier with Radar iOS SDK `3.0.4` or earlier or Radar Android SDK `3.0.6` or earlier, the Radar SDK will automatically collect Airship channel ID and Airship session ID. However, if you are using Airship SDK `14.0` or later with Radar iOS SDK `3.0.5` or later or Radar Android SDK `3.0.7` or later, you must set Radar `metadata.airshipChannelId` and `metadata.airshipSessionId` manually to collect Airship channel ID and Airship session ID.
 
 <Tabs
   groupId="braze-radar"
@@ -68,15 +68,15 @@ It is recommended to set the Radar user metadata once the Airship channel ID bec
 
 ## Verify integration data delivery
 
-To test if the API keys are correct and the integration can deliver data, use the [Simulator](/dashboard#simulator) to generate events and use the *Logs* section on the event details page to verify delivery. Perform a similar verification with a test app build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
+To test that the integration is configured correctly and can deliver data, use the [Simulator](/dashboard#simulator) to generate events. Click *View* on an event row and scroll down to the *Logs* section on the details page to verify delivery. Perform a similar process via a test app build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
 
 ![Verify integration event delivery](/gif/integrations/airship/verify_airship_integration_delivery.gif)
 
-All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations).
+All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations#airship).
 
 ## Example use cases
 
-### Send a personalized push notification when user arrives at a store
+### Send a personalized push notification when a user arrives at a store
 1. Create [Geofences](/geofences#create-geofences) in Radar with the geofence tag set to `store`. The geofence tag will be used to trigger messages for the subset of geofence entries where this tag is present.
 2. Set up an Airship campaign triggered from the Radar geofence entry event, the `radar_geofence_entered` custom event in Airship, and add property filtering where `radar_geofence_tag` is `store`. These same events can be used as part of an Airship campaign and the event properties can be used in message personalization with [handlebars](https://handlebarsjs.com/).
 

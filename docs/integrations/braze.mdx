@@ -26,11 +26,11 @@ Use the Braze integration to send location-triggered and location-targeted messa
 
 On the Braze *Developer Console* page under *Rest API Keys*, create and copy a new app group API key with `users.track` permissions. Under *Identification*, copy your iOS and Android app identifiers.
 
-Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Braze*, set *Enabled* to *Yes* and paste your API key and app identifiers. Note that you can set separate API keys and app identifiers for the *Test* and *Live* environments. Finally, if your account is not on `https://rest.iad-01.braze.com`, select the appropriate *API Endpoint*.
+Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations#braze) under *Braze*, set *Enabled* to *Yes* and paste your API key and app identifiers. Note that you can set separate API keys and app identifiers for the *Test* and *Live* environments. Finally, if your account is not on `https://rest.iad-01.braze.com`, select the appropriate *API Endpoint*.
 
 Whenever events are generated, Radar will send custom events and user attributes to Braze. Events and user attributes from iOS devices will be sent using your iOS app identifiers, and events and user attributes from Android devices will be sent using your Android app identifiers.
 
-By default, Radar `userId` maps to Braze `external_id` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.brazeAlias` or `metadata.brazeExternalId`. If you set `metadata.brazeAlias`, you must also add a matching alias in Braze with label `radarAlias`. For example, on iOS:
+By default, Radar `userId` maps to Braze `external_id` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.brazeAlias` or `metadata.brazeExternalId`. If you set `metadata.brazeAlias`, you must also add a matching alias in Braze with label `radarAlias`.
 
 <Tabs
   groupId="braze-radar"
@@ -70,11 +70,11 @@ Braze.getInstance(context).changeUser(userId)
 
 ## Verify integration data delivery
 
-To test if the API keys are correct and the integration can deliver data, use the [Simulator](/dashboard#simulator) to generate events and use the *Logs* section on the event details page to verify delivery. Perform a similar verification with a test app build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
+To test that the integration is configured correctly and can deliver data, use the [Simulator](/dashboard#simulator) to generate events. Click *View* on an event row and scroll down to the *Logs* section on the details page to verify delivery. Perform a similar process via a test app build with Radar location tracking enabled by spoofing location or moving into the relevant boundary.
 
 ![Verify integration event delivery](/gif/integrations/braze/verify_braze_integration_delivery.gif)
 
-All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations).
+All integration delivery can be monitored via the integration's event logs by clicking *View Event Logs* on the [Integrations page](https://radar.com/dashboard/integrations#braze).
 
 ## Example use cases
 
