@@ -82,8 +82,10 @@ The CSV may have the following columns:
 - **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number. **Cannot be used with `metadata.{key}` columns.**
 - **`metadata.{key}`** (string, optional): Instead of converting `metadata` to stringified JSON, use columns of this format to add a key-value pairs to `metadata`. For example, the column header `metadata.pickup-mode` with a value of `"drive-thru"` will resolve to `{ pickup-mode: "drive-thru" }`. Avoid using spaces and commas for keys. **Cannot be used with the `metadata` column.**
+- **`operatingHours`** (dictionary, optional): An optional set of key-value pairs restricting the hours when the geofence generates events. Each key is a day of the week (e.g., `Sunday`) or the three letter abbreviation of the day (e.g., `Sun`), case insensitive. Each value is a list of pairs, where a pair indicates one opening and closing time for that day. For example, a restaurant only open for lunch and dinner on Sundays would be `{ Sunday: [["11:00", "14:00"], ["19:00", "22:00"]] }`. Accepted time formats include `h:mm aa` (e.g., `12:45 AM`) and `HH:mm` (e.g., `00:45`). If neither `operatingHours` nor `operatingHours.{day}` is provided, the geofence will always generate events. **Cannot be used with `operatingHours.{day}` columns.**
+- **`operatingHours.{day}`** (string, optional): Instead of converting `operatingHours` to stringified JSON, use columns of this format to add a key-value pairs to `operatingHours`. For example, the column header `operatingHours.sunday` (or `operatingHours.sun`) with a value of `"[["11:00", "14:00"], ["19:00", "22:00"]]"` will resolve to `{ Sunday: [["11:00", "14:00"], ["19:00", "22:00"]] }`. If neither `operatingHours` nor `operatingHours.{day}` is provided, the geofence will always generate events. **Cannot be used with the `operatingHours` column.**
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
-- **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
+- **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. `disableAfter` operates independently of `operatingHours`. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
 - **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes). For example, a value of `10` would result in a dwell event on the next track call after a user has occupied a geofence for 10 minutes.
@@ -94,15 +96,16 @@ The CSV may have the following columns:
 For example, to import a circle geofence representing a store and a polygon geofence representing a neighborhood, you could use the following CSV:
 
 ```json
-description,tag,externalId,type,radius,mode,coordinates,address,enabled,metadata,stopDetection,disableAfter,deleteAfter,userId
-"Store #123",store,123,circle,50,,"[-73.975363,40.783826]",,true,"{""parking"":false}",,,,
-"SoHo",neighborhood,soho,polygon,,,"[[-73.996973,40.725660],[-73.998282,40.726294],[-74.001072,40.727660],[-74.002853,40.728603],[-74.003282,40.727936],[-74.003840,40.726310],[-74.004226,40.725351],[-74.004998,40.723530],[-74.005191,40.722993],[-74.005556,40.722115],[-74.004462,40.721334],[-74.001908,40.719496],[-73.999827,40.718016],[-73.997467,40.720863],[-73.997016,40.722212],[-73.996501,40.723497],[-73.995750,40.724278],[-73.995128,40.725107],[-73.996973,40.725660]]",,true,,,,,
-"15 minutes driving to Disney World","car-15",disney,isochrone,15,car,"[-81.563874,28.385233]",,true,"{""type"":""resort""}",,,,
-"Stopped Empire State Building",stopped,456,circle,50,,"[-73.9878531,40.7484445]",,true,,true,,,
-"Madison Square Garden",address,123,circle,50,,,"4 Pennsylvania Plaza, New York, NY 10001",true,,,,,
-"Disable and delete after New Years",newyears,2027,circle,50,,"[-73.9877313,40.7579787]",,true,,,"2027-01-01T00:01:00-05:00","Jan 2, 2027",
-"Disable and delete after New Years 2",newyears2,2027,circle,50,,"[-73.9887289,40.7561842]",,true,,,1/1/27,2027/1/2,
-"Simulated user geofence",user,simulated,circle,50,,"[-73.9934387,40.7505045]",,true,,,,,"simulated-user-id"
+description,tag,externalId,type,radius,mode,coordinates,address,enabled,metadata,stopDetection,disableAfter,deleteAfter,userId,operatingHours
+"Store #123",store,123,circle,50,,"[-73.975363,40.783826]",,true,"{""parking"":false}",,,,,
+"SoHo",neighborhood,soho,polygon,,,"[[-73.996973,40.725660],[-73.998282,40.726294],[-74.001072,40.727660],[-74.002853,40.728603],[-74.003282,40.727936],[-74.003840,40.726310],[-74.004226,40.725351],[-74.004998,40.723530],[-74.005191,40.722993],[-74.005556,40.722115],[-74.004462,40.721334],[-74.001908,40.719496],[-73.999827,40.718016],[-73.997467,40.720863],[-73.997016,40.722212],[-73.996501,40.723497],[-73.995750,40.724278],[-73.995128,40.725107],[-73.996973,40.725660]]",,true,,,,,,
+"15 minutes driving to Disney World","car-15",disney,isochrone,15,car,"[-81.563874,28.385233]",,true,"{""type"":""resort""}",,,,,
+"Stopped Empire State Building",stopped,456,circle,50,,"[-73.9878531,40.7484445]",,true,,true,,,,
+"Madison Square Garden",address,123,circle,50,,,"4 Pennsylvania Plaza, New York, NY 10001",true,,,,,,
+"Disable and delete after New Years",newyears,2027,circle,50,,"[-73.9877313,40.7579787]",,true,,,"2027-01-01T00:01:00-05:00","Jan 2, 2027",,
+"Disable and delete after New Years 2",newyears2,2027,circle,50,,"[-73.9887289,40.7561842]",,true,,,1/1/27,2027/1/2,,
+"Simulated user geofence",user,simulated,circle,50,,"[-73.9934387,40.7505045]",,true,,,,,"simulated-user-id",
+"Sunday breakfast and dinner",restaurant,sunday,circle,50,,"[-73.9934387,40.7505045]",,,,,,,,"{""Sun"":[[""09:00"",""14:00""], [""17:00"",""22:00""]]}"
 ```
 
 **Again, note that longitude comes before latitude, a GeoJSON convention.**
