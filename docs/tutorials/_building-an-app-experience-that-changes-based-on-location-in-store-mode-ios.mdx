@@ -9,7 +9,7 @@
 
 If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
 
-<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a>
+<p> <a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a> </p>
 
 ### Step 2: Import geofences
 
@@ -37,8 +37,9 @@ RadarMart #3,store,3,circle,100,"[-73.983295,40.697693]",true,"{""parking"":fals
 
 [Install the Radar SDK](/sdk/ios).
 
-Initialize the SDK in your `AppDelegate` class with your publishable API key and request `When In Use` location permissions. You must add location usage strings to the custom iOS Target Properties found in the Info tab of the app settings. To request foreground permissions in the app, add a new property with the key `NSLocationWhenInUseUsageDescription` (_Privacy - Location When In Use Usage Description_). The value is displayed in the location permission prompts. Enter a message such as `Your location will be used to personalize in app experiences`.
+Initialize the SDK in your `AppDelegate` class with your publishable API key and request `When In Use` location permissions. You must add location usage strings to the custom iOS Target Properties found in the Info tab of the app settings. 
 
+To request foreground permissions in the app, add a new property with the key `NSLocationWhenInUseUsageDescription` (_Privacy - Location When In Use Usage Description_). The value is displayed in the location permission prompts. Enter a message such as `Your location will be used to personalize in app experiences`.
 
 ```swift
 import UIKit
@@ -50,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     let locationManager = CLLocationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Radar.initialize(publishableKey: "prj_test_pk_...")
+        Radar.initialize(publishableKey: "prj_test_pk...")
         self.locationManager.delegate = self
         return true
     }

@@ -9,7 +9,7 @@
 
 If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
 
-<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a>
+<p> <a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a> </p>
 
 ### Step 2: Import geofences
 
@@ -35,116 +35,201 @@ RadarMart #3,store,3,circle,100,"[-73.983295,40.697693]",true,"{""parking"":fals
 
 ### Step 3: Install the Radar React Native SDK and React Navigation
 
-[Install the Radar SDK](/sdk/react-native).
+Install the [Radar SDK](/sdk/react-native). Since only foreground location will be collected, the Radar SDK can be initialized in javascript rather than initializing the SDK in native code.
 
-Since only foreground tracking is needed, the React Native SDK can be initialized in javascript. Additionally, ensure foreground location permissions are requested. In this tutorial, we will just check for permissions on each home screen render:
+Additionally, this example will use React Navigation to direct the user to the in store mode if in store. Follow the [installation steps here](https://reactnative.dev/docs/navigation).
 
+### Step 4: Create the home screen with an in store check
+
+Add a new react component that will serve as your home screen. In this home screen, we will check for location permissions and request if not granted. If granted, we will check if the user is in store.
 
 ```javascript
 
 import Radar from 'react-native-radar';
-
-Radar.initialize("prj_test_pk_...");
+Radar.initialize("prj_test_pk...");
 
 export default HomeScreen = () => {
-  
-    useEffect(() => {
-      requestPermissions();
-      // other on render logic
-    }, []);
+  useEffect(() => {
+    inStoreModeLoader();
+  }, []);
 
-    const requestPermissions = () => {
-      Radar.getPermissionsStatus().then((status) => {
-       if (status === 'NOT_DETERMINED') {
+  const inStoreModeLoader = () => {
+    Radar.getPermissionsStatus().then((status) => {
+      if (status === "GRANTED_FOREGROUND" || status === "GRANTED_BACKGROUND") {
+        inStoreModalLoad()
+      } else if (status === "NOT_DETERMINED") {
         Radar.requestPermissions(false).then((status) => {
           if (status === 'GRANTED_FOREGROUND') {
-            // in store mode check if permissions granted
+            inStoreModalLoad()
           }
         });
-       }
-      }).catch((error) => console.log(error.message)) 
-    }
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  return(
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={'light-content'} />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
+        {/* in store element to be added */}
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
 ```
 
-Additionally, this example will use React Navigation to direct the user to the in store mode. See here for details on installation: https://reactnative.dev/docs/navigation
+The `inStoreModalLoad` function checks if the app will let the user enter in store mode.
 
-### Step 4: Check if the user is in a geofence, then change the UI
+The method calls `Radar.trackOnce()` to capture the user's location in the foreground and returns user context including what geofences the user is detected to be in. In the callback, we check `user.geofences` to determine if the user is in a geofence and use the `geofences[*].externalId` to extract the detected store's Id.
 
-Call `Radar.trackOnce()` to track the user's location in the foreground. In the callback, check `user.geofences` to determine if the user is in a geofence, then display a modal to navigate the user to in store mode.
-
-Additionally, the callback is used to get the store id, geofence external id, which is used to present information specific to the given store on the in store screen.
+We also set state variables to track if the in store check is still loading and if the user is eligible to enter in store mode.
 
 ```javascript
+export default HomeScreen = () => {
+  const [inStoreModalMessageVisible, setInStoreModalMessageVisible] = useState(false);
+  const [storeId, setStoreId] = useState('');
+  const [loading, setLoading] = useState(true);
+  
+  // existing logic
 
+  const inStoreModalLoad = () => {
+    Radar.trackOnce().then(result => {
+      if (result.status === "SUCCESS") {
+        inStoreModeCheck(result)
+      } else {
+        console.log(result.status)
+      }
+      setLoading(false);
+    })
+  }
+
+  const inStoreModeCheck = (result) => {
+    if (result.user?.geofences?.some(geofence => geofence.tag == "store")) {
+      setInStoreModalMessageVisible(true);
+      let storesDetected = result.user?.geofences?.filter(geofence => geofence.tag == "store")
+      let storeIdDetected = storesDetected[0].externalId
+      setStoreId(storeIdDetected)
+    }
+  }
+}
+```
+
+Finally, the data returned from the `inStoreModalLoad` is used to conditionally allow the user to enter in store mode.
+
+We leverage React Navigation to pass through the id of the store detected to our in store mode screen.
+
+```javascript
 import {useNavigation} from '@react-navigation/native';
 
 export default HomeScreen = () => {
-    const myNavigation = useNavigation();
-    const [inStoreModalMessageVisible, setInStoreModalMessageVisible] = useState(false);
-    const [storeId, setStoreId] = useState('');
+  const myNavigation = useNavigation();
   
-    useEffect(() => {
-      requestPermissions();
-      inStoreModeLoader();
-    }, []);
-  
-    const startInStoreMode = () => {
-        myNavigation.navigate('inStoreMode', {storeId: storeId})
-    }
-  
-    const inStoreModeLoader = async () => {
-      Radar.trackOnce({"desiredAccuracy":"high"}).then(result => {
-        if (result.status === "SUCCESS") {
-          if (result.user?.geofences?.some(geofence => geofence.tag == "store")) {
-            setInStoreModalMessageVisible(true);
-            let storesDetected = result.user?.geofences?.filter(geofence => geofence.tag == "store")
-            let storeIdDetected = storesDetected[0].externalId
-            setStoreId(storeIdDetected)
-          }
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
+  // existing code
 
-    return(
-      <SafeAreaView style={backgroundStyle}>
-       // other react elements to render
-        <Modal visible={inStoreModalMessageVisible} transparent={true} animationType="slide">
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text>Welcome to the store!</Text>
-              <View>
-                <Button
-                  onPress={startInStoreMode}
-                  title="Activate in store mode"
-                  color="#841584"
-                />
-              </View>
-            </View>
-          </View>
-        </Modal>
-      </SafeAreaView>
-    )
+  const startInStoreMode = () => {
+      myNavigation.navigate('inStoreMode', {storeId: storeId})
+  }
+
+  const StoreExperience = () => {return (
+    <View style={styles.centeredView}>
+      <View style={modalStyle}>
+        <Text style={styles.textStyle}>Welcome to the store!</Text>
+        <View>
+          <Button
+            onPress={startInStoreMode}
+            title="Activate in store mode"
+            color="#841584"
+          />
+        </View>
+      </View>
+    </View>
+  )}
+
+  const StoreMessage = ({ message }) => {return (
+    <View style={styles.centeredView}>
+      <View style={modalStyle}>
+        <Text style={styles.textStyle}>{message}</Text>
+      </View>
+    </View>
+  )}
+
+  return(
+  <SafeAreaView style={backgroundStyle}>
+    <StatusBar barStyle={'light-content'} />
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      style={backgroundStyle}>
+      {loading? null :
+        <View>
+          {inStoreModalMessageVisible? <StoreExperience /> : <StoreMessage message="In store mode not available." />}
+        </View>
+      }
+    </ScrollView>
+  </SafeAreaView>
+)
 }
 ```
 
+### Step 5: Create the in store mode screen and navigation
+
+Now that we have a home screen that checks whether or not the user is in store and conditionally renders a in store mode navigation option, we can build the in store mode screen.
+
+We will take the store id passed through the navigation and surface it.
+
 ```javascript
 export default InStoreScreen = ({route}) => {
+
   return (
     <SafeAreaView style={backgroundStyle}>
-        // other react elements to render
+      <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      style={backgroundStyle}>
         <View>
-          <Text>Welcome to store #{route.params.storeId}</Text>
+          <Text style={styles.sectionTitleDark}>Welcome to store #{route.params.storeId}</Text>
+          {/* add additional in store features */}
         </View>
+      </ScrollView>
     </SafeAreaView>
 )};
 ```
 
-### Step 5: Verify in store mode triggers when in a geofence.
+We can now refactor our App entry point with a navigation container using the two screens we created.
+
+```javascript
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+import InStoreScreen from './InStoreScreen';
+import HomeScreen from './HomeScreen';
+
+const App: () => Node = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{title: 'Radar Mart'}}
+        />
+        <Stack.Screen name="inStoreMode" component={InStoreScreen} options={{title: 'In Store Mode'}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+```
+
+### Step 6: Verify in store mode triggers when in a geofence.
 
 Either simulate location on your phone or adjust the geofence location to your testing device's location. When you open the app, verify the in store mode triggers when in a geofence, but not when outside the geofence.  You should also see a user record appear on the Users page of the Radar dashboard with the detected geofences.
+
+![In Store Mode Verification](/gif/tutorials/in-store-mode/verify_in_store_mode_react_native.gif)
 
 ## Support
 

@@ -9,7 +9,7 @@
 
 If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
 
-<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a>
+<p> <a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API Keys</a> </p>
 
 ### Step 2: Import geofences
 
@@ -53,7 +53,7 @@ class MyApplication : Application() {
 }
 ```
 
-In the `MainActvity` class implementation a request for foreground location permissions. This will require Android manifest additions for the ACCESS_COARSE_LOCATION and ACCESS_FINE_LOCATION permissions.
+In the `MainActivity` class implement a request for foreground location permissions. This will require Android manifest additions for the `ACCESS_COARSE_LOCATION` and `ACCESS_FINE_LOCATION` permissions.
 
 ```kotlin
 import io.radar.sdk.Radar
@@ -118,7 +118,7 @@ In this example, the in store mode is a separate Activity that is navigated to i
     }
 ```
 
-Below is the example InStoreMode activity. The store information is captured from the intent and displayed to the customer as part of the in store experience.
+Below is the example `InStoreMode` activity. The store information is captured from the intent and displayed to the user as part of the in store experience.
 
 ```kotlin
 class InStoreMode : AppCompatActivity() {
