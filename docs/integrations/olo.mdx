@@ -5,17 +5,16 @@ import Alert from "../../src/components/Alert";
 
 <Alert alertType="info">
   The Olo integration is available on the {` `}
-  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
-  .
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>.
 </Alert>
 
-Radar's Olo integration can be used to track customer pickups for orders placed through [Olo](https://www.olo.com). The integration includes optional capabilities to fire orders based on customers' location via [Radar trip tracking](/trip-tracking) and send approaching and arrival alerts to Olo Expo.
+Radar can track customer pickups for orders placed through [Olo](https://www.olo.com). The integration includes optional capabilities to fire orders based on customers' location and send approaching and arrival alerts to Olo Expo.
 
 ## Configuration
 
-Configure an Olo webhook to deliver to https://api.radar.io/webhooks/olo via the Development Tools section of the Olo Dashboard (requires two-factor authentication and at least Brand Manager permission). Enable the Order Placed and Order Cancelled Order Events and if leveraging Olo Expo enable the `Order Picked Up` event.
+Configure an Olo webhook to deliver to https://api.radar.io/webhooks/olo via the *Development Tools* section of the Olo Dashboard (requires two-factor authentication and at least Brand Manager permission). Under the *Order Events* section, enable *Order Placed* and *Order Cancelled* and if leveraging Olo Expo enable *Order Picked Up* event types.
 
-On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste in your brand ID. Brand IDs required for the integration are provided by Olo. Enter a destination geofence tag (e.g., `restaurant`), and optionally map fields from the Olo webhook body to Radar trip metadata. Select the applicable Olo *Handoff modes* that should trigger trip create and cancel events.
+On the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, set *Enabled* to *Yes* and paste in your brand ID. Reach out to your Olo Support Agent to get your brand ID. Enter a destination geofence tag (e.g., `restaurant`), and optionally map fields from the Olo webhook body to Radar trip metadata. Select the applicable Olo *Handoff modes* where you are enabling Radar pickup tracking.
 
 Finally, on the Radar [Geofences page](https://radar.com/dashboard/geofences), [import geofences](/geofences) for your restaurants. For destination geofence tag in the Olo configuration, use the tag used in the restaurant geofence configuration.
 
@@ -23,21 +22,35 @@ Finally, on the Radar [Geofences page](https://radar.com/dashboard/geofences), [
 
 Radar will automatically create trips when new orders are placed, as well as complete or cancel trips when orders are completed or cancelled in Olo. You will need to call `Radar.startTrip()` with just the Olo order ID as the trip options external Id and start Radar tracking.
 
-Assuming locations permissions have been granted and location tracking has been started in your app, Radar will generate location-based `user.updated_trip`, `user.approaching_trip_destination`, and `user.arrived_at_trip_destination` events and calculate live ETAs to the restaurant for each order. Learn more about [Trip Tracking](/trip-tracking).
+
+The mapping below will be used between the Olo webhook and a Radar trip:
+
+| Olo webhook field  | Radar trip attribute |
+| ------------- | ------------- |
+| `orderId` | Trip external id |
+| `storeNumber` | Trip destination |
+| `timeReady` - `timePlaced` | Trip approaching threshold* |
+| `timeReady` | Trip scheduled arrival at* |
+
+**Require associated auto-calculate order firing setting to be enabled*
+
+Assuming locations permissions have been granted and location tracking has been started in your app, Radar will calculate live ETAs to the restaurant and generate `user.updated_trip`, `user.approaching_trip_destination`, and `user.arrived_at_trip_destination` events.
 
 ## Order firing
 
-In order for Radar to automatically fire your orders based on location proximity, you will need to either submit Olo baskets with `ismanualfire` as `true` or set a `timewanted` for advance orders. 
+Radar can fire orders in Olo based on customer location rather than a preset time to ensure food preparation time aligns with customer arrival.
 
-Additionally, configure Radar as a Customer Arrival Partnership Type via the Partner Management section of the Olo Dashboard. Ensure to select stores in the configuration where order firing will be enabled. Upon completion, reach out to your Radar account team to complete the order firing integration.
+Orders in Olo will need to have `ismanualfire` set to `true` or set a `timewanted` for advance orders. 
+
+Additionally, configure Radar as a *Partnership Type* of *Customer Arrival* via the *Partner Management* section of the Olo Dashboard. Select stores in the configuration where order firing will be enabled. Upon completion, reach out to your Radar account team to complete the order firing integration.
 
 ### Scheduled arrival at
 
-A `scheduledArrivalAt` datetime is also required as a fallback in the event location is disabled or the device is experiencing connectivity issues. 
+A `scheduledArrivalAt` datetime is required as a fallback in the event location is disabled or the device is experiencing connectivity issues. 
 
 You can enable Radar to auto-calculate the `scheduledArrivalAt`, which is initially set to the `timeReady` value from the Olo Order Placed webhook and then continues to update based on each trip ETA calculation. This includes a backup fire delay setting which is a maximum number of minutes to push back the initial scheduled arrival at. 
 
-As an alternative to Radar's automatic calculation, you can manually set the `scheduledArrivalAt` either via `Radar.updateTrip()` in the app or the [Trips API](/api#trips) server-side.
+As an alternative to Radar's automatic calculation, manually set the `scheduledArrivalAt` either via `Radar.updateTrip()` in the app or the [Trips API](/api#trips) server-side.
 
 ### Approaching threshold
 
@@ -45,12 +58,12 @@ In the Radar [Trips Settings](https://radar.com/dashboard/settings#trips-setting
 
 You can enable Radar to auto-calculate the approaching threshold for ASAP orders, which is initially set to the time difference between `timeReady` and `timePlaced` from the Olo Order Placed webhook.
 
-As an alternative to Radar's automatic calculation, you can set the approaching threshold either at the store level via the `tripApproachingThreshold` property on geofences (/api#geofences), via `Radar.updateTrip()` in the app or the [Trips API](/api#trips) server-side.
+As an alternative to Radar's automatic calculation, set the approaching threshold either at the store level via the `tripApproachingThreshold` property in the [geofences API](/api#geofences) or at the order level via `Radar.updateTrip()` in the app or [Trips API](/api#trips) server-side.
 
 ## Expo notifications
 
-Radar is a Customer Arrival Olo partner and can automatically provide *Approaching* and *Arrival* status updates to Olo Expo based on Radar trip tracking [events](/api#events). This keeps in-store teams up-to-date with real-time status updates on tracked mobile orders. Additionally, if your team utilizes the *Picked Up* button in Olo Expo, this will automatically complete the Radar trip and capture completion time for trip duration and wait time analytics.
+Radar is a Customer Arrival Olo partner and can automatically provide *Approaching* and *Arrival* status updates to Olo Expo based on Radar trip tracking [events](/trip-tracking#trip-events). This keeps in-store teams up-to-date with real-time status updates on tracked mobile orders. Additionally, if your team utilizes the *Picked Up* button in Olo Expo, this will automatically complete the Radar trip and capture completion time for trip duration and wait time analytics.
 
-Configure Radar as a Customer Arrival Partnership Type via the Partner Management section of the Olo Dashboard if this was not completed for order firing. Ensure to select stores in the configuration where order firing will be enabled. Upon completion, reach out to your Radar account team to complete the order firing integration.
+Configure Radar as a Customer Arrival Partnership Type via the Partner Management section of the Olo Dashboard if this was not completed to enable order firing. Select stores in the configuration where order firing will be enabled. Upon completion, reach out to your Radar account team to complete the order firing integration.
 
 Finally, on the [Integrations page](https://radar.com/dashboard/integrations) under *Olo*, you will need to set *Expo updates enabled* to *Yes*, and `Save` your integration settings.
