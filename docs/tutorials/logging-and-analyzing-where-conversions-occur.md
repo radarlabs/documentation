@@ -124,7 +124,7 @@ Radar.logConversion(
 ```kotlin
 // on searching for a product
 val metadata = JSONObject(mapOf("product" to "shirt"))
-Radar.sendEvent(
+Radar.logConversion(
     "purchase",
     12.50,
     metadata
