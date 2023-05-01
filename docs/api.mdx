@@ -829,6 +829,15 @@ Returns a `verificationStatus` as part of the `result`, as defined below:
 - **`ambiguous`**: The input closely matches multiple results.
 - **`unverified`**: Unable to verify the input address.
 
+Returns a `recordType` value in the `metadata` field as part of the `result`, values are defined below according to USPS standards:
+
+- **`S`**: Street Address
+- **`P`**: Post Office Box
+- **`R`**: Rural Route
+- **`H`**: High-rise
+- **`F`**: Firm
+- **`G`**: General Delivery
+
 ###### Definitions
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/addresses/validate</code>
@@ -856,7 +865,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/addresses/validate?countryCode=US&stateCode=NY&city=New%20York&number=841&postalCode=10003&street=Broadway%20St&unit=Fl%7" \
+curl "https://api.radar.io/v1/addresses/validate?countryCode=US&stateCode=NY&city=New%20York&number=841&postalCode=10003&street=Broadway&unit=Fl%7" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -868,20 +877,20 @@ curl "https://api.radar.io/v1/addresses/validate?countryCode=US&stateCode=NY&cit
     "code": 200
   },
   "address": {
-    "country": "United States",
-    "countryCode": "US",
-    "city": "New York",
+    "addressLabel": "841 BROADWAY FL 7",
+    "unit": "FL 7",
     "number": "841",
-    "postalCode": "10003",
-    "plus4": "4704"
+    "street": "BROADWAY",
+    "city": "NEW YORK",
     "stateCode": "NY",
-    "state": "New York",
-    "street": "Broadway",
-    "unit": "Fl 7",
-    "formattedAddress": "841 Broadway Fl 7, New York, NY 10003-4704, USA",
-    "addressLabel": "20 Jay St",
+    "postalCode": "10003",
+    "plus4": "4704",
+    "county": "NEW YORK",
+    "countryCode": "US",
+    "formattedAddress": "841 BROADWAY FL 7, NEW YORK, NY 10003-4704 US",
     "metadata": {
-      "propertyType": "residential"
+      "recordType": "H",
+      "propertyType": "commercial"
     }
   },
   "result": {
