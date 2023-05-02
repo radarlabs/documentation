@@ -431,3 +431,5 @@ table th, table td {
 .container.padding-top--md {
   padding-top: 2rem !important;
 }
+
+@import 'https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css'

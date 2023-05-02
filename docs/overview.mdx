@@ -11,7 +11,7 @@ import Card from '../src/components/TileCard';
 
 Radar is location infrastructure for every product and service. You can use our [SDKs](/sdk) and [APIs](/api) to build a wide range of use cases, including pickup and delivery tracking, location-based messaging, location verification, store locators, address autocomplete, and more.
 
-## Products
+## Geofencing Platform
 
 <div className="card-stack">
   <LinkCard linkTo="/geofences">
@@ -74,8 +74,22 @@ Radar is location infrastructure for every product and service. You can use our 
       Detect GPS spoofing, proxy and VPN usage, and device tampering
     </IconCard>
   </LinkCard>
-  
-  <LinkCard linkTo="/api#geocoding">
+
+  <LinkCard linkTo="/integrations">
+    <IconCard title="Integrations"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/7JzCleHIpXZ5lZuqIKLxa/844415e94b2194eb894cd8a9bebe859d/integrations.svg" />
+      }
+    >
+      Send Radar events and user context to other systems server-to-server
+    </IconCard>
+  </LinkCard>
+</div>
+
+## Maps Platform
+
+<div className="card-stack">
+  <LinkCard linkTo="/maps/geocoding">
     <IconCard title="Geocoding APIs"
       icon={
         <img src="https://images.ctfassets.net/f2vbu16fzuly/3s9QryJGkIPcIq90BFuOvp/d5e14589fd68c6ab6e7a128506d8b4c7/geocoding.svg" />
@@ -85,17 +99,17 @@ Radar is location infrastructure for every product and service. You can use our 
     </IconCard>
   </LinkCard>
 
-  <LinkCard linkTo="/api#search">
+  <LinkCard linkTo="/maps/search">
     <IconCard title="Search APIs"
       icon={
         <img src="https://images.ctfassets.net/f2vbu16fzuly/wQgRaU0OQvmLhRRjjnO37/f7925ac0a0feaf16197c141efddb762e/search.svg" />
       }
     >
-      Autocomplete and place search APIs
+      Autocomplete, address validation, and place search APIs
     </IconCard>
   </LinkCard>
 
-  <LinkCard linkTo="/api#routing">
+  <LinkCard linkTo="/maps/routing">
     <IconCard title="Distance APIs"
       icon={
         <img src="https://images.ctfassets.net/f2vbu16fzuly/73pNAAJXtWErBEruCVQLcB/c20397366642f637b2e819e50d84b8ac/routing.svg" />
@@ -104,13 +118,23 @@ Radar is location infrastructure for every product and service. You can use our 
       Distance and matrix APIs to calculate travel distance and duration
     </IconCard>
   </LinkCard>
+
+  <LinkCard linkTo="/maps/maps">
+    <IconCard title="Maps"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/73pNAAJXtWErBEruCVQLcB/c20397366642f637b2e819e50d84b8ac/routing.svg" />
+      }
+    >
+      Simple but powerful base maps and UI kits
+    </IconCard>
+  </LinkCard>
 </div>
 
-## Developer tools
+## For developers
 
 <div className="card-stack">
   <LinkCard linkTo="/sdk">
-    <IconCard title="SDK reference"
+    <IconCard title="SDK Reference"
       icon={
         <img src="https://images.ctfassets.net/f2vbu16fzuly/316liiuHbIwIoss2mFLRwI/803bc94cde2078bf6180c201b9ed48e3/sdk.svg" />
       }
@@ -120,7 +144,7 @@ Radar is location infrastructure for every product and service. You can use our 
   </LinkCard>
 
   <LinkCard linkTo="/api">
-    <IconCard title="API reference"
+    <IconCard title="API Reference"
       icon={
         <img src="https://images.ctfassets.net/f2vbu16fzuly/50bd5vIUh4cewCzl0obxW7/1b0a6efc36e9095a3985995eac41c523/api.svg" />
       }
@@ -129,13 +153,13 @@ Radar is location infrastructure for every product and service. You can use our 
     </IconCard>
   </LinkCard>
 
-  <LinkCard linkTo="/integrations">
-    <IconCard title="Integrations"
+  <LinkCard linkTo="/tutorials">
+    <IconCard title="Tutorials"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/7JzCleHIpXZ5lZuqIKLxa/844415e94b2194eb894cd8a9bebe859d/integrations.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/50bd5vIUh4cewCzl0obxW7/1b0a6efc36e9095a3985995eac41c523/api.svg" />
       }
     >
-      Send Radar events and user context to other systems server-to-server
+      APIs for server-side implementations
     </IconCard>
   </LinkCard>
 
