@@ -82,8 +82,8 @@ The CSV may have the following columns:
 - **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number. **Cannot be used with `metadata.{key}` columns.**
 - **`metadata.{key}`** (string, optional): Instead of converting `metadata` to stringified JSON, use columns of this format to add a key-value pairs to `metadata`. For example, the column header `metadata.pickup-mode` with a value of `"drive-thru"` will resolve to `{ pickup-mode: "drive-thru" }`. Avoid using spaces and commas for keys. **Cannot be used with the `metadata` column.**
-- **`operatingHours`** (dictionary, optional): An optional set of key-value pairs restricting the hours when the geofence generates events. Each key is a day of the week (e.g., `Sunday`) or the three letter abbreviation of the day (e.g., `Sun`), case insensitive. Each value is a list of pairs, where a pair indicates one opening and closing time for that day. For example, a restaurant only open for lunch and dinner on Sundays would be `{ Sunday: [["11:00", "14:00"], ["19:00", "22:00"]] }`. Accepted time formats include `h:mm aa` (e.g., `12:45 AM`) and `HH:mm` (e.g., `00:45`). If neither `operatingHours` nor `operatingHours.{day}` is provided, the geofence will always generate events. **Cannot be used with `operatingHours.{day}` columns.**
-- **`operatingHours.{day}`** (string, optional): Instead of converting `operatingHours` to stringified JSON, use columns of this format to add a key-value pairs to `operatingHours`. For example, the column header `operatingHours.sunday` (or `operatingHours.sun`) with a value of `"[["11:00", "14:00"], ["19:00", "22:00"]]"` will resolve to `{ Sunday: [["11:00", "14:00"], ["19:00", "22:00"]] }`. If neither `operatingHours` nor `operatingHours.{day}` is provided, the geofence will always generate events. **Cannot be used with the `operatingHours` column.**
+- **`operatingHours`** (dictionary, optional): An optional set of key-value pairs restricting the [operating hours of the geofence](/geofences#operating-hours). Each key is a day of the week (e.g., `Sunday`) or the three letter abbreviation of the day (e.g., `Sun`), case insensitive. Each value is a list of pairs, where a pair indicates one opening and closing time for that day. For example, a restaurant only open for lunch and dinner on Sundays would be `{ Sunday: [["11:00", "14:00"], ["19:00", "22:00"]] }`. Accepted time formats include `h:mm aa` (e.g., `12:45 AM`) and `HH:mm` (e.g., `00:45`). If neither `operatingHours` nor `operatingHours.{day}` is provided, the geofence will always operating. **Cannot be used with `operatingHours.{day}` columns.**
+- **`operatingHours.{day}`** (string, optional): Instead of converting `operatingHours` to stringified JSON, use columns of this format to add a key-value pairs to `operatingHours`. For example, the column header `operatingHours.sunday` (or `operatingHours.sun`) with a value of `"[["11:00", "14:00"], ["19:00", "22:00"]]"` will resolve to `{ Sunday: [["11:00", "14:00"], ["19:00", "22:00"]] }`. If neither `operatingHours` nor `operatingHours.{day}` is provided, the geofence will always operating. **Cannot be used with the `operatingHours` column.**
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
 - **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. `disableAfter` operates independently of `operatingHours`. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
@@ -169,6 +169,19 @@ Turn on _Geofence Stop Detection_ at a project level on the [Settings page](http
 When _Buffer Entries_ is on, Radar will use the accuracy of the location reported to determine overlap with the geofence boundary to generate a geofence entry event. See the [confidence and accuracy](/geofences#confidence-and-accuracy) for more on this detection logic. When off, the location reported will need to fall within the boundaries of the geofence to trigger the entry event.
 
 When _Buffer Exits_ is on, Radar will use the accuracy of the location reported as a buffering distance from the geofence edge before generating a geofence exit event. This buffering minimizes premature exit detection.  When off, the first location reported falling outside the boundaries of a geofence will trigger the exit event.
+
+## Operating hours
+
+When _Operating Hours_ are set on a geofence, Radar will know whether a user entered / exited / dwelled in the geofence during its operating hours. Radar will inject a top level boolean flag of `currentlyOperating` to all geofence event payloads. 
+
+Radar can also restrict geofence events from being generated completely if outside of the operating hours. This would be in substitute of having `currentlyOperating` set in the Radar response payload. Turn on whether you want to restrict entry event generation to operating hours at the project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
+
+Operating hours can be set for a geofence via the geofence [csv import](https://radar.com/documentation/geofences#csv-import), the geofence [upsert API](https://radar.com/documentation/api#upsert-a-geofence), or in the advanced section of the dashboard create / edit geofence page.
+
+<img
+  src="https://images.ctfassets.net/f2vbu16fzuly/2NBWd8m5bdREs2U0YEwlOI/658e8683aab80223b0ab50a055dc4136/operating-hours.png"
+  className="hero-image"
+/>
 
 ## Dwell events
 
