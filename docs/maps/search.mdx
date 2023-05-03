@@ -1,3 +1,84 @@
 ---
 title: Search APIs
 ---
+
+Use Radar's search APIs to search data in Radar, including addresses, places, and geofences. Radar's search APIs are a cost-effective alternative to Google Maps Platform and Mapbox.
+
+## Quickstart
+
+First, [sign up](/signup) for Radar and get an API key.
+
+Then, call one of the search APIs below, either [directly](/documentation/api) or [using the SDK](/documentation/sdk).
+
+From there, use the APIs to build location features in your app or website, such as store locators, address autocomplete, or delivery tracking.
+
+## Endpoints
+
+### Address autocomplete
+
+Use the address autocomplete API to autocomplete partial addresses.
+
+This endpoint is best for partial addresses. For complete addresses, call the [forward geocoding API](/documentation/maps/geocoding#forward) instead.
+
+Use cases for this endpoint include autocompleting partial addresses for checkout forms or store locators.
+
+See the autocomplete API reference [here](/documentation/api#autocomplete).
+
+### Address validation
+
+Use the address validation API to validate complete structured addresses.
+
+Use cases for this endpoint include verifying addresses or suggesting mailable addresses for checkout forms or delivery.
+
+See the address validation API reference [here](/documentation/api#validate-an-address).
+
+### Places search
+
+Use the places search API to search for places near a location, filtered by [chain](/documentation/places#chains) (e.g., `mcdonalds`) or [category](/documentation/places#categories) (e.g., `airport`).
+
+Use cases for this endpoint include nearby search.
+
+See the places search API reference [here](/documentation/api#search-places).
+
+### Geofences search
+
+Use the geofences search API to search for geofences near a location, filtered by [tag](/documentation/create-geofences).
+
+Use cases for this endpoint include store locators, assuming you've imported your stores as geofences.
+
+See the geofences search API reference [here](/documentation/api#search-geofences).
+
+## Coverage
+
+Radar's search APIs incorporate both open and commercial datasets for maximum coverage at an affordable price relative to alternatives.
+
+The following table describes data coverage for search APIs, by country, for consumer use cases (e.g., store locators) and logistics use cases (e.g., ride sharing, delivery).
+
+#### Legend
+
+ Icon | Description
+--- | ---
+⬤ | Great data quality and availability
+<span style={{'font-size': '125%'}}>◐</span> | Good data quality and availability
+<span style={{'font-size': '120%'}}>◯</span> | Approximate data quality and availability
+
+#### Coverage
+
+&nbsp; | Coarse (city-level) address autocomplete | Fine (address-level) address autocomplete | Place detection and search
+--- | --- | --- | ---
+🇺🇸 US (consumer) | ⬤ | ⬤ | ⬤
+🇺🇸 US (logistics) | ⬤ | ⬤ | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span>
+🇨🇦 CA (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span>
+🇨🇦 CA (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span>
+🇬🇧 UK (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span>
+🇬🇧 UK (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span>
+🌎 Other (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span>
+🌎 Other (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span>
+
+## Caching
+
+You can cache API responses for up to 30 days. For more information, see our terms of use [here](https://radar.com/terms).
+
+## Report an issue
+
+The Radar team is constantly working to improve data coverage for our geocoding, search, and routing APIs. Bad response? Unexpected error? Report it [here](https://forms.gle/9ZfHi95wd8xgEERb6), and our team will fix it ASAP.

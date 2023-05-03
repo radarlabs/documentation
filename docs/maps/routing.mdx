@@ -1,3 +1,66 @@
 ---
 title: Routing APIs
 ---
+
+Use Radar's routing APIs to calculate travel distances between origins and destinations. Radar's routing APIs are a cost-effective alternative to Google Maps Platform and Mapbox.
+
+## Quickstart
+
+First, [sign up](/signup) for Radar and get an API key.
+
+Then, call one of the routing APIs below, either [directly](/documentation/api) or [using the SDK](/documentation/sdk).
+
+From there, use the APIs to build location features in your app or website, such as store locators, address autocomplete, or delivery tracking.
+
+## Endpoints
+
+### Distance
+
+Use the distance API to calculate the travel distance and duration between an origin and a destination. You can specify one or more travel modes, including `foot`, `bike`, and `car`.
+
+Use cases for this endpoint include calculating the distance and duration of a trip from point A to point B, calculating the ETA for a pickup or delivery, or calculating the walking and driving distance to a nearby store.
+
+See the distance API reference [here](/documentation/api#distance).
+
+### Matrix
+
+Use the matrix API to calculate travel distances and durations between multiple origins and destinations.
+
+Use cases for this endpoint include calculating the walking or driving distance to multiple nearby stores (e.g., in a store locator) or optimizing routes.
+
+See the matrix API reference [here](/documentation/api#matrix).
+
+## Coverage
+
+Radar's routing APIs incorporate both open and commercial datasets for maximum coverage at an affordable price relative to alternatives.
+
+The following table describes data coverage for routing APIs, by country, for consumer use cases (e.g., store locators) and logistics use cases (e.g., ride sharing, delivery).
+
+#### Legend
+
+ Icon | Description
+--- | ---
+⬤ | Great data quality and availability
+<span style={{'font-size': '125%'}}>◐</span> | Good data quality and availability
+<span style={{'font-size': '120%'}}>◯</span> | Approximate data quality and availability
+
+#### Coverage
+
+&nbsp; |  Distance and matrix
+--- | ---
+🇺🇸 US (consumer) | ⬤
+🇺🇸 US (logistics) | ⬤
+🇨🇦 CA (consumer) | ⬤
+🇨🇦 CA (logistics) | ⬤
+🇬🇧 UK (consumer) | ⬤
+🇬🇧 UK (logistics) | ⬤
+🌎 Other (consumer) | <span style={{'font-size': '125%'}}>◐</span>
+🌎 Other (logistics) | <span style={{'font-size': '125%'}}>◐</span>
+
+## Caching
+
+You can cache API responses for up to 30 days. For more information, see our terms of use [here](https://radar.com/terms).
+
+## Report an issue
+
+The Radar team is constantly working to improve data coverage for our geocoding, search, and routing APIs. Bad response? Unexpected error? Report it [here](https://forms.gle/9ZfHi95wd8xgEERb6), and our team will fix it ASAP.

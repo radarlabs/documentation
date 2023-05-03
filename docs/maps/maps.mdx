@@ -23,7 +23,11 @@ To use Radar Maps, you simply use MapLibre with Radar's tile server and map styl
 
 ## Quickstart
 
-Get started with the code sample below. Note that you must pass your Radar publishable key to the style URL. Most of the rest is boilerplate.
+First, [sign up](/signup) for Radar and get an API key.
+
+Then, get started with the sample code below. Note that you must pass your Radar publishable API key to the style URL.
+
+From there, you can add map markers, controls, and much, much more. See the [MapLibre GL JS docs](https://maplibre.org/projects/maplibre-gl-js/).
 
 ```html
 <!DOCTYPE html>
@@ -57,11 +61,11 @@ Get started with the code sample below. Note that you must pass your Radar publi
         center: [0, 0],
         zoom: 1
       });
+
+      map.addControl(new maplibregl.NavigationControl());
     </script>
   </body>
 </html>
 ```
-
-From here, you can add map markers, controls, and much, much more. See the [MapLibre GL JS docs](https://maplibre.org/projects/maplibre-gl-js/).
 
 Happy mapping!

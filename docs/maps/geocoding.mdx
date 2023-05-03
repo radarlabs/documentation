@@ -1,3 +1,76 @@
 ---
 title: Geocoding APIs
 ---
+
+Use Radar's geocoding APIs to convert addresses to latitude and longitude coordinates, or vice versa. Radar's geocoding APIs are a cost-effective alternative to Google Maps Platform and Mapbox.
+
+## Quickstart
+
+First, [sign up](/signup) for Radar and get an API key.
+
+Then, call one of the geocoding APIs below, either [directly](/documentation/api) or [using the SDK](/documentation/sdk).
+
+From there, use the APIs to build location features in your app or website, such as store locators, address autocomplete, or delivery tracking.
+
+## Endpoints
+
+### Forward geocoding
+
+Use the forward geocoding API to convert addresses to coordinates.
+
+This endpoint is best for complete addresses. For partial addresses, call the [autocomplete API](/documentation/maps/search#autocomplete) instead.
+
+Use cases for this endpoint include converting an address to coordinates to drop a pin on a map or search nearby the address.
+
+See the forward geocoding API reference [here](/documentation/api#forward-geocode).
+
+### Reverse geocoding
+
+Use the reverse geocoding API to convert coordinates to an address.
+
+Use cases for this endpoint include displaying an address for a pin dropped on a map.
+
+See the reverse geocoding API reference [here](/documentation/api#reverse-geocode).
+
+### IP geocoding
+
+Use the IP geocoding API to convert IP address to city, state, and country.
+
+Use cases for this endpoint include localizing content on a website or in an app without requesting location permissions.
+
+See the reverse geocoding API reference [here](/documentation/api#reverse-geocode).
+
+## Coverage
+
+Radar's geocoding APIs incorporate both open and commercial datasets for maximum coverage at an affordable price relative to alternatives.
+
+The following table describes data coverage for geocoding APIs, by country, for consumer use cases (e.g., store locators) and logistics use cases (e.g., ride sharing, delivery).
+
+#### Legend
+
+ Icon | Description
+--- | ---
+⬤ | Great data quality and availability
+<span style={{'font-size': '125%'}}>◐</span> | Good data quality and availability
+<span style={{'font-size': '120%'}}>◯</span> | Approximate data quality and availability
+
+#### Coverage
+
+&nbsp; | Coarse (city-level) forward and reverse geocoding | Fine (address-level) forward and reverse geocoding | IP geocoding
+--- | --- | --- | ---
+🇺🇸 US (consumer) | ⬤ | ⬤ | ⬤
+🇺🇸 US (logistics) | ⬤ | ⬤ | ⬤
+🇨🇦 CA (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
+🇨🇦 CA (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
+🇬🇧 UK (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | ⬤
+🇬🇧 UK (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | ⬤
+🌎 Other (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | ⬤
+🌎 Other (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | ⬤
+
+## Caching
+
+You can cache API responses for up to 30 days. For more information, see our terms of use [here](https://radar.com/terms).
+
+## Report an issue
+
+The Radar team is constantly working to improve data coverage for our geocoding, search, and routing APIs. Bad response? Unexpected error? Report it [here](https://forms.gle/9ZfHi95wd8xgEERb6), and our team will fix it ASAP.
