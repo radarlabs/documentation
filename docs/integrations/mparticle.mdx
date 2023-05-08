@@ -25,11 +25,16 @@ Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations)
 
 Whenever events are generated, Radar will send events and user attributes to mParticle. Events and user attributes from iOS devices will be sent to the iOS input feed, and events and user attributes from Android devices will be sent to the Android input feed. The Radar *Test* environment automatically maps to the *Development* environment in mParticle, and the Radar *Live* environment automatically maps to the *Production* environment in mParticle.
 
-By default, Radar `userId` maps to mParticle `customerid` for logged in users. However, you can specify a custom mapping by setting Radar `metadata.mParticleCustomerId`. For example, on iOS:
+By default, Radar `userId` maps to mParticle `customerid` for logged in users. However, you can specify a custom mapping by setting Radar `metadata.mParticleCustomerId` or `metadata.mParticleId`. For example, on iOS:
 
 ```swift
 // track logged in users with custom userId mapping (not required if using default mapping)
+
+// map by mParticleCustomerId
 Radar.setMetadata(["mParticleCustomerId": customerid])
+
+// map by mParticleId
+Radar.setMetadata(["mParticleId": mParticleId])
 ```
 
 ### Kit
