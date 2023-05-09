@@ -184,13 +184,18 @@ code {
   display: inline-block;
   margin-right: 30px;
   margin-bottom: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
   max-width: 95%;
   width: 600px;
 }
 
 .hero-image--small {
-  width: 400px;
+  display: inline-block;
+  margin-right: 30px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  max-width: 95%;
+  width: 300px;
 }
 
 .card-stack > * + * {
