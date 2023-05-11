@@ -23,6 +23,7 @@ module.exports = {
         "regions",
         "beacons",
         "fraud",
+        "geofencing/testing",
         {
           type: "category",
           label: "Integrations",
@@ -49,8 +50,7 @@ module.exports = {
             "integrations/segment",
             "integrations/yext",
           ],
-        },
-        "geofencing/testing"
+        }
       ],
     },
     {
