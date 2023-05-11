@@ -3,6 +3,13 @@ title: mParticle
 ---
 import Alert from "../../src/components/Alert";
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import InlineTabs from "../../src/components/InlineTabs";
+import InlineTabItem from "../../src/components/InlineTabItem";
+
+import DefaultContextValues from "../../src/components/DefaultContextValues";
+
 <Alert alertType="info">
   The mParticle integration is available on the {` `} 
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
@@ -25,17 +32,66 @@ Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations)
 
 Whenever events are generated, Radar will send events and user attributes to mParticle. Events and user attributes from iOS devices will be sent to the iOS input feed, and events and user attributes from Android devices will be sent to the Android input feed. The Radar *Test* environment automatically maps to the *Development* environment in mParticle, and the Radar *Live* environment automatically maps to the *Production* environment in mParticle.
 
-By default, Radar `userId` maps to mParticle `customerid` for logged in users. However, you can specify a custom mapping by setting Radar `metadata.mParticleCustomerId` or `metadata.mParticleId`. For example, on iOS:
+By default, Radar sends the IDFV on iOS and Android Id on Android to associate the Radar events with the correct mParticle user. Additonally, the Radar `userId` maps to mParticle `customerid` for logged in users.
+
+You can specify a custom mapping for the mParticle customer Id by setting Radar `metadata.mParticleCustomerId`. For example, on iOS:
 
 ```swift
 // track logged in users with custom userId mapping (not required if using default mapping)
 
 // map by mParticleCustomerId
 Radar.setMetadata(["mParticleCustomerId": customerid])
+```
+
+If not leveraging a customer Id in mParticle but there is a need to set the Radar user id, collect the mParticle Id and set as Radar `metadata.mParticleId`. 
+
+<Tabs
+  groupId="mparticle-radar"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+// setting the Radar user id, but not leveraging customer id in mParticle
 
 // map by mParticleId
-Radar.setMetadata(["mParticleId": mParticleId])
+let options = MParticleOptions(key: "mp_key_..", secret: "mp_secret_...")
+options.onIdentifyComplete =  {(result: MPIdentityApiResult?, error: Error?) in
+  if (result?.user != nil) {
+      if let mpId = result?.user.userId {
+          let radarMetadata = ["mParticleId":mpId]
+          Radar.setMetadata(radarMetadata)
+      }
+  } else {
+      // handle failure
+  }
+}
+  
+MParticle.sharedInstance().start(with: options)
 ```
+
+  </TabItem>
+    <TabItem value="kotlin">
+
+```kotlin
+// setting the Radar user id, but not leveraging customer id in mParticle
+
+// map by mParticleId
+MParticle.getInstance()?.Identity()?.addIdentityStateListener { user, _ ->
+  val mParticleId = user.id
+  var radarMetadata = JSONObject()
+  val currentMetadata = Radar.getMetadata()
+  radarMetadata.put("mParticleId",mParticleId)
+  Radar.setMetadata(radarMetadata)
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ### Kit
 
