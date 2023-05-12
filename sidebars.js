@@ -96,5 +96,6 @@ module.exports = {
         "tutorials/logging-and-analyzing-where-conversions-occur",
       ],
     },
+    "faqs"
   ]
 };
