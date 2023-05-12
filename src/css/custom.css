@@ -435,4 +435,4 @@ table th, table td {
   padding-top: 2rem !important;
 }
 
-@import 'https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css'
+@import '~maplibre-gl/dist/maplibre-gl.css';
