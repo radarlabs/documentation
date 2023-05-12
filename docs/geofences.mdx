@@ -9,8 +9,8 @@ Geofences represent custom regions or places monitored in your project. Dependin
 Radar geofencing is more powerful than native iOS or Android geofencing, with cross-platform support for unlimited geofences, polygon geofences, [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofences, temporary geofences, and stop detection.
 
 <img
-  className="hero-image"
-  src="https://images.ctfassets.net/f2vbu16fzuly/5b6qGAs7VRRl01TtCPwFbJ/1e7309fabb7a978c6fd81e55befd91d0/geofences.svg"
+  className="hero-image--small"
+  src="https://images.ctfassets.net/f2vbu16fzuly/7g93fYMsIya1BRo9js96h9/fd5624ec2d3db9305ca9564f59374fe4/geofences_event.svg"
 />
 
 Geofences provides the following user context:
@@ -41,6 +41,14 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 You can [create geofences](#create-geofences) via the dashboard, CSV import, the API, nightly sync, or integrations.
 
 Alternatively, if you don't have your own custom place data, Radar can detect when a user visits a place even if you haven't set up a geofence for that place. Learn more about [Places](/places).
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, [create geofences](#create-a-geofence).
+
+From there, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Radar will generate an entry event on the first location update inside of a geofence.
 
 ## How it works
 
