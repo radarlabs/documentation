@@ -165,15 +165,15 @@ The smaller the geofence and the less accurate the location reported by the devi
 
 ## Stop detection
 
-When _Geofence Stop Detection_ is on, Radar can understand the difference between a user walking or driving through a geofence and stopping in a geofence, and will only generate a geofence entry event when a user stops in a geofence (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`).
+When _Geofence stop detection_ is on, Radar can understand the difference between a user walking or driving through a geofence and stopping in a geofence, and will only generate a geofence entry event when a user stops in a geofence (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`).
 
 You can enable this setting at a project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings), or at a geofence level when you [create geofences](#create-geofences).
 
 ## Buffer entries and exits
 
-Use _Buffer Entries_ to more aggressively enter geofences and reduce the likelihood of missed entry events. When _Buffer Entries_ is off, Radar will only generate an entry event if the location reported by the device is inside the geofence boundary. However, when _Buffer Entries_ is on, Radar will generate an entry event if the device is within X meters of the geofence, where X is the accuracy reported by the device. For example, if the device reports a location accurate to within 50 meters, Radar will generate an entry event if the location is within 50 meters of the geofence boundary.
+Use _Buffer entries_ to more aggressively enter geofences and reduce the likelihood of missed entry events. When _Buffer Entries_ is off, Radar will only generate an entry event if the location reported by the device is inside the geofence boundary. However, when _Buffer Entries_ is on, Radar will generate an entry event if the device is within X meters of the geofence, where X is the accuracy reported by the device. For example, if the device reports a location accurate to within 50 meters, Radar will generate an entry event if the location is within 50 meters of the geofence boundary.
 
-Use _Buffer Exits_ to more conservatively exit geofences and reduce the jumpiness of missed exit events. When _Buffer Exits_ is off, Radar will generate an exit event if the location reported by the device is outside the geofence boundary. However, when _Buffer Exits_ is on, Radar will only generate an exit event if the device is more than X meters outside of the geofence, where X is the accuracy reported by the device. For example, if the device reports a location accurate to within 50 meters, Radar will only generate an entry event if the location is more than 50 meters outside of the geofence boundary.
+Use _Buffer exits_ to more conservatively exit geofences and reduce the jumpiness of exit events. When _Buffer Exits_ is off, Radar will generate an exit event if the location reported by the device is outside the geofence boundary. However, when _Buffer Exits_ is on, Radar will only generate an exit event if the device is more than X meters outside of the geofence, where X is the accuracy reported by the device. For example, if the device reports a location accurate to within 50 meters, Radar will only generate an entry event if the location is more than 50 meters outside of the geofence boundary.
 
 You can enable these settings at a project level at a project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
 
@@ -192,6 +192,6 @@ Operating hours can be set on individual geofences via [CSV import](/geofences#c
 
 ## Dwell events
 
-If `user.dwelled_in_geofence` is enabled, Radar can trigger dwell events after a device remains inside of a geofence boundary for more than a specific threshold. Radar will generate a dwell event after the first location reported by the device beyond the specific threshold.
+If `user.dwelled_in_geofence` is enabled, Radar can trigger dwell events after a device remains inside of a geofence boundary for more than a specific threshold. Radar will generate a dwell event after the first location reported by the device beyond the specified threshold.
 
 You can enable this event at the project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
