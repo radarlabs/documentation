@@ -40,7 +40,7 @@ To create a simple web page with a map:
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Map</title>
+    <title>Radar Map</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <script type="text/javascript" src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
     <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
@@ -80,11 +80,15 @@ To create a simple web page with a map:
 
 To create a [React](https://react.dev) component with a map:
 
-```javascript
+```bash
+npm install --save maplibre-gl
+```
+
+```jsx
 import React from 'react';
 import maplibregl from 'maplibre-gl';
 
-class Map extends React.Component {
+class RadarMap extends React.Component {
   componentDidMount() {
     const map = new maplibregl.Map({
       container: 'map',
@@ -100,21 +104,34 @@ class Map extends React.Component {
 
   render() {
     return (
-      <div id="map" />
+      <div id="map" style={{
+        bottom: 0,
+        position: 'absolute',
+        top: 0,
+        width: '100%'
+      }} />
     );
   }
 };
 
-export default Map;
+export default RadarMap;
+```
+
+```sass
+@import '~maplibre-gl/dist/maplibre-gl.css';
 ```
 
 ### Vue
 
 To create a [Vue](https://vuejs.org) component with a map:
 
+```bash
+npm install --save maplibre-gl
+```
+
 ```javascript
 <template>
-  <div ref="map" />
+  <div id="map" ref="mapContainer" />
 </template>
 
 <script>
@@ -122,7 +139,7 @@ import maplibregl from 'maplibre-gl';
 import { shallowRef, onMounted, onUnmounted, markRaw } from 'vue';
 
 export default {
-  name: 'Map',
+  name: 'RadarMap',
   setup () {
     const mapContainer = shallowRef(null);
     const map = shallowRef(null);
@@ -135,9 +152,9 @@ export default {
         zoom: 11
       }));
 
-      map.addControl(new maplibregl.NavigationControl());
+      map.value?.addControl(new maplibregl.NavigationControl());
 
-      new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map); // Radar HQ
+      new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map.value); // Radar HQ
     }),
     onUnmounted(() => {
       map.value?.remove();
@@ -149,6 +166,22 @@ export default {
   }
 };
 </script>
+
+<style>
+@import '~maplibre-gl/dist/maplibre-gl.css';
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  bottom: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+</style>
 ```
 
 ## Support
