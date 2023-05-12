@@ -23,7 +23,6 @@ module.exports = {
         "regions",
         "beacons",
         "fraud",
-        "geofencing/testing",
         {
           type: "category",
           label: "Integrations",
@@ -50,7 +49,9 @@ module.exports = {
             "integrations/segment",
             "integrations/yext",
           ],
-        }
+        },
+        "geofencing/testing",
+        "geofencing/faqs"
       ],
     },
     {
@@ -95,7 +96,6 @@ module.exports = {
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/logging-and-analyzing-where-conversions-occur",
       ],
-    },
-    "faqs"
+    }
   ]
 };
