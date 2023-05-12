@@ -81,8 +81,6 @@ module.exports = {
       ],
     },
     "api",
-    "toolkit",
-    "dashboard",
     {
       type: "category",
       label: "Tutorials",
@@ -97,6 +95,8 @@ module.exports = {
         "tutorials/logging-and-analyzing-where-conversions-occur",
       ],
     },
+    "toolkit",
+    "dashboard",
     "faqs"
   ]
 };

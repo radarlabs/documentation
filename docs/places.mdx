@@ -10,11 +10,14 @@ import Alert from "../src/components/Alert";
   .
 </Alert>
 
-Places uses our place database to detect when a user visits a place, chain, or category, even if you haven't set up geofences for those places.
+With Places, you can use our POI database to detect when a user visits a place, chain, or category, even if you haven't set up geofences for those places.
 
-Radar curates POI data from multiple open and commercial datasets. Our database includes millions of places around the world, with coverage for major chains (like McDonald's or Walmart) and categories (like airports or stadiums), often with accurate polygon geometry and additional metadata like address or operating hours.
+Our database includes millions of places around the world from open and commercial datasets, with coverage for major chains (like McDonald's or Walmart) and categories (like airports or stadiums), often with accurate polygon geometry and additional metadata like address or operating hours.
 
-<img src="https://images.ctfassets.net/f2vbu16fzuly/5SOzJ3H2StLCXe7HOZ7Bwh/03eedca39bd2f018749d772764bdeca5/places_event.svg" className="hero-image--small" />
+<img
+  className="hero-image--small"
+  src="https://images.ctfassets.net/f2vbu16fzuly/5SOzJ3H2StLCXe7HOZ7Bwh/7bbe802954a39517d9e475774af7b731/places_event.svg"
+/>
 
 Places provides the following user context:
 
@@ -49,6 +52,14 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 You can enable Places on the [Settings page](https://radar.com/dashboard/settings).
 
 Alternatively, if you have your own custom place data, you can create geofences instead. Learn more about [Geofences](/geofences).
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, enable Places events and enable chains or categories on the [Settings page](https://radar.com/dashboard/settings).
+
+From there, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Radar will generate an entry event on the first stopped location update at a place matching your enabled chains or categories.
 
 ## How it works
 
