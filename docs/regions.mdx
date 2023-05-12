@@ -1,8 +1,7 @@
 ---
-sidebar_position: 5
 title: Regions
-id: regions
 ---
+
 import Alert from "../src/components/Alert";
 
 <Alert alertType="info">
@@ -11,9 +10,12 @@ import Alert from "../src/components/Alert";
   .
 </Alert>
 
-Regions detects a user's country, state, DMA (media market), or postal code.
+With Regions, you can use our admin boundary database to detect a user's country, state, DMA (media market), or postal code.
 
-<img src="https://images.ctfassets.net/f2vbu16fzuly/2pca0FMJnc8f3KqnR3VXKF/760a5eda627a7294231f900a1f20c5f8/regions.svg" className="hero-image" />
+<img
+  className="hero-image--small"
+  src="https://images.ctfassets.net/f2vbu16fzuly/45Ug4Lnky0SH8p0AU7j0Pi/f4f8e538d79692b7406ba152937c02c3/regions_event.svg"
+/>
 
 Regions provides the following user context:
 
@@ -48,6 +50,14 @@ Regions also provides the following events:
 - `user.exited_region_dma`
 - `user.entered_region_postal_code`
 - `user.exited_region_postal_code`
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, enable Regions events on the [Settings page](https://radar.com/dashboard/settings).
+
+From there, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Radar will generate an entry event on the first location update in a region matching your enabled event types.
 
 ## Countries
 

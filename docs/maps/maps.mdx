@@ -1,0 +1,189 @@
+---
+title: Maps (Beta)
+---
+import Alert from '../../src/components/Alert.jsx';
+import Map from '../../src/components/Map.jsx'
+
+<Alert alertType="info">
+  Maps is in closed beta for {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise</a> customers. Please contact your customer success manager for early access.
+</Alert>
+
+Radar Maps is a cost-effective alternative to Google Maps Platform and Mapbox.
+
+For example, here's a Radar Map displaying a marker for Radar HQ:
+
+<Map />
+
+## How it works
+
+Radar Maps works with any renderer capable of rendering Mapbox Vector Tiles. We recommend [MapLibre GL JS](https://maplibre.org/projects/maplibre-gl-js/), originally forked Mapbox GL JS v1 and now sponsored by companies including Amazon Web Services and Meta.
+
+To use Radar Maps, you simply use MapLibre with Radar's tile server and map style, passing your Radar [publishable key](/documentation/api#authentication).
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, get started with the sample code below. Note that you must pass your Radar publishable API key to the style URL.
+
+From there, you can add map markers, controls, and much, much more. See the [MapLibre GL JS docs](https://maplibre.org/projects/maplibre-gl-js/).
+
+Happy mapping!
+
+### JavaScript
+
+To create a simple web page with a map:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Radar Map</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script type="text/javascript" src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        bottom: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+      var map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://api.radar.io/maps/styles/radar-default-v1?publishableKey=' + PUBLISHABLE_KEY,
+        center: [-73.9911, 40.7342], // NYC
+        zoom: 11
+      });
+
+      map.addControl(new maplibregl.NavigationControl());
+
+      new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map); // Radar HQ
+    </script>
+  </body>
+</html>
+```
+
+### React
+
+To create a [React](https://react.dev) component with a map:
+
+```bash
+npm install --save maplibre-gl
+```
+
+```jsx
+import React from 'react';
+import maplibregl from 'maplibre-gl';
+
+class RadarMap extends React.Component {
+  componentDidMount() {
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: `https://api.radar.io/maps/styles/radar-streets-beta?publishableKey=${PUBLISHABLE_KEY}`,
+      center: [-73.9911, 40.7342], // NYC
+      zoom: 11
+    });
+
+    map.addControl(new maplibregl.NavigationControl());
+
+    new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map); // Radar HQ
+  }
+
+  render() {
+    return (
+      <div id="map" style={{
+        bottom: 0,
+        position: 'absolute',
+        top: 0,
+        width: '100%'
+      }} />
+    );
+  }
+};
+
+export default RadarMap;
+```
+
+```sass
+@import '~maplibre-gl/dist/maplibre-gl.css';
+```
+
+### Vue
+
+To create a [Vue](https://vuejs.org) component with a map:
+
+```bash
+npm install --save maplibre-gl
+```
+
+```javascript
+<template>
+  <div id="map" ref="mapContainer" />
+</template>
+
+<script>
+import maplibregl from 'maplibre-gl';
+import { shallowRef, onMounted, onUnmounted, markRaw } from 'vue';
+
+export default {
+  name: 'RadarMap',
+  setup () {
+    const mapContainer = shallowRef(null);
+    const map = shallowRef(null);
+
+    onMounted(() => {
+      map.value = markRaw(new maplibregl.Map({
+        container: mapContainer.value,
+        style: `https://api.radar.io/maps/styles/radar-default-v1?publishableKey=${PUBLISHABLE_KEY}`,
+        center: [-73.9911, 40.7342], // NYC
+        zoom: 11
+      }));
+
+      map.value?.addControl(new maplibregl.NavigationControl());
+
+      new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map.value); // Radar HQ
+    }),
+    onUnmounted(() => {
+      map.value?.remove();
+    })
+
+    return {
+      map, mapContainer
+    };
+  }
+};
+</script>
+
+<style>
+@import '~maplibre-gl/dist/maplibre-gl.css';
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  bottom: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+</style>
+```
+
+## Support
+
+Have questions? We're here to help! Email us at [support@radar.com](mailto:support@radar.com).

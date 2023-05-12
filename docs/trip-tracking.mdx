@@ -1,10 +1,8 @@
 ---
-sidebar_position: 7
-title: Trip Tracking
-id: trip-tracking
+title: Trips
 ---
-import Alert from "../src/components/Alert";
 
+import Alert from "../src/components/Alert";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import InlineTabs from "../src/components/InlineTabs";
@@ -12,31 +10,180 @@ import InlineTabItem from "../src/components/InlineTabItem";
 
 import DefaultContextValues from "../src/components/DefaultContextValues";
 
-<Alert alertType="info">
-  See docs for iOS and Android SDK versions older than v3.5.9 <a href="/trip-tracking-3.5.8">here</a>.
-</Alert>
-
 <DefaultContextValues/>
 
-Use our industry-leading [SDK](/sdk) to build experiences for curbside and in-store pickup, delivery tracking, and more.
+With Trips, you can track trips and calculate live ETAs from an origin to a destination. Use Trips for use cases like pickup or delivery tracking.
+
+<img
+  className="hero-image--small"
+  src="https://images.ctfassets.net/f2vbu16fzuly/3mCbGy60EiCQn4fJw6HJe6/8446774f578a05630fa6ca5f196cdff7/trips_event.svg"
+/>
+
+Trips provides the following user context:
+
+```json
+{
+  "trip": {
+    "_id": "5f3e50491c2b7d005c81f5d9",
+    "live": true,
+    "status": "started",
+    "externalId": "299",
+    "metadata": {
+      "Customer Name": "Jacob Pena",
+      "Car Model": "Green Honda Civic"
+    },
+    "mode": "car",
+    "destinationGeofenceTag": "store",
+    "destinationGeofenceExternalId": "123",
+    "destinationLocation": {
+      "coordinates": [
+        -105.06119826017914,
+        39.7793665
+      ],
+      "type": "Point"
+    },
+    "eta": {
+      "duration": 5.5, // minutes
+      "distance": 1331 // meters
+    },
+    "createdAt": "2020-08-20T10:27:55.830Z",
+    "updatedAt": "2020-08-20T10:30:55.837Z"
+  }
+}
+```
+
+Trips also provides the following events:
+
+- `user.started_trip`
+- `user.updated_trip`
+- `user.approaching_trip_destination`
+- `user.arrived_at_trip_destination`
+- `user.stopped_trip`
 
 ## Quickstart
 
-Want to get started quickly? Follow these three steps:
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
-1. **Create geofences.** Import [geofences](/geofences) for your locations or register via [API](/api#upsert-a-geofence). Depending on your use case, a geofence might represent a store, restaurant, delivery location, and so on.
+Then, [create a destination geofence](/documentation/geofences#create-a-geofence).
 
-2. **Integrate the Radar SDK into your app.** Integrate the [SDK](/sdk) into your app or website. When an order starts or the user taps "I'm on my way," start a trip with custom metadata (like order ID, license plate, or car model). Complete the trip when the order finishes.
-
-3. **Display live trips or trigger workflows with ETAs.** Display live ETAs on the trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing) plan. Or, display live ETAs in your own UI by polling the [list trips API](/api#list-trips) or listening for [trip events](/trip-tracking#trip-events) available through the [SDK](/sdk) events listener or server-side via [event integrations](/integrations).
-
-## Radar SDK Setup
-
-Integrate the [SDK](/sdk) into your app or website as instructed in the SDK docs. Be sure to [identify the user](/sdk/ios#identify-user) with an external user ID for trip tracking.
+From there, [integrate the SDK](/documentation/sdk) and call `Radar.startTrip()`. Radar will generate trip events with ETAs to the destination geofence.
 
 ## Starting trips
 
-When an order starts or the user taps "I'm on my way," start a trip with trip options (an external ID for this trip, a destination geofence, a travel mode, and custom metadata), and tracking options that will be used to track for the duration of the trip.
+When it's time to start a trip (e.g., when a user taps "I'm on my way" for a pickup, or when a delivery starts), start a trip with trip options (including an external ID for the trip, a destination geofence, a travel mode, and any custom metadata) and tracking options to be used during the trip (usually `RadarTrackingOptions.CONTINUOUS`).
+
+As the trip progresses, the status will update from `started` to `approaching` (based on the *Approaching threshold* on the [Settings page](https://radar.com/dashboard/settings)), then `arrived` (on destination geofence entry).
+
+<Tabs
+  groupId="trip-tracking"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+let metadata = [
+  "Customer Name": "Jacob Pena",
+  "Car Model": "Green Honda Civic"
+]
+let tripOptions = RadarTripOptions(externalId: "299", destinationGeofenceTag: "store", destinationGeofenceExternalId: "123")
+tripOptions.mode = .car
+tripOptions.metadata = metadata
+
+Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous) { (status: RadarStatus, trip: RadarTrip?, events: [RadarEvent]?) in
+  if status == .success {
+    // do something
+  } else {
+    // handle error
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+val externalId = "299"
+val destinationGeofenceExternalId = "123"
+val destinationGeofenceTag = "store"
+val metadata = JSONObject()
+metadata.put("Customer Name","Jacob Pena")
+metadata.put("Car Model","Green Honda Civic")
+val mode = Radar.RadarRouteMode.CAR
+val tripOptions = RadarTripOptions(tripExternalId, tripMetadata, destinationGeofenceTag, destinationGeofenceExternalId, mode)
+
+Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS) { status, trip, events ->
+  if (status == Radar.RadarStatus.SUCCESS) {
+    // do something
+  } else {
+    // handle error
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+## Updating trips
+
+As the trip progresses, you can update the trip metadata (e.g., when a parking space is assigned for a pickup) or the trip status (e.g., to manually advance the status to `approaching` or `arrived`). This can be done either using the SDK or the [API](/api#update-a-trip).
+
+<Tabs
+  groupId="trip-tracking"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' },
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+let tripOptions = Radar.getTripOptions()
+tripOptions.metadata = [
+  "parkingSpot": "1",
+]
+
+Radar.updateTrip(options: tripOptions, status: RadarTripStatus.ARRIVED) { status, trip, events ->
+  if (status == Radar.RadarStatus.SUCCESS) {
+    // do something
+  } else {
+    // handle error
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+var tripOptions = Radar.getTripOptions()
+var metadata = tripOptions?.metadata
+metadata?.put("Parking Spot","1")
+tripOptions?.metadata = metadata
+
+Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED) { status, trip, events ->
+  if (status == Radar.RadarStatus.SUCCESS) {
+    // do something
+  } else {
+    // handle error
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+## Stopping trips
+
+Finally, when the trip is complete (e.g., when an order is picked up or a delivery is dropped off), stop the trip. This can be done either using the SDK or the [API](/api#stop-or-restart-trip).
+
+You can set trips to expire after a set period if not manually stopped using the *Expiration threshold* on the [Settings page](https://radar.com/dashboard/settings).
+
+If tracking was started before the trip was started, the previous tracking options will be restorted. Otherwise, tracking will be stopped.
 
 <Tabs
   groupId="trip-tracking"
@@ -51,259 +198,26 @@ When an order starts or the user taps "I'm on my way," start a trip with trip op
   <TabItem value="swift">
 
 ```swift
-let tripOptions = RadarTripOptions(externalId: "299", destinationGeofenceTag: "store", destinationGeofenceExternalId: "123")
-tripOptions.mode = .car
-tripOptions.metadata = [
-  "Customer Name": "Jacob Pena",
-  "Car Model": "Green Honda Civic"
-]
+Radar.completeTrip()
 
-Radar.startTrip(options: tripOptions, trackingOptions: .presetContinuous) { (status: RadarStatus, trip: RadarTrip?, events: [RadarEvent]?) in
-  if status == .success {
-    // do something
-  } else {
-    // handle error
-  }
-}
+Radar.cancelTrip()
 ```
-
-  </TabItem>
-  <TabItem value="objc">
-
-```objc
-RadarTripOptions *tripOptions = [[RadarTripOptions alloc] initWithExternalId:@"299"];
-tripOptions.destinationGeofenceTag = @"store";
-tripOptions.destinationGeofenceExternalId = @"123";
-tripOptions.mode = RadarRouteModeCar;
-NSMutableDictionary *metadataDict = [NSMutableDictionary new];
-metadataDict[@"Customer Name"] = @"Jacob Pena";
-metadataDict[@"Car Model"] = @"Green Honda Civic";
-tripOptions.metadata = metadataDict;
-
-[Radar startTripWithOptions:tripOptions trackingOptions:RadarTrackingOptions.presetContinuous
-          completionHandler:^(RadarStatus status, RadarTrip * _Nullable trip, NSArray<RadarEvent *> * _Nullable events) {
-  if (status == RadarStatusSuccess) {
-    // do something
-  } else {
-    // handle error
-  }
-}];
-```
-
-  </TabItem>
-  <TabItem value="kotlin">
-
-```kotlin
-val tripExternalId = "299"
-val destinationGeofenceExternalId = "123"
-val destinationGeofenceTag = "store"
-val tripMetadata = JSONObject()
-tripMetadata.put("Customer Name","Jacob Pena")
-tripMetadata.put("Car Model","Green Honda Civic")
-val routeMode = Radar.RadarRouteMode.CAR
-val tripOptions = RadarTripOptions(tripExternalId, tripMetadata, destinationGeofenceTag, destinationGeofenceExternalId, routeMode)
-
-Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS) { status, trip, events ->
-  if (status == Radar.RadarStatus.SUCCESS) {
-    // do something
-  } else {
-    // handle error
-  }
-}
-```
-
-  </TabItem>
-  <TabItem value="java">
-
-```java
-final JSONObject tripOptionsMetadata = new JSONObject();
-tripOptionsMetadata.put("Customer Name","Jacob Pena");
-tripOptionsMetadata.put("Car Model","Green Honda Civic");
-final JSONObject tripOptionsJson = new JSONObject();
-tripOptionsJson.put("externalId","299");
-tripOptionsJson.put("destinationGeofenceTag","store");
-tripOptionsJson.put("destinationGeofenceExternalId","123");
-tripOptionsJson.put("mode",Radar.RadarRouteMode.CAR);
-tripOptionsJson.put("metadata",tripOptionsMetadata);
-RadarTripOptions tripOptions = RadarTripOptions.fromJson(tripOptionsJson);
-
-Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS, new Radar.RadarTripCallback() {
-  @Override
-    public void onComplete(@NonNull Radar.RadarStatus status, @Nullable RadarTrip trip, @Nullable RadarEvent[] events) {
-      if (status == Radar.RadarStatus.SUCCESS) {
-        // do something
-      } else {
-        // handle error
-      }
-    }
-  }
-);
-```
-
-  </TabItem>
-</Tabs>
-
-## Updating trips
-
-As trips progress you can pass updates about the trip. This is commonly used to capture additional metadata as the trip progresses (i.e. in a pickup use case, car info provided on arrival), but can also be used to progress the trip status manually. The trip tracking dashboard, available on the [Enterprise](https://radar.io/pricing), can receive notifications when trip metadata changes occur.
-
-<Tabs
-  groupId="trip-tracking"
-  defaultValue="swift"
-  values={[
-    { label: 'Swift', value: 'swift' },
-    { label: 'Objective-C', value: 'objc' },
-    { label: 'Kotlin', value: 'kotlin' },
-    { label: 'Java', value: 'java' }
-  ]}
->
-  <TabItem value="swift">
-
-  ```swift
-  let tripOptions = Radar.getTripOptions()
-  tripOptions.metadata = [
-  "Parking Spot": "1",
-  ]
-
-  Radar.updateTrip(options: tripOptions, status: RadarTripStatus.ARRIVED) { status, trip, events ->
-    if (status == Radar.RadarStatus.SUCCESS) {
-      // do something
-    } else {
-      // handle error
-    }
-  }
-  ```
-
-  </TabItem>
-    <TabItem value="objc">
-
-  ```objc
-  RadarTripOptions tripOptions = [Radar getTripOptions];
-  NSMutableDictionary *tripMetadata = [tripOptions.metadata mutableCopy];
-  tripMetadata[@"Parking Spot"] = @"1";
-  tripOptions.metadata = tripMetadata;
-
-  [Radar updateTripWithOptions:tripOptions status:RadarTripStatusArrived
-         completionHandler:^(RadarStatus status, RadarTrip * _Nullable trip, NSArray<RadarEvent *> * _Nullable events) {
-    if (status == RadarStatusSuccess) {
-      // do something
-    } else {
-      // handle error
-    }
-}];
-  ```
-
-  </TabItem>
-  <TabItem value="kotlin">
-
-  ```kotlin
-  var tripOptions = Radar.getTripOptions()
-  var tripMetadata = tripOptions?.metadata
-  tripMetadata?.put("Parking Spot","1")
-  tripOptions?.metadata = tripMetadata
-
-  Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED) { status, trip, events ->
-    if (status == Radar.RadarStatus.SUCCESS) {
-      // do something
-    } else {
-      // handle error
-    }
-  }
-  ```
-
-  </TabItem>
-  <TabItem value="java">
-
-```java
-RadarTripOptions tripOptions = Radar.getTripOptions();
-JSONObject tripMetadata = tripOptions.getMetadata();
-tripMetadata.put("Spot Number","1");
-tripOptions.setMetadata(tripMetadata);
-Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED, new Radar.RadarTripCallback() {
-    @Override
-    public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
-        // do something with status, trip, events
-    }
-});
-```
-
-  </TabItem>
-</Tabs>
-
-
-## Ending trips
-
-When the order is cancelled or picked up, stop the trip. This can be done either via the SDK or through Radar [APIs](/api#stop-or-restart-trip). Tracking will stop after the trip ends if it was disabled before trip start. Otherwise, tracking will continue with the tracking options used before trip start.
-
-The Radar settings page also allows for trip expiration based on a set number of hours after trip start. For organizations on the Radar [Enterprise](https://radar.io/pricing) plan, there is the ability to also automatically complete trips based on a configurable ETA following destination arrival.
-
-<Tabs
-  groupId="trip-tracking"
-  defaultValue="swift"
-  values={[
-    { label: 'Swift', value: 'swift' },
-    { label: 'Objective-C', value: 'objc' },
-    { label: 'Kotlin', value: 'kotlin' },
-    { label: 'Java', value: 'java' }
-  ]}
->
-  <TabItem value="swift">
-
-  ```swift
-  // trip complete
-  Radar.completeTrip()
-
-  // trip cancelled
-  Radar.cancelTrip()
-
-  ```
-
-  </TabItem>
-  <TabItem value="objc">
-
-  ```objc
-  // trip complete
-  [Radar completeTrip];
-
-  // Order cancelled
-  [Radar cancelTrip];
-  ```
 
   </TabItem>
   <TabItem value="kotlin">
 
   ```kotlin
 
-  // trip complete
-  Radar.completeTrip { status, trip, events ->
-      // do something with status, trip, events
-  }
+// trip complete
+Radar.completeTrip { status, trip, events ->
+  // do something with status, trip, events
+}
 
-  // trip cancelled
-  Radar.cancelTrip { status, trip, events ->
-      // do something with status, trip, events
-  }
-  ```
-
-  </TabItem>
-  <TabItem value="java">
-
-  ```java
-  // trip complete
-  Radar.completeTrip(new Radar.RadarTripCallback() {
-      @Override
-      public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
-      // do something with status, trip, events
-      }
-  });
-  // trip cancelled
-  Radar.cancelTrip(new Radar.RadarTripCallback() {
-      @Override
-      public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
-      // do something with status, trip, events
-      }
-  });
-  ```
+// trip cancelled
+Radar.cancelTrip { status, trip, events ->
+  // do something with status, trip, events
+}
+```
 
   </TabItem>
 </Tabs>
@@ -318,7 +232,7 @@ Radar calculates ETAs and generates events when trips are updated:
 - `user.arrived_at_trip_destination` (destination geofence entered)
 - `user.stopped_trip`
 
-ETAs are calculated based on travel mode using the same routing engine that powers our [distance API](/api#distance).
+ETAs are calculated based on travel mode using the same routing engine that powers our [distance API](/documentation/maps/routing).
 
 You can receive events client-side via the [SDK](/sdk) or server-side via [event integrations](/integrations), including webhooks.
 
@@ -370,13 +284,14 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 
 ## Delay detection
 
-Delay detection identifies trips at risk of being delayed or incomplete. To enable this feature, configure a *Delay Threshold* on the  [Settings page](https://radar.com/dashboard/settings#trips-settings) under *Trips*. Make sure that `scheduledArrivalAt` is set for each trip. A trip will be marked as delayed when the predicted delay exceeds the threshold.
+Delay detection identifies trips at risk of being delayed or incomplete. To enable this feature, configure a *Delay threshold* on the [Settings page](https://radar.com/dashboard/settings#trips-settings) under *Trips*.
 
-Delay information is captured in the trip's `delay` field. The `scheduledArrivalTimeDelay` is the predicted arrival delay from the `scheduledArrivalAt` time in minutes. The `delayed` flag is `true` when `scheduledArrivalTimeDelay` exceeds the delay threshold.
+If `scheduledArrivalAt` is set for a trip, delay information is captured in the trip's `delay` field. The `scheduledArrivalTimeDelay` is the predicted arrival delay from the `scheduledArrivalAt` time in minutes. The `delayed` flag is `true` when `scheduledArrivalTimeDelay` exceeds the delay threshold.
 
 ## Display live trips and ETAs
 
 ### In the Radar trip tracking dashboard
+
 <Alert alertType="info">
   The trip tracking dashboard is available on the {` `}
   <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
@@ -465,23 +380,6 @@ Data retention settings (a setting on the *project* level) apply to the data in 
 Median wait time, trip count, and median trip duration metrics are all updated nightly, so all calculations do not include the current day's data.
 
 If your project does not have any past trips, you will not see any data in the analytics section of your dashboard. Take your first trip to see the statistics populate!
-
-## Pickup app
-
-The Pickup app is a pre-built web app that allows customers to let a store associate know when they're on their way and when they’ve arrived, eliminating the need for customer phone calls or constantly checking the parking lot. The app requires no software engineering work from your team and can be customized with your brand's color scheme and logo.
-
-### How customers use the Pickup app
-
-Customers receive a link to the Pickup app upon placing their pickup order. Clicking the link takes the customer to the web app in their browser.
-
-When the customer begins their journey, they enter their vehicle make and model in a text box and begin their trip. Vehicle information populates our in-store dashboard directly alongside the customer's name and order number so that store employees can find their customers quickly.
-
-The Pickup app allows customers to press a button when they reach different states of a trip:
-- **Start:** To start the trip from the app, customers enter their car information and then click "I'm on my way". The in-store dashboard will now show employees that the customer has `started` their trip.
-- **Arrival:** When the customer arrives at their destination, the customer clicks "I've arrived". The in-store dashboard will now show employees that the customer has `arrived`.
-- **Completion:** After the customer receives their order, they can mark the trip `complete`. The trip can also be marked as `complete` by the store employee.
-
-The Pickup app is available to enterprise customers. For more information, contact your customer success manager or reach out to our sales team.
 
 ## Support
 

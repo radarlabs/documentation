@@ -3,7 +3,11 @@
     { "source": "/documentation/:asset*", "destination": "/:asset*" }
   ],
   "redirects": [
-    { "source": "/", "destination": "/documentation/", "permanent": true }
+    { "source": "/", "destination": "/documentation/", "permanent": true },
+    { "source": "/documentation/troubleshooting", "destination": "/documentation/geofencing/testing", "permanent": true },
+    { "source": "/documentation/faqs", "destination": "/documentation/geofencing/faqs", "permanent": true },
+    { "source": "/documentation/dashboard", "destination": "/documentation/geofencing/overview", "permanent": true },
+    { "source": "/documentation/places/groups", "destination": "/documentation/places", "permanent": true }
   ],
   "trailingSlash": false
 }

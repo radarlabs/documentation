@@ -1,8 +1,7 @@
 ---
-sidebar_position: 15
 title: FAQs
-id: faqs
 ---
+
 import Alert from "../src/components/Alert";
 
 ## Testing
@@ -40,33 +39,6 @@ On iOS, significant location change events, `CLRegion` events, and `CLVisit` eve
 On Android, this is not an issue.
 
 ## Product
-
-### What is Radar's data coverage by country for geocoding, search, and routing APIs?
-
-The Radar team is constantly working to improve data coverage for our geocoding, search, and routing APIs.
-
-The following table describes data coverage for each of these APIs, by country, for consumer use cases (e.g., store locator, address autocomplete) and logistics use cases (e.g., ride sharing, delivery).
-
-#### Legend
-
- Icon | Description
---- | ---
-⬤ | Great data quality and availability
-<span style={{'font-size': '125%'}}>◐</span> | Good data quality and availability
-<span style={{'font-size': '120%'}}>◯</span> | Approximate data quality and availability
-
-#### Coverage
-
-&nbsp; | Coarse geocoding and autocomplete (regions) | Fine geocoding and autocomplete (address) | Place detection and search | Routing and distance matrix
---- | --- | --- | --- | ---
-🇺🇸 US (consumer) | ⬤ | ⬤ | ⬤ | ⬤
-🇺🇸 US (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
-🇨🇦 CA (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
-🇨🇦 CA (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
-🇬🇧 UK (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
-🇬🇧 UK (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
-🌎 Other (consumer) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
-🌎 Other (logistics) | <span style={{'font-size': '125%'}}>◐</span> | <span style={{'font-size': '120%'}}>◯</span> | <span style={{'font-size': '125%'}}>◐</span> | ⬤
 
 ### Is Radar still able to track location in the background if the app is killed?
 
@@ -229,7 +201,7 @@ Yes, Radar is SOC 2 type II-certified. For more information, please ask your acc
 
 Yes. The Radar SDK calls the Radar API over HTTPS using TLS version 1.2 or higher, so all data is encrypted in transit. API calls are authenticated using your [Publishable keys](/sdk#authentication), which are restricted in scope.
 
-## Location Permissions
+## Location permissions
 
 ### How do I get statistics for location permissions?
 
@@ -252,14 +224,17 @@ On Android, the SDK checks the `ACCESS_FINE_LOCATION` and `ACCESS_BACKGROUND_LOC
 - **`Not Determined`**: None of the above criteria are true, meaning that the user has not yet been prompted for location permissions.
 
 ### What is a tracked user?
-A tracked user is any opted-in user whose location is tracked by Radar.
+
+A tracked user is a unique user that sends one or more location events to Radar in a given time period.
 
 ### What is an active user?
-An active user is any user, regardless of permissions, that has an [App Session](#what-qualifies-as-an-app-session) with Radar’s SDK installed.
+
+An active user is a unique user that has an [app session](#what-qualifies-as-an-app-session) in a given time period.
 
 ### What qualifies as an app session?
 
-An app session represents a period of user activity within your app. A new app session is started whenever the app is opened, assuming at least 5 minutes have elapsed since the app was last closed.
+An app session is a period of user activity in your app. A new app session is started whenever the app is opened, assuming at least 5 minutes have elapsed since the last app session started.
 
-### Why are counts of active users different from tracked users?
-A user may have an [App Session](#what-qualifies-as-an-app-session) (open the application) but not utilize features that require them to be tracked by Radar. They may also be tracked in the background (with appropriate permissions), but not open the application.
+### Why are counts of active users different from counts tracked users?
+
+Depending on your Radar SDK implementation, a user may have an [app sesion](#what-qualifies-as-an-app-session) without sending a location event to Radar. Conversely, a user may send a location event to Radar in the background (assuming they have granted background location permissions) without opening the app.

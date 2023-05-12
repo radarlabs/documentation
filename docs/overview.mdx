@@ -1,5 +1,4 @@
 ---
-sidebar_position: 1
 id: overview
 title: Documentation
 slug: /
@@ -9,16 +8,24 @@ import LinkCard from '../src/components/LinkCard'
 import IconCard from '../src/components/IconCard'
 import Card from '../src/components/TileCard';
 
-Radar is location infrastructure for every product and service. You can use our [SDKs](/sdk) and [APIs](/api) to build a wide range of use cases, including pickup and delivery tracking, location-based messaging, location verification, store locators, address autocomplete, and more.
+[Radar](https://radar.com) is full-stack location infrastructure for every product and service. Our [SDKs](/sdk) and [APIs](/api) make it easy to add location-based experiences to your app or website, from pickup and delivery tracking to location-based messaging to store locators and more.
 
-## Products
+Our [Geofencing Platform](/documentation/geofencing/overview) is the industry-leading geofencing and location tracking platform, including geofencing, place visit detection, trip tracking, fraud detection, and analytics.
+
+Our [Maps Platform](/documentation/maps/overview) is a cost-effective solution for geocoding APIs, search APIs, routing APIs, and base maps.
+
+We power location-based experiences for [enterprises and startups](https://radar.com/customers) across hundreds of millions of devices worldwide.
+
+Start exploring our building blocks and developer tools below.
+
+## Geofencing Platform
 
 <div className="card-stack">
   <LinkCard linkTo="/geofences">
     <IconCard
       title="Geofences"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/6rO181S83gFjPrFNmiUbXU/d6c81683a8ef4208fbca9ef1ceaaa24c/geofences.svg"/>
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/5Pe7iZ2B8GrqsMzZmOTznl/856b91bc6836b2cda629913d17556a12/geofences_icon.svg"/>
       }
     >
       Industry-leading accuracy with unlimited geofences, polygon geofences, and more
@@ -26,9 +33,9 @@ Radar is location infrastructure for every product and service. You can use our 
   </LinkCard>
 
   <LinkCard linkTo="/trip-tracking">
-    <IconCard title="Trip tracking"
+    <IconCard title="Trips"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/42zLSPFObN3CbGsjT2Go4P/274c58a286b9fa1a9a31b61ebbd2458d/trips.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/303Tiq7g4yf2RvJ21oF8mI/f0326a58b816c6febf8c8aa895d3865a/trips_icon.svg" />
       }
     >
       Trip tracking, live ETAs, arrival detection, and routing for pickups and deliveries
@@ -38,7 +45,7 @@ Radar is location infrastructure for every product and service. You can use our 
   <LinkCard linkTo="/places">
     <IconCard title="Places"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/5CyKMbZMvP4o2FlljKGxrK/fe18f5ecd370bc861f77756277046f6b/places.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/524lVvFi8hIqifiS05WlXE/3f5cd50bbbddd4450c965a426e80da8e/places_icon.svg" />
       }
     >
       Points-of-interest (POI) dataset to detect visits to millions of places
@@ -48,7 +55,7 @@ Radar is location infrastructure for every product and service. You can use our 
   <LinkCard linkTo="/regions">
     <IconCard title="Regions"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/1hDJzlo8jqh8mWNGmxlLrm/b68061f89a24c683d4c87d8525370144/regions.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/4uyNtLrfjWYoy1AXsBmnBh/ef6105071ad552836b64401d55b53a03/regions_icon.svg" />
       }
     >
       Admin boundary dataset for country, state, and postal code detection
@@ -58,7 +65,7 @@ Radar is location infrastructure for every product and service. You can use our 
   <LinkCard linkTo="/beacons">
     <IconCard title="Beacons"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/1ENDk60lfUzCsqwR1qfaky/33e7325edb746e1f1dd3573fa3c58060/beacons.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/5PxLi7iWjrMb8YhHX1re0L/ae30a4f0ce1927df9ae052f6e149e4f9/beacons_icon.svg" />
       }
     >
       Hardware-enabled micro-geofences accurately detect location down to a meter or less
@@ -68,81 +75,105 @@ Radar is location infrastructure for every product and service. You can use our 
   <LinkCard linkTo="/fraud">
     <IconCard title="Fraud"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/41a3RbZjEIgmd7DLdBwhK7/10c970ae0d34d55b324cbe5a33b7aa3c/fraud.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/1gOMCghrBk6V5WZvf0wqSZ/be03abfcb88cf015e0c6ddb98b0d625c/fraud_icon.svg" />
       }
     >
       Detect GPS spoofing, proxy and VPN usage, and device tampering
-    </IconCard>
-  </LinkCard>
-  
-  <LinkCard linkTo="/api#geocoding">
-    <IconCard title="Geocoding APIs"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/3s9QryJGkIPcIq90BFuOvp/d5e14589fd68c6ab6e7a128506d8b4c7/geocoding.svg" />
-      }
-    >
-      Forward, reverse, and IP geocoding APIs
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/api#search">
-    <IconCard title="Search APIs"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/wQgRaU0OQvmLhRRjjnO37/f7925ac0a0feaf16197c141efddb762e/search.svg" />
-      }
-    >
-      Autocomplete and place search APIs
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/api#routing">
-    <IconCard title="Distance APIs"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/73pNAAJXtWErBEruCVQLcB/c20397366642f637b2e819e50d84b8ac/routing.svg" />
-      }
-    >
-      Distance and matrix APIs to calculate travel distance and duration
-    </IconCard>
-  </LinkCard>
-</div>
-
-## Developer tools
-
-<div className="card-stack">
-  <LinkCard linkTo="/sdk">
-    <IconCard title="SDK reference"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/316liiuHbIwIoss2mFLRwI/803bc94cde2078bf6180c201b9ed48e3/sdk.svg" />
-      }
-    >
-      Add location to your apps with just a few lines of code
-    </IconCard>
-  </LinkCard>
-
-  <LinkCard linkTo="/api">
-    <IconCard title="API reference"
-      icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/50bd5vIUh4cewCzl0obxW7/1b0a6efc36e9095a3985995eac41c523/api.svg" />
-      }
-    >
-      APIs for server-side implementations
     </IconCard>
   </LinkCard>
 
   <LinkCard linkTo="/integrations">
     <IconCard title="Integrations"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/7JzCleHIpXZ5lZuqIKLxa/844415e94b2194eb894cd8a9bebe859d/integrations.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/7Mw0PrZSYSYyf13f2mXDdV/c61fa44dc45ebf92ddb792b6bbc4da09/integrations_icon.svg" />
       }
     >
       Send Radar events and user context to other systems server-to-server
+    </IconCard>
+  </LinkCard>
+</div>
+
+## Maps Platform
+
+<div className="card-stack">
+  <LinkCard linkTo="/maps/geocoding">
+    <IconCard title="Geocoding APIs"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/2BpF1DXUmZzKShVYLsf5NP/cf1ee07496b4b346eb1d082e78950bc0/geocoding_icon.svg" />
+      }
+    >
+      Forward, reverse, and IP geocoding APIs
+    </IconCard>
+  </LinkCard>
+
+  <LinkCard linkTo="/maps/search">
+    <IconCard title="Search APIs"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/7hLiKMDJig70Gt45YlwPis/3a17c101a7c224d90f5ed7fadea9bf39/search_icon.svg" />
+      }
+    >
+      Autocomplete, address validation, and place search APIs
+    </IconCard>
+  </LinkCard>
+
+  <LinkCard linkTo="/maps/routing">
+    <IconCard title="Distance APIs"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/52q8kQwSqL7GmIoMIBz7mw/407c05a97d2ae2e4bcb94f643d37bb6f/routing_icon.svg" />
+      }
+    >
+      Distance and matrix APIs to calculate travel distance and duration
+    </IconCard>
+  </LinkCard>
+
+  <LinkCard linkTo="/maps/maps">
+    <IconCard title="Maps (Beta)"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/408xzoqNCbQfNBH2JXghce/4e70d1fb17350193df6b37b778c8d065/maps_icon.svg" />
+      }
+    >
+      A cost-effective alternative to Google Maps and Mapbox
+    </IconCard>
+  </LinkCard>
+</div>
+
+## For developers
+
+<div className="card-stack">
+  <LinkCard linkTo="/sdk">
+    <IconCard title="SDK Reference"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/6NiXDqs0ZTXwykOxuNk2mb/864621004218217ec7d70d1dfff8786e/sdk_icon.svg" />
+      }
+    >
+      Add location to your apps and websites with just a few lines of code
+    </IconCard>
+  </LinkCard>
+
+  <LinkCard linkTo="/api">
+    <IconCard title="API Reference"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/33o8UTrssFr9WZbdLgSfcG/389ab0dd300f6a8197eea5612489de1e/api_icon.svg" />
+      }
+    >
+      APIs for server-side implementations
+    </IconCard>
+  </LinkCard>
+
+  <LinkCard linkTo="/tutorials">
+    <IconCard title="Tutorials"
+      icon={
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/1d12A02dnZC12S5GnYz3mV/bf040eaa1d7dc24b1ee60447c1669ece/tutorials_icon.svg" />
+      }
+    >
+      APIs for server-side implementations
     </IconCard>
   </LinkCard>
 
   <LinkCard linkTo="/toolkit">
     <IconCard title="Toolkit"
       icon={
-        <img src="https://images.ctfassets.net/f2vbu16fzuly/19adrZaPnWzFowzDuoNS8y/bb798fd9055e0a8892e0555c17ec64d1/toolkit.svg" />
+        <img src="https://images.ctfassets.net/f2vbu16fzuly/cTt3E7nKLPKMYgr9OuUhv/76ca645dd3704cd6ade57690f908d83e/toolkit_icon.svg" />
       }
     >
       Use our toolkit apps to test Radar before integrating the SDK

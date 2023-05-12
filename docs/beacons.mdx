@@ -1,8 +1,7 @@
 ---
-sidebar_position: 6
 title: Beacons
-id: beacons
 ---
+
 import Alert from "../src/components/Alert";
 
 <Alert alertType="info">
@@ -11,9 +10,14 @@ import Alert from "../src/components/Alert";
   .
 </Alert>
 
-Beacons detects nearby Bluetooth beacons. Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. For example, you might create a store-level [geofence](/geofences) and monitor beacons installed at the entrance, in the drive-thru, on registers, on tables, in aisles, or in parking spaces at each store.
+With Beacons, you can detect nearby Bluetooth beacons. Use Beacons for indoor or drive-thru use cases.
 
-<img src="https://images.ctfassets.net/f2vbu16fzuly/tU9ITnOkNzy0wPUmepuIR/bcb4292390be1641b2ab80fa488f9d11/beacons.svg" className="hero-image" />
+Beacons are like hardware-enabled micro-geofences, accurate down to a few meters. For example, you might create a store-level [geofence](/geofences) and monitor beacons installed at the entrance, in the drive-thru, on registers, on tables, in aisles, or in parking spaces at each store.
+
+<img
+  className="hero-image--small"
+  src="https://images.ctfassets.net/f2vbu16fzuly/1D7sswAV1IGmu8uMNBfG45/485dcb54b1b73c70c2722eb1edc74828/beacons_event.svg"
+/>
 
 Beacons provides the following user context:
 
@@ -50,6 +54,13 @@ Beacons also provides the following events:
 
 You can receive events client-side via the [SDK](/sdk) or server-side via [event integrations](/integrations), including webhooks.
 
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, [create beacons](#create-beacons).
+
+From there, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` with `beacons = true` or `Radar.startTracking()` with `trackingOptions.beacons = true`, depending on your use case. Radar will generate an entry event on the first location update within range of a beacon.
 
 ## How it works
 

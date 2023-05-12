@@ -1,8 +1,7 @@
 ---
-sidebar_position: 8
 title: Fraud
-id: fraud
 ---
+
 import Alert from "../src/components/Alert";
 
 import Tabs from "@theme/Tabs";
@@ -16,11 +15,14 @@ import InlineTabItem from "../src/components/InlineTabItem";
   .
 </Alert>
 
-Fraud detects GPS spoofing, proxy and VPN usage, and device tampering.
+With Fraud, you can detect GPS spoofing, proxy and VPN usage, and device tampering.
 
-With [Regions](/documentation/regions), you can also detect a user's country and state and mark specific regions as allowed or denied to comply with regulations.
+Along with [Regions](/documentation/regions), you can also detect a user's country and state and mark specific regions as allowed or denied to comply with regulations.
 
-<img src="https://images.ctfassets.net/f2vbu16fzuly/6XHQyOZGH04IYuQuyxNbBh/aefe353d1f7b62437b6d01a9c8db3dbd/fraud.svg" className="hero-image" />
+<img
+  className="hero-image--small"
+  src="https://images.ctfassets.net/f2vbu16fzuly/6JxBGTIUBytkLEqvEA56fU/d20d42b9d1cb8926ca57bc547b1c0a5b/fraud_event.svg"
+/>
 
 Together, Fraud and Regions provide the following user context:
 
@@ -49,6 +51,14 @@ Together, Fraud and Regions provide the following user context:
   }
 }
 ```
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, enable Fraud on the [Settings page](https://radar.com/dashboard/settings).
+
+From there, [integrate the SDK](/documentation/sdk), complete the steps below, and call `Radar.trackVerified()`. Radar will expose fraud flags in the callback as described below.
 
 ## How it works
 
