@@ -50,8 +50,7 @@ module.exports = {
             "integrations/yext",
           ],
         },
-        "geofencing/testing",
-        "geofencing/faqs"
+        "geofencing/testing"
       ],
     },
     {
@@ -97,6 +96,7 @@ module.exports = {
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/logging-and-analyzing-where-conversions-occur",
       ],
-    }
+    },
+    "faqs"
   ]
 };
