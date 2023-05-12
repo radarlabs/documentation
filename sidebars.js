@@ -83,6 +83,7 @@ module.exports = {
     },
     "api",
     "toolkit",
+    "dashboard",
     {
       type: "category",
       label: "Tutorials",
