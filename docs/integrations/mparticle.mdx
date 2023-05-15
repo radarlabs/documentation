@@ -84,7 +84,6 @@ MParticle.sharedInstance().start(with: options)
 MParticle.getInstance()?.Identity()?.addIdentityStateListener { user, _ ->
   val mParticleId = user.id
   var radarMetadata = JSONObject()
-  val currentMetadata = Radar.getMetadata()
   radarMetadata.put("mParticleId",mParticleId)
   Radar.setMetadata(radarMetadata)
 }
