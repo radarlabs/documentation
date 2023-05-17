@@ -10,7 +10,7 @@ import Alert from "../src/components/Alert";
   .
 </Alert>
 
-Use Radar's on-premise notifications to display a notification when a user enters a geofence. Notifications work even with only foreground or <b>While Using the App</b> permissions!
+Use Radar's on-premise notifications to display a notification when a user enters a geofence. Notifications work even with only foreground or <b>"when in use"</b> permissions!
 
 ![OnPremiseNotifications](/img/notifications/on_premise_notifications.png)
 
@@ -32,7 +32,7 @@ Finally, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or
 
 ## How it works
 
-Radar's on-premise notifications make use of location notification triggers on iOS. These triggers work with only foreground or <b>While Using the App</b> permissions. This feature is privacy-friendly and won't collect any location data or display notifications unless the user opens the app.
+Radar's on-premise notifications make use of location notification triggers on iOS. These triggers work with only foreground or <b>"when in use"</b> permissions. This feature is privacy-friendly and won't collect any location data or display notifications unless the user opens the app.
 
 No additional lines of code are necessary to power on-premise notifications. They function completely under the hood after setup. The same calls to `Radar.trackOnce()` and `Radar.startTracking()` will return nearby geofences with notifications, which will then be registered on the device.
 
