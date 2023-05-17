@@ -32,9 +32,15 @@ Finally, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or
 
 ## How it works
 
-Radar's on-premise notifications make use of location notification triggers on iOS. These triggers work with only foreground or <b>"when in use"</b> permissions. This feature is privacy-friendly and won't collect any location data or display notifications unless the user opens the app.
+Radar's on-premise notifications make use of location notification triggers on iOS. These triggers work with only foreground or <b>"when in use"</b> permissions. This feature is privacy-friendly and won't collect any additional location data. Notifications are only displayed after the user opens the app for the first time with the [Radar SDK](/documentation/sdk) installed.
 
 No additional lines of code are necessary to power on-premise notifications. They function completely under the hood after setup. The same calls to `Radar.trackOnce()` and `Radar.startTracking()` will return nearby geofences with notifications, which will then be registered on the device.
+
+Radar only controls the registration of notifications on the device. Once that happens, surfacing notifications is subject to the [system limits and heuristics](https://developer.apple.com/documentation/usernotifications/unlocationnotificationtrigger#overview) that iOS enforces.
+
+<Alert alertType="info">
+  You need to be outside a geofence when it is registered on the device for the notification to fire upon entry.
+</Alert>
 
 ## Analytics
 
