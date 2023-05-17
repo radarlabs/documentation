@@ -5,7 +5,7 @@ title: Notifications
 import Alert from "../src/components/Alert";
 
 <Alert alertType="info">
-  Notifications are only available on {` `}
+  Notifications are available on {` `}
   <a href="https://github.com/radarlabs/radar-sdk-ios/releases/tag/3.7.6">iOS SDK v3.7.6</a>
   {` `} and above.
 </Alert>
@@ -28,7 +28,7 @@ From there, add values for the following `metadata` keys to the geofences that w
 
 ![PumpToStoreMetadata](/img/notifications/pump_to_store_metadata.png)
 
-Finally, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Make sure that the `syncGeofences` [tracking option](/sdk/tracking#ios) is enabled. Radar will display a notification when the device is detected inside a geofence that has the above `metadata` keys.
+Finally, [integrate the SDK](/sdk/ios) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Make sure that the `syncGeofences` [tracking option](/sdk/tracking#ios) is enabled. Radar will display a notification when the device is detected inside a geofence that has the above `metadata` keys.
 
 ## How it works
 
