@@ -6,11 +6,11 @@ import Alert from "../src/components/Alert";
 
 <Alert alertType="info">
   Notifications are only available on {` `}
-  <a href="/sdk/ios">iOS</a>
-  .
+  <a href="https://github.com/radarlabs/radar-sdk-ios/releases/tag/3.7.6">iOS SDK v3.7.6</a>
+  {` `} and above.
 </Alert>
 
-Use Radar's on-premise notifications to display a notification when a user enters a geofence. Notifications work even with only foreground or <b>"when in use"</b> permissions!
+Use Radar's on-premise notifications to display a notification on iOS devices when a user enters a geofence. Notifications work even with only foreground or <b>"when in use"</b> permissions!
 
 ![OnPremiseNotifications](/img/notifications/on_premise_notifications.png)
 
@@ -28,7 +28,7 @@ From there, add values for the following `metadata` keys to the geofences that w
 
 ![PumpToStoreMetadata](/img/notifications/pump_to_store_metadata.png)
 
-Finally, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Make sure that the `syncGeofences` [tracking option](/sdk/tracking#ios) is enabled. Radar will display a notification on the first location update inside of a geofence that has the above `metadata` keys.
+Finally, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Make sure that the `syncGeofences` [tracking option](/sdk/tracking#ios) is enabled. Radar will display a notification when the device is detected inside a geofence that has the above `metadata` keys.
 
 ## How it works
 
@@ -39,12 +39,12 @@ No additional lines of code are necessary to power on-premise notifications. The
 Radar only controls the registration of notifications on the device. Once that happens, surfacing notifications is subject to the [system limits and heuristics](https://developer.apple.com/documentation/usernotifications/unlocationnotificationtrigger#overview) that iOS enforces.
 
 <Alert alertType="info">
-  You need to be outside a geofence when it is registered on the device for the notification to fire upon entry.
+  You need to be outside a geofence when it is registered on the device for the notification to fire upon entry. Notifications are displayed once per registration and do not repeat.
 </Alert>
 
 ## Analytics
 
-With Radar [Conversions](/api#log-a-conversion), you can log a metric whenever a user interacts with a notification.
+With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a notification.
 
 Add the [following line](https://github.com/radarlabs/radar-sdk-ios/blob/master/RadarSDK/Include/Radar.h#L558-L564) to your `UNUserNotificationCenterDelegate` implementation to instrument `opened_notification` events.
 
