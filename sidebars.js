@@ -23,6 +23,7 @@ module.exports = {
         "regions",
         "beacons",
         "fraud",
+        "notifications",
         {
           type: "category",
           label: "Integrations",
