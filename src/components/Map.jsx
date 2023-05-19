@@ -22,7 +22,7 @@ class Map extends React.Component {
       <div id="map-container" style={{ height: '20rem', margin: '1rem 0', position: 'relative', width: '95%' }}>
         <div id="map" style={{ bottom: 0, position: 'absolute', top: 0, width: '100%' }} />
         <a id="map-watermark" href="https://radar.com" target="_blank" style={{ bottom: 0, height: '38px', left: '10px', position: 'absolute', width: '80px' }}>
-          <img src="https://api-staging.radar.io/maps/static/images/logo.svg" height="38" width="80" />
+          <img src="https://api.radar.io/maps/static/images/logo.svg" height="38" width="80" />
         </a>
       </div>
     );
