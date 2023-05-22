@@ -2,81 +2,72 @@
 title: Testing
 ---
 
-Use this guide to troubleshoot issues with location tracking and event generation.
+import Alert from "../../src/components/Alert";
 
-## Device is not showing up in the dashboard
+Use this guide to understand how to verify Radar location collection and ensure your app is approved in the app stores.
 
-A device will show up in the Radar dashboard once a successful [track API](/api#track) call has been sent to the server. The Radar [SDK](/sdk) collects location updates and then sends them to the server via the track API.
+## Testing tools
 
-### Common issues
-* Location permissions have not been granted.
-* The Radar SDK has not been properly initialized.
-* Radar tracking methods have not been implemented correctly.
+A variety of tools are available that can be used for different testing scenarios.
 
-### Troubleshooting steps
-1. Verify location permissions have been granted.
-2. Verify that initializing the SDK uses the correct publishable key and happens during application launch. This initialization should happen in the `onCreate()` method of the `Application` class on [Android](/sdk/android#initialize-sdk) and the `didFinishLaunchingWithOptions()` method of the `AppDelegate` on [iOS](/sdk/ios#initialize-sdk).
-3. Call `Radar.trackOnce()` on application launch and log the status in the callback. Refer to the [iOS](/sdk/ios#foreground-tracking) and [Android](/sdk/android#foreground-tracking) implementations to understand the status values returned.
-4. Call `Radar.setLogLevel()` with a value of `debug` and monitor for errors in the logs. Refer to the debug logging sections of [iOS](/sdk/ios#debug-logging) and [Android](/sdk/android#debug-logging) for more detail.
+### Radar simulator
+**Use:** Test Radar event [integrations](/integrations)
 
-**A successful Radar API request log looks like the following:**
+** Instructions:**  Use the [Radar Simulator](https://radar.com/dashboard/simulate). If you need to send specific user parameters used in integration events to test behavior (i.e. user id), simulate a target user or adjust the simulated user metadata.
 
-```
-2022-11-08 11:33:01.784759-0500 RadarImplementation[6947:250060] 📍 Radar API response | method = POST; url = https://api.radar.io/v1/track; statusCode = 200;
-```
+** Verification:**  Use the event details and integration logs pages to verify successful event delivery to integrations.
 
-Once a successful API call is made, there will be a corresponding user on the [Users page](https://radar.com/dashboard/users) in the dashboard.
+###  Manual and mock tracking
+**Use:** Execute automated tests
 
-**Verify that Radar is registering users on the Users page:**
+**Instructions:**  Execute either [mock tracking](/sdk/ios#mock-tracking-for-testing) or [manual tracking](/sdk/ios#manual-tracking) methods in the corresponding SDK. Mock tracking should be used to test a sequence of events (point A to B following a route), whereas manual tracking should be used verify data at a specific location. These methods are often integrated into a testing suite or QA panel.
 
-![User Record](/img/troubleshooting/user_record.png)
+**Verification:**  Use SDK event listeners, logs or the Radar dashboard to confirm the expected user or events data is present.
 
-## Events are not firing when the app is backgrounded
+### Location spoofing
+**Use:** Verify data collection and generation at test locations.
 
-As the Radar SDK collects location updates and sends them to the server, it will generate events based on location context (e.g., the device moves into or out of a geofence or starts a trip). Generated events will appear on the [Events page](https://radar.com/dashboard/events) in the dashboard if location updates are triggering events as expected. If the device's last location is in a geofence or a place, that information will be displayed on the details page for that user.
+**Instructions:** Both Xcode and Android Device Manager (AVD) support location simulation (custom locations, GPX or KML files).  For physical devices not connected to a development environment, various tools support spoofing. On android, these include [lockito](https://play.google.com/store/apps/details?id=fr.dvilleneuve.lockito) or similar GPS spoofing apps. On iOS, these include [mockgo](https://www.foneazy.com/mockgo-iphone-gps-spoofer/) or idevicesetlocation from [libimobiledevice](https://libimobiledevice.org/).
 
-### Common issues
-* Background location permissions have not been granted.
-* Radar events are not enabled on the [Settings page](https://radar.com/dashboard/settings) in the dashboard.
-* Radar tracking methods have not been implemented correctly.
-* The test device has issues collecting location updates (e.g., location sensors are not working in the simulator).
-* Flawed testing based on the [tracking options](/sdk/tracking) applied (e.g., geofence stop detection is on, but the device is not dwelling long enough to detect a stop).
+** Verification:**  Use logs or the Radar dashboard to confirm the expected user or events data is present.
 
-### Troubleshooting steps
-1. Verify that initializing the SDK uses the correct publishable key and happens during application launch. This initialization should happen in the `onCreate()` method of the `Application` class on [Android](/sdk/android#initialize-sdk) and the `didFinishLaunchingWithOptions()` method of the `AppDelegate` on [iOS](/sdk/ios#initialize-sdk). On iOS, verify that the *Location updates* [background mode](/sdk/ios#background-modes) has been enabled if using the responsive or continuous presets.
-2. Confirm that events are enabled for the context type you are testing on the [Settings page](https://radar.com/dashboard/settings).
-3. Confirm that you are calling `Radar.startTracking()`.
-4. Determine the behavior needed to trigger location updates based on the [tracking options](/sdk/tracking) in use and verify that they appear in the Radar dashboard. For example, if the device is stopped in responsive mode, move over 200 meters to trigger a location update. Location updates can be verified on the [Users page](https://radar.com/dashboard/users) in the dashboard or on the [User Activity](/dashboard#user-activity) page.
-5. If location updates are still not appearing, call `Radar.setLogLevel()` with a value of `debug` and monitor for errors in the logs. Refer to the debug logging sections of [iOS](/sdk/ios#debug-logging) and [Android](/sdk/android#debug-logging) for more detail.
+*Example of location simulation in Xcode:*
+![Xcode Location Spoofing](/img/testing/xcode_location_spoofing.png)
 
-**Verify that events are firing on the Events page:**
+### Real world testing
+**Use:** Verify real world behavior at test locations.
 
-![Recent Events](/img/troubleshooting/recent_events.png)
+**Instructions:** Setup test geofences at various locations to verify detection behavior. Another effective setup is to use the Radar dashboard or APIs to enable or disable geofences. This will allow you to trigger enters (enabled) and exits (disabled) to verify in app behavior. When testing, be aware of location tracking settings in use. As an example, if using the [responsive tracking preset](/sdk/tracking#ios-presets) if the device is detected stopped, it will need to move at least 100m before a subsequent location update is triggered. This is reliant on an exit from the client side geofence around the detected device stop.
 
-**Verify a device's current geofences on the User details page:**
+**Verification:** Use the Radar User Activity page to verify location collection and Radar events page to verify event delivery.
 
-![User Content](/img/troubleshooting/user_context.png)
+## Launch readiness
 
-**Note: a device needs to exit a geofence before generating a subsequent entry event, so ensure that the device has been detected outside of the geofence prior to testing another entry.**
+Make sure you’re ready to take your app to production.
 
-## Event listeners are not delivering
+### Go-live checks
 
-### Common issues
-* Radar event listeners are not implemented correctly.
-* Radar events are not generating from location updates.
+Below are some important checks to go through before releasing functionality powered by Radar:
 
-### Troubleshooting steps
-1. Verify the `RadarDelegate` on [iOS](/sdk/ios#listening-for-events-with-a-delegate) and `RadarReceiver` on [Android](/sdk/android#listening-for-events-with-a-receiver) are implemented correctly. For cross-platform frameworks such as [React Native](/sdk/react-native#background-tracking) and [Capacitor](/sdk/capacitor#background-tracking), ensure that the listeners are set up outside of the view lifecycle. Verify that you are using the correct native SDK version via the [Users page](https://radar.com/dashboard/users) in the dashboard.
-2. Verify that expected events are firing when testing the listeners.
-2. Understand the behavior of each of the listeners. The client location listener (`onClientLocationUpdated` on Android, `didUpdateClientLocation` on iOS) is triggered whenever the Radar SDK receives an update from the device. The location updated listener (`onLocationUpdated` on Android, `didUpdateLocation` on iOS) delivers location updates processed by Radar servers and will return refreshed user context. The Radar events listener (`didReceiveEvents` on Android and iOS) will only fire if events are triggered from location updates.
-3. Implement the error listener methods (`onError` on Android, `didFail` on iOS) to determine if errors are firing. Review the error messages returned to diagnose the root cause.
+<div><input type="checkbox" /> Different location permission flows for different OS versions behave as expected.</div>
 
-## Troubleshooting other behavior
+<div><input type="checkbox" /> Foreground and background tracking work as expected.</div>
 
-### Multiple Radar users have the same user ID or device ID
+<div><input type="checkbox" /> Integrations have been configured and tested in the Radar live environment.</div>
 
-The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values. Multiple users generating without uninstalls indicates a potential issue setting the `userId` in the SDK (i.e. passing in `null` for the `userId` in certain scenarios).
+<div><input type="checkbox" /> Your production application uses the Radar live key as the publishable key.</div>
 
-### Rate limit errors are occurring when tracking location
+<div><input type="checkbox" /> Geofences and other Radar dashboard settings have been mirrored between the test and live environments.</div>
 
-Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstalling the application with the Radar SDK will reset the rate limits.
+<div><input type="checkbox" /> Data <a href="/faqs#what-is-radars-data-retention-policy">retention controls</a> have been adjusted to align with your privacy policy.</div>
+
+<Alert alertType="info">
+The major versions with permissions behavior differences are Android 10 in which background permissions were introduced and Android 12 where devices are redirected to settings for background permissions.
+</Alert>
+
+### App store submission
+
+Ensure submission information has been updated to reflect changes in location use:
+
+- If introducing the location background mode on iOS, ensure your [app store description](/sdk/ios#submit-to-app-store) has been updated with required language.
+- If leveraging background location on Android (ACCESS_BACKGROUND_LOCATION in your manifest), ensure you follow [app store review guidelines](https://radar.com/blog/guide-to-play-store-background-location-approval) as part of submission.

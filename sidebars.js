@@ -51,7 +51,8 @@ module.exports = {
             "integrations/yext",
           ],
         },
-        "geofencing/testing"
+        "geofencing/testing",
+        "geofencing/troubleshooting"
       ],
     },
     {
