@@ -200,6 +200,10 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 
 To listen for events, location updates, and errors, you can add event listeners:
 
+<Alert alertType="warning">
+  Listeners should be set only once and before any tracking begins.
+</Alert>
+
 ```javascript
 cordova.plugins.radar.onClientLocation((location, stopped, source) => {
   // do something with location, stopped, source
