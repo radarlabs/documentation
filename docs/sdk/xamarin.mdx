@@ -4,6 +4,8 @@ title: Xamarin SDK
 description: Documentation for Xamarin SDK
 ---
 
+import Alert from "../../src/components/Alert";
+
 This is the documentation for the Xamarin package. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
 ## Install
@@ -137,10 +139,6 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 
 To listen for events, location updates, and errors, you can add event listeners:
 
-<Alert alertType="warning">
-  Listeners should be set only once and before any tracking begins.
-</Alert>
-
 ```cs
 Radar.ClientLocationUpdated += (result) =>
 {
@@ -160,8 +158,11 @@ Radar.EventsReceived += (result) =>
 Radar.Error += (err) => {
     // do something with err
 };
-
 ```
+
+<Alert alertType="warning">
+  Listeners should be set only once and before tracking begins.
+</Alert>
 
 ### Mock tracking
 

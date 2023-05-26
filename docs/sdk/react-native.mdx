@@ -257,10 +257,6 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 
 To listen for events, location updates, and errors, you can add event listeners:
 
-<Alert alertType="warning">
-  Listeners should be set only once and before any tracking begins.
-</Alert>
-
 ```javascript
 Radar.on('clientLocation', (result) => {
   // do something with result.location
@@ -278,6 +274,10 @@ Radar.on('error', (err) => {
   // do something with err
 });
 ```
+
+<Alert alertType="warning">
+  Listeners should be set only once and before tracking begins.
+</Alert>
 
 Add event listeners outside of your component lifecycle (e.g., outside of `componentDidMount`) if you want them to work when the app is in the background.
 

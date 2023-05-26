@@ -814,10 +814,6 @@ Radar.mockTracking(
 
 To listen for events, location updates, and errors client-side, set a `RadarDelegate`. Set your `RadarDelegate` in a codepath that will be initialized and executed in the background. For example, make your `AppDelegate` implement `RadarDelegate`, not a `ViewController`. `AppDelegate` will be initialized in the background, whereas a `ViewController` may not be.
 
-<Alert alertType="warning">
-  The RadarDelegate should be instantiated only once and set before any tracking begins.
-</Alert>
-
 <Tabs
   groupId="ios"
   defaultValue="swift"
@@ -906,6 +902,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 
   </TabItem>
 </Tabs>
+
+<Alert alertType="warning">
+  The <code>RadarDelegate</code> should be instantiated only once and set before tracking begins.
+</Alert>
 
 <Alert alertType="info">
   To listen for events server-side instead, add a{" "}

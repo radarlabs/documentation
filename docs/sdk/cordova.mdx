@@ -4,6 +4,8 @@ title: Cordova Plugin
 description: Documentation for Cordova Plugin
 ---
 
+import Alert from "../../src/components/Alert";
+
 This is the documentation for the Cordova plugin. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
 See the source on GitHub [here](https://github.com/radarlabs/cordova-plugin-radar). Or, see the `@radarlabs/cordova-plugin-radar` package on npm [here](https://www.npmjs.com/package/@radarlabs/cordova-plugin-radar).
@@ -200,10 +202,6 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 
 To listen for events, location updates, and errors, you can add event listeners:
 
-<Alert alertType="warning">
-  Listeners should be set only once and before any tracking begins.
-</Alert>
-
 ```javascript
 cordova.plugins.radar.onClientLocation((location, stopped, source) => {
   // do something with location, stopped, source
@@ -221,6 +219,10 @@ cordova.plugins.radar.onError((err) => {
   // do something with err
 });
 ```
+
+<Alert alertType="warning">
+  Listeners should be set only once and before tracking begins.
+</Alert>
 
 Add event listeners outside of your view lifecycle if you want them to work when the app is in the background.
 

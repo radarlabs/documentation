@@ -638,10 +638,6 @@ Can't go for a walk or a drive? You can simulate a sequence of location updates.
 
 To listen for events, location updates, and errors client-side, create a class that extends `RadarReceiver`. Then, pass in an instance of your receiver when initializing the SDK in application `onCreate()`.
 
-<Alert alertType="warning">
-  The receiver should be instantiated only once and set before any tracking begins.
-</Alert>
-  
 <Tabs
   groupId="android"
   defaultValue="kotlin"
@@ -688,6 +684,10 @@ To listen for events, location updates, and errors client-side, create a class t
 
   </TabItem>
 </Tabs>
+
+<Alert alertType="warning">
+  The receiver should be instantiated only once and set before tracking begins.
+</Alert>
 
 Your receiver should implement the following:
 
