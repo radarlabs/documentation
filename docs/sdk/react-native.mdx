@@ -275,6 +275,10 @@ Radar.on('error', (err) => {
 });
 ```
 
+<Alert alertType="warning">
+  Listeners should be set only once and before tracking begins.
+</Alert>
+
 Add event listeners outside of your component lifecycle (e.g., outside of `componentDidMount`) if you want them to work when the app is in the background.
 
 You can also remove event listeners:

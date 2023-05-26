@@ -903,6 +903,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
   </TabItem>
 </Tabs>
 
+<Alert alertType="warning">
+  The <code>RadarDelegate</code> should be instantiated only once and set before tracking begins.
+</Alert>
+
 <Alert alertType="info">
   To listen for events server-side instead, add a{" "}
   <a href="/integrations/webhooks">webhook</a> or enable an{" "}

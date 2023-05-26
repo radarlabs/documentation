@@ -311,6 +311,10 @@ Radar.addListener('log', (result) => {
 });
 ```
 
+<Alert alertType="warning">
+  Listeners should be set only once and before tracking begins.
+</Alert>
+
 Add event listeners outside of your view lifecycle if you want them to work when the app is in the background. Capacitor event listeners will only fire while the Capacitor WebView and JavaScript engine are alive. When the Android activity is killed (e.g., swiped away), these services will shut down. To process locations in the background, implement the native event emitters (`RadarDelegate` on [iOS](/sdk/ios#listening-for-events-with-a-delegate), `RadarReceiver` on [Android](/sdk/android#listening-for-events-with-a-receiver)) or use Radar's server-side [integrations](/integrations).
 
 ### Mock tracking
