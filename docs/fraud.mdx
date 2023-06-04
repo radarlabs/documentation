@@ -150,6 +150,10 @@ On Android, add a `res/xml/network_security_config.xml` file:
 
 Learn more about [Network Security Configuration on Android](https://developer.android.com/training/articles/security-config).
 
+<Alert alertType="info">
+  Radar periodically rotates SSL certicates while making sure that the public keys remain static. You will receive ample notice if Radar needs to rotate the public keys.
+</Alert>
+
 ## Configuring the Play Integrity API
 
 On Android, the SDK uses the [Play Integrity API](https://developer.android.com/google/play/integrity) to detect whether the user's device or app has been compromised.
