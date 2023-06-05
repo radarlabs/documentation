@@ -43,22 +43,26 @@
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
 
-  --radar-gray-1: #F6F9FC;
-  --radar-gray-2: #E6EDF2;
-  --radar-gray-3: #C2CFD8;
-  --radar-gray-4: #97A8B4;
-  --radar-gray-5: #6E7A83;
-  --radar-gray-6: #173C56;
+  --radar-gray-1: #F6FAFC;
+  --radar-gray-2: #EAF1F6;
+  --radar-gray-3: #DBE5EB;
+  --radar-gray-4: #C7D3DB;
+  --radar-gray-5: #ACBDC8;
+  --radar-gray-6: #5A6872;
+  --radar-gray-7: #32424D;
+  --radar-gray-8: #051723;
   --radar-gray-2-opaque: #e6edf25f; /* 30% opacity */
   --radar-gray-6-opaque: #173C561a; /* 10% opacity */
   --radar-box-shadow: 0px 1px 4px 0px var(--radar-gray-6-opaque);
+
+  --radar-sapphire: #0005fb;
 
   --ifm-color-gray-100: var(--radar-gray-1);
   --ifm-color-gray-200: var(--radar-gray-2);
   --ifm-color-gray-400: var(--radar-gray-3);
   --ifm-color-gray-600: var(--radar-gray-4);
-  --ifm-color-gray-700: var(--radar-gray-5);
-  --ifm-color-gray-900: var(--radar-gray-6);
+  --ifm-color-gray-700: var(--radar-gray-7);
+  --ifm-color-gray-900: var(--radar-gray-8);
   --ifm-color-warning: #ff8c26;
   --ifm-color-success: #3fcd7d;
   --ifm-color-error: #ff3126;
@@ -88,6 +92,8 @@
   --ifm-menu-link-sublist-icon: url('../../static/img/carat.svg');
 
   --ifm-code-font-size: 0.875rem;
+
+  --ifm-link-color: var(--radar-sapphire);
 
   /* Override alert color because our alert palatte is different */
   --ifm-alert-color: var(--ifm-link-color);
@@ -196,8 +202,18 @@ code {
   height: 300px;
 }
 
+.card-stack {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+  column-gap: 2rem;
+}
+
 .card-stack > * + * {
-  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.card-stack a div.IconCard_src-components-IconCard-module {
+  min-height: 200px;
 }
 
 /* Section Dividers */

@@ -36,9 +36,9 @@
 }
 
 .alertInfo {
-  background-color: #dcedff;
-  border-color: rgba(0,56,117,.25);
-  color: #003875;
+  background-color: #EAF1F6;
+  border-color: rgb(5, 23, 35, .25);
+  color: #051723;
   background-image: url(/static/img/infoIcon.svg);
 }
 
