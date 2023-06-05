@@ -221,10 +221,6 @@ code {
   margin-bottom: 2rem;
 }
 
-.card-stack a div.IconCard_src-components-IconCard-module {
-  min-height: 200px;
-}
-
 /* Section Dividers */
 h2 {
   border-top: 1px solid var(--radar-gray-2);
