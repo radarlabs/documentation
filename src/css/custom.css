@@ -217,7 +217,7 @@ code {
   column-gap: 2rem;
 }
 
-@media (max-width: 415px) {
+@media (max-width: 750px) {
   .card-stack {
     grid-template-columns: 1fr;
   }
