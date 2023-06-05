@@ -55,7 +55,16 @@
   --radar-gray-6-opaque: #173C561a; /* 10% opacity */
   --radar-box-shadow: 0px 1px 4px 0px var(--radar-gray-6-opaque);
 
-  --radar-sapphire: #0005fb;
+  --radar-sapphire: #0005FB;
+  --radar-ruby: #EB0083;
+  --radar-lightSea: #C0F9FF;
+  --radar-darkSea: #005E69;
+  --radar-sunset: #FFE2CC;
+  --radar-darkSunset: #662C00;
+  --radar-lightGreen: #D1F3E0;
+  --radar-darkGreen: #0D592E;
+  --radar-lightRed: #FFCCC9;
+  --radar-darkRed: #8A0502;
 
   --ifm-color-gray-100: var(--radar-gray-1);
   --ifm-color-gray-200: var(--radar-gray-2);
@@ -77,7 +86,7 @@
 
   --ifm-menu-link-padding-vertical: 10px;
   --ifm-menu-color-active: var(--ifm-heading-color);
-  --ifm-menu-color-background: var(--radar-gray-2-opaque);
+  --ifm-menu-color-background: ar(--radar-gray-2-opaque);
   --ifm-menu-color-background-active: var(--radar-gray-2-opaque);
   --ifm-menu-color-background-hover: var(--radar-gray-2-opaque);
 
@@ -365,9 +374,10 @@ strong {
 }
 
 .btn-primary {
-  background: var(--ifm-color-primary);
-  border-color: var(--ifm-color-primary);
-  color: var(--radar-gray-1);
+  background: var(--radar-ruby);
+  border-color: var(--radar-ruby);
+  color: white;
+  border-radius:4px;
 }
 
 .btn-primary:hover {
@@ -450,5 +460,39 @@ table th, table td {
 .container.padding-top--md {
   padding-top: 2rem !important;
 }
+
+/* Override badge colors */
+
+.badge {
+  font-size: 14px;
+  padding:4px 8px;
+  border-radius: 4px;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.badge--info {
+  color: var(--radar-darkSea);
+  background-color: var(--radar-lightSea);
+  border: var(--radar-lightSea);
+}
+
+.badge--warning {
+  color: var(--radar-darkSunset);
+  background-color: var(--radar-sunset);
+  border: var(--radar-sunset);
+}
+
+.badge--success {
+  color: var(--radar-darkGreen);
+  background-color: var(--radar-lightGreen);
+  border: var(--radar-lightGreen);
+}
+
+.badge--danger {
+  color: var(--radar-darkRed);
+  background-color: var(--radar-lightRed);
+  border: var(--radar-lightRed);
+}
+
 
 @import '~maplibre-gl/dist/maplibre-gl.css';
