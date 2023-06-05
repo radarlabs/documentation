@@ -8,7 +8,8 @@
   text-decoration: none;
 }
 
-.LinkCard div:first-of-type {
-  min-height: 120px;
+@media (min-width: 415px) {
+  .LinkCard div:first-of-type {
+    min-height: 120px;
+  }
 }
-

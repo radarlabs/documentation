@@ -217,6 +217,17 @@ code {
   column-gap: 2rem;
 }
 
+@media (max-width: 415px) {
+  .card-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .card-stack > * {
+  margin-bottom: 2rem;
+  }
+
+}
+
 .card-stack > * + * {
   margin-bottom: 2rem;
 }
