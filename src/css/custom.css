@@ -86,9 +86,9 @@
 
   --ifm-menu-link-padding-vertical: 10px;
   --ifm-menu-color-active: var(--ifm-heading-color);
-  --ifm-menu-color-background: ar(--radar-gray-2-opaque);
-  --ifm-menu-color-background-active: var(--radar-gray-2-opaque);
-  --ifm-menu-color-background-hover: var(--radar-gray-2-opaque);
+  --ifm-menu-color-background: var(--radar-gray-1);
+  --ifm-menu-color-background-active: var(--radar-gray-1);
+  --ifm-menu-color-background-hover: var(--radar-gray-1);
 
   --ifm-toc-link-color: var(--ifm-color-gray-700);
   --ifm-toc-border-color: var(--ifm-color-gray-200);
@@ -464,7 +464,6 @@ table th, table td {
 /* Override badge colors */
 
 .badge {
-  font-size: 14px;
   padding:4px 8px;
   border-radius: 4px;
   font-family: var(--ifm-font-family-monospace);
