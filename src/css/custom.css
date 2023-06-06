@@ -258,6 +258,18 @@ h2 {
   }
 }
 
+@media (min-width:750px) and (max-width: 996px) {
+  .deck {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 996px) and (max-width: 1158px) {
+  .deck {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .logo {
   max-height: 100%;
   max-width: 100%;
