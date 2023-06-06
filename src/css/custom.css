@@ -113,8 +113,13 @@ h4 {
 }
 
 h6 {
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  /* equivalent to semibold-body-text */
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Responsive font adjustments */
