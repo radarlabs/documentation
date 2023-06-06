@@ -7,6 +7,8 @@ import LinkCard from '../../src/components/LinkCard'
 import IconCard from '../../src/components/IconCard'
 import Card from '../../src/components/TileCard';
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 Radar Maps Platform is a cost-effective solution for geocoding APIs, search APIs, routing APIs, and base maps.
 
 Together with our [Geofencing Platform](/documentation/geofencing/overview), Radar provides full-stack location infrastructure for any product or service. We power location-based experiences for [enterprises and startups](https://radar.com/customers) across hundreds of millions of devices worldwide.
@@ -17,7 +19,7 @@ Together with our [Geofencing Platform](/documentation/geofencing/overview), Rad
   <LinkCard linkTo="/maps/geocoding">
     <IconCard title="Geocoding APIs"
       icon={
-        <img src="/static/svg/circleGeocoding.svg" />
+        <img src={useBaseUrl("/svg/circleGeocoding.svg")} />
       }
     >
       Forward, reverse, and IP geocoding APIs
@@ -27,7 +29,7 @@ Together with our [Geofencing Platform](/documentation/geofencing/overview), Rad
   <LinkCard linkTo="/maps/search">
     <IconCard title="Search APIs"
       icon={
-        <img src="/static/svg/circleSearch.svg" />
+        <img src={useBaseUrl("/svg/circleSearch.svg")} />
       }
     >
       Autocomplete, address validation, and place search APIs
@@ -37,7 +39,7 @@ Together with our [Geofencing Platform](/documentation/geofencing/overview), Rad
   <LinkCard linkTo="/maps/routing">
     <IconCard title="Distance APIs"
       icon={
-        <img src="/static/svg/circleRouting.svg" />
+        <img src={useBaseUrl("/svg/circleRouting.svg")} />
       }
     >
       Distance and matrix APIs to calculate travel distance and duration
@@ -47,7 +49,7 @@ Together with our [Geofencing Platform](/documentation/geofencing/overview), Rad
   <LinkCard linkTo="/maps/maps">
     <IconCard title="Maps"
       icon={
-        <img src="/static/svg/circleMaps.svg" />
+        <img src={useBaseUrl("/svg/circleMaps.svg")} />
       }
     >
       A cost-effective alternative to Google Maps and Mapbox
