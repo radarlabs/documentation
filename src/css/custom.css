@@ -361,7 +361,7 @@ strong {
 .btn {
   display: inline-block;
   font-weight: 400;
-  color: color(--radar-gray-6);
+  color: white;
   text-align: center;
   vertical-align: middle;
   user-select: none;
@@ -378,7 +378,6 @@ strong {
   font-size: .875rem;
   font-weight: 600;
   line-height: 1.6;
-  letter-spacing: .0625rem;
   text-decoration: none;
   padding: .5rem 1rem;
   border-radius: 1.25rem;
@@ -392,9 +391,10 @@ strong {
 }
 
 .btn-primary:hover {
-  color: var(--radar-gray-1);
-  background: #0068d9;
-  border-color: #0068d9;
+  color: white;
+  background: #EB0083;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.075), rgba(0, 0, 0, 0.075)), #EB0083;
+  border-color: #EB0083;
   text-decoration: none;
 }
 
