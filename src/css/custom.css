@@ -21,6 +21,13 @@
 }
 
 @font-face {
+  font-family: 'Graphik';
+  font-weight: 600;
+  src: url('/static/font/Graphik-Semibold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Basis Grotesque';
   font-weight: 400;
   src: url('/static/font/Basis-Grotesque-Mono-Regular.woff') format('woff');
