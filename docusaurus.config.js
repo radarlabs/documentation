@@ -63,7 +63,7 @@ module.exports = {
       disableSwitch: true
     },
     prism: {
-      additionalLanguages: ['kotlin', 'java', 'swift'],
+      additionalLanguages: ['kotlin', 'java', 'swift', 'csharp', 'dart'],
       theme: require('prism-react-renderer/themes/github'),
     },
     googleAnalytics: {
