@@ -100,6 +100,8 @@
   --ifm-badge-padding-horizontal: .4em;
   --ifm-menu-link-sublist-icon: url('../../static/img/carat.svg');
 
+  --ifm-font-weight-bold: 600;
+
   --ifm-code-font-size: 0.875rem;
 
   --ifm-link-color: var(--radar-sapphire);
