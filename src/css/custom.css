@@ -470,7 +470,8 @@ table th, table td {
 /* Override badge colors */
 
 .badge {
-  padding:4px 8px;
+  font-size: 0.875rem;
+  padding: 4px 8px;
   border-radius: 4px;
   font-family: var(--ifm-font-family-monospace);
 }
