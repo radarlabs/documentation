@@ -15,13 +15,6 @@
 
 @font-face {
   font-family: 'Graphik';
-  font-weight: 500;
-  src: url('/static/font/Graphik-Semibold.woff') format('woff');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Graphik';
   font-weight: 600;
   src: url('/static/font/Graphik-Semibold.woff') format('woff');
   font-display: swap;
@@ -37,13 +30,6 @@
 @font-face {
   font-family: 'Basis Grotesque';
   font-weight: 600;
-  src: url('/static/font/Basis-Grotesque-Mono-Bold.woff') format('woff');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Basis Grotesque';
-  font-weight: 700;
   src: url('/static/font/Basis-Grotesque-Mono-Bold.woff') format('woff');
   font-display: swap;
 }
