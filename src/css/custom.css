@@ -247,9 +247,15 @@ h2 {
 
 .deck {
   display: grid;
-  grid-template-columns: 33% 33% 33%;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 30px;
   margin-right: 60px;
+}
+
+@media (max-width: 750px) {
+  .deck {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .logo {
