@@ -1,4 +1,4 @@
-.LinkCard {
+autoLinkCard {
   display: block;
   color: inherit;
 }
@@ -10,6 +10,18 @@
 
 @media (min-width:1240px) {
   .LinkCard div:first-of-type {
-    min-height: 150px;
+    min-height: 164px;
+  }
+}
+
+@media (min-width:1254px) {
+  .LinkCard div:first-of-type {
+    min-height: 138px;
+  }
+}
+
+@media (min-width:1384px) {
+  .LinkCard div:first-of-type {
+    min-height: 120px;
   }
 }
