@@ -30,3 +30,21 @@
   font-weight: var(--ifm-font-weight-semibold);
   margin-bottom: 0.5rem;
 }
+
+@media (min-width:1240px) {
+  .IconCard {
+    min-height: 230px;
+  }
+}
+
+@media (min-width:1252px) {
+  .IconCard {
+    min-height: 204px;
+  }
+}
+
+@media (min-width:1384px) {
+  .IconCard {
+    min-height: 178px;
+  }
+}
