@@ -7,13 +7,13 @@
 
 .icon {
   flex: 0 0 auto;
-  height: 4rem;
-  width: 4rem;
+  height: 36px;
+  width: 36px;
 }
 
 .icon > * {
-  height: 100%;
-  width: 100%;
+  width: 36px;
+  height: auto;
 }
 
 .icon + .content {
@@ -28,4 +28,23 @@
 .CardTitle {
   color: var(--ifm-heading-color);
   font-weight: var(--ifm-font-weight-semibold);
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width:1240px) {
+  .IconCard {
+    min-height: 230px;
+  }
+}
+
+@media (min-width:1252px) {
+  .IconCard {
+    min-height: 204px;
+  }
+}
+
+@media (min-width:1384px) {
+  .IconCard {
+    min-height: 178px;
+  }
 }
