@@ -813,10 +813,6 @@ curl "https://api.radar.io/v1/search/places?chains=starbucks&near=40.78382,-73.9
 
 #### Validate an address
 
-<Alert alertType="info">
-  Address validation is currently in beta.
-</Alert>
-
 Validates an address. Currently only available for US and Canada addresses.
 
 This endpoint is best for validating complete structured addresses. For partial addresses or place names, call the [autocomplete](#autocomplete) endpoint instead.
@@ -897,8 +893,6 @@ curl "https://api.radar.io/v1/addresses/validate?countryCode=US&stateCode=NY&cit
   }
 }
 ```
-
-While in beta, contact your customer success manager for early access the address validation API.
 
 ### Routing
 
