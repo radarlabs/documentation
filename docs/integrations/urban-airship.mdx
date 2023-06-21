@@ -52,13 +52,9 @@ Radar.setMetadata([
   <TabItem value="kotlin">
 
 ```kotlin
-// track logged out users with alias (deviceId recommended, not required if not tracking logged out users)
-Radar.setMetadata(JSONObject().put("brazeAlias",deviceId))
-Braze.getInstance(context).currentUser.addAlias(deviceId,"radarAlias")
-
-// track logged in users with custom external_id mapping (not required if using default mapping)
-Radar.setMetadata(JSONObject().put("brazeExternalId",userId))
-Braze.getInstance(context).changeUser(userId)
+val channelId = UAirship.shared().channel.id
+val sessionId = UAirship.shared().analytics.sessionId
+Radar.setMetadata(JSONObject().put("airshipChannelId",channelId).put("airshipSessionId",sessionId))
 ```
 
   </TabItem>
