@@ -81,12 +81,16 @@ This endpoint is stateful. For anonymous or stateless context, call the [context
 - **`latitude`** (number, required): The user's current latitude. A number between -90 and 90.
 - **`longitude`** (number, required): The user's current longitude. A number between -180 and 180.
 - **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0.
-- **`foreground`** (boolean): `true` if the client is in the foreground, `false` if the client is in the background.
-- **`stopped`** (boolean): `true` if the user is stopped, `false` if the user is moving.
+- **`foreground`** (boolean, optional): `true` if the client is in the foreground, `false` if the client is in the background.
+- **`stopped`** (boolean, optional): `true` if the user is stopped, `false` if the user is moving.
 - **`description`** (string, optional): An optional description for the user, displayed in the dashboard.
 - **`metadata`** (dictionary, optional): An optional dictionary of custom metadata for the user. Up to 16 keys and values of type string, boolean, or number.
 - **`deviceType`** (string, optional): The user's device type, one of `iOS`, `Android`, or `Web`.
 - **`updatedAt`** (datetime, optional): The client timestamp or historical timestamp when the user's location was updated. Historical data must be upserted in chronological order. Optional, defaults to the current server timestamp if not provided or not in chronological order. A valid date or ISO date string.
+- **`replayed`** (boolean, optional): `true` if the location is replayed, `false` if the location is not replayed. Defaults to `false`.
+- **`deviceOS** (string, optional): The operating system of the device.
+- **`deviceMake** (string, optional): The manufacturer of the device.
+- **`deviceModel** (string, optional): The model of the device.
 
 ###### Authentication level
 
@@ -1547,6 +1551,8 @@ Lists trips. Trips are sorted descending by `eta`.
 - **`status`** (string, optional): Retrieves trips by status. A string, comma-separated including one or more of `pending`, `started`, `approaching`, `arrived`, `completed`, `canceled`, `expired`.
 - **`destinationGeofenceTag`** (string, optional): Retrieves trips with the destination geofence tag.
 - **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
+- **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves trips updated after the specified datetime. A date or valid ISO date string.
+- **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves trips updated before the specified datetime. A date or valid ISO date string.
 
 ###### Default rate limit
 
