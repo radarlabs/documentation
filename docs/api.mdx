@@ -80,7 +80,7 @@ This endpoint is stateful. For anonymous or stateless context, call the [context
 - **`userId`** (string, optional): A stable unique ID for the user. Used with `deviceId` to identify logged in users. Not required for logged out users.
 - **`latitude`** (number, required): The user's current latitude. A number between -90 and 90.
 - **`longitude`** (number, required): The user's current longitude. A number between -180 and 180.
-- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0.
+- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0. Used when calculating [geofence events](/documentation/geofences#confidence-and-accuracy) and event confidence.
 - **`foreground`** (boolean, optional): `true` if the client is in the foreground, `false` if the client is in the background.
 - **`stopped`** (boolean, optional): `true` if the user is stopped, `false` if the user is moving.
 - **`description`** (string, optional): An optional description for the user, displayed in the dashboard.
@@ -915,6 +915,8 @@ Calculates the travel distance and duration between an origin and a destination.
 - **`destination`** (string, required): The destination. A string in the format `latitude,longitude`.
 - **`modes`** (string, required): The [travel modes](/api#route-distance). A string, comma-separated, including one or more of `foot`, `bike`, and `car`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
+- **`geometry`** (string, optional): The geometry of the route in GEOJSON format. A string set to `linestring`. Defaults to not return the geometry.
+- **`geometryPoints`** (number, optional): The number of points to return in the route geometry.
 
 ###### Authentication level
 
@@ -1144,6 +1146,747 @@ curl "https://api.radar.io/v1/route/match?path=40.73421259605101,-73.98635368448
   "geometry": {
       "polyline": "uafulAln`clCpKzAhCFqAbEs\\heAaA|CuAlEgj@teBm@jBs@|BbBjA~XzR",
   }
+}
+```
+
+#### Isochrone
+
+Calculates the isochrone geometry based on a travel mode.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/isochrone</code>
+
+###### Query parameters
+
+- **`latlng`** (string, required): The origin. A string in the format `latitude,longitude`.
+- **`mode`** (string, required): The [travel mode](/api#route-distance). A string of `foot`, `bike`, or `car`.
+- **`duration`** (number, required): The travel duration in minutes.
+- **`traffic`** (string, optional): The impact of traffic used to calculate the isochrone. A string of `high`,`medium`,`low` or `none`. Defaults to `none`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl 'https://api.radar.io/v1/route/isochrone?latlng=40.78382%2C-73.97536&mode=car&duration=5' \
+-H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+    "meta": {
+        "code": 200
+    },
+    "features": [
+        {
+            "geometry": {
+                "coordinates": [
+                    [
+                        [
+                            -73.96236,
+                            40.81761
+                        ],
+                        [
+                            -73.962431,
+                            40.816891
+                        ],
+                        [
+                            -73.96336,
+                            40.816884
+                        ],
+                        [
+                            -73.963584,
+                            40.816044
+                        ],
+                        [
+                            -73.964446,
+                            40.815906
+                        ],
+                        [
+                            -73.964765,
+                            40.814225
+                        ],
+                        [
+                            -73.965585,
+                            40.81382
+                        ],
+                        [
+                            -73.96577,
+                            40.81223
+                        ],
+                        [
+                            -73.968604,
+                            40.810064
+                        ],
+                        [
+                            -73.968963,
+                            40.808423
+                        ],
+                        [
+                            -73.970804,
+                            40.80682
+                        ],
+                        [
+                            -73.970894,
+                            40.805354
+                        ],
+                        [
+                            -73.973706,
+                            40.803166
+                        ],
+                        [
+                            -73.973683,
+                            40.80182
+                        ],
+                        [
+                            -73.97491,
+                            40.80082
+                        ],
+                        [
+                            -73.974921,
+                            40.799381
+                        ],
+                        [
+                            -73.976671,
+                            40.799131
+                        ],
+                        [
+                            -73.977158,
+                            40.796618
+                        ],
+                        [
+                            -73.978595,
+                            40.796055
+                        ],
+                        [
+                            -73.979168,
+                            40.794628
+                        ],
+                        [
+                            -73.981845,
+                            40.792305
+                        ],
+                        [
+                            -73.982092,
+                            40.79082
+                        ],
+                        [
+                            -73.982851,
+                            40.790311
+                        ],
+                        [
+                            -73.983166,
+                            40.788626
+                        ],
+                        [
+                            -73.983761,
+                            40.788221
+                        ],
+                        [
+                            -73.984194,
+                            40.786654
+                        ],
+                        [
+                            -73.984859,
+                            40.786319
+                        ],
+                        [
+                            -73.985246,
+                            40.78482
+                        ],
+                        [
+                            -73.986794,
+                            40.783254
+                        ],
+                        [
+                            -73.987245,
+                            40.781705
+                        ],
+                        [
+                            -73.988814,
+                            40.780274
+                        ],
+                        [
+                            -73.989133,
+                            40.777593
+                        ],
+                        [
+                            -73.993018,
+                            40.77382
+                        ],
+                        [
+                            -73.993745,
+                            40.772205
+                        ],
+                        [
+                            -73.99436,
+                            40.771864
+                        ],
+                        [
+                            -73.993487,
+                            40.771693
+                        ],
+                        [
+                            -73.993541,
+                            40.77082
+                        ],
+                        [
+                            -73.992796,
+                            40.770384
+                        ],
+                        [
+                            -73.992131,
+                            40.769049
+                        ],
+                        [
+                            -73.990402,
+                            40.768778
+                        ],
+                        [
+                            -73.990893,
+                            40.767353
+                        ],
+                        [
+                            -73.992198,
+                            40.766982
+                        ],
+                        [
+                            -73.99236,
+                            40.767808
+                        ],
+                        [
+                            -73.992496,
+                            40.766956
+                        ],
+                        [
+                            -73.991016,
+                            40.766164
+                        ],
+                        [
+                            -73.990205,
+                            40.763975
+                        ],
+                        [
+                            -73.990727,
+                            40.76182
+                        ],
+                        [
+                            -73.99036,
+                            40.761221
+                        ],
+                        [
+                            -73.98736,
+                            40.762651
+                        ],
+                        [
+                            -73.98646,
+                            40.76272
+                        ],
+                        [
+                            -73.98636,
+                            40.762386
+                        ],
+                        [
+                            -73.98536,
+                            40.763354
+                        ],
+                        [
+                            -73.984101,
+                            40.763079
+                        ],
+                        [
+                            -73.981915,
+                            40.763375
+                        ],
+                        [
+                            -73.97836,
+                            40.764489
+                        ],
+                        [
+                            -73.97736,
+                            40.764027
+                        ],
+                        [
+                            -73.976638,
+                            40.765098
+                        ],
+                        [
+                            -73.97536,
+                            40.765403
+                        ],
+                        [
+                            -73.975337,
+                            40.765843
+                        ],
+                        [
+                            -73.977371,
+                            40.766809
+                        ],
+                        [
+                            -73.978707,
+                            40.768473
+                        ],
+                        [
+                            -73.978773,
+                            40.76982
+                        ],
+                        [
+                            -73.97836,
+                            40.770192
+                        ],
+                        [
+                            -73.97636,
+                            40.77023
+                        ],
+                        [
+                            -73.97536,
+                            40.76911
+                        ],
+                        [
+                            -73.97436,
+                            40.769291
+                        ],
+                        [
+                            -73.97336,
+                            40.768339
+                        ],
+                        [
+                            -73.971966,
+                            40.768214
+                        ],
+                        [
+                            -73.971364,
+                            40.765816
+                        ],
+                        [
+                            -73.96936,
+                            40.766798
+                        ],
+                        [
+                            -73.968069,
+                            40.766529
+                        ],
+                        [
+                            -73.966683,
+                            40.767143
+                        ],
+                        [
+                            -73.96436,
+                            40.766508
+                        ],
+                        [
+                            -73.96236,
+                            40.768404
+                        ],
+                        [
+                            -73.961616,
+                            40.767564
+                        ],
+                        [
+                            -73.959961,
+                            40.767421
+                        ],
+                        [
+                            -73.957255,
+                            40.76782
+                        ],
+                        [
+                            -73.95722,
+                            40.76882
+                        ],
+                        [
+                            -73.95636,
+                            40.769365
+                        ],
+                        [
+                            -73.95536,
+                            40.76832
+                        ],
+                        [
+                            -73.95336,
+                            40.769079
+                        ],
+                        [
+                            -73.95236,
+                            40.768169
+                        ],
+                        [
+                            -73.949407,
+                            40.769867
+                        ],
+                        [
+                            -73.949044,
+                            40.769136
+                        ],
+                        [
+                            -73.94836,
+                            40.768955
+                        ],
+                        [
+                            -73.947168,
+                            40.76982
+                        ],
+                        [
+                            -73.94704,
+                            40.77114
+                        ],
+                        [
+                            -73.948616,
+                            40.77282
+                        ],
+                        [
+                            -73.948128,
+                            40.773588
+                        ],
+                        [
+                            -73.94836,
+                            40.774779
+                        ],
+                        [
+                            -73.949414,
+                            40.774766
+                        ],
+                        [
+                            -73.949388,
+                            40.776792
+                        ],
+                        [
+                            -73.95136,
+                            40.776415
+                        ],
+                        [
+                            -73.951595,
+                            40.777055
+                        ],
+                        [
+                            -73.95036,
+                            40.777941
+                        ],
+                        [
+                            -73.95136,
+                            40.778474
+                        ],
+                        [
+                            -73.95236,
+                            40.778174
+                        ],
+                        [
+                            -73.952761,
+                            40.778419
+                        ],
+                        [
+                            -73.952754,
+                            40.779214
+                        ],
+                        [
+                            -73.951339,
+                            40.779841
+                        ],
+                        [
+                            -73.952153,
+                            40.78182
+                        ],
+                        [
+                            -73.953824,
+                            40.782356
+                        ],
+                        [
+                            -73.953812,
+                            40.784368
+                        ],
+                        [
+                            -73.955075,
+                            40.786105
+                        ],
+                        [
+                            -73.95636,
+                            40.786454
+                        ],
+                        [
+                            -73.957445,
+                            40.785905
+                        ],
+                        [
+                            -73.957765,
+                            40.785225
+                        ],
+                        [
+                            -73.958702,
+                            40.78482
+                        ],
+                        [
+                            -73.958748,
+                            40.784432
+                        ],
+                        [
+                            -73.957985,
+                            40.784195
+                        ],
+                        [
+                            -73.958044,
+                            40.783504
+                        ],
+                        [
+                            -73.958716,
+                            40.783464
+                        ],
+                        [
+                            -73.958941,
+                            40.784239
+                        ],
+                        [
+                            -73.959651,
+                            40.784111
+                        ],
+                        [
+                            -73.959699,
+                            40.78282
+                        ],
+                        [
+                            -73.96136,
+                            40.781507
+                        ],
+                        [
+                            -73.963868,
+                            40.784312
+                        ],
+                        [
+                            -73.96636,
+                            40.784575
+                        ],
+                        [
+                            -73.967396,
+                            40.78582
+                        ],
+                        [
+                            -73.966768,
+                            40.786228
+                        ],
+                        [
+                            -73.96636,
+                            40.787547
+                        ],
+                        [
+                            -73.96536,
+                            40.788455
+                        ],
+                        [
+                            -73.964078,
+                            40.788538
+                        ],
+                        [
+                            -73.963874,
+                            40.78982
+                        ],
+                        [
+                            -73.96236,
+                            40.790883
+                        ],
+                        [
+                            -73.96036,
+                            40.789414
+                        ],
+                        [
+                            -73.95836,
+                            40.789482
+                        ],
+                        [
+                            -73.957458,
+                            40.788722
+                        ],
+                        [
+                            -73.956537,
+                            40.788643
+                        ],
+                        [
+                            -73.95636,
+                            40.787603
+                        ],
+                        [
+                            -73.955551,
+                            40.78782
+                        ],
+                        [
+                            -73.95616,
+                            40.788021
+                        ],
+                        [
+                            -73.956094,
+                            40.78882
+                        ],
+                        [
+                            -73.957087,
+                            40.78982
+                        ],
+                        [
+                            -73.958166,
+                            40.790014
+                        ],
+                        [
+                            -73.959157,
+                            40.791023
+                        ],
+                        [
+                            -73.960709,
+                            40.791471
+                        ],
+                        [
+                            -73.96122,
+                            40.79396
+                        ],
+                        [
+                            -73.961941,
+                            40.79482
+                        ],
+                        [
+                            -73.960238,
+                            40.796942
+                        ],
+                        [
+                            -73.96036,
+                            40.797514
+                        ],
+                        [
+                            -73.962208,
+                            40.79782
+                        ],
+                        [
+                            -73.96101,
+                            40.79882
+                        ],
+                        [
+                            -73.96236,
+                            40.799095
+                        ],
+                        [
+                            -73.962963,
+                            40.79982
+                        ],
+                        [
+                            -73.962739,
+                            40.80382
+                        ],
+                        [
+                            -73.96336,
+                            40.804158
+                        ],
+                        [
+                            -73.965536,
+                            40.803996
+                        ],
+                        [
+                            -73.96636,
+                            40.802652
+                        ],
+                        [
+                            -73.967268,
+                            40.803912
+                        ],
+                        [
+                            -73.96836,
+                            40.80311
+                        ],
+                        [
+                            -73.96936,
+                            40.803691
+                        ],
+                        [
+                            -73.969448,
+                            40.802908
+                        ],
+                        [
+                            -73.970534,
+                            40.802994
+                        ],
+                        [
+                            -73.97075,
+                            40.80121
+                        ],
+                        [
+                            -73.97236,
+                            40.800164
+                        ],
+                        [
+                            -73.97274,
+                            40.80044
+                        ],
+                        [
+                            -73.972679,
+                            40.802139
+                        ],
+                        [
+                            -73.970957,
+                            40.803417
+                        ],
+                        [
+                            -73.970707,
+                            40.804167
+                        ],
+                        [
+                            -73.969955,
+                            40.804415
+                        ],
+                        [
+                            -73.969902,
+                            40.80582
+                        ],
+                        [
+                            -73.968046,
+                            40.807506
+                        ],
+                        [
+                            -73.967779,
+                            40.809239
+                        ],
+                        [
+                            -73.965207,
+                            40.811667
+                        ],
+                        [
+                            -73.964981,
+                            40.812441
+                        ],
+                        [
+                            -73.964266,
+                            40.812726
+                        ],
+                        [
+                            -73.964199,
+                            40.814659
+                        ],
+                        [
+                            -73.963318,
+                            40.814778
+                        ],
+                        [
+                            -73.963232,
+                            40.815692
+                        ],
+                        [
+                            -73.962351,
+                            40.81582
+                        ],
+                        [
+                            -73.96236,
+                            40.81761
+                        ]
+                    ]
+                ],
+                "type": "Polygon"
+            },
+            "type": "Feature"
+        }
+    ],
+    "type": "FeatureCollection"
 }
 ```
 
@@ -1414,8 +2157,8 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`approachingThreshold`** (number): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 - **`createdAt`** (datetime): The datetime when the trip was started.
 - **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
-- **`orderFiredAt`** (datetime): From the [Olo integration](https://radar.com/documentation/integrations/olo), the datetime when the order associated with the trip was fired.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`orderFiredAt`** (datetime): From the [Olo integration](/documentation/integrations/olo), the datetime when the order associated with the trip was fired.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
 - **`status`** (string): The status of the trip, one of `pending`, `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
@@ -1628,7 +2371,7 @@ Creates a new trip.
 - **`userId`** (string, optional): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`. Defaults to `car`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 
 ###### Default rate limit
 
@@ -1705,8 +2448,8 @@ On iOS and Android, use the [SDK](/sdk) to update trips.
 ###### Body parameters
 
 - **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
-- **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/documentation/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 
 ###### Default rate limit
 
