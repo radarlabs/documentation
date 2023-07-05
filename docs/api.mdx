@@ -293,7 +293,7 @@ curl "https://api.radar.io/v1/track" \
 
 Gets context for a location, depending on project settings, without sending device or user identifiers to the server.
 
-This endpoint is stateless and anonymous. For stateful context, call the [track](#track) endpoint instead.
+This endpoint is anonymous by default and stateless. For stateful context, call the [track](#track) endpoint instead.
 
 ###### Definitions
 
@@ -302,6 +302,7 @@ This endpoint is stateless and anonymous. For stateful context, call the [track]
 ###### Query parameters
 
 - **`coordinates`** (string, required): The coordinates. A string in the format `latitude,longitude`.
+- **`userId`** (string, optional): A stable unique ID for the user. Required for MTU-based pricing.
 
 ###### Authentication level
 
