@@ -58,9 +58,9 @@ Add the SDK to your project, preferably using CocoaPods. Finally, initialize the
 ```
 ### Android
 
-You must add Google Play Services Location to your project *(use version 18 or higher)*.
+You must add Google Play Services Location to your project *(use version 21.0.1 or higher)*.
 
-`implementation "com.google.android.gms:play-services-location:18.0.0"`
+`implementation "com.google.android.gms:play-services-location:21.0.1"`
 
 Then add the SDK to your project and initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key:
 
@@ -97,6 +97,22 @@ First, import the module:
 
 ```javascript
 import Radar from 'react-native-radar';
+```
+
+### Initialize
+
+When your app starts, initialize the SDK with your publishable key.
+
+Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
+
+<Alert alertType="warning">
+  Note that you should always use your publishable API keys, which are
+  restricted in scope, in the SDK. Do not use your secret API keys, which are
+  unrestricted in scope, in any client-side code.
+</Alert>
+
+```javascript
+Radar.initialize(publishableKey);
 ```
 
 ### Identify user
