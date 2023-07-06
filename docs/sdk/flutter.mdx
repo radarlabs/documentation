@@ -377,6 +377,16 @@ var res = await Radar.trackOnce({
 
 Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
+### Debug logging
+
+By default, only critical errors are logged. To enable debug logging, call:
+
+```flutter
+Radar.setLogLevel('debug');
+```
+
+Logs can either be analyzed through native console logging or by the `Radar.onLog()` listener for Dart logging.
+
 ### Other APIs
 
 The Flutter package also exposes APIs for anonymous context, geocoding, search, and distance.

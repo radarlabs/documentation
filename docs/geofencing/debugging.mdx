@@ -1,10 +1,10 @@
 ---
-title: Troubleshooting
+title: Debugging
 ---
 
 import Alert from "../../src/components/Alert";
 
-Use this guide to troubleshoot issues with location tracking and event generation.
+Use this guide to debug issues with location tracking and event generation.
 
 ## Device is not showing up in the dashboard
 
@@ -19,7 +19,7 @@ A device will show up in the Radar dashboard once a successful [track API](/api#
 1. Verify location permissions have been granted.
 2. Verify that initializing the SDK uses the correct publishable key and happens during application launch. This initialization should happen in the `onCreate()` method of the `Application` class on [Android](/sdk/android#initialize-sdk) and the `didFinishLaunchingWithOptions()` method of the `AppDelegate` on [iOS](/sdk/ios#initialize-sdk).
 3. Call `Radar.trackOnce()` on application launch and log the status in the callback. Refer to the [iOS](/sdk/ios#foreground-tracking) and [Android](/sdk/android#foreground-tracking) implementations to understand the status values returned.
-4. Call `Radar.setLogLevel()` with a value of `debug` and monitor for errors in the logs. Refer to the debug logging sections of [iOS](/sdk/ios#debug-logging) and [Android](/sdk/android#debug-logging) for more detail.
+4. Call `Radar.setLogLevel()` with a value of `debug` and monitor for errors in the logs. Refer to the SDK documentation on debug logging.
 
 **A successful Radar API request log looks like the following:**
 
@@ -31,7 +31,7 @@ Once a successful API call is made, there will be a corresponding user on the [U
 
 ## Events are not firing when the app is backgrounded
 
-As the Radar SDK collects location updates and sends them to the server, it will generate events based on location context (e.g., the device moves into or out of a geofence or starts a trip). Generated events will appear on the [Events page](https://radar.com/dashboard/events) in the dashboard if location updates are triggering events as expected. If the device's last location is in a geofence or a place, that information will be displayed on the details page for that user.
+As the Radar SDK collects location updates and sends them to the server, the server will generate events based on location context (e.g., the device moves into or out of a geofence or starts a trip). Generated events will appear on the [Events page](https://radar.com/dashboard/events) in the dashboard if location updates are triggering events as expected. If the device's last location is in a geofence or a place, that information will be displayed on the details page for that user.
 
 ### Common issues
 * Background location permissions have not been granted.
@@ -58,9 +58,9 @@ A device needs to exit a geofence before generating a subsequent entry event, so
 * Radar events are not generating from location updates.
 
 ### Troubleshooting steps
-1. Verify the `RadarDelegate` on [iOS](/sdk/ios#listening-for-events-with-a-delegate) and `RadarReceiver` on [Android](/sdk/android#listening-for-events-with-a-receiver) are implemented correctly. For cross-platform frameworks such as [React Native](/sdk/react-native#background-tracking) and [Capacitor](/sdk/capacitor#background-tracking), ensure that the listeners are set up outside of the view lifecycle. Verify that you are using the correct native SDK version via the [Users page](https://radar.com/dashboard/users) in the dashboard.
+1. Verify the `RadarDelegate` on [iOS](/sdk/ios#listening-for-events-with-a-delegate) and `RadarReceiver` on [Android](/sdk/android#listening-for-events-with-a-receiver) are implemented correctly. For cross-platform frameworks such as [React Native](/sdk/react-native#background-tracking) and [Capacitor](/sdk/capacitor#background-tracking), ensure that the listeners are set up outside of the view lifecycle and the correct native SDK versions via the [Users page](https://radar.com/dashboard/users) in the dashboard.
 2. Verify that expected events are firing when testing the listeners.
-2. Understand the behavior of each of the listeners. The client location listener (`onClientLocationUpdated` on Android, `didUpdateClientLocation` on iOS) is triggered whenever the Radar SDK receives an update from the device. The location updated listener (`onLocationUpdated` on Android, `didUpdateLocation` on iOS) delivers location updates processed by Radar servers and will return refreshed user context. The Radar events listener (`didReceiveEvents` on Android and iOS) will only fire if events are triggered from location updates.
+2. Understand the behavior of each of the listeners. The client location listener (`onClientLocationUpdated` on Android, `didUpdateClientLocation` on iOS) is triggered whenever the Radar SDK receives a location update from the device. The location updated listener (`onLocationUpdated` on Android, `didUpdateLocation` on iOS) delivers location updates processed by Radar servers and will return refreshed user context. The Radar events listener (`didReceiveEvents` on Android and iOS) will only fire if events are triggered from location updates.
 3. Implement the error listener methods (`onError` on Android, `didFail` on iOS) to determine if errors are firing. Review the error messages returned to diagnose the root cause.
 
 ## Troubleshooting other behavior
@@ -71,4 +71,4 @@ The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generat
 
 ### Rate limit errors are occurring when tracking location
 
-Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstalling the application with the Radar SDK will reset the rate limits.
+Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to receive location updates less frequently. If the per hour or day limits are hit while testing, reinstall the application with the Radar SDK to reset the rate limits.

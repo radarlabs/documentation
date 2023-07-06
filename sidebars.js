@@ -52,7 +52,7 @@ module.exports = {
           ],
         },
         "geofencing/testing",
-        "geofencing/troubleshooting"
+        "geofencing/debugging"
       ],
     },
     {
