@@ -191,7 +191,7 @@ Tracking options can be targeted by OS (Android and iOS), environment (live and 
 
 ### Custom tracking options
 
-Custom configurations should declare all tracking options in a json blob. Example custom trackings are below.
+Custom configurations should declare all tracking options in json. Example custom trackings are below.
 
 <Tabs
   groupId="tracking-options"
@@ -209,15 +209,15 @@ Custom configurations should declare all tracking options in a json blob. Exampl
   "desiredStoppedUpdateInterval": 3600,
   "desiredMovingUpdateInterval": 150,
   "desiredSyncInterval": 10,
-  "desiredAccuracy": "medium",
+  "desiredAccuracy": "high",
   "stopDuration": 140,
   "stopDistance": 70,
   "sync": "all",
-  "replay": "all",
+  "replay": "none",
   "showBlueBar": false,
   "useStoppedGeofence": true,
   "stoppedGeofenceRadius": 100,
-  "useMovingGeofence": false,
+  "useMovingGeofence": true,
   "movingGeofenceRadius": 200,
   "syncGeofences": true,
   "useVisits": true,
@@ -240,8 +240,8 @@ Custom configurations should declare all tracking options in a json blob. Exampl
   "desiredAccuracy": 2,
   "stopDuration": 140,
   "stopDistance": 70,
-  "replay": 1,
   "sync": 2,
+  "replay": 0,
   "useStoppedGeofence": true,
   "stoppedGeofenceRadius": 100,
   "useMovingGeofence": true,
