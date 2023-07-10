@@ -1,0 +1,56 @@
+# Matching users to destinations based on travel time
+
+In this tutorial, we show you how to use Radar's Search Users and Distance Matrix endpoints to find the nearest users to a known destination, sorted by travel time.
+
+This tutorial is most applicable for proximity-based "job assignment" use cases (matching a driver to a delivery, matching a professional to a job, etc.).
+
+Leveraging user location to influence job assignment can significantly reduce travel time and better optimize job allocations, making end user workflows more efficient.
+
+## Languages used
+- JavaScript
+
+## Features used
+- SDK
+- Search Users API
+- Distance Matrix API
+
+## Steps
+1. Configure tracking with SDK: Ensure background location permissions have been granted and start Radar SDK tracking in the responsive tracking preset (iOS & Android).
+
+2. Verify tracking set-up (in dashboard): Ensure tracking has been activated by verifying that users are populating on the Users page in the dashboard (users will populate on the users page once tracking has successfully started on the device).
+
+3. Configure Remote Tracking Options: Adjust tracking behavior via Radar remote tracking option configuration. Access this configuration by logging into the Radar dashboard, clicking "Settings" on the left-side navigation, then configuring "Remote Tracking options" as seen below ([Radar Dashboard Settings](https://radar.com/dashboard/settings)).
+
+4. Get drive times for user sorting/prioritization: Two separate Radar APIs will be used:
+   - Retrieve users nearby the job location. Search users API reference: [Search Users API](https://radar.com/documentation/api#search-users)
+   - Retrieve drive times for nearby users to prioritize based on drive time. Distance Matrix reference: [Distance Matrix API](https://radar.com/documentation/api#matrix)
+
+Below is sample node.js code showing how to call Radar APIs and return nearby user results sorted based on drive time. Note that this workflow assumes you have the lat/lng of the job location - if you do not, you can optionally also call Radar's Forward Geocode endpoint to fetch lat/lng from a job address ([Forward Geocode API](https://radar.com/documentation/api#forward-geocode)):
+
+```javascript
+import got from 'got';
+const radarSearchUsersUrl = 'https://api.radar.io/v1/search/users';
+const radarDistanceMatrixUrl = 'https://api.radar.io/v1/route/matrix';
+// origin = job location
+const origin = {latitude: 40.7343726, longitude: -73.9912144};
+const options = {headers: {'Authorization': '<yourRadarSecretKey>'}};
+
+const searchUsersResponse = await got.get(`${radarSearchUsersUrl}?near=${origin.latitude},${origin.longitude}`, options).json();
+
+const users = searchUsersResponse.users;
+// store index sent to distance matrix API for sort retrieval
+const usersPositions = users.map((user, i) => ({radarId: user._id, zillowId: user.userId, idx: i}));
+
+const destinationsString = users.map(user => `${user.location.coordinates[1]},${user.location.coordinates[0]}`).join("|");
+const originString = `${origin.latitude},${origin.longitude}`;
+const distanceMatrixResponse = await got.get(`${radarDistanceMatrixUrl}?origins=${originString}&destinations=${destinationsString}&mode=car&units=imperial`, options).json();
+// sort matrix response based on duration (shortest to longest) and get index position
+const matrixFirstOriginDurationSortedIndex = distanceMatrixResponse.matrix[0].sort((a, b) => a.duration.value - b.duration.value).map((userDuration) => userDuration.destinationIndex);
+
+const userPositions = {};
+for (const [index, id] of matrixFirstOriginDurationSortedIndex.entries()) {
+   userPositions[id] = index;
+}
+const usersSorted = usersPositions.sort((a, b) => userPositions[a.idx] - userPositions[b.idx]);
+// log users sorted by drive time to job
+console.log(usersSorted)
