@@ -51,7 +51,7 @@ A `scheduledArrivalAt` datetime is required as a fallback in the event location 
 
 You can enable auto-calculation of the `scheduledArrivalAt`, which is initially set to the `timeReady` value from the Olo Order Placed webhook and then continues to update based on each trip ETA calculation. This includes a backup fire delay setting which is a maximum number of minutes to push back the initial scheduled arrival at. This can be configured in [Trips Settings](https://radar.com/dashboard/settings#trips-settings).
 
-As an alternative to Radar's automatic calculation, manually set the `scheduledArrivalAt` either via `Radar.startTrip()` in the app, `Radar.updateTrip()` in the app or the [Trips API](/api#trips) server-side.
+As an alternative to Radar's automatic calculation, manually set the `scheduledArrivalAt` either via `Radar.startTrip()` in the app, `Radar.updateTrip()` in the app or the [Trips API](/api#trips) server-side. Setting this manually will override use of Radar's auto-calculated `scheduledArrivalAt` setting.
 
 ### Approaching threshold
 

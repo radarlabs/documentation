@@ -235,13 +235,16 @@ Radar.setForegroundServiceOptions({
 
 Radar.startTrackingCustom({
   desiredStoppedUpdateInterval: 180,
+  fastestStoppedUpdateInterval: 15,
   desiredMovingUpdateInterval: 60,
-  desiredSyncInterval: 50,
+  fastestMovingUpdateInterval: 15,
+  desiredSyncInterval: 10,
   desiredAccuracy: 'high',
   stopDuration: 140,
   stopDistance: 70,
   sync: 'all',
   replay: 'none',
+  useStoppedGeofence: true,
   showBlueBar: true,
   foregroundServiceEnabled: true
 });
