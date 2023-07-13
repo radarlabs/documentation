@@ -307,6 +307,10 @@ Ask your customer success manager for a distribution of the app specific to your
   className="hero-image"
 />
 
+## Notifications
+
+Local notifications can be triggered through Radar's SDK by trip metadata when the user triggers either the approaching or arrival messaging.  These can be set via trip metadata using dedicated notification keys including `radar:approachingNotificationText` and `radar:arrivalNotificationText`.
+
 ### In your own UI
 
 Poll the [list trips API](/api#list-trips) to retrieve active trips for a specific destination geofence, including ID, custom metadata, and ETA. For example, you might poll the list trips API from an internal dashboard.

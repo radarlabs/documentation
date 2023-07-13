@@ -1,0 +1,254 @@
+---
+sidebar_position: 9
+title: Trigger a Firebase cloud function when a user enters a geofence
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import Alert from "../../src/components/Alert";
+
+In this tutorial, we show you how to use the [Radar SDK](/sdk) and [geofences](/geofences) to trigger a Firebase cloud function when a user enters a geofence.
+
+In this example, the cloud function will by triggered via a [Radar webhook](/integrations/webhooks) that triggers a Firebase cloud message to be sent.
+
+## Features used
+
+- [iOS SDK](/sdk/ios)
+- [Android SDK](/sdk/android)
+- [Geofences](/geofences)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API keys</a>
+
+### Step 2: Import geofences
+
+On the [Geofences page](https://radar.com/dashboard/geofences), create a geofence.
+
+### Step 3: Install the Radar SDK
+
+Initialize the SDK, request permissions for location & notifications and start tracking with the responsive preset. Details on these steps can be found in our [SDK documentation](/sdk).
+
+Include Firebase installation and initialization.
+
+<Tabs
+  groupId="cross-platform"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+    <TabItem value="swift">
+
+```swift
+import UIKit
+import FirebaseCore
+import FirebaseMessaging
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+
+    let locationManager = CLLocationManager()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      Radar.initialize(publishableKey: "prj_test_pk_...")
+      Radar.setDelegate(self)
+      Radar.startTracking(trackingOptions: RadarTrackingOptions.presetResponsive)
+
+      FirebaseApp.configure()
+
+      let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+      UNUserNotificationCenter.current().requestAuthorization(
+        options: authOptions,
+        completionHandler: { _, _ in }
+      )
+
+      application.registerForRemoteNotifications()
+      
+      Messaging.messaging().delegate = self
+
+      self.requestLocationPermissions()
+
+      return true
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        self.requestLocationPermissions()
+    }
+
+    func requestLocationPermissions() {
+        let status = self.locationManager.authorizationStatus()
+
+        if status == .notDetermined {
+            self.locationManager.requestWhenInUseAuthorization()
+        } else if status == .authorizedWhenInUse {
+            self.locationManager.requestAlwaysAuthorization()
+        }
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+import io.radar.sdk.Radar
+
+class MainActivity : AppCompatActivity() {
+  private val foregroundLocationPermissionsRequestCode = 1
+  private val backgroundLocationPermissionsRequestCode = 2
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    Radar.initialize(this, "prj_test_pk_...")
+    requestLocationPermissions()
+  }
+
+  private fun requestLocationPermissions() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
+      } else {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
+      }
+    }
+  }
+
+  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    if (requestCode == foregroundLocationPermissionsRequestCode && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+        AlertDialog.Builder(this)
+          .setTitle("Background location permissions needed")
+          .setMessage("Background location permission needed, tap \"Allow all the time\" on the next screen")
+          .setPositiveButton(
+            "OK"
+          ) { _, _ ->
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), backgroundLocationPermissionsRequestCode)
+          }
+          .create()
+          .show()
+      }
+    }
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+<Alert alertType="info">
+If you build the app at this point, you should see the permission prompts in the app and your test device register in the Radar dashboard on the Users page.
+</Alert>
+
+### Step 4: Set the FCM token as Radar user metadata
+
+When the device's FCM token is generated, set a Radar metadata property with key `fcmToken` to the FCM token value. This token will be sent through the webhook and be used to trigger a remote notification.
+
+<Tabs
+  groupId="cross-platform"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+    <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+import Firebase
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, RadarDelegate, MessagingDelegate {
+
+   ...
+
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        let metadata = ["fcmToken": fcmToken]
+        Radar.setMetadata(metadata)
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+import com.google.firebase.messaging.FirebaseMessagingService
+import io.radar.sdk.Radar
+import org.json.JSONObject
+
+class MyFirebaseMessagingService : FirebaseMessagingService() {
+    override fun onNewToken(token: String) {
+        val radarMetadata = JSONObject().put("fcmToken",token)
+        Radar.setMetadata(radarMetadata)
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+<Alert alertType="info">
+The next location update successfully sent to Radar will include the metadata if properly set. Verify this metadata is present on the User details page for your test device.
+</Alert>
+
+### Step 5: Setup a firebase cloud function
+
+Create a Firebase cloud function to trigger Firebase cloud messaging. Only trigger messaging if the fcm token is set and the event is a geofence entry.
+
+```js
+const functions = require('firebase-functions');
+var admin = require("firebase-admin");
+var serviceAccount = require("path/to/serviceAccountKey.json");
+admin.initializeApp({
+   credential: admin.credential.cert(serviceAccount),
+   databaseURL: "https://radar-firebase..."
+});
+
+exports.radar = functions.https.onRequest((request, response) => {
+  const type = request.body.event.type;
+  if (type === 'user.entered_geofence') {
+    const userMetadata = request.body.event.user.metadata;
+    const geofenceMetadata = request.body.event.geofence.metadata;
+    if (userMetadata.fcmToken) {
+      const token = userMetadata.fcmToken
+      const title = “Welcome to the store“
+      const body = ”In store features available in the app.”
+      var payload = {
+        notification: {
+          title: title,
+          body: body
+        }
+      };
+      admin.messaging().sendToDevice(token, payload);
+    }
+  } 
+}  
+```
+
+### Step 6: Setup Radar webhook
+
+With the HTTPs trigger of the Firebase cloud function created, go to the Radar integrations tab and setup a webhook. You can set the event allowlist to just include the `user.entered_geofence` event type.
+
+<Alert alertType="info">
+Use the Radar simulator to verify webhook integration delivery. Either manually set the fcmToken as user metadata on the simulator or simulate your test device's Radar user accessed by clicking Simulate from the User details page. On the event details page, verify a successful response from the webhook call in the Logs section.
+</Alert>
+
+### Step 7: Test the setup end to end
+
+Finally, test end to end! Either walk into the geofence and trigger the entry event or use location spoofing tools to move your test device into the geofence boundaries and verify the notification delivers.
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.com](mailto:support@radar.com).
