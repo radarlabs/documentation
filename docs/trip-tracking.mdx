@@ -309,7 +309,7 @@ Ask your customer success manager for a distribution of the app specific to your
 
 ## Notifications
 
-Local notifications can be triggered through Radar's SDK by trip metadata when the user triggers either the approaching or arrival messaging.  These can be set via trip metadata using dedicated notification keys including `radar:approachingNotificationText` and `radar:arrivalNotificationText`.
+Local notifications can be triggered with trip metadata. Trip metadata with key `radar:approachingNotificationText` will deliver a notification with the metadata value set as notification text when the `user.approaching_trip_destination` event triggers. Trip metadata with key `radar:arrivalNotificationText` will deliver a notification with the metadata value set as notification text when the `user.arrived_at_trip_destination` event triggers.
 
 ### In your own UI
 
