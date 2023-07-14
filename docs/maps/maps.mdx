@@ -42,7 +42,7 @@ To create a simple web page with a map:
     <div id="map" style="width: 100%; height: 500px;" />
 
     <script type="text/javascript">
-      Radar.initialize('<RADAR_PUBLISHABLE_KEY>');
+      Radar.initialize('prj_live_pk_...');
 
       // create a new map
       const map = Radar.ui.map({
@@ -65,7 +65,7 @@ To create a simple web page with a map:
 To create a [React](https://react.dev) component with a map:
 
 <Alert alertType='info'>
-  The radar-js-sdk has a dependency on maplibre-gl for the map rendering.
+  The Radar SDK has a dependency on maplibre-gl for the map rendering.
 </Alert>
 
 ```bash
@@ -80,7 +80,7 @@ import 'radar-sdk-js/dist/radar.css';
 
 class RadarMap extends React.Component {
   componentDidMount() {
-    Radar.initialize(PUBLISHABLE_KEY);
+    Radar.initialize('prj_live_pk_...');
 
     const map = new Radar.ui.map({
       container: 'map',
@@ -131,7 +131,7 @@ export default {
     const map = shallowRef(null);
 
     onMounted(() => {
-      Radar.initialize(PUBLISHABLE_KEY);
+      Radar.initialize('prj_live_pk_...');
 
       map.value = markRaw(Radar.ui.map({
         container: mapRef.value,
