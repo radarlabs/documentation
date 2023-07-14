@@ -526,5 +526,13 @@ table th, table td {
   border: var(--radar-lightRed);
 }
 
+/* Custom table styling */
+.api-params-table {
+  width: 100% !important;
+}
+
+.api-params-table th, .api-params-table td {
+  max-width: unset !important;
+}
 
 @import '~maplibre-gl/dist/maplibre-gl.css';
