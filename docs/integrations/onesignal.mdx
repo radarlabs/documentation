@@ -37,6 +37,31 @@ metadata.put("oneSignalPlayerId",playerId);
 Radar.setMetadata(metadata);
 ```
 
+## Event mapping
+
+OneSignal does not support associating custom events with a OneSignal user, but the most recent event types triggered from a location update are sent as a comma separated list of events for the Onesignal tag `radar_events`.
+
+Radar Event | Context Type | Onesignal Tag Value
+--- | --- | ---
+`user.entered_geofence` | [Geofences](/geofences) | `geofence_entered`
+`user.exited_geofence` | [Geofences](/geofences) | `geofence_xited`
+`user.dwelled_in_geofence` | [Geofences](/geofences) | `dwelled_in_geofence`
+`user.entered_place` | [Places](/places) | `place_entered`
+`user.exited_place` | [Places](/places) | `place_exited`
+`user.entered_region_country` | [Regions](/regions) | `entered_region_country`
+`user.exited_region_country` | [Regions](/regions) | `exited_region_country`
+`user.entered_region_state` | [Regions](/regions) | `entered_region_state`
+`user.exited_region_state` | [Regions](/regions) | `exited_region_state`
+`user.entered_region_dma` | [Regions](/regions) | `entered_region_dma`
+`user.exited_region_dma` | [Regions](/regions) | `exited_region_dma`
+`user.started_trip` | [Trip Tracking](/trip-tracking) | `started_trip`
+`user.updated_trip` | [Trip Tracking](/trip-tracking) | `updated_trip`
+`user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `approaching_trip_destination`
+`user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `arrived_at_trip_destination`
+`user.stopped_trip` | [Trip Tracking](/trip-tracking) | `stopped_trip`
+`user.entered_beacon` | [Beacons](/beacons) | `entered_beacon`
+`user.exited_beacon` | [Beacons](/beacons) | `exited_beacon`
+
 ## User mapping
 
 Radar User Field | OneSignal Tag Name | Type | Example Tag | Context Type
