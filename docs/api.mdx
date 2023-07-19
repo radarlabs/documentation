@@ -80,13 +80,17 @@ This endpoint is stateful. For anonymous or stateless context, call the [context
 - **`userId`** (string, optional): A stable unique ID for the user. Used with `deviceId` to identify logged in users. Not required for logged out users.
 - **`latitude`** (number, required): The user's current latitude. A number between -90 and 90.
 - **`longitude`** (number, required): The user's current longitude. A number between -180 and 180.
-- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0.
-- **`foreground`** (boolean): `true` if the client is in the foreground, `false` if the client is in the background.
-- **`stopped`** (boolean): `true` if the user is stopped, `false` if the user is moving.
+- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0. Used when evaluating the [confidence](/documentation/geofences#confidence-and-accuracy) of geofence events.
+- **`foreground`** (boolean, optional): `true` if the client is in the foreground, `false` if the client is in the background.
+- **`stopped`** (boolean, optional): `true` if the user is stopped, `false` if the user is moving.
 - **`description`** (string, optional): An optional description for the user, displayed in the dashboard.
 - **`metadata`** (dictionary, optional): An optional dictionary of custom metadata for the user. Up to 16 keys and values of type string, boolean, or number.
 - **`deviceType`** (string, optional): The user's device type, one of `iOS`, `Android`, or `Web`.
-- **`updatedAt`** (datetime, optional): The client timestamp or historical timestamp when the user's location was updated. Historical data must be upserted in chronological order. Optional, defaults to the current server timestamp if not provided or not in chronological order. A valid date or ISO date string.
+- **`updatedAt`** (datetime, optional): The client timestamp or historical timestamp when the user's location was updated. Historical data must be upserted in chronological order. Optional, defaults to the current server timestamp if not provided or not in chronological order. A date or valid ISO date string.
+- **`replayed`** (boolean, optional): `true` if the location is replayed, `false` if the location is not replayed. Defaults to `false`.
+- **`deviceOS`** (string, optional): The operating system of the device.
+- **`deviceMake`** (string, optional): The manufacturer of the device.
+- **`deviceModel`** (string, optional): The model of the device.
 
 ###### Authentication level
 
@@ -1410,8 +1414,8 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`approachingThreshold`** (number): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 - **`createdAt`** (datetime): The datetime when the trip was started.
 - **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
-- **`orderFiredAt`** (datetime): From the [Olo integration](https://radar.com/documentation/integrations/olo), the datetime when the order associated with the trip was fired.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`orderFiredAt`** (datetime): From the [Olo integration](/documentation/integrations/olo), the datetime when the order associated with the trip was fired.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
 - **`status`** (string): The status of the trip, one of `pending`, `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
@@ -1547,6 +1551,12 @@ Lists trips. Trips are sorted descending by `eta`.
 - **`status`** (string, optional): Retrieves trips by status. A string, comma-separated including one or more of `pending`, `started`, `approaching`, `arrived`, `completed`, `canceled`, `expired`.
 - **`destinationGeofenceTag`** (string, optional): Retrieves trips with the destination geofence tag.
 - **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
+- **`externalId`** (string, optional): A stable unique ID for the trip.
+- **`userId`** (string, optional): The external ID of the [user](/api#users) for which the trip is being tracked.
+- **`includeLocations`** (boolean, optional): Whether to include locations on trips. Defaults to `false`.
+- **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves trips created after the specified datetime. A date or valid ISO date string.
+- **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves trips created before the specified datetime. A date or valid ISO date string.
+- **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 1000. Defaults to 500.
 
 ###### Default rate limit
 
@@ -1622,7 +1632,7 @@ Creates a new trip.
 - **`userId`** (string, optional): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`. Defaults to `car`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 
 ###### Default rate limit
 
@@ -1699,8 +1709,8 @@ On iOS and Android, use the [SDK](/sdk) to update trips.
 ###### Body parameters
 
 - **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
-- **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](https://radar.com/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/documentation/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 
 ###### Default rate limit
 
