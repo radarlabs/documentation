@@ -80,7 +80,7 @@ This endpoint is stateful. For anonymous or stateless context, call the [context
 - **`userId`** (string, optional): A stable unique ID for the user. Used with `deviceId` to identify logged in users. Not required for logged out users.
 - **`latitude`** (number, required): The user's current latitude. A number between -90 and 90.
 - **`longitude`** (number, required): The user's current longitude. A number between -180 and 180.
-- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0. Used when evaluating [geofence events](/documentation/geofences#confidence-and-accuracy) and event confidence.
+- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0. Used when evaluating the [confidence](/documentation/geofences#confidence-and-accuracy) of geofence events.
 - **`foreground`** (boolean, optional): `true` if the client is in the foreground, `false` if the client is in the background.
 - **`stopped`** (boolean, optional): `true` if the user is stopped, `false` if the user is moving.
 - **`description`** (string, optional): An optional description for the user, displayed in the dashboard.
