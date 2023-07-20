@@ -58,7 +58,7 @@
     }
   },
   "lint-staged": {
-    "**/docs/*.{mdx}": [
+    "*.{mdx}": [
       "cspell -c cspell.json"
     ]
   }
