@@ -48,9 +48,9 @@
 }
 
 .alertTip {
-  background-color:#e8f9f0;
+  background-color: #e8f9f0;
   border-color:rgba(13,89,46,.25);
-  color:#0d592e;
+  color: #0d592e;
   background-image: url(/static/img/tipIcon.svg);
 }
 
