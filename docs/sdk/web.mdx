@@ -177,7 +177,7 @@ Radar.trackOnce({
 });
 ```
 
-### Get Context
+### Context
 
 With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
 
@@ -307,9 +307,9 @@ Radar.validateAddress({
   postalCode: "10003",
   countryCode: "US",
 })
-.then((result) => {
-  const { address, result } = result;
-  // do something with result
+.then((response) => {
+  const { address, result } = response;
+  // do something with validation result
 })
 .catch((err) => {
   // handle error
@@ -339,6 +339,7 @@ Radar.distance({
 .then((result) => {
   const { routes } = result;
   const { geodesic, foot, bike, car } = routes;
+  // do something with distance result
 })
 .catch((err) => {
   // handle error

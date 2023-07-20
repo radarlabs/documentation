@@ -6,8 +6,7 @@
   "silent": true,
   "ignorePaths": [
     "**/docs/places/*",
-    "**/docs/regions/*",
-    "**/docs/places.mdx"
+    "**/docs/regions/*"
   ],
   "ignoreWords": [
     "androidx",
@@ -15,13 +14,10 @@
     "autocompletes",
     "autocompleting",
     "backgrounded",
-    "bkjcium",
-    "bkjcim",
     "blocklisted",
     "brandify",
     "cartfile",
     "ccpa",
-    "cgeq",
     "cocoapods",
     "codepath",
     "customerid",
@@ -60,7 +56,6 @@
     "sfmc",
     "signup",
     "timewanted",
-    "ucec",
     "upsert",
     "upserted",
     "upserts",
@@ -69,8 +64,9 @@
     "xcodeworkspace",
     "xcproject",
     "xcworkspace",
-    "yourapp",
-    "yxssu",
-    "yxssullpy"
+    "yourapp"
+  ],
+  "ignoreRegExpList": [
+    "/^\\s*```[\\s\\S]*?^\\s*```/gm"
   ]
 }
