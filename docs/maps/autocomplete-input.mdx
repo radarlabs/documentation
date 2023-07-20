@@ -1,0 +1,75 @@
+---
+title: Autocomplete Input
+---
+import AutocompleteInput from '../../src/components/AutocompleteInput.jsx'
+
+Easily add an address autocomplete widget to your site with just a few lines of code.
+
+<AutocompleteInput />
+
+## How it works
+
+To use the Radar Autocomplete input, simply initialize the Radar SDK with your publishable key, and specify the container to render the input into.
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, get started with the sample code below.
+
+### JavaScript
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="https://js.radar.com/v4.0.0/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/v4.0.0/radar.min.js"></script>
+  </head>
+
+  <body>
+    <div id="autocomplete" />
+
+    <script type="text/javascript">
+      Radar.initialize('prj_live_pk_...');
+
+      // create autocomplete input
+      Radar.ui.autocomplete({
+        container: 'autocomplete',
+        width: '600px',
+        onSelection: (address) => {
+          // do something with selected address
+        },
+      });
+    </script>
+  </body>
+</html>
+```
+
+## Configuration
+
+When creating the Autocomplete input, you can provide options to customize the autocomplete behavior, as well as the size of the input.
+
+<div class="api-params-table">
+
+| Name  | Default | Possible Values | Description           |
+|-------|---------|-----------------|-----------------------|
+|`container` |`autocomplete` |string \| HTMLElement |The container the autocomplete intput will be rendered into. Can specify the html `id`, or DOM object.|
+|`wdith` |`400` |number \| string |Width of the input. Can be a number (in pixels) or a valid CSS width.|
+|`debounceMS` |`200` |number |The number of milliseconds to wait after typing is complete to refresh the result list.|
+|`threshold` |`3` |number |Minimum number of characters that need to be typed before fetching results.|
+|`limit` |`8` |number |Maximum number of results to show.|
+|`onSelection` |`null` |function `(address) => {}`|Callback with selected address.|
+|`onResults` |`null` |function `(addresses) => {}`|Callback with list of address results.|
+|`onError` |`null` |function `(error) => {}`|Callback with any errors that occur.|
+|`placeholder` |`Search address` |string |Input placeholder text|
+|`responsive` |`true` |boolean |Whether the input should expand to fill the parent container or not. If `responsive` is true _and_ a `width` is provided, `width` will be treated as a "max-width".|
+|`disabled` |`false` |boolean |Disables the input.|
+|`layers` |`null` |`place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, `fine` |Filter results by layer type. See [Autocomplete docs](documentation/api#query-parameters-3) for more info.|
+|`countryCode` |`null` |string|2-letter country code to filter results by.|
+|`showMarkers` |`true` |boolean |Show map pin icons next to results in the list.|
+|`markerColor` |`#ACBDC8` |string |CSS color for marker icon.|
+
+</div>

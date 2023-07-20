@@ -12,7 +12,7 @@ For example, here's a Radar Map displaying a marker for Radar HQ:
 
 ## How it works
 
-To use Radar Maps, simply initialize the Radar SDK with your publishable key, and give a starting position and container to render the map into.
+To use Radar Maps, simply initialize the Radar SDK with your publishable key, and specify the container to render the map into.
 
 Radar Maps is an extension of the [Maplibre GL JS](https://maplibre.org) library. See their [docs](https://maplibre.org/maplibre-gl-js/docs/API/) for additional customization info.
 
@@ -181,14 +181,17 @@ body {
 
 When creating a new Radar map, you can configure it with any of the [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/) avilable in MapLibre.
 
-In addition, there are a few options specfic to Radar
+In addition, you can specify the Radar theme with the `style` property:
 
 <div class="api-params-table">
 
 | Name  | Default | Possible Values | Description           |
 |-------|---------|-----------------|-----------------------|
 |`style` |`radar-default-v1` |`radar-default-v1` |The Radar map theme used for the map style. |
-|`useIP` |`false` |boolean |Use the IP location of the device as the initial center point for the map. <br /> _Additional API usage applies for the use of [IP Geocode](/documentation/api#ip-geocode)._|
+
+<Alert alertType='tip'>
+  To center the map based on the user's location, create the map without the <code>center</code> and <code>zoom</code> properties. <br />The initial map position will be based on the user's <a href="/documentation/api#ip-geocode">IP Geolocation</a>.
+</Alert>
 
 </div>
 

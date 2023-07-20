@@ -62,7 +62,8 @@ module.exports = {
         "maps/geocoding",
         "maps/search",
         "maps/routing",
-        "maps/maps"
+        "maps/maps",
+        "maps/autocomplete-input"
       ],
     },
     {
