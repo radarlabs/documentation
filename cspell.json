@@ -3,6 +3,7 @@
   "language": "en",
   "showSuggestions": true,
   "unique": true,
+  "silent": true,
   "ignorePaths": [
     "**/docs/places/*",
     "**/docs/regions/*",
