@@ -43,7 +43,7 @@ Orders in Olo will need to have `ismanualfire` set to `true` or set a `timewante
 
 Additionally, configure Radar with a *Partnership Type* of *Customer Arrival* via the *Partner Management* section of the Olo Dashboard. Select stores in the configuration where order firing will be enabled. Upon completion, reach out to your Radar account team to complete the order firing integration.
 
-The trip's approaching threshold and scheduled arrival at attributes are used to determine the order firing time. When an active trip ETA drops below the approaching threshold, Radar generates a `user.approaching_trip_destination` event and Radar will fire the order. If the trip is started inside the destination geofence, Radar will fire the order immmediately. In the event the `scheduledArrivalAt` set on the trip is reached before the approaching threshold is crossed, the order will automatically fire. See below for how to configure these two parameters.
+The trip's approaching threshold and scheduled arrival at attributes are used to determine the order firing time. When an active trip ETA drops below the approaching threshold, Radar generates a `user.approaching_trip_destination` event and Radar will fire the order. If the trip is started inside the destination geofence, Radar will fire the order immediately. In the event the `scheduledArrivalAt` set on the trip is reached before the approaching threshold is crossed, the order will automatically fire. See below for how to configure these two parameters.
 
 ### Scheduled arrival at
 

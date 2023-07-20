@@ -189,7 +189,7 @@ We will use arrival at the trip destination as a signal that the delivery is com
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, RadarDelegate
 ```
 
-Then, add a `didReceiveEvents` method with trip completion logic when it is called with the `userArrivedAtTripDestination` event type, and add in the other RadarDelgate methods:
+Then, add a `didReceiveEvents` method with trip completion logic when it is called with the `userArrivedAtTripDestination` event type, and add in the other RadarDelegate methods:
 
 ```swift
 // RadarDelegate methods
@@ -416,7 +416,7 @@ Congratulations on finishing the tutorial! This is an illustrative example to ge
 
 1) On trip start, replace the mock tracking call with `Radar.startTracking` in the application that delivery drivers to be tracked will be using.
 
-2) Set trip destinations to geofences with delivery locations instead of the test geofence. Geofences can also be created programatically via the [geofence upsert API](/api#upsert-a-geofence).
+2) Set trip destinations to geofences with delivery locations instead of the test geofence. Geofences can also be created programmatically via the [geofence upsert API](/api#upsert-a-geofence).
 
 3) Use [Braze](integrations/braze) to send push instead of local notifications to other users with different devices.
 

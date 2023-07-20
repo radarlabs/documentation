@@ -28,7 +28,7 @@ For example, if the iOS Battery screen shows 2% battery blame attributable to yo
 
 When using the efficient and responsive tracking presets, the SDK will wake up while the user is moving (usually every few minutes), then shut down when the user stops. To save battery, the SDK will not wake up when stopped. For most users, background tracking with these presets uses only 1-2% battery per day (measured in absolute percentage).
 
-See the [SDK documentation](/sdk) and [Navigating location services tradeoffs between accuracy, frequency, and battery efficiency](ttps://radar.com/blog/navigating-location-services-tradeoffs-between-accuracy-frequency-battery-efficiency) for more information.
+See the [SDK documentation](/sdk) and [Navigating location services tradeoffs between accuracy, frequency, and battery efficiency](https://radar.com/blog/navigating-location-services-tradeoffs-between-accuracy-frequency-battery-efficiency) for more information.
 
 ### Can I test Radar side-by-side with another location SDK?
 
@@ -56,7 +56,7 @@ On Android, Radar will continue to receive location updates if the app is swiped
 
 ### If a user backgrounds my app, do I need to request background location permissions to access location?
 
-With just foreground location permissions, you can leverage the [background location indicator](https://developer.apple.com/documentation/corelocation/cllocationmanager/2923541-showsbackgroundlocationindicator) on iOS or a [foreground service](https://developer.android.com/guide/components/foreground-services) on Android to continue to receive location updates in the background. These are activated via the `showBlueBar` [tracking option](/sdk/tracking#ios-options) on iOS or the `foregroundService` [tracking option](/sdk/tracking#android-options) on Android. iOS devices will display a blue location icon when activated, and Android deivces will display a persistent notification. Use of these visual indicators is common for operational use cases such as fleet tracking and delivery.
+With just foreground location permissions, you can leverage the [background location indicator](https://developer.apple.com/documentation/corelocation/cllocationmanager/2923541-showsbackgroundlocationindicator) on iOS or a [foreground service](https://developer.android.com/guide/components/foreground-services) on Android to continue to receive location updates in the background. These are activated via the `showBlueBar` [tracking option](/sdk/tracking#ios-options) on iOS or the `foregroundService` [tracking option](/sdk/tracking#android-options) on Android. iOS devices will display a blue location icon when activated, and Android devices will display a persistent notification. Use of these visual indicators is common for operational use cases such as fleet tracking and delivery.
 
 ### What are the different event listeners and how should I use them?
 
