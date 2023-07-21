@@ -1147,6 +1147,68 @@ curl "https://api.radar.io/v1/route/match?path=40.73421259605101,-73.98635368448
 }
 ```
 
+#### Directions
+
+<Alert alertType="info">
+  The directions API is currently in beta.
+</Alert>
+
+Calculates the most efficient route between two or more locations.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/directions</code>
+
+###### Query parameters
+
+- **`locations`** (string, required): List of up to 25 coordinates to visit sequentially. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
+- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/route/directions?locations=40.73421,-73.98635|40.73616,-73.98026&mode=car&units=imperial" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "routes": {
+    "legs": {
+      "startLocation": "40.734262,-73.986476",
+      "endLocation": "40.735984,-73.98039",
+      "geometry": {
+        "polyline": "kbfulAvywblC|LbIvBvAjBlA|I~FhHvEjLvHvDdCjBoG|HoVdHyT`Rmk@hH_U~CuJ~AgGvA{FxEsO~ByHdA{C~@oBxBcFdAkCv@{BrOwf@xDmNtIuXrBwH}CwBuX{QoBsAsCmBgBkAeCaBmMmImPsKsBsA}B_BwFwDmCgBcH}EcGeEyB{AeBiA{PcLiIsFcC}AmBiA}UaOuF{DiBqAuBsAg[eSgC_BwCeBiLuHkAy@uCoB{GuEyAaAaCpHqHtUyIrX"
+      },
+      "distance": {
+        "value": 3930.44632,
+        "text": "0.7 mi"
+      },
+      "duration": {
+        "value": 2.1667,
+        "text": "2 mins"
+      }
+    }
+  }
+}
+```
+
+While in beta, contact your customer success manager for early access to the directions API.
+
 ## Manage your Radar data
 
 Use these endpoints to manage your Radar data, including users, geofences, and events.
