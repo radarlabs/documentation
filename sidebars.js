@@ -63,7 +63,7 @@ module.exports = {
         "maps/search",
         "maps/routing",
         "maps/maps",
-        "maps/autocomplete-input"
+        "maps/autocomplete"
       ],
     },
     {
