@@ -47,6 +47,13 @@
   color: #051723;
 }
 
+.alertTip {
+  background-color: #e8f9f0;
+  border-color:rgba(13,89,46,.25);
+  color: #0d592e;
+  background-image: url(/static/img/tipIcon.svg);
+}
+
 .alertSuccess {
   background-color:#e8f9f0;
   border-color:rgba(13,89,46,.25);

@@ -12,17 +12,15 @@ For example, here's a Radar Map displaying a marker for Radar HQ:
 
 ## How it works
 
-Radar Maps works with any renderer capable of rendering Mapbox Vector Tiles. We recommend [MapLibre GL JS](https://maplibre.org/projects/maplibre-gl-js/), originally forked Mapbox GL JS v1 and now sponsored by companies including Amazon Web Services and Meta.
+To use Radar Maps, simply initialize the Radar SDK with your publishable key, and specify the container to render the map into.
 
-To use Radar Maps, you simply use MapLibre with Radar's tile server and map style, passing your Radar [publishable key](/documentation/api#authentication).
+Radar Maps is an extension of the [Maplibre GL JS](https://maplibre.org) library. See their [docs](https://maplibre.org/maplibre-gl-js/docs/API/) for additional customization info.
 
 ## Quickstart
 
 First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
-Then, get started with the sample code below. Note that you must pass your Radar publishable API key to the style URL.
-
-From there, you can add map markers, controls, and much, much more. See the [MapLibre GL JS docs](https://maplibre.org/projects/maplibre-gl-js/).
+Then, get started with the sample code below.
 
 Happy mapping!
 
@@ -35,57 +33,28 @@ To create a simple web page with a map:
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Radar Map</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <script type="text/javascript" src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-    <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
-    <style type="text/css">
-      body {
-        margin: 0;
-        padding: 0;
-      }
-
-      #map-container {
-        height: 100%;
-        position: absolute;
-        width: 100%;
-      }
-
-      #map {
-        height: 100%;
-        position: absolute;
-        width: 100%;
-      }
-
-      /* required */
-      #map-watermark {
-        bottom: 0;
-        height: 38px;
-        left: 10px;
-        position: absolute;
-        width: 80px;
-        z-index: 999;
-      }
-    </style>
+    <link href="https://js.radar.com/v4.0.0/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/v4.0.0/radar.min.js"></script>
   </head>
+
   <body>
-    <div id="map-container">
-      <div id="map" />
-      <a id="map-watermark" href="https://radar.com" target="_blank">
-        <img alt="Radar" src="https://api.radar.io/maps/static/images/logo.svg" height="38" width="80" />
-      </a>
-    </div>
+    <div id="map" style="width: 100%; height: 500px;" />
+
     <script type="text/javascript">
-      var map = new maplibregl.Map({
+      Radar.initialize('prj_live_pk_...');
+
+      // create a new map
+      const map = Radar.ui.map({
         container: 'map',
-        style: 'https://api.radar.io/maps/styles/radar-default-v1?publishableKey=' + PUBLISHABLE_KEY,
         center: [-73.9911, 40.7342], // NYC
         zoom: 11
       });
 
-      map.addControl(new maplibregl.NavigationControl());
-
-      new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map); // Radar HQ
+      // create marker and add to map
+      const marker = Radar.ui.marker({ text: 'Radar HQ' })
+        .setLngLat([-73.9910078, 40.7342465])
+        .addTo(map);
     </script>
   </body>
 </html>
@@ -95,35 +64,39 @@ To create a simple web page with a map:
 
 To create a [React](https://react.dev) component with a map:
 
+<Alert alertType='info'>
+  The Radar SDK has a dependency on maplibre-gl for the map rendering.
+</Alert>
+
 ```bash
-npm install --save maplibre-gl
+npm install --save radar-sdk-js maplibre-gl
 ```
 
 ```jsx
 import React from 'react';
-import maplibregl from 'maplibre-gl';
+import Radar from 'radar-sdk-js';
+
+import 'radar-sdk-js/dist/radar.css';
 
 class RadarMap extends React.Component {
   componentDidMount() {
-    const map = new maplibregl.Map({
+    Radar.initialize('prj_live_pk_...');
+
+    const map = new Radar.ui.map({
       container: 'map',
-      style: `https://api.radar.io/maps/styles/radar-default-v1?publishableKey=${PUBLISHABLE_KEY}`,
       center: [-73.9911, 40.7342], // NYC
-      zoom: 11
+      zoom: 14,
     });
 
-    map.addControl(new maplibregl.NavigationControl());
-
-    new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map); // Radar HQ
+    Radar.ui.marker({ text: 'Radar HQ' })
+      .setLngLat([-73.9910078, 40.7342465])
+      .addTo(map);
   }
 
   render() {
     return (
       <div id="map-container" style={{ height: '100%', position: 'absolute', width: '100%' }}>
         <div id="map" style={{ height: '100%', position: 'absolute', width: '100%' }} />
-        <a id="map-watermark" href="https://radar.com" target="_blank" style={{ bottom: 0, height: '38px', left: '10px', position: 'absolute', width: '80px' }}>
-          <img alt="Radar" src="https://api.radar.io/maps/static/images/logo.svg" height="38" width="80" />
-        </a>
       </div>
     );
   }
@@ -132,30 +105,23 @@ class RadarMap extends React.Component {
 export default RadarMap;
 ```
 
-```sass
-@import '~maplibre-gl/dist/maplibre-gl.css';
-```
-
 ### Vue
 
 To create a [Vue](https://vuejs.org) component with a map:
 
 ```bash
-npm install --save maplibre-gl
+npm install --save radar-sdk-js maplibre-gl
 ```
 
 ```javascript
 <template>
   <div id="map-container">
     <div id="map" ref="mapRef" />
-    <a id="map-watermark" href="https://radar.com" target="_blank">
-      <img alt="Radar" src="https://api.radar.io/maps/static/images/logo.svg" height="38" width="80" />
-    </a>
   </div>
 </template>
 
 <script>
-import maplibregl from 'maplibre-gl';
+import Radar from 'radar-sdk-js';
 import { shallowRef, onMounted, onUnmounted, markRaw } from 'vue';
 
 export default {
@@ -165,17 +131,19 @@ export default {
     const map = shallowRef(null);
 
     onMounted(() => {
-      map.value = markRaw(new maplibregl.Map({
+      Radar.initialize('prj_live_pk_...');
+
+      map.value = markRaw(Radar.ui.map({
         container: mapRef.value,
-        style: `https://api.radar.io/maps/styles/radar-default-v1?publishableKey=${PUBLISHABLE_KEY}`,
         center: [-73.9911, 40.7342], // NYC
         zoom: 11
       }));
 
-      map.value?.addControl(new maplibregl.NavigationControl());
-
-      new maplibregl.Marker({ color: '#007aff' }).setLngLat([-73.9911, 40.7342]).addTo(map.value); // Radar HQ
+      Radar.ui.Marker({ color: '#007aff' })
+        .setLngLat([-73.9911, 40.7342]) // Radar HQ
+        .addTo(map.value);
     }),
+
     onUnmounted(() => {
       map.value?.remove();
     })
@@ -188,7 +156,7 @@ export default {
 </script>
 
 <style>
-@import '~maplibre-gl/dist/maplibre-gl.css';
+@import 'radar-sdk-js/dist/radar.css';
 
 body {
   margin: 0;
@@ -206,18 +174,29 @@ body {
   position: absolute;
   width: 100%;
 }
-
-/* required */
-#map-watermark {
-  bottom: 0;
-  height: 38px;
-  position: absolute;
-  left: 10px;
-  width: 80px;
-  z-index: 999;
-}
 </style>
 ```
+
+## Configuration
+
+When creating a new Radar map, you can configure it with any of the [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/) available in MapLibre.
+
+<!---
+In addition, you can specify the Radar theme with the `style` property:
+
+<div class="api-params-table">
+
+| Name  | Default | Possible Values | Description           |
+|-------|---------|-----------------|-----------------------|
+|`style` |`radar-default-v1` |`radar-default-v1` |The Radar map theme used for the map style. |
+
+</div>
+--->
+
+<Alert alertType='tip'>
+  The map will be automatically centered based on the user's IP Geolocation unless center and zoom properties are specified.
+</Alert>
+
 
 ## Coverage
 

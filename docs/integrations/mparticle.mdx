@@ -32,7 +32,7 @@ Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations)
 
 Whenever events are generated, Radar will send events and user attributes to mParticle. Events and user attributes from iOS devices will be sent to the iOS input feed, and events and user attributes from Android devices will be sent to the Android input feed. The Radar *Test* environment automatically maps to the *Development* environment in mParticle, and the Radar *Live* environment automatically maps to the *Production* environment in mParticle.
 
-By default, Radar sends the IDFV on iOS and Android Id on Android to associate the Radar events with the correct mParticle user. Additonally, the Radar `userId` maps to mParticle `customerid` for logged in users.
+By default, Radar sends the IDFV on iOS and Android Id on Android to associate the Radar events with the correct mParticle user. Additionally, the Radar `userId` maps to mParticle `customerid` for logged in users.
 
 You can specify a custom mapping for the mParticle customer ID by setting Radar `metadata.mParticleCustomerId`. For example, on iOS:
 

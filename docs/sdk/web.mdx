@@ -3,50 +3,79 @@ sidebar_label: Web
 title: Web SDK
 description: Documentation for Web SDK
 ---
+import Alert from '../../src/components/Alert.jsx';
 
-This is the documentation for the web JavaScript SDK. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
+This is the documentation for the Radar Web SDK.
 
-See the source on GitHub [here](https://github.com/radarlabs/radar-sdk-js). Or, see the `radar-sdk-js` package on npm [here](https://www.npmjs.com/package/radar-sdk-js).
+The source can be found on GitHub [here](https://github.com/radarlabs/radar-sdk-js). Or, see the `radar-sdk-js` package on npm [here](https://www.npmjs.com/package/radar-sdk-js).
 
 ## Install
 
-In an HTML page, include the SDK using a `<script>` tag:
+In an HTML page, include the SDK script and corresponding stylesheet:
 
 ```html
-<script src="https://js.radar.com/v3.6.1/radar.min.js"></script>
+<link href="https://js.radar.com/v4.0.0/radar.css" rel="stylesheet">
+<script src="https://js.radar.com/v4.0.0/radar.min.js"></script>
 ```
 
-In a web app, install the package from npm, then import the library:
+In a web app, install the package from npm:
 
 ```bash
-npm install --save radar-sdk-js
+npm install --save radar-sdk-js maplibre-gl
 ```
+<Alert alertType='info'>
+  The Radar SDK has a dependency on maplibre-gl for map rendering.
+</Alert>
 
+Then import the library and corresponding stylesheet:
 ```javascript
 import Radar from 'radar-sdk-js';
+
+import 'radar-sdk-js/dist/radar.css';
 ```
 
-The SDK is less than 20 KB minified.
-
-## Integrate
+## Setup
 
 ### Initialize
 
-To initialize the library, call:
+To initialize the library, call the initialize function with a Radar publishable API key:
 
 ```javascript
-Radar.initialize(publishableKey);
+Radar.initialize('prj_live_pk_...');
 ```
 
-where `publishableKey` is a string containing your Radar publishable API key.
+<Alert alertType='info'>
+  Initialization is required before calling any Radar APIs or functions.
+</Alert>
 
-Optionally, to cache location updates for a period of time and avoid re-prompting for location,
-provide a `cacheLocationMinutes` value as an option when initializing:
+### Configuration
+
+The initialize call takes an optional second argument that is an object with additional configuration options.
+
 ```javascript
-Radar.initialize(publishableKey, {
-  cacheLocationMinutes: 30
+Radar.initialize('prj_live_pk_...', {
+  /* custom options here */
 });
 ```
+
+The available options are:
+
+<div class="api-params-table">
+
+| Name  | Default | Possible Values | Description           |
+|-------|---------|-----------------|-----------------------|
+|`logLevel` |`error` |`none`,`info`,`warn`,`error` |Determines the level logging output that is visible in the developer console. _log level will default to `error` when using a test publishable key._ |
+|`cacheLocationMinutes` |`null` |number |Number of minutes to use a previous location before re-prompting for a new location. If `null` or `0`, will always query the device for a new location. |
+|`locationMaximumAge` |`null` |number |Maximum age (in milliseconds) to use a stale browser location. See [getCurrentPosition options](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition) |
+|`locationTimeout` |`30000` |number |Number of milliseconds to wait for a device location before a timeout error is thrown. Default is 30 seconds. |
+|`desiredAccuracy` |`high` |`high`,`medium`,`low` |Indicates desired level of location accuracy. _higher accuracy can result is slower response times._ |
+
+</div>
+
+
+## Track
+
+To power [geofencing use cases](/documentation/geofencing/overview) from the web, you can leverage Radar's [track api](/documentation/api#track) to get location context and generate events.
 
 ### Identify user
 
@@ -85,112 +114,130 @@ The SDK uses the [HTML5 geolocation API](https://developer.mozilla.org/en-US/doc
 To track the user's location, call:
 
 ```javascript
-Radar.trackOnce(function(err, result) {
-  if (!err) {
-    // do something with result.location, result.events, result.user
-  }
-});
+Radar.trackOnce()
+  .then((result) => {
+    const { location, user, events } = result;
+    // do something with location, user, or events
+  })
+  .catch((err) => {
+    // handle error
+  });
 ```
 
-If the request is unsuccessful, `err` will be a string, one of:
+If the request is unsuccessful, `err` will be one of:
 
-- **`ERROR_PUBLISHABLE_KEY`**: SDK not initialized
-- **`ERROR_PERMISSIONS`**: location permissions not granted
-- **`ERROR_LOCATION`**: location services error or timeout (10 seconds)
-- **`ERROR_NETWORK`**: network error or timeout (10 seconds)
-- **`ERROR_BAD_REQUEST`**: bad request (missing or invalid params)
-- **`ERROR_UNAUTHORIZED`**: unauthorized (invalid API key)
-- **`ERROR_PAYMENT_REQUIRED`**: payment required (organization disabled or usage exceeded)
-- **`ERROR_FORBIDDEN`**: forbidden (insufficient permissions or no beta access)
-- **`ERROR_NOT_FOUND`**: not found
-- **`ERROR_RATE_LIMIT`**: too many requests ([rate limit](/api#track) exceeded)
-- **`ERROR_SERVER`**: internal server error
-- **`ERROR_UNKNOWN`**: unknown error
+- **`RadarPublishableKeyError`**: SDK not initialized
+- **`RadarLocationPermissionsError`**: location permissions not granted
+- **`RadarLocationError`**: location services error or timeout (10 seconds)
+- **`RadarTimeoutError`**: network timeout (10 seconds)
+- **`RadarBadRequestError`**: bad request (missing or invalid params)
+- **`RadarUnknownError`**: unauthorized (invalid API key)
+- **`RadarPaymentRequiredError`**: payment required (organization disabled or usage exceeded)
+- **`RadarForbiddenError`**: forbidden (insufficient permissions or no beta access)
+- **`RadarNotFoundError`**: not found
+- **`RadarRateLimitError`**: too many requests ([rate limit](/api#track) exceeded)
+- **`RadarServerError`**: internal server error
+- **`RadarUnknownError`**: unknown error
+
+If the error is the result of a failed API call, additional details can be viewed by inspecting response on the error object.
+```javascript
+err.code; // HTTP response code
+err.response; // API response body
+```
 
 ### Manual tracking
 
-You can manually update the user's location by calling:
+It's possible to get a single device location without sending it to the server:
+
+```javascript
+Radar.getLocation()
+  .then((result) => {
+    // do something with result.location
+  })
+  .catch((err) => {
+    // handle error
+  });
+});
+```
+
+Alternatively, you can manually update the user's location with any location by calling:
 
 ```javascript
 Radar.trackOnce({
   latitude: 39.2904,
   longitude: -76.6122,
   accuracy: 65
-}, function(err, result) {
-  if (!err) {
-    // do something with result.events, result.user
-  }
+})
+.then((result) => {
+  const { location, user, events } = result;
+  // do something with location, user, or events
+})
+.catch((err) => {
+  // handle error
 });
 ```
 
-### Other APIs
-
-The web SDK also exposes APIs for anonymous context, geocoding, search, and distance.
-
-#### Get location
-
-Get a single location update without sending it to the server:
-
-```javascript
-Radar.getLocation(function(err, result) {
-  if (!err) {
-    // do something with result.location
-  }
-});
-```
-
-#### Context
+### Context
 
 With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
 
 ```javascript
-Radar.getContext({
-  latitude: 40.783826,
-  longitude: -73.975363,
-  accuracy: 65
-}, function(err, result) {
-  if (!err) {
-    // do something with result.context
-  }
-});
+Radar.getContext()
+  .then((result) => {
+    const { location, geofences, place, country, state, dma, postalCode } = result;
+    // do something with results
+  })
+  .catch((err) => {
+    // handle error
+  });
 ```
 
-#### Geocoding
+
+## Maps APIs
+
+### Geocoding
 
 With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
 
 ```javascript
-Radar.geocode('20 jay st brooklyn ny', function(err, result) {
-  if (!err) {
-    // do something with result.addresses
-  }
+Radar.forwardGeocode({ query: '20 jay st brooklyn ny' })
+  .then((result) => {
+    const { addresses } = result;
+    // do something with addresses
+  })
+  .catch((err) => {
+    // handle error
+  });
 });
 ```
 
 With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
 
 ```javascript
-Radar.reverseGeocode({
-  latitude: 40.783826,
-  longitude: -73.975363
-}, function(err, result) {
-  if (!err) {
-    // do something with result.addresses
-  }
-});
+Radar.reverseGeocode({ latitude: 40.783826, longitude: -73.975363 })
+  .then((result) => {
+    const { addresses } = result;
+    // do something with addresses
+  })
+  .catch((err) => {
+    // handle error
+  });
 ```
 
 With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
 
 ```javascript
-Radar.ipGeocode(function(err, result) {
-  if (!err) {
-    // do something with result.address
-  }
-});
+Radar.ipGeocode()
+  .then((result) => {
+    const { ip, address, proxy } = result;
+    // do something with results
+  })
+  .catch((err) => {
+    // handle error
+  });
 ```
 
-#### Search
+### Search
 
 With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
 
@@ -202,10 +249,13 @@ Radar.autocomplete({
     longitude: -73.975363
   },
   limit: 10
-}, function(err, result) {
-  if (!err) {
-    // do something with result.addresses
-  }
+})
+.then((result) => {
+  const { addresses } = result;
+  // do something with addresses
+})
+.catch((err) => {
+  // handle error
 });
 ```
 
@@ -216,10 +266,13 @@ Radar.searchGeofences({
   radius: 1000,
   tags: ['venue'],
   limit: 10
-}, function(err, result) {
-  if (!err) {
-    // do something with result.geofences
-  }
+})
+.then((result) => {
+  const { geofences } = result;
+  // do something with geofences
+})
+.catch((err) => {
+  // handle error
 });
 ```
 
@@ -234,14 +287,18 @@ Radar.searchPlaces({
   radius: 1000,
   chains: ['starbucks'],
   limit: 10
-}, function(err, result) {
-  if (!err) {
-    // do something with result.places
-  }
+})
+.then((result) => {
+  const { places } = result;
+  // do something with places
+})
+.catch((err) => {
+  // handle error
 });
 ```
 
 With the [address validation API](/api#validate-an-address) (currently in beta), validate a structured address in the US or Canada:
+
 ```javascript
 Radar.validateAddress({
   addressLabel: "841 Broadway Fl 7",
@@ -249,19 +306,22 @@ Radar.validateAddress({
   stateCode: "NY",
   postalCode: "10003",
   countryCode: "US",
-}, function(err, { address, result }) {
-  if (!err) {
-    // do something with address and validation result
-  }
+})
+.then((response) => {
+  const { address, result } = response;
+  // do something with validation result
+})
+.catch((err) => {
+  // handle error
 });
 ```
 
-#### Distance
+### Distance
 
 With the [distance API](/api#distance), calculate the travel distance and duration between two locations:
 
 ```javascript
-Radar.getDistance({
+Radar.distance({
   origin: {
     latitude: 40.78382,
     longitude: -73.97536
@@ -275,19 +335,23 @@ Radar.getDistance({
     'car'
   ],
   units: 'imperial'
-}, function(err, result) {
-  if (!err) {
-    // do something with result.routes
-  }
+})
+.then((result) => {
+  const { routes } = result;
+  const { geodesic, foot, bike, car } = routes;
+  // do something with distance result
+})
+.catch((err) => {
+  // handle error
 });
 ```
 
-#### Matrix
+### Matrix
 
 With the [matrix API](/api#matrix), calculate the travel distances and durations between multiple origins and destinations for up to 25 routes:
 
 ```javascript
-Radar.getMatrix({
+Radar.matrix({
   origins: [{
     latitude: 40.70390,
     longitude: -73.98690
@@ -302,12 +366,24 @@ Radar.getMatrix({
   }],
   modes: 'car',
   units: 'imperial'
-}, function(err, result) {
-  if (!err) {
-    // do something with result.matrix
-  }
+})
+.then((result) => {
+  const { origins, destinations, matrix } = result;
+  matrix.forEach((matrixResult) => {
+    const { distance, duration, originIndex, destinationIndex } = matrixResult;
+    // do something with matrix result
+  });
+})
+.catch((err) => {
+  // handle error
 });
 ```
+
+## Maps & UI Kits
+
+In addition to APIs, the Radar Web SDK has built-in UI components for building rich user experiences powered by Radar.
+
+See more info in the [Maps Platform](/documentation/maps/maps) overview.
 
 ## Support
 

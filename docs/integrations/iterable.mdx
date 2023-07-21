@@ -76,7 +76,7 @@ You'll need access to both Radar and Iterable to build this messaging campaign. 
 3. In Iterable, navigate to [Journeys](https://app.iterable.com/workflows) and click **+ New journey**. For more on Journeys in Iterable, please refer to [Iterable's documentation](https://support.iterable.com/hc/en-us/articles/4405798856212-Introduction-to-Journeys-).
 4. New Journeys in Iterable have a "start" node by default. Double click this node and change the **Received Api Trigger** dropdown value to **Triggered Custom Event**. Under *Event name*, start typing *Radar* and you should see a list of available events begin to auto-populate. Select *radarGeofenceEntered*.
 5. Change the **Use Filter** option to *Yes*.
-6. Where it says **Select a property**, start typing *RadarGeofence* and look for the *radarGeofenceEntered.geofenceTag* property. Set this property to *contain* (use Iterable's **Contains** operater) the tag you set up in step one and verified in step two.
+6. Where it says **Select a property**, start typing *RadarGeofence* and look for the *radarGeofenceEntered.geofenceTag* property. Set this property to *contain* (use Iterable's **Contains** operator) the tag you set up in step one and verified in step two.
 7. Click **Update Node**.
 8. Add a new node via Iterable's drag and drop functionality. For this example, drag in the **Send Push** node, then connect the *Start* node with the *Send Push* node.
 
@@ -102,7 +102,7 @@ You'll need access to both Radar and Iterable to build this messaging campaign. 
 3. In Iterable, navigate to [Journeys](https://app.iterable.com/workflows) and click **+ New journey**. For more on Journeys in Iterable, please refer to [Iterable's documentation](https://support.iterable.com/hc/en-us/articles/4405798856212-Introduction-to-Journeys-).
 4. Iterable will start your Journey with a "start" node by default. Double click this node and change the **Received Api Trigger** dropdown value to **Opened An Email**. Select the campaign and filter as desired. Click **Update Node**.
 5. Now, we'll add a new node that filters this initial trigger down based on Radar data. Under *Filters* on the left sidebar of Iterable's Journey builder, drag **Fields Match** in below the Start node.
-6. Double click on this new **Filter users** node. Where it says *Choose a property*, select *Contact Property*. Type in *radarGeofenceTags*, and set it to *contain* (use Iterable's **Contains** operater) the tag you set up in step one and verified in step two. Click **Update Node**.
+6. Double click on this new **Filter users** node. Where it says *Choose a property*, select *Contact Property*. Type in *radarGeofenceTags*, and set it to *contain* (use Iterable's **Contains** operator) the tag you set up in step one and verified in step two. Click **Update Node**.
 7. Connect the *Start* node with the *Filter users* node.
 
 #### Set up a push notification template in Iterable

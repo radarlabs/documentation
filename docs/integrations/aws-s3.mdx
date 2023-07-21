@@ -13,7 +13,7 @@ Radar can stream both events and locations to [AWS S3](https://aws.amazon.com/s3
 
 Use the AWS S3 integration to make Radar data available in a simple object storage format within your own systems, making your locations and events data more easily accessible by your engineers and data scientists.
 
-By having all of your event and location data in S3, you can integrate your location data with other analysis tools like AWS Athena or Snowflake. Files are delivered via an [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/) as snappy-compressed parquet files.  Each `/dt=YYYY-MM-DD/` folder will have multiple files in it. This format should be consumable out-of-the-box with Apache Spark, AWS Athena, or other data engineering tools. This can enable you to do custom dashboarding with visualizations of data like foot traffic, trip duration, or dwell time in a location.
+By having all of your event and location data in S3, you can integrate your location data with other analysis tools like AWS Athena or Snowflake. Files are delivered via an [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/) as snappy-compressed parquet files.  Each `/dt=YYYY-MM-DD/` folder will have multiple files in it. This format should be consumable out-of-the-box with Apache Spark, AWS Athena, or other data engineering tools. This can enable you to build custom dashboard visualizations of data like foot traffic, trip duration, or dwell time in a location.
 
 ## Configuration
 
