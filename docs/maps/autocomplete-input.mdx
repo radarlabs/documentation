@@ -48,6 +48,44 @@ Then, get started with the sample code below.
 </html>
 ```
 
+### React Native
+
+Adding an address search autocomplete is straightforward. The `<Autocomplete>` element is comprised of a TextInput and Flatlist with the results.
+
+The example below provides optional `location` and `onSelect` props to the component. Providing a location will improve autocomplete result quality. Without it, the API utilizes the IP address location to rank results.
+
+```
+import { View } from 'react-native';
+import { useState, useEffect } from 'react';
+import Radar, { Autocomplete } from 'react-native-radar';
+
+export default function App() {
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    Radar.initialize('prj_live_pk_...');
+
+    Radar.trackOnce().then((result) => {
+        setLocation({
+          latitude: result.location.latitude,
+          longitude: result.location.longitude,
+        });
+      });
+  }, []);
+
+  const onSelect = (selectedAddress) => {
+      // Do something with the selected address
+  }
+
+  return (
+      <View style={{ marginTop: 50}}>
+          <Autocomplete location={location} onSelect={onSelect} />
+      </View>
+  );
+}
+
+```
+
 ## Configuration
 
 When creating the Autocomplete input, you can provide options to customize the autocomplete behavior, as well as the size of the input.
