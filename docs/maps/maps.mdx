@@ -16,6 +16,28 @@ To use Radar Maps, simply initialize the Radar SDK with your publishable key, an
 
 Radar Maps is an extension of the [Maplibre GL JS](https://maplibre.org) library. See their [docs](https://maplibre.org/maplibre-gl-js/docs/API/) for additional customization info.
 
+## Configuration
+
+When creating a new Radar map, you can configure it with any of the [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/) available in MapLibre.
+
+<!---
+In addition, you can specify the Radar theme with the `style` property:
+
+<div class="api-params-table">
+
+| Name  | Default | Possible Values | Description           |
+|-------|---------|-----------------|-----------------------|
+|`style` |`radar-default-v1` |`radar-default-v1` |The Radar map theme used for the map style. |
+
+</div>
+--->
+
+<Alert alertType='tip'>
+   Web-based maps will be automatically centered based on the user's IP Geolocation unless center and zoom properties are specified.
+</Alert>
+
+
+
 ## Quickstart
 
 First, [sign up](https://radar.com/signup) for Radar and get an API key.
@@ -177,26 +199,119 @@ body {
 </style>
 ```
 
-## Configuration
+### iOS
 
-When creating a new Radar map, you can configure it with any of the [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/) available in MapLibre.
+Radar maps can be integrated into an iOS application with [MapLibre Native](https://github.com/maplibre/maplibre-native).
 
-<!---
-In addition, you can specify the Radar theme with the `style` property:
+To get started, add the MapLibre Native package to your XCode project.
 
-<div class="api-params-table">
+`General` > `Frameworks, Libraries, and Embedded Content` > `Add item` > `Add other` > `Add package dependency`
 
-| Name  | Default | Possible Values | Description           |
-|-------|---------|-----------------|-----------------------|
-|`style` |`radar-default-v1` |`radar-default-v1` |The Radar map theme used for the map style. |
+<p>
+  <img src="https://images.ctfassets.net/f2vbu16fzuly/2os3Ew3JE6Ch0fStG0TnGT/73038669bcf2ab31e50d83adff31fb55/Screenshot_2023-07-21_at_3.47.18_PM.png?w=2400" alt="XCode add MapLibre dependency screenshot" />
+</p>
 
-</div>
---->
+Next, add your Radar publishable key to the `Info.plist` file.
 
-<Alert alertType='tip'>
-  The map will be automatically centered based on the user's IP Geolocation unless center and zoom properties are specified.
+<p>
+  <img src="https://images.ctfassets.net/f2vbu16fzuly/MxpJKpaRX5ELSB5JZ9uvD/ec99c2499d3d21df568a042eee5deefa/Screenshot_2023-07-23_at_2.38.43_PM.png" alt="XCode update Radar publishableKey screenshot" />
+</p>
+
+Then get started by adding the map to your ViewController with Radar's style URL and your publishable key.
+
+```swift
+import UIKit
+import Mapbox // NOTE: the MapLibre package is imported as "Mapbox"
+
+class ViewController: UIViewController, MGLMapViewDelegate {
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    // ========================
+    // Setup Map
+    // ========================
+
+    // create url (style + publishable key)
+    let publishableKey = getRadarPublishableKey()
+    let styleURL = URL(string: "https://api.radar.io/maps/styles/radar-default-v1?publishableKey=\(publishableKey)")
+
+    // create the map view
+    let mapView = MGLMapView(frame: view.bounds, styleURL: styleURL)
+    mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    mapView.delegate = self
+    mapView.logoView.isHidden = true
+
+    // set the map’s center coordinate and zoom level.
+    mapView.setCenter(
+      CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911),
+      zoomLevel: 11,
+      animated: false
+    )
+
+    // add map to view
+    view.addSubview(mapView)
+
+
+    // ========================
+    // Add Logo
+    // ========================
+
+    let logoImageView = UIImageView()
+    logoImageView.image = UIImage(named: "radar-logo")
+    logoImageView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(logoImageView)
+
+    NSLayoutConstraint.activate([
+        logoImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+        logoImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+        logoImageView.widthAnchor.constraint(equalToConstant: 74),
+        logoImageView.heightAnchor.constraint(equalToConstant: 26)
+    ])
+  }
+
+  // callback for map done loading
+  func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
+    addMarker(style: style, coordinate: CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911))
+  }
+
+  // add marker to map
+  func addMarker(style: MGLStyle, coordinate: CLLocationCoordinate2D) {
+    // create point to place makrer
+    let point = MGLPointAnnotation()
+    point.coordinate = coordinate
+
+    // create data source to hold point data
+    let shapeSource = MGLShapeSource(identifier: "marker-source", shape: point, options: nil)
+
+    // create a style layer for the symbol
+    let shapeLayer = MGLSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
+
+    // add image to the style's sprites
+    if let image = UIImage(named: "default-marker") {
+        style.setImage(image, forName: "marker")
+    }
+
+    // tell the layer to use the image in the sprite
+    shapeLayer.iconImageName = NSExpression(forConstantValue: "marker") // should match image above
+
+    // add the source and style layer to the map
+    style.addSource(shapeSource)
+    style.addLayer(shapeLayer)
+  }
+
+  func getRadarPublishableKey() -> String {
+    let publishableKey = Bundle.main.object(forInfoDictionaryKey: "RadarPublishableKey") as? String
+    return publishableKey!
+  }
+}
+```
+
+You can find the assets used for the pin and Radar logo [here](#).
+
+<Alert alertType="info">
+  Logo placement is required as defined in the <a href="https://radar.com/terms">Terms of Use</a>.
 </Alert>
-
 
 ## Coverage
 
