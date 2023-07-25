@@ -1150,10 +1150,10 @@ curl "https://api.radar.io/v1/route/match?path=40.73421259605101,-73.98635368448
 #### Directions
 
 <Alert alertType="info">
-  The directions API is currently in beta.
+  The directions API is currently in beta. Contact your customer success manager for early access.
 </Alert>
 
-Calculates the most efficient route between two or more locations.
+Calculates the most efficient route between two or more locations to visit in order.
 
 ###### Definitions
 
@@ -1161,9 +1161,9 @@ Calculates the most efficient route between two or more locations.
 
 ###### Query parameters
 
-- **`locations`** (string, required): List of up to 25 coordinates to visit sequentially. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`locations`** (string, required): List of up to 25 coordinates to visit in order. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
 - **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
-- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
+- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
 
 ###### Authentication level
 
@@ -1176,7 +1176,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/route/directions?locations=40.73421,-73.98635|40.73616,-73.98026&mode=car&units=imperial" \
+curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990927|40.732957,-73.992424|40.733756,-73.994281&mode=car&units=imperial" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -1187,27 +1187,44 @@ curl "https://api.radar.io/v1/route/directions?locations=40.73421,-73.98635|40.7
   "meta": {
     "code": 200
   },
-  "routes": {
-    "legs": {
-      "startLocation": "40.734262,-73.986476",
-      "endLocation": "40.735984,-73.98039",
-      "geometry": {
-        "polyline": "kbfulAvywblC|LbIvBvAjBlA|I~FhHvEjLvHvDdCjBoG|HoVdHyT`Rmk@hH_U~CuJ~AgGvA{FxEsO~ByHdA{C~@oBxBcFdAkCv@{BrOwf@xDmNtIuXrBwH}CwBuX{QoBsAsCmBgBkAeCaBmMmImPsKsBsA}B_BwFwDmCgBcH}EcGeEyB{AeBiA{PcLiIsFcC}AmBiA}UaOuF{DiBqAuBsAg[eSgC_BwCeBiLuHkAy@uCoB{GuEyAaAaCpHqHtUyIrX"
-      },
-      "distance": {
-        "value": 3930.44632,
-        "text": "0.7 mi"
-      },
-      "duration": {
-        "value": 2.1667,
-        "text": "2 mins"
-      }
+  "routes": [
+    {
+      "legs": [
+        {
+          "startLocation": "40.734248,-73.990904",
+          "endLocation": "40.732934,-73.992442",
+          "geometry": {
+            "polyline": "mafulAnn`clChKxAhCF`CJdg@vGtB\\|BZpf@`HhC^yArEoZj`A"
+          },
+          "distance": {
+            "value": 1033.4646,
+            "text": "0.2 mi"
+          },
+          "duration": {
+            "value": 0.6890000000000001,
+            "text": "1 min"
+          }
+        },
+        {
+          "startLocation": "40.732934,-73.992442",
+          "endLocation": "40.73372,-73.994308",
+          "geometry": {
+            "polyline": "koculApncclCaTdq@aAzCqA~DmVpv@"
+          },
+          "distance": {
+            "value": 587.27036,
+            "text": "587.3 ft"
+          },
+          "duration": {
+            "value": 0.30365000000000003,
+            "text": "1 min"
+          }
+        }
+      ]
     }
-  }
+  ]
 }
 ```
-
-While in beta, contact your customer success manager for early access to the directions API.
 
 ## Manage your Radar data
 
