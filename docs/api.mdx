@@ -1147,6 +1147,97 @@ curl "https://api.radar.io/v1/route/match?path=40.73421259605101,-73.98635368448
 }
 ```
 
+#### Directions
+
+<Alert alertType="info">
+  The directions API is currently in beta. Contact your customer success manager for early access.
+</Alert>
+
+Calculates the most efficient route between two or more locations to visit in order.
+
+###### Definitions
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/directions</code>
+
+###### Query parameters
+
+- **`locations`** (string, required): List of up to 25 coordinates to visit in order. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
+- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
+
+###### Authentication level
+
+Publishable
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990927|40.732957,-73.992424|40.733756,-73.994281&mode=car&units=imperial" \
+  -H "Authorization: prj_live_pk_..."
+```
+
+###### Sample response
+
+```json
+{
+  "meta": {
+    "code": 200
+  },
+  "routes": [
+    {
+      "legs": [
+        {
+          "startLocation": {
+            "latitude": 40.734248,
+            "longitude": -73.990904
+          },
+          "endLocation": {
+            "latitude": 40.732934,
+            "longitude": -73.992442
+          },
+          "geometry": {
+            "polyline": "mafulAnn`clChKxAhCF`CJdg@vGtB\\|BZpf@`HhC^yArEoZj`A"
+          },
+          "distance": {
+            "value": 1033.4646,
+            "text": "0.2 mi"
+          },
+          "duration": {
+            "value": 0.6890000000000001,
+            "text": "1 min"
+          }
+        },
+        {
+          "startLocation": {
+            "latitude": 40.732934,
+            "longitude": -73.992442
+          },
+          "endLocation": "startLocation": {
+            "latitude": 40.73372,
+            "longitude": -73.994308
+          },
+          "geometry": {
+            "polyline": "koculApncclCaTdq@aAzCqA~DmVpv@"
+          },
+          "distance": {
+            "value": 587.27036,
+            "text": "587.3 ft"
+          },
+          "duration": {
+            "value": 0.30365000000000003,
+            "text": "1 min"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## Manage your Radar data
 
 Use these endpoints to manage your Radar data, including users, geofences, and events.
