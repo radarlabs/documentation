@@ -211,12 +211,6 @@ To get started, add the MapLibre Native package to your XCode project.
   <img src="https://images.ctfassets.net/f2vbu16fzuly/2os3Ew3JE6Ch0fStG0TnGT/73038669bcf2ab31e50d83adff31fb55/Screenshot_2023-07-21_at_3.47.18_PM.png?w=2400" alt="XCode add MapLibre dependency screenshot" />
 </p>
 
-Next, add your Radar publishable key to the `Info.plist` file.
-
-<p>
-  <img src="https://images.ctfassets.net/f2vbu16fzuly/2JzkzgKo6ZLzVwlDomw20v/1b07a353a7831d313301eb57099d9a53/Screenshot_2023-07-24_at_10.25.49_AM.png" alt="XCode update Radar publishableKey screenshot" />
-</p>
-
 Then get started by adding the map to your ViewController with Radar's style URL and your publishable key.
 
 ```swift
@@ -233,8 +227,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     // ========================
 
     // create url (style + publishable key)
-    let publishableKey = getRadarPublishableKey()
-    let styleURL = URL(string: "https://api.radar.io/maps/styles/radar-default-v1?publishableKey=\(publishableKey)")
+    let styleURL = URL(string: "https://api.radar.io/maps/styles/radar-default-v1?publishableKey=prj_live_pk...")
 
     // create the map view
     let mapView = MGLMapView(frame: view.bounds, styleURL: styleURL)
@@ -298,11 +291,6 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     // add the source and style layer to the map
     style.addSource(shapeSource)
     style.addLayer(shapeLayer)
-  }
-
-  func getRadarPublishableKey() -> String {
-    let publishableKey = Bundle.main.object(forInfoDictionaryKey: "RadarPublishableKey") as? String
-    return publishableKey!
   }
 }
 ```
