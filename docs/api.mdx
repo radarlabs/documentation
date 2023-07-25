@@ -1191,8 +1191,14 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990927|40
     {
       "legs": [
         {
-          "startLocation": "40.734248,-73.990904",
-          "endLocation": "40.732934,-73.992442",
+          "startLocation": {
+            "latitude": 40.734248,
+            "longitude": -73.990904
+          },
+          "endLocation": {
+            "latitude": 40.732934,
+            "longitude": -73.992442
+          },
           "geometry": {
             "polyline": "mafulAnn`clChKxAhCF`CJdg@vGtB\\|BZpf@`HhC^yArEoZj`A"
           },
@@ -1206,8 +1212,14 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990927|40
           }
         },
         {
-          "startLocation": "40.732934,-73.992442",
-          "endLocation": "40.73372,-73.994308",
+          "startLocation": {
+            "latitude": 40.732934,
+            "longitude": -73.992442
+          },
+          "endLocation": "startLocation": {
+            "latitude": 40.73372,
+            "longitude": -73.994308
+          },
           "geometry": {
             "polyline": "koculApncclCaTdq@aAzCqA~DmVpv@"
           },
