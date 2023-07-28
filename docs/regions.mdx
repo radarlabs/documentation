@@ -78,3 +78,99 @@ Regions supports DMA (designated market area) detection in the US only. Each DMA
 ## Postal codes
 
 Regions supports postal (ZIP) code detection in the US only. Each postal code has a unique 5-letter `code`.
+
+## Coarse Insights
+
+With Coarse Insights, you can leverage home region and traveling detection. 
+
+Coarse Insights provides the following user context:
+
+```json
+{
+  "recentHomeRegions": [
+    {
+      "countryRegion": "5cf694f66da6a800683f4d71",
+      "stateRegion": "5cf695086da6a800683f4e69",
+      "dma": "5cf694fb6da6a800683f4d92",
+      "postalCode": "5cf6955c6da6a800683f6753",
+    },
+    {
+      "countryRegion": "5cf694eb6da6a800683f4d13",
+      "stateRegion": "64c081605282e60012b10709",
+      "city": "64be9f7997d7f50050922a3b",
+    },
+    {
+      "countryRegion": "5cf694f66da6a800683f4d71",
+      "stateRegion": "5cf695086da6a800683f4e69",
+      "dma": "5cf694fb6da6a800683f4d92",
+      "postalCode": "5cf6955c6da6a800683f6753",
+    },
+  ]
+  "homeRegions": {
+    "countryRegion": "5cf694f66da6a800683f4d71",
+    "stateRegion": "5cf695086da6a800683f4e69",
+    "dma": "5cf694fb6da6a800683f4d92",
+    "postalCode": "5cf6955c6da6a800683f6753",
+    "country": {
+      "_id":  "5cf694f66da6a800683f4d71",
+      "type": "country",
+      "name": "United States",
+      "code": "US",
+      "icon": "🇺🇸",
+    },
+    "state": {
+      "_id":  "5cf695086da6a800683f4e69",
+      "type": "state",
+      "name": "Maryland",
+      "code": "MD",
+      "icon": "🇺🇸",
+    },
+    "dma": {
+      "_id":  "5cf694fb6da6a800683f4d92",
+      "type": "dma",
+      "name": "Baltimore",
+      "code": "26",
+      "icon": "🇺🇸",
+    }
+    "postalCode": {
+      "_id":  "5cf6955c6da6a800683f6753",
+      "type": "postalCode",
+      "name": "21014",
+      "code": "21014",
+      "icon": "🇺🇸",
+    }
+  }
+}
+```
+
+As well as the following event context:
+```json
+{
+  "traveling": {
+    "country": true;
+    "dma": true;
+    "state": true;
+    "postalCode": true;
+    "city": true;
+  }
+}
+```
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Contact your customer success manager to enable Coarse Insights.
+
+From there, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()` or `Radar.startTracking()`, depending on your use case. Radar will set the home regions based on the location tracked, as well as update the recent home regions list with a new entry.
+
+## How it works
+
+The first time a user is tracked either in the day or upon creation, the determined regions are added to the list of recent home regions. The most frequently occurring entry is then set as the user's home regions.
+If the most recent entry is different from the user's home regions, the user is determined to be traveling and the event context is updated accordingly.
+
+Home Regions can be enabled even if [Regions](/documentation/regions) event types are not.
+
+
+
+
