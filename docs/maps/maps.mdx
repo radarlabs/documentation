@@ -241,7 +241,7 @@ You can also add custom pins to the map and control the camera:
   }
 
   const onSelect = (selectedAddress) => {
-      // Do something with the selected address
+    // Do something with the selected address
   }
 
   const pointsCollection = {
@@ -264,40 +264,40 @@ You can also add custom pins to the map and control the camera:
   }
     
   return (
-      <View style={{ width: '100%', marginTop: '10%', height: '90%'}}>
-        <Map mapOptions={mapOptions}>
-          <MapLibreGL.Camera
-          {...cameraConfig}
-          />
-          <MapLibreGL.Images
-            images={{
-              icon: require('./assets/marker.png'),
+    <View style={{ width: '100%', marginTop: '10%', height: '90%'}}>
+      <Map mapOptions={mapOptions}>
+        <MapLibreGL.Camera
+        {...cameraConfig}
+        />
+        <MapLibreGL.Images
+          images={{
+            icon: require('./assets/marker.png'),
+          }}
+        />
+        <MapLibreGL.ShapeSource
+          id="points"
+          shape={pointsCollection}
+          onPress={onPressIcon}
+        >
+
+         <MapLibreGL.SymbolLayer
+            id="symbol"
+            style={{
+              iconImage: 'icon',
+              iconSize: [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                0, 0.2, // Adjust the icon size for zoom level 0
+                12, 0.4, // Adjust the icon size for zoom level 12
+                22, 0.8, // Adjust the icon size for zoom level 22
+              ],
+              iconAllowOverlap: true,
             }}
           />
-          <MapLibreGL.ShapeSource
-            id="points"
-            shape={pointsCollection}
-            onPress={onPressIcon}
-          >
-
-           <MapLibreGL.SymbolLayer
-              id="symbol"
-              style={{
-                iconImage: 'icon',
-                iconSize: [
-                  'interpolate',
-                  ['linear'],
-                  ['zoom'],
-                  0, 0.2, // Adjust the icon size for zoom level 0
-                  12, 0.4, // Adjust the icon size for zoom level 12
-                  22, 0.8, // Adjust the icon size for zoom level 22
-                ],
-                iconAllowOverlap: true,
-              }}
-            />
-          </MapLibreGL.ShapeSource>
-        </Map>
-      </View>
+        </MapLibreGL.ShapeSource>
+      </Map>
+    </View>
   );
 ```
 
