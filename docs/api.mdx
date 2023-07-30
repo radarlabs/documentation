@@ -1800,8 +1800,12 @@ On iOS and Android, use the [SDK](/sdk) to update trips.
 ###### Body parameters
 
 - **`status`** (string, required): The new status of the trip, one of `pending`,`started`, `approaching`, `arrived`, `completed`, or `canceled`.
+- **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`.
+- **`destinationGeofenceTag`** (string, optional): For trips with a destination, the tag of the destination geofence.
+- **`destinationGeofenceExternalId`** (string, optional): For trips with a destination, the external ID of the destination geofence.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/documentation/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`scheduledArrivalAt`** (datetime, optional): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the trip.
 
 ###### Default rate limit
 
