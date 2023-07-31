@@ -81,7 +81,7 @@ Regions supports postal (ZIP) code detection in the US only. Each postal code ha
 
 ## Coarse insights
 
-With Coarse Insights, you can leverage home region and traveling detection on global regions. To enable, contact your customer success manager.
+With Coarse Insights, you can determine a user's home regions and detect traveling across our global coverage. To enable, contact your customer success manager.
 
 Coarse Insights provides the following user context:
 
@@ -89,10 +89,6 @@ Coarse Insights provides the following user context:
 {
   "recentHomeRegions": [],
   "homeRegions": {
-    "countryRegion": "5cf694f66da6a800683f4d71",
-    "stateRegion": "5cf695086da6a800683f4e69",
-    "dma": "5cf694fb6da6a800683f4d92",
-    "postalCode": "5cf6955c6da6a800683f6753",
     "country": {
       "_id":  "5cf694f66da6a800683f4d71",
       "type": "country",
@@ -125,7 +121,7 @@ Coarse Insights provides the following user context:
 }
 ```
 
-As well as the following event context:
+It also provides the following event context:
 ```json
 {
   "traveling": {
@@ -140,7 +136,7 @@ As well as the following event context:
 
 ### How it works
 
-The first time a user is tracked, the determined regions are added to the list of recent home regions. This list comprises the past 30 days in which at least one track call was made for the respective user. The most frequently occurring entry is then set as the user's home regions.
+Upon the first track call of the day, the regions calculated for a given user are stored in a recency list. A user's home regions are determined by calculating the most frequently occurring regions from this list, storing up to the past 30 days in which a track call was made.
 If the most recent entry is different from the user's home regions, the user is determined to be traveling and the event context is updated accordingly.
 
 
