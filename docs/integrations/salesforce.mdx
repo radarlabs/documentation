@@ -28,7 +28,7 @@ Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations#
 
 In Salesforce Marketing Cloud's *Contact Builder*, under *Data Designer*, connect the Radar data extension to your data model by linking the Customer Data's *Contact Key* field to the Radar Data Extension's *contactKey* field in a one to many relationship.
 
-By default, Radar `userId` maps to Salesforce Marketing Cloud `contactKey` for logged in users. However, you can track logged out users or specify custom mappings by setting Radar `metadata.salesforceContactKey`.
+To map a Radar user to a Salesforce Marketing Cloud contact, you must specify a custom mapping by setting Radar `metadata.salesforceContactKey`.
 
 <Tabs
   groupId="salesforce-radar"
