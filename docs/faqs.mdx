@@ -66,6 +66,10 @@ Each listener can support different use cases and exposes different data to take
 
 Radar APIs have a p50 latency of 50ms and a p90 of 150ms.  The `/route/matrix` API increases in latency as additional `origin` or `destination` points are added, or as the distance between points increases.
 
+### How often are usage statistics recalculated?
+
+Usage statistics are recalculated nightly and reflect the total Monthly Tracked Users (MTUs) and API requests made in the month. Usage statistics can be found on the [Home](https://radar.com/dashboard) page of the Radar dashboard.
+
 ## Privacy
 
 ### What data does the Radar SDK collect?
@@ -134,6 +138,9 @@ In addition to the account roles above, owners can also control:
 - **Data access**: Access to specific data and pages across projects in an organization
   - *User locations*: Access to data on the user details page (map and location information) and access to the user locations page
   - *Trip locations*: Access to data on the trip details page (map and location information) and access to the [trip tracking dashboard](/trip-tracking#in-the-radar-trip-tracking-dashboard)
+  - *Geofence tags*: Access to geofences with specific tags. An empty list gives access to all geofences. To access a Geofence, both the *tag* and *externalId* access controls must be satisified.
+  - *Geofence externalIds*: Access to geofences with specific externalIds. An empty list gives access to all geofences. To access a Geofence, both the *tag* and *externalId* access controls must be satisified. 
+  
 
 ### Does Radar have a bug bounty or responsible disclosure program?
 

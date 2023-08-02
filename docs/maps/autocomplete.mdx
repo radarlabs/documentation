@@ -48,6 +48,28 @@ Then, get started with the sample code below.
 </html>
 ```
 
+### React Native
+
+```jsx
+import { View } from 'react-native';
+import { useState, useEffect } from 'react';
+import Radar, { Autocomplete } from 'react-native-radar';
+
+Radar.initialize('prj_live_pk');
+
+export default function App() {
+  const onSelect = (selectedAddress) => {
+    // Do something with the selected address
+  }
+
+  return (
+      <View style={{ marginTop: 50 }}>
+          <Autocomplete onSelect={onSelect} />
+      </View>
+  );
+}
+```
+
 ## Configuration
 
 When creating the Autocomplete input, you can provide options to customize the autocomplete behavior, as well as the size of the input.
