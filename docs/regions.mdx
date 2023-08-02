@@ -78,3 +78,65 @@ Regions supports DMA (designated market area) detection in the US only. Each DMA
 ## Postal codes
 
 Regions supports postal (ZIP) code detection in the US only. Each postal code has a unique 5-letter `code`.
+
+## Coarse insights
+
+With Coarse Insights, you can determine a user's home regions and detect traveling globally. To enable, contact your customer success manager.
+
+Coarse Insights provides the following user context:
+
+```json
+{
+  "homeRegions": {
+    "country": {
+      "_id":  "5cf694f66da6a800683f4d71",
+      "type": "country",
+      "name": "United States",
+      "code": "US",
+      "icon": "🇺🇸",
+    },
+    "state": {
+      "_id":  "5cf695086da6a800683f4e69",
+      "type": "state",
+      "name": "Maryland",
+      "code": "MD",
+      "icon": "🇺🇸",
+    },
+    "dma": {
+      "_id":  "5cf694fb6da6a800683f4d92",
+      "type": "dma",
+      "name": "Baltimore",
+      "code": "26",
+      "icon": "🇺🇸",
+    }
+    "postalCode": {
+      "_id":  "5cf6955c6da6a800683f6753",
+      "type": "postalCode",
+      "name": "21014",
+      "code": "21014",
+      "icon": "🇺🇸",
+    }
+  }
+}
+```
+
+It also provides the following event context:
+```json
+{
+  "traveling": {
+    "country": true,
+    "dma": true,
+    "state": true,
+    "postalCode": true,
+  }
+}
+```
+
+### How it works
+
+Upon the first track call of the day, the regions calculated for a given user are stored in a recency list. A user's home regions are determined by calculating the most frequently occurring regions from this list, storing up to the past 30 days in which a track call was made.
+If the most recent entry is different from the user's home regions, the user is determined to be traveling and the event context is updated accordingly.
+
+
+
+
