@@ -397,13 +397,19 @@ class ViewController: UIViewController, MGLMapViewDelegate {
 }
 ```
 
+You can find the assets used for the pin and Radar logo [here](/img/radar-map-assets.zip).
+
+<Alert alertType="info">
+  Logo placement is required as defined in the <a href="https://radar.com/terms">Terms of Use</a>.
+</Alert>
+
 ### Android
 
 Radar maps can be integrated into an Android application with [MapLibre Native](https://github.com/maplibre/maplibre-native).
 
 To get started, add the MapLibre Native dependency into your module Gradle file (usually located at `<project>/<app-module>/build.gradle`). Replace `<version>` with the latest MapLibre Native version (e.g.: `org.maplibre.gl:android-sdk:10.2.0`).
 
-```kotlin title="build.gradle"
+```kotlin
 dependencies {
     ...
     implementation 'org.maplibre.gl:android-sdk:<version>'
@@ -419,7 +425,7 @@ Then, import the Radar Map assets. Go to `View` > `Tool Windows` > `Resource Man
 
 Next, open your layout XML file where you want to display the radar map. Add a MapView element to the layout:
   
-```html title="activity_main.xml"
+```html
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -448,10 +454,10 @@ Next, open your layout XML file where you want to display the radar map. Add a M
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-Finally, initialize the `MapView` in your `MainActivity` file with Radar's style URL and your publishable key. Add a pin to the map. Remember to use the assets you imported earlier for the pin and Radar logo.
+Finally, initialize the `MapView` in your activity file with Radar's style URL and your publishable key. Add a pin to the map. Remember to use the assets you imported earlier for the pin and Radar logo.
 
 
-```kotlin title="MainActivity.kt"
+```kotlin
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
