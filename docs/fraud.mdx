@@ -154,6 +154,20 @@ Learn more about [Network Security Configuration on Android](https://developer.a
   Radar periodically rotates SSL certificates while making sure that the public keys remain static. You will receive ample notice if Radar needs to rotate the public keys.
 </Alert>
 
+## Configuring App Attest
+
+On iOS, the SDK uses [App Attest](https://developer.apple.com/documentation/devicecheck/establishing_your_app_s_integrity) to detect whether the user's app has been compromised.
+
+If the user's app has been modified or tampered with, `user.fraud.compromised = true`.
+
+To use App Attest, go to the [Settings page](https://radar.com/dashboard/settings) and enable it. You must also configure a list of valid iOS [Explicit App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) that your app may use. App IDs consist of a Team ID followed by a Bundle Identifier. For example: `A1B2C3D4E5.com.myCompany.myApp1`. Note that your app may have a different Bundle Identifier in a test environment than in a production environment.
+
+App Attest requires at least iOS 14. Enabling App Attest on the Settings page will prevent devices without App Attest capabilities from making successful calls to `Radar.trackVerified()`.
+
+No dependencies or changes to your app's build settings are required.
+
+If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The iOS version on the device may not support App Attest.
+
 ## Configuring the Play Integrity API
 
 On Android, the SDK uses the [Play Integrity API](https://developer.android.com/google/play/integrity) to detect whether the user's device or app has been compromised.
