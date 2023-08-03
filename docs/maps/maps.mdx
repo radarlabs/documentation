@@ -403,6 +403,182 @@ You can find the assets used for the pin and Radar logo [here](/img/radar-map-as
   Logo placement is required as defined in the <a href="https://radar.com/terms">Terms of Use</a>.
 </Alert>
 
+### Android
+
+Radar maps can be integrated into an Android application with [MapLibre Native](https://github.com/maplibre/maplibre-native).
+
+To get started, add the MapLibre Native dependency into your module Gradle file (usually located at `<project>/<app-module>/build.gradle`). Replace `<version>` with the latest MapLibre Native version (e.g.: `org.maplibre.gl:android-sdk:10.2.0`).
+
+```kotlin
+dependencies {
+    ...
+    implementation 'org.maplibre.gl:android-sdk:<version>'
+    ...
+}
+```
+
+Then, import the Radar Map assets. Go to `View` > `Tool Windows` > `Resource Manager`. Click the + button below Resource Manager and select "Import Drawables." Import the radar map assets you need for your application. The assets can be found below this section.
+
+<p>
+  <img src="https://images.ctfassets.net/f2vbu16fzuly/5I4DeUd6fkwDgfO5mk62dt/8148400ae165abaa6a1bebaae973a18a/image.png?w=2400" alt="XCode add MapLibre dependency screenshot" />
+</p>
+
+Next, open your layout XML file where you want to display the radar map. Add a MapView element to the layout:
+  
+```html
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <!-- The radar logo -->
+    <ImageView
+        android:id="@+id/overlayImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/radar_logo"
+        app:layout_constraintBottom_toBottomOf="@id/mapView"
+        app:layout_constraintStart_toStartOf="@id/mapView"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Finally, initialize the `MapView` in your activity file with Radar's style URL and your publishable key. Add a pin to the map. Remember to use the assets you imported earlier for the pin and Radar logo.
+
+
+```kotlin
+import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toBitmap
+
+// the MapLibre package is imported as "Mapbox"
+import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.annotations.IconFactory
+import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import com.mapbox.mapboxsdk.camera.CameraPosition
+import com.mapbox.mapboxsdk.geometry.LatLng
+import com.mapbox.mapboxsdk.maps.MapView
+import com.mapbox.mapboxsdk.maps.MapboxMap
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var mapView: MapView
+    private lateinit var mapboxMap: MapboxMap
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // create url (style + publishable key)
+        val key = "prj_live_pk_..."
+        val style = "radar-default-v1"
+        val styleURL = "https://api.radar.io/maps/styles/$style?publishableKey=$key"
+
+        // init MapLibre
+        Mapbox.getInstance(this)
+
+        // init layout view
+        val inflater = LayoutInflater.from(this)
+        val rootView = inflater.inflate(R.layout.activity_main, null)
+        setContentView(rootView)
+
+        // init the MapView
+        mapView = rootView.findViewById(R.id.mapView)
+
+        mapView.getMapAsync { map ->
+            // callback for map done loading
+            mapboxMap = map
+            // remove default logo and replace with Radar logo in activity_main.xml
+            map.uiSettings.isLogoEnabled = false
+
+            // anchor attribution to bottom right
+            map.uiSettings.attributionGravity = Gravity.RIGHT + Gravity.BOTTOM
+            map.uiSettings.setAttributionMargins(0,0,24,24)
+
+            map.setStyle(styleURL)
+            // add marker, set map's center coordinate and zoom level
+            addMarker(LatLng(40.7342,-73.9911))
+            map.cameraPosition = CameraPosition.Builder().target(LatLng(40.7342,-73.9911)).zoom(11.0).build()
+        }
+
+    }
+
+    private fun addMarker(coordinate: LatLng){
+        // get bitmap for marker icon
+        val infoIconDrawable = ResourcesCompat.getDrawable(
+            this.resources,
+            // use imported marker resource
+            R.drawable.default_marker,
+            null
+        )!!
+        // create icon bmp
+        val bitmapMarker = infoIconDrawable.toBitmap()
+        val icon = IconFactory.getInstance(this)
+            .fromBitmap(bitmapMarker)
+
+        // create point to place marker
+        val markerOptions = MarkerOptions()
+            .position(coordinate)
+            .icon(icon)
+        mapboxMap.addMarker(markerOptions)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
+    }
+}
+```
+
+You can find the assets used for the pin and Radar logo [here](/img/radar-map-assets.zip).
+
+<Alert alertType="info">
+  Logo placement is required as defined in the <a href="https://radar.com/terms">Terms of Use</a>.
+</Alert>
+
 ## Coverage
 
 Radar map data comes from [OpenStreetMap](https://www.openstreetmap.org).
