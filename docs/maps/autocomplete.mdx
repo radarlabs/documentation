@@ -58,13 +58,13 @@ import Radar, { Autocomplete } from 'react-native-radar';
 Radar.initialize('prj_live_pk');
 
 export default function App() {
-  const onSelect = (selectedAddress) => {
+  const onSelection = (selectedAddress) => {
     // Do something with the selected address
   }
 
   return (
       <View style={{ marginTop: 50 }}>
-          <Autocomplete onSelect={onSelect} />
+          <Autocomplete onSelection={onSelection} />
       </View>
   );
 }
