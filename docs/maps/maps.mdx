@@ -20,6 +20,45 @@ Radar Maps is an extension of the [Maplibre GL JS](https://maplibre.org) library
 
 When creating a new Radar map, you can configure it with any of the [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/) available in MapLibre.
 
+The minimum recommended configuration options are the following:
+
+<table class="full-width-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="no-wrap">Default</th>
+      <th class="no-wrap">Possible Values</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>container</code></td>
+      <td class="no-wrap">none (required)</td>
+      <td class="no-wrap">string | HTMLElement</td>
+      <td>The <code>id</code> or HTML element the map will be rendered into. <em>The width and height of this element will determine the size of the map</em></td>
+    </tr>
+    <tr>
+      <td><code>style</code></td>
+      <td class="no-wrap"><code>radar-default-v1</code></td>
+      <td class="no-wrap"><code>radar-default-v1</code>, <br /><code>radar-light-v1</code>, <br /><code>radar-dark-v1</code></td>
+      <td>The map's style. See below for more details on map styles</td>
+    </tr>
+    <tr>
+      <td><code>center</code></td>
+      <td class="no-wrap"><em>IP Geolocation</em></td>
+      <td class="no-wrap"><code>[longitude, latitude]</code></td>
+      <td>The initial map center point.</td>
+    </tr>
+    <tr>
+      <td><code>zoom</code></td>
+      <td class="no-wrap">11</td>
+      <td class="no-wrap">number</td>
+      <td>The initial map zoom level.</td>
+    </tr>
+  </tbody>
+</table>
+
 <Alert alertType='tip'>
    Web-based maps will be automatically centered based on the user's IP Geolocation unless center and zoom properties are specified.
 </Alert>
