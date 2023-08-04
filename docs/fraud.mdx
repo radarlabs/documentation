@@ -29,14 +29,20 @@ Together, Fraud and Regions provide the following user context:
 ```json
 {
   "fraud": {
+    "verified": true,
     "passed": false,
     "bypassed": false,
-    "verified": true,
+    "blocked": false,
     "mocked": true,
     "jumped": false,
     "compromised": false,
     "proxy": false,
     "sharing": false
+    "lastMockedAt": "2023-07-27T17:18:28.536Z",
+    "lastJumpedAt": "2023-07-27T17:18:28.536Z",
+    "lastCompromisedAt": null,
+    "lastProxyAt": null,
+    "lastSharingAt": null
   },
   "country": {
     "code": "US",
@@ -45,9 +51,11 @@ Together, Fraud and Regions provide the following user context:
     "allowed": true
   },
   "state": {
-    "code": "MD",
-    "name": "Maryland",
-    "allowed": false
+    "code": "RI",
+    "name": "Rhode Island",
+    "allowed": true,
+    "distanceToBorder": 192.3,
+    "withinBuffer": true
   }
 }
 ```
@@ -80,6 +88,8 @@ If you call `Radar.trackVerified()`, Radar exposes the following flags in `user.
 
 While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
 
+Additionally, the `lastMockedAt`, `lastJumpedAt`, `lastCompromisedAt`, `lastProxyAt`, and `lastSharingAt` timestamps indicate the last time that the user failed each fraud check.
+
 ## Bypassing checks for testing
 
 If desired, you can bypass fraud checks for individual users using the *Mark as Bypassed* button on the user detail page.
@@ -98,11 +108,62 @@ With [Regions](/documentation/regions), you can mark specific states and countri
 
 If you call `Radar.trackVerified()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 
-## Configuring SSL pinning
+Additionally, you can configure buffer zones for different states. If buffer zones are configured, `user.state.withinBuffer` indicates whether the user is within the buffer zone.
 
-To prevent man-in-the-middle attacks, you must configure SSL pinning before calling `Radar.trackVerified()`.
+## Platform-specific configuration
 
-On iOS, add the following to your `Info.plist` file:
+### Android
+
+First, to support the `sharing` flag on Android, pass `fraud = true` to `Radar.initialize()`.
+
+```kotlin
+Radar.initialize(
+  context = this,
+  publishableKey = "prj_test_pk..."),
+  fraud = true
+)
+```
+
+Second, to support the `compromised` flag on Android, enable the [Play Integrity API](https://developer.android.com/google/play/integrity) on the [Settings page](https://radar.com/dashboard/settings).
+
+If the user's device or app does not meet [basic integrity checks](https://developer.android.com/google/play/integrity/verdict#device-integrity-field), `user.fraud.compromised = true`.
+
+You must add the Play Integrity API dependency before calling `Radar.trackVerified()`.
+
+Add the dependency to the `dependencies` section of your app's `build.gradle` file:
+
+```kotlin
+dependencies {
+    implementation 'com.google.android.play:integrity:1.0.2'
+}
+```
+
+If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The Play Services version on the device may be out of date.
+
+Finally, to enable SSL pinning and prevent man-in-the-middle attacks, add a `res/xml/network_security_config.xml` file:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">api-verified.radar.io</domain>
+        <pin-set>
+            <pin digest="SHA-256">15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</pin>
+            <pin digest="SHA-256">15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>
+```
+
+Learn more about [Network Security Configuration on Android](https://developer.android.com/training/articles/security-config).
+
+### iOS
+
+First, to support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on the [Settings page](https://radar.com/dashboard/settings).
+
+If App Attest indicates that the user's device or app has been compromised, `user.fraud.compromised = true`.
+
+Second, to enable SSL pinning and prevent man-in-the-middle attacks, add the following to your `Info.plist` file:
 
 ```xml
 <key>NSAppTransportSecurity</key>
@@ -133,44 +194,13 @@ On iOS, add the following to your `Info.plist` file:
 
 Learn more about [SSL pinning on iOS](https://developer.apple.com/news/?id=g9ejcf8y).
 
-On Android, add a `res/xml/network_security_config.xml` file:
+### Web and desktop
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-    <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">api-verified.radar.io</domain>
-        <pin-set>
-            <pin digest="SHA-256">15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</pin>
-            <pin digest="SHA-256">15ktYXSSU2llpy7YyCgeqUKDBkjcimK/weUcec960sI=</pin>
-        </pin-set>
-    </domain-config>
-</network-security-config>
-```
-
-Learn more about [Network Security Configuration on Android](https://developer.android.com/training/articles/security-config).
+On web, the SDK optionally connects to the Radar Verify Mac or Windows app to support the `mocked` and `sharing` flags. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Mac or Windows app is not running.
 
 <Alert alertType="info">
-  Radar periodically rotates SSL certificates while making sure that the public keys remain static. You will receive ample notice if Radar needs to rotate the public keys.
+  Contact your customer success manager for access to the Radar Verify Mac or Windows app.
 </Alert>
-
-## Configuring the Play Integrity API
-
-On Android, the SDK uses the [Play Integrity API](https://developer.android.com/google/play/integrity) to detect whether the user's device or app has been compromised.
-
-If the user's device or app does not meet [basic integrity checks](https://developer.android.com/google/play/integrity/verdict#device-integrity-field), `user.fraud.compromised = true`.
-
-You must add the Play Integrity API dependency before calling `Radar.trackVerified()`.
-
-Add the dependency to the `dependencies` section of your app's `build.gradle` file:
-
-```kotlin
-dependencies {
-    implementation 'com.google.android.play:integrity:1.0.2'
-}
-```
-
-If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The Play Services version on the device may be out of date.
 
 ## Verifying user locations
 
@@ -181,7 +211,9 @@ Once the above configuration is complete, you can verify a user's location clien
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
-    { label: 'Kotlin', value: 'kotlin' }
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' }
   ]}
 >
   <TabItem value="swift">
@@ -193,7 +225,7 @@ Radar.trackVerified { (status, location, events, user) in
     user?.state?.allowed == true {
     // allow access to feature
   } else {
-    // deny access to feature
+    // deny access to feature, show error message
   }
 }
 ```
@@ -208,12 +240,46 @@ Radar.trackVerified { status, location, events, user ->
     user.state?.allowed == true) {
     // allow access to feature
   } else {
-    // deny access to feature
+    // deny access to feature, show error message
   }
 }
 ```
 
   </TabItem>
+  <TabItem value="web">
+
+```javascript
+Radar.trackVerified().then((result) => {
+  const { user } = result;
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+Radar.trackVerified().then((result) => {
+  const { user } = result;
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
 </Tabs>
 
 Fraud is not yet supported with `Radar.startTracking()`.
