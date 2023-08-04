@@ -24,6 +24,38 @@ When creating a new Radar map, you can configure it with any of the [MapOptions]
    Web-based maps will be automatically centered based on the user's IP Geolocation unless center and zoom properties are specified.
 </Alert>
 
+## Styles
+
+Radar provides several out-of-the box styles to serve your use cases.
+
+<table class="full-width-table">
+  <thead>
+    <tr>
+      <th class="no-wrap">Style</th>
+      <th style={{ width: "400px" }}>Preview</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="no-wrap"><code>radar-default-v1</code></td>
+      <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/1wBEmydpkmmP5eI23nHD6s/1a628636b92095173b946da3a3e6204e/radar-default-theme.png?w=1200" /></td>
+      <td>Radar's default map style, showcasing high-detail street-level information about roads and nearby places. A general purpose map suitable for most use cases.</td>
+    </tr>
+    <tr>
+      <td class="no-wrap"><code>radar-light-v1</code></td>
+      <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/39PJYbWntW8cK4NnP33cWK/ae8ad63d9e300a3c8d61ce47f7323914/radar-light-theme.png?w=1200" /></td>
+      <td>A light monochrome map style, useful for highlighting your own information or visualizations.</td>
+    </tr>
+    <tr>
+      <td class="no-wrap"><code>radar-dark-v1</code></td>
+      <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/UhZJgEo57528CJRQCj0fT/3a2e2dc29205da1a9ea8e60b52dcafa6/radar-dark-theme.png?w=1200" /></td>
+      <td>A dark monochrome map style, useful for highlighting your own information or visualizations in a dark mode setting.</td>
+    </tr>
+  </tbody>
+</table>
+
+
 ## Quickstart
 
 First, [sign up](https://radar.com/signup) for Radar and get an API key.
@@ -55,6 +87,7 @@ To create a simple web page with a map:
       // create a new map
       const map = Radar.ui.map({
         container: 'map',
+        style: 'radar-default-v1',
         center: [-73.9911, 40.7342], // NYC
         zoom: 11
       });
@@ -92,6 +125,7 @@ class RadarMap extends React.Component {
 
     const map = new Radar.ui.map({
       container: 'map',
+      style: 'radar-default-v1',
       center: [-73.9911, 40.7342], // NYC
       zoom: 14,
     });
@@ -143,6 +177,7 @@ export default {
 
       map.value = markRaw(Radar.ui.map({
         container: mapRef.value,
+        style: 'radar-default-v1',
         center: [-73.9911, 40.7342], // NYC
         zoom: 11
       }));
