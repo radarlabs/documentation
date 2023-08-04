@@ -140,7 +140,7 @@ dependencies {
 
 If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The Play Services version on the device may be out of date.
 
-Third, to enable SSL pinning and prevent man-in-the-middle attacks, add a `res/xml/network_security_config.xml` file:
+Finally, to enable SSL pinning and prevent man-in-the-middle attacks, add a `res/xml/network_security_config.xml` file:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -160,6 +160,8 @@ Learn more about [Network Security Configuration on Android](https://developer.a
 ### iOS
 
 First, to support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on the [Settings page](https://radar.com/dashboard/settings).
+
+If App Attest indicates that the user's device or app has been compromised, `user.fraud.compromised = true`.
 
 Second, to enable SSL pinning and prevent man-in-the-middle attacks, add the following to your `Info.plist` file:
 
