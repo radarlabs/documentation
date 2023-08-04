@@ -37,6 +37,11 @@ Together, Fraud and Regions provide the following user context:
     "compromised": false,
     "proxy": false,
     "sharing": false
+    "lastMockedAt": "2023-07-27T17:18:28.536Z",
+    "lastJumpedAt": "2023-07-27T17:18:28.536Z",
+    "lastCompromisedAt": null,
+    "lastProxyAt": null,
+    "lastSharingAt": null
   },
   "country": {
     "code": "US",
@@ -45,9 +50,11 @@ Together, Fraud and Regions provide the following user context:
     "allowed": true
   },
   "state": {
-    "code": "MD",
-    "name": "Maryland",
-    "allowed": false
+    "code": "RI",
+    "name": "Rhode Island",
+    "allowed": true,
+    "distanceToBorder": 192.3,
+    "withinBuffer": true
   }
 }
 ```
@@ -80,6 +87,8 @@ If you call `Radar.trackVerified()`, Radar exposes the following flags in `user.
 
 While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
 
+Additionally the `lastMockedAt`, `lastJumpedAt`, `lastCompromisedAt`, `lastProxyAt`, and `lastSharingAt` timestamps indicate the last time that the user failed each fraud check.
+
 ## Bypassing checks for testing
 
 If desired, you can bypass fraud checks for individual users using the *Mark as Bypassed* button on the user detail page.
@@ -97,6 +106,8 @@ If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false
 With [Regions](/documentation/regions), you can mark specific states and countries as allowed or denied to comply with regulations. For example, a gambling app may only be allowed to operate in specific states.
 
 If you call `Radar.trackVerified()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
+
+Additionally, you can configure per-state buffer zones. If buffer zones are configured, `user.state.withinBuffer` indicates whether the user is within the buffer zone.
 
 ## Configuring SSL pinning
 
@@ -154,9 +165,21 @@ Learn more about [Network Security Configuration on Android](https://developer.a
   Radar periodically rotates SSL certificates while making sure that the public keys remain static. You will receive ample notice if Radar needs to rotate the public keys.
 </Alert>
 
-## Configuring the Play Integrity API
+## Platform-specific configuration
 
-On Android, the SDK uses the [Play Integrity API](https://developer.android.com/google/play/integrity) to detect whether the user's device or app has been compromised.
+### Android
+
+To support the `sharing` flag on Android, pass `fraud = true` to `Radar.initialize()`.
+
+```kotlin
+Radar.initialize(
+  context = this,
+  publishableKey = "prj_test_pk..."),
+  fraud = true
+)
+```
+
+To support the `compromised` flag on Android, enable the [Play Integrity API](https://developer.android.com/google/play/integrity) on the [Settings page](https://radar.com/dashboard/settings).
 
 If the user's device or app does not meet [basic integrity checks](https://developer.android.com/google/play/integrity/verdict#device-integrity-field), `user.fraud.compromised = true`.
 
@@ -172,6 +195,18 @@ dependencies {
 
 If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The Play Services version on the device may be out of date.
 
+### iOS
+
+To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on the [Settings page](https://radar.com/dashboard/settings).
+
+### Web and desktop
+
+On web, the SDK optionally connects to the _Radar Verify_ Mac or Windows app to support the `mocked` and `sharing` flags. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Mac or Windows app is not running.
+
+<Alert alertType="info">
+  Contact your customer success manager for access to the _Radar Verify_ Mac or Windows app.
+</Alert>
+
 ## Verifying user locations
 
 Once the above configuration is complete, you can verify a user's location client-side with just a few lines of code:
@@ -181,7 +216,9 @@ Once the above configuration is complete, you can verify a user's location clien
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
-    { label: 'Kotlin', value: 'kotlin' }
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' }
   ]}
 >
   <TabItem value="swift">
@@ -193,7 +230,7 @@ Radar.trackVerified { (status, location, events, user) in
     user?.state?.allowed == true {
     // allow access to feature
   } else {
-    // deny access to feature
+    // deny access to feature, show error message
   }
 }
 ```
@@ -208,12 +245,46 @@ Radar.trackVerified { status, location, events, user ->
     user.state?.allowed == true) {
     // allow access to feature
   } else {
-    // deny access to feature
+    // deny access to feature, show error message
   }
 }
 ```
 
   </TabItem>
+  <TabItem value="web">
+
+```javascript
+Radar.trackVerified().then((result) => {
+  const { user } = result;
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+Radar.trackVerified().then((result) => {
+  const { user } = result;
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
 </Tabs>
 
 Fraud is not yet supported with `Radar.startTracking()`.
