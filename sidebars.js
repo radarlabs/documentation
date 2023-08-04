@@ -96,6 +96,7 @@ module.exports = {
         "tutorials/building-a-store-locator-on-ios",
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/logging-and-analyzing-where-conversions-occur",
+        "tutorials/matching-users-to-destinations-based-on-travel-time"
       ],
     },
     "toolkit",
