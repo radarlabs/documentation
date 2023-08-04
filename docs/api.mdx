@@ -584,7 +584,7 @@ Autocompletes partial addresses and place names, sorted by relevance.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
 - **`country`** (string, optional): An optional countries filter. A string of comma separated countries, the unique 2-letter [country code](/regions/countries).
-- **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for each unit in a building. Only available for `layers="address"` and for the countries `US` and `CA`. Defaults to `false`.
+- **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for each unit in a building. Only available for `layers="address"` and for the countries `US` and `CA`. Defaults to `false`. While in beta, contact your customer success manager for early access to this parameter.
 
 ###### Authentication level
 
