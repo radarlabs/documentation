@@ -66,7 +66,7 @@ export default function App() {
       <View style={{ marginTop: 50 }}>
           <Autocomplete options={
             onSelection,
-            location: {
+            near: {
               latitude: 40.7342,
               longitude: -73.9911,
             }
@@ -88,6 +88,7 @@ When creating the Autocomplete input, you can provide options to customize the a
 |`width` |`400` |number \| string |Width of the input. Can be a number (in pixels) or a valid CSS width.|JavaScript|
 |`debounceMS` |`200` |number |The number of milliseconds to wait after typing is complete to refresh the result list.|JavaScript, React Native|
 |`threshold` |`3` |number |Minimum number of characters that need to be typed before fetching results.|JavaScript, React Native|
+|`near`|`null`|location object|Location used to bias results. Falls back to IP location if nothing is supplied.|React Native|
 |`limit` |`8` |number |Maximum number of results to show.|JavaScript, React Native|
 |`onSelection` |`null` |function `(address) => {}`|Callback with selected address.|JavaScript, React Native|
 |`onResults` |`null` |function `(addresses) => {}`|Callback with list of address results.|JavaScript, React Native|
