@@ -144,7 +144,7 @@ dependencies {
 
 If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The Play Services version on the device may be out of date.
 
-#### App Attest
+#### SSL pinning
 
 To enable SSL pinning and prevent man-in-the-middle attacks, add a `res/xml/network_security_config.xml` file:
 
@@ -175,7 +175,7 @@ App Attest requires iOS 14 and above. If `Radar.trackVerified()` returns `ERROR_
 
 #### SSL pinning
 
-Second, to enable SSL pinning and prevent man-in-the-middle attacks, add the following to your `Info.plist` file:
+To enable SSL pinning and prevent man-in-the-middle attacks, add the following to your `Info.plist` file:
 
 ```xml
 <key>NSAppTransportSecurity</key>
