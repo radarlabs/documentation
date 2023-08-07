@@ -527,12 +527,16 @@ table th, table td {
 }
 
 /* Custom table styling */
-.api-params-table {
+.full-width-table {
   width: 100% !important;
 }
 
-.api-params-table th, .api-params-table td {
+.full-width-table th, .full-width-table td {
   max-width: unset !important;
+}
+
+table .no-wrap {
+  white-space: nowrap;
 }
 
 @import '~maplibre-gl/dist/maplibre-gl.css';
