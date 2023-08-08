@@ -147,6 +147,16 @@ For example, to monitor only fast food restaurants, you might add `fast-food-res
 
 View the [full list of categories](/places#categories) and the [full list of chains](/places#chains).
 
+## Blocklist
+
+To not track users at specific place categories in certain states, add the categories and the states in which they are to be blocked in under Places on the [Settings page](https://radar.com/dashboard/settings).
+
+Note that Regions must be enabled on the project to have this setting.
+
+You can create rules to not track users at places in certain categories.
+
+For example, you can decide to block the `fast-food-restaurant` category in `New York` state. This will result in visits to `fast-food-restaurant` not being tracked in `New York`.
+
 ## Verify events
 
 You can accept or reject places events after user check-ins or other forms of verification. Event verifications will be used to improve the accuracy and confidence level of future events.
@@ -156,9 +166,3 @@ For example, to accept an event on iOS:
 ```swift
 Radar.acceptEventId(event._id, verifiedPlaceId: event.alternatePlaces[0]._id)
 ```
-
-## Blocklist
-
-You can create rules to not track users at places in certain categories.
-
-For example, you can decide to block the `fast-food-restaurant` category in `New York` state. This will result in visits to `fast-food-restaurant` not being tracked.
