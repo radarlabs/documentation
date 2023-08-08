@@ -38,7 +38,7 @@ Together, Fraud and Regions provide the following user context:
     "compromised": false,
     "proxy": false,
     "sharing": false
-    "inBufferZone": false,
+    "inBufferZone": true,
     "inExclusionZone": false,
     "lastMockedAt": "2023-07-27T17:18:28.536Z",
     "lastJumpedAt": "2023-07-27T17:18:28.536Z",
@@ -153,6 +153,12 @@ To enable SSL pinning and prevent man-in-the-middle attacks, add a `res/xml/netw
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <!-- for React Native -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+    </domain-config>
+
+    <!-- for SSL pinning -->
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">api-verified.radar.io</domain>
         <pin-set>
