@@ -156,3 +156,9 @@ For example, to accept an event on iOS:
 ```swift
 Radar.acceptEventId(event._id, verifiedPlaceId: event.alternatePlaces[0]._id)
 ```
+
+## Category state blocklist mapping
+
+You can create rules to not track users at places in certain categories.
+
+For example, you can decide to block the `fast-food-restaurant` category in `New York` state. This will result in visits to `fast-food-restaurant` not being tracked.
