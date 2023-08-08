@@ -1062,7 +1062,15 @@ Snaps points collected along a route to roads that were most likely traveled on.
 - **`path`** (string, required): List of up to 100 coordinates along a route to be snapped. A string in the format `latitude1,longitude1|latitude2,longitude2`.
 - **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
 - **`roadAttributes`** (string, optional): Attributes of matched roads be included in the response. A string, comma-separated, including one or more of `speedLimit`, `names`, and `roadClass`.
-  - `roadClass` values: `motorway`, `trunk`, `primary`, `secondary`, `tertiary`, `unclassified`, `residential`, `service_other`
+  - `roadClass` return values will be one of: 
+    - **`motorway`**
+    - **`trunk`**
+    - **`primary`**
+    - **`secondary`**
+    - **`tertiary`**
+    - **`unclassified`**
+    - **`residential`**
+    - **`service_other`**
 
 ###### Authentication level
 
