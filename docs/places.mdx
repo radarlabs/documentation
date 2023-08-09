@@ -110,7 +110,7 @@ public void onEventsReceived(Context context,
 
 ### Mappings
 
-To map Radar chain slugs to custom IDs, set _Chain Mappings_ under _Places_ on the [Settings page](https://radar.com/dashboard/settings).
+To map Radar chain slugs to custom IDs, set _Chain mappings_ under _Places_ on the [Settings page](https://radar.com/dashboard/settings).
 
 You can set a JSON string representing a dictionary with keys and values of type string.
 
@@ -124,7 +124,7 @@ Custom chain IDs will be exposed as `place.chain.externalId` in user context and
 
 ### Metadata
 
-To map Radar chain slugs to custom metadata, set _Chain Metadata_ under _Places_ on the [Settings page](https://radar.com/dashboard/settings).
+To map Radar chain slugs to custom metadata, set _Chain metadata_ under _Places_ on the [Settings page](https://radar.com/dashboard/settings).
 
 You can set a JSON string with values of type dictionary, each with between 1 and 16 keys and values of type string, boolean, or number.
 
@@ -146,6 +146,14 @@ We recommend filtering events to specific categories or chains under _Places_ on
 For example, to monitor only fast food restaurants, you might add `fast-food-restaurant` to category filters, or add `burger-king`, `mcdonalds`, and others to chain filters.
 
 View the [full list of categories](/places#categories) and the [full list of chains](/places#chains).
+
+## State blocklist
+
+To suppress tracking specific place categories in certain states, set _Category state blocklist mapping_ under _Places_ on the [Settings page](https://radar.com/dashboard/settings).
+
+For example, blocking the `fast-food-restaurant` category in New York would bypass visits to `fast-food-restaurant` places in New York.
+
+[Regions](/regions) must be enabled to expose this setting.
 
 ## Verify events
 
