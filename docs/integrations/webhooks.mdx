@@ -70,7 +70,7 @@ Note that you can also receive events client-side via the [SDK](/sdk).
           "customFlag": false
         },
         "locationAuthorization": "GRANTED_FOREGROUND",
-        "locationAccuracyAuthorization": "FULL",
+        "locationAccuracyAuthorization": "FULL"
       },
       "place": {
         "name": "Starbucks",
@@ -167,7 +167,12 @@ Note that you can also receive events client-side via the [SDK](/sdk).
     },
     "state": {
       "code": "MD",
-      "name": "Maryland"
+      "name": "Maryland",
+      "passed": false,
+      "allowed": true,
+      "distanceToBorder": 1092.3,
+      "inBufferZone": false,
+      "inExclusionZone": false
     },
     "dma": {
       "code": "26",
@@ -196,8 +201,20 @@ Note that you can also receive events client-side via the [SDK](/sdk).
       }
     ],
     "fraud": {
+      "verified": true,
+      "passed": false,
+      "bypassed": false,
+      "blocked": false,
+      "mocked": true,
+      "jumped": false,
+      "compromised": false,
       "proxy": false,
-      "mocked": false
+      "sharing": false
+      "lastMockedAt": "2023-07-27T17:18:28.536Z",
+      "lastJumpedAt": "2023-07-27T17:18:28.536Z",
+      "lastCompromisedAt": null,
+      "lastProxyAt": null,
+      "lastSharingAt": null
     }
   }
 }
