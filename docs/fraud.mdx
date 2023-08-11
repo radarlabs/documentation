@@ -38,8 +38,6 @@ Together, Fraud and Regions provide the following user context:
     "compromised": false,
     "proxy": false,
     "sharing": false
-    "inBufferZone": true,
-    "inExclusionZone": false,
     "lastMockedAt": "2023-07-27T17:18:28.536Z",
     "lastJumpedAt": "2023-07-27T17:18:28.536Z",
     "lastCompromisedAt": null,
@@ -50,14 +48,17 @@ Together, Fraud and Regions provide the following user context:
     "code": "US",
     "name": "United States",
     "flag": "🇺🇸",
+    "passed": true,
     "allowed": true
   },
   "state": {
     "code": "RI",
     "name": "Rhode Island",
+    "passed": false,
     "allowed": true,
     "distanceToBorder": 192.3,
-    "inBufferZone": true
+    "inBufferZone": true,
+    "inExclusionZone": false
   }
 }
 ```
@@ -74,7 +75,7 @@ From there, [integrate the SDK](/documentation/sdk), complete the steps below, a
 
 You can call `Radar.trackOnce()` to accurately detect a user's current [geofences](/documentation/geofences), current [place](/documentation/places), or current [country and state](/documentation/regions).
 
-However, users can spoof a device's location. For example, a gambling app user may spoof their location to access sports betting features only available in specific states. Or, a retail app user may spoof their location to access offers only available inside a store geofence.
+However, users can spoof a device's location. For example, a gaming app user may spoof their location to access sports betting features only available in specific states. Or, a retail app user may spoof their location to access offers only available inside a store geofence.
 
 To ensure you can trust a user's location, you can call `Radar.trackVerified()` instead. Radar will collect a variety of fraud signals and perform fraud checks, exposing flags that you can use for fraud detection and location verification in your app.
 
@@ -106,11 +107,17 @@ If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false
 
 ## Allowed states and countries
 
-With [Regions](/documentation/regions), you can mark specific states and countries as allowed or denied to comply with regulations. For example, a gambling app may only be allowed to operate in specific states.
+With [Regions](/documentation/regions), gaming customers can mark specific states and countries as allowed or denied to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific states.
 
 If you call `Radar.trackVerified()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 
-Additionally, you can configure buffer zones for different states. If buffer zones are configured, `user.region.inBufferZone` indicates whether the user is within the buffer zone.
+Additionally, you can enable buffer zones and exclusion zones for different states. If buffer zones and exclusion zones are enabled, `user.state.inBufferZone` and `user.state.inExclusionZone` indicates whether the user is within a buffer zone or exclusion zone.
+
+While you can work with individual flags, Radar also exposes a single `user.state.passed` flag that indicates whether all jurisdiction checks passed.
+
+<Alert alertType="info">
+  Contact your customer success manager for access to buffer zones and exclusion zones.
+</Alert>
 
 ## Platform-specific configuration
 
