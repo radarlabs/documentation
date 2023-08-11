@@ -1093,7 +1093,7 @@ For best results, the sample rate should be less than 10 seconds between points.
 
 ###### Query parameters
 
-- **`path`** (string, required): List of up to 100 coordinates along a route to be snapped. A string in the format `latitude1,longitude1|latitude2,longitude2`.
+- **`path`** (string, required): A list of up to 100 coordinates along a route to be snapped. A string in the format `latitude1,longitude1|latitude2,longitude2`.
 - **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
 - **`roadAttributes`** (string, optional): Attributes of matched roads be included in the response. A string, comma-separated, including one or more of `speedLimit`, `names`, and `roadClass`.
   - `roadClass` return values will be one of: 
@@ -1200,7 +1200,7 @@ Calculates the most efficient route between two or more locations to visit in or
 
 ###### Query parameters
 
-- **`locations`** (string, required): List of up to 25 coordinates to visit in order. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
+- **`locations`** (string, required): A list of up to 25 coordinates to visit in order. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
 - **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
 
@@ -1277,7 +1277,7 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990927|40
 }
 ```
 
-#### Optimize
+#### Optimize route
 
 <Alert alertType="info">
   The optimize API is currently in beta. Contact your customer success manager for early access.
@@ -1291,7 +1291,7 @@ Calculates the optimal ordering and route to visit a list of locations.
 
 ###### Query parameters
 
-- **`locations`** (string, required): List of up to 10 coordinates to visit. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`. The first location should be the origin of the route, and the last location should be the final destination.
+- **`locations`** (string, required): A list of up to 10 coordinates to visit. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`. The first location should be the origin of the route, and the last location should be the final destination.
 - **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
 
@@ -1339,9 +1339,6 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           },
           "startIndex": 0,
           "endIndex": 3,
-          "geometry": {
-            "polyline": "kefulAxyiclCg_AlxCiBzFmBjGa}@`uC_AxCsAhEeBvEhJrEd^fQj@XfClAvAr@lHlD~BlAfFfClCpAtLjG~Av@vBfAp[lOpI`EjB|@tBbAdF`CtIbE`JfEjD`BhBz@lCnAlEtB|L|FnB~@xCvA|SzJ~E~BfK~EvJtE`Ab@~@d@fFbCjNvGl]lPlKbFxCvAdBx@bPvHhD`B~At@tPdIdCjAlBbAr\\lQdNvFhDvAvBXjEj@d[dChJt@dBNhCN~CNl_@zCjCTXsGzJc{BZgHmC{@oOwEmEsFaDaB}@eAe@yA\\gDvA_FvHsR~@aC~@cCjH}QzH_Sv@sBjAuChRef@`AeC|@}BhP}a@rAmDtAqD~Tkk@jTkj@`AcC|@_CzG}PxHwRbAkCnAaDjNg^bBqHBG~@mFfCrB~LzJvq@zi@xAjAbAx@fM`Kpw@xn@|AnAjAmDFShJ_Z"
-          },
           "distance": {
             "value": 9137.1394,
             "text": "1.7 mi"
@@ -1349,6 +1346,9 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           "duration": {
             "value": 5.2633833333333335,
             "text": "5 mins"
+          },
+          "geometry": {
+            "polyline": "kefulAxyiclCg_AlxCiBzFmBjGa}@`uC_AxCsAhEeBvEhJrEd^fQj@XfClAvAr@lHlD~BlAfFfClCpAtLjG~Av@vBfAp[lOpI`EjB|@tBbAdF`CtIbE`JfEjD`BhBz@lCnAlEtB|L|FnB~@xCvA|SzJ~E~BfK~EvJtE`Ab@~@d@fFbCjNvGl]lPlKbFxCvAdBx@bPvHhD`B~At@tPdIdCjAlBbAr\\lQdNvFhDvAvBXjEj@d[dChJt@dBNhCN~CNl_@zCjCTXsGzJc{BZgHmC{@oOwEmEsFaDaB}@eAe@yA\\gDvA_FvHsR~@aC~@cCjH}QzH_Sv@sBjAuChRef@`AeC|@}BhP}a@rAmDtAqD~Tkk@jTkj@`AcC|@_CzG}PxHwRbAkCnAaDjNg^bBqHBG~@mFfCrB~LzJvq@zi@xAjAbAx@fM`Kpw@xn@|AnAjAmDFShJ_Z"
           }
         },
         {
@@ -1362,9 +1362,6 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           },
           "startIndex": 3,
           "endIndex": 2,
-          "geometry": {
-            "polyline": "{uotlAt{nclCjEeNt@aCh@aBdQci@hBwFnApFre@h]`CdBnAqFbCcKn@oCj@aClM{i@FUf@yBl@eCjMwi@p@sCh@yBtLug@DQh@}Bh@yBDQjLmf@h@}BFW`AaEjEjAtIbCxGMzWjIlCz@fBj@ju@nUnCz@bC|@LFvRnIfUpJlV~KtBbAlB~@hc@tUhR|J|DrBzDAbBOvAWjAg@|Y{PfHsF`B}AhBsBfByBnFkH|AiBzAeBzAcB|A{AdB}ApBwAhCyAbCqAtVqKzq[o~N`UoK|@a@rNaDtCcA|Bi@pCYnAKbBLxAb@rAbA~@pA`AzAt@tB\\lCJtCClCYvBg@nBw@~AkAnAqAlAmLnAgFKmIOmg@kAyDh@BcBd@oYHsDB{ANoJr@_[`Cu`@~Bop@z@gGdAiIh@cEv@uGt@yE~@cF`A_Ez@cDjA}B~@wAbBaBzAaAjA]`B]rA@|AVlA^jAt@x@bAx@bBp@zBT~BC~CQbDg@|BcA~BkLlOoV|Y{PzRcRvTsE`G{EpH{FjKiChFuDfIcCfHwCbJaBfGiBzHgBzIgAhIy@|HqBxSeBnScBzR}Drf@iAnM}Etn@iAfP{Cxk@Y|Qi@nSWjOWfUHfJT|LPvH^xMj@hHdA`Ix@rFpAbIjBhJnB`KrB|IjD|LrJzZnLfZvH~TvL|VhJ`NdL~NzNfMzOvJhVhKtt@xXf`@rNvl@fUrcAt_@hyAxi@da@jNfPhEbRrG~MxDjLpBnMz@vOBhJi@pU{Cld@cOnc@kO~KqC~KeBvLu@lGCjGZlNbClN|DnNpErxMpcFv\\~Nr`@lOdb@lMfPhDzNnAfXa@vSkDjJaDbHaDpIcFrI_Gdx@mr@~V{R`g@g_@fn@ec@z`Li~FtQgJdVgJfTeJjH}AbD}@`D}ArF{DxBoBzBmC|EaH`GiLpIeQhOyX`J{Q~JuQzt@m{A~Ow[no@apAzZyk@tBoD~DsG|CkFvCuEtCaEfFwG`OqPlJ{J~HaHjS{O|dBmhAr[mT`U_ShVoXhPmUtRw\\rS{`@`k@shAvCyFln@g~@lk@}~@`Te\\zCeAbCfCxAxA~XxYfBn@tJu@l{@wIxJkAv]wDto@wHx{@oIpCk@|X}Cx_BkQfEe@xC]pgByRzC[pBrGvAzHj[llAzAlCzBdClCdJjArDnQzn@bXv_AbCnInUpx@dAdDbAlDvA~E`BvF`GbU`h@jhBjGpTlEjOjAxChAnCbGfLpMxUdB`D~ArChGbK~Q~ZdHtL|HzM|IhOtHnMlItNtE|H`BrCnAtBpZ`h@~GnLfJzOpHhMzJvPbQdZlDbGhCjEpHjMpIvNrIzNfChEfNtUlHbMdIdNfIjN|\\xk@cm@dkAeC|Eb]f^|CbDbZ}k@l@kA"
-          },
           "distance": {
             "value": 44586.6156,
             "text": "8.4 mi"
@@ -1372,6 +1369,9 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           "duration": {
             "value": 15.074816666666667,
             "text": "15 mins"
+          },
+          "geometry": {
+            "polyline": "{uotlAt{nclCjEeNt@aCh@aBdQci@hBwFnApFre@h]`CdBnAqFbCcKn@oCj@aClM{i@FUf@yBl@eCjMwi@p@sCh@yBtLug@DQh@}Bh@yBDQjLmf@h@}BFW`AaEjEjAtIbCxGMzWjIlCz@fBj@ju@nUnCz@bC|@LFvRnIfUpJlV~KtBbAlB~@hc@tUhR|J|DrBzDAbBOvAWjAg@|Y{PfHsF`B}AhBsBfByBnFkH|AiBzAeBzAcB|A{AdB}ApBwAhCyAbCqAtVqKzq[o~N`UoK|@a@rNaDtCcA|Bi@pCYnAKbBLxAb@rAbA~@pA`AzAt@tB\\lCJtCClCYvBg@nBw@~AkAnAqAlAmLnAgFKmIOmg@kAyDh@BcBd@oYHsDB{ANoJr@_[`Cu`@~Bop@z@gGdAiIh@cEv@uGt@yE~@cF`A_Ez@cDjA}B~@wAbBaBzAaAjA]`B]rA@|AVlA^jAt@x@bAx@bBp@zBT~BC~CQbDg@|BcA~BkLlOoV|Y{PzRcRvTsE`G{EpH{FjKiChFuDfIcCfHwCbJaBfGiBzHgBzIgAhIy@|HqBxSeBnScBzR}Drf@iAnM}Etn@iAfP{Cxk@Y|Qi@nSWjOWfUHfJT|LPvH^xMj@hHdA`Ix@rFpAbIjBhJnB`KrB|IjD|LrJzZnLfZvH~TvL|VhJ`NdL~NzNfMzOvJhVhKtt@xXf`@rNvl@fUrcAt_@hyAxi@da@jNfPhEbRrG~MxDjLpBnMz@vOBhJi@pU{Cld@cOnc@kO~KqC~KeBvLu@lGCjGZlNbClN|DnNpErxMpcFv\\~Nr`@lOdb@lMfPhDzNnAfXa@vSkDjJaDbHaDpIcFrI_Gdx@mr@~V{R`g@g_@fn@ec@z`Li~FtQgJdVgJfTeJjH}AbD}@`D}ArF{DxBoBzBmC|EaH`GiLpIeQhOyX`J{Q~JuQzt@m{A~Ow[no@apAzZyk@tBoD~DsG|CkFvCuEtCaEfFwG`OqPlJ{J~HaHjS{O|dBmhAr[mT`U_ShVoXhPmUtRw\\rS{`@`k@shAvCyFln@g~@lk@}~@`Te\\zCeAbCfCxAxA~XxYfBn@tJu@l{@wIxJkAv]wDto@wHx{@oIpCk@|X}Cx_BkQfEe@xC]pgByRzC[pBrGvAzHj[llAzAlCzBdClCdJjArDnQzn@bXv_AbCnInUpx@dAdDbAlDvA~E`BvF`GbU`h@jhBjGpTlEjOjAxChAnCbGfLpMxUdB`D~ArChGbK~Q~ZdHtL|HzM|IhOtHnMlItNtE|H`BrCnAtBpZ`h@~GnLfJzOpHhMzJvPbQdZlDbGhCjEpHjMpIvNrIzNfChEfNtUlHbMdIdNfIjN|\\xk@cm@dkAeC|Eb]f^|CbDbZ}k@l@kA"
           }
         },
         {
@@ -1385,9 +1385,6 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           },
           "startIndex": 2,
           "endIndex": 1,
-          "geometry": {
-            "polyline": "{glolAjcmclCtKaTzBmEaBqC{EgIeIgNwHsM}\\yk@gIkNeIeNmHcMgNuUgCiEsI{NqIwNqHkMiCkEmDcGcQeZ{JwPqHiMgJ{O_HoLqZah@oAuBaBsCuE}HmIuNuHoM}IiO}H{MeHuL_R_[iGcK_BsCeBaDqMyUcGgLiAoCkAyCmEkOkGqTah@khBaGcUaBwFwA_FcAmDeAeDoUqx@cCoIcXw_AoQ{n@kAsDmCeJcDqNm@oD]yC{@aQ[yEoD_q@[uG]oG{@sOgA_TaBcZaB}ZgBc]mEyx@qEyx@mDwr@MmH@mCHqCbBm[FaATqCVkDzAqT|D}k@VoDFuEOyEg@uDaCaJqL}`@kAwD_AgDgDmLuIc[u@uHs@oHsKu_@cV}y@_AaD{@sCoSir@}Rmq@}@{Co@uBoS{r@wRgq@_AaDw@oC{Rqq@iN_e@s@aCwDsMmUax@mIiY}D_N{HsVaWa~@eWu{@}Usy@OuHmE_pBH_I~@oHxQsb@|ByAjB]lJg@|BeAxBuDOsRkA}EC_Fk@qXsDujB{@qb@w@g`@oH}sDu@c_@aEaqBAYy@_a@aAw`@s@wYi@aSc@_Qi@kSsBo{@k@aUc@wQg@_SsBey@g@sRc@oQg@gSsBky@c@mQi@aTi@cTi@aTmAqf@]yMu@wYa@yOuBs{@g@kSi@kTe@{QsBiy@e@}Pi@mSm@mUg@iTe@wRc@sRuBey@e@mQg@qSo@wVi@gVc@kSc@oRyBgy@g@eRi@wSi@qSuBy{@i@eSc@kQg@uRuBo{@i@eTkAqf@[sLG_DGsBa@sOe@mR_Ag[IqCIsCYiJvErArA`@h]vJzZvIrYjIvUxGxTzFdOxDbXhHjRnFhOdE~Ab@pRjFdVdGf_AtWpX`F~CTzDZ`D\\lEd@tJdAtfAfLzJdAfE`@pD^lC\\xGt@bHv@ph@|Ft]pCjQvA|D`@dFf@`QlBzaBdRbPhBvD^hDZvP`A|YfBrkA`M`UnA|SbB"
-          },
           "distance": {
             "value": 28047.90116,
             "text": "5.3 mi"
@@ -1395,6 +1392,9 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           "duration": {
             "value": 13.328916666666666,
             "text": "13 mins"
+          },
+          "geometry": {
+            "polyline": "{glolAjcmclCtKaTzBmEaBqC{EgIeIgNwHsM}\\yk@gIkNeIeNmHcMgNuUgCiEsI{NqIwNqHkMiCkEmDcGcQeZ{JwPqHiMgJ{O_HoLqZah@oAuBaBsCuE}HmIuNuHoM}IiO}H{MeHuL_R_[iGcK_BsCeBaDqMyUcGgLiAoCkAyCmEkOkGqTah@khBaGcUaBwFwA_FcAmDeAeDoUqx@cCoIcXw_AoQ{n@kAsDmCeJcDqNm@oD]yC{@aQ[yEoD_q@[uG]oG{@sOgA_TaBcZaB}ZgBc]mEyx@qEyx@mDwr@MmH@mCHqCbBm[FaATqCVkDzAqT|D}k@VoDFuEOyEg@uDaCaJqL}`@kAwD_AgDgDmLuIc[u@uHs@oHsKu_@cV}y@_AaD{@sCoSir@}Rmq@}@{Co@uBoS{r@wRgq@_AaDw@oC{Rqq@iN_e@s@aCwDsMmUax@mIiY}D_N{HsVaWa~@eWu{@}Usy@OuHmE_pBH_I~@oHxQsb@|ByAjB]lJg@|BeAxBuDOsRkA}EC_Fk@qXsDujB{@qb@w@g`@oH}sDu@c_@aEaqBAYy@_a@aAw`@s@wYi@aSc@_Qi@kSsBo{@k@aUc@wQg@_SsBey@g@sRc@oQg@gSsBky@c@mQi@aTi@cTi@aTmAqf@]yMu@wYa@yOuBs{@g@kSi@kTe@{QsBiy@e@}Pi@mSm@mUg@iTe@wRc@sRuBey@e@mQg@qSo@wVi@gVc@kSc@oRyBgy@g@eRi@wSi@qSuBy{@i@eSc@kQg@uRuBo{@i@eTkAqf@[sLG_DGsBa@sOe@mR_Ag[IqCIsCYiJvErArA`@h]vJzZvIrYjIvUxGxTzFdOxDbXhHjRnFhOdE~Ab@pRjFdVdGf_AtWpX`F~CTzDZ`D\\lEd@tJdAtfAfLzJdAfE`@pD^lC\\xGt@bHv@ph@|Ft]pCjQvA|D`@dFf@`QlBzaBdRbPhBvD^hDZvP`A|YfBrkA`M`UnA|SbB"
           }
         },
         {
@@ -1408,9 +1408,6 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           },
           "startIndex": 1,
           "endIndex": 4,
-          "geometry": {
-            "polyline": "qjmolAbia_lC}ScBaUoAskAaM}YgBwPaAiD[wD_@cPiB{aBeRaQmBeFg@}Da@kQwAu]qCqh@}FcHw@yGu@mC]qD_@gEa@{JeAufAgLuJeAmEe@aD]{D[_DUqXaFg_AuWeVeGqRkF_Bc@iOeEkRoFcXiHeOyDyT{FwUyGsYkIe`@uUwF}AmP_FqA_@cF{A[gOK_IK_IGwQfAoy@z@iy@BaGHeG^_[j@kh@HwILuH~@es@b@{T`@uTXuTVcWtAamAZ}R?}GPkMV_VXe\\JeLKcXMiM]i[W_U_@uIi@iHiAqNeDwa@_Giu@mD_e@eEii@]oEaDua@aGot@gRq~Bw@mJqA_P_AkLcBgJeDwK}CyHyFcLyI_P_h@o_A{EeH{HeIsSgToFcIaC}H_AaKcB_UiCu]G{@m@}Hc@aHsA_TaDsg@wAgSyDid@oDic@w@sJWyHJsK|@qPnFaq@lEcj@nCi_@PiHKaGa@iFcBmIiCwJsR{l@{P{h@}EeOkDmKsF}PwBuGaCoHq[{`AiJcYc\\wbAgQki@kYs{@{Km\\ea@}nAaJuXi]seA{IiX}J}Z}Tar@aKa[{Yu|@iPke@qBgG{Oef@kCeIePsi@eRek@qKg\\ic@esAuWix@ePch@_\\idAeAsCgE}KeKySyHoO{KsQyKkQmTe\\uQkXyRmYcHcLcDcIiDuMqAeMYuDuBsXa@mFsCc`@_Qi}B_@wE_@}EMiBuHabA{B_ZcCq[gDkc@eC{]_Eok@qDmh@{O_oBeIodAgBkU_CgZ}G_|@sDyh@{Fut@mXukDKqAqC}`@a@kI?uDBoBfa@mdBl\\k`BP_AvFsX~SmdAbHk]vE_c@tFon@|Dm_@tFgZ|Gs]vHa^jAiFfI{^jJm[`L}[zNa]bc@ibArKgX`IqUxHg[vHaYnI}n@p~@uwGtLqeAnGcm@~WsqDlJkoApX_gDtEoi@zBqVpAuNzRapCjf@atIz@sPbAyTXeXYiY{A}[mCwXuDiY}EaVcG_UkHoUgZa{@wNgb@_Lia@yJce@_Hod@}G_k@}BmUo@iHg@cGk@wGg@}Ge@{Gc@kGe@iHa@yGsAecACeE?cEFoDRkD^oDb@gDr@kD`AkDbA{CnAyCvAkC~AcChByBlBqBhB}A|BwA`CkAbC_A`Cs@jCi@jCUdCKnCBrCRhCZzBl@~Bx@pBbAvBpAjBlAhFnD~BzAnCzArCjAvIzC|B`Cna@n^dlAxfArDfDdJfInD`DxDdDrD|CvDxCzDzCrDpCzDtC~DpCxDfCfEhC`EbC|DzBfDjBf@V|DtBzBhAfAh@fErBbEjBlEpBnEjBlEdBjE`BpE`BhExAnExArEtArEpAnElApEfAtEdApE`A`FbApEx@tEx@tEr@pEp@vBVdBRrEh@hAJrCVxE`@xE\\zE\\rETbFTpEN|EJtEHbFDvE@vECbFEzEIxEOtEQvESxEYvE[tE_@|Ee@tEg@`Fk@tEm@xEu@rEs@rEy@xE_AnE_AvEeApEgAtEiApEoAlEoAtEyAlE{AhEyAnE_BpEiBhEgBlEmBbEiBhKcFxKwFdKuFlK_GbK_GfKcG~JeGfKsGzJoG`KwG|JwGzJ}GvJaHxJgHvJmHrJkHlJmHrJ{HlJyHnJ}HdJ_IlJkI`JeIfJoI|IoIdJ}I~IwIxI{IpDsDvIaJxIgJzIuJjIcJpIsJjIyJbIcKzCeEzCsEtCoEfHqLnGsLjGmMxFyMlFeN|EqNlE}N`EiOlDuOhDqPfC}N~BoPjBkP~AuPjAsP|@}Pf@aQNcHHgGDwG@gHEuHC}GKaHQaHQiHy@qYuByv@u@yWe@{Pg@wQ]oLa@{P_@yPwBsxA@{GByGJeHNcHNaHdAsa@PmHL}GFwGBaHAeHEwGKeHQaHSaHY{G]kG[aFKuAi@sGsDoa@yDo]}J}a@kIwVaHkU}Nkd@oNyc@sRgn@_Ogd@sFaOwEqRoAqIUsH`A{LzBwKjEqMpCwFzDoGlFkGlMqLd_@kUfH{EvGeGrE}FxDwJ`AuFz@}IjEqi@d@aFj@iEr@cDv@wClNmd@b@wBZ{BRiCJiCAiCIwC]iDa@sC?A"
-          },
           "distance": {
             "value": 55616.79968,
             "text": "10.5 mi"
@@ -1418,8 +1415,11 @@ curl "https://api.radar.io/v1/route/optimize?locations=40.7343164,-73.995688|40.
           "duration": {
             "value": 15.5131,
             "text": "16 mins"
+          },
+          "geometry": {
+            "polyline": "qjmolAbia_lC}ScBaUoAskAaM}YgBwPaAiD[wD_@cPiB{aBeRaQmBeFg@}Da@kQwAu]qCqh@}FcHw@yGu@mC]qD_@gEa@{JeAufAgLuJeAmEe@aD]{D[_DUqXaFg_AuWeVeGqRkF_Bc@iOeEkRoFcXiHeOyDyT{FwUyGsYkIe`@uUwF}AmP_FqA_@cF{A[gOK_IK_IGwQfAoy@z@iy@BaGHeG^_[j@kh@HwILuH~@es@b@{T`@uTXuTVcWtAamAZ}R?}GPkMV_VXe\\JeLKcXMiM]i[W_U_@uIi@iHiAqNeDwa@_Giu@mD_e@eEii@]oEaDua@aGot@gRq~Bw@mJqA_P_AkLcBgJeDwK}CyHyFcLyI_P_h@o_A{EeH{HeIsSgToFcIaC}H_AaKcB_UiCu]G{@m@}Hc@aHsA_TaDsg@wAgSyDid@oDic@w@sJWyHJsK|@qPnFaq@lEcj@nCi_@PiHKaGa@iFcBmIiCwJsR{l@{P{h@}EeOkDmKsF}PwBuGaCoHq[{`AiJcYc\\wbAgQki@kYs{@{Km\\ea@}nAaJuXi]seA{IiX}J}Z}Tar@aKa[{Yu|@iPke@qBgG{Oef@kCeIePsi@eRek@qKg\\ic@esAuWix@ePch@_\\idAeAsCgE}KeKySyHoO{KsQyKkQmTe\\uQkXyRmYcHcLcDcIiDuMqAeMYuDuBsXa@mFsCc`@_Qi}B_@wE_@}EMiBuHabA{B_ZcCq[gDkc@eC{]_Eok@qDmh@{O_oBeIodAgBkU_CgZ}G_|@sDyh@{Fut@mXukDKqAqC}`@a@kI?uDBoBfa@mdBl\\k`BP_AvFsX~SmdAbHk]vE_c@tFon@|Dm_@tFgZ|Gs]vHa^jAiFfI{^jJm[`L}[zNa]bc@ibArKgX`IqUxHg[vHaYnI}n@p~@uwGtLqeAnGcm@~WsqDlJkoApX_gDtEoi@zBqVpAuNzRapCjf@atIz@sPbAyTXeXYiY{A}[mCwXuDiY}EaVcG_UkHoUgZa{@wNgb@_Lia@yJce@_Hod@}G_k@}BmUo@iHg@cGk@wGg@}Ge@{Gc@kGe@iHa@yGsAecACeE?cEFoDRkD^oDb@gDr@kD`AkDbA{CnAyCvAkC~AcChByBlBqBhB}A|BwA`CkAbC_A`Cs@jCi@jCUdCKnCBrCRhCZzBl@~Bx@pBbAvBpAjBlAhFnD~BzAnCzArCjAvIzC|B`Cna@n^dlAxfArDfDdJfInD`DxDdDrD|CvDxCzDzCrDpCzDtC~DpCxDfCfEhC`EbC|DzBfDjBf@V|DtBzBhAfAh@fErBbEjBlEpBnEjBlEdBjE`BpE`BhExAnExArEtArEpAnElApEfAtEdApE`A`FbApEx@tEx@tEr@pEp@vBVdBRrEh@hAJrCVxE`@xE\\zE\\rETbFTpEN|EJtEHbFDvE@vECbFEzEIxEOtEQvESxEYvE[tE_@|Ee@tEg@`Fk@tEm@xEu@rEs@rEy@xE_AnE_AvEeApEgAtEiApEoAlEoAtEyAlE{AhEyAnE_BpEiBhEgBlEmBbEiBhKcFxKwFdKuFlK_GbK_GfKcG~JeGfKsGzJoG`KwG|JwGzJ}GvJaHxJgHvJmHrJkHlJmHrJ{HlJyHnJ}HdJ_IlJkI`JeIfJoI|IoIdJ}I~IwIxI{IpDsDvIaJxIgJzIuJjIcJpIsJjIyJbIcKzCeEzCsEtCoEfHqLnGsLjGmMxFyMlFeN|EqNlE}N`EiOlDuOhDqPfC}N~BoPjBkP~AuPjAsP|@}Pf@aQNcHHgGDwG@gHEuHC}GKaHQaHQiHy@qYuByv@u@yWe@{Pg@wQ]oLa@{P_@yPwBsxA@{GByGJeHNcHNaHdAsa@PmHL}GFwGBaHAeHEwGKeHQaHSaHY{G]kG[aFKuAi@sGsDoa@yDo]}J}a@kIwVaHkU}Nkd@oNyc@sRgn@_Ogd@sFaOwEqRoAqIUsH`A{LzBwKjEqMpCwFzDoGlFkGlMqLd_@kUfH{EvGeGrE}FxDwJ`AuFz@}IjEqi@d@aFj@iEr@cDv@wClNmd@b@wBZ{BRiCJiCAiCIwC]iDa@sC?A"
           }
-        },
+        }
       ]
     }
   ]
