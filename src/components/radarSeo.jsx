@@ -72,7 +72,8 @@ const RadarSEO = ({
   _description,
   keywords,
   image,
-  slug
+  slug,
+  robots,
 }) => {
   const {image: defaultImage} = useThemeConfig();
   const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
@@ -102,6 +103,10 @@ const RadarSEO = ({
           name="keywords"
           content={Array.isArray(keywords) ? keywords.join(',') : keywords}
         />
+      )}
+
+      {robots && (
+        <meta name="robots" content={robots} />
       )}
 
       {pageImage && <meta property="og:image" content={pageImage} />}

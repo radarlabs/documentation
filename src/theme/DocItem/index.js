@@ -26,10 +26,12 @@
    const {
      image,
      keywords,
+     customFields,
      hide_title: hideTitle,
      hide_table_of_contents: hideTableOfContents,
    } = frontMatter;
    const { description, title, slug } = metadata;
+   const { robots } = (customFields || {});
 
    // We only add a title if:
    // - user asks to hide it with frontmatter
@@ -54,6 +56,7 @@
           description,
           keywords,
           image,
+          robots,
         }}
       />
 
