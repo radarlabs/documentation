@@ -8,6 +8,10 @@ const ROOT_BREADCRUMB = {
   path: '/',
 };
 
+const SLUGS_ROBOTS = {
+  '/regions/countries': 'noindex',
+};
+
 // String Utils
 export const capitalizeFirst = (string = '') => (
   (string[0] || '').toUpperCase() + string.slice(1)
@@ -73,7 +77,6 @@ const RadarSEO = ({
   keywords,
   image,
   slug,
-  robots,
 }) => {
   const {image: defaultImage} = useThemeConfig();
   const pageImage = useBaseUrl(image || defaultImage, {absolute: true});
@@ -90,6 +93,8 @@ const RadarSEO = ({
       pageTitle = `Documentation - ${title} | Radar`;
     }
   }
+
+  const robots = SLUGS_ROBOTS[slug];
 
   return (
     <Head>

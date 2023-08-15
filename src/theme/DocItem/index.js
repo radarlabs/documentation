@@ -26,7 +26,6 @@
    const {
      image,
      keywords,
-     robots,
      hide_title: hideTitle,
      hide_table_of_contents: hideTableOfContents,
    } = frontMatter;
@@ -55,7 +54,6 @@
           description,
           keywords,
           image,
-          robots,
         }}
       />
 

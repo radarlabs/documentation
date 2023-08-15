@@ -182,7 +182,7 @@ Learn more about [Network Security Configuration on Android](https://developer.a
 
 #### App Attest
 
-To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) and configure a list of valid App IDs (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings).
+To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) and configure a list of valid [App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings).
 
 If App Attest indicates that the user's device or app has been compromised, `user.fraud.compromised = true`.
 
