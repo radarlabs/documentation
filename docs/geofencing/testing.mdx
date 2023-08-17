@@ -85,9 +85,9 @@ When a rate limit is triggered, Radar will return three response headers for the
 
 ###### Response codes
 
-- **`x-ratelimit-limit`**: Maximum amount of request allowed in the current window.
-- **`x-ratelimit-remaining`**: Remaining requests available in the current window before being rate limited.
-- **`x-ratelimit-reset`**: A UNIX timestamp for when the rate limit ends.
+- **`X-RateLimit-Limit`**: Maximum amount of request allowed in the current window.
+- **`X-RateLimit-Remaining`**: Remaining requests available in the current window before being rate limited.
+- **`X-RateLimit-Reset`**: A UNIX timestamp for when the rate limit ends.
 
 ###### Sample error response
 
