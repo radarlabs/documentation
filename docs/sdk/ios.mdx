@@ -216,6 +216,7 @@ To request foreground location permissions and then immediately request backgrou
 ```swift
 import UIKit
 import RadarSDK
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -235,7 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
 
     func requestLocationPermissions() {
-        let status = self.locationManager.authorizationStatus()
+        let status = self.locationManager.authorizationStatus
 
         if status == .notDetermined {
             self.locationManager.requestWhenInUseAuthorization()
