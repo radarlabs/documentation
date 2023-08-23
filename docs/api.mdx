@@ -1095,7 +1095,7 @@ For best results, the sample rate should be less than 10 seconds between points.
 
 - **`path`** (string, required): A list of up to 100 coordinates along a route to be snapped. A string in the format `latitude1,longitude1|latitude2,longitude2`.
 - **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
-- **`roadAttributes`** (string, optional): Attributes of matched roads be included in the response. A string, comma-separated, including one or more of `speedLimit`, `names`, and `roadClass`.
+- **`roadAttributes`** (string, optional): Attributes of matched roads to be included in the response. A string, comma-separated, including one or more of `speedLimit`, `names`, and `roadClass`.
   - `roadClass` return values will be one of: 
     - `motorway`
     - `trunk`
@@ -1105,6 +1105,7 @@ For best results, the sample rate should be less than 10 seconds between points.
     - `unclassified`
     - `residential`
     - `service_other`
+- **`units`** (string, optional): The distance and speed units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
 
 ###### Authentication level
 
