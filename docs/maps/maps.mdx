@@ -387,87 +387,97 @@ To get started, add the MapLibre Native package to your XCode project.
   <img src="https://images.ctfassets.net/f2vbu16fzuly/2os3Ew3JE6Ch0fStG0TnGT/73038669bcf2ab31e50d83adff31fb55/Screenshot_2023-07-21_at_3.47.18_PM.png?w=2400" alt="XCode add MapLibre dependency screenshot" />
 </p>
 
-Then get started by adding the map to your ViewController with Radar's style URL and your publishable key.
+Then, add the map to your ViewController with Radar's style URL and your publishable key.
 
 ```swift
-import UIKit
+import SwiftUI
 import Mapbox // NOTE: the MapLibre package is imported as "Mapbox"
 
-class ViewController: UIViewController, MGLMapViewDelegate {
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    // ========================
-    // Setup Map
-    // ========================
-
-    // create url (style + publishable key)
-    let styleURL = URL(string: "https://api.radar.io/maps/styles/radar-default-v1?publishableKey=prj_live_pk...")
-
-    // create the map view
-    let mapView = MGLMapView(frame: view.bounds, styleURL: styleURL)
-    mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    mapView.delegate = self
-    mapView.logoView.isHidden = true
-
-    // set the map’s center coordinate and zoom level.
-    mapView.setCenter(
-      CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911),
-      zoomLevel: 11,
-      animated: false
-    )
-
-    // add map to view
-    view.addSubview(mapView)
-
-
-    // ========================
-    // Add Logo
-    // ========================
-
-    let logoImageView = UIImageView()
-    logoImageView.image = UIImage(named: "radar-logo")
-    logoImageView.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(logoImageView)
-
-    NSLayoutConstraint.activate([
-        logoImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-        logoImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-        logoImageView.widthAnchor.constraint(equalToConstant: 74),
-        logoImageView.heightAnchor.constraint(equalToConstant: 26)
-    ])
-  }
-
-  // callback for map done loading
-  func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
-    addMarker(style: style, coordinate: CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911))
-  }
-
-  // add marker to map
-  func addMarker(style: MGLStyle, coordinate: CLLocationCoordinate2D) {
-    // create point to place makrer
-    let point = MGLPointAnnotation()
-    point.coordinate = coordinate
-
-    // create data source to hold point data
-    let shapeSource = MGLShapeSource(identifier: "marker-source", shape: point, options: nil)
-
-    // create a style layer for the symbol
-    let shapeLayer = MGLSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
-
-    // add image to the style's sprites
-    if let image = UIImage(named: "default-marker") {
-        style.setImage(image, forName: "marker")
+struct MapView: UIViewRepresentable {
+    
+    func makeCoordinator() -> MapView.Coordinator {
+        Coordinator(self)
     }
+    
+    func makeUIView(context: Context) -> MGLMapView {
+        // ========================
+        // Setup Map
+        // ========================
 
-    // tell the layer to use the image in the sprite
-    shapeLayer.iconImageName = NSExpression(forConstantValue: "marker") // should match image above
+        // create url (style + publishable key)
+        let styleURL = URL(string: "https://api.radar.io/maps/styles/radar-default-v1?publishableKey=prj_live_pk...")
 
-    // add the source and style layer to the map
-    style.addSource(shapeSource)
-    style.addLayer(shapeLayer)
-  }
+        // create the map view
+        let mapView = MGLMapView(frame: .zero, styleURL: styleURL)
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.logoView.isHidden = true
+
+        // set the map’s center coordinate and zoom level.
+        mapView.setCenter(
+          CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911),
+          zoomLevel: 11,
+          animated: false
+        )
+        
+        // ========================
+        // Add Logo
+        // ========================
+
+        let logoImageView = UIImageView(image: UIImage(named: "radar-logo"))
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.addSubview(logoImageView)
+
+        NSLayoutConstraint.activate([
+            logoImageView.bottomAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            logoImageView.leadingAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            logoImageView.widthAnchor.constraint(equalToConstant: 74),
+            logoImageView.heightAnchor.constraint(equalToConstant: 26)
+        ])
+
+        mapView.delegate = context.coordinator
+
+        return mapView
+    }
+    
+    func updateUIView(_ uiView: MGLMapView, context: Context) {}
+    
+    // Responds to map events
+    class Coordinator: NSObject, MGLMapViewDelegate {
+        var control: MapView
+
+        init(_ control: MapView) {
+            self.control = control
+        }
+
+        // Add marker to map after loading
+        func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
+            addMarker(style: style, coordinate: CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911))
+        }
+
+        func addMarker(style: MGLStyle, coordinate: CLLocationCoordinate2D) {
+            // create point to place marker
+            let point = MGLPointAnnotation()
+            point.coordinate = coordinate
+
+            // create data source to hold point data
+            let shapeSource = MGLShapeSource(identifier: "marker-source", shape: point, options: nil)
+
+            // create a style layer for the symbol
+            let shapeLayer = MGLSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
+
+            // add image to the style's sprites
+            if let image = UIImage(named: "default-marker") {
+                style.setImage(image, forName: "marker")
+            }
+
+            // tell the layer to use the image in the sprite
+            shapeLayer.iconImageName = NSExpression(forConstantValue: "marker")
+
+            // add the source and style layer to the map
+            style.addSource(shapeSource)
+            style.addLayer(shapeLayer)
+        }
+    }
 }
 ```
 
