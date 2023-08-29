@@ -109,7 +109,7 @@ If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false
 
 With [Regions](/documentation/regions), gaming customers can mark specific jurisdictions (i.e., countries and states) as allowed or denied to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
 
-If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken(), Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
+If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 
 Additionally, you can enable buffer zones and exclusion zones for different states. If buffer zones and exclusion zones are enabled, `user.state.inBufferZone` and `user.state.inExclusionZone` indicates whether the user is within a buffer zone or exclusion zone.
 
