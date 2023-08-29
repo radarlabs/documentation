@@ -392,8 +392,8 @@ const jwt = require('jsonwebtoken');
 try {
     const decoded = jwt.verify(token, SECRET_KEY);
     const { user } = decoded;
-    // check user.fraud, user.state, user.country to allow or deny access
+    // token is valid, check user.fraud, user.state, user.country to allow or deny access
 } catch(err) {
-    // deny access to feature, show error message
+    // token is invalid, deny access to feature, show error message
 }
 ```
