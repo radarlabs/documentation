@@ -69,7 +69,7 @@ First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
 Then, enable Fraud on the [Settings page](https://radar.com/dashboard/settings).
 
-From there, [integrate the SDK](/documentation/sdk), complete the steps below, and call `Radar.trackVerified()`. Radar will expose fraud flags in the callback as described below.
+From there, [integrate the SDK](/documentation/sdk), complete the steps below, and call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`. Radar will perform fraud and jurisdiction checks as described below.
 
 ## How it works
 
@@ -77,11 +77,11 @@ You can call `Radar.trackOnce()` to accurately detect a user's current [geofence
 
 However, users can spoof a device's location. For example, a gaming app user may spoof their location to access sports betting features only available in specific states. Or, a retail app user may spoof their location to access offers only available inside a store geofence.
 
-To ensure you can trust a user's location, you can call `Radar.trackVerified()` instead. Radar will collect a variety of fraud signals and perform fraud checks, exposing flags that you can use for fraud detection and location verification in your app.
+To ensure you can trust a user's location, you can call `Radar.trackVerified()` or `Radar.trackVerifiedToken()` instead. Radar will collect a variety of fraud signals and perform fraud and jurisdiction checks, calculating flags that you can use for fraud detection and geo-compliance in your app.
 
 ## Fraud flags
 
-If you call `Radar.trackVerified()`, Radar exposes the following flags in `user.fraud`:
+If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android.
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
@@ -107,13 +107,13 @@ If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false
 
 ## Allowed states and countries
 
-With [Regions](/documentation/regions), gaming customers can mark specific states and countries as allowed or denied to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific states.
+With [Regions](/documentation/regions), gaming customers can mark specific jurisdictions (i.e., countries and states) as allowed or denied to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
 
-If you call `Radar.trackVerified()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
+If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken(), Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 
 Additionally, you can enable buffer zones and exclusion zones for different states. If buffer zones and exclusion zones are enabled, `user.state.inBufferZone` and `user.state.inExclusionZone` indicates whether the user is within a buffer zone or exclusion zone.
 
-While you can work with individual flags, Radar also exposes a single `user.state.passed` flag that indicates whether all jurisdiction checks passed.
+While you can work with individual flags, Radar also exposes `user.state.passed` and `user.country.passed` flags that indicates whether all jurisdiction checks passed.
 
 <Alert alertType="info">
   Contact your customer success manager for access to buffer zones and exclusion zones.
@@ -223,7 +223,7 @@ Learn more about [SSL pinning on iOS](https://developer.apple.com/news/?id=g9ejc
 
 ### Web and desktop
 
-On web, the SDK optionally connects to the Radar Verify Mac or Windows app to support the `mocked` and `sharing` flags. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Mac or Windows app is not running.
+On desktop web, the SDK connects to the Radar Verify Mac or Windows app to support the `mocked` and `sharing` flags. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Mac or Windows app is not running.
 
 <Alert alertType="info">
   Contact your customer success manager for access to the Radar Verify Mac or Windows app.
@@ -231,7 +231,11 @@ On web, the SDK optionally connects to the Radar Verify Mac or Windows app to su
 
 ## Verifying user locations
 
-Once the above configuration is complete, you can verify a user's location client-side with just a few lines of code:
+Once the above configuration is complete, you can verify a user's location with just a few lines of code.
+
+### Standard callback
+
+Call `Radar.trackVerified()` on app open, periodically, or before sensitive transactions. Then, check `user.fraud.passed`, `user.state.passed`, and/or `user.country.passed` to allow or deny access.
 
 <Tabs
   groupId="fraud"
@@ -248,8 +252,8 @@ Once the above configuration is complete, you can verify a user's location clien
 ```swift
 Radar.trackVerified { (status, location, events, user) in
   if user?.fraud?.passed == true &&
-    user?.country?.allowed == true &&
-    user?.state?.allowed == true {
+    user?.country?.passed == true &&
+    user?.state?.passed == true {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -263,8 +267,8 @@ Radar.trackVerified { (status, location, events, user) in
 ```kotlin
 Radar.trackVerified { status, location, events, user ->
   if (user?.fraud?.passed == true &&
-    user.country?.allowed == true &&
-    user.state?.allowed == true) {
+    user.country?.passed == true &&
+    user.state?.passed == true) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -278,7 +282,7 @@ Radar.trackVerified { status, location, events, user ->
 ```javascript
 Radar.trackVerified().then((result) => {
   const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+  if (user.fraud.passed && user.country.passed && user.state.passed) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -295,7 +299,7 @@ Radar.trackVerified().then((result) => {
 ```javascript
 Radar.trackVerified().then((result) => {
   const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+  if (user.fraud.passed && user.country.passed && user.state.passed) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -309,11 +313,87 @@ Radar.trackVerified().then((result) => {
 
 </Tabs>
 
-Fraud is not yet supported with `Radar.startTracking()`.
-
-You can also [get a user](/documentation/api#get-a-user) and check fraud flags server-side for an additional layer of verification:
+Then, [look up the user](/documentation/api#get-a-user) and check fraud flags server-side for an additional layer of verification.
 
 ```bash
 curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
   -H "Authorization: prj_live_sk_..."
+```
+
+### Token callback
+
+Alternatively, set a JSON Web Token (JWT) secret key on the [Settings page](https://radar.com/dashboard/settings).
+
+Then, call `Radar.trackVerifiedToken()` to get a signed JWT containing a payload with `user.fraud`, `user.state`, and `user.country`. Send the JWT to your server.
+
+<Tabs
+  groupId="fraud"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.trackVerifiedToken { (status, token) in
+  // send token to server
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.trackVerifiedToken { status, token ->
+  // send token to server
+}
+```
+
+  </TabItem>
+  <TabItem value="web">
+
+```javascript
+Radar.trackVerified().then((result) => {
+  const { token } = result;
+  // send token to server
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+Radar.trackVerified().then((result) => {
+  const { token } = result;
+  // send token to server
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+</Tabs>
+
+Finally, verify and decode the JWT server-side using your secret key and a [JWT library](https://jwt.io/libraries. If the token is valid, check `user.fraud.passed`, `user.state.passed`, and/or `user.country.passed` in the payload to allow or deny access.
+
+For example, in JavaScript:
+
+```javascript
+const jwt = require('jsonwebtoken');
+
+try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const { user } = decoded;
+    // check user.fraud, user.state, user.country to allow or deny access
+} catch(err) {
+    // deny access to feature, show error message
+}
 ```
