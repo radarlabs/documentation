@@ -84,7 +84,7 @@ This endpoint is stateful. For anonymous or stateless context, call the [context
 - **`foreground`** (boolean, optional): `true` if the client is in the foreground, `false` if the client is in the background.
 - **`stopped`** (boolean, optional): `true` if the user is stopped, `false` if the user is moving.
 - **`description`** (string, optional): An optional description for the user, displayed in the dashboard.
-- **`metadata`** (dictionary, optional): An optional dictionary of custom metadata for the user. Up to 16 keys and values of type string, boolean, or number.
+- **`metadata`** (dictionary, optional): An optional dictionary of custom metadata for the user. Up to 32 keys and values of type string, boolean, or number.
 - **`deviceType`** (string, optional): The user's device type, one of `iOS`, `Android`, or `Web`.
 - **`updatedAt`** (datetime, optional): The client timestamp or historical timestamp when the user's location was updated. Historical data must be upserted in chronological order. Optional, defaults to the current server timestamp if not provided or not in chronological order. A date or valid ISO date string.
 - **`replayed`** (boolean, optional): `true` if the location is replayed, `false` if the location is not replayed. Defaults to `false`.
