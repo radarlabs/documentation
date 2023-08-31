@@ -21,7 +21,7 @@ When creating the Autocomplete input, you can provide options to customize the a
 |-------|---------|-----------------|-----------------------|------------------|
 |`container` |`autocomplete` |string \| HTMLElement |The container the autocomplete input will be rendered into. Can specify the html `id`, or DOM object. <br /><br /><b>Note:</b> If an `<input>` is provided as the container, the `<input>`'s style will not be modified. |Web|
 |`width` |`400` |number \| string |Width of the input. Can be a number (in pixels) or a valid CSS width.|Web|
-|`maxHeight` |`null` |number \| string |Max height of the list results container. Can be a number (in pixels) or a valid CSS width.|Web|
+|`maxHeight` |`null` |number \| string |Max height of the results list container. Can be a number (in pixels) or a valid CSS width.|Web|
 |`near` |`null` |string \| Location | The location to search. If not provided, the request IP address will be used to anchor the search. <br /><br />Can be provided as a string in the format `latitude,longitude` or as an object `{ latitude, longitude }`. |Web, React Native|
 |`debounceMS` |`200` |number |The number of milliseconds to wait after typing is complete to refresh the result list.|Web, React Native|
 |`threshold` |`3` |number |Minimum number of characters that need to be typed before fetching results.|Web, React Native|
