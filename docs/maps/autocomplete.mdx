@@ -21,6 +21,7 @@ When creating the Autocomplete input, you can provide options to customize the a
 |-------|---------|-----------------|-----------------------|------------------|
 |`container` |`autocomplete` |string \| HTMLElement |The container the autocomplete input will be rendered into. Can specify the html `id`, or DOM object. <br /><br /><b>Note:</b> If an `<input>` is provided as the container, the `<input>`'s style will not be modified. |Web|
 |`width` |`400` |number \| string |Width of the input. Can be a number (in pixels) or a valid CSS width.|Web|
+|`maxHeight` |`null` |number \| string |Max height of the results list container. Can be a number (in pixels) or a valid CSS height.|Web|
 |`near` |`null` |string \| Location | The location to search. If not provided, the request IP address will be used to anchor the search. <br /><br />Can be provided as a string in the format `latitude,longitude` or as an object `{ latitude, longitude }`. |Web, React Native|
 |`debounceMS` |`200` |number |The number of milliseconds to wait after typing is complete to refresh the result list.|Web, React Native|
 |`threshold` |`3` |number |Minimum number of characters that need to be typed before fetching results.|Web, React Native|
@@ -33,6 +34,7 @@ When creating the Autocomplete input, you can provide options to customize the a
 |`disabled` |`false` |boolean |Disables the input.|Web, React Native|
 |`layers` |`null` |`place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, `fine` |Filter results by layer type. See [Autocomplete docs](/documentation/api#query-parameters-3) for more info.|Web, React Native|
 |`countryCode` |`null` |string|2-letter country code to filter results by.|Web, React Native|
+|`expandUnits` |`false` |boolean|Whether to include unit numbers in the results.|Web|
 |`showMarkers` |`true` |boolean |Show map pin icons next to results in the list.|Web, React Native|
 |`markerColor` |`#ACBDC8` |string |CSS color for marker icon.|Web|
 |`style`|`null`|React Native style object|Styles for the element. See the [code](https://github.com/radarlabs/react-native-radar/blob/be23434ba731dda7015e25b7fc3a6364ff1b311d/js/ui/autocomplete.jsx#L153) for specifics.|React Native|
