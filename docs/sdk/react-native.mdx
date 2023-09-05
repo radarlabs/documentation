@@ -176,6 +176,22 @@ Radar.requestPermissions(background).then((status) => {
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
 
+On iOS and Android, the user needs to grant foreground location permissions first before you can prompt for background location permissions:
+
+```javascript
+// request foreground location permissions
+Radar.requestPermissions(false).then((status) => {
+  // request background location permissions
+  Radar.requestPermissions(true).then((status) => {
+    // do something with status
+  }).catch((err) => {
+    // optionally, do something with err
+  });
+}).catch((err) => {
+  // optionally, do something with err
+});
+```
+
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
 <Alert alertType="info">
