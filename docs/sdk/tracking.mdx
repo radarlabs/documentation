@@ -120,7 +120,7 @@ Option | Efficient | Responsive | Continuous
 - **`desiredStoppedUpdateInterval`**: Determines the desired location update interval in seconds when stopped. Use `0` to shut down when stopped. Defaults to `0`.
 - **`fastestStoppedUpdateInterval`**: Determines the fastest location update interval in seconds when stopped. Defaults to `0`.
 - **`desiredMovingUpdateInterval`**: Determines the desired location update interval in seconds when moving. Defaults to `0`. **Note that location updates may be delayed significantly by Doze Mode, App Standby, and Background Location Limits, or if the device has connectivity issues, low battery, or wi-fi disabled. To avoid these restrictions, you can [start a foreground service](https://developer.android.com/about/versions/oreo/background-location-limits).**
-- **`fastestMovingUpdateInterval`**: Determines the fastest location update interval in seconds when stopped. Defaults to `0`.
+- **`fastestMovingUpdateInterval`**: Determines the fastest location update interval in seconds when moving. Defaults to `0`.
 - **`desiredSyncInterval`**: Determines the desired sync interval in seconds. Defaults to `0`.
 - **`desiredAccuracy`**: Determines the desired accuracy of location updates. `HIGH` uses `PRIORITY_HIGH_ACCURACY`, `MEDIUM` uses `PRIORITY_BALANCED_POWER_ACCURACY`, `LOW` uses `PRIORITY_LOW_POWER`, `NONE` uses `PRIORITY_NO_POWER`. Defaults to `MEDIUM`.
 - **`stopDuration`**: With `stopDistance`, determines the duration in seconds after which the device is considered stopped. Defaults to `0`.
