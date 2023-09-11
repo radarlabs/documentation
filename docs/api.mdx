@@ -1212,7 +1212,7 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990927|40.732957,-73.992424|40.733756,-73.994281&mode=car&units=imperial" \
+curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40.712971,-73.951385|40.745580,-73.903162|40.774419,-73.872746&mode=car&units=imperial" \
   -H "Authorization: prj_live_pk_..."
 ```
 
@@ -1225,47 +1225,76 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990927|40
   },
   "routes": [
     {
+      "duration": {
+        "value": 26.882683333333333,
+        "text": "27 mins"
+      },
+      "distance": {
+        "value": 59576.77356,
+        "text": "11.3 mi"
+      },
       "legs": [
         {
           "startLocation": {
-            "latitude": 40.734248,
-            "longitude": -73.990904
+            "latitude": 40.73425,
+            "longitude": -73.990934
           },
           "endLocation": {
-            "latitude": 40.732934,
-            "longitude": -73.992442
-          },
-          "geometry": {
-            "polyline": "mafulAnn`clChKxAhCF`CJdg@vGtB\\|BZpf@`HhC^yArEoZj`A"
-          },
-          "distance": {
-            "value": 1033.4646,
-            "text": "0.2 mi"
+            "latitude": 40.712971,
+            "longitude": -73.951385
           },
           "duration": {
-            "value": 0.6890000000000001,
-            "text": "1 min"
+            "value": 9.53685,
+            "text": "10 mins"
+          },
+          "distance": {
+            "value": 19924.54132,
+            "text": "3.8 mi"
+          },
+          "geometry": {
+            "polyline": "kafulAnn`clCfKxAhCF`CJdg@vGtB\\|BZpf@`HhC^dBThMdBnTtCp@TnBp@`ClAZPhZnUzBdB`BtAl\\zWxAjAlBzA|UjRfEhD`ClBhRfOlCxBjBxAhBxAxKzItNhL|BhBnB|Af]rXnB~A|AnAn[fWbAv@~ArAzBfBxStPbInGtB`BlBzA~b@l]bAx@d@\\hBxAjMdKTPxGlFnJvH|StPnCxBhFbEr@{EfEeYvCyRf@kD\\{BBUtC}RfAoFbAcFpDsNl@_Cl@aCfLcd@r@sCn@cC`Lsc@p@kCl@aCjE}P`E}Od@iBz@{DrD`A|JxCxWdFxc@fLzIzBzL~C~Bj@dAXlg@rM~Ab@pA^|`@pLp@RtBl@bBf@xEpAjQ`FtBl@xF~AfAwEzBoCpAyAtE}TvGs[fAkFxAiHpG{Zh@qCR{@f@cCr@iDrKmh@VoAh@gCb@wBfJ{c@\\aBr@iD~AeIv@yDp@wChEuSf@eCj@kCfGeZpBoJf@gCh@iC`G_ZvBuJhAsFnAmFvJyd@f@{BvP}l@t@cDr@sCrK{_@bBgG\\sAXmAp\\}`B~J_g@|\\gcBpb@_uB|U{kAdIcTdVqpAl~DssRj_@{hB|Fq_@zt@opDtG_UrEcU`AoFjCkOd@yC`@}CToCTwChAeTx@}PRkCb@eDd@gCn@sCrP_r@\\uAjAuEmCuAsP}I}KsG}@i@kAq@QeFo@uTAMiBy_@wBac@KkBMsBSaDk@mIs@{Io@aMmBs]{AmXS}EQ{CoBac@OeDeA{ScAoTUmEUeEsA{X}@yPoEi~@WkF}AcPScFG}AUkFaDXm[fCgKv@aCRec@hD_CP{CZq]bD"
           }
         },
         {
           "startLocation": {
-            "latitude": 40.732934,
-            "longitude": -73.992442
+            "latitude": 40.712971,
+            "longitude": -73.951385
           },
           "endLocation": {
-            "latitude": 40.73372,
-            "longitude": -73.994308
-          },
-          "geometry": {
-            "polyline": "koculApncclCaTdq@aAzCqA~DmVpv@"
-          },
-          "distance": {
-            "value": 587.27036,
-            "text": "587.3 ft"
+            "latitude": 40.74558,
+            "longitude": -73.903162
           },
           "duration": {
-            "value": 0.30365000000000003,
-            "text": "1 min"
+            "value": 11.365883333333333,
+            "text": "11 mins"
+          },
+          "distance": {
+            "value": 22516.40492,
+            "text": "4.3 mi"
+          },
+          "geometry": {
+            "polyline": "oo|slAfks`lCwGn@}k@pFgIj@wCR{D`@mSbBgBNaYnC_DZqCmDqNaTkt@yhAkKiR}BoDiBeDsZoj@oY}f@cBaDqBkDsVyc@y^mo@_B_DqAkCsJeRuKiT_Usa@eB_DcBsCad@e{@gCmHcLvHqB~A{D`Aa@JmBtAq@f@mJvIaJ~J_AdAcClCIJq[f]eAnAwEbFeAvA{BhC}BnCmCpCaRnT_AdA{HrIkB|Bq@x@{LbNwFlG{ClCkBxA}ApAs@^_SfKoXtMgPrHqUfLkTrKcA`@yB|@qCpAa@PsJpEkSvJ}N`HsFhCk@VuLrFwDdBq@\\oMfGiAh@qB`AsCxAq@^k^|PyNxGwHrDyE~BkGvC}HrDgKzEsB|@kCjAoSzJaSrJiObHgBx@}BdAq@Z}WlMyG~CwG~Cw@^qEvBq\\|O}CzAQqEmAoW{@{QyBmf@{@wQ{@iSIwBI{CMwDcAeVc@oK_AqPm@iFqDiPe^guAsAeFuIe\\sHiYsSkw@wNil@a@{AiAyEq@mCoJ_`@uAgMm@sFyDkf@k@uGa@cEm@_Fs@uFaAsGgAeGiAaGsA}F{AaGyFuT}Lme@mGgVaB}FgBwFqBoFyBwFyDsJuMm\\}JuVyE{DGiNuJmVs@oBo@aBk@gBeQ}o@eBsG_AwCeAgDmDaNaXscAeAkD{@qCeSku@oPan@oD}MuCkJsA{DcKmZeKmZaBmEgAcDgOyc@}@eDwAmEoBgG]_AiEcM_GgQqAkFs@_D_HyUgCwIgAwDgBcGoQkn@wAmEmA_EmKy^_@uA_CqIi@mB{AmFiB}F_Vus@gBaFuA_EyUis@eB}E}AoEkNeb@iBoF_CaHeEeMaUaq@sAgFkA}DmUyq@oB_GyBgGsR_j@i@yAsDwJ}CkKm@gBuQsj@eAgDeA{CuGuRwAcFaHcZw@sDk@gCgOqt@s@}Di@uC{Ima@i@mCuCsN_C}HaJea@gEqUqRq~@eDoOsD}P_He[mMsp@wAmHmFkXaR}{@_Paz@kKa|@aJg|@U}Da@cDyGap@k@uFkA{I{@oK[kHMaO?}FHqF@yM@yj@uE{dAqEkaAi@yK"
+          }
+        },
+        {
+          "startLocation": {
+            "latitude": 40.74558,
+            "longitude": -73.903162
+          },
+          "endLocation": {
+            "latitude": 40.774419,
+            "longitude": -73.872746
+          },
+          "duration": {
+            "value": 5.979916666666667,
+            "text": "6 mins"
+          },
+          "distance": {
+            "value": 17135.82732,
+            "text": "3.2 mi"
+          },
+          "geometry": {
+            "polyline": "oh|ulAbcu}kCuEy`AeEy~@{Ea`AwEe`AkBg^sAcX{Dkv@}Dew@wC\\ea@vEwAPgBTub@`Fuk@rGODmD~@M}Cc@{Ke@}IoAqC_AaBeAy@kAm@oBg@s@UiAQcA?s@L_@D_AZaAXu@\\qG~Cyg@xWgHjDoI|D}G~CeGnCaDfA{DhAaE`AiEx@sNzFsHl@aVnAm_@nD}ShDaQ`EiQfIs~@vg@mc@|V}CfBkZbJaa@pM_UlGwWpFkGxAe^|GkS`BaMz@qLQuM{@wQeDwM}DeNeFqQkGwg@q[e^_Ti_C}wA}l@i`@sE_DuDsCsDaDyDeEwCkDuCyD_DwEkLqRmCwDuDuEoDeE{CuC{CoC}EkDaAm@wBsAmF_CuDcAwEuAyQkEoEuAsDoAeD}A}CsBkCsByCyC}DqEiCyD}BsEuBwEeBmFkAkEeAaFs@_Gg@kG[sFSsHaAyh@c@eRm@cRcCyl@kAcVqIqs@{A_Q_B{PaBgPgBwPmBoPuBkPwBcPiCoQsBuMeCwOoC}OyCiPqCyO{C_PcDaPcDsOiDoOqDoOuDkO_EqOiEaOcEaOoE_OuE_O}E{N{EqNgFkN}Va}@mHuRcHkQqFaNaF}MyGiQgLkZaGqVm@sBq@kCmAaGoAyGgAiH_A{Gw@cH_@}EiEyy@wGesA]mJEqEuAKmWwAuJa@_F@oDPgB\\eBj@{D~@}C`As@LqQlCwDl@yB\\cBTyEn@mVdFwBr@{B~@yCfBqEvDkElEcCxCqBpCyCeDkCiDqAqBmAoBaAsB}@mB{@{Bw@aCw@sCwBqJm@oCZgALMqA}GUmBg@yAkA}LmFin@eIe}@gByA_ET??"
           }
         }
       ]
