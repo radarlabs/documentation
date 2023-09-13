@@ -180,9 +180,10 @@ Radar.getLocationPermissionsStatus().then((result) => {
 
 `result.status` will be a string, one of:
 
-- `GRANTED`
-- `DENIED`
-- `UNKNOWN`
+- **`GRANTED_BACKGROUND`**
+- **`GRANTED_FOREGROUND`**
+- **`NOT_DETERMINED`**
+- **`DENIED`**
 
 To request location permissions for the app, call:
 
