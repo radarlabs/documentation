@@ -20,7 +20,7 @@ The [simulator](https://radar.com/dashboard/simulate) is the easiest way to gene
 
 3. **Simulate a trip.** There are 3 fields necessary to simulate a [trip](/trip-tracking): `externalId`, `destinationGeofenceTag`, and `destinationGeofenceExternalId`. You can enter them manually or select a geofence on the map and click "Set as trip destination" to autofill these values. Then, click "Start Trip" to officially kick off and activate the trip! As you click around, you'll notice events such as `user.approaching_trip_destination` and `user.arrived_at_trip_destination`.
 
-![Simulator.gif](/gif/simulator.gif)
+![Simulator.gif](/gif/dashboard/simulator.gif)
 
 ## User Activity
 
@@ -34,7 +34,7 @@ The User Activity page is the most straightforward way to debug a user's recent 
 
 3. **Filter to a specific time period.** Move the bounds of the slider to isolate a range of time for investigation. The slider supports granularity down to the minute.
 
-![UserActivity.gif](/gif/user_activity.gif)
+![UserActivity.gif](/gif/dashboard/user_activity.gif)
 
 ### Location sources
 - **`FOREGROUND_LOCATION`**: location update triggered by `Radar.trackOnce`
@@ -68,7 +68,7 @@ Navigate to the [geofences](https://radar.com/dashboard/geofences) page and sele
 
 3. **Filter and export the results for further analysis.** To perform more granular investigations, apply *Filters* to isolate rows that were not place matched, geofences that have large center correction values, or errors. Click *Export rows* to download a CSV of the filtered results to perform additional analysis in other tools.
 
-![PlaceMatching.gif](/gif/place_matching.gif)
+![PlaceMatching.gif](/gif/dashboard/place_matching.gif)
 
 ### Geofence types
 
