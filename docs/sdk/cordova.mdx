@@ -18,7 +18,7 @@ Install the Cordova plugin:
 cordova plugin add @radarlabs/cordova-plugin-radar
 ```
 
-Before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps by following the *Configure project* and *Add SDK to project* steps in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+Before writing any JavaScript, you must integrate the Radar SDK with your iOS and Android apps.
 
 On iOS, you must add location usage descriptions and background modes to your `Info.plist`. Initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
 
@@ -51,6 +51,22 @@ public class MainActivity extends CordovaActivity {
 ```
 
 ## Integrate
+
+### Initialize
+
+When your app starts, initialize the SDK with your publishable key.
+
+Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
+
+<Alert alertType="warning">
+  Note that you should always use your publishable API keys, which are
+  restricted in scope, in the SDK. Do not use your secret API keys, which are
+  unrestricted in scope, in any client-side code.
+</Alert>
+
+```javascript
+Radar.initialize(publishableKey);
+```
 
 ### Identify user
 
