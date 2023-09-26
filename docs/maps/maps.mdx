@@ -20,14 +20,14 @@ Radar Maps is an extension of the [MapLibre GL JS](https://maplibre.org) library
 
 ## Configuration
 
-You can configure a map with any of the `[MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/)` available in MapLibre.
+You can configure a map with any MapLibre [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/).
 
 The minimum recommended options are the following:
 
 <div class="full-width-table">
 
-| Name  | Default | Possible values | Description           | SDK availability |
-|-------|---------|-----------------|-----------------------|------------------|
+| Name  | Default | Possible values | Description           |
+|-------|---------|-----------------|-----------------------|
 | `container` | none (required) | string \| HTMLElement | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. The width and height of this element will determine the size of the map. |
 | `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See below for more details. |
 | `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/documentation/api#ip-geocode). |
@@ -95,7 +95,7 @@ To create a simple web page with a map:
     <script type="text/javascript">
       Radar.initialize('prj_live_pk_...');
 
-      // create a new map
+      // create a map
       const map = Radar.ui.map({
         container: 'map',
         style: 'radar-default-v1',
@@ -103,7 +103,7 @@ To create a simple web page with a map:
         zoom: 11
       });
 
-      // create marker and add to map
+      // add a marker to the map
       const marker = Radar.ui.marker({ text: 'Radar HQ' })
         .setLngLat([-73.9910078, 40.7342465])
         .addTo(map);
@@ -132,6 +132,7 @@ class RadarMap extends React.Component {
   componentDidMount() {
     Radar.initialize('prj_live_pk_...');
 
+    // create a map
     const map = new Radar.ui.map({
       container: 'map',
       style: 'radar-default-v1',
@@ -139,6 +140,7 @@ class RadarMap extends React.Component {
       zoom: 14,
     });
 
+    // add a marker to the map
     Radar.ui.marker({ text: 'Radar HQ' })
       .setLngLat([-73.9910078, 40.7342465])
       .addTo(map);
@@ -186,6 +188,7 @@ export default {
     onMounted(() => {
       Radar.initialize('prj_live_pk_...');
 
+      // create a map
       map.value = markRaw(Radar.ui.map({
         container: mapRef.value,
         style: 'radar-default-v1',
@@ -193,6 +196,7 @@ export default {
         zoom: 11
       }));
 
+      // add a marker to the map
       Radar.ui.Marker({ color: '#007aff' })
         .setLngLat([-73.9911, 40.7342]) // Radar HQ
         .addTo(map.value);
@@ -377,7 +381,7 @@ struct MapView: UIViewRepresentable {
           animated: false
         )
         
-        // add Radar logo
+        // add the Radar logo
 
         let logoImageView = UIImageView(image: UIImage(named: "radar-logo"))
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
