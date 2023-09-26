@@ -35,7 +35,7 @@ Available options include:
 | `responsive` | `true` | boolean | A boolean that indicates whether the input should expand to fill the parent container. If `responsive = true` and a `width` is specified, `width` will be treated as a `max-width`. | Web |
 | `disabled` | `false` | boolean | A boolean that indicates whether the input should be disabled. | Web, React Native |
 | `layers` | `null` | array | Optional layer filters. An array including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. See the [autocomplete API documentation](https://radar.com/documentation/api#autocomplete) for more info. | Web, React Native |
-| `countryCode` | `null` | string | 2-letter country code to filter results by. | Web, React Native |
+| `countryCode` | `null` | string | An optional 2-letter [ISO 3166](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. If set, results will only be fetched from the specified country. | Web, React Native |
 | `expandUnits` | `false` | boolean | A boolean that indicates whether to include unit numbers in the results. | Web |
 | `showMarkers` | `true` | boolean | A boolean that indicates whether to show marker icons in the results list. | Web, React Native |
 | `markerColor`  | `#acbdc8` | string | The CSS color of marker icons in the results list. | Web |
