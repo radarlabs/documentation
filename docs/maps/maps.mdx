@@ -14,7 +14,7 @@ You can also check out a full-page [maps demo](/demo/maps) or [store locator dem
 
 ## How it works
 
-To use Radar Maps, simply initialize the Radar SDK with your publishable key, and specify the container to render the map into.
+To use Radar Maps, simply initialize the Radar SDK with your publishable key and specify the container to render the map into.
 
 Radar Maps is an extension of the [MapLibre GL JS](https://maplibre.org) library. See their [docs](https://maplibre.org/maplibre-gl-js/docs/API/) for more customization info.
 
@@ -24,7 +24,7 @@ You can configure a map with any MapLibre [MapOptions](https://maplibre.org/mapl
 
 The minimum recommended options are the following:
 
-<div class="full-width-table">
+<div className="full-width-table">
 
 | Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
@@ -39,27 +39,27 @@ The minimum recommended options are the following:
 
 Radar provides several out-of-the box map styles:
 
-<table class="full-width-table">
+<table className="full-width-table">
   <thead>
     <tr>
-      <th class="no-wrap">Style</th>
+      <th className="no-wrap">Style</th>
       <th style={{ width: "400px" }}>Preview</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td class="no-wrap"><code>radar-default-v1</code></td>
+      <td className="no-wrap"><code>radar-default-v1</code></td>
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/1wBEmydpkmmP5eI23nHD6s/1a628636b92095173b946da3a3e6204e/radar-default-theme.png?w=1200" /></td>
       <td>Radar's default map style, showcasing detailed street-level information about roads and nearby places. A general purpose map suitable for most use cases.</td>
     </tr>
     <tr>
-      <td class="no-wrap"><code>radar-light-v1</code></td>
+      <td className="no-wrap"><code>radar-light-v1</code></td>
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/39PJYbWntW8cK4NnP33cWK/ae8ad63d9e300a3c8d61ce47f7323914/radar-light-theme.png?w=1200" /></td>
       <td>A light monochrome map style, useful for highlighting your own information or visualizations.</td>
     </tr>
     <tr>
-      <td class="no-wrap"><code>radar-dark-v1</code></td>
+      <td className="no-wrap"><code>radar-dark-v1</code></td>
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/UhZJgEo57528CJRQCj0fT/3a2e2dc29205da1a9ea8e60b52dcafa6/radar-dark-theme.png?w=1200" /></td>
       <td>A dark monochrome map style, useful for highlighting your own information or visualizations in dark mode.</td>
     </tr>
@@ -599,7 +599,7 @@ class MainActivity : AppCompatActivity() {
 ```
 
 <Alert alertType="info">
-  Logo placement is required as defined in the <a href="https://radar.com/terms">Terms of Use</a>.
+  Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
 </Alert>
 
 ## Coverage
