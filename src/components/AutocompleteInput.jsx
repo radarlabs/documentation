@@ -17,7 +17,7 @@ class AutocompleteInput extends React.Component {
 
   render() {
     return (
-      <div id="autocomplete"></div>
+      <div id="autocomplete" style={{ marginBottom: '1.25rem' }}></div>
     );
   }
 };
