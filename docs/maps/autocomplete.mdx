@@ -3,41 +3,46 @@ title: Autocomplete
 ---
 import AutocompleteInput from '../../src/components/AutocompleteInput.jsx'
 
-Add an address autocomplete widget to your site with just a few lines of code.
+Use Radar's autocomplete component to add address autocomplete to your websites and apps with just a few lines of code.
 
 <AutocompleteInput />
 
+You can also check out the [autocomplete explorer](https://radar.com/dashboard/maps/maps-explorer/autocomplete) in the dashboard, or check out a full-page [maps demo](https://radar.com/demo/maps) and [store locator demo](https://radar.com/demo/locator) with an autocomplete component.
+
 ## How it works
 
-To use the Radar Autocomplete input, simply initialize the Radar SDK with your publishable key, and specify the container to render the input into.
+To use the autocomplete component, simply initialize the Radar SDK with your publishable key and specify the container to render the input into.
 
 ## Configuration
 
-When creating the Autocomplete input, you can provide options to customize the autocomplete behavior, as well as the size of the input.
+When creating the autocomplete input, you can provide options to customize the autocomplete behavior, as well as the size of the input.
 
-<div class="full-width-table">
+Available options include:
 
-| Name  | Default | Possible Values | Description           | SDK availability |
+<div className="full-width-table">
+
+| Name  | Default | Possible values | Description           | SDK availability |
 |-------|---------|-----------------|-----------------------|------------------|
-|`container` |`autocomplete` |string \| HTMLElement |The container the autocomplete input will be rendered into. Can specify the html `id`, or DOM object. <br /><br /><b>Note:</b> If an `<input>` is provided as the container, the `<input>`'s style will not be modified. |Web|
-|`width` |`400` |number \| string |Width of the input. Can be a number (in pixels) or a valid CSS width.|Web|
-|`maxHeight` |`null` |number \| string |Max height of the results list container. Can be a number (in pixels) or a valid CSS height.|Web|
-|`near` |`null` |string \| Location | The location to search. If not provided, the request IP address will be used to anchor the search. <br /><br />Can be provided as a string in the format `latitude,longitude` or as an object `{ latitude, longitude }`. |Web, React Native|
-|`debounceMS` |`200` |number |The number of milliseconds to wait after typing is complete to refresh the result list.|Web, React Native|
-|`threshold` |`3` |number |Minimum number of characters that need to be typed before fetching results.|Web, React Native|
-|`limit` |`8` |number |Maximum number of results to show.|Web, React Native|
-|`onSelection` |`null` |function `(address) => {}`|Callback with selected address.|Web, React Native|
-|`onResults` |`null` |function `(addresses) => {}`|Callback with list of address results.|Web, React Native|
-|`onError` |`null` |function `(error) => {}`|Callback with any errors that occur.|Web, React Native|
-|`placeholder` |`Search address` |string |Input placeholder text|Web, React Native|
-|`responsive` |`true` |boolean |Whether the input should expand to fill the parent container or not. If `responsive` is true _and_ a `width` is provided, `width` will be treated as a "max-width".|Web|
-|`disabled` |`false` |boolean |Disables the input.|Web, React Native|
-|`layers` |`null` |`place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, `fine` |Filter results by layer type. See [Autocomplete docs](/documentation/api#query-parameters-3) for more info.|Web, React Native|
-|`countryCode` |`null` |string|2-letter country code to filter results by.|Web, React Native|
-|`expandUnits` |`false` |boolean|Whether to include unit numbers in the results.|Web|
-|`showMarkers` |`true` |boolean |Show map pin icons next to results in the list.|Web, React Native|
-|`markerColor` |`#ACBDC8` |string |CSS color for marker icon.|Web|
-|`style`|`null`|React Native style object|Styles for the element. See the [code](https://github.com/radarlabs/react-native-radar/blob/be23434ba731dda7015e25b7fc3a6364ff1b311d/js/ui/autocomplete.jsx#L153) for specifics.|React Native|
+| `container` | `autocomplete` | string \| HTMLElement | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. If an `<input>` is provided as a container, the style of the input will not be modified. | Web |
+| `width` | `400` | number \| string | The width of the input, a number (in pixels) or any valid CSS width. | Web |
+| `maxHeight` | `null` | number \| string | The max height of the results list, a number (in pixels) or any valid CSS height. | Web |
+| `near` | `null` | string \| Location | The location to search near, in the format `"latitude,longitude"` or `{ latitude, longitude }`. If not specified, the search will automatically be biased based on the client's [IP geolocation](/documentation/api#ip-geocode). | Web, React Native |
+| `debounceMS` | `200` | number | The number of milliseconds to wait after typing is complete to refresh the results list. | Web, React Native |
+| `threshold` | `3` | number | The minimum number of characters that need to be typed before fetching results. | Web, React Native |
+| `limit` | `8` | number | The maximum number of results to show in the results list. | Web, React Native |
+| `onSelection` | `null` | function `(address) => {}` | A function called when a result is selected from the results list. | Web, React Native |
+| `onResults` | `null` | function `(addresses) => {}` | A function called when the results list is refreshed. | Web, React Native |
+| `onError`  | `null` | function `(error) => {}` | A function called if any errors occur. | Web, React Native |
+| `placeholder` | `Search address` | string | The placeholder string for the input. | Web, React Native |
+| `responsive` | `true` | boolean | A boolean that indicates whether the input should expand to fill the parent container. If `responsive = true` and a `width` is specified, `width` will be treated as a `max-width`. | Web |
+| `disabled` | `false` | boolean | A boolean that indicates whether the input should be disabled. | Web, React Native |
+| `layers` | `null` | array | Optional layer filters. An array including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. See the [autocomplete API documentation](https://radar.com/documentation/api#autocomplete) for more info. | Web, React Native |
+| `countryCode` | `null` | string | An optional 2-letter [ISO 3166](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. If set, results will only be fetched from the specified country. | Web, React Native |
+| `expandUnits` | `false` | boolean | A boolean that indicates whether to include unit numbers in the results. | Web |
+| `showMarkers` | `true` | boolean | A boolean that indicates whether to show marker icons in the results list. | Web, React Native |
+| `markerColor`  | `#acbdc8` | string | The CSS color of marker icons in the results list. | Web |
+| `style` | `null` | React Native style object | Styles for the element. See the [code](https://github.com/radarlabs/react-native-radar/blob/master/js/ui/autocomplete.jsx) for more info. | React Native |
+
 </div>
 
 ## Quickstart
@@ -64,7 +69,6 @@ Then, get started with the sample code below.
     <script type="text/javascript">
       Radar.initialize('prj_live_pk_...');
 
-      // create autocomplete input
       Radar.ui.autocomplete({
         container: 'autocomplete',
         width: '600px',
@@ -86,22 +90,14 @@ import Radar, { Autocomplete } from 'react-native-radar';
 
 Radar.initialize('prj_live_pk_...');
 
-export default function App() {
-  const onSelection = (selectedAddress) => {
-    // Do something with the selected address
-  }
-
-  return (
-      <View style={{ marginTop: 50 }}>
-          <Autocomplete options={
-            onSelection,
-            near: {
-              latitude: 40.7342,
-              longitude: -73.9911,
-            }
-          } />
-      </View>
-  );
-}
+export const App = () => (
+  <View>
+    <Autocomplete options={
+      onSelection: (address) => {
+        // do something with selected address
+      },
+    } />
+  </View>
+);
 ```
 

@@ -539,4 +539,8 @@ table .no-wrap {
   white-space: nowrap;
 }
 
+.radar-autocomplete-input {
+  font-family: 'Graphik';
+}
+
 @import '~maplibre-gl/dist/maplibre-gl.css';

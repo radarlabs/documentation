@@ -10,86 +10,58 @@ For example, here's a Radar Map displaying a marker for Radar HQ:
 
 <Map />
 
+You can also check out the [maps explorer](https://radar.com/dashboard/maps/maps-explorer/maps) in the dashboard, or check out a full-page [maps demo](https://radar.com/demo/maps) and [store locator demo](https://radar.com/demo/locator).
+
 ## How it works
 
-To use Radar Maps, simply initialize the Radar SDK with your publishable key, and specify the container to render the map into.
+To use Radar Maps, simply initialize the Radar SDK with your publishable key and specify the container to render the map into.
 
-Radar Maps is an extension of the [Maplibre GL JS](https://maplibre.org) library. See their [docs](https://maplibre.org/maplibre-gl-js/docs/API/) for additional customization info.
+Radar Maps is an extension of the [MapLibre GL JS](https://maplibre.org) library. See their [docs](https://maplibre.org/maplibre-gl-js/docs/API/) for more customization info.
 
 ## Configuration
 
-When creating a new Radar map, you can configure it with any of the [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/) available in MapLibre.
+You can configure a map with any MapLibre [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/maplibregl.MapOptions/).
 
-The minimum recommended configuration options are the following:
+The minimum recommended options are the following:
 
-<table class="full-width-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th class="no-wrap">Default</th>
-      <th class="no-wrap">Possible Values</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>container</code></td>
-      <td class="no-wrap">none (required)</td>
-      <td class="no-wrap">string | HTMLElement</td>
-      <td>The <code>id</code> or HTML element the map will be rendered into. <br /> <br /><em>The width and height of this element will determine the size of the map</em></td>
-    </tr>
-    <tr>
-      <td><code>style</code></td>
-      <td class="no-wrap"><code>radar-default-v1</code></td>
-      <td class="no-wrap"><code>radar-default-v1</code>, <br /><code>radar-light-v1</code>, <br /><code>radar-dark-v1</code></td>
-      <td>The map's style. See below for more details on map styles</td>
-    </tr>
-    <tr>
-      <td><code>center</code></td>
-      <td class="no-wrap"><em>IP Geolocation</em></td>
-      <td class="no-wrap"><code>[longitude, latitude]</code></td>
-      <td>The initial map center point.</td>
-    </tr>
-    <tr>
-      <td><code>zoom</code></td>
-      <td class="no-wrap">11</td>
-      <td class="no-wrap">number</td>
-      <td>The initial map zoom level.</td>
-    </tr>
-  </tbody>
-</table>
+<div className="full-width-table">
 
-<Alert alertType='tip'>
-   Web-based maps will be automatically centered based on the user's IP Geolocation unless center and zoom properties are specified.
-</Alert>
+| Name  | Default | Possible values | Description           |
+|-------|---------|-----------------|-----------------------|
+| `container` | none (required) | string \| HTMLElement | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. The width and height of this element will determine the size of the map. |
+| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See below for more details. |
+| `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/documentation/api#ip-geocode). |
+| `zoom` | 11 | number | The zoom level of the map, a number between 0 (fully zoomed out) and 23 (fully zoomed in). |
+
+</div>
 
 ### Styles
 
-Radar provides several out-of-the box styles tailored to various use cases.
+Radar provides several out-of-the box map styles:
 
-<table class="full-width-table">
+<table className="full-width-table">
   <thead>
     <tr>
-      <th class="no-wrap">Style</th>
+      <th className="no-wrap">Style</th>
       <th style={{ width: "400px" }}>Preview</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td class="no-wrap"><code>radar-default-v1</code></td>
+      <td className="no-wrap"><code>radar-default-v1</code></td>
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/1wBEmydpkmmP5eI23nHD6s/1a628636b92095173b946da3a3e6204e/radar-default-theme.png?w=1200" /></td>
       <td>Radar's default map style, showcasing detailed street-level information about roads and nearby places. A general purpose map suitable for most use cases.</td>
     </tr>
     <tr>
-      <td class="no-wrap"><code>radar-light-v1</code></td>
+      <td className="no-wrap"><code>radar-light-v1</code></td>
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/39PJYbWntW8cK4NnP33cWK/ae8ad63d9e300a3c8d61ce47f7323914/radar-light-theme.png?w=1200" /></td>
       <td>A light monochrome map style, useful for highlighting your own information or visualizations.</td>
     </tr>
     <tr>
-      <td class="no-wrap"><code>radar-dark-v1</code></td>
+      <td className="no-wrap"><code>radar-dark-v1</code></td>
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/UhZJgEo57528CJRQCj0fT/3a2e2dc29205da1a9ea8e60b52dcafa6/radar-dark-theme.png?w=1200" /></td>
-      <td>A dark monochrome map style, useful for highlighting your own information or visualizations in a dark mode setting.</td>
+      <td>A dark monochrome map style, useful for highlighting your own information or visualizations in dark mode.</td>
     </tr>
   </tbody>
 </table>
@@ -113,8 +85,8 @@ To create a simple web page with a map:
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/v4.1.6/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.1.6/radar.min.js"></script>
+    <link href="https://js.radar.com/v4.1.11/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/v4.1.11/radar.min.js"></script>
   </head>
 
   <body>
@@ -123,7 +95,7 @@ To create a simple web page with a map:
     <script type="text/javascript">
       Radar.initialize('prj_live_pk_...');
 
-      // create a new map
+      // create a map
       const map = Radar.ui.map({
         container: 'map',
         style: 'radar-default-v1',
@@ -131,7 +103,7 @@ To create a simple web page with a map:
         zoom: 11
       });
 
-      // create marker and add to map
+      // add a marker to the map
       const marker = Radar.ui.marker({ text: 'Radar HQ' })
         .setLngLat([-73.9910078, 40.7342465])
         .addTo(map);
@@ -144,13 +116,11 @@ To create a simple web page with a map:
 
 To create a [React](https://react.dev) component with a map:
 
-<Alert alertType='info'>
-  The Radar SDK has a dependency on maplibre-gl for the map rendering.
-</Alert>
-
 ```bash
 npm install --save radar-sdk-js maplibre-gl
 ```
+
+The SDK has a dependency on [maplibre-gl](https://github.com/maplibre/maplibre-gl-js).
 
 ```jsx
 import React from 'react';
@@ -162,6 +132,7 @@ class RadarMap extends React.Component {
   componentDidMount() {
     Radar.initialize('prj_live_pk_...');
 
+    // create a map
     const map = new Radar.ui.map({
       container: 'map',
       style: 'radar-default-v1',
@@ -169,6 +140,7 @@ class RadarMap extends React.Component {
       zoom: 14,
     });
 
+    // add a marker to the map
     Radar.ui.marker({ text: 'Radar HQ' })
       .setLngLat([-73.9910078, 40.7342465])
       .addTo(map);
@@ -194,6 +166,8 @@ To create a [Vue](https://vuejs.org) component with a map:
 npm install --save radar-sdk-js maplibre-gl
 ```
 
+The SDK has a dependency on [maplibre-gl](https://github.com/maplibre/maplibre-gl-js).
+
 ```javascript
 <template>
   <div id="map-container">
@@ -214,6 +188,7 @@ export default {
     onMounted(() => {
       Radar.initialize('prj_live_pk_...');
 
+      // create a map
       map.value = markRaw(Radar.ui.map({
         container: mapRef.value,
         style: 'radar-default-v1',
@@ -221,6 +196,7 @@ export default {
         zoom: 11
       }));
 
+      // add a marker to the map
       Radar.ui.Marker({ color: '#007aff' })
         .setLngLat([-73.9911, 40.7342]) // Radar HQ
         .addTo(map.value);
@@ -263,40 +239,37 @@ body {
 
 To create a [React Native](https://react.dev) component with a map:
 
-<Alert alertType='info'>
-  The Radar SDK has a dependency on maplibre-react-native for the map rendering.
-</Alert>
-
 ```bash
 npm install --save react-native-radar @maplibre/maplibre-react-native
 ```
 
-Next, complete any required [platform specific installation steps](https://github.com/maplibre/maplibre-react-native/blob/main/docs/GettingStarted.md#review-platform-specific-info).
+The SDK has a dependency on [maplibre-react-native](https://github.com/maplibre/maplibre-react-native).
 
+Next, complete any required [platform-specific installation steps](https://github.com/maplibre/maplibre-react-native/blob/main/docs/GettingStarted.md#review-platform-specific-info).
 
-Get started by initializing the Radar SDK and using `<Map>`:
+Finally, initialize the Radar SDK and add a `<Map>` component:
 
 ```jsx
 import { View } from 'react-native';
 import Radar, { Map } from 'react-native-radar';
 import MapLibreGL from '@maplibre/maplibre-react-native';
 
-    
-// MapLibre requires setting their deprecated access token to null
+// NOTE: MapLibre requires setting their deprecated access token to null
 MapLibreGL.setAccessToken(null);
 
 Radar.initialize('prj_live_pk_...');
 
-export default function App() {
-    return (
-        <View style={{ width: '100%', height: '95%'}}>
-            <Map />
-        </View>
-    );
-}
+export const App = () => (
+  <View style={{ width: '100%', height: '95%' }}>
+    <Map />
+  </View>
+);
 ```
 
-You can also add custom pins to the map and control the camera:
+Optionally, add assets for a marker. You can download assets [here](/img/radar-map-assets.zip).
+
+To add a marker to the map and control the camera:
+
 ```jsx
   const [cameraConfig, setCameraConfig] = useState({
     triggerKey: Date.now(),
@@ -307,41 +280,40 @@ You can also add custom pins to the map and control the camera:
   });
 
   const onRegionDidChange = (event) => {
-    // handle region change
+    // do something on region change
   }
 
-  const mapOptions = {
-    onRegionDidChange: onRegionDidChange,
-  }
-
-  const onSelect = (selectedAddress) => {
-    // Do something with the selected address
+  const onSelect = (address) => {
+    // do something with selected address
   }
 
   const pointsCollection = {
-    type: "FeatureCollection",
-    features: [{
-      type: "Feature",
-      properties: {
-        _id: '123',
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [-73.9911, 40.7342]
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        properties: {
+          _id: '123',
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [-73.9911, 40.7342]
+        }
       }
-    }]
+    ]
   }; 
   
-  const onPressIcon = (event) => {
-    // do something with the symbol, such as scrolling to the geofence
-    // associated with the icon in the list
+  const onPress = (event) => {
+    // do something on press
   }
     
   return (
-    <View style={{ width: '100%', marginTop: '10%', height: '90%'}}>
-      <Map mapOptions={mapOptions}>
+    <View style={{ width: '100%', marginTop: '10%', height: '90%' }}>
+      <Map mapOptions={{
+        onRegionDidChange,
+      }}>
         <MapLibreGL.Camera
-        {...cameraConfig}
+          {...cameraConfig}
         />
         <MapLibreGL.Images
           images={{
@@ -351,10 +323,9 @@ You can also add custom pins to the map and control the camera:
         <MapLibreGL.ShapeSource
           id="points"
           shape={pointsCollection}
-          onPress={onPressIcon}
+          onPress={onPress}
         >
-
-         <MapLibreGL.SymbolLayer
+        <MapLibreGL.SymbolLayer
             id="symbol"
             style={{
               iconImage: 'icon',
@@ -362,9 +333,9 @@ You can also add custom pins to the map and control the camera:
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                0, 0.2, // Adjust the icon size for zoom level 0
-                12, 0.4, // Adjust the icon size for zoom level 12
-                22, 0.8, // Adjust the icon size for zoom level 22
+                0, 0.2, // adjust the icon size for zoom level 0
+                12, 0.4, // adjust the icon size for zoom level 12
+                22, 0.8, // adjust the icon size for zoom level 22
               ],
               iconAllowOverlap: true,
             }}
@@ -377,21 +348,15 @@ You can also add custom pins to the map and control the camera:
 
 ### iOS
 
-Radar maps can be integrated into an iOS application with [MapLibre Native](https://github.com/maplibre/maplibre-native).
+To create a map on iOS, add [MapLibre Native](https://github.com/maplibre/maplibre-native) to your Xcode project.
 
-To get started, add the MapLibre Native package to your XCode project.
+Then, add assets for the Radar logo and optionally for a marker. You can download assets [here](/img/radar-map-assets.zip).
 
-`General` > `Frameworks, Libraries, and Embedded Content` > `Add item` > `Add other` > `Add package dependency`
-
-<p>
-  <img src="https://images.ctfassets.net/f2vbu16fzuly/2os3Ew3JE6Ch0fStG0TnGT/73038669bcf2ab31e50d83adff31fb55/Screenshot_2023-07-21_at_3.47.18_PM.png?w=2400" alt="XCode add MapLibre dependency screenshot" />
-</p>
-
-Then, add the map to your ViewController with Radar's style URL and your publishable key.
+Finally, add a `MapView` to a `ViewController` with a Radar style URL that includes your publishable key:
 
 ```swift
 import SwiftUI
-import Mapbox // NOTE: the MapLibre package is imported as "Mapbox"
+import Mapbox // NOTE: MapLibre is imported as Mapbox
 
 struct MapView: UIViewRepresentable {
     
@@ -400,29 +365,23 @@ struct MapView: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> MGLMapView {
-    
-        // ========================
-        // Setup Map
-        // ========================
+        // create a map
 
-        // create url (style + publishable key)
-        let styleURL = URL(string: "https://api.radar.io/maps/styles/radar-default-v1?publishableKey=prj_live_pk...")
+        let style = "radar-default-v1"
+        let publishableKey = "prj_live_pk..."
+        let styleURL = URL(string: "https://api.radar.io/maps/styles/\(style)?publishableKey=\(publishableKey)")
 
-        // create the map view
         let mapView = MGLMapView(frame: .zero, styleURL: styleURL)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.logoView.isHidden = true
 
-        // set the map’s center coordinate and zoom level.
         mapView.setCenter(
           CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911),
           zoomLevel: 11,
           animated: false
         )
         
-        // ========================
-        // Add Logo
-        // ========================
+        // add the Radar logo
 
         let logoImageView = UIImageView(image: UIImage(named: "radar-logo"))
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -440,9 +399,12 @@ struct MapView: UIViewRepresentable {
         return mapView
     }
     
-    func updateUIView(_ uiView: MGLMapView, context: Context) {}
+    func updateUIView(_ uiView: MGLMapView, context: Context) {
+
+    }
     
-    // Responds to map events
+    // add a marker on map load
+
     class Coordinator: NSObject, MGLMapViewDelegate {
         var control: MapView
 
@@ -450,31 +412,24 @@ struct MapView: UIViewRepresentable {
             self.control = control
         }
 
-        // Add marker to map after loading
         func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
             addMarker(style: style, coordinate: CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911))
         }
 
         func addMarker(style: MGLStyle, coordinate: CLLocationCoordinate2D) {
-            // create point to place marker
             let point = MGLPointAnnotation()
             point.coordinate = coordinate
 
-            // create data source to hold point data
             let shapeSource = MGLShapeSource(identifier: "marker-source", shape: point, options: nil)
 
-            // create a style layer for the symbol
             let shapeLayer = MGLSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
 
-            // add image to the style's sprites
             if let image = UIImage(named: "default-marker") {
                 style.setImage(image, forName: "marker")
             }
 
-            // tell the layer to use the image in the sprite
             shapeLayer.iconImageName = NSExpression(forConstantValue: "marker")
 
-            // add the source and style layer to the map
             style.addSource(shapeSource)
             style.addLayer(shapeLayer)
         }
@@ -482,35 +437,25 @@ struct MapView: UIViewRepresentable {
 }
 ```
 
-You can find the assets used for the pin and Radar logo [here](/img/radar-map-assets.zip).
-
 <Alert alertType="info">
-  Logo placement is required as defined in the <a href="https://radar.com/terms">Terms of Use</a>.
+  Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
 </Alert>
 
 ### Android
 
-Radar maps can be integrated into an Android application with [MapLibre Native](https://github.com/maplibre/maplibre-native).
+To create a map on Android, add [MapLibre Native](https://github.com/maplibre/maplibre-native) to the `dependencies` section of your app's `build.gradle` file:
 
-To get started, add the MapLibre Native dependency into your module Gradle file (usually located at `<project>/<app-module>/build.gradle`). Replace `<version>` with the latest MapLibre Native version (e.g.: `org.maplibre.gl:android-sdk:10.2.0`).
-
-```kotlin
+```gradle
 dependencies {
-    ...
-    implementation 'org.maplibre.gl:android-sdk:<version>'
-    ...
+    implementation 'org.maplibre.gl:android-sdk:10.2.0'
 }
 ```
 
-Then, import the Radar Map assets. Go to `View` > `Tool Windows` > `Resource Manager`. Click the + button below Resource Manager and select "Import Drawables." Import the radar map assets you need for your application. The assets can be found below this section.
+Import assets for the Radar logo and optionally for a marker. You can download assets [here](/img/radar-map-assets.zip).
 
-<p>
-  <img src="https://images.ctfassets.net/f2vbu16fzuly/5I4DeUd6fkwDgfO5mk62dt/8148400ae165abaa6a1bebaae973a18a/image.png?w=2400" alt="XCode add MapLibre dependency screenshot" />
-</p>
-
-Next, open your layout XML file where you want to display the radar map. Add a MapView element to the layout:
+Then, add a `MapView` with the Radar logo to your layout:
   
-```html
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -525,7 +470,6 @@ Next, open your layout XML file where you want to display the radar map. Add a M
         android:layout_height="match_parent"
         />
 
-    <!-- The radar logo -->
     <ImageView
         android:id="@+id/overlayImageView"
         android:layout_width="wrap_content"
@@ -539,8 +483,7 @@ Next, open your layout XML file where you want to display the radar map. Add a M
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-Finally, initialize the `MapView` in your activity file with Radar's style URL and your publishable key. Add a pin to the map. Remember to use the assets you imported earlier for the pin and Radar logo.
-
+Finally, add a `MapView` in your `Activity` with a Radar style URL that includes your publishable key:
 
 ```kotlin
 import android.os.Bundle
@@ -550,7 +493,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 
-// the MapLibre package is imported as "Mapbox"
+// NOTE: MapLibre is imported as Mapbox
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.annotations.IconFactory
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
@@ -567,54 +510,51 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // create url (style + publishable key)
-        val key = "prj_live_pk_..."
-        val style = "radar-default-v1"
-        val styleURL = "https://api.radar.io/maps/styles/$style?publishableKey=$key"
+        // create a map
 
-        // init MapLibre
+        val style = "radar-default-v1"
+        val publishableKey = "prj_live_pk_..."
+        val styleURL = "https://api.radar.io/maps/styles/$style?publishableKey=$publishableKey"
+
         Mapbox.getInstance(this)
 
-        // init layout view
         val inflater = LayoutInflater.from(this)
         val rootView = inflater.inflate(R.layout.activity_main, null)
         setContentView(rootView)
 
-        // init the MapView
         mapView = rootView.findViewById(R.id.mapView)
 
         mapView.getMapAsync { map ->
-            // callback for map done loading
             mapboxMap = map
-            // remove default logo and replace with Radar logo in activity_main.xml
+
+            // add the Radar logo
+
             map.uiSettings.isLogoEnabled = false
 
-            // anchor attribution to bottom right
             map.uiSettings.attributionGravity = Gravity.RIGHT + Gravity.BOTTOM
-            map.uiSettings.setAttributionMargins(0,0,24,24)
+            map.uiSettings.setAttributionMargins(0, 0, 24, 24)
 
             map.setStyle(styleURL)
-            // add marker, set map's center coordinate and zoom level
-            addMarker(LatLng(40.7342,-73.9911))
-            map.cameraPosition = CameraPosition.Builder().target(LatLng(40.7342,-73.9911)).zoom(11.0).build()
+
+            // add a marker on map load
+
+            addMarker(LatLng(40.7342, -73.9911))
+            map.cameraPosition = CameraPosition.Builder().target(LatLng(40.7342, -73.9911)).zoom(11.0).build()
         }
 
     }
 
-    private fun addMarker(coordinate: LatLng){
-        // get bitmap for marker icon
+    private fun addMarker(coordinate: LatLng) {
         val infoIconDrawable = ResourcesCompat.getDrawable(
             this.resources,
-            // use imported marker resource
             R.drawable.default_marker,
             null
         )!!
-        // create icon bmp
+
         val bitmapMarker = infoIconDrawable.toBitmap()
         val icon = IconFactory.getInstance(this)
             .fromBitmap(bitmapMarker)
 
-        // create point to place marker
         val markerOptions = MarkerOptions()
             .position(coordinate)
             .icon(icon)
@@ -658,10 +598,8 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-You can find the assets used for the pin and Radar logo [here](/img/radar-map-assets.zip).
-
 <Alert alertType="info">
-  Logo placement is required as defined in the <a href="https://radar.com/terms">Terms of Use</a>.
+  Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
 </Alert>
 
 ## Coverage

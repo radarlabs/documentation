@@ -11,11 +11,11 @@ The source can be found on GitHub [here](https://github.com/radarlabs/radar-sdk-
 
 ## Install
 
-In an HTML page, include the SDK script and corresponding stylesheet:
+In an HTML page, add the SDK script and stylesheet:
 
 ```html
-<link href="https://js.radar.com/v4.1.6/radar.css" rel="stylesheet">
-<script src="https://js.radar.com/v4.1.6/radar.min.js"></script>
+<link href="https://js.radar.com/v4.1.11/radar.css" rel="stylesheet">
+<script src="https://js.radar.com/v4.1.11/radar.min.js"></script>
 ```
 
 In a web app, install the package from npm:
@@ -23,14 +23,12 @@ In a web app, install the package from npm:
 ```bash
 npm install --save radar-sdk-js maplibre-gl
 ```
-<Alert alertType='info'>
-  The Radar SDK has a dependency on maplibre-gl for map rendering.
-</Alert>
+The SDK has a dependency on [maplibre-gl](https://github.com/maplibre/maplibre-gl-js).
 
-Then import the library and corresponding stylesheet:
+Then, import the library and stylesheet:
+
 ```javascript
 import Radar from 'radar-sdk-js';
-
 import 'radar-sdk-js/dist/radar.css';
 ```
 
@@ -38,17 +36,17 @@ import 'radar-sdk-js/dist/radar.css';
 
 ### Initialize
 
-To initialize the library, call the initialize function with a Radar publishable API key:
+Initialize the library with your publishable API key, found on the [Settings page](https://radar.com/dashboard/settings):
 
 ```javascript
 Radar.initialize('prj_live_pk_...');
 ```
 
 <Alert alertType='info'>
-  Initialization is required before calling any Radar APIs or functions.
+  You must initialize the library before calling any other functions.
 </Alert>
 
-### Configuration
+Optionally, you can specify configuration options:
 
 The initialize call takes an optional second argument that is an object with additional configuration options.
 
@@ -58,24 +56,21 @@ Radar.initialize('prj_live_pk_...', {
 });
 ```
 
-The available options are:
+Available options include:
 
-<div class="full-width-table">
+<div className="full-width-table">
 
-| Name  | Default | Possible Values | Description           |
+| Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
-|`logLevel` |`error` |`none`,`info`,`warn`,`error` |Determines the level logging output that is visible in the developer console. _log level will default to `error` when using a test publishable key._ |
-|`cacheLocationMinutes` |`null` |number |Number of minutes to use a previous location before re-prompting for a new location. If `null` or `0`, will always query the device for a new location. |
-|`locationMaximumAge` |`null` |number |Maximum age (in milliseconds) to use a stale browser location. See [getCurrentPosition options](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition) |
-|`locationTimeout` |`30000` |number |Number of milliseconds to wait for a device location before a timeout error is thrown. Default is 30 seconds. |
-|`desiredAccuracy` |`high` |`high`,`medium`,`low` |Indicates desired level of location accuracy. _higher accuracy can result is slower response times._ |
+| `logLevel` | `error` | `none`, `info`, `warn`, `error` | Determines the log level for console logging. Defaults to `error` when using a test publishable key. |
+| `cacheLocationMinutes` | `null` | number | Determines whether to reuse previous location updates. A cache ttl in minutes. If `null` or `0`, will always request a new location. |
+| `locationMaximumAge` | `null` | number | Determines whether to use old browser locations. A maximum age in milliseconds. If `null` or `0`, will always request a new location. See [getCurrentPosition options()](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). |
+| `locationTimeout` | `30000` | number | The number of milliseconds to wait for a location update before an error is thrown. Defaults to 30 seconds. |
+| `desiredAccuracy` | `high` | `high`, `medium`, `low` | Determines the desired accuracy of location updates. Note that higher accuracy can result in slower response times. |
 
 </div>
 
-
-## Track
-
-To power [geofencing use cases](/documentation/geofencing/overview) from the web, you can leverage Radar's [track api](/documentation/api#track) to get location context and generate events.
+## Geofencing
 
 ### Identify user
 
@@ -124,7 +119,7 @@ Radar.trackOnce()
   });
 ```
 
-If the request is unsuccessful, `err` will be one of:
+If the request fails, `err` will be one of:
 
 - **`RadarPublishableKeyError`**: SDK not initialized
 - **`RadarLocationPermissionsError`**: location permissions not granted
@@ -139,26 +134,14 @@ If the request is unsuccessful, `err` will be one of:
 - **`RadarServerError`**: internal server error
 - **`RadarUnknownError`**: unknown error
 
-If the error is the result of a failed API call, additional details can be viewed by inspecting response on the error object.
+If the error is the result of a failed API call, `err` will include an HTTP response code and the API response body:
+
 ```javascript
 err.code; // HTTP response code
 err.response; // API response body
 ```
 
 ### Manual tracking
-
-It's possible to get a single device location without sending it to the server:
-
-```javascript
-Radar.getLocation()
-  .then((result) => {
-    // do something with result.location
-  })
-  .catch((err) => {
-    // handle error
-  });
-});
-```
 
 Alternatively, you can manually update the user's location with any location by calling:
 
@@ -177,6 +160,21 @@ Radar.trackOnce({
 });
 ```
 
+### Get location
+
+You can also get a single location update without sending it to the server:
+
+```javascript
+Radar.getLocation()
+  .then((result) => {
+    const { location } = result;
+    // do something with location
+  })
+  .catch((err) => {
+    // handle error
+  });
+```
+
 ### Context
 
 With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
@@ -192,15 +190,14 @@ Radar.getContext()
   });
 ```
 
-
-## Maps APIs
+## Maps
 
 ### Geocoding
 
 With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
 
 ```javascript
-Radar.forwardGeocode({ query: '20 jay st brooklyn ny' })
+Radar.forwardGeocode({ query: '841 broadway, new york, ny' })
   .then((result) => {
     const { addresses } = result;
     // do something with addresses
@@ -208,7 +205,6 @@ Radar.forwardGeocode({ query: '20 jay st brooklyn ny' })
   .catch((err) => {
     // handle error
   });
-});
 ```
 
 With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
@@ -243,7 +239,7 @@ With the [autocomplete API](/api#autocomplete), autocomplete partial addresses a
 
 ```javascript
 Radar.autocomplete({
-  query: 'brooklyn roasting',
+  query: '841 bro',
   near: {
     latitude: 40.783826,
     longitude: -73.975363
@@ -297,19 +293,19 @@ Radar.searchPlaces({
 });
 ```
 
-With the [address validation API](/api#validate-an-address) (currently in beta), validate a structured address in the US or Canada:
+With the [address validation API](/api#validate-an-address), validate a structured address in the US or Canada:
 
 ```javascript
 Radar.validateAddress({
-  addressLabel: "841 Broadway Fl 7",
-  city: "New York",
-  stateCode: "NY",
-  postalCode: "10003",
-  countryCode: "US",
+  addressLabel: '841 BROADWAY',
+  city: 'NEW YORK',
+  stateCode: 'NY',
+  postalCode: '10003',
+  countryCode: 'US',
 })
 .then((response) => {
   const { address, result } = response;
-  // do something with validation result
+  // do something with validated address result
 })
 .catch((err) => {
   // handle error
@@ -379,11 +375,9 @@ Radar.matrix({
 });
 ```
 
-## Maps & UI Kits
+## Maps and UI kits
 
-In addition to APIs, the Radar Web SDK has built-in UI components for building rich user experiences powered by Radar.
-
-See more info in the [Maps Platform](/documentation/maps/maps) overview.
+The React Native SDK also has UI components for maps and address autocomplete. Learn more in the [Maps Platform documentation](/documentation/maps/overview).
 
 ## Support
 
