@@ -493,7 +493,7 @@ Reverse geocodes a location, converting coordinates to address.
 ###### Query parameters
 
 - **`coordinates`** (string, required): The coordinates to reverse geocode. A string in the format `latitude,longitude`.
-- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned. If not provided, results from all layers will be returned.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
 
 ###### Authentication level
 
@@ -1096,7 +1096,7 @@ For best results, the sample rate should be less than 10 seconds between points.
 - **`path`** (string, required): A list of up to 100 coordinates along a route to be snapped. A string in the format `latitude1,longitude1|latitude2,longitude2`.
 - **`mode`** (string, optional): The travel mode. A string with a value `foot`, `bike`, or `car`. Defaults to `car`.
 - **`roadAttributes`** (string, optional): Attributes of matched roads to be included in the response. A string, comma-separated, including one or more of `speedLimit`, `names`, and `roadClass`.
-  - `roadClass` return values will be one of: 
+  - `roadClass` return values will be one of:
     - `motorway`
     - `trunk`
     - `primary`
