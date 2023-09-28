@@ -195,3 +195,7 @@ Operating hours can be set on individual geofences via [CSV import](/geofences#c
 If `user.dwelled_in_geofence` is enabled, Radar can trigger dwell events after a device remains inside of a geofence boundary for more than a specific threshold. Radar will generate a dwell event after the first location reported by the device beyond the specified threshold.
 
 You can enable this event at the project level on the [Settings page](https://radar.com/dashboard/settings#geofences-settings).
+
+## Notifications
+
+On iOS, Radar's [on-premise notifications](/notifications) can be used to trigger messaging when the app is backgrounded with only foreground location permissions. If background permissions have been granted, geofence metadata can be set to `radar:entryNotificationText` for entry notifications and `radar:exitNotificationText` for exit notifications.

@@ -96,6 +96,7 @@ module.exports = {
         "tutorials/building-a-store-locator-on-ios",
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/logging-and-analyzing-where-conversions-occur",
+        "tutorials/trigger-a-firebase-cloud-function-when-a-user-enters-a-geofence",
       ],
     },
     "toolkit",
