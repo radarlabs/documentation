@@ -45,11 +45,11 @@ By default, Radar `userId` maps to Braze `external_id` for logged in users. Howe
 ```swift
 // track logged out users with alias (deviceId recommended, not required if not tracking logged out users)
 Radar.setMetadata(["brazeAlias": deviceId])
-Appboy.sharedInstance()?.user.addAlias(deviceId, withLabel: "radarAlias")
+AppDelegate.braze?.user.addAlias(deviceId, withLabel: "radarAlias")
 
 // track logged in users with custom external_id mapping (not required if using default mapping)
 Radar.setMetadata(["brazeExternalId": userId])
-Appboy.sharedInstance()?.changeUser(userId)
+AppDelegate.braze?.changeUser(userId: userId)
 ```
 
   </TabItem>
@@ -58,7 +58,7 @@ Appboy.sharedInstance()?.changeUser(userId)
 ```kotlin
 // track logged out users with alias (deviceId recommended, not required if not tracking logged out users)
 Radar.setMetadata(JSONObject().put("brazeAlias",deviceId))
-Braze.getInstance(context).currentUser.addAlias(deviceId,"radarAlias")
+Braze.getInstance(context).currentUser?.addAlias(deviceId,"radarAlias")
 
 // track logged in users with custom external_id mapping (not required if using default mapping)
 Radar.setMetadata(JSONObject().put("brazeExternalId",userId))
