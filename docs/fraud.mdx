@@ -36,10 +36,12 @@ Together, Fraud and Regions provide the following user context:
     "mocked": true,
     "jumped": false,
     "compromised": false,
+    "inaccurate": false,
     "proxy": false,
     "sharing": false,
     "lastMockedAt": "2023-07-27T17:18:28.536Z",
     "lastJumpedAt": "2023-07-27T17:18:28.536Z",
+    "lastInccurateAt": null,
     "lastCompromisedAt": null,
     "lastProxyAt": null,
     "lastSharingAt": null
@@ -84,6 +86,7 @@ To ensure you can trust a user's location, you can call `Radar.trackVerified()` 
 If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android.
+- **`inaccurate`**: Indicates whether the user's device accuracy is too low to pass verification.
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
 - **`sharing`**: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy, VPN, Tor exit node, etc.
@@ -91,7 +94,7 @@ If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar expos
 
 While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
 
-Additionally, the `lastMockedAt`, `lastJumpedAt`, `lastCompromisedAt`, `lastProxyAt`, and `lastSharingAt` timestamps indicate the last time that the user failed each fraud check.
+Additionally, the `lastMockedAt`, `lastJumpedAt`, `lastInaccurateAt`, `lastCompromisedAt`, `lastProxyAt`, and `lastSharingAt` timestamps indicate the last time that the user failed each fraud check.
 
 ## Bypassing checks for testing
 
