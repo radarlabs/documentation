@@ -179,6 +179,22 @@ First, import the package:
 import 'package:flutter_radar/flutter_radar.dart';
 ```
 
+### Initialize
+
+When your app starts, initialize the SDK with your publishable key.
+
+Use your `Test Publishable` key for testing and non-production environments. Use your `Live Publishable` key for production environments.
+
+<Alert alertType="warning">
+  Note that you should always use your publishable API keys, which are
+  restricted in scope, in the SDK. Do not use your secret API keys, which are
+  unrestricted in scope, in any client-side code.
+</Alert>
+
+```dart
+Radar.initialize(publishableKey);
+```
+
 ### Identify user
 
 To identify the user when logged in, call:
@@ -221,15 +237,15 @@ String status = await Radar.getPermissionsStatus();
 
 `status` will be a string, one of:
 
-- `GRANTED_FOREGROUND`
-- `GRANTED_BACKGROUND`
-- `DENIED`
-- `NOT_DETERMINED`
+- **`GRANTED_FOREGROUND`**
+- **`GRANTED_BACKGROUND`**
+- **`DENIED`**
+- **`NOT_DETERMINED`**
 
 To request location permissions for the app, call:
 
 ```dart
-String status = Radar.requestLocationPermissions(background);
+String status = await Radar.requestPermissions(background);
 ```
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
@@ -306,6 +322,37 @@ Radar.stopTracking();
 ```
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+To listen for events, location updates, and errors, you can add event listeners:
+
+```dart
+static void onClientLocation(Map result) {
+  // do something with result.location
+}
+
+static void onLocation(Map result) {
+  // do something with result.location, result.user
+}
+
+static void onEvents(Map result) {
+  // do something with result.events, result.user
+}
+
+static void onError(Map err) {
+  // do something with err
+}
+
+Radar.onClientLocation(onClientLocation)
+Radar.onLocation(onLocation)
+Radar.onEvents(onEvents)
+Radar.onError(onError)
+```
+
+<Alert alertType="warning">
+  Listeners should be set only once and before tracking begins.
+</Alert>
+
+Add event listeners outside of your view lifecycle if you want them to work when the app is in the background.
 
 ### Mock tracking
 
