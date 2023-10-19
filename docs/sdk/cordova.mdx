@@ -139,8 +139,9 @@ cordova.plugins.radar.trackOnce((result) => {
 });
 ```
 
-`err` will be a string, one of:
+`status` will be a string, one of:
 
+- **`SUCCESS`**: success
 - **`ERROR_PUBLISHABLE_KEY`**: SDK not initialized
 - **`ERROR_PERMISSIONS`**: location permissions not granted
 - **`ERROR_LOCATION`**: location services error or timeout (10 seconds)
