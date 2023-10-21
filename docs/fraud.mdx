@@ -233,7 +233,9 @@ On desktop web, the SDK connects to the Radar Verify Mac or Windows app to suppo
 
 Once the above configuration is complete, you can verify a user's location with just a few lines of code.
 
-### Standard callback
+### Manual tracking
+
+#### Standard callback
 
 Call `Radar.trackVerified()` on app open, periodically, or before sensitive transactions. Then, check `user.fraud.passed`, `user.state.passed`, and/or `user.country.passed` to allow or deny access.
 
@@ -397,3 +399,86 @@ try {
     // token is invalid, deny access to feature, show error message
 }
 ```
+
+### Automatic tracking
+
+In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, you can also call `Radar.startTrackingVerified()` and Radar will automatically verify the user's location periodically (e.g., on network connection changes or at regular intervals).
+
+<Tabs
+  groupId="fraud"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.setVerifiedDelegate(delegate)
+
+Radar.startTrackingVerified(token: true)
+
+// in delegate
+
+func didUpdateToken(_ token: String) {
+  // send token to server
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.setVerifiedReceiver(receiver)
+
+Radar.startTrackingVerified(true)
+
+// in receiver
+
+fun onTokenUpdated(token: String) {
+  // send token to server
+}
+```
+
+  </TabItem>
+  <TabItem value="web">
+
+```javascript
+Radar.on('token', (token) => {
+  // send token to server
+});
+
+Radar.startTrackingVerified(true);
+```
+
+  </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+Radar.on('token', (token) => {
+  // send result.token to server
+});
+
+Radar.startTrackingVerified(true);
+```
+
+  </TabItem>
+
+</Tabs>
+
+## Error handling
+
+On errors or failed fraud checks, you may want to display a message to the end user.
+
+For example:
+- On `ERROR_PERMISSIONS`: "Unable to determine your location. Please make sure you've granted location permissions and try again."
+- On `ERROR_LOCATION`: "Unable to determine your location. Please make sure location services and wi-fi are enabled and try again."
+- On `ERROR_NETWORK`: "Unable to determine your location. Please make sure you're connected to the Internet and try again."
+- On `country.passed == false` or `state.passed == false`: "Unable to verify your location. Please make sure you're in a permitted area and try again."
+- On `proxy == true`: "Unable to verify your location. Please disconnect from any VPNs or proxy servers and try again."
+
+And so on.
