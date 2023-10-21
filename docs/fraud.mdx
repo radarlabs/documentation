@@ -438,7 +438,7 @@ Radar.startTrackingVerified(true)
 
 // in receiver
 
-fun onTokenUpdated(token: String) {
+override fun onTokenUpdated(context: Context, token: String) {
   // send token to server
 }
 ```
