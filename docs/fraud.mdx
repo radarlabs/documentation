@@ -475,10 +475,8 @@ Radar.startTrackingVerified(true);
 On errors or failed fraud checks, you may want to display a message to the end user.
 
 For example:
-- On `ERROR_PERMISSIONS`: "Unable to determine your location. Please make sure you've granted location permissions and try again."
-- On `ERROR_LOCATION`: "Unable to determine your location. Please make sure location services and wi-fi are enabled and try again."
-- On `ERROR_NETWORK`: "Unable to determine your location. Please make sure you're connected to the Internet and try again."
-- On `country.passed == false` or `state.passed == false`: "Unable to verify your location. Please make sure you're in a permitted area and try again."
-- On `fraud.proxy == true`: "Unable to verify your location. Please disconnect from any VPNs or proxy servers you may be using and try again."
-
-And so on.
+- On **`ERROR_PERMISSIONS`**: _Unable to determine your location. Please make sure you've granted location permissions and try again._
+- On **`ERROR_LOCATION`**: _Unable to determine your location. Please make sure location services and wi-fi are enabled and try again._
+- On **`ERROR_NETWORK`**: _Unable to determine your location. Please make sure you're connected to the Internet and try again._
+- On **`country.passed == false`** or **`state.passed == false`**: _Unable to verify your location. Please make sure you're in a permitted area and try again._
+- On **`fraud.proxy == true`**: _Unable to verify your location. Please disconnect from any VPNs or proxy servers you may be using and try again._
