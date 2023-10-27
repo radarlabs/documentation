@@ -429,7 +429,7 @@ Returns a confidence level, as defined below:
 
 - **`query`** (string, required): The address to geocode.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
-- **`country`** (string, optional): An optional countries filter. A string of comma separated countries, the unique 2-letter [country code](/regions/countries).
+- **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
 
 ###### Authentication level
 
@@ -611,7 +611,7 @@ Autocompletes partial addresses and place names, sorted by relevance.
 - **`near`** (string, optional): The location to search. A string in the format `latitude,longitude`. If not provided, the request IP address will be used to anchor the search.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from all layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
-- **`country`** (string, optional): An optional countries filter. A string of comma separated countries, the unique 2-letter [country code](/regions/countries).
+- **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
 - **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for units within buildings. Only available for `layers="address"` and for the countries `US` and `CA`. Defaults to `false`.
 
 ###### Authentication level
@@ -2153,7 +2153,7 @@ A geofence represents a custom region or place monitored in your project. Geofen
 - **`mode`** (string): The [travel mode](/api#route-distance) for type `isochrone`.
 - **`metadata`** (dictionary): An optional set of custom key-value pairs for the geofence.
 - **`userId`** (string): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
-- **`ip`** (string, optional): An optional IP address restriction for the geofence. A string of comma separated IP address ranges, each of which could be a single IP (`8.8.8.8`), wildcard notation (`8.8.8.*`), or CIDR notation (`8.8.8.8/24`). If set, the geofence will only generate events for requests from the specified IP address. If not set, the geofence will generate events for all requests.
+- **`ip`** (string, optional): An optional IP address restriction for the geofence. A string of comma-separated IP address ranges, each of which could be a single IP (`8.8.8.8`), wildcard notation (`8.8.8.*`), or CIDR notation (`8.8.8.8/24`). If set, the geofence will only generate events for requests from the specified IP address. If not set, the geofence will generate events for all requests.
 - **`tripApproachingThreshold`** (number): The [trip approaching threshold](/trip-tracking#trip-events) setting for the geofence (in minutes). Overrides the project-level trip approaching threshold setting.
 - **`dwellThreshold`** (number): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes).
 - **`enabled`** (boolean): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
@@ -2308,7 +2308,7 @@ Upserts a geofence. The geofence can be uniquely referenced by `tag` and `extern
 - **`radius`** (number, required for type `circle` and `isochrone`): The radius in meters for type `circle`, a number between `10` and `10000`. The travel duration in minutes for type `isochrone`. Ignored for type `polygon`.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the geofence. A dictionary or JSON string with up to 16 keys and values of type string, boolean, or number.
 - **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
-- **`ip`** (string, optional): An optional IP address restriction for the geofence. A string of comma separated IP address ranges, each of which could be a single IP (`8.8.8.8`), wildcard notation (`8.8.8.*`), or CIDR notation (`8.8.8.8/24`). If set, the geofence will only generate events for requests from the specified IP address. If not set, the geofence will generate events for all requests.
+- **`ip`** (string, optional): An optional IP address restriction for the geofence. A string of comma-separated IP address ranges, each of which could be a single IP (`8.8.8.8`), wildcard notation (`8.8.8.*`), or CIDR notation (`8.8.8.8/24`). If set, the geofence will only generate events for requests from the specified IP address. If not set, the geofence will generate events for all requests.
 - **`enabled`** (boolean, optional): If `true`, the geofence will generate events. If `false`, the geofence will not generate events. Defaults to `true`.
 - **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
