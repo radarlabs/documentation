@@ -22,7 +22,7 @@ Add the package to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_radar: ^3.1.5
+  flutter_radar: ^3.8.0
 ```
 
 Then, update dependencies:
@@ -92,7 +92,7 @@ On Android, add the Radar Android SDK to the `dependencies` section of your Andr
 
 ```kotlin
 dependencies {
-    implementation 'io.radar:sdk:3.5.9'
+    implementation 'io.radar:sdk:3.8.12'
 }
 ```
 
@@ -342,10 +342,10 @@ static void onError(Map err) {
   // do something with err
 }
 
-Radar.onClientLocation(onClientLocation)
-Radar.onLocation(onLocation)
-Radar.onEvents(onEvents)
-Radar.onError(onError)
+Radar.onClientLocation(onClientLocation);
+Radar.onLocation(onLocation);
+Radar.onEvents(onEvents);
+Radar.onError(onError);
 ```
 
 <Alert alertType="warning">
