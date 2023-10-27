@@ -37,7 +37,7 @@ Together, Fraud and Regions provide the following user context:
     "jumped": false,
     "compromised": false,
     "proxy": false,
-    "sharing": false
+    "sharing": false,
     "lastMockedAt": "2023-07-27T17:18:28.536Z",
     "lastJumpedAt": "2023-07-27T17:18:28.536Z",
     "lastCompromisedAt": null,
@@ -223,7 +223,9 @@ Learn more about [SSL pinning on iOS](https://developer.apple.com/news/?id=g9ejc
 
 ### Web and desktop
 
-On desktop web, the SDK connects to the Radar Verify Mac or Windows app to support the `mocked` and `sharing` flags. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Mac or Windows app is not running.
+The web SDK supports the `mocked`, `proxy`, and `jumped` flags with `Radar.trackOnce()`.
+
+If the end user installs the Radar Verify desktop app, the web SDK also supports the `sharing` flag with `Radar.trackVerified()`. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Mac or Windows app is not running.
 
 <Alert alertType="info">
   Contact your customer success manager for access to the Radar Verify Mac or Windows app.
@@ -246,7 +248,8 @@ Call `Radar.trackVerified()` on app open, periodically, or before sensitive tran
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' }
+    { label: 'React Native', value: 'react-native' },
+    { label: 'Flutter', value: 'flutter' }
   ]}
 >
   <TabItem value="swift">
@@ -313,6 +316,15 @@ Radar.trackVerified().then((result) => {
 
   </TabItem>
 
+  <TabItem value="flutter">
+
+```dart
+var res = await Radar.trackVerified();
+// do something with res['status'], res['location'], res['events'], res['user']
+```
+
+  </TabItem>
+
 </Tabs>
 
 Then, [look up the user](/documentation/api#get-a-user) and check fraud flags server-side for an additional layer of verification.
@@ -335,7 +347,8 @@ Then, call `Radar.trackVerifiedToken()` to get a signed JWT containing a payload
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' }
+    { label: 'React Native', value: 'react-native' },
+    { label: 'Flutter', value: 'flutter' }
   ]}
 >
   <TabItem value="swift">
@@ -382,6 +395,15 @@ Radar.trackVerified().then((result) => {
 
   </TabItem>
 
+  <TabItem value="flutter">
+
+```dart
+var res = await Radar.trackVerifiedToken();
+// do something with res['status'], res['token']
+```
+
+  </TabItem>
+
 </Tabs>
 
 Finally, verify and decode the JWT server-side using your secret key and a [JWT library](https://jwt.io/libraries). If the token is valid, check `user.fraud.passed`, `user.state.passed`, and/or `user.country.passed` in the payload to allow or deny access.
@@ -402,6 +424,10 @@ try {
 
 ### Automatic tracking
 
+<Alert alertType="info">
+  Contact your customer success manager for access automatic tracking.
+</Alert>
+
 In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, you can also call `Radar.startTrackingVerified()` and Radar will automatically verify the user's location periodically (e.g., on network connection changes or at regular intervals).
 
 <Tabs
@@ -411,7 +437,8 @@ In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedT
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' }
+    { label: 'React Native', value: 'react-native' },
+    { label: 'Flutter': value: 'flutter' }
   ]}
 >
   <TabItem value="swift">
@@ -464,6 +491,18 @@ Radar.on('token', (result) => {
 });
 
 Radar.startTrackingVerified(true);
+```
+
+  </TabItem>
+
+  <TabItem value="flutter">
+
+```dart
+static void onToken(Map result) {
+  // do something with result.token
+}
+
+Radar.onToken(onToken)
 ```
 
   </TabItem>
