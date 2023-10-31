@@ -64,7 +64,8 @@ module.exports = {
         "maps/search",
         "maps/routing",
         "maps/maps",
-        "maps/autocomplete"
+        "maps/autocomplete",
+        "maps/static-maps"
       ],
     },
     {
