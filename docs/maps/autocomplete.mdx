@@ -28,7 +28,7 @@ Available options include:
 | `maxHeight` | `null` | number \| string | The max height of the results list, a number (in pixels) or any valid CSS height. | Web |
 | `near` | `null` | string \| Location | The location to search near, in the format `"latitude,longitude"` or `{ latitude, longitude }`. If not specified, the search will automatically be biased based on the client's [IP geolocation](/documentation/api#ip-geocode). | Web, React Native |
 | `debounceMS` | `200` | number | The number of milliseconds to wait after typing is complete to refresh the results list. | Web, React Native |
-| `threshold` | `3` | number | The minimum number of characters that need to be typed before fetching results. | Web, React Native |
+| `minCharacters` | `3` | number | The minimum number of characters that need to be typed before fetching results. | Web, React Native |
 | `limit` | `8` | number | The maximum number of results to show in the results list. | Web, React Native |
 | `onSelection` | `null` | function `(address) => {}` | A function called when a result is selected from the results list. | Web, React Native |
 | `onResults` | `null` | function `(addresses) => {}` | A function called when the results list is refreshed. | Web, React Native |
