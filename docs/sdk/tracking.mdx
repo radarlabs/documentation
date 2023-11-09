@@ -143,9 +143,45 @@ Option | Efficient | Responsive | Continuous
 
 To avoid [Background Location Limits](https://developer.android.com/about/versions/oreo/background-location-limits), you can start a foreground service and show a notification during tracking. If using Android SDK < [3.4.1](https://github.com/radarlabs/radar-sdk-android/releases/tag/3.1.9), set `trackingOptions.foregroundService` to an instance of `RadarTrackingOptionsForegroundService`. If using Android SDK >= [3.4.1](https://github.com/radarlabs/radar-sdk-android/blob/master/MIGRATION.md#33x-to-34x), use `Radar.setForegroundServiceOptions()` to customize the foreground service notification appearance passing in an instance of `RadarTrackingOptionsForegroundService`.
 
+<Tabs
+  groupId="setForegroundServiceOptions"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'React Native', value: 'reactNative' },
+  ]}
+>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.setForegroundServiceOptions(RadarTrackingOptions.RadarTrackingOptionsForegroundService(
+  text="Text",
+  title="Title",
+  iconString="your_icon_name",
+  updatesOnly = true
+))
+```
+
+  </TabItem>
+  <TabItem value="reactNative">
+
+```javascript
+Radar.setForegroundServiceOptions({
+  text: "Text",
+  title: "Title",
+  iconString: 'your_icon_name',
+  updatesOnly: true,
+});
+```
+
+  </TabItem>
+
+</Tabs>
+
 - **`text`**: Determines the notification text. Defaults to `"Location tracking started"`.
 - **`title`**: Determines the notification title. Optional.
-- **`icon`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
+- **`icon`**: **Deprecated** Determines the notification icon, like `2131558400` (Android's identifier for the resource). Optional, defaults to `iconString`.
+- **`iconString`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
 - **`updatesOnly`**: Determines when to show the notification. Use `false` to show the notification always, use `true` to show the notification only during location updates. Optional, defaults to `false`.
 - **`activity`**: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
 - **`importance`**: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
