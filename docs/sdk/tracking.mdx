@@ -145,12 +145,49 @@ To avoid [Background Location Limits](https://developer.android.com/about/versio
 
 - **`text`**: Determines the notification text. Defaults to `"Location tracking started"`.
 - **`title`**: Determines the notification title. Optional.
-- **`icon`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
+- **`icon`**: Determines the notification icon via Android's identifier for the resource (e.g., `2131558400`). Optional, defaults to `iconString`. Deprecated in Android SDK [3.8.14](https://github.com/radarlabs/radar-sdk-android/releases/tag/3.8.14).
+- **`iconString`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
+- **`iconColor`**: Determines the color of the notification icon. Optional.
 - **`updatesOnly`**: Determines when to show the notification. Use `false` to show the notification always, use `true` to show the notification only during location updates. Optional, defaults to `false`.
 - **`activity`**: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
 - **`importance`**: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
 - **`id`**: Determines the id of the notification. Optional, defaults to `20160525`.
 - **`channelName`**: Determines the name of the notification channel. Optional, defaults to `"Location Services"`.
+
+<Tabs
+  groupId="setForegroundServiceOptions"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'React Native', value: 'react-native' },
+  ]}
+>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.setForegroundServiceOptions(RadarTrackingOptions.RadarTrackingOptionsForegroundService(
+  text="Text",
+  title="Title",
+  iconString="your_icon_name",
+  updatesOnly=true,
+))
+```
+
+  </TabItem>
+  <TabItem value="react-native">
+
+```javascript
+Radar.setForegroundServiceOptions({
+  text: "Text",
+  title: "Title",
+  iconString: 'your_icon_name',
+  updatesOnly: true,
+});
+```
+
+  </TabItem>
+
+</Tabs>
 
 ### Android presets
 
