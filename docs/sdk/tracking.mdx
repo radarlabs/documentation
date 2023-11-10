@@ -158,7 +158,8 @@ Radar.setForegroundServiceOptions(RadarTrackingOptions.RadarTrackingOptionsForeg
   text="Text",
   title="Title",
   iconString="your_icon_name",
-  updatesOnly=true
+  updatesOnly=true,
+  iconColor="#FF0000"
 ))
 ```
 
@@ -171,6 +172,7 @@ Radar.setForegroundServiceOptions({
   title: "Title",
   iconString: 'your_icon_name',
   updatesOnly: true,
+  iconColor: '#FF0000',
 });
 ```
 
@@ -182,6 +184,7 @@ Radar.setForegroundServiceOptions({
 - **`title`**: Determines the notification title. Optional.
 - **`icon`**: **Deprecated** Determines the notification icon, like `2131558400` (Android's identifier for the resource). Optional, defaults to `iconString`.
 - **`iconString`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
+- **`iconColor`**: Determines the color of the notification icon. Optional.
 - **`updatesOnly`**: Determines when to show the notification. Use `false` to show the notification always, use `true` to show the notification only during location updates. Optional, defaults to `false`.
 - **`activity`**: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
 - **`importance`**: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
