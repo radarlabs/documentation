@@ -1533,6 +1533,72 @@ With the [conversions API](/api#log-a-conversion), log a conversion, such as a p
   </TabItem>
 </Tabs>
 
+## Notifications
+With `setNotificationOptions`, set the icon and the background color of foreground service and event notifications:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  // Set both foreground service and event notifications
+
+  JSONObject notificationOptions = new JSONObject();
+  try {
+    notificationOptions.put("iconString", "icon_1");
+    notificationOptions.put("iconColor", "color_1");
+  } catch (JSONException e) {
+    e.printStackTrace();
+  }
+
+  Radar.setNotificationOptions(RadarNotificationsOptions.fromJson(notificationOptions));
+
+  // Or, set the foreground service notification and event notifications separately
+
+  JSONObject notificationOptions = new JSONObject();
+  try {
+    notificationOptions.put("foregroundServiceIconString", "icon_1");
+    notificationOptions.put("foregroundServiceIconColor", "color_1");
+    notificationOptions.put("eventIconString", "icon_2");
+    notificationOptions.put("eventIconColor", "color_2");
+  } catch (JSONException e) {
+    e.printStackTrace();
+  }
+
+  Radar.setNotificationOptions(RadarNotificationsOptions.fromJson(notificationOptions));
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  // Set both foreground service and event notifications
+
+  Radar.setNotificationOptions(RadarNotificationsOptions(
+    "icon_1", // iconString
+    "color_1", // iconColor
+  ))
+
+  // Or, set the foreground service notification and event notifications separately
+
+  Radar.setNotificationOptions(RadarNotificationsOptions(
+    foregroundServiceIconString = "icon_2",
+    foregroundServiceIconColor = "color_2",
+    eventIconString = "icon_3",
+    eventIconColor = "color_3",
+  ))
+  ```
+
+  </TabItem>
+</Tabs>
+
+
 ## Huawei
 
 By default, the SDK [depends on](#dependencies) [Google Play Services Location](https://developer.android.com/training/location). However, you can use [Huawei Mobile Services Location Kit](https://developer.huawei.com/consumer/en/hms/huawei-locationkit/) instead.

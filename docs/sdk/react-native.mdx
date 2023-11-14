@@ -621,6 +621,31 @@ Radar.logConversion(
   // optionally, do something with err
 });
 ```
+
+### Notification options
+
+On Android, you can call `setNotificationOptions` to set the icon and the background color of the foreground service and event notifications:
+
+```javascript
+// Set both foreground service and event notifications
+
+Radar.setNotificationOptions({
+  iconString: 'icon_1',
+  iconColor: 'color_1'
+});
+
+// Or, set the foreground service notification and event notifications separately
+
+Radar.setNotificationOptions({
+  foregroundServiceIconString: "icon_1",
+  foregroundServiceIconColor: "color_1",
+  eventIconString: "icon_2",
+  eventIconColor: "color_2",
+});
+```
+
+iOS defaults to the standard notification icon.
+
 ### Maps and UI kits
 
 The React Native SDK also has UI components for maps and address autocomplete. Learn more in the [Maps Platform documentation](/documentation/maps/overview).
