@@ -1579,17 +1579,17 @@ With `setNotificationOptions`, set the icon and the background color of foregrou
 
   ```kotlin
   Radar.setNotificationsOptions(RadarNotificationsOptions(
-    "icon_1",
-    "color_1",
+    "icon_1", // iconString
+    "color_1", // iconColor
   ))
 
-  // set specific field
+  // Or set the foreground service notification and event notifications separately
 
   Radar.setNotificationsOptions(RadarNotificationsOptions(
-    foregroundServiceIconString = "icon_1",
-    foregroundServiceIconColor = "color_1",
-    eventIconString = "icon_2",
-    eventIconColor = "color_2",
+    foregroundServiceIconString = "icon_2",
+    foregroundServiceIconColor = "color_2",
+    eventIconString = "icon_3",
+    eventIconColor = "color_3",
   ))
 
   ```
