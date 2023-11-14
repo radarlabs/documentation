@@ -624,21 +624,21 @@ Radar.logConversion(
 
 ### Notifications (Android only)
 
-With `setNotificationsOptions`, set the icon and the background color of foreground service and event notifications:
+With `setNotificationOptions`, set the icon and the background color of foreground service and event notifications:
 
 ```javascript
-  Radar.setNotificationOptions({
-    iconString: 'icon_1',
-    iconColor: 'color_1'
-  });
+Radar.setNotificationOptions({
+  iconString: 'icon_1',
+  iconColor: 'color_1'
+});
 
 // set specific fields
-  Radar.setNotificationOptions({
-    foregroundServiceIconString: "icon_1",
-    foregroundServiceIconColor: "color_1",
-    eventIconString: "icon_2",
-    eventIconColor: "color_2",
-  });
+Radar.setNotificationOptions({
+  foregroundServiceIconString: "icon_1",
+  foregroundServiceIconColor: "color_1",
+  eventIconString: "icon_2",
+  eventIconColor: "color_2",
+});
 ```
 
 ### Maps and UI kits
