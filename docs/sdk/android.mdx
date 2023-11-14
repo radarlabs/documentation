@@ -1533,6 +1533,71 @@ With the [conversions API](/api#log-a-conversion), log a conversion, such as a p
   </TabItem>
 </Tabs>
 
+## Notifications
+With `setNotificationsOptions`, set the icon and the background color of foreground service and event notifications:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  JSONObject notificationOptions = new JSONObject();
+  try {
+    notificationOptions.put("iconString","icon_1");
+    notificationOptions.put("iconColor","color_1");
+  } catch (JSONException e) {
+    e.printStackTrace();
+  }
+
+  Radar.setNotificationsOptions(RadarNotificationsOptions.fromJson(notificationOptions));
+
+  // set specific field
+
+  JSONObject notificationOptions = new JSONObject();
+  try {
+    notificationOptions.put("foregroundServiceIconString","icon_1");
+    notificationOptions.put("foregroundServiceIconColor","color_1");
+    notificationOptions.put("eventIconString","icon_2");
+    notificationOptions.put("eventIconColor","color_2");
+  } catch (JSONException e) {
+    e.printStackTrace();
+  }
+
+  Radar.setNotificationsOptions(RadarNotificationsOptions.fromJson(notificationOptions)); 
+
+
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  Radar.setNotificationsOptions(RadarNotificationsOptions(
+    "icon_1",
+    "color_1",
+  ))
+
+  // set specific field
+
+  Radar.setNotificationsOptions(RadarNotificationsOptions(
+    foregroundServiceIconString = "icon_1",
+    foregroundServiceIconColor = "color_1",
+    eventIconString = "icon_2",
+    eventIconColor = "color_2",
+  ))
+
+  ```
+
+  </TabItem>
+</Tabs>
+
+
 ## Huawei
 
 By default, the SDK [depends on](#dependencies) [Google Play Services Location](https://developer.android.com/training/location). However, you can use [Huawei Mobile Services Location Kit](https://developer.huawei.com/consumer/en/hms/huawei-locationkit/) instead.
