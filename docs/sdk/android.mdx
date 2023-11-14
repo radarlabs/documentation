@@ -1559,7 +1559,7 @@ With `setNotificationOptions`, set the icon and the background color of foregrou
 
   Radar.setNotificationsOptions(RadarNotificationsOptions.fromJson(notificationOptions));
 
-  // Or set the foreground service notification and event notifications separately
+  // Or, set the foreground service notification and event notifications separately
 
   JSONObject notificationOptions = new JSONObject();
   try {
@@ -1571,7 +1571,7 @@ With `setNotificationOptions`, set the icon and the background color of foregrou
     e.printStackTrace();
   }
 
-  Radar.setNotificationsOptions(RadarNotificationsOptions.fromJson(notificationOptions)); 
+  Radar.setNotificationsOptions(RadarNotificationsOptions.fromJson(notificationOptions));
 
 
   ```
@@ -1581,13 +1581,13 @@ With `setNotificationOptions`, set the icon and the background color of foregrou
 
   ```kotlin
   // Set both foreground service and event notifications
-  
+
   Radar.setNotificationOptions(RadarNotificationsOptions(
     "icon_1", // iconString
     "color_1", // iconColor
   ))
 
-  // Or set the foreground service notification and event notifications separately
+  // Or, set the foreground service notification and event notifications separately
 
   Radar.setNotificationOptions(RadarNotificationsOptions(
     foregroundServiceIconString = "icon_2",
