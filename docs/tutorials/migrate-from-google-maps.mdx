@@ -1,0 +1,59 @@
+---
+sidebar_position: 10
+title: Migrating from Google Maps
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import Alert from "../../src/components/Alert";
+
+Migrating from Google Maps to the [Radar Maps Platform](https://radar.com/documentation/maps/overview) is simple, and usually involves just a few lines of code. Find the Google Maps offerings used in your application below and learn about the corresponding cost-effective, developer-friendly Radar alternative.
+
+
+### Maps
+Google's maps offering is used for rendering maps in applications. Radar provides vector [base maps](https://radar.com/documentation/maps/maps) with beautiful out-of-the-box styles as an alternative. Check out the [maps explorer](https://radar.com/dashboard/maps/maps-explorer/maps) in the dashboard to see them in action.
+
+<div className="full-width-table">
+
+| Google Maps Feature | Radar Feature
+-------------------------------------|--------------------------------------------------------------------------------|
+| Dynamic Maps | [Dynamic Maps](/documentation/maps/maps)
+| Static Maps | [Static Maps](/documentation/maps/static-maps)
+
+</div>
+
+### Places
+
+Google's Places APIs enable finding and geocoding locations such as addresses and points of interest. Radar's [Geocoding and Search APIs(https://radar.com/documentation/maps/geocoding)] provide fully featured geocoding, autocomplete, address validation, and geolocation APIs as an alternative.
+
+<div className="full-width-table">
+
+| Google Maps API | Radar API |
+-------------------------------------|--------------------------------------------------------------------------------|
+| Geocoding API   | [Forward Geocoding API](/documentation/api#forward-geocode)              |
+| Reverse Geocoding API  | [Reverse Geocoding API](/documentation/api#reverse-geocode)           |
+| N/A | [IP Geocoding API](/documentation/api#ip-geocode)             |
+| Autocomplete API   | [Autocomplete API](/documentation/api#autocomplete)              |
+| Place Autocomplete UI | [Autocomplete Component](/documentation/maps/autocomplete)
+| Address Validation API | [Address Validation API](/documentation/api#validate-an-address)     |
+| Place Details API   | [Places Search API](/documentation/api#search-places)             |
+| Current Place API   | [Context API](/documentation/api#context)             |
+
+
+</div>
+
+### Routes
+
+Google's Routes APIs are used to calculate routes between locations or snap to roads. Radar's [routing APIs](https://radar.com/documentation/maps/routing) provide a suite of distance, matrix, directions, route match, and optimize APIs to power these use cases and more.
+
+<div className="full-width-table">
+
+| Google Maps API | Radar API
+-------------------------------------|--------------------------------------------------------------------------------|
+| Distance Matrix API | [Distance Matrix API](/documentation/api#matrix)
+| Directions API | [Directions API](/documentation/api#directions)
+| Snap to Roads API | [Route Matching API](/documentation/api#route-match)
+| Speed Limits API | [Route Matching API](/documentation/api#route-match), with `speedLimit` included in the `roadAttributes` parameter
+| Compute Routes API | [Matrix API](/documentation/api#matrix), [Directions API](/documentation/api#directions), or [Route Optimization API](/documentation/api#optimize-route)
+
+</div>
