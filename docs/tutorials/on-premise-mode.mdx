@@ -57,19 +57,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   </TabItem>
   <TabItem value="kotlin">
 
-  ```kotlin
-  import io.radar.sdk.Radar
+```kotlin
+import io.radar.sdk.Radar
 
-  class MyApplication : Application() {
+class MyApplication : Application() {
 
-      override fun onCreate() {
-          super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-          Radar.initialize(this, "prj_test_pk...")
-      }
-
+    Radar.initialize(this, "prj_test_pk...")
   }
-  ```
+
+}
+```
 
   </TabItem>
   <TabItem value="web">
@@ -119,23 +119,24 @@ import CoreLocation
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
-    let locationManager = CLLocationManager()
+  let locationManager = CLLocationManager()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Radar.initialize(publishableKey: "prj_test_pk_...")
-        self.locationManager.delegate = self
-        self.requestLocationPermissions()
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    Radar.initialize(publishableKey: "prj_test_pk_...")
 
-        return true
+    self.locationManager.delegate = self
+    self.requestLocationPermissions()
+
+    return true
+  }
+
+  func requestLocationPermissions() {
+    let status = self.locationManager.authorizationStatus
+
+    if status == .notDetermined {
+      self.locationManager.requestWhenInUseAuthorization()
     }
-
-    func requestLocationPermissions() {
-        let status = self.locationManager.authorizationStatus
-
-        if status == .notDetermined {
-            self.locationManager.requestWhenInUseAuthorization()
-        }
-    }
+  }
 
 }
 ```
@@ -144,9 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   <TabItem value="kotlin">
 
 ```kotlin
-TODO(jay): MAKE SURE THIS IS RIGHT
-
-
 import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
@@ -161,7 +159,9 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
     Radar.initialize(this, "prj_test_pk_...")
+
     requestLocationPermissions()
   }
 
@@ -223,11 +223,39 @@ Call `Radar.trackOnce()` to track the user's location in the foreground. In the 
   <TabItem value="swift">
 
 ```swift
-Radar.trackOnce { (status, location, events, user) in
-  let isInStore = user?.geofences?.contains { $0.tag == "store" }
-  if isInStore {
-    // show in-store mode
+import UIKit
+import RadarSDK
+import CoreLocation
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+
+  let locationManager = CLLocationManager()
+
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    Radar.initialize(publishableKey: "prj_test_pk_...")
+
+    self.locationManager.delegate = self
+    self.requestLocationPermissions()
+
+    Radar.trackOnce{ (status, location, events, user) in
+      let isInStore = user?.geofences?.contains { $0.tag == "store" }
+      if isInStore {
+        // show in-store mode
+      }
+    }
+
+    return true
   }
+
+  func requestLocationPermissions() {
+    let status = self.locationManager.authorizationStatus
+
+    if status == .notDetermined {
+      self.locationManager.requestWhenInUseAuthorization()
+    }
+  }
+
 }
 ```
 
@@ -235,11 +263,39 @@ Radar.trackOnce { (status, location, events, user) in
   <TabItem value="kotlin">
 
 ```kotlin
-Radar.trackOnce { status, location, events, user ->
-  val isInStore = user?.geofences?.any { geofence.tag == "store" }
-  if (isInStore) {
-    // show in-store mode
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
+
+import androidx.core.app.ActivityCompat
+
+import io.radar.sdk.Radar
+
+class MainActivity : AppCompatActivity() {
+  private val foregroundLocationPermissionsRequestCode = 1
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    Radar.initialize(this, "prj_test_pk_...")
+
+    requestLocationPermissions()
+
+    Radar.trackOnce { status, location, events, user ->
+      val isInStore = user?.geofences?.any { geofence.tag == "store" }
+      if (isInStore) {
+        // show in-store mode
+      }
+    }
   }
+
+  private fun requestLocationPermissions() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
+    }
+  }
+
 }
 ```
 
