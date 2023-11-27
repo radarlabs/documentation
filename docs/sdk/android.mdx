@@ -812,13 +812,9 @@ where `location` is a `Location` instance with a valid latitude, longitude, and 
 
 ## Identify user
 
-The SDK automatically generates a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`.
+The SDK automatically collects `installId` (a GUID automatically generated on fresh install) and `deviceId` ([Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)).
 
-In addition, you can use other identifiers to identify the user.
-
-Radar will automatically identify the user by `deviceId` ([Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)).
-
-To set a custom `userId`, call:
+You can also assign a custom `userId`, also called *External ID* in the dashboard. To set a custom `userId`, call:
 
 <Tabs
   groupId="android"
@@ -910,6 +906,8 @@ Finally, to set an optional description for the user, displayed in the dashboard
 </Tabs>
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
+
+Learn more about when Radar creates new user records [here](/documentation/faqs#what-is-a-unique-user-when-does-radar-create-a-new-user-record).
 
 ## Debug logging
 

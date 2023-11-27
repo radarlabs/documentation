@@ -953,13 +953,9 @@ where `location` is a `CLLocation` instance with a valid latitude, longitude, an
 
 ## Identify user
 
-The SDK automatically generates a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`.
+The SDK automatically collects `installId` (a GUID automatically generated on fresh install) and `deviceId` ([IDFV](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor)).
 
-In addition, you can use other identifiers to identify the user.
-
-Radar will automatically identify the user by `deviceId` ([IDFV](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor)).
-
-To set a custom `userId`, call:
+You can also assign a custom `userId`, also called *External ID* in the dashboard. To set a custom `userId`, call:
 
 <Tabs
   groupId="ios"
@@ -1051,6 +1047,8 @@ Radar.setDescription(description)
 </Tabs>
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
+
+Learn more about when Radar creates new user records [here](/documentation/faqs#what-is-a-unique-user-when-does-radar-create-a-new-user-record).
 
 ## Debug logging
 
