@@ -236,13 +236,18 @@ A tracked user is a unique user that sends one or more location events to Radar 
 
 ### What is a unique user, and when does Radar create a new user record?
 
-The Radar SDK collects IDs for each user and device, including `installId` (a GUID created on fresh install), `deviceId` (IDFV on iOS, Android ID on Android, or a GUID on web), and `userId` (also called *External ID* in the dashboard, set by calling `Radar.setUserId()`).
+The Radar SDK collects IDs for each user and device, including:
+- `installId` (a GUID created on fresh install)
+- `deviceId` (IDFV on iOS, Android ID on Android, or a GUID on web)
+- `userId` (also called *External ID* in the dashboard, set by calling `Radar.setUserId()`)
 
-For usage tracking and security reasons, Radar maintains a separate user record for each unique combination of these IDs. Each user record has a unique `_id` (also called *Radar ID* in the dashboard).
+Each user record is also assigned a unique `_id` (also called *Radar ID* in the dashboard).
 
-Although calling `Radar.setUserId()` for the first time will assign a `userId` to an existing user record (e.g., on login or when a device is first identified), calling `Radar.setUserId()` for an already identified user (to set a different `userId` or to clear the `userId` on logout) will create a new user record.
+For usage tracking and security reasons, Radar maintains a separate user record for each unique combination of these IDs.
 
-A unique user record updated in a given time period is counted as a tracked user in that time period.
+Although calling `Radar.setUserId()` for the first time will assign a `userId` to an existing user record (e.g., on login or when a device is first identified), changing the `userId` for an already identified user (to set a different `userId` or to clear the `userId` on logout) will create a new user record.
+
+A unique user record created or updated in a given time period is counted as a tracked user in that time period.
 
 ### What is an active user?
 
