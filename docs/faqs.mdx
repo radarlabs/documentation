@@ -234,6 +234,16 @@ On Android, the SDK checks the `ACCESS_FINE_LOCATION` and `ACCESS_BACKGROUND_LOC
 
 A tracked user is a unique user that sends one or more location events to Radar in a given time period.
 
+### When is a unique user?
+
+The Radar SDK collects IDs for each user and device, including `installId` (a GUID created on fresh install), `deviceId` (IDFV on iOS, Android ID on Android, or a GUID on web), and `userId` (also called External ID, set by calling `Radar.setUserId()`).
+
+For usage tracking and security reasons, Radar maintains a separate user record for each unique combination of these IDs. Each user record has a unique `_id` (also called Radar ID).
+
+Although calling `Radar.setUserId()` for the first time will assign a `userId` to an existing user record (e.g., on login or when a device is first identified), calling `Radar.setUserId()` for an already identified user (to set a different `userId` or to clear the `userId` on logout) will create a new user record.
+
+A unique user record updated in a given time period is counted as a tracked user in that time period.
+
 ### What is an active user?
 
 An active user is a unique user that has an [app session](#what-qualifies-as-an-app-session) in a given time period.
@@ -242,6 +252,6 @@ An active user is a unique user that has an [app session](#what-qualifies-as-an-
 
 An app session is a period of user activity in your app. A new app session is started whenever the app is opened, assuming at least 5 minutes have elapsed since the last app session started.
 
-### Why are counts of active users different from counts tracked users?
+### Why are counts of active users different from counts of tracked users?
 
 Depending on your Radar SDK implementation, a user may have an [app session](#what-qualifies-as-an-app-session) without sending a location event to Radar. Conversely, a user may send a location event to Radar in the background (assuming they have granted background location permissions) without opening the app.
