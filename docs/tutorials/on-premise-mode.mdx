@@ -47,6 +47,7 @@ import RadarSDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Radar.initialize(publishableKey: "prj_test_pk_...")
+    Radar.setUserId("foo")
 
     return true
   }
@@ -66,6 +67,7 @@ class MyApplication : Application() {
     super.onCreate()
 
     Radar.initialize(this, "prj_test_pk...")
+    Radar.setUserId("foo")
   }
 
 }
@@ -74,8 +76,22 @@ class MyApplication : Application() {
   </TabItem>
   <TabItem value="web">
 
-```javascript
-Radar.initialize('prj_live_pk_...');
+```html
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <script src="https://js.radar.com/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_...");
+      Radar.setUserId("foo")
+    </script>
+  </body>
+</html>
 ```
 
   </TabItem>
@@ -123,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Radar.initialize(publishableKey: "prj_test_pk_...")
+    Radar.setUserId("foo")
 
     self.locationManager.delegate = self
     self.requestLocationPermissions()
@@ -161,6 +178,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
 
     Radar.initialize(this, "prj_test_pk_...")
+    Radar.setUserId("foo")
 
     requestLocationPermissions()
   }
@@ -177,7 +195,27 @@ class MainActivity : AppCompatActivity() {
   </TabItem>
   <TabItem value="web">
 
-  When `Radar.trackOnce()` is called, the browser will automatically prompt for foreground permissions.
+When `Radar.trackOnce()` is called, the browser will automatically prompt for foreground permissions.
+
+```html
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <script src="https://js.radar.com/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_...");
+      Radar.setUserId("foo");
+
+      Radar.trackOnce();
+    </script>
+  </body>
+</html>
+```
 
   </TabItem>
   <TabItem value="react-native">
@@ -234,6 +272,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Radar.initialize(publishableKey: "prj_test_pk_...")
+    Radar.setUserId("foo")
 
     self.locationManager.delegate = self
     self.requestLocationPermissions()
@@ -279,6 +318,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
 
     Radar.initialize(this, "prj_test_pk_...")
+    Radar.setUserId("foo")
 
     requestLocationPermissions()
 
@@ -302,17 +342,33 @@ class MainActivity : AppCompatActivity() {
   </TabItem>
   <TabItem value="web">
 
-```javascript
-Radar.trackOnce().then((result) => {
-  const { user } = result;
-  for (const geofence of user.geofences) {
-    if (geofence.tag === 'store') {
-      // show in-store mode
-    }
-  }
-}).catch((err) => {
-  // handle error
-});
+```html
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <script src="https://js.radar.com/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_...");
+      Radar.setUserId("foo")
+
+      Radar.trackOnce().then((result) => {
+        const user = result.user;
+        for (const geofence of user.geofences) {
+          if (geofence.tag === 'store') {
+            // show in-store mode
+          }
+        }
+      }).catch((err) => {
+        // handle error
+      });
+    </script>
+  </body>
+</html>
 ```
 
   </TabItem>
