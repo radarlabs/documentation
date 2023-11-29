@@ -98,7 +98,20 @@ class MyApplication : Application() {
   <TabItem value="react-native">
 
 ```javascript
-Radar.initialize('prj_live_pk_...');
+import React, { useState, useEffect } from "react";
+import Radar from "react-native-radar";
+
+export default function App() {
+  useEffect(() => {
+    Radar.initialize("prj_live_pk_...");
+    Radar.setUserId("foo")
+  }, []);
+
+  return (
+    <div id="content">
+    </div>
+  );
+}
 ```
 
   </TabItem>
@@ -221,9 +234,24 @@ When `Radar.trackOnce()` is called, the browser will automatically prompt for fo
   <TabItem value="react-native">
 
 ```javascript
-Radar.requestPermissions(false).then((status) => {
-  // status will be "GRANTED_FOREGROUND" if permissions were granted
-});
+import React, { useState, useEffect } from "react";
+import Radar from "react-native-radar";
+
+export default function App() {
+  useEffect(() => {
+    Radar.initialize("prj_live_pk_...");
+    Radar.setUserId("foo")
+
+    Radar.requestPermissions(false).then((status) => {
+      // status will be "GRANTED_FOREGROUND" if permissions were granted
+    });
+  }, []);
+
+  return (
+    <div id="content">
+    </div>
+  );
+}
 ```
 
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios#request-permissions) and [Android SDK documentation](/sdk/android#request-permissions).
@@ -375,16 +403,42 @@ class MainActivity : AppCompatActivity() {
   <TabItem value="react-native">
 
 ```javascript
-Radar.trackOnce().then((result) => {
-  const { user } = result;
-  for (const geofence of user.geofences) {
-    if (geofence.tag === 'store') {
-      // show in-store mode
-    }
-  }
-}).catch((err) => {
-  // handle error
-});
+import React, { useState, useEffect } from "react";
+import Radar from "react-native-radar";
+
+export default function App() {
+  const [isInStore, setIsInStore] = useState(false);
+
+  useEffect(() => {
+    Radar.initialize("prj_live_pk_...");
+    Radar.setUserId("foo")
+
+    Radar.requestPermissions(false).then((status) => {
+      // status will be "GRANTED_FOREGROUND" if permissions were granted
+
+      Radar.trackOnce().then((result) => {
+        const { user } = result;
+        for (const geofence of user.geofences) {
+          if (geofence.tag === 'store') {
+            setIsInStore(true);
+          }
+        }
+      }).catch((err) => {
+        // handle error
+      });
+    });
+  }, []);
+
+  return (
+    <div id="content">
+      { isInStore ? (
+        {/* Show in-store mode */}
+      ) : (
+        {/* Show default UI */}
+      )}
+    </div>
+  );
+}
 ```
 
   </TabItem>
