@@ -382,7 +382,7 @@ class MainActivity : AppCompatActivity() {
 
     <script type="text/javascript">
       Radar.initialize("prj_test_pk_...");
-      Radar.setUserId("foo")
+      Radar.setUserId("foo");
 
       Radar.trackOnce().then((result) => {
         const user = result.user;
@@ -411,7 +411,7 @@ export default function App() {
 
   useEffect(() => {
     Radar.initialize("prj_live_pk_...");
-    Radar.setUserId("foo")
+    Radar.setUserId("foo");
 
     Radar.requestPermissions(false).then((status) => {
       // status will be "GRANTED_FOREGROUND" if permissions were granted
