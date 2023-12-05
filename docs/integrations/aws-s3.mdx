@@ -34,7 +34,39 @@ Create an IAM Policy that allows Radar to deliver data to this bucket. To do thi
 
 | Name  | Type | Description  |
 |-------|---------|-----------------|
-| Foo | Bar | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. If an `<input>` is provided as a container, the style of the input will not be modified. |
+|locationid|string|Unique ID of the location|
+|userid|string|Radar ID of user|
+|userexternalid|string|External ID of user|
+|usermetadata|string|Metadata of the user|
+|organization|string|Radar ID of the org|
+|locationaccuracy|double||
+|updatedat|string|Location update time|
+|devicetype|string||
+|live|boolean|Test / Live environment|
+|foreground|boolean||
+|stopped|boolean||
+|sdkversion|string||
+|floorlevel|double||
+|altitude|double||
+|verticalaccuracy|double||
+|latitude|double||
+|longitude|double||
+|timezoneoffset|int||
+|source|string||
+|events|`array<string>`||
+|sessionid|string||
+|appstandbybucket|int||
+|locationauthorization|string||
+|locationaccuracyauthorization|string||
+|devicemake|string||
+|devicemodel|string||
+|deviceos|string||
+|metadata|string|Metadata such as tracking options used by the device|
+|project|string||
+|year|string||
+|month|string||
+|day|string||
+
 
 </div>
 
