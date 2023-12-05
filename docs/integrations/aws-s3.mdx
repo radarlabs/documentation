@@ -39,33 +39,31 @@ Create an IAM Policy that allows Radar to deliver data to this bucket. To do thi
 |userexternalid|string|External ID of user|
 |usermetadata|string|Metadata of the user|
 |organization|string|Radar ID of the org|
-|locationaccuracy|double||
+|locationaccuracy|double|The accuracy reported by the device in meters|
 |updatedat|string|Location update time|
-|devicetype|string||
-|live|boolean|Test / Live environment|
-|foreground|boolean||
-|stopped|boolean||
-|sdkversion|string||
-|floorlevel|double||
-|altitude|double||
-|verticalaccuracy|double||
-|latitude|double||
-|longitude|double||
-|timezoneoffset|int||
-|source|string||
-|events|`array<string>`||
-|sessionid|string||
-|appstandbybucket|int||
-|locationauthorization|string||
-|locationaccuracyauthorization|string||
-|devicemake|string||
-|devicemodel|string||
-|deviceos|string||
+|devicetype|string|The type of device|
+|live|boolean|Live/test mode|
+|foreground|boolean|Did the user send up the location in foreground or background|
+|stopped|boolean|Did the user stop|
+|sdkversion|string|The Radar SDK version|
+|floorlevel|double|The floor level as reported by the device|
+|altitude|double|The altitude level as reported by the device|
+|verticalaccuracy|double|The altitude accuracy as reported by the device|
+|latitude|double|The latitude of the location|
+|longitude|double|The longitude of the location|
+|timezoneoffset|int|The timezone offset of the user|
+|source|string|The sdk source they generated the location|
+|events|`array<string>`|A list of events associated with this location|
+|sessionid|string|The session id created by by the SDK|
+|appstandbybucket|int|The App Standby Bucket as reported by the OS|
+|locationauthorization|string|What type of location authorization was granted? (e.g. foreground or background)|
+|locationaccuracyauthorization|string|How precise is the location granted? (e.g. precise location vs coarse location)|
+|devicemake|string|The make of the device|
+|devicemodel|string|The device model|
+|deviceos|string|The OS of the device|
 |metadata|string|Metadata such as tracking options used by the device|
-|project|string||
-|year|string||
-|month|string||
-|day|string||
+|project|string|Partition key. The Radar Project ID publishing locations|
+|dt|string|Partition key. The day of location delivery, formatted as YYYY-MM-DD|
 
 
 </div>
@@ -123,7 +121,7 @@ Create an IAM Policy that allows Radar to deliver data to this bucket. To do thi
 |devicemodel|string|The device model|
 |deviceos|string|The OS of the device|
 |sdkversion|string|The Radar SDK version|
-|stopped|boolean|Did the user stop?|
+|stopped|boolean|Did the user stop|
 |beacontag|string|The tag of the beacon|
 |beaconexternalid|string|The customer-specified ID of the beacon|
 |beacontype|string|The type of beacon|
