@@ -19,7 +19,7 @@ By having all of your event and location data in S3, you can integrate your loca
 
 Contact your customer success manager to enable this feature.
 
-The AWS S3 integration uses an [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/) to stream new Radar locations and events. The AWS Kinesis Data Firehose flushes data to your S3 bucket every few minutes. Additionally, [AWS KMS](https://aws.amazon.com/kms/) can be used [to encrypt Kinesis data streams server-side](https://docs.aws.amazon.com/streams/latest/dev/server-side-encryption.html).
+The AWS S3 integration uses an [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/) to stream new Radar locations and events. The AWS Kinesis Data Firehose flushes data to your S3 bucket after 10 minutes or 128 MB of data, whichever happens first. Additionally, [AWS KMS](https://aws.amazon.com/kms/) can be used [to encrypt Kinesis data streams server-side](https://docs.aws.amazon.com/streams/latest/dev/server-side-encryption.html).
 
 ![AWS S3 configuration diagram](/img/integrations/aws_s3_diagram.png)
 
