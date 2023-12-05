@@ -89,8 +89,8 @@ Create an IAM Policy that allows Radar to deliver data to this bucket. To do thi
 |`alternateplaces`|`array<string>`|Alternate candidate places where the user entered|
 |`placecandidates`|`array<string>`|Alternate candidate places where the user entered with extra metadata|
 |`duration`|`double`|The length of the geofence entry|
-|`longitude`|double`|The longitude of the event|
-|`latitude`|double`|The latitude of the event|
+|`longitude`|`double`|The longitude of the event|
+|`latitude`|`double`|The latitude of the event|
 |`user`|`string`|The Radar ID of the user|
 |`geofence`|`string`|The Radar ID of the geofence|
 |`geofencedescription`|`string`|The description of the geofence|
@@ -101,8 +101,8 @@ Create an IAM Policy that allows Radar to deliver data to this bucket. To do thi
 |`countryregioncode`|`string`|The ISO code of the country|
 |`countryregion`|`string`|The Radar ID of the country|
 |`dmaregion`|`string`|The Radar ID of the DMA|
-|`dmaregionname`|string`|The name of the DMA|
-|`dmaregioncode`|string`|The ISO code of the DMA|
+|`dmaregionname`|`string`|The name of the DMA|
+|`dmaregioncode`|`string`|The ISO code of the DMA|
 |`stateregion`|`string`|The Radar ID of the state|
 |`stateregionname`|`string`|The name of the state|
 |`stateregioncode`|`string`|The ISO code of the state|
@@ -124,8 +124,8 @@ Create an IAM Policy that allows Radar to deliver data to this bucket. To do thi
 |`stopped`|`boolean`|Did the user stop|
 |`beacontag`|`string`|The tag of the beacon|
 |`beaconexternalid`|`string`|The customer-specified ID of the beacon|
-|`beacontype|`string`|The type of beacon|
-|`beaconmajor|`string`|The major version of the beacon|
+|`beacontype`|`string`|The type of beacon|
+|`beaconmajor`|`string`|The major version of the beacon|
 |`beaconminor|`string`|The minor version of the beacon|
 |`beaconuuid`|`string`|The UUID of the beacon|
 |`tripexternalid`|`string`|The user-specified ID of the trip|
