@@ -75,69 +75,68 @@ Create an IAM Policy that allows Radar to deliver data to this bucket. To do thi
 
 | Name  | Type | Description  |
 |-------|---------|-----------------|
-|_id|string|FALSE|
-|createdat|timestamp|FALSE|
-|actualcreatedat|timestamp|FALSE|
-|organization|string|FALSE|
-|live|boolean|FALSE|
-|locationaccuracy|double|FALSE|
-|confidence|int|FALSE|
-|place|string|FALSE|
-|placecategories|string|FALSE|
-|placechainname|string|FALSE|
-|placechainslug|string|FALSE|
-|placegroup|string|FALSE|
-|placename|string|FALSE|
-|alternateplaces|`array<string>`|FALSE|
-|placecandidates|`array<string>`|FALSE|
-|duration|double|FALSE|
-|longitude|double|FALSE|
-|latitude|double|FALSE|
-|user|string|FALSE|
-|geofence|string|FALSE|
-|geofencedescription|string|FALSE|
-|geofencetag|string|FALSE|
-|geofenceexternalid|string|FALSE|
-|region|string|FALSE|
-|countryregionname|string|FALSE|
-|countryregioncode|string|FALSE|
-|countryregion|string|FALSE|
-|dmaregion|string|FALSE|
-|dmaregionname|string|FALSE|
-|dmaregioncode|string|FALSE|
-|stateregion|string|FALSE|
-|stateregionname|string|FALSE|
-|stateregioncode|string|FALSE|
-|postalcoderegion|string|FALSE|
-|postalcoderegioncode|string|FALSE|
-|replayed|boolean|FALSE|
-|type|string|FALSE|
-|timezoneoffset|int|FALSE|
-|trip|string|FALSE|
-|beacon|string|FALSE|
-|foreground|boolean|FALSE|
-|locationaccuracyauthorization|string|FALSE|
-|locationauthorization|string|FALSE|
-|devicetype|string|FALSE|
-|devicemake|string|FALSE|
-|devicemodel|string|FALSE|
-|deviceos|string|FALSE|
-|sdkversion|string|FALSE|
-|stopped|boolean|FALSE|
-|beacontag|string|FALSE|
-|beaconexternalid|string|FALSE|
-|beacontype|string|FALSE|
-|beaconmajor|string|FALSE|
-|beaconminor|string|FALSE|
-|beaconuuid|string|FALSE|
-|tripexternalid|string|FALSE|
-|tripdestinationgeofencetag|string|FALSE|
-|tripdestinationgeofenceexternalid|string|FALSE|
-|userexternalid|string|FALSE|
-|usermetadata|string|FALSE|
-|project|string|TRUE|
-|year|string|TRUE|
-|month|string|TRUE|
-|day|string|TRUE|
+|_id|string|Radar ID of the event|
+|createdat|timestamp|Event creation time of the event from the Radar SDK|
+|actualcreatedat|timestamp|Event creation time on the server|
+|organization|string|The Radar organization ID|
+|live|boolean|Live/test mode|
+|locationaccuracy|double|The accuracy reported by the device in meters|
+|confidence|int|Event confidence|
+|place|string|The Radar ID of a place|
+|placecategories|string|The categories of the place|
+|placechainname|string|The chain name of the place|
+|placechainslug|string|The chain slug of the place|
+|placegroup|string|The group of the place|
+|placename|string|The name of the place|
+|alternateplaces|`array<string>`|Alternate candidate places where the user entered|
+|placecandidates|`array<string>`|Alternate candidate places where the user entered with extra metadata|
+|duration|double|The length of the geofence entry|
+|longitude|double|The longitude of the event|
+|latitude|double|The latitude of the event|
+|user|string|The Radar ID of the user|
+|geofence|string|The Radar ID of the geofence|
+|geofencedescription|string|The description of the geofence|
+|geofencetag|string|The tag of the geofence|
+|geofenceexternalid|string|The customer-provided ID of the geofence|
+|region|string|The Radar ID of the region|
+|countryregionname|string|The name of the country|
+|countryregioncode|string|The ISO code of the country|
+|countryregion|string|The Radar ID of the country|
+|dmaregion|string|The Radar ID of the DMA|
+|dmaregionname|string|The name of the DMA|
+|dmaregioncode|string|The ISO code of the DMA|
+|stateregion|string|The Radar ID of the state|
+|stateregionname|string|The name of the state|
+|stateregioncode|string|The ISO code of the state|
+|postalcoderegion|string|The Radar ID of the postal code|
+|postalcoderegioncode|string|The postal cod|
+|replayed|boolean|Did the SDK send this up in an event of a retry from a failed request|
+|type|string|The event type|
+|timezoneoffset|int|The timezone offset of the user|
+|trip|string|The Radar ID of the trip|
+|beacon|string|The Radar ID of the beacon|
+|foreground|boolean|Did the user send up the event in foreground or background|
+|locationaccuracyauthorization|string|How precise is the location granted? (e.g. precise location vs coarse location)|
+|locationauthorization|string|What type of location authorization was granted? (e.g. foreground or background)|
+|devicetype|string|The type of device|
+|devicemake|string|The make of the device|
+|devicemodel|string|The device model|
+|deviceos|string|The OS of the device|
+|sdkversion|string|The Radar SDK version|
+|stopped|boolean|Did the user stop?|
+|beacontag|string|The tag of the beacon|
+|beaconexternalid|string|The customer-specified ID of the beacon|
+|beacontype|string|The type of beacon|
+|beaconmajor|string|The major version of the beacon|
+|beaconminor|string|The minor version of the beacon|
+|beaconuuid|string|The UUID of the beacon|
+|tripexternalid|string|The user-specified ID of the trip|
+|tripdestinationgeofencetag|string|The geofence tag of the trip destination|
+|tripdestinationgeofenceexternalid|string|The customer-specified geofence ID of the trip destination|
+|userexternalid|string|The user externalId specified by the customer|
+|usermetadata|string|User metadata as stringified JSON|
+|traveling|string|Whether a user is traveling or not|
+|project|string|Partition key. The Radar Project ID publishing events|
+|dt|string|Partition key. The day of event delivery, formatted as YYYY-MM-DD|
 
 </div>
