@@ -402,6 +402,32 @@ To start tracking for geofencing, call:
   </TabItem>
 </Tabs>
 
+To determine whether or not tracking is active, call:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  Radar.isTracking();
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  Radar.isTracking()
+  ```
+
+  </TabItem>
+</Tabs>
+
 To stop tracking (e.g., when the user logs out), call:
 
 <Tabs
