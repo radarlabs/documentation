@@ -242,7 +242,7 @@ Once the above configuration is complete, you can verify a user's location with 
 
 #### Standard callback
 
-Call `Radar.trackVerified()` on app open, periodically, or before sensitive transactions. Then, check `user.fraud.passed`, `user.state.passed`, and/or `user.country.passed` to allow or deny access.
+Call `Radar.trackVerified()` on app open, periodically, or before sensitive transactions. Then, check `user.fraud.passed`, `user.state.allowed`, and/or `user.country.allowed` to allow or deny access.
 
 <Tabs
   groupId="fraud"
@@ -260,8 +260,8 @@ Call `Radar.trackVerified()` on app open, periodically, or before sensitive tran
 ```swift
 Radar.trackVerified { (status, location, events, user) in
   if user?.fraud?.passed == true &&
-    user?.country?.passed == true &&
-    user?.state?.passed == true {
+    user?.country?.allowed == true &&
+    user?.state?.allowed == true {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -275,8 +275,8 @@ Radar.trackVerified { (status, location, events, user) in
 ```kotlin
 Radar.trackVerified { status, location, events, user ->
   if (user?.fraud?.passed == true &&
-    user.country?.passed == true &&
-    user.state?.passed == true) {
+    user.country?.allowed == true &&
+    user.state?.allowed == true) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -290,7 +290,7 @@ Radar.trackVerified { status, location, events, user ->
 ```javascript
 Radar.trackVerified().then((result) => {
   const { user } = result;
-  if (user.fraud.passed && user.country.passed && user.state.passed) {
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -307,7 +307,7 @@ Radar.trackVerified().then((result) => {
 ```javascript
 Radar.trackVerified().then((result) => {
   const { user } = result;
-  if (user.fraud.passed && user.country.passed && user.state.passed) {
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -518,6 +518,6 @@ On errors or failed fraud checks, you may want to display a message to the end u
 - On **`ERROR_PERMISSIONS`**: Unable to determine your location. Please make sure you've granted location permissions and try again.
 - On **`ERROR_LOCATION`**: Unable to determine your location. Please make sure location services and wi-fi are enabled and try again.
 - On **`ERROR_NETWORK`**: Unable to determine your location. Please make sure you're connected to the Internet and try again.
-- On **`country.passed == false`** or **`state.passed == false`**: Unable to verify your location. Please make sure you're in an allowed area and try again.
+- On **`country.allowed == false`** or **`state.allowed == false`**: Unable to verify your location. Please make sure you're in an allowed area and try again.
 - On **`fraud.proxy == true`**: Unable to verify your location. Please disconnect from any VPNs or proxy servers you may be using and try again.
 - On other error cases, or as a fallback: Unable to verify your location. Please contact support.
