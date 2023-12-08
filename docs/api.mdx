@@ -601,7 +601,7 @@ curl "https://api.radar.io/v1/geocode/ip" \
 
 #### Autocomplete
 
-Autocompletes partial addresses and place names, sorted by relevance.
+Autocompletes partial addresses and place names, sorted by relevance and proximity.
 
 ###### Definitions
 
@@ -610,11 +610,10 @@ Autocompletes partial addresses and place names, sorted by relevance.
 ###### Query parameters
 
 - **`query`** (string, required): The partial address or place name to autocomplete.
-- **`near`** (string, optional): The location to search. A string in the format `latitude,longitude`. If not provided, the request IP address will be used to anchor the search.
-- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from `address` and `coarse` layers will be returned.
+- **`near`** (string, optional): The location to prefer search results near. A string in the format `latitude,longitude`. If not provided, the request IP geolocation will be used to anchor the search.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
 - **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
-- **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for units within buildings. Only available for `layers="address"` and for the countries `US` and `CA`. Defaults to `false`.
 
 ###### Authentication level
 
