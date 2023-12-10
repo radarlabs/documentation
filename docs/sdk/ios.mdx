@@ -616,6 +616,32 @@ Radar.startTracking(trackingOptions: RadarTrackingOptions.presetResponsive)
   </TabItem>
 </Tabs>
 
+To determine whether tracking has been started, call:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.isTracking()
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+[Radar isTracking];
+```
+
+  </TabItem>
+</Tabs>
+
 To stop tracking (e.g., when the user logs out), call:
 
 <Tabs
