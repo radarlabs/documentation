@@ -86,10 +86,10 @@ To ensure you can trust a user's location, you can call `Radar.trackVerified()` 
 If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
-- **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android.
-- **`inaccurate`**: Indicates whether the user's device accuracy is too low to pass verification.
+- **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
+- **`inaccurate`**: Indicates whether the user's location accuracy is too low to pass verification.
 - **`sharing`**: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
-- **`proxy`**: Indicates whether the user's IP address is a known proxy, VPN, Tor exit node, etc.
+- **`proxy`**: Indicates whether the user's IP address is a known proxy or VPN.
 - **`verified`**: Indicates whether the request was made with [SSL pinning configured successfully](#configuring-ssl-pinning).
 
 While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
@@ -150,7 +150,7 @@ Add the dependency to the `dependencies` section of your app's `build.gradle` fi
 
 ```kotlin
 dependencies {
-    implementation 'com.google.android.play:integrity:1.0.2'
+    implementation 'com.google.android.play:integrity:1.2.0'
 }
 ```
 
@@ -325,7 +325,7 @@ Radar.trackVerified().then((result) => {
 ```javascript
 Radar.trackVerified().then((result) => {
   const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+  if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
@@ -369,6 +369,7 @@ Then, call `Radar.trackVerifiedToken()` to get a signed JWT containing a payload
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
     { label: 'React Native', value: 'react-native' },
+    { label: 'Capacitor', value: 'capacitor' },
     { label: 'Flutter', value: 'flutter' }
   ]}
 >
@@ -407,6 +408,19 @@ Radar.trackVerified().then((result) => {
 
 ```javascript
 Radar.trackVerified().then((result) => {
+  const { token } = result;
+  // send token to server
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="capacitor">
+
+```javascript
+Radar.trackVerifiedToken().then((result) => {
   const { token } = result;
   // send token to server
 }).catch((err) => {
