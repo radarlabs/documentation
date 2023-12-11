@@ -87,7 +87,7 @@ If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar expos
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
 - **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
-- **`inaccurate`**: Indicates whether the user's device accuracy is too low to pass verification.
+- **`inaccurate`**: Indicates whether the user's location accuracy is too low to pass verification.
 - **`sharing`**: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy or VPN.
 - **`verified`**: Indicates whether the request was made with [SSL pinning configured successfully](#configuring-ssl-pinning).
