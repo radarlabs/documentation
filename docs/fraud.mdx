@@ -252,6 +252,7 @@ Call `Radar.trackVerified()` on app open, periodically, or before sensitive tran
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
     { label: 'React Native', value: 'react-native' },
+    { label: 'Capacitor', value: 'capacitor' },
     { label: 'Flutter', value: 'flutter' }
   ]}
 >
@@ -303,6 +304,23 @@ Radar.trackVerified().then((result) => {
   </TabItem>
 
   <TabItem value="react-native">
+
+```javascript
+Radar.trackVerified().then((result) => {
+  const { user } = result;
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="capacitor">
 
 ```javascript
 Radar.trackVerified().then((result) => {
