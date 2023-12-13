@@ -97,6 +97,7 @@ module.exports = {
         "tutorials/building-a-store-locator-on-ios",
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/logging-and-analyzing-where-conversions-occur",
+        "tutorials/migrate-from-google-maps",
       ],
     },
     "toolkit",
