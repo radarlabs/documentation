@@ -33,8 +33,7 @@ Initialize the SDK with your publishable API key.
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' },
-    { label: 'Flutter', value: 'flutter' }
+    { label: 'React Native', value: 'react-native' }
   ]}
 >
   <TabItem value="swift">
@@ -115,13 +114,6 @@ export default function App() {
 ```
 
   </TabItem>
-  <TabItem value="flutter">
-
-```dart
-Radar.initialize('prj_live_pk_...');
-```
-
-  </TabItem>
 
 </Tabs>
 
@@ -134,8 +126,7 @@ Radar.initialize('prj_live_pk_...');
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' },
-    { label: 'Flutter', value: 'flutter' }
+    { label: 'React Native', value: 'react-native' }
   ]}
 >
   <TabItem value="swift">
@@ -257,16 +248,6 @@ export default function App() {
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios#request-permissions) and [Android SDK documentation](/sdk/android#request-permissions).
 
   </TabItem>
-  <TabItem value="flutter">
-
-```dart
-// status will be "GRANTED_FOREGROUND" if permissions were granted
-String status = await Radar.requestPermissions(false);
-```
-
-Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios#request-permissions) and [Android SDK documentation](/sdk/android#request-permissions).
-
-  </TabItem>
 
 </Tabs>
 
@@ -281,8 +262,7 @@ Call `Radar.trackOnce()` to track the user's location in the foreground. In the 
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' },
-    { label: 'Flutter', value: 'flutter' }
+    { label: 'React Native', value: 'react-native' }
   ]}
 >
 
@@ -438,18 +418,6 @@ export default function App() {
       )}
     </div>
   );
-}
-```
-
-  </TabItem>
-  <TabItem value="flutter">
-
-```dart
-var result = await Radar.trackOnce();
-var { user } = result;
-bool isInStore = user?.geofences?.any((geofence) => geofence.tag == 'store');
-if (isInStore) {
-  // show in-store mode
 }
 ```
 
