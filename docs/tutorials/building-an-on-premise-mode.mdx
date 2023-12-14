@@ -1,11 +1,11 @@
 ---
-title: On-premise mode
+title: Building an on-premise mode
 ---
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-In this tutorial, we show you how to use [geofences](/geofences) in Radar to show an in-store mode when the user is in a store geofence.
+In this tutorial, we show you how to use [geofences](/geofences) in Radar to show an on-premise mode when a user is in a geofence.
 
 ## Steps
 
@@ -253,7 +253,7 @@ Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/io
 
 ### Step 5: Change the UI when the user is in a geofence
 
-Call `Radar.trackOnce()` to track the user's location in the foreground. In the callback, check `user.geofences` to determine if the user is in a store, then change the UI to show the in-store experience.
+Call `Radar.trackOnce()` to track the user's location in the foreground. In the callback, check `user.geofences` to determine if the user is in a store, then change the UI to show the on-premise experience.
 
 <Tabs
   groupId="initialize"
@@ -288,7 +288,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     Radar.trackOnce{ (status, location, events, user) in
       let isInStore = user?.geofences?.contains { $0.tag == "store" }
       if isInStore {
-        // show in-store mode
+        // show on-premise mode
       }
     }
 
@@ -333,7 +333,7 @@ class MainActivity : AppCompatActivity() {
     Radar.trackOnce { status, location, events, user ->
       val isInStore = user?.geofences?.any { geofence.tag == "store" }
       if (isInStore) {
-        // show in-store mode
+        // show on-premise mode
       }
     }
   }
@@ -368,7 +368,7 @@ class MainActivity : AppCompatActivity() {
         const user = result.user;
         for (const geofence of user.geofences) {
           if (geofence.tag === 'store') {
-            // show in-store mode
+            // show on-premise mode
           }
         }
       }).catch((err) => {
@@ -412,7 +412,7 @@ export default function App() {
   return (
     <div id="content">
       { isInStore ? (
-        {/* Show in-store mode */}
+        {/* Show on-premise mode */}
       ) : (
         {/* Show default UI */}
       )}
