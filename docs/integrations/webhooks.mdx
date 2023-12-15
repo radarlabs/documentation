@@ -12,7 +12,7 @@ Whenever events are generated, Radar will send a <span className="badge badge--i
 
 To acknowledge receipt of the request, your webhook should return a `2xx` status code (e.g., `200 OK`, `201 Created`, or `202 Accepted`).
 
-Each webhook has a random security token. The authenticity of a request made to a webhook URL can be verified using the `X-Radar-Signature` header. If you chose *Single Event*, the header will contain an `HMAC-SHA1` hash of the event ID using the security token as the key. If you chose *Multiple Events*, the header will contain an `HMAC-SHA1` hash of the first event ID using the security token as the key.
+Each webhook has a random security token. The authenticity of a request made to a webhook URL can be verified using the `X-Radar-Signature` header. The header will contain an `HMAC-SHA1` hash of the `X-Radar-Signing-Id` using the security token as the key.
 
 Note that you can also receive events client-side via the [SDK](/sdk).
 
