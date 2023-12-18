@@ -285,7 +285,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     self.locationManager.delegate = self
     self.requestLocationPermissions()
 
-    Radar.trackOnce{ (status, location, events, user) in
+    Radar.trackOnce { (status, location, events, user) in
       let isInStore = user?.geofences?.contains { $0.tag == "store" }
       if isInStore {
         // show on-premise mode
@@ -329,6 +329,10 @@ class MainActivity : AppCompatActivity() {
     Radar.setUserId("foo")
 
     requestLocationPermissions()
+  }
+
+  override fun onStart() {
+    super.onStart()
 
     Radar.trackOnce { status, location, events, user ->
       val isInStore = user?.geofences?.any { geofence.tag == "store" }
