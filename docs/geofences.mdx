@@ -66,11 +66,11 @@ You specify the metadata for geofences when you create them, including the _tag_
 
 ### Dashboard
 
-To create a geofence via the dashboard, go to the [Geofences page](https://radar.com/dashboard/geofences) and click the _New_ button. Optionally search for an address or place, then enter a description, tag, external ID, and optional metadata. Choose _circle_ to create a circle geofence, _polygon_ to create a polygon geofence, or _isochrone_ to create an [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofence. Click _Create_ to create the geofence.
+To create a geofence via the dashboard, go to the [Geofences page](https://radar.com/dashboard/geofencing/geofences/new) and click the _Create_ button. Optionally search for an address or place, then enter a description, tag, external ID, and optional metadata. Choose _circle_ to create a circle geofence, _polygon_ to create a polygon geofence, or _isochrone_ to create an [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) (time-based) geofence. Click _Create_ to create the geofence.
 
 ### CSV import
 
-To create geofences via CSV import, go to the [Geofences page](/geofences) and click the _Import_ button. Then, select a CSV to upload.
+To create geofences via CSV import, go to the [Geofences page](https://radar.com/dashboard/geofencing/geofences#import) and click the _Import_ button. Then, select a CSV to upload.
 
 <Alert alertType="info">
   Headers are required as the first row of the CSV.
@@ -120,9 +120,9 @@ You can find a history of past imports on the [Geofences import history page](ht
 
 ### API
 
-You can also create geofences programmatically via the [API](/api). You can create a geofence via <span className="badge badge--info">POST</span> `/api/v1/geofences`, or upsert a geofence based on tag and external ID via <span className="badge badge--warning">PUT</span> `/api/v1/geofences/:tag/:externalId`.
+You can also create geofences programmatically via the [API](/api#upsert-a-geofence). You can create a geofence via <span className="badge badge--info">POST</span> `/api/v1/geofences`, or upsert a geofence based on tag and external ID via <span className="badge badge--warning">PUT</span> `/api/v1/geofences/:tag/:externalId`.
 
-For example, to upsert a geofence representing a store via the [API](/api):
+For example, to upsert a geofence representing a store via the [API](/api#upsert-a-geofence):
 
 ```bash
 curl https://api.radar.io/v1/geofences/store/123 \
