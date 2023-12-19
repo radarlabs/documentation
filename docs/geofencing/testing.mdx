@@ -80,3 +80,32 @@ Learn more about when Radar creates new user records [here](https://documentatio
 ### Rate limit errors are occurring when tracking location
 
 Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstalling the application with the Radar SDK will reset the rate limits.
+
+When a rate limit is triggered, Radar will return three response headers for the request inline with the IETF Rate Limiting Standardization Draft:
+
+###### Response codes
+
+- **`X-RateLimit-Limit`**: Maximum amount of request allowed in the current window.
+- **`X-RateLimit-Remaining`**: Remaining requests available in the current window before being rate limited.
+- **`X-RateLimit-Reset`**: A UNIX timestamp for when the rate limit ends.
+
+###### Sample error response
+
+```json
+{
+    "Date": "Thu, 10 Aug 2023 18:39:34 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "X-Powered-By": "Express",
+    "Access-Control-Allow-Origin": "*",
+    "X-RateLimit-Limit": "1500",
+    "X-RateLimit-Remaining": "1499",
+    "X-RateLimit-Reset": "1691692776",
+    "ETag": "---",
+    "Content-Encoding": "gzip",
+    "CF-Cache-Status": "DYNAMIC",
+    "Server": "cloudflare",
+    "CF-RAY": "---"
+}
+```
