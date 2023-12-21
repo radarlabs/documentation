@@ -164,3 +164,37 @@ For example, to accept an event on iOS:
 ```swift
 Radar.acceptEventId(event._id, verifiedPlaceId: event.alternatePlaces[0]._id)
 ```
+
+## Place matching
+
+<Alert alertType="info">
+  Place matching is available on the {` `}
+  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
+  .
+</Alert>
+
+Place matching is the easiest way to make sure your geofence coordinates and geometries are accurate and stay up-to-date over time. Entry and exit events will be more reliable, trip approaching and arrived signals will be more accurate, and messaging for nearby locations will be more relevant.
+
+Navigate to the [Geofences page](https://radar.com/dashboard/geofences) and select *Import*. If [Places](/places) are enabled for your project, toggle *Enable place matching* on.
+
+### How it works
+
+1. **Import your geofences against Radar's places data.** Select [chains](/places/chains) to match your geofences against while importing your geofences into Radar.
+
+2. **View the results of place matching.** After the import has completed, look at the results on the [Import history page](https://radar.com/dashboard/geofences/imports). Click *View import* to see a summary and logs that indicate the outcome for each row. If the place match was successful, the import log will contain a link to the Radar place and the distance that the geofence center was corrected.
+
+3. **Filter and export the results for further analysis.** Apply *Filters* to isolate rows that were not place matched, geofences that have large center correction values, or errors. Click *Export rows* to download a CSV of the results.
+
+![PlaceMatching.gif](/gif/dashboard/place_matching.gif)
+
+### Geofence types
+
+- `circle`: When a `circle` geofence is matched, it will take on the geometry of the Radar place.
+- `polygon`: When a `polygon` geofence is matched, it will be linked to the Radar place, but not adopt the place center or geometry.
+- `isochrone`: When an `isochrone` geofence is matched, it will only take on the center of the Radar place, regenerating the [isochrone](https://en.wikipedia.org/wiki/Isochrone_map) geometry from the new center.
+
+### Advanced options
+
+- **Search radius.** Place matching will look for the nearest location within 10 kilometers by default. This value can be reduced to enforce a tighter search distance.
+- **Geofence tag(s).** Filter the rows to place match. For example, only perform place matching on rows where `tag = store` but not `tag = nearby`.
+- **Use Radar's place geometry.** By default, [circle geofences](/dashboard#circle) will adopt both the center and geometry of the Radar place. Toggle this off for circle geofences to take on the center but not the geometry.
