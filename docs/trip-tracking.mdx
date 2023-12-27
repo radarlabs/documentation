@@ -404,6 +404,10 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 }
 ```
 
+<Alert alertType="info">
+  Trip's in the *pending* state will not generate a `user.stopped_trip` event when *canceled* or when they *expire*.
+</Alert>
+
 ## Delay detection
 
 Delay detection identifies trips at risk of being delayed or incomplete. To enable this feature, configure a *Delay threshold* on the [Settings page](https://radar.com/dashboard/settings#trips-settings) under *Trips*.
