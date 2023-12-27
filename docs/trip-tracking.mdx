@@ -270,7 +270,7 @@ Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED, (status, trip, 
 
 Finally, when the trip is complete (e.g., when an order is picked up or a delivery is dropped off), stop the trip. This can be done either using the SDK or the [API](/api#stop-or-restart-trip).
 
-You can set trips to expire after a set period if not manually stopped using the *Expiration threshold* on the [Settings page](https://radar.com/dashboard/settings).
+You can set trips to expire after a set period if not manually stopped using the *Expiration threshold* on the [Settings page](https://radar.com/dashboard/settings). When a trip is completed, canceled, or expires, a `user.stopped_trip` event will be generated.
 
 If tracking was started before the trip was started, the previous tracking options will be restored. Otherwise, tracking will be stopped.
 
