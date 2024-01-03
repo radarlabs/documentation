@@ -75,7 +75,7 @@ As the Radar SDK collects location updates and sends them to the server, it will
 
 ### Multiple Radar users have the same user ID or device ID
 
-The Radar [iOS](/sdk/ios) and [Android](/sdk/android) SDKs automatically generate a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`. Multiple user records may have the same `userId` value or `deviceId` value if they have different `installId` values. Multiple users generating without uninstalls indicates a potential issue setting the `userId` in the SDK (i.e. passing in `null` for the `userId` in certain scenarios).
+Learn more about when Radar creates new user records [here](https://documentation-3nxvuwf8z-radarlabs.vercel.app/documentation/faqs#what-is-a-unique-user-when-does-radar-create-a-new-user-record).
 
 ### Rate limit errors are occurring when tracking location
 

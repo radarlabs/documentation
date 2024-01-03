@@ -92,7 +92,7 @@ On Android, add the Radar Android SDK to the `dependencies` section of your Andr
 
 ```kotlin
 dependencies {
-    implementation 'io.radar:sdk:3.8.12'
+    implementation 'io.radar:sdk:3.8.+'
 }
 ```
 
@@ -314,6 +314,13 @@ Radar.startTrackingCustom({
   foregroundServiceEnabled: true
 });
 ```
+
+To determine whether tracking has been started, call:
+
+```dart
+Radar.isTracking();
+```
+
 
 To stop tracking the user's location in the background (e.g., when the user logs out), call:
 

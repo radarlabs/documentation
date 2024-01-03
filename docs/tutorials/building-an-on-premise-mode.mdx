@@ -1,0 +1,438 @@
+---
+title: Building an on-premise mode
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+In this tutorial, we show you how to use [geofences](/geofences) in Radar to show an on-premise mode when a user is in a geofence.
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API keys</a>
+
+### Step 2: Create geofences
+
+There are several ways to create geofences:
+1. [Create geofence page](https://radar.com/dashboard/geofencing/geofences/new)
+2. [CSV import](/geofences#csv-import)
+3. [API](/api#upsert-a-geofence)
+
+The `tag` is a group for the geofence. For example, you could set `tag = venue` for gaming, or `tag = restaurant` for restaurants. In this tutorial, we're going to use `tag = store`.
+
+### Step 3: Initialize the SDK
+
+Initialize the SDK with your publishable API key.
+
+<Tabs
+  groupId="initialize"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    Radar.initialize(publishableKey: "prj_test_pk_...")
+    Radar.setUserId("foo")
+
+    return true
+  }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+import io.radar.sdk.Radar
+
+class MyApplication : Application() {
+
+  override fun onCreate() {
+    super.onCreate()
+
+    Radar.initialize(this, "prj_test_pk...")
+    Radar.setUserId("foo")
+  }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="web">
+
+```html
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <script src="https://js.radar.com/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_...");
+      Radar.setUserId("foo")
+    </script>
+  </body>
+</html>
+```
+
+  </TabItem>
+  <TabItem value="react-native">
+
+```javascript
+import React, { useState, useEffect } from "react";
+import Radar from "react-native-radar";
+
+export default function App() {
+  useEffect(() => {
+    Radar.initialize("prj_live_pk_...");
+    Radar.setUserId("foo")
+  }, []);
+
+  return (
+    <div id="content">
+    </div>
+  );
+}
+```
+
+  </TabItem>
+
+</Tabs>
+
+### Step 4: Request foreground permissions
+
+<Tabs
+  groupId="initialize"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+import CoreLocation
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+
+  let locationManager = CLLocationManager()
+
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    Radar.initialize(publishableKey: "prj_test_pk_...")
+    Radar.setUserId("foo")
+
+    self.locationManager.delegate = self
+    self.requestLocationPermissions()
+
+    return true
+  }
+
+  func requestLocationPermissions() {
+    let status = self.locationManager.authorizationStatus
+
+    if status == .notDetermined {
+      self.locationManager.requestWhenInUseAuthorization()
+    }
+  }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
+
+import androidx.core.app.ActivityCompat
+
+import io.radar.sdk.Radar
+
+class MainActivity : AppCompatActivity() {
+  private val foregroundLocationPermissionsRequestCode = 1
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    Radar.initialize(this, "prj_test_pk_...")
+    Radar.setUserId("foo")
+
+    requestLocationPermissions()
+  }
+
+  private fun requestLocationPermissions() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
+    }
+  }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="web">
+
+When `Radar.trackOnce()` is called, the browser will automatically prompt for foreground permissions.
+
+```html
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <script src="https://js.radar.com/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_...");
+      Radar.setUserId("foo");
+
+      Radar.trackOnce();
+    </script>
+  </body>
+</html>
+```
+
+  </TabItem>
+  <TabItem value="react-native">
+
+```javascript
+import React, { useState, useEffect } from "react";
+import Radar from "react-native-radar";
+
+export default function App() {
+  useEffect(() => {
+    Radar.initialize("prj_live_pk_...");
+    Radar.setUserId("foo")
+
+    Radar.requestPermissions(false).then((status) => {
+      // status will be "GRANTED_FOREGROUND" if permissions were granted
+    });
+  }, []);
+
+  return (
+    <div id="content">
+    </div>
+  );
+}
+```
+
+Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios#request-permissions) and [Android SDK documentation](/sdk/android#request-permissions).
+
+  </TabItem>
+
+</Tabs>
+
+### Step 5: Change the UI when the user is in a geofence
+
+Call `Radar.trackOnce()` to track the user's location in the foreground. In the callback, check `user.geofences` to determine if the user is in a store, then change the UI to show the on-premise experience.
+
+<Tabs
+  groupId="initialize"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' }
+  ]}
+>
+
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+import CoreLocation
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+
+  let locationManager = CLLocationManager()
+
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    Radar.initialize(publishableKey: "prj_test_pk_...")
+    Radar.setUserId("foo")
+
+    self.locationManager.delegate = self
+    self.requestLocationPermissions()
+
+    Radar.trackOnce { (status, location, events, user) in
+      let isInStore = user?.geofences?.contains { $0.tag == "store" }
+      if isInStore {
+        // show on-premise mode
+      }
+    }
+
+    return true
+  }
+
+  func requestLocationPermissions() {
+    let status = self.locationManager.authorizationStatus
+
+    if status == .notDetermined {
+      self.locationManager.requestWhenInUseAuthorization()
+    }
+  }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
+
+import androidx.core.app.ActivityCompat
+
+import io.radar.sdk.Radar
+
+class MainActivity : AppCompatActivity() {
+  private val foregroundLocationPermissionsRequestCode = 1
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    Radar.initialize(this, "prj_test_pk_...")
+    Radar.setUserId("foo")
+
+    requestLocationPermissions()
+  }
+
+  override fun onStart() {
+    super.onStart()
+
+    Radar.trackOnce { status, location, events, user ->
+      val isInStore = user?.geofences?.any { geofence.tag == "store" }
+      if (isInStore) {
+        // show on-premise mode
+      }
+    }
+  }
+
+  private fun requestLocationPermissions() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), foregroundLocationPermissionsRequestCode)
+    }
+  }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="web">
+
+```html
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <script src="https://js.radar.com/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_...");
+      Radar.setUserId("foo");
+
+      Radar.trackOnce().then((result) => {
+        const user = result.user;
+        for (const geofence of user.geofences) {
+          if (geofence.tag === 'store') {
+            // show on-premise mode
+          }
+        }
+      }).catch((err) => {
+        // handle error
+      });
+    </script>
+  </body>
+</html>
+```
+
+  </TabItem>
+  <TabItem value="react-native">
+
+```javascript
+import React, { useState, useEffect } from "react";
+import Radar from "react-native-radar";
+
+export default function App() {
+  const [isInStore, setIsInStore] = useState(false);
+
+  useEffect(() => {
+    Radar.initialize("prj_live_pk_...");
+    Radar.setUserId("foo");
+
+    Radar.requestPermissions(false).then((status) => {
+      // status will be "GRANTED_FOREGROUND" if permissions were granted
+
+      Radar.trackOnce().then((result) => {
+        const { user } = result;
+        for (const geofence of user.geofences) {
+          if (geofence.tag === 'store') {
+            setIsInStore(true);
+          }
+        }
+      }).catch((err) => {
+        // handle error
+      });
+    });
+  }, []);
+
+  return (
+    <div id="content">
+      { isInStore ? (
+        {/* Show on-premise mode */}
+      ) : (
+        {/* Show default UI */}
+      )}
+    </div>
+  );
+}
+```
+
+  </TabItem>
+
+</Tabs>
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.com](mailto:support@radar.com).
+
+

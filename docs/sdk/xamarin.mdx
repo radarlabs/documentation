@@ -129,6 +129,12 @@ trackingOptions.Replay = RadarTrackingOptionsReplay.None;
 Radar.StartTracking(trackingOptions);
 ```
 
+To determine whether tracking has been started, call:
+
+```cs
+Radar.IsTracking();
+```
+
 To stop tracking the user's location in the background (e.g., when the user logs out), call:
 
 ```cs

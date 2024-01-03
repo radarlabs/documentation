@@ -19,7 +19,7 @@ By having all of your event and location data in S3, you can integrate your loca
 
 Contact your customer success manager to enable this feature.
 
-The AWS S3 integration uses an [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/) to stream new Radar locations and events. Additionally, [AWS KMS](https://aws.amazon.com/kms/) can be used [to encrypt Kinesis data streams server-side](https://docs.aws.amazon.com/streams/latest/dev/server-side-encryption.html).
+The AWS S3 integration uses an [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/) to stream new Radar locations and events. The AWS Kinesis Data Firehose flushes data to your S3 bucket after 10 minutes or 128 MB of data, whichever happens first. Additionally, [AWS KMS](https://aws.amazon.com/kms/) can be used [to encrypt Kinesis data streams server-side](https://docs.aws.amazon.com/streams/latest/dev/server-side-encryption.html).
 
 ![AWS S3 configuration diagram](/img/integrations/aws_s3_diagram.png)
 
@@ -28,3 +28,113 @@ Create an S3 bucket for Radar to deliver data to, for example, `s3://com.example
 
 ### Create an AWS Cross-Account IAM policy
 Create an IAM Policy that allows Radar to deliver data to this bucket. To do this, implement step 2 in the [Cross-Account Delivery to an Amazon S3 Destination IAM Policy documentation](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#cross-account-delivery-s3). Radar will implement steps 1 and 3.  Contact your Customer Support Manager to obtain the values for the `accountA-id` and `iam-role-name` values to use in the IAM Policy.
+
+### Location Schema
+<div className="full-width-table">
+
+| Name  | Type | Description  |
+|-------|---------|-----------------|
+|`locationid`|`string`|Unique ID of the location|
+|`userid`|`string`|Radar ID of user|
+|`userexternalid`|`string`|External ID of user|
+|`usermetadata`|`string`|Metadata of the user|
+|`organization`|`string`|Radar ID of the org|
+|`locationaccuracy`|`double`|The accuracy reported by the device in meters|
+|`updatedat`|`string`|Location update time|
+|`devicetype`|`string`|The type of device|
+|`live`|`boolean`|Live/test mode|
+|`foreground`|`boolean`|Did the user send up the location in foreground or background|
+|`stopped`|`boolean`|Did the user stop|
+|`sdkversion`|`string`|The Radar SDK version|
+|`floorlevel`|`double`|The floor level as reported by the device|
+|`altitude`|`double`|The altitude level as reported by the device|
+|`verticalaccuracy`|`double`|The altitude accuracy as reported by the device|
+|`latitude`|`double`|The latitude of the location|
+|`longitude`|`double`|The longitude of the location|
+|`timezoneoffset`|`int`|The timezone offset of the user|
+|`source`|`string`|The sdk source they generated the location|
+|`events`|`array<string>`|A list of events associated with this location|
+|`sessionid`|`string`|The session id created by by the SDK|
+|`appstandbybucket`|`int`|The App Standby Bucket as reported by the OS|
+|`locationauthorization`|`string`|What type of location authorization was granted? (e.g. foreground or background)|
+|`locationaccuracyauthorization`|`string`|How precise is the location granted? (e.g. precise location vs coarse location)|
+|`devicemake`|`string`|The make of the device|
+|`devicemodel`|`string`|The device model|
+|`deviceos`|`string`|The OS of the device|
+|`metadata`|`string`|Metadata such as tracking options used by the device|
+|`project`|`string`|Partition key. The Radar Project ID publishing locations|
+|`dt`|`string`|Partition key. The day of location delivery, formatted as YYYY-MM-DD|
+
+
+</div>
+
+### Event Schema
+<div className="full-width-table">
+
+| Name  | Type | Description  |
+|-------|---------|-----------------|
+|`_id`|`string`|Radar ID of the event|
+|`createdat`|`timestamp`|Event creation time of the event from the Radar SDK|
+|`actualcreatedat`|`timestamp`|Event creation time on the server|
+|`organization`|`string`|The Radar organization ID|
+|`live`|`boolean`|Live/test mode|
+|`locationaccuracy`|`double`|The accuracy reported by the device in meters|
+|`confidence`|`int`|Event confidence|
+|`place`|`string`|The Radar ID of a place|
+|`placecategories`|`string`|The categories of the place|
+|`placechainname`|`string`|The chain name of the place|
+|`placechainslug`|`string`|The chain slug of the place|
+|`placegroup`|`string`|The group of the place|
+|`placename`|`string`|The name of the place|
+|`alternateplaces`|`array<string>`|Alternate candidate places where the user entered|
+|`placecandidates`|`array<string>`|Alternate candidate places where the user entered with extra metadata|
+|`duration`|`double`|The length of the geofence entry|
+|`longitude`|`double`|The longitude of the event|
+|`latitude`|`double`|The latitude of the event|
+|`user`|`string`|The Radar ID of the user|
+|`geofence`|`string`|The Radar ID of the geofence|
+|`geofencedescription`|`string`|The description of the geofence|
+|`geofencetag`|`string`|The tag of the geofence|
+|`geofenceexternalid`|`string`|The customer-provided ID of the geofence|
+|`region`|`string`|The Radar ID of the region|
+|`countryregionname`|`string`|The name of the country|
+|`countryregioncode`|`string`|The ISO code of the country|
+|`countryregion`|`string`|The Radar ID of the country|
+|`dmaregion`|`string`|The Radar ID of the DMA|
+|`dmaregionname`|`string`|The name of the DMA|
+|`dmaregioncode`|`string`|The ISO code of the DMA|
+|`stateregion`|`string`|The Radar ID of the state|
+|`stateregionname`|`string`|The name of the state|
+|`stateregioncode`|`string`|The ISO code of the state|
+|`postalcoderegion`|`string`|The Radar ID of the postal code|
+|`postalcoderegioncode`|`string`|The postal cod|
+|`replayed`|`boolean`|Did the SDK send this up in an event of a retry from a failed request|
+|`type`|`string`|The event type|
+|`timezoneoffset`|`int`|The timezone offset of the user|
+|`trip`|`string`|The Radar ID of the trip|
+|`beacon`|`string`|The Radar ID of the beacon|
+|`foreground`|`boolean`|Did the user send up the event in foreground or background|
+|`locationaccuracyauthorization`|`string`|How precise is the location granted? (e.g. precise location vs coarse location)|
+|`locationauthorization`|`string`|What type of location authorization was granted? (e.g. foreground or background)|
+|`devicetype`|`string`|The type of device|
+|`devicemake`|`string`|The make of the device|
+|`devicemodel`|`string`|The device model|
+|`deviceos`|`string`|The OS of the device|
+|`sdkversion`|`string`|The Radar SDK version|
+|`stopped`|`boolean`|Did the user stop|
+|`beacontag`|`string`|The tag of the beacon|
+|`beaconexternalid`|`string`|The customer-specified ID of the beacon|
+|`beacontype`|`string`|The type of beacon|
+|`beaconmajor`|`string`|The major version of the beacon|
+|`beaconminor|`string`|The minor version of the beacon|
+|`beaconuuid`|`string`|The UUID of the beacon|
+|`tripexternalid`|`string`|The user-specified ID of the trip|
+|`tripdestinationgeofencetag`|`string`|The geofence tag of the trip destination|
+|`tripdestinationgeofenceexternalid`|`string`|The customer-specified geofence ID of the trip destination|
+|`userexternalid`|`string`|The user externalId specified by the customer|
+|`usermetadata`|`string`|User metadata as stringified JSON|
+|`traveling`|`string`|Whether a user is traveling or not|
+|`project`|`string`|Partition key. The Radar Project ID publishing events|
+|`dt`|`string`|Partition key. The day of event delivery, formatted as YYYY-MM-DD|
+
+</div>

@@ -287,11 +287,13 @@ curl "https://api.radar.io/v1/track" \
       "mocked": true,
       "jumped": false,
       "compromised": false,
+      "inaccurate": false,
       "proxy": false,
       "sharing": false
       "lastMockedAt": "2023-07-27T17:18:28.536Z",
       "lastJumpedAt": "2023-07-27T17:18:28.536Z",
       "lastCompromisedAt": null,
+      "lastInaccurateAt": null,
       "lastProxyAt": null,
       "lastSharingAt": null
     },
@@ -599,7 +601,7 @@ curl "https://api.radar.io/v1/geocode/ip" \
 
 #### Autocomplete
 
-Autocompletes partial addresses and place names, sorted by relevance.
+Autocompletes partial addresses and place names, sorted by relevance and proximity.
 
 ###### Definitions
 
@@ -608,11 +610,10 @@ Autocompletes partial addresses and place names, sorted by relevance.
 ###### Query parameters
 
 - **`query`** (string, required): The partial address or place name to autocomplete.
-- **`near`** (string, optional): The location to search. A string in the format `latitude,longitude`. If not provided, the request IP address will be used to anchor the search.
-- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `neighborhood`, `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes all of `place`, `address`, `intersection`, and `street`. If not provided, results from `address` and `coarse` layers will be returned.
+- **`near`** (string, optional): The location to prefer search results near. A string in the format `latitude,longitude`. If not provided, the request IP geolocation will be used to anchor the search.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
 - **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
-- **`expandUnits`** (boolean, optional): If `true`, separate results will be returned for units within buildings. Only available for `layers="address"` and for the countries `US` and `CA`. Defaults to `false`.
 
 ###### Authentication level
 
@@ -786,12 +787,12 @@ Searches for places near a location, sorted by distance.
 
 ###### Query parameters
 
-- **`chains`** (string, optional): [Chain slug](/places#chains) filters. A string, comma-separated. If your project has a [chain mapping](/places#mappings), the mapped ID can be used in place of the chain slug. If not provided, one of `categories` or `groups` must be provided.
-- **`categories`** (string, optional): [Category](/places#categories) filters. A string, comma-separated. If not provided, one of `chains` or `groups` must be provided.
-- **`groups`** (string, optional): [Group](/places#groups) filters. A string, comma-separated. If not provided, one of `chains` or `categories` must be provided.
+- **`chains`** (string, optional): [Chain slug](/places#chains) filters. A string, comma-separated. If your project has a [chain mapping](/places#mappings), the mapped ID can be used in place of the chain slug. If not provided, `categories` must be provided.
+- **`categories`** (string, optional): [Category](/places#categories) filters. A string, comma-separated. If not provided, `chains` must be provided.
+- **`iataCode`** (string, optional): The 3-letter IATA code for the airport to search. If provided, no other parameters are required.
 - **`chainMetadata[key]`** (optional): Optional [chain metadata](/places#metadata) filters. Values may be of type string, boolean, or number. Type will be automatically inferred. For example, to match on `offers == true`, use `&chainMetadata[offers]=true`.
 - **`near`** (string, required): A location for the search. A string in the format `latitude,longitude`.
-- **`radius`** (number, optional): The radius to search, in meters. A number between 100 and 10000. Defaults to 1000.
+- **`radius`** (number, optional): The radius to search, in meters. A number between 1 and 10000. Defaults to 1000.
 - **`limit`** (number, optional): The max number of places to return. A number between 1 and 100. Defaults to 10.
 
 ###### Authentication level
@@ -1587,11 +1588,13 @@ A user represents a user tracked in your project. Users can be referenced by Rad
     "mocked": true,
     "jumped": false,
     "compromised": false,
+    "inaccurate": false,
     "proxy": false,
     "sharing": false
     "lastMockedAt": "2023-07-27T17:18:28.536Z",
     "lastJumpedAt": "2023-07-27T17:18:28.536Z",
     "lastCompromisedAt": null,
+    "lastInaccurateAt": null,
     "lastProxyAt": null,
     "lastSharingAt": null
   }

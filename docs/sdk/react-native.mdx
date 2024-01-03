@@ -186,6 +186,22 @@ Radar.requestPermissions(background).then((status) => {
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
 
+On iOS and Android, the user needs to grant foreground location permissions first before you can prompt for background location permissions:
+
+```javascript
+// request foreground location permissions
+Radar.requestPermissions(false).then((status) => {
+  // request background location permissions
+  Radar.requestPermissions(true).then((status) => {
+    // do something with status
+  }).catch((err) => {
+    // optionally, do something with err
+  });
+}).catch((err) => {
+  // optionally, do something with err
+});
+```
+
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
 <Alert alertType="info">
@@ -276,6 +292,12 @@ Radar.startTrackingCustom({
   showBlueBar: true,
   foregroundServiceEnabled: true
 });
+```
+
+To determine whether tracking has been started, call:
+
+```javascript
+Radar.isTracking();
 ```
 
 To stop tracking the user's location in the background (e.g., when the user logs out), call:
@@ -634,7 +656,7 @@ Radar.logConversion(
 
 ### Notification options
 
-For Android, you can call `setNotificationOptions` to set the icon and the background color of the foreground service and event notifications:
+On Android, you can call `setNotificationOptions` to set the icon and the background color of the foreground service and event notifications:
 
 ```javascript
 // Set both foreground service and event notifications
@@ -644,7 +666,7 @@ Radar.setNotificationOptions({
   iconColor: 'color_1'
 });
 
-// Or set the foreground service notification and event notifications separately
+// Or, set the foreground service notification and event notifications separately
 
 Radar.setNotificationOptions({
   foregroundServiceIconString: "icon_1",

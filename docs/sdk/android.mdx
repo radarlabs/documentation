@@ -402,6 +402,32 @@ To start tracking for geofencing, call:
   </TabItem>
 </Tabs>
 
+To determine whether tracking has been started, call:
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+  ```java
+  Radar.isTracking();
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+  ```kotlin
+  Radar.isTracking()
+  ```
+
+  </TabItem>
+</Tabs>
+
 To stop tracking (e.g., when the user logs out), call:
 
 <Tabs
@@ -812,13 +838,9 @@ where `location` is a `Location` instance with a valid latitude, longitude, and 
 
 ## Identify user
 
-The SDK automatically generates a unique `installId` on every fresh install. Radar creates a new user record for every unique `installId`.
+The SDK automatically collects `installId` (a GUID generated on fresh install) and `deviceId` ([Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)).
 
-In addition, you can use other identifiers to identify the user.
-
-Radar will automatically identify the user by `deviceId` ([Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)).
-
-To set a custom `userId`, call:
+You can also assign a custom `userId`, also called *External ID* in the dashboard. To set a custom `userId`, call:
 
 <Tabs
   groupId="android"
@@ -910,6 +932,8 @@ Finally, to set an optional description for the user, displayed in the dashboard
 </Tabs>
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
+
+Learn more about when Radar creates new user records [here](/documentation/faqs#what-is-a-unique-user-when-does-radar-create-a-new-user-record).
 
 ## Debug logging
 
@@ -1553,29 +1577,27 @@ With `setNotificationOptions`, set the icon and the background color of foregrou
 
   JSONObject notificationOptions = new JSONObject();
   try {
-    notificationOptions.put("iconString","icon_1");
-    notificationOptions.put("iconColor","color_1");
+    notificationOptions.put("iconString", "icon_1");
+    notificationOptions.put("iconColor", "color_1");
   } catch (JSONException e) {
     e.printStackTrace();
   }
 
-  Radar.setNotificationsOptions(RadarNotificationsOptions.fromJson(notificationOptions));
+  Radar.setNotificationOptions(RadarNotificationsOptions.fromJson(notificationOptions));
 
-  // Or set the foreground service notification and event notifications separately
+  // Or, set the foreground service notification and event notifications separately
 
   JSONObject notificationOptions = new JSONObject();
   try {
-    notificationOptions.put("foregroundServiceIconString","icon_1");
-    notificationOptions.put("foregroundServiceIconColor","color_1");
-    notificationOptions.put("eventIconString","icon_2");
-    notificationOptions.put("eventIconColor","color_2");
+    notificationOptions.put("foregroundServiceIconString", "icon_1");
+    notificationOptions.put("foregroundServiceIconColor", "color_1");
+    notificationOptions.put("eventIconString", "icon_2");
+    notificationOptions.put("eventIconColor", "color_2");
   } catch (JSONException e) {
     e.printStackTrace();
   }
 
-  Radar.setNotificationsOptions(RadarNotificationsOptions.fromJson(notificationOptions)); 
-
-
+  Radar.setNotificationOptions(RadarNotificationsOptions.fromJson(notificationOptions));
   ```
 
   </TabItem>
@@ -1583,13 +1605,13 @@ With `setNotificationOptions`, set the icon and the background color of foregrou
 
   ```kotlin
   // Set both foreground service and event notifications
-  
+
   Radar.setNotificationOptions(RadarNotificationsOptions(
     "icon_1", // iconString
     "color_1", // iconColor
   ))
 
-  // Or set the foreground service notification and event notifications separately
+  // Or, set the foreground service notification and event notifications separately
 
   Radar.setNotificationOptions(RadarNotificationsOptions(
     foregroundServiceIconString = "icon_2",
@@ -1597,7 +1619,6 @@ With `setNotificationOptions`, set the icon and the background color of foregrou
     eventIconString = "icon_3",
     eventIconColor = "color_3",
   ))
-
   ```
 
   </TabItem>
