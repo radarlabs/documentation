@@ -1052,6 +1052,8 @@ Radar.setDescription(description)
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
 
+<a id="debug-logging"></a>
+
 ## Debug logging
 
 By default, only critical errors are logged to the console. To enable debug logging, call:
@@ -1080,7 +1082,7 @@ Radar.setLogLevel(RadarLogLevel.debug)
   </TabItem>
 </Tabs>
 
-Note that additional setup is required in the `AppDelegate` to log app lifecycle events. 
+To log app lifecycle events, call following Radar methods in the AppDelegate lifecycle methods: 
 
 <Tabs
   groupId="ios"
@@ -1107,17 +1109,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
     }
 
   func applicationWillResignActive(_ application: UIApplication) {
-    // other code
+    // existing code
     Radar.logResigningActive()
   }
 
   func applicationDidEnterBackground(_ application: UIApplication) {
-    // other code
+    // existing code
     Radar.logBackgrounding()
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
-    // other code
+    // existing code
     Radar.logTermination()
   }
 }
@@ -1140,17 +1142,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  // other code
+  // existing code
   [Radar logResigningActive]
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-  // other code
+  // existing code
   [Radar logBackgrounding]
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  // other code
+  // existing code
   [Radar logTermination]
 }
 
