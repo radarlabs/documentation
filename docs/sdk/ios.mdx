@@ -1104,7 +1104,7 @@ Radar.setLogLevel(RadarLogLevel.debug)
   </TabItem>
 </Tabs>
 
-To log app lifecycle events, call the respective Radar methods in the `AppDelegate` lifecycle methods: 
+To log app lifecycle events, call the respective Radar methods in the `AppDelegate` lifecycle methods:
 
 <Tabs
   groupId="ios"
@@ -1165,17 +1165,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // existing code
-  [Radar logResigningActive]
+  [Radar logResigningActive];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
   // existing code
-  [Radar logBackgrounding]
+  [Radar logBackgrounding];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
   // existing code
-  [Radar logTermination]
+  [Radar logTermination];
 }
 
 @end
@@ -1185,7 +1185,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 </Tabs>
 
 <Alert alertType="info">
-  Contact your customer success manager to enable logging of app lifecycle events with persistent logs.
+  Contact your customer success manager to enable logging app lifecycle events.
 </Alert>
 
 ## Submit to App Store
