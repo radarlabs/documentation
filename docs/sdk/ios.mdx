@@ -1104,6 +1104,90 @@ Radar.setLogLevel(RadarLogLevel.debug)
   </TabItem>
 </Tabs>
 
+To log app lifecycle events, call the respective Radar methods in the `AppDelegate` lifecycle methods:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        Radar.initialize(publishableKey: "prj_test_pk...")
+        Radar.setDelegate(self)
+
+        return true
+    }
+
+  func applicationWillResignActive(_ application: UIApplication) {
+    // existing code
+    Radar.logResigningActive()
+  }
+
+  func applicationDidEnterBackground(_ application: UIApplication) {
+    // existing code
+    Radar.logBackgrounding()
+  }
+
+  func applicationWillTerminate(_ application: UIApplication) {
+    // existing code
+    Radar.logTermination()
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+#import "AppDelegate.h"
+@import RadarSDK;
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..."];
+    [Radar setDelegate:self];
+
+    return YES;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+  // existing code
+  [Radar logResigningActive];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+  // existing code
+  [Radar logBackgrounding];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+  // existing code
+  [Radar logTermination];
+}
+
+@end
+```
+
+  </TabItem>
+</Tabs>
+
+<Alert alertType="info">
+  Contact your customer success manager to enable logging app lifecycle events.
+</Alert>
+
 ## Submit to App Store
 
 Apple requires that you justify your use of background location. Add something materially similar to the following to the bottom of your App Store description: _This app uses background location to (insert use case here). Continued use of background location may decrease battery life._

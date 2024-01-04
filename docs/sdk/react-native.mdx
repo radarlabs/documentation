@@ -147,6 +147,20 @@ You only need to call these functions once, as these settings will be persisted 
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
+### Debug logging
+
+By default, only critical errors are logged to the console. To enable debug logging, call:
+
+```javascript
+Radar.setLogLevel('debug');
+```
+
+Logging app lifecycle events is done in native platform code. Instructions for doing so on iOS can be found in the [iOS SDK documentation](/sdk/ios#debug-logging). Logging app lifecycle events on Android happens automatically without any additional setup.
+
+<Alert alertType="info">
+  Contact your customer success manager to enable logging app lifecycle events.
+</Alert>
+
 ### Request permissions
 
 Before tracking the user's location, the user must have granted location permissions for the app.
