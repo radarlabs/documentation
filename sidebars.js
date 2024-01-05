@@ -101,7 +101,6 @@ module.exports = {
       ],
     },
     "toolkit",
-    "dashboard",
     "faqs"
   ]
 };
