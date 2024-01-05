@@ -1968,6 +1968,7 @@ Creates a new trip.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`. Defaults to `car`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 - **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/documentation/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the trip.
 
 ###### Default rate limit
 
