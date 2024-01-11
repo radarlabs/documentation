@@ -1873,6 +1873,49 @@ Secret
 }
 ```
 
+#### Get the route for a trip
+
+<Alert alertType="info">
+  Contact your customer success manager to enable this feature.
+</Alert>
+
+Gets a [route match](#route-match) for a completed, canceled, or expired trip. The trip can be referenced by Radar `_id` or `externalId`. The trip must have at least two locations for a route match to be calculated.
+
+###### Definition
+
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/trips/:id/route</code>
+<br />
+<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/trips/:externalId/route</code>
+
+###### Default rate limit
+
+10 requests per second
+
+###### Sample request
+
+```bash
+curl "https://api.radar.io/v1/trips/299/route" \
+  -H "Authorization: prj_live_sk_..."
+```
+
+###### Authentication level
+
+Secret
+
+###### Sample response
+
+```json
+{
+  "distance": {
+    "value": 1077.1173573024,
+    "text": "0.2 mi"
+  },
+  "geometry": {
+    "polyline": "waczjAhnokgEia@BcXXga@Ri|@KmIDsIDyD@mD@"
+  }
+}
+```
+
 #### List trips
 
 ###### Definition
