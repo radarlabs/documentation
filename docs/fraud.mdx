@@ -465,6 +465,8 @@ try {
 
 In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, you can also call `Radar.startTrackingVerified()` and Radar will automatically verify the user's location at regular intervals or on network connection changes.
 
+For example, to automatically verify the user's location every 5 minutes (300 seconds), without ranging beacons, and with token callbacks:
+
 <Tabs
   groupId="fraud"
   defaultValue="swift"
@@ -496,7 +498,7 @@ func didUpdateToken(_ token: String) {
 ```kotlin
 Radar.setVerifiedReceiver(receiver)
 
-Radar.startTrackingVerified(true, 300, false)
+Radar.startTrackingVerified(token = true, interval = 300, beacons = false)
 
 // in receiver
 
