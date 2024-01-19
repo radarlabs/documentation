@@ -463,7 +463,7 @@ try {
   Contact your customer success manager for access to automatic tracking.
 </Alert>
 
-In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, you can also call `Radar.startTrackingVerified()` and Radar will automatically verify the user's location periodically (e.g., on network connection changes or at regular intervals).
+In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, you can also call `Radar.startTrackingVerified()` and Radar will automatically verify the user's location at regular intervals or on network connection changes.
 
 <Tabs
   groupId="fraud"
@@ -481,7 +481,7 @@ In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedT
 ```swift
 Radar.setVerifiedDelegate(delegate)
 
-Radar.startTrackingVerified(token: true)
+Radar.startTrackingVerified(token: true, interval: 300, beacons: false)
 
 // in delegate
 
@@ -496,7 +496,7 @@ func didUpdateToken(_ token: String) {
 ```kotlin
 Radar.setVerifiedReceiver(receiver)
 
-Radar.startTrackingVerified(true)
+Radar.startTrackingVerified(true, 300, false)
 
 // in receiver
 
@@ -513,7 +513,7 @@ Radar.on('token', (token) => {
   // send token to server
 });
 
-Radar.startTrackingVerified(true);
+Radar.startTrackingVerified(true, 300, false);
 ```
 
   </TabItem>
@@ -525,19 +525,7 @@ Radar.on('token', (result) => {
   // send result.token to server
 });
 
-Radar.startTrackingVerified(true);
-```
-
-  </TabItem>
-
-  <TabItem value="flutter">
-
-```dart
-static void onToken(Map result) {
-  // do something with result.token
-}
-
-Radar.onToken(onToken);
+Radar.startTrackingVerified(true, 300, false);
 ```
 
   </TabItem>
