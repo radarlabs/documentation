@@ -20,11 +20,7 @@ Install the package from npm:
 npm install --save react-native-radar
 ```
 
-If you are using Expo, you must eject:
-
-```bash
-expo eject
-```
+If you're using Expo, your build process must facilitate the installation of native modules. This is the default behavior with prebuild and autolinking.
 
 Then, install the [iOS SDK](/sdk/ios). Change to the `ios/` directory. In the `Podfile`, update `platform :ios` to `10.0` or higher. Then, run `pod install`. Learn about [autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md).
 
