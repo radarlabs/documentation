@@ -42,40 +42,12 @@ If you are planning to leverage background tracking, such as responsive or conti
   src="https://images.ctfassets.net/f2vbu16fzuly/UUjdS7HyuFgu5bzGzuOYd/3eb568125cea0d6c4cf9384327446f08/modes.png"
 />
 
-Add the SDK to your project, preferably using CocoaPods. Finally, initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m`, passing in your Radar publishable API key:
-
-```objc
-#import <RadarSDK/RadarSDK.h>
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  [Radar initializeWithPublishableKey:publishableKey];
-  // ...
-}
-```
 ### Android
 
 You must add Google Play Services Location to your app's `build.gradle` file *(use version 21.0.1 or higher)*.
 
 `implementation "com.google.android.gms:play-services-location:21.0.1"`
 
-Then add the SDK to your project and initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key:
-
-```java
-import io.radar.sdk.Radar;
-
-public class MainApplication extends Application implements ReactApplication {
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    Radar.initialize(this, publishableKey);
-    // ...
-  }
-
-}
-```
 
 For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
 
