@@ -459,10 +459,6 @@ try {
 
 ### Automatic tracking
 
-<Alert alertType="info">
-  Automatic tracking is currently in beta.
-</Alert>
-
 In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, you can also call `Radar.startTrackingVerified()` and Radar will automatically verify the user's location at regular intervals or on network connection changes.
 
 For example, to automatically verify the user's location every 5 minutes (300 seconds), without ranging beacons, and with token callbacks:
@@ -473,9 +469,7 @@ For example, to automatically verify the user's location every 5 minutes (300 se
   values={[
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
-    { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' },
-    { label: 'Flutter', value: 'flutter' }
+    { label: 'Capacitor', value: 'capacitor' },
   ]}
 >
   <TabItem value="swift">
@@ -508,26 +502,19 @@ override fun onTokenUpdated(context: Context, token: String) {
 ```
 
   </TabItem>
-  <TabItem value="web">
+  <TabItem value="capacitor">
 
-```javascript
-Radar.on('token', (token) => {
+```capacitor
+Radar.addListener('token', (result) => {
+  const { token } = result;
   // send token to server
 });
 
-Radar.startTrackingVerified(true, 300, false);
-```
-
-  </TabItem>
-
-  <TabItem value="react-native">
-
-```javascript
-Radar.on('token', (result) => {
-  // send result.token to server
+Radar.startTrackingVerified({
+  token: true,
+  interval: 300,
+  beacons: false,
 });
-
-Radar.startTrackingVerified(true, 300, false);
 ```
 
   </TabItem>
