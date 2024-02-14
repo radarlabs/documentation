@@ -1,0 +1,36 @@
+---
+title: Waypoint 
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+You can use our Radar Waypoint apps for iOS and Android to test Radar before integrating the [SDK](/sdk), or to test your implementation of Radar side-by-side with a complete implementation.
+
+## Instructions
+
+To get started, you'll need a Radar account. Don't have a Radar account yet? [Sign up](https://radar.com/signup) first.
+
+1. Download the app.
+
+2. Open the app and enter your email address associated with the Radar account.
+
+3. Copy the 6 digit code sent to your email into the app.
+
+4. Grant notification permissions and location permissions by following the onboarding prompts.
+
+5. After completing onboarding, you should see your location on the map in the Waypoint app along with your user on the [Users page](https://radar.com/users) in the dashboard. If you are in a geofence or at a place, you will see events in the app and see events on the [Events page](https://radar.com/events) in the dashboard.
+
+5. To generate a new track call in the foreground, tap the refresh button!
+
+6. To track in the background, move more than 100 meters! **Note that location updates may be delayed significantly by Android [Doze Mode and App Standby](https://developer.android.com/training/monitoring-device-state/doze-standby.html), iOS [Low Power Mode](https://support.apple.com/en-us/HT205234), or if the device has connectivity issues, low battery, or wi-fi disabled.**
+
+7. To try out different presets, open the *Settings* screen. Then, select the *Tracking Options* preset to use, one of *Efficient*, *Responsive*, or *Continuous*. Learn about [iOS tracking presets](/sdk/tracking#ios-presets) and [Android tracking presets](/sdk/tracking#android-presets). Manage the the notifications you want to receive, including *Events* (events received from Radar), *Locations* (location updates sent to Radar), and *Errors* (network, location, and permissions errors).
+
+<div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 55px' }}>
+  <img src={useBaseUrl("/img/waypointAndroid.png")} />
+  <img src={useBaseUrl("/img/waypointIOS.png")} />
+</div>
+
+## Support
+
+Have questions or difficulties with Waypoint? Email us at support@radar.com.
