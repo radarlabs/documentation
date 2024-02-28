@@ -18,7 +18,8 @@ While it's recommended to use one of the three optimized presets, custom paramet
     { label: 'Swift', value: 'swift' },
     { label: 'Objective-C', value: 'objc' },
     { label: 'Java', value: 'java' },
-    { label: 'Kotlin', value: 'kotlin' }
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'React Native', value: 'react-native' }
   ]}
 >
   <TabItem value="swift">
@@ -56,6 +57,15 @@ trackingOptions.beacons = true
 Radar.startTracking(trackingOptions)
 ```
   </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+val trackingOptions = { ... }
+Radar.startTrackingCustom(trackingOptions)
+```
+  </TabItem>
+
 </Tabs>
 
 #### Tracking states
@@ -222,7 +232,7 @@ Option | Efficient | Responsive | Continuous
 
 SDK tracking options can be set [in dashboard settings](https://radar.com/dashboard/settings?#sdk-settings) for iOS and Android with the three default presets or a custom configuration.
 
-<img src="https://images.ctfassets.net/f2vbu16fzuly/3fTIXlesjMjmtDLlS2yIIc/be9458fa994ae783242e8e5d01cfe697/tracking_options_ios.png" alt="Remote tracking options" />
+<img src={useBaseUrl("/img/dashboardRTO.png")} alt="Remote tracking options" />
 
 Tracking options can be targeted by OS (Android and iOS), environment (live and test) and device trip status (on or off trip). By setting tracking options, any client configuration for tracking options set in the SDK will be overridden.
 
