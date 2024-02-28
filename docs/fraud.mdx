@@ -130,6 +130,20 @@ While you can work with individual flags, Radar also exposes `user.state.passed`
 
 To support the `sharing` flag on Android, pass `fraud = true` to `Radar.initialize()`.
 
+<Tabs
+  groupId="trip-tracking"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'React Native', value: 'react-native' }
+  ]}
+>
+
+
+<TabItem value="kotlin">
+
 ```kotlin
 Radar.initialize(
   context = this,
@@ -137,6 +151,23 @@ Radar.initialize(
   fraud = true
 )
 ```
+
+  </TabItem>
+
+<TabItem value="react-native">
+
+```javascript
+Radar.initialize(
+ "prj_test_pk...",
+  true
+)
+```
+
+  </TabItem>
+
+</Tabs>
+
+
 
 #### Play Integrity API
 
@@ -470,6 +501,7 @@ For example, to automatically verify the user's location every 5 minutes (300 se
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Capacitor', value: 'capacitor' },
+    { label: 'React Native', value: 'react-native' }, 
   ]}
 >
   <TabItem value="swift">
@@ -515,6 +547,18 @@ Radar.startTrackingVerified({
   interval: 300,
   beacons: false,
 });
+```
+
+  </TabItem>
+
+   <TabItem value="react-native">
+
+```javascript
+Radar.on('token', (result) => {
+  // send result.token to server
+});
+
+Radar.startTrackingVerified({token:true});
 ```
 
   </TabItem>
