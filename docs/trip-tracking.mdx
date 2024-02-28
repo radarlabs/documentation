@@ -81,7 +81,8 @@ As the trip progresses, the status will update from `started` to `approaching` (
     { label: 'Swift', value: 'swift' },
     { label: 'Objective-C', value: 'objc' },
     { label: 'Kotlin', value: 'kotlin' },
-    { label: 'Java', value: 'java' }
+    { label: 'Java', value: 'java' },
+    { label: 'React Native', value: 'react-native' }
   ]}
 >
   <TabItem value="swift">
@@ -175,6 +176,33 @@ Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS, new Radar.RadarTri
 ```
 
   </TabItem>
+
+    <TabItem value="react-native">
+
+```javascript
+
+
+Radar.startTrip({
+  tripOptions:{
+    externalId: '299',
+    destinationGeofenceExternalId: '123',
+    destinationGeofenceTag: 'store',
+    metadata: {
+      CustomerName: "Jacob Pena",
+      CarMode: "Green Honda Civic"
+    }
+  },
+  trackingOptions:{ ... }
+}).then((result)=>{
+  if(result.status == 'SUCCESS'){
+    // do something
+  } else {
+    // handle error
+  }
+});
+```
+
+  </TabItem>
 </Tabs>
 
 ## Updating trips
@@ -188,7 +216,8 @@ As the trip progresses, you can update the trip metadata (e.g., when a parking s
     { label: 'Swift', value: 'swift' },
     { label: 'Objective-C', value: 'objc' },
     { label: 'Kotlin', value: 'kotlin' },
-    { label: 'Java', value: 'java' }
+    { label: 'Java', value: 'java' },
+    { label: 'React Native', value: 'react-native'}
   ]}
 >
   <TabItem value="swift">
@@ -264,6 +293,24 @@ Radar.updateTrip(tripOptions, RadarTrip.RadarTripStatus.ARRIVED, (status, trip, 
 ```
 
   </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+let tripOptions = Radar.getTripOptions();
+tripOptions?.metadata['Parking Spot'] = 1;
+
+Radar.updateTrip(tripOptions, 'arrrived').then((result)=>{
+if (result.status == 'SUCCESS') {
+        // do something
+    } else {
+        // handle error
+    }
+});
+
+```
+
+  </TabItem>
 </Tabs>
 
 ## Stopping trips
@@ -281,7 +328,8 @@ If tracking was started before the trip was started, the previous tracking optio
     { label: 'Swift', value: 'swift' },
     { label: 'Objective-C', value: 'objc' },
     { label: 'Kotlin', value: 'kotlin' },
-    { label: 'Java', value: 'java' }
+    { label: 'Java', value: 'java' },
+    { label: 'React Native', value: 'react-native'}
   ]}
 >
   <TabItem value="swift">
@@ -338,6 +386,23 @@ Radar.cancelTrip { status, trip, events ->
       public void onComplete(Radar.RadarStatus radarStatus, RadarTrip radarTrip, RadarEvent[] radarEvents) {
           // do something
       }
+  });
+  ```
+
+  </TabItem>
+
+    </TabItem>
+    <TabItem value="react-native">
+
+  ```javascript
+  // Complete trip
+  Radar.completeTrip().then((result)=>{
+    // do something
+  });
+
+  // Cancel trip
+  Radar.cancelTrip().then((result)=>{
+    // do something
   });
   ```
 
