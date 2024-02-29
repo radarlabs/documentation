@@ -209,6 +209,27 @@ Radar.trackOnce().then((result) => {
 - **`ERROR_SERVER`**: internal server error
 - **`ERROR_UNKNOWN`**: unknown error
 
+To track the user location each time the app is foreground, use this code snippet:
+
+```javascript
+  useEffect(() => {
+    // Define a function to handle the app state change
+    const handleAppStateChange = (nextAppState) => {
+      if (nextAppState === 'active') {
+        Radar.trackOnce();
+      }
+    };
+
+    // Add the AppState listener
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+    // Remove the AppState listener when the component unmounts
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+```
+
 Learn about platform-specific implementations of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
 ### Background tracking
@@ -322,7 +343,7 @@ Radar.off('error');
 
 Because React Native loads and parses your JavaScript bundle on each app launch, and because background tracking may launch the app in the background, background tracking with the React Native module can increase battery usage.
 
-On iOS, the app loads and parses the JavaScript bundle when the app is launched. If you do not want to receive events in JavaScript and you want to disable this in the background, check `launchOptions` for the `UIApplicationLaunchOptionsLocationKey` to conditionally parse and load the JavaScript bundle. Learn more about this key [here](https://developer.apple.com/uikit/uiapplicationlaunchoptionslocationkey).
+On iOS, the app loads and parses the JavaScript bundle when the app is launched. If you do not want to receive events in JavaScript and you want to disable this in the background, check `launchOptions` for the `UIApplicationLaunchOptionsLocationKey` to conditionally parse and load the JavaScript bundle. Learn more about this key [here](https://developer.apple.com/documentation/uikit/uiapplicationlaunchoptionslocationkey).
 
 On Android, a receiver in the React Native module loads and parses the JavaScript bundle when the app is launched in the background. If you do not want to receive events in JavaScript and you want to disable this, add an override to your manifest:
 
