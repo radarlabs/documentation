@@ -179,8 +179,10 @@ Radar.startTrip(tripOptions, RadarTrackingOptions.CONTINUOUS, new Radar.RadarTri
     <TabItem value="react-native">
 
 ```javascript
+import { presetContinuousAndroid } from 'react-native-radar';
+
 Radar.startTrip({
-  tripOptions:{
+  tripOptions: {
     externalId: '299',
     destinationGeofenceExternalId: '123',
     destinationGeofenceTag: 'store',
@@ -189,9 +191,9 @@ Radar.startTrip({
       CarMode: "Green Honda Civic"
     }
   },
-  trackingOptions:{ ... }
+  trackingOptions: presetContinuousAndroid
 }).then((result)=>{
-  if(result.status == 'SUCCESS'){
+  if( result.status == 'SUCCESS' ){
     // do something
   } else {
     // handle error
