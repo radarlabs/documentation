@@ -62,27 +62,9 @@ Radar.startTracking(trackingOptions)
   <TabItem value="react-native">
 
 ```javascript
-val trackingOptions = {
-  desiredStoppedUpdateInterval: 0,
-  desiredMovingUpdateInterval: 0,
-  desiredSyncInterval: 0,
-  desiredAccuracy: DesiredAccuracy.Medium,
-  stopDuration: 0,
-  stopDistance: 0,
-  replay: Replay.Stops,
-  useStoppedGeofence: false,
-  showBlueBar: false,
-  startTrackingAfter: undefined,
-  stopTrackingAfter: undefined,
-  stoppedGeofenceRadius: 0,
-  useMovingGeofence: false,
-  movingGeofenceRadius: 0,
-  syncGeofences: true,
-  useVisits: true,
-  useSignificantLocationChanges: false,
-  beacons: false,
-  sync: Sync.All,
-}
+import { presetContinuousAndroid } from 'react-native-radar';
+
+val trackingOptions = { ...presetContinuousAndroid, beacons: true }
 Radar.startTrackingCustom(trackingOptions)
 ```
   </TabItem>
