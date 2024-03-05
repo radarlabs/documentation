@@ -1,8 +1,7 @@
 ---
 title: Static Maps
 ---
-import Alert from '../../src/components/Alert.jsx';
-import Map from '../../src/components/Map.jsx'
+import StaticMap from '../../src/components/StaticMap.jsx'
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 The Radar Static Maps API generates standalone images of Radar Maps that can be easily embedded anywhere an image can be used. These images can be created without the use of Javascript or any additional mapping libraries.
@@ -13,7 +12,10 @@ For example, here's a Radar Static Map displaying a marker for Radar HQ:
 <img src='https://api.radar.io/maps/static?width=910&height=320&center=40.73430,-73.99110&zoom=15&style=radar-default-v1&scale=2&markers=color:0x000257|40.73430,-73.99110&publishableKey=prj_live_pk_...' alt='Radar Static Map over New York City' />
 ```
 
-<img src={useBaseUrl("/img/static-maps/radar-static-map-default.png")} alt='Radar static map over New York City' />
+<StaticMap
+    query='width=910&height=320&center=40.73430,-73.99110&zoom=15&style=radar-default-v1&scale=2&markers=color:0x000257|40.73430,-73.99110'
+    alt='Radar static map over New York City'
+/>
 
 ## How it works
 
