@@ -57,10 +57,12 @@ markers=markerStyle|markerLocation1|markerLocation2|...
 
 For instance, to apply a single marker styling to multiple pins:
 ```
-https://api.radar.io/maps/static?width=1000&height=1000&style=radar-default-v1&scale=1&markers=color:0x000257|40.73430,-73.99110|40.706436,-73.997271&publishableKey=prj_live_pk_...
+https://api.radar.io/maps/static?width=900&height=600&style=radar-light-v1&scale=2&markers=color:0x000257|40.73430,-73.99110|40.706436,-73.997271&publishableKey=prj_live_pk_...
 ```
 
-<img src={useBaseUrl("/img/static-maps/radar-static-maps-markers-example.png")} alt='Radar Static Map over New York City' />
+<StaticMap
+    query='width=900&height=600&style=radar-light-v1&scale=2&markers=color:0x000257|40.73430,-73.99110|40.706436,-73.997271'
+    alt='Radar Static Map over New York City' />
 
 <br />
 <br />
@@ -73,7 +75,9 @@ An example request with two different styles is defined below.
 https://api.radar.io/maps/static?width=900&height=600&center=37.80176,-122.42376&zoom=13&style=radar-dark-v1&scale=2&markers=color:0xD1F3E0|size:small|37.808387,-122.409673&markers=color:0xBFD1FF|37.822503,-122.478923&publishableKey=prj_live_pk_...
 ```
 
-<img src={useBaseUrl("/img/static-maps/radar-static-maps-sanfrancisco-example.png")} alt='Radar Static Map over San Francisco' />
+<StaticMap
+    query='width=900&height=600&center=37.80176,-122.42376&zoom=13&style=radar-dark-v1&scale=2&markers=color:0xD1F3E0|size:small|37.808387,-122.409673&markers=color:0xBFD1FF|37.822503,-122.478923'
+    alt='Radar Static Map over San Francisco' />
 
 ## Examples
 
@@ -94,12 +98,12 @@ We can specify these options as query parameters in the image `src`.
 
 
 ```
-<img src='https://api.radar.io/maps/static?width=900&height=600&center=43.64259,-79.387087&zoom=13&style=radar-default-v1&scale=1&markers=color:0x000257|43.64259,-79.387087&publishableKey=prj_live_pk_...' alt='Radar Static Map centered around the CN Tower' />
+<img src='https://api.radar.io/maps/static?width=900&height=600&center=43.64259,-79.387087&zoom=13&style=radar-default-v1&scale=2&markers=color:0x000257|43.64259,-79.387087&publishableKey=prj_live_pk_...' alt='Radar Static Map centered around the CN Tower' />
 ```
-<img src={useBaseUrl("/img/static-maps/radar-static-maps-toronto-example.png")} alt='Radar Static Map over Toronto' />
 
-
-
+<StaticMap
+    query='width=900&height=600&center=43.64259,-79.387087&zoom=13&style=radar-default-v1&scale=2&markers=color:0x000257|43.64259,-79.387087'
+    alt='Radar Static Map centered around the CN Tower' />
 
 #### Autofitting map bounds to markers
 When markers are included as part of the Static Image request, you have the option for the `center` and `zoom` to automatically be determined based on the markers locations.
@@ -110,8 +114,9 @@ By omitting the `center` and `zoom` parameters, the map's position will be calcu
 https://api.radar.io/maps/static?width=900&height=600&style=radar-default-v1&scale=2&markers=color:0xFF428E|40.781196,-73.974075|40.782938,-73.959041&markers=color:0xE2052C|size:small|40.779344,-73.962486|40.76144,-73.977597|40.753664,-73.981905&publishableKey=prj_live_pk_...
 ```
 
-<img src={useBaseUrl("/img/static-maps/radar-static-maps-multiple-markers-autofit.png")} alt='Radar Static Map over New York City museums' />
-
+<StaticMap
+    query='width=900&height=600&style=radar-default-v1&scale=2&markers=color:0xFF428E|40.781196,-73.974075|40.782938,-73.959041&markers=color:0xE2052C|size:small|40.779344,-73.962486|40.76144,-73.977597|40.753664,-73.981905'
+    alt='Radar Static Map over New York City museums' />
 
 #### Images for high resolution device
 
@@ -132,8 +137,16 @@ https://api.radar.io/maps/static?width=200&height=200&center=40.71297,-74.00183&
   </thead>
   <tbody>
     <tr>
-      <td><img src={useBaseUrl("/img/static-maps/radar-static-maps-200-example.png")} alt='Radar Static Map over New York City' /></td>
-      <td><img src={useBaseUrl("/img/static-maps/radar-static-maps-400-example.png")} alt='Radar Static Map over New York City' /></td>
+      <td>
+        <StaticMap
+            query='width=200&height=200&center=40.71297,-74.00183&zoom=12&style=radar-default-v1&scale=1'
+            alt='Radar Static Map over New York City' />
+      </td>
+      <td>
+        <StaticMap
+            query='width=200&height=200&center=40.71297,-74.00183&zoom=12&style=radar-default-v1&scale=2'
+            alt='Radar Static Map over New York City' />
+      </td>
     </tr>
   </tbody>
 </table>
