@@ -59,6 +59,39 @@ For background tracking without a foreground service, and if targeting API level
 </manifest>
 ```
 
+### Expo
+
+You can use our Expo plugin to take care of the native setup in an Expo app. Add `"react-native-radar"` to the `"plugins"` field in your `app.json`. Set plugin arguments to configure `react-native-radar` for your project. 
+
+```json
+{
+  "expo":{
+    ...
+    "plugins": [
+      [
+        "react-native-radar",
+        {
+          // boolean to enable iOS fraud detection, defaults to false
+          "iosFraud": true,
+          // string used in iOS NSLocationWhenInUseUsageDescription prompt, defaults to "This app uses the location service to provide location-based services."
+          "iosNSLocationAlwaysAndWhenInUseUsageDescription": "Your location permission prompt"
+          // string used in iOS NSLocationAlwaysAndWhenInUseUsageDescription prompt, required for background permissions
+          "iosNSLocationAlwaysAndWhenInUseUsageDescription": "Your location permission prompt",
+          // boolean to enable iOS background tracking, required for responsive and continous tracking mode, defaults to false
+          "iosBackgroundMode": true,
+          // boolean to enable Android fraud detection, defaults to false
+          "androidFraud": true,
+          // boolean to enable Android background permissions, defaults to false 
+          "androidBackgroundPermission": true,
+          // boolean to enable Android fine locations permission, default to false
+          "androidFineLocationPermission": true
+        }
+      ]
+    ]
+  }
+}
+```
+
 ## Integrate
 
 ### Import module
