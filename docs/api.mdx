@@ -1196,6 +1196,19 @@ curl "https://api.radar.io/v1/route/match?path=40.73421259605101,-73.98635368448
 }
 ```
 
+#### Response Definitions
+
+`roadClass` values, In descending order of size:
+
+- `motorway`: Major divided highway, normally with 2 or more running lanes plus emergency hard shoulder.
+- `trunk`: Arterial roads meant to support large amounts of traffic.
+- `primary`: Large sized roads.
+- `secondary`: Medium sized roads.
+- `tertiary`: Small roads that often connect `residential` roads.
+- `residential`: Roads which serve as an access to housing.
+- `unclassified`: Minor roads that don't provide access to housing.
+- `service_other`: For access roads to, or within an industrial estate, camp site, business park, car park, alleys, etc.
+
 #### Directions
 
 Calculates the most efficient route between two or more locations to visit in order.
