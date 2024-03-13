@@ -45,6 +45,8 @@ Additionally, configure Radar with a *Partnership Type* of *Customer Arrival* vi
 
 The trip's approaching threshold and scheduled arrival at attributes are used to determine the order firing time. When an active trip ETA drops below the approaching threshold, Radar generates a `user.approaching_trip_destination` event and Radar will fire the order. If the trip is started inside the destination geofence, Radar will fire the order immediately. In the event the `scheduledArrivalAt` set on the trip is reached before the approaching threshold is crossed, the order will automatically fire. See below for how to configure these two parameters.
 
+When starting a trip for an order, include the `oloOrderGuid` and `oloHandoffMode` in trip metadata.
+
 ### Scheduled arrival at
 
 A `scheduledArrivalAt` datetime is required as a fallback in the event location sharing is disabled or the device is experiencing connectivity issues.
