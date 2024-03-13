@@ -404,11 +404,6 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 }
 ```
 
-## Delay detection
-
-Delay detection identifies trips at risk of being delayed or incomplete. To enable this feature, configure a *Delay threshold* on the [Settings page](https://radar.com/dashboard/settings#trips-settings) under *Trips*.
-
-If `scheduledArrivalAt` is set for a trip, delay information is captured in the trip's `delay` field. The `scheduledArrivalTimeDelay` is the predicted arrival delay from the `scheduledArrivalAt` time in minutes. The `delayed` flag is `true` when `scheduledArrivalTimeDelay` exceeds the delay threshold.
 
 ## Anomaly detection
 
@@ -418,11 +413,13 @@ The wrong destination entry detection feature identifies when a user on a trip m
 
 To enable this feature, navigate to the [Settings page](https://radar.com/dashboard/settings#trips-settings) and enable the `user.entered_wrong_store` event under *Trips* section.
 
-### Delayed during trip
+### Delay detection
 
-The [trip delay detection feature](https://radar.com/dashboard/documentation/trip-tracking#delay-detection) can be configured to trigger an event when the user expected arrival time is delayed.
+Delay detection identifies trips at risk of being delayed or incomplete. To enable this feature, configure a *Delay threshold* on the [Settings page](https://radar.com/dashboard/settings#trips-settings) under *Trips*.
 
-To enable this feature, navigate to the [Settings page](https://radar.com/dashboard/settings#trips-settings) and enable the `user.delayed_during_trip` event under *Trips* section.
+If `scheduledArrivalAt` is set for a trip, delay information is captured in the trip's `delay` field. The `scheduledArrivalTimeDelay` is the predicted arrival delay from the `scheduledArrivalAt` time in minutes. The `delayed` flag is `true` when `scheduledArrivalTimeDelay` exceeds the delay threshold.
+
+To trigger an event when a trip delay is detected, navigate to the [Settings page](https://radar.com/dashboard/settings#trips-settings) and enable the `user.delayed_during_trip` event under *Trips* section.
 
 ## Display live trips and ETAs
 
