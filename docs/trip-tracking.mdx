@@ -412,11 +412,17 @@ If `scheduledArrivalAt` is set for a trip, delay information is captured in the 
 
 ## Anomaly detection
 
-### Wrong store entry
+### Wrong destination entry
 
-The wrong store entry detection feature identifies when a user on a trip may have entered a different store than the one intended. Specifically, it triggers an event when the user enters a geofence that shares the same `tag` as the destination geofence, but possesses a different `externalId`.
+The wrong destination entry detection feature identifies when a user on a trip may have entered a different destination than the one intended. Specifically, it triggers an event when the user enters a geofence that shares the same `tag` as the destination geofence, but possesses a different `externalId`.
 
 To enable this feature, navigate to the [Settings page](https://radar.com/dashboard/settings#trips-settings) and enable the `user.entered_wrong_store` event under *Trips* section.
+
+### Delayed during trip
+
+The [trip delay detection feature](https://radar.com/dashboard/documentation/trip-tracking#delay-detection) can be configured to trigger an event when the user expected arrival time is delayed.
+
+To enable this feature, navigate to the [Settings page](https://radar.com/dashboard/settings#trips-settings) and enable the `user.delayed_during_trip` event under *Trips* section.
 
 ## Display live trips and ETAs
 
