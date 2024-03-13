@@ -407,11 +407,11 @@ You can receive events client-side via the [SDK](/sdk) or server-side via [event
 
 ## Anomaly detection
 
-### Wrong destination entry
+### Wrong destination arrival detection
 
-The wrong destination entry detection feature identifies when a user on a trip may have entered a different destination than the one intended. Specifically, it triggers an event when the user enters a geofence that shares the same `tag` as the destination geofence, but possesses a different `externalId`.
+The wrong destination arrival detection feature identifies when a user on a trip may have entered a different destination than the one intended. Specifically, it triggers an event when the user enters a geofence that shares the same `tag` as the destination geofence, but possesses a different `externalId`.
 
-To enable this feature, navigate to the [Settings page](https://radar.com/dashboard/settings#trips-settings) and enable the `user.entered_wrong_store` event under *Trips* section.
+To enable this feature, navigate to the [Settings page](https://radar.com/dashboard/settings#trips-settings) and enable the `user.arrived_at_wrong_trip_destination` event under *Trips* section.
 
 ### Delay detection
 
