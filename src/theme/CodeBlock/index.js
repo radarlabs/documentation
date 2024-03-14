@@ -97,8 +97,6 @@ export default function CodeBlock({
   title,
 }) {
   const {radarGitHubReleases} = usePluginData('radar-version-injector');
-  console.log('radarGitHubReleases', radarGitHubReleases);
-
   const {prism} = useThemeConfig();
   const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false); // The Prism theme on SSR is always the default theme but the site theme

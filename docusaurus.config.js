@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Documentation | Radar',
