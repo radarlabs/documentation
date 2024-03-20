@@ -626,6 +626,16 @@ Radar.logConversion(
 });
 ```
 
+#### Beacons
+
+To range and monitor [beacons](/beacons), make sure that permission is enabled on [iOS](/sdk/ios#beacons) or [Android](/sdk/android#beacons).
+
+To range beacons in the foreground, call:
+
+```javascript
+Radar.TrackOnce({ desiredAccuracy:"high", beacons:true })
+```
+
 ### Notification options
 
 On Android, you can call `setNotificationOptions` to set the icon and the background color of the foreground service and event notifications:
