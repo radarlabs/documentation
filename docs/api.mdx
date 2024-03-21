@@ -1949,7 +1949,7 @@ Lists trips. Trips are sorted descending by `eta`.
 - **`destinationGeofenceTag`** (string, optional): Retrieves trips with the destination geofence tag.
 - **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
 - **`externalId`** (string, optional): A stable unique ID for the trip.
-- **`externalIds`** (string, options) Retrieves trips by unique IDs. A string, comma-separated including one or more IDs. This parameter overrides the `externalId` parameter.  
+- **`externalIds`** (string, optional) Retrieves trips by unique IDs. A string, comma-separated including one or more IDs. This parameter overrides the `externalId` parameter.  
 - **`userId`** (string, optional): The Radar `_id` of the [user](/api#users) for which the trip is being tracked.
 - **`includeLocations`** (boolean, optional): Whether to include locations on trips. Defaults to `false`.
 - **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves trips created after the specified datetime. A date or valid ISO date string.
@@ -1964,7 +1964,7 @@ Lists trips. Trips are sorted descending by `eta`.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips?status=started&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
+curl "https://api.radar.io/v1/trips?status=started&destinationGeofenceTag=store&destinationGeofenceExternalIds=123,456,789" \
   -H "Authorization: prj_live_sk_..."
 ```
 
