@@ -94,7 +94,8 @@ The CSV may have the following columns:
 - **`stopDetection`** (boolean, optional): The [stop detection](/geofences#stop-detection) setting for the geofence. Overrides the project-level stop detection setting.
 - **`disableAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be disabled after the specified datetime. `disableAfter` operates independently of `operatingHours`. A date or valid ISO date string.
 - **`deleteAfter`** (datetime, optional): Use to create temporary geofences. If set, the geofence will be deleted after the specified datetime. A date or valid ISO date string.
-- **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users.
+- **`userId`** (string, optional): An optional user restriction for the geofence. If set, the geofence will only generate events for the specified user. If not set, the geofence will generate events for all users. **Deprecated.**
+- **`userIds`** (string, optional): An optional user restriction for the geofence. A string of comma-separated user IDs. If set, the geofence will only generate events for the specified users. If not set, the geofence will generate events for all users.
 - **`ip`** (string, optional): An optional IP address restriction for the geofence. A string of comma-separated IP address ranges, each of which could be a single IP (`8.8.8.8`), wildcard notation (`8.8.8.*`), or CIDR notation (`8.8.8.8/24`). If set, the geofence will only generate events for requests from the specified IP address. If not set, the geofence will generate events for all requests.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes). For example, a value of `10` would result in a dwell event on the next track call after a user has occupied a geofence for 10 minutes.
 - **`placeId`** (string, required if `coordinates` and `address` are not included): For [place matching](/places#place-matching), an optional `_id` of the Radar [place](/places) to match to the geofence. If a place was matched, the geometry of the place will override the geometry of the geofence.
@@ -104,13 +105,13 @@ The CSV may have the following columns:
 For example, to import a circle geofence representing a store and a polygon geofence representing a neighborhood, you could use the following CSV:
 
 ```json
-description,tag,externalId,type,radius,mode,coordinates,address,enabled,metadata,stopDetection,disableAfter,deleteAfter,userId,operatingHours
+description,tag,externalId,type,radius,mode,coordinates,address,enabled,metadata,stopDetection,disableAfter,deleteAfter,userIds,operatingHours
 "Store #123",store,123,circle,50,,"[-73.975363,40.783826]",,true,"{""parking"":false}",,,,,
 "SoHo",neighborhood,soho,polygon,,,"[[-73.996973,40.725660],[-73.998282,40.726294],[-74.001072,40.727660],[-74.002853,40.728603],[-74.003282,40.727936],[-74.003840,40.726310],[-74.004226,40.725351],[-74.004998,40.723530],[-74.005191,40.722993],[-74.005556,40.722115],[-74.004462,40.721334],[-74.001908,40.719496],[-73.999827,40.718016],[-73.997467,40.720863],[-73.997016,40.722212],[-73.996501,40.723497],[-73.995750,40.724278],[-73.995128,40.725107],[-73.996973,40.725660]]",,true,,,,,,
 "15 minutes driving to Disney World","car-15",disney,isochrone,15,car,"[-81.563874,28.385233]",,true,"{""type"":""resort""}",,,,,
 "Madison Square Garden from address",stadium,msg,circle,200,,,"4 Pennsylvania Plaza, New York, NY 10001",true,,,,,,
 "Disable in 2028 and delete in 2029",new-years,2027,circle,50,,"[-73.9877313,40.7579787]",,true,,,"2028-01-01T00:01:00-05:00","Jan 1, 2029",,
-"Delivery #123 for user #456",delivery,123,circle,50,,"[-73.9934387,40.7505045]",,true,,,,,456,
+"Delivery #123 for user #456 and driver #321",delivery,123,circle,50,,"[-73.9934387,40.7505045]",,true,,,,,"456,321",
 "Restaurant #789 open for Sunday breakfast and dinner",restaurant,789,circle,50,,"[-73.9934387,40.7505045]",,true,,,,,,"{""Sun"":[[""09:00"",""14:00""], [""17:00"",""22:00""]]}"
 ```
 
