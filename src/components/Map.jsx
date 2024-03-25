@@ -10,7 +10,7 @@ class Map extends React.Component {
     Radar.initialize(PUBLISHABLE_KEY);
 
     const map = new Radar.ui.map({
-      container: 'map',
+      container: 'default-map',
       center: [-73.9911, 40.7342], // NYC
       zoom: 14,
     });
@@ -22,8 +22,8 @@ class Map extends React.Component {
 
   render() {
     return (
-      <div id="map-container" style={{ height: '20rem', margin: '1rem 0 1.5rem', position: 'relative', width: '95%' }}>
-        <div id="map" style={{ bottom: 0, position: 'absolute', top: 0, width: '100%' }} />
+      <div id="map-container" style={{ height: '400px', margin: '1rem 0 1.5rem', position: 'relative', width: '95%' }}>
+        <div id="default-map" style={{ bottom: 0, position: 'absolute', top: 0, width: '100%' }} />
       </div>
     );
   }

@@ -26,7 +26,7 @@ Static Map images can be used inline with HTML `<img>` tags by setting the `src`
 #### Definition
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/maps/static  </code><br/>
 
-#### Parameters
+### Parameters
 <div className="full-width-table">
 
 | Name  | Default | Possible values | Description           |
@@ -40,7 +40,7 @@ Static Map images can be used inline with HTML `<img>` tags by setting the `src`
 | `markers` | none | string | For rendering markers on the map. See [markers](#markers) for more details. |
 </div>
 
-#### Markers
+### Markers
 Adding markers (or map pins) to your static images can be useful for highlighting important features on your map. The Static Maps endpoint accepts a `markers` parameter that can be configured for rendering one, or many markers on the map.
 
 Each markers parameter is made up of optional `markerStyle` sections, and one or more `markerLocations`.
@@ -75,7 +75,7 @@ https://api.radar.io/maps/static?width=900&height=600&center=37.80176,-122.42376
 
 ## Examples
 
-#### Embedding a Radar Static Map using HTML
+### Embedding a Radar Static Map using HTML
 
 Radar Static Maps can easily be embedded into `<img>` using the element's `src` attribute. For instance, if we wanted an image of a map with the following attributes:
 * **width**: 900
@@ -99,7 +99,7 @@ We can specify these options as query parameters in the image `src`.
 
 
 
-#### Autofitting map bounds to markers
+### Autofitting map bounds to markers
 When markers are included as part of the Static Image request, you have the option for the `center` and `zoom` to automatically be determined based on the markers locations.
 
 By omitting the `center` and `zoom` parameters, the map's position will be calculated to ensure all markers are visible.
@@ -111,7 +111,7 @@ https://api.radar.io/maps/static?width=900&height=600&style=radar-default-v1&sca
 <img src={useBaseUrl("/img/static-maps/radar-static-maps-multiple-markers-autofit.png")} alt='Radar Static Map over New York City museums' />
 
 
-#### Images for high resolution device
+### Images for high resolution device
 
 When embedding images on high resolution devices, images may look blurry (low resolution) or be too small if the image is not scaled to match the device's pixel ratio. 
 
