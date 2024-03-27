@@ -1,19 +1,19 @@
 ---
-sidebar_label: Xamarin
-title: Xamarin SDK
-description: Documentation for Xamarin SDK
+sidebar_label: MAUI
+title: MAUI SDK
+description: Documentation for MAUI SDK
 ---
 
 import Alert from "../../src/components/Alert";
 
-This is the documentation for the Xamarin package. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
+This is the documentation for the MAUI package. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
 
 ## Install
 
-Install the package from [NuGet](https://www.nuget.org/packages/RadarIO.Xamarin/):
+Install the package from [NuGet](https://www.nuget.org/packages/RadarIO.MAUI/):
 
 ```bash
-Install-Package RadarIO.Xamarin
+Install-Package RadarIO.MAUI
 ```
 
 If you have an iOS and an Android project, add the package to each project.
@@ -25,8 +25,8 @@ If you have an iOS and an Android project, add the package to each project.
 First, initialize the SDK:
 
 ```cs
-using RadarIO.Xamarin;
-using static RadarIO.Xamarin.RadarSingleton;
+using RadarIO.MAUI;
+using static RadarIO.MAUI.RadarSingleton;
 
 namespace MyProject
 {
@@ -75,7 +75,7 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 
 Before tracking the user's location, the user must have granted location permissions for the app.
 
-See the [Xamarin Permissions docs](https://docs.microsoft.com/en-us/xamarin/essentials/permissions) to learn how to check and request permissions.
+See the [MAUI Permissions docs](https://docs.microsoft.com/en-us/maui/essentials/permissions) to learn how to check and request permissions.
 
 ### Foreground tracking
 
@@ -228,7 +228,7 @@ Learn about platform-specific implementation of this function in the [iOS SDK do
 
 ### Other APIs
 
-The Xamarin SDK also exposes APIs for anonymous context, geocoding, search, and distance.
+The MAUI SDK also exposes APIs for anonymous context, geocoding, search, and distance.
 
 #### Get location
 
