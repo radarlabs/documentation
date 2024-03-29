@@ -84,14 +84,15 @@ module.exports = {
         async contentLoaded({ actions }) {
             const { setGlobalData } = actions;
             const RADAR_SDK_REPOS = {
-                'web': 'radar-sdk-js',
-                'ios': 'radar-sdk-ios',
-                'android': 'radar-sdk-android',
-                'reactnative': 'react-native-radar',
-                'cordova': 'cordova-plugin-radar',
-                'capacitor': 'capacitor-radar',
-                'flutter': 'flutter-radar',
-                'xamarin': 'radar-sdk-xamarin'
+                // "fallbackVersion" values are used in case the github api call fails
+                'web': {repo: 'radar-sdk-js', fallbackVersion: 'v4.1.18'},
+                'ios': {repo: 'radar-sdk-ios', fallbackVersion: '3.9.12'},
+                'android': {repo: 'radar-sdk-android', fallbackVersion: '3.9.8'},
+                'reactnative': {repo: 'react-native-radar', fallbackVersion: '3.10.7'},
+                'cordova': {repo: 'cordova-plugin-radar', fallbackVersion: '3.9.0'},
+                'capacitor': {repo: 'capacitor-radar', fallbackVersion: '3.9.1'},
+                'flutter': {repo: 'flutter-radar', fallbackVersion: '3.9.0'},
+                'xamarin': {repo: 'radar-sdk-xamarin', fallbackVersion: '3.5.9.1'},
             }
 
             // fetch latest release version number from github.
@@ -122,18 +123,24 @@ module.exports = {
                 console.log(`Fetching versions from GitHub, this should take less than 30 seconds...`);
 
                 radarGitHubReleases = {};
-                for (const [sdkName, repo] of Object.entries(RADAR_SDK_REPOS)) {
+                for (const [sdkName, {repo, fallbackVersion}] of Object.entries(RADAR_SDK_REPOS)) {
                     const [response] = await Promise.all([
                         fetch(`https://api.github.com/repos/radarlabs/${repo}/releases/latest`),
                         // delay between each api call to avoid rate limiting
                         new Promise(resolve => setTimeout(resolve, 1000))
                     ]);
-                    // check that response status code is 200, otherwise throw / stop immediately
-                    if (response.status !== 200) {
-                        throw new Error(`An error occurred while fetching versions from GitHub! ${response.status} -- ${response.statusText}`);
+
+                    let versionNumber = fallbackVersion;
+                    // check that response status code is 200, otherwise default to fallback version
+                    if (response.status === 200) {
+                        const data = await response.json();
+                        versionNumber = data.name;
+                    } else {
+                        // print in red
+                        console.log("\x1b[31m", `An error occurred while fetching versions from GitHub! ${response.status} -- ${response.statusText}`);
+                        console.log("\x1b[31m", `Defaulting to fallback version ${fallbackVersion} for this SDK.`);
                     }
-                    const data = await response.json();
-                    radarGitHubReleases[`RADAR_${sdkName.toUpperCase()}_SDK_VERSION`] = data.name;
+                    radarGitHubReleases[`RADAR_${sdkName.toUpperCase()}_SDK_VERSION`] = versionNumber;
                 }
             }
 
