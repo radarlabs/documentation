@@ -25,7 +25,7 @@ module.exports = {
     ],
     navbar: {
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Radar',
         src: 'img/logo.svg',
       },
       items: [
