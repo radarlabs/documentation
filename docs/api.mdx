@@ -1098,11 +1098,13 @@ For best results, the sample rate should be less than 10 seconds between points.
 
 ###### Definitions
 
-<span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/route/match</code>
+<span className="badge badge--info">POST</span> <code>https://api.radar.io/v1/route/match</code>
 
-###### Query parameters
+###### JSON payload
 
-- **`path`** (string, required): A list of up to 100 coordinates along a route to be snapped. A string in the format `latitude1,longitude1|latitude2,longitude2`.
+- **`path`** (array, required): A list of coordinate objects along a route to be snapped.
+  - Each object in the list should be of the form `{"coordinates": "latitude,longitude"}`
+  - Objects may optionally include either or both an ISO date string and an accuracy value in meters for that coordinate `{"coordinates": "latitude,longitude", "createdAt": "iso date string", "accuracy": value}`
 - **`mode`** (string, optional): The travel mode. A string, one of `car`, `truck`, `foot`, or `bike`. Defaults to `car`.
 - **`roadAttributes`** (string, optional): Attributes of matched roads to be included in the response. A string, comma-separated, including one or more of `speedLimit`, `names`, and `roadClass`.
   - `roadClass` return values will be one of:
@@ -1127,8 +1129,11 @@ Publishable
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/route/match?path=40.73421259605101,-73.98635368448336|40.73615136186456,-73.98534685613593|40.73616535996882,-73.98026652961276|40.73701616007588,-73.98238510730718&mode=car&roadAttributes=names,speedLimit,roadClass" \
-  -H "Authorization: prj_live_pk_..."
+curl "https://api.radar.io/v1/route/match" \
+  -H "Authorization: prj_live_pk_..." \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{"path": [{"coordinates": "40.754231505412264,-73.98465161242224", "createdAt": "2024-03-29T20:47:49Z", "accuracy": 23}, {"coordinates": "40.73988226756973,-73.9950818342906", "createdAt": "2024-03-29T20:49:02Z", "accuracy": 27}], "mode": "car"}'
 ```
 
 ###### Sample response
@@ -1136,62 +1141,50 @@ curl "https://api.radar.io/v1/route/match?path=40.73421259605101,-73.98635368448
 ```json
 {
   "meta": {
-    "code": 200,
+    "code": 200
   },
   "matchedPath": [
     {
-      "latitude": 40.734251,
-      "longitude": -73.990903,
+      "latitude": 40.754233,
+      "longitude": -73.984727,
       "originalIndex": 0
     },
     {
-      "latitude": 40.734442,
-      "longitude": -73.992048,
+      "latitude": 40.739919,
+      "longitude": -73.995156,
       "originalIndex": 1
-    },
-    {
-      "latitude": 40.734847,
-      "longitude": -73.994474,
-      "originalIndex": 2
     }
   ],
   "roadAttributes": [
     {
+      "originalIndex": 0,
       "names": [
-        "Broadway"
+        "West 41st Street"
       ],
       "speedLimit": {
         "value": 25,
         "text": "25 mph"
       },
-      "roadClass": "secondary",
-      "originalIndex": 0
+      "roadClass": "residential"
     },
     {
+      "originalIndex": 1,
       "names": [
-        "East 13th Street"
+        "West 18th Street"
       ],
       "speedLimit": {
         "value": 25,
         "text": "25 mph"
       },
-      "roadClass": "residential",
-      "originalIndex": 1
-    },
-    {
-      "names": [
-        "5th Avenue"
-      ],
-      "speedLimit": {
-        "value": 25,
-        "text": "25 mph"
-      },
-      "roadClass": "secondary",
-      "originalIndex": 2
+      "roadClass": "residential"
     }
   ],
   "geometry": {
-      "polyline": "uafulAln`clCpKzAhCFqAbEs\\heAaA|CuAlEgj@teBm@jBs@|BbBjA~XzR",
+    "polyline": "qbmvlAnltblCmMfa@Wx@mApDYz@s@xBcZd_Ag@|Aw@fCc@vA{AvE}Lba@cBrFhBjAbQ|KtLvHnBnAlBnAl]vTbC|AtClBj]jUdDzB|AbAt]nUjCdBhBlA`^vUnBrA`CxAl^hUzBvAlBpAz^lVhDzBnEvCz^dVhBnAjCbB~AdA`ZxRTNrCjBxA`At@d@n\\tTxBvA`C|Az]hUpChBlBtAh]pVpBpAjCdBvOhJrFdDxErCPLrBrAnBpAvQtL|JvGlCdBnBpAhUhOvGjEvBxAvBtA~]hUbC|AfBjAxUrOdG|DjCfBrBrAlD|BtJpGjMjI`EjCbEnCFDnO~JlNfJzBxAzBtAb^vUvBtAfBjAtTvNxFxDtBvAjBnA`\\bTdC`BbBfArTrN`G`ExBxAtByGjbAg_D"
+  },
+  "distance": {
+    "value": 7439.501747250396,
+    "text": "1.4 mi"
   }
 }
 ```
