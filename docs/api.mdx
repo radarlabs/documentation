@@ -1103,8 +1103,8 @@ For best results, the sample rate should be less than 10 seconds between points.
 ###### JSON payload
 
 - **`path`** (array, required): A list of coordinate objects along a route to be snapped.
-  - Each object in the list should be of the form `{coordinates: 'latitude,longitude'}`
-  - Objects may optionally include either or both an ISO date string and an accuracy value in meters for that coordinate `{coordinates: 'latitude,longitude', createdAt: 'iso date string', accuracy: 'value in meters'}`
+  - Each object in the list should be of the form `{"coordinates": "latitude,longitude"}`
+  - Objects may optionally include either or both an ISO date string and an accuracy value in meters for that coordinate `{"coordinates": "latitude,longitude", "createdAt": "iso date string", "accuracy": value}`
 - **`mode`** (string, optional): The travel mode. A string, one of `car`, `truck`, `foot`, or `bike`. Defaults to `car`.
 - **`roadAttributes`** (string, optional): Attributes of matched roads to be included in the response. A string, comma-separated, including one or more of `speedLimit`, `names`, and `roadClass`.
   - `roadClass` return values will be one of:
@@ -1133,7 +1133,7 @@ curl "https://api.radar.io/v1/route/match" \
   -H "Authorization: prj_live_pk_..." \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"path": [{"coordinates": "40.754231505412264,-73.98465161242224", "createdAt": "2024-03-29T20:47:49Z"}, {"coordinates": "40.73988226756973,-73.9950818342906", "createdAt": "2024-03-29T20:49:02Z"}], "mode": "car"}'
+  -d '{"path": [{"coordinates": "40.754231505412264,-73.98465161242224", "createdAt": "2024-03-29T20:47:49Z", "accuracy": 23}, {"coordinates": "40.73988226756973,-73.9950818342906", "createdAt": "2024-03-29T20:49:02Z", "accuracy": 27}], "mode": "car"}'
 ```
 
 ###### Sample response
