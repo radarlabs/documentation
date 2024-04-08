@@ -175,8 +175,8 @@ Radar.Error += (err) => {
 On iOS and Android, you can simulate a sequence of location updates for testing. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
 
 ```cs
-Location origin = new Location(40.714708, -74.035807);
-Location destination = new Location(40.717410, -74.053334);
+RadarLocation origin = new RadarLocation(40.714708, -74.035807);
+RadarLocation destination = new RadarLocation(40.717410, -74.053334);
 
 Radar.MockTracking(origin, destination, RadarRouteMode.Car, 10, 3);
 ```
@@ -217,7 +217,7 @@ Learn more about [trip tracking](/trip-tracking).
 You can manually update the user's location by calling:
 
 ```cs
-Location location = new Location(40.714708, -74.035807);
+RadarLocation location = new RadarLocation(40.714708, -74.035807);
 location.Accuracy = 65;
 
 var (status, location, events, user) = await Radar.TrackOnce(location);
@@ -257,7 +257,7 @@ var (status, addresses) = await Radar.Geocode("20 jay st brooklyn ny");
 With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
 
 ```cs
-Location location = new Location(40.714708, -74.035807);
+RadarLocation location = new RadarLocation(40.714708, -74.035807);
 
 var (status, addresses) = await Radar.ReverseGeocode(location);
 ```
@@ -281,7 +281,7 @@ var (status, addresses) = await Radar.Autocomplete("brooklyn roasting", near, 10
 With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
 
 ```cs
-Location near = new Location(40.783826, -73.975363);
+RadarLocation near = new RadarLocation(40.783826, -73.975363);
 
 var (status, geofences) = await Radar.SearchGeofences(near, 1000, new string[]{ "venue" }, 10);
 ```
@@ -289,7 +289,7 @@ var (status, geofences) = await Radar.SearchGeofences(near, 1000, new string[]{ 
 With the [places search API](/api#search-places), search for places near a location, sorted by distance:
 
 ```cs
-Location near = new Location(40.783826, -73.975363);
+RadarLocation near = new RadarLocation(40.783826, -73.975363);
 
 var (status, places) = await Radar.SearchPlaces(near, 1000, new string[]{ "starbucks" }, null, null, 10);
 ```
@@ -299,8 +299,8 @@ var (status, places) = await Radar.SearchPlaces(near, 1000, new string[]{ "starb
 With the [distance API](/api#distance), calculate the travel distance and duration from an origin to a destination:
 
 ```cs
-Location origin = new Location(40.78382, -73.97536);
-Location destination = new Location(40.70390, -73.98670);
+RadarLocation origin = new RadarLocation(40.78382, -73.97536);
+RadarLocation destination = new RadarLocation(40.70390, -73.98670);
 
 var (status, routes) = await Radar.GetDistance(origin, destination, new[] { RadarRouteMode.Foot, RadarRouteMode.Car }, RadarRouteUnits.Imperial);
 ```
