@@ -526,6 +526,12 @@ table th, table td {
   border: var(--radar-lightRed);
 }
 
+.badge--default {
+  color: var(--radar-gray-8);
+  background-color: var(--radar-gray-2);
+  border: var(--radar-lightRed);
+}
+
 /* Custom table styling */
 .full-width-table {
   width: 100% !important;
