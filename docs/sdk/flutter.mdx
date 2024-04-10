@@ -35,56 +35,7 @@ flutter pub get
 
 Change to the `ios/` directory. In the `Podfile`, add `platform :ios, '10.0'` or higher to your target.
 
-On iOS, you must add location usage descriptions and background modes to your `Info.plist`. Initialize the SDK in `application:didFinishLaunchingWithOptions:` in `AppDelegate.m` or `AppDelegate.swift`, passing in your Radar publishable API key.
-
-<Tabs
-  groupId="ios"
-  defaultValue="swift"
-  values={[
-    { label: 'Swift', value: 'swift' },
-    { label: 'Objective-C', value: 'objc' }
-  ]}
->
-  <TabItem value="swift">
-
-```swift
-import UIKit
-import Flutter
-
-import RadarSDK
-
-@UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate {
-  override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    Radar.initialize(publishableKey: "prj_test_pk_...")
-    GeneratedPluginRegistrant.register(with: self)
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-  }
-}
-```
-
-  </TabItem>
-  <TabItem value="objc">
-
-```objc
-#import "AppDelegate.h"
-#import "GeneratedPluginRegistrant.h"
-
-#import <RadarSDK/RadarSDK.h>
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  [GeneratedPluginRegistrant registerWithRegistry:self];
-  [Radar initializeWithPublishableKey:"prj_test_pk_..."];
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
-}
-
-@end
-```
-
-  </TabItem>
-</Tabs>
+On iOS, you must add location usage descriptions and background modes to your `Info.plist`. 
 
 ### Android
 
@@ -103,62 +54,6 @@ dependencies {
   </a>{" "}
   on GitHub.
 </Alert>
-
-Initialize the SDK in `onCreate()` in `MainApplication.java`, passing in your Radar publishable API key. If your Flutter Android app is in Kotlin, add a `Application.kt` file and reference this as the application name in your Android manifest.
-
-<Tabs
-  groupId="android"
-  defaultValue="kotlin"
-  values={[
-    { label: 'Java', value: 'java' },
-    { label: 'Kotlin', value: 'kotlin' }
-  ]}
->
-  <TabItem value="java">
-
-  ```java
-import io.flutter.app.FlutterApplication;
-import io.flutter.view.FlutterMain;
-
-import io.radar.sdk.Radar;
-
-public class MainApplication extends FlutterApplication {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Radar.initialize(this, "prj_test_pk_...");
-        FlutterMain.startInitialization(this);
-    }
-}
-  ```
-
-  </TabItem>
-  <TabItem value="kotlin">
-
-  ```kotlin
-import io.flutter.app.FlutterApplication
-import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.plugin.common.PluginRegistry
-import io.flutter.plugins.GeneratedPluginRegistrant
-
-import io.radar.sdk.Radar
-
-class Application : FlutterApplication(), PluginRegistry.PluginRegistrantCallback {
-
-    override fun onCreate() {
-        super.onCreate()
-        Radar.initialize(this, "prj_test_pk_...")
-    }
-
-    override fun registerWith(registry: PluginRegistry) {
-        GeneratedPluginRegistrant.registerWith(FlutterEngine(this))
-    }
-}
-  ```
-
-  </TabItem>
-</Tabs>
 
 
 For background tracking without a foreground service, and if targeting API level `29` or higher, Radar also requires the `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually:
@@ -292,7 +187,7 @@ You only need to call these methods once, as these settings will be persisted ac
 Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
 
 ```dart
-// optionally adjust foreground service options for Android
+// needed for Android ONLY
 Radar.setForegroundServiceOptions({
   'text': "Location tracking started",
   'title': "Location updates",
@@ -302,16 +197,26 @@ Radar.setForegroundServiceOptions({
 });
 
 Radar.startTrackingCustom({
-  desiredStoppedUpdateInterval: 180,
-  desiredMovingUpdateInterval: 60,
-  desiredSyncInterval: 50,
-  desiredAccuracy: 'high',
-  stopDuration: 140,
-  stopDistance: 70,
-  sync: 'all',
-  replay: 'none',
-  showBlueBar: true,
-  foregroundServiceEnabled: true
+  'desiredStoppedUpdateInterval': 30,
+  'fastestStoppedUpdateInterval': 30,
+  'desiredMovingUpdateInterval': 150,
+  'fastestMovingUpdateInterval': 30,
+  'desiredSyncInterval': 20,
+  'desiredAccuracy': 'high',
+  'stopDuration': 140,
+  'stopDistance': 70,
+  'replay': 'stops',
+  'sync': 'all',
+  'useStoppedGeofence': true,
+  'stoppedGeofenceRadius': 100,
+  'useMovingGeofence': true,
+  'movingGeofenceRadius': 100,
+  'syncGeofences': true,
+  'syncGeofencesLimit': 10,
+  'foregroundServiceEnabled': true,
+  'showBlueBar': true, // mandatory for iOS 
+  'useSignificantLocationChanges': true, // mandatory for Android
+  'beacons': false,
 });
 ```
 
@@ -381,21 +286,32 @@ On iOS and Android, to start a trip to a destination, call:
 ```dart
 Radar.startTrip(
   tripOptions: {
-  "externalId": '299',
-  "destinationGeofenceTag": 'store',
-  "destinationGeofenceExternalId": '123',
-  "mode": 'car'
+    "externalId": '299',
+    "destinationGeofenceTag": 'store',
+    "destinationGeofenceExternalId": '123',
+    "mode": 'car'
   },
   trackingOptions: {
-    "desiredStoppedUpdateInterval": 30,
-    "fastestStoppedUpdateInterval": 30,
-    "desiredMovingUpdateInterval": 30,
-    "fastestMovingUpdateInterval": 30,
-    "desiredSyncInterval": 20,
-    "desiredAccuracy": "high",
-    "sync": "all",
-    "showBlueBar": true,
-    "foregroundServiceEnabled": true
+    'desiredStoppedUpdateInterval': 30,
+    'fastestStoppedUpdateInterval': 30,
+    'desiredMovingUpdateInterval': 150,
+    'fastestMovingUpdateInterval': 30,
+    'desiredSyncInterval': 20,
+    'desiredAccuracy': 'high',
+    'stopDuration': 140,
+    'stopDistance': 70,
+    'replay': 'stops',
+    'sync': 'all',
+    'useStoppedGeofence': true,
+    'stoppedGeofenceRadius': 100,
+    'useMovingGeofence': true,
+    'movingGeofenceRadius': 100,
+    'syncGeofences': true,
+    'syncGeofencesLimit': 10,
+    'foregroundServiceEnabled': true,
+    'showBlueBar': true, // mandatory for iOS 
+    'useSignificantLocationChanges': true, // mandatory for Android
+    'beacons': false,
   }
 );
 ```
