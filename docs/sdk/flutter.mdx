@@ -333,18 +333,22 @@ Learn about platform-specific implementations of these functions in the [iOS SDK
 To listen for events, location updates, and errors, you can add event listeners:
 
 ```dart
+@pragma('vm:entry-point')
 static void onClientLocation(Map result) {
   // do something with result.location
 }
 
+@pragma('vm:entry-point')
 static void onLocation(Map result) {
   // do something with result.location, result.user
 }
 
+@pragma('vm:entry-point')
 static void onEvents(Map result) {
   // do something with result.events, result.user
 }
 
+@pragma('vm:entry-point')
 static void onError(Map err) {
   // do something with err
 }
