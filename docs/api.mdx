@@ -1984,11 +1984,12 @@ Lists trips. Trips are sorted descending by `eta`.
 - **`status`** (string, optional): Retrieves trips by status. A string, comma-separated including one or more of `pending`, `started`, `approaching`, `arrived`, `completed`, `canceled`, `expired`.
 - **`destinationGeofenceTag`** (string, optional): Retrieves trips with the destination geofence tag.
 - **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
-- **`externalId`** (string, optional): A stable unique ID for the trip.
+- **`externalId`** (string, optional) Retrieves trips by unique IDs. A string, comma-separated including one or more IDs. 
 - **`userId`** (string, optional): The Radar `_id` of the [user](/api#users) for which the trip is being tracked.
 - **`includeLocations`** (boolean, optional): Whether to include locations on trips. Defaults to `false`.
 - **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves trips created after the specified datetime. A date or valid ISO date string.
 - **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves trips created before the specified datetime. A date or valid ISO date string.
+- **`delayed`** (boolean, optional): Retrieves trips that matches specified delayed state.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 1000. Defaults to 500.
 
 ###### Default rate limit
@@ -1998,7 +1999,7 @@ Lists trips. Trips are sorted descending by `eta`.
 ###### Sample request
 
 ```bash
-curl "https://api.radar.io/v1/trips?status=started&destinationGeofenceTag=store&destinationGeofenceExternalId=123" \
+curl "https://api.radar.io/v1/trips?status=started&destinationGeofenceTag=store&destinationGeofenceExternalId=123&externalId=123,456,789" \
   -H "Authorization: prj_live_sk_..."
 ```
 
