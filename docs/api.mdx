@@ -1176,7 +1176,7 @@ curl "https://api.radar.io/v1/route/match" \
   -H "Authorization: prj_live_pk_..." \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"path": [{"coordinates": "40.754231505412264,-73.98465161242224", "createdAt": "2024-03-29T20:47:49Z", "accuracy": 23}, {"coordinates": "40.73988226756973,-73.9950818342906", "createdAt": "2024-03-29T20:49:02Z", "accuracy": 27}], "mode": "car"}'
+  -d '{"path": [{"coordinates": "40.754231505412264,-73.98465161242224", "createdAt": "2024-03-29T20:47:49Z", "accuracy": 23}, {"coordinates": "40.73988226756973,-73.9950818342906", "createdAt": "2024-03-29T20:49:02Z", "accuracy": 27}], "mode": "car", "roadAttributes": "speedLimit,names,roadClass"}'
 ```
 
 ###### Sample response
@@ -1200,26 +1200,78 @@ curl "https://api.radar.io/v1/route/match" \
   ],
   "roadAttributes": [
     {
-      "originalIndex": 0,
+      "roadClass": "residential",
+      "speedLimit": {
+        "value": 25,
+        "text": "25 mph"
+      },
       "names": [
         "West 41st Street"
       ],
+      "startLocation": {
+        "latitude": 40.754233,
+        "longitude": -73.984728
+      },
+      "endLocation": {
+        "latitude": 40.754464,
+        "longitude": -73.985276
+      },
+      "originalIndex": 0
+    },
+    {
+      "roadClass": "secondary",
       "speedLimit": {
         "value": 25,
         "text": "25 mph"
       },
-      "roadClass": "residential"
+      "names": [
+        "7th Avenue"
+      ],
+      "startLocation": {
+        "latitude": 40.755373,
+        "longitude": -73.987447
+      },
+      "endLocation": {
+        "latitude": 40.75532,
+        "longitude": -73.987485
+      }
     },
     {
-      "originalIndex": 1,
+      "roadClass": "residential",
+      "speedLimit": {
+        "value": 25,
+        "text": "25 mph"
+      },
       "names": [
         "West 18th Street"
       ],
+      "startLocation": {
+        "latitude": 40.741056,
+        "longitude": -73.997862
+      },
+      "endLocation": {
+        "latitude": 40.740997,
+        "longitude": -73.997721
+      }
+    },
+    {
+      "roadClass": "residential",
       "speedLimit": {
         "value": 25,
         "text": "25 mph"
       },
-      "roadClass": "residential"
+      "names": [
+        "West 18th Street"
+      ],
+      "startLocation": {
+        "latitude": 40.740997,
+        "longitude": -73.997721
+      },
+      "endLocation": {
+        "latitude": 40.739919,
+        "longitude": -73.995157
+      },
+      "originalIndex": 1
     }
   ],
   "geometry": {
