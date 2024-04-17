@@ -330,9 +330,12 @@ Radar.stopTracking();
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-To listen for events, location updates, and errors, you can add event listeners:
+To listen for events, location updates, and errors, you can add event listeners after calling `Radar.attachListeners()`:
 
 ```dart
+
+Radar.attachListeners();
+
 @pragma('vm:entry-point')
 static void onClientLocation(Map result) {
   // do something with result.location
