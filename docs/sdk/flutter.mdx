@@ -313,6 +313,13 @@ Radar.startTrackingCustom({
   showBlueBar: true,
   foregroundServiceEnabled: true
 });
+
+// create a custom tracking option by modifying an existing presets
+Radar.startTrackingCustom({
+    ... Radar.presetResponsive,
+    "showBlueBar": true,
+    desiredMovingUpdateInterval: 63,
+});
 ```
 
 To determine whether tracking has been started, call:
