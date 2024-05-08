@@ -1000,6 +1000,7 @@ Calculates the travel distance and duration between an origin and a destination.
 - **`modes`** (string, required): The travel modes. A string, comma-separated, including one or more of `car`, `truck`, `foot`, or `bike`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
 - **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways` and `ferries`. No features are avoided if not provided.
+- **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to none if not provided.
 
 ###### Authentication level
 
@@ -1166,6 +1167,7 @@ For best results, the sample rate should be less than 10 seconds between points.
     - `residential`
     - `service_other`
 - **`units`** (string, optional): The distance and speed units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
+- **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to `polyline6` if not provided.
 
 ###### Authentication level
 
@@ -1317,6 +1319,7 @@ Calculates the most efficient route between two or more locations to visit in or
 - **`mode`** (string, optional): The travel mode. A string, one of `car`, `truck`, `foot`, or `bike`. Defaults to `car`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
 - **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways` and `ferries`. No features are avoided if not provided.
+- **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to `polyline6` if not provided.
 
 ###### Authentication level
 
@@ -1433,6 +1436,7 @@ Calculates the optimal ordering and route to visit a list of locations.
 - **`locations`** (string, required): A list of up to 10 coordinates to visit. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`. The first location should be the origin of the route, and the last location should be the final destination.
 - **`mode`** (string, optional): The travel mode. A string, one of `car`, `truck`, `foot`, or `bike`. Defaults to `car`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
+- **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to none if not provided.
 
 ###### Authentication level
 
