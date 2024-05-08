@@ -8,7 +8,7 @@ You can use webhooks to send events and user state from Radar to your server, a 
 
 Create a webhook on the Radar [Integrations page](https://radar.com/dashboard/integrations) under *Webhooks*. For *Environment*, choose *Test* to receive callbacks for events in the *Test* environment, or choose *Live* to receive callbacks for events in the *Live* environment. For *Event Delivery*, choose *Single Event* to receive a single event in each request, or choose *Multiple Events* to receive multiple events in each request when events occur simultaneously. Finally, enter a URL.
 
-Whenever events are generated, Radar will send a <span className="badge badge--info">POST</span> request containing event and user data to the specified URL. You can also click the *Test* button to send test event and user data. If you chose *Single Event*, the request body will contain an `event` dictionary and a `user` dictionary. If you chose *Multiple Events*, the request body will contain an `events` array and a `user` dictionary.
+Whenever events are generated, Radar will send a <span className="badge badge--info">POST</span> request containing event and user data to the specified URL. You can also click the *Test* button to send test event and user data. If you chose *Single Event*, the request body will contain an `event` dictionary and a `user` dictionary. If you chose *Multiple Events*, the request body will contain an `events` array and a `user` dictionary. For multiple events, if there are over 5 events, the events will be chunked out in groups of 5 into separate <span className="badge badge--info">POST</span> requests.
 
 To acknowledge receipt of the request, your webhook should return a `2xx` status code (e.g., `200 OK`, `201 Created`, or `202 Accepted`).
 
