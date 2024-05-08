@@ -100,7 +100,7 @@ module.exports = {
         "tutorials/migrate-from-google-maps",
       ],
     },
-    "toolkit",
+    "waypoint",
     "faqs"
   ]
 };
