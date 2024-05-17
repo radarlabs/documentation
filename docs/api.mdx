@@ -998,7 +998,7 @@ Calculates the travel distance and duration between an origin and a destination.
 - **`origin`** (string, required): The origin. A string in the format `latitude,longitude`.
 - **`destination`** (string, required): The destination. A string in the format `latitude,longitude`.
 - **`modes`** (string, required): The travel modes. A string, comma-separated, including one or more of `car`, `truck`, `foot`, or `bike`.
-- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
+- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided. In the response, `distance.value` will be in meters for `metric` and in feet for `imperial`. 
 - **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways` and `ferries`. No features are avoided if not provided.
 - **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to none if not provided.
 
