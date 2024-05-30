@@ -8,9 +8,6 @@ import TabItem from "@theme/TabItem";
 
 `RadarLocationPermissionStatus` exposes various pieces of information obtained from the operating system as well as data collected through our advanced tracking and analysis techniques, providing a comprehensive representation of the location permissions state.
 
-#### Tracking states
-The SDK has two states: **stopped** and **moving**. After a location update is made, a user then occupies one of these two states. Tracking Options can be customized to alter the frequency of updates when a user is either stopped or moving. While less common to adjust, `stopDuration` and `stopDistance` are Tracking Options that alter the intervals after which a user is assumed to be stopped.
-
 ## iOS
 
 ### iOS flags
@@ -24,7 +21,7 @@ The SDK has two states: **stopped** and **moving**. After a location update is m
 ### iOS enumerations
 
 locationManagerStatus | locationManagerStatus | inForegroundPopup | backgroundPopupAvailable | userRejectedBackgroundPermissions
---- | --- | --- | --- | ---
+---- | ---- | --- | ---- | ----
 **`NoPermissionsGranted`** | `kCLAuthorizationStatusNotDetermined` | `False` | * | *
 **`ForegroundPermissionsGranted`** | `kCLAuthorizationStatusAuthorizedWhenInUse` | * | `False`| `True`
 **`ForegroundPermissionsRejected`** | `kCLAuthorizationStatusDenied` | * | * | *
