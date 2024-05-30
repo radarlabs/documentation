@@ -62,9 +62,9 @@ The best way to add the SDK to your project is via Gradle. See the [Android SDK 
 When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key.
 
   ```kotlin
-  import io.radar.sdk.Radar
+import io.radar.sdk.Radar
 
-  class MyApplication : Application() {
+class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -74,7 +74,7 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
         }
 	    Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE, true)
     }
-  }
+}
   ```
 ### Step 3: Implement your listeners
 
