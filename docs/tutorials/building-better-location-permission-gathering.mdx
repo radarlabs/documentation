@@ -595,7 +595,7 @@ If permission are granted, proceed with location-based functionalities that requ
 ### Platform specific states:
 #### Android:
 - **`FOREGROUND_PERMISSIONS_REJECTED_ONCE`**: The user has rejected to provide foreground permission once. You can still request for foreground permission but you are strongly encouraged to provide additional justification for requesting the permission via the UI.
-- **`APPROXIMATE_PERMISSIONS_GRANTED`**: Instead of granting “Fine locations”, the user has opted to grant “coarse locations” instead. You can still request for background permission but your foreground location tracking will be less accurate.
+- **`APPROXIMATE_PERMISSIONS_GRANTED`**: Instead of granting `ACCESS_FINE_LOCATION`, the user has opted to grant `ACCESS_FINE_LOCATION` instead. You can still request for background permission but your foreground location tracking will be less accurate.
 - **`BACKGROUND_PERMISSIONS_REJECTED_ONCE`**: The user has rejected to provide background permission once. You can still request for background permission but you are strongly encouraged to provide additional justification for requesting the permission via the UI.
 #### iOS
 - **`PermissionRestricted`**: The operating system or the user has restricted the app from accessing location services. You should prompt the user to manually resolve this state.
