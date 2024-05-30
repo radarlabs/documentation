@@ -61,7 +61,7 @@ The best way to add the SDK to your project is via Gradle. See the [Android SDK 
 
 When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key.
 
-  ```kotlin
+```kotlin
 import io.radar.sdk.Radar
 
 class MyApplication : Application() {
@@ -75,14 +75,15 @@ class MyApplication : Application() {
 	    Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE, true)
     }
 }
-  ```
+```
+
 ### Step 3: Implement your listeners
 
-Link the SDK to your own state/navigation management logic by implementing `radarDelegates`/`RadarReceiver`. The radar SDK will send updates on location permission status to your application’s state/navigation management logic via `radarLocationPermissionStatus` objects. 
+Link the SDK to your own state/navigation management logic by implementing `RadarDelegates`/`RadarReceiver`. The radar SDK will send updates on location permission status to your application’s state/navigation management logic via `RadarLocationPermissionStatus` objects. 
 
 You can receive updates from the SDK by implementing listeners. Implement the `RadarDelegate`/`RadarReceiver` interface on an object and register it with the SDK.
 
-You can also get up to date `radarLocationPermissionStatus` objects with `Radar.getLocationPermissionStatus()`.
+You can also get up to date `RadarLocationPermissionStatus` objects with `Radar.getLocationPermissionStatus()`.
 
 <Tabs
   groupId="listeners"
