@@ -45,7 +45,7 @@ import RadarSDK
 @main
 struct ExampleApp: App {
     init(){
-        Radar.initialize(publishableKey: ""prj_test_pk..."")
+        Radar.initialize(publishableKey: "prj_test_pk...")
     }
     var body: some Scene {
         WindowGroup {
@@ -72,7 +72,7 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
         val receiver = MyRadarReceiver { context, status ->
             updateUI(status)
         }
-	    Radar.initialize(this, "prj_test_pk_000", receiver, Radar.RadarLocationServicesProvider.GOOGLE, true)
+	    Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE, true)
     }
   }
   ```
