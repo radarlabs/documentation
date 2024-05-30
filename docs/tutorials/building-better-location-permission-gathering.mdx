@@ -72,6 +72,7 @@ class MyApplication : Application() {
         val receiver = MyRadarReceiver { context, status ->
             updateUI(status)
         }
+
 	    Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE, true)
     }
 }
@@ -176,7 +177,7 @@ class MyRadarReceiver(private val onPermissionUpdated: (Context, RadarLocationPe
 
 ### Step 4: Implement navigation logic
 
-Navigate to the appropriate view via the enum field, locationPermissionState, exposed on `radarLocationPermissionStatus`. Each enumeration will map to a specific view on your application.
+Navigate to the appropriate view via the enum field, `locationPermissionState`, exposed on `RadarLocationPermissionStatus`. Each enumeration will map to a specific view on your application. You may opt to map multiple states to the same view to simplify your own implementation.
 
 <Tabs
   groupId="navigation"
