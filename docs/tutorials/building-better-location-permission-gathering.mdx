@@ -1,7 +1,10 @@
 ---
-sidebar_position: 7
+sidebar_position: 10
 title: Building better location permission gathering 
 ---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 This tutorial will guide you on using Radar's location permissions manager to build a best-in-class user interface for collecting on-device location with the Radar [iOS SDK](/sdk/ios) and [Android SDK](/sdk/android). Achieving high opt-in rates for location permissions helps your app deliver more value to users with location-based features.
 While iOS and Android expose their own location permissions APIs, using them directly can be confusing and clunky. At Radar, we've developed a comprehensive location permissions management system that not only wraps the OS features but also provides advanced state management, tracking, and information collection through various channels. This system offers developers a clean and easy interface to streamline their location permissions gathering UI flow while leveraging powerful underlying capabilities.
@@ -276,7 +279,7 @@ Don't approach requesting location permissions as a linear UI flow. The state of
 
 ### Handling Foreground Permissions:
 
-####NO_PERMISSIONS_GRANTED:
+#### NO_PERMISSIONS_GRANTED:
 
 If the application doesn't have any permissions, explain why you need foreground permissions before allowing the user to grant them. Take users to a screen explaining the need for foreground permissions, using verbiage similar to the system prompt. 
 
@@ -404,7 +407,7 @@ private fun updateUI(state: RadarLocationPermissionsStatus){
   </TabItem>
 </Tabs>
 
-####FOREGROUND_PERMISSIONS_REJECTED:
+#### FOREGROUND_PERMISSIONS_REJECTED:
 
 If foreground permissions are not granted and essential for your application's core functionality, you should guide the user through a process to enable the required permissions. Provide clear instructions and a straightforward way for the user to access the appropriate settings screen to grant the necessary foreground permissions. 
 
@@ -470,7 +473,7 @@ Choose the approach that aligns best with your application's design and user exp
 
 ### Handling Background Permissions:
 
-####FOREGROUND_PERMISSIONS_GRANTED:
+#### FOREGROUND_PERMISSIONS_GRANTED:
 
 After foreground permissions are granted, clearly explain to the user why your app requires background permissions before prompting them to grant these permissions. Consider using language similar to the operating system's prompts to increase user understanding and buy-in. Keep in mind that an app can only request location background permissions if foreground location permissions have already been granted. The Radar SDK enforces these prerequisites and will handle the appropriate permission requests accordingly. 
 
@@ -525,7 +528,7 @@ private fun updateUI(state: RadarLocationPermissionsStatus){
   </TabItem>
 </Tabs>
 
-####BACKGROUND_LOCATION_PENDING:
+#### BACKGROUND_LOCATION_PENDING:
 Optionally handle the waiting period while the permissions popup is active in iOS. Requesting background permissions in android takes the user to the setting screen.
 
 ```swift
@@ -537,7 +540,7 @@ struct WaitingForBackgroundPermissionView: View {
 }
 ```
 
-####BACKGROUND_PERMISSIONS_REJECTED:
+#### BACKGROUND_PERMISSIONS_REJECTED:
 If permissions are not granted, provide clear information on the limited functionality and a way to redirect users to the settings if needed. Note that you are not allowed to block users who do not grant background permissions and you should offer users a way to proceed without background permissions.
 
 <Tabs
@@ -591,15 +594,15 @@ private fun updateUI(state: RadarLocationPermissionsStatus){
   </TabItem>
 </Tabs>
 
-####BACKGROUND_PERMISSIONS_GRANTED:
+#### BACKGROUND_PERMISSIONS_GRANTED:
 If permissions are granted, proceed with location-based functionalities that require background access.
 
-###Platform specific states:
-####Android:
+### Platform specific states:
+#### Android:
 - **FOREGROUND_PERMISSIONS_REJECTED_ONCE**: The user has rejected to provide foreground permissions once. You can still request for foreground permissions but you are strongly encouraged to provide additional justification for requesting the permission via the UI.
 - **APPROXIMATE_PERMISSIONS_GRANTED**: Instead of granting “Fine locations”, the user has opted to grant “coarse locations” instead. You can still request for background permissions but your foreground location tracking will be less accurate.
 - **BACKGROUND_PERMISSIONS_REJECTED_ONCE**: The user has rejected to provide background permissions once. You can still request for background permissions but you are strongly encouraged to provide additional justification for requesting the permission via the UI.
-####iOS
+#### iOS
 - **PermissionsRestricted**: The operating system or the user has restricted the app from accessing location services. You should prompt the user to manually resolve this state.
 
 ###Conclusion
