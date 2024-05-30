@@ -82,6 +82,7 @@ module.exports = {
         "sdk/flutter",
         "sdk/maui",
         "sdk/tracking",
+        "sdk/location-permission",
       ],
     },
     "api",

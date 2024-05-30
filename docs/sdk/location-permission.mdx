@@ -1,0 +1,266 @@
+---
+sidebar_label: Location Permissions
+title: Location Permissions Reference
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+`RadarLocationPermissionStatus` exposes various pieces of information obtained from the operating system as well as data collected through our advanced tracking and analysis techniques, providing a comprehensive representation of the location permissions state.
+
+#### Tracking states
+The SDK has two states: **stopped** and **moving**. After a location update is made, a user then occupies one of these two states. Tracking Options can be customized to alter the frequency of updates when a user is either stopped or moving. While less common to adjust, `stopDuration` and `stopDistance` are Tracking Options that alter the intervals after which a user is assumed to be stopped.
+
+## iOS
+
+### iOS flags
+
+- **`locationManagerStatus`**: The authorization status of the iOS location manager (`CLAuthorizationStatus`).
+- **`backgroundPopupAvailable`**: A flag indicating whether the user has been prompted for background location permissions.
+- **`inForegroundPopup`**: A flag indicating if the user is currently in the popup for granting foreground location permissions.
+- **`userRejectedBackgroundPermissions`**: A flag indicating whether the user has previously rejected background location permissions.
+
+
+### iOS enumerations
+
+locationManagerStatus | locationManagerStatus | inForegroundPopup | backgroundPopupAvailable | userRejectedBackgroundPermissions
+--- | --- | --- | --- | ---
+**`NoPermissionsGranted`** | `kCLAuthorizationStatusNotDetermined` | `False` | * | *
+**`ForegroundPermissionsGranted`** | `kCLAuthorizationStatusAuthorizedWhenInUse` | * | `False`| `True`
+**`ForegroundPermissionsRejected`** | `kCLAuthorizationStatusDenied` | * | * | *
+**`ForegroundPermissionsPending`** | `kCLAuthorizationStatusNotDetermined` | `True` | * | *
+**`BackgroundPermissionsGranted`** |  `kCLAuthorizationStatusAuthorizedAlways` | * | * | *
+**`BackgroundPermissionsRejected`** | `kCLAuthorizationStatusAuthorizedWhenInUse` | * | `True` | *
+**`BackgroundPermissionsPending`** | `kCLAuthorizationStatusAuthorizedWhenInUse` | * | `False` | `False`
+**`PermissionsRestricted`** | `kCLAuthorizationStatusRestricted` | * | * | *
+
+### iOS options
+
+- **`desiredStoppedUpdateInterval`**: Determines the desired location update interval in seconds when stopped. Use `0` to shut down when stopped. Defaults to `0`.
+- **`desiredMovingUpdateInterval`**: Determines the desired location update interval in seconds when moving. Defaults to `0`. **Note that location updates may be delayed significantly by Low Power Mode, or if the device has connectivity issues, low battery, or wi-fi disabled.**
+- **`desiredSyncInterval`**: Determines the desired sync interval in seconds. Defaults to `0`.
+- **`desiredAccuracy`**: Determines the desired accuracy of location updates.  `.high` uses `kCLLocationAccuracyBest`, `.medium` uses `kCLLocationAccuracyHundredMeters`, `.low` uses `kCLLocationAccuracyKilometer`. Defaults to `.medium`.
+- **`stopDuration`**: With `stopDistance`, determines the duration in seconds after which the device is considered stopped. Defaults to `0`.
+- **`stopDistance`**: With `stopDuration`, determines the distance in meters within which the device is considered stopped. Defaults to `0`.
+- **`startTrackingAfter`**: Determines when to start tracking. Use `nil` to start tracking when `startTracking` is called.
+- **`stopTrackingAfter`**: Determines when to stop tracking. Use `nil` to track until `stopTracking` is called.
+- **`replay`**: Determines which failed location updates to replay to the server. `.all` replays all location updates including those collected offline, `.replayStops` replays failed stops, `.replayNone` replays no location updates. Defaults to `.replayNone`.
+- **`syncLocations`**: Determines which location updates to sync to the server. `.all` syncs all location updates to the server, `.stopsAndExits` syncs only stops and exits to the server, `.none` syncs no location updates to the server. Defaults to `.all`.
+- **`showBlueBar`**: Determines whether the [flashing blue status bar](https://developer.apple.com/documentation/corelocation/cllocationmanager/2923541-showsbackgroundlocationindicator) is shown when tracking. Defaults to `false`.
+- **`useStoppedGeofence`**: Determines whether to use the [iOS region monitoring service (geofencing)](https://developer.apple.com/documentation/corelocation/monitoring_the_user_s_proximity_to_geographic_regions) to create a client-side geofence "bubble" around the device's current location when stopped. Defaults to `false`.
+- **`stoppedGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when stopped. Use smaller values (e.g., `100` meters) for faster exit events or larger values (e.g., `200` meters) to avoid jumpy exits while stopped. Defaults to `0`.
+- **`useMovingGeofence`**: Determines whether to use the [iOS region monitoring service (geofencing)](https://developer.apple.com/documentation/corelocation/monitoring_the_user_s_proximity_to_geographic_regions) to create a client-side geofence "bubble" around the device's current location when moving. Defaults to `false`.
+- **`movingGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when moving. Defaults to `0`.
+- **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness. Defaults to `false`.
+- **`useVisits`**: Determines whether to use the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/clvisit). Defaults to `false`.
+- **`useSignificantLocationChanges`**: Determines whether to use the [iOS significant location change service](https://developer.apple.com/documentation/corelocation/cllocationmanager/1423531-startmonitoringsignificantlocati?language=objc). Defaults to `false`.
+- **`beacons`**: Determines whether to monitor beacons. Defaults to `false`.
+
+### iOS presets
+
+- **`RadarTrackingOptions.presetContinuous`**: Updates about every 30 seconds while moving or stopped. Moderate battery usage. Shows the flashing blue status bar during tracking.
+- **`RadarTrackingOptions.presetResponsive`**: Updates about every 2.5 minutes when moving and shuts down when stopped to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage. Requires the `location` background mode.
+- **`RadarTrackingOptions.presetEfficient`**: Uses the [iOS visit monitoring service](https://developer.apple.com/documentation/corelocation/clvisit) to update only on stops and exits. Once stopped, the device will need to move several hundred meters and trigger a visit departure to wake up and start moving again. Lowest battery usage.
+
+Option | Efficient | Responsive | Continuous
+--- | --- | --- | ---
+**`desiredStoppedUpdateInterval`** | `0` | `0` | `30`
+**`desiredMovingUpdateInterval`** | `0` | `150` | `30`
+**`desiredSyncInterval`** | `0` | `20` | `20`
+**`desiredAccuracy`** | `.medium` | `.medium` | `.high`
+**`stopDuration`** | `0` | `140` | `140`
+**`stopDistance`** | `0` | `70` | `70`
+**`startTrackingAfter`** | `nil` | `nil` | `nil`
+**`stopTrackingAfter`** | `nil` | `nil` | `nil`
+**`replay`** | `.stops` | `.stops` | `.none`
+**`syncLocations`** | `.all` | `.all` | `.all`
+**`showBlueBar`** | `false` | `false` | `true`
+**`useStoppedGeofence`** | `false` | `true` | `false`
+**`stoppedGeofenceRadius`** | `0` | `100` | `0`
+**`useMovingGeofence`** | `false` | `true` | `false`
+**`movingGeofenceRadius`** | `0` | `100` | `0`
+**`syncGeofences`** | `true` | `true` | `true`
+**`useVisits`** | `true` | `true` | `false`
+**`useSignificantLocationChanges`** | `false` | `true` | `false`
+**`beacons`** | `false` | `false` | `false`
+
+## Android
+
+### Android options
+
+- **`desiredStoppedUpdateInterval`**: Determines the desired location update interval in seconds when stopped. Use `0` to shut down when stopped. Defaults to `0`.
+- **`fastestStoppedUpdateInterval`**: Determines the fastest location update interval in seconds when stopped. Defaults to `0`.
+- **`desiredMovingUpdateInterval`**: Determines the desired location update interval in seconds when moving. Defaults to `0`. **Note that location updates may be delayed significantly by Doze Mode, App Standby, and Background Location Limits, or if the device has connectivity issues, low battery, or wi-fi disabled. To avoid these restrictions, you can [start a foreground service](https://developer.android.com/about/versions/oreo/background-location-limits).**
+- **`fastestMovingUpdateInterval`**: Determines the fastest location update interval in seconds when moving. Defaults to `0`.
+- **`desiredSyncInterval`**: Determines the desired sync interval in seconds. Defaults to `0`.
+- **`desiredAccuracy`**: Determines the desired accuracy of location updates. `HIGH` uses `PRIORITY_HIGH_ACCURACY`, `MEDIUM` uses `PRIORITY_BALANCED_POWER_ACCURACY`, `LOW` uses `PRIORITY_LOW_POWER`, `NONE` uses `PRIORITY_NO_POWER`. Defaults to `MEDIUM`.
+- **`stopDuration`**: With `stopDistance`, determines the duration in seconds after which the device is considered stopped. Defaults to `0`.
+- **`stopDistance`**: With `stopDuration`, determines the distance in meters within which the device is considered stopped. Defaults to `0`.
+- **`startTrackingAfter`**: Determines when to start tracking. Use `null` to start tracking when `startTracking()` is called.
+- **`stopTrackingAfter`**: Determines when to stop tracking. Use `null` to track until `stopTracking()` is called.
+- **`replay`**: Determines which failed location updates to replay to the server. `ALL` replays all location updates including those collected offline, `STOPS` replays failed stops, `NONE` replays no location updates. Defaults to `NONE`.
+- **`sync`**: Determines which location updates to sync to the server. `ALL` syncs all location updates to the server, `STOPS_AND_EXITS` syncs only stops and exits to the server, `NONE` syncs no location updates to the server. Defaults to `STOPS_AND_EXITS`.
+- **`useStoppedGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when stopped. Defaults to `false`.
+- **`stoppedGeofenceRadius`**: Determines the radius in meters of the client-side geofence "bubble" around the device's current location when stopped. Use smaller values (e.g., `100` meters) for faster exit events or larger values (e.g., `200` meters) to avoid jumpy exits while stopped. Defaults to `0`.
+- **`useMovingGeofence`**: Determines whether to create a [client-side geofence](https://developer.android.com/training/location/geofencing) "bubble" around the device's current location when moving. Defaults to `false`.
+- **`movingGeofenceRadius`**: Determines the radius in meters of the client geofence around the device's current location when moving. Defaults to `0`.
+- **`syncGeofences`**: Determines whether to sync nearby geofences from the server to the client to improve responsiveness. Defaults to `false`.
+- **`syncGeofencesLimit`**: Determines how many nearby geofences to sync from the server to the client when `syncGeofences` is enabled. Defaults to `0`.
+- **`foregroundService`**: If set, starts a [foreground service](https://developer.android.com/guide/components/foreground-services) and shows a notification during tracking. Deprecated in Android SDK [3.4.1](https://github.com/radarlabs/radar-sdk-android/blob/master/MIGRATION.md#33x-to-34x).
+- **`foregroundServiceEnabled`**: If set, starts a [foreground service](https://developer.android.com/guide/components/foreground-services) and shows a notification during tracking. Defaults to `false`.
+- **`beacons`**: Determines whether to monitor beacons. Defaults to `false`.
+
+### Android foreground service options
+
+To avoid [Background Location Limits](https://developer.android.com/about/versions/oreo/background-location-limits), you can start a foreground service and show a notification during tracking. If using Android SDK < [3.4.1](https://github.com/radarlabs/radar-sdk-android/releases/tag/3.1.9), set `trackingOptions.foregroundService` to an instance of `RadarTrackingOptionsForegroundService`. If using Android SDK >= [3.4.1](https://github.com/radarlabs/radar-sdk-android/blob/master/MIGRATION.md#33x-to-34x), use `Radar.setForegroundServiceOptions()` to customize the foreground service notification appearance passing in an instance of `RadarTrackingOptionsForegroundService`.
+
+- **`text`**: Determines the notification text. Defaults to `"Location tracking started"`.
+- **`title`**: Determines the notification title. Optional.
+- **`icon`**: Determines the notification icon via Android's identifier for the resource (e.g., `2131558400`). Optional, defaults to `iconString`. Deprecated in Android SDK [3.8.14](https://github.com/radarlabs/radar-sdk-android/releases/tag/3.8.14).
+- **`iconString`**: Determines the notification icon, like `R.drawable.ic_your_icon`. Optional, defaults to `applicationContext.applicationInfo.icon`.
+- **`iconColor`**: Determines the color of the notification icon. Optional.
+- **`updatesOnly`**: Determines when to show the notification. Use `false` to show the notification always, use `true` to show the notification only during location updates. Optional, defaults to `false`.
+- **`activity`**: Determines the activity to start when the notification is tapped, like `"com.yourapp.MainActivity"`. Optional.
+- **`importance`**: Determines the importance of the notification, one of `android.app.NotificationManager.IMPORTANCE_*`. Optional, defaults to `android.app.NotificationManager.IMPORTANCE_DEFAULT`.
+- **`id`**: Determines the id of the notification. Optional, defaults to `20160525`.
+- **`channelName`**: Determines the name of the notification channel. Optional, defaults to `"Location Services"`.
+
+<Tabs
+  groupId="setForegroundServiceOptions"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'React Native', value: 'react-native' },
+  ]}
+>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.setForegroundServiceOptions(RadarTrackingOptions.RadarTrackingOptionsForegroundService(
+  text="Text",
+  title="Title",
+  iconString="your_icon_name",
+  updatesOnly=true,
+))
+```
+
+  </TabItem>
+  <TabItem value="react-native">
+
+```javascript
+Radar.setForegroundServiceOptions({
+  text: "Text",
+  title: "Title",
+  iconString: 'your_icon_name',
+  updatesOnly: true,
+});
+```
+
+  </TabItem>
+
+</Tabs>
+
+### Android presets
+
+- **`RadarTrackingOptions.CONTINUOUS`**: Updates about every 30 seconds while moving or stopped. Starts a foreground service. Moderate battery usage.
+- **`RadarTrackingOptions.RESPONSIVE`**: Updates about every 2.5 minutes while moving and shuts down when stopped to save battery. Once stopped, the device will need to move more than 100 meters to wake up and start moving again. Low battery usage, but may exceed Android vitals bad behavior thresholds for [excessive wakeups](https://developer.android.com/topic/performance/vitals/wakeup.html) and [excessive wi-fi scans](https://developer.android.com/topic/performance/vitals/bg-wifi.html).
+- **`RadarTrackingOptions.EFFICIENT`**: Updates as fast as every 6 minutes while moving and periodically when stopped. Once stopped, the device will need to move more than 100 meters and wait for at least 15 minutes to wake up and start moving again. Lowest battery usage and will not exceed Android vitals bad behavior thresholds.
+
+Option | Efficient | Responsive | Continuous
+--- | --- | --- | ---
+**`desiredStoppedUpdateInterval`** | `3600` | `0` | `30`
+**`fastestStoppedUpdateInterval`** | `1200` | `0` | `30`
+**`desiredMovingUpdateInterval`** | `1200` | `150` | `30`
+**`fastestMovingUpdateInterval`** | `360` |`30` | `30`
+**`desiredSyncInterval`** | `140` | `20` | `20`
+**`desiredAccuracy`** | `MEDIUM` | `MEDIUM` | `HIGH`
+**`stopDuration`** | `140` | `140` | `140`
+**`stopDistance`** | `70` | `70` | `70`
+**`startTrackingAfter`** | `null` | `null` | `null`
+**`stopTrackingAfter`** | `null` | `null` | `null`
+**`replay`** | `STOPS` | `STOPS` | `NONE`
+**`sync`** | `ALL` | `ALL` | `ALL`
+**`useStoppedGeofence`** | `false` | `true` | `false`
+**`stoppedGeofenceRadius`** | `0` | `100` | `0`
+**`useMovingGeofence`** | `false` | `true` | `false`
+**`movingGeofenceRadius`** | `0` | `100` | `0`
+**`syncGeofences`** | `true` | `true` | `true`
+**`syncGeofencesLimit`** | `10` | `10` | `0`
+**`foregroundServiceEnabled`** | `false` | `false` | `true`
+**`beacons`** | `false` | `false` | `false`
+
+## Remote tracking options
+
+SDK tracking options can be set [in dashboard settings](https://radar.com/dashboard/settings?#sdk-settings) for iOS and Android with the three default presets or a custom configuration.
+
+<img src="https://images.ctfassets.net/f2vbu16fzuly/3fTIXlesjMjmtDLlS2yIIc/be9458fa994ae783242e8e5d01cfe697/tracking_options_ios.png" alt="Remote tracking options" />
+
+Tracking options can be targeted by OS (Android and iOS), environment (live and test) and device trip status (on or off trip). By setting tracking options, any client configuration for tracking options set in the SDK will be overridden.
+
+### Custom tracking options
+
+Custom configurations should declare all tracking options in json. Example custom trackings are below.
+
+<Tabs
+  groupId="tracking-options"
+  defaultValue="ios"
+  values={[
+    { label: 'iOS', value: 'ios' },
+    { label: 'Android', value: 'android' }
+  ]}
+>
+  <TabItem value="ios">
+
+```json
+{
+  "preset": null,
+  "desiredStoppedUpdateInterval": 3600,
+  "desiredMovingUpdateInterval": 150,
+  "desiredSyncInterval": 10,
+  "desiredAccuracy": "high",
+  "stopDuration": 140,
+  "stopDistance": 70,
+  "sync": "all",
+  "replay": "none",
+  "showBlueBar": false,
+  "useStoppedGeofence": true,
+  "stoppedGeofenceRadius": 100,
+  "useMovingGeofence": true,
+  "movingGeofenceRadius": 200,
+  "syncGeofences": true,
+  "useVisits": true,
+  "useSignificantLocationChanges": true,
+  "beacons": false
+}
+```
+
+  </TabItem>
+  <TabItem value="android">
+
+```json
+{
+  "preset": null,
+  "desiredStoppedUpdateInterval": 3600,
+  "fastestStoppedUpdateInterval": 150,
+  "desiredMovingUpdateInterval": 150,
+  "fastestMovingUpdateInterval": 20,
+  "desiredSyncInterval": 10,
+  "desiredAccuracy": 2,
+  "stopDuration": 140,
+  "stopDistance": 70,
+  "sync": 2,
+  "replay": 0,
+  "useStoppedGeofence": true,
+  "stoppedGeofenceRadius": 100,
+  "useMovingGeofence": true,
+  "movingGeofenceRadius": 200,
+  "syncGeofences": true,
+  "syncGeofencesLimit": 10,
+  "beacons": true,
+  "foregroundServiceEnabled": false
+}
+```
+
+  </TabItem>
+</Tabs>
+
