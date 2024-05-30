@@ -81,8 +81,6 @@ class MyApplication : Application() {
 
 Link the SDK to your own state/navigation management logic by implementing `RadarDelegates`/`RadarReceiver`. The radar SDK will send updates on location permission status to your application’s state/navigation management logic via `RadarLocationPermissionStatus` objects. 
 
-You can receive updates from the SDK by implementing listeners. Implement the `RadarDelegate`/`RadarReceiver` interface on an object and register it with the SDK.
-
 You can also get up to date `RadarLocationPermissionStatus` objects with `Radar.getLocationPermissionStatus()`.
 
 <Tabs
