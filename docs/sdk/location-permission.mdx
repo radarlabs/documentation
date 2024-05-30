@@ -8,7 +8,25 @@ import TabItem from "@theme/TabItem";
 
 `RadarLocationPermissionStatus` exposes various pieces of information obtained from the operating system as well as data collected through our advanced tracking and analysis techniques, providing a comprehensive representation of the location permissions state.
 
-## iOS
+## `locationPermissionState` enumeration
+
+We enumerate the various states via the `locationPermissionState` enum. 
+
+- **`NoPermissionsGranted`**: No location permissions has been granted.
+- **`ForegroundPermissionsGranted`**: Foreground location permission has been granted.
+- **`ForegroundPermissionsRejected`**: Foreground location permission has been denied.
+- **`ForegroundPermissionsRejectedOnce`**: (Android only) Foreground location permission has been denied once.
+- **`ForegroundPermissionsPending`**: Foreground location permissions prompt is on screen.
+- **`BackgroundPermissionsGranted`**: Background location permission has been granted.
+- **`BackgroundPermissionsRejected`**: Background location permission has been denied.
+- **`BackgroundPermissionsRejectedONCE`**: (Android only) Background location permission has been denied once.  
+- **`BackgroundPermissionsPending`**: (iOS only) Foreground location permissions prompt is on screen.
+- **`PermissionsRestricted`**: (iOS only) No location permission has been granted due to OS restrictions. 
+- **`ApproximatePermissionsGranted`**: (Android only) Coarse foreground location permission has been granted.   
+
+## `RadarLocationPermissionStatus` object
+
+In addition to exposing the useful `locationPermissionState` enumeration, the `RadarLocationPermissionStatus` object also exposes the underlying data we collected from the OS and our state management. These fields can be used on their own or in conjunction with the `locationPermissionState` enumeration to power your unique implementation of a location permissions manager.
 
 ### iOS flags
 
@@ -30,8 +48,6 @@ locationManagerStatus | locationManagerStatus | inForegroundPopup | backgroundPo
 **`BackgroundPermissionsRejected`** | `kCLAuthorizationStatusAuthorizedWhenInUse` | * | `True` | *
 **`BackgroundPermissionPending`** | `kCLAuthorizationStatusAuthorizedWhenInUse` | * | `False` | `False`
 **`PermissionRestricted`** | `kCLAuthorizationStatusRestricted` | * | * | *
-
-## Android
 
 ### Android flags
 
