@@ -71,11 +71,8 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
         val receiver = MyRadarReceiver { context, status ->
             updateUI(status)
         }
-
 	    Radar.initialize(this, "prj_test_pk_000", receiver, Radar.RadarLocationServicesProvider.GOOGLE, true)
-
     }
-
   }
   ```
 ### Step 3: Implement your listeners
@@ -145,7 +142,6 @@ class PermissionsManager: NSObject, RadarDelegate, ObservableObject  {
 
 ```kotlin
 class MyRadarReceiver(private val onPermissionsUpdated: (Context, RadarLocationPermissionsStatus) -> Unit)  : RadarReceiver() {
-
 
     override fun onEventsReceived(context: Context, events: Array<RadarEvent>, user: RadarUser?) {
         // do nothing
@@ -231,7 +227,6 @@ struct ContentView: View {
 
 ```kotlin
 private fun updateUI(state: RadarLocationPermissionsStatus){
-    // update the UI based on the permissions status
     val titleTextView = findViewById<TextView>(R.id.titleTextView)
     val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
     val myButton = findViewById<Button>(R.id.myButton)
@@ -571,10 +566,9 @@ struct GoToSettingsViewBackgroundDenied: View {
 
 ```kotlin
 private fun updateUI(state: RadarLocationPermissionsStatus){
-    // update the UI based on the permissions status
     val titleTextView = findViewById<TextView>(R.id.titleTextView)
     val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
-     val myButton = findViewById<Button>(R.id.myButton)
+    val myButton = findViewById<Button>(R.id.myButton)
     when (state.status) {
 	    ...
         RadarLocationPermissionsStatus.LocationPermissionState.BACKGROUND_PERMISSIONS_REJECTED -> {
@@ -586,7 +580,7 @@ private fun updateUI(state: RadarLocationPermissionsStatus){
                 Radar.openAppSettings()
             }
         }
-    ...
+        ...
     }
 }
 
