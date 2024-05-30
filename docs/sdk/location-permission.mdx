@@ -8,7 +8,7 @@ import TabItem from "@theme/TabItem";
 
 `RadarLocationPermissionStatus` exposes various pieces of information obtained from the operating system as well as data collected through our advanced tracking and analysis techniques, providing a comprehensive representation of the location permissions state.
 
-## `locationPermissionState` enumeration
+## `locationPermissionState`
 
 We enumerate the various states via the `locationPermissionState` enum. 
 
@@ -24,7 +24,7 @@ We enumerate the various states via the `locationPermissionState` enum.
 - **`PermissionsRestricted`**: (iOS only) No location permission has been granted due to OS restrictions. 
 - **`ApproximatePermissionsGranted`**: (Android only) Coarse foreground location permission has been granted.   
 
-## `RadarLocationPermissionStatus` object
+## `RadarLocationPermissionStatus`
 
 In addition to exposing the useful `locationPermissionState` enumeration, the `RadarLocationPermissionStatus` object also exposes the underlying data we collected from the OS and our state management. These fields can be used on their own or in conjunction with the `locationPermissionState` enumeration to power your unique implementation of a location permissions manager.
 
