@@ -448,7 +448,7 @@ To create a map on Android, add [MapLibre Native](https://github.com/maplibre/ma
 ```gradle
 dependencies {
     implementation 'org.maplibre.gl:android-sdk:11.0.0'
-    implementation 'org.maplibre.gl:android-plugin-annotation-v9:3.0.0'
+    implementation 'org.maplibre.gl:android-plugin-annotation-v9:3.0.0' // optional import for adding a marker
 }
 ```
 
@@ -500,6 +500,7 @@ import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 
+// optional import for adding a marker
 import org.maplibre.android.plugins.annotation.SymbolManager
 import org.maplibre.android.plugins.annotation.SymbolOptions
 
@@ -532,13 +533,12 @@ class MainActivity : AppCompatActivity() {
             // add the Radar logo
             map.uiSettings.isLogoEnabled = false
 
-            // anchor attribution to bottom right
             map.uiSettings.attributionGravity = Gravity.RIGHT + Gravity.BOTTOM
             map.uiSettings.setAttributionMargins(0, 0, 24, 24)
 
             map.setStyle(styleURL) {style ->
 
-                // add a marker to the map on style load
+                // optionally add a marker to the map on style load
                 val infoIconDrawable = ResourcesCompat.getDrawable(
                     this.resources,
                     // use imported marker resource
@@ -546,13 +546,13 @@ class MainActivity : AppCompatActivity() {
                     null
                 )!!
 
-                // create icon bmp
+                // create marker icon bmp
                 val bitmapMarker = infoIconDrawable.toBitmap()
                 style.addImage(MARKER_NAME, bitmapMarker)
 
                 val symbolManager = SymbolManager(mapView, map, style)
 
-                // disable symbol collisions with map style symbols like POIs
+                // disable symbol collisions to draw over map style symbols like POIs and labels
                 symbolManager.iconAllowOverlap = true
                 symbolManager.iconIgnorePlacement = true
 
