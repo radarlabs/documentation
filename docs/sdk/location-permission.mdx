@@ -23,7 +23,6 @@ Use Radar's SDK to request location permissions with a single line of code.
   <TabItem value="swift">
 
 ```swift
-
 Radar.requestForegroundLocationPermission()
 
 Radar.requestBackgroundLocationPermission()
@@ -33,7 +32,6 @@ Radar.requestBackgroundLocationPermission()
   <TabItem value="objc">
 
 ```objc
-
 [Radar requestForegroundLocationPermission];
 
 [Radar requestBackgroundLocationPermission];
@@ -64,7 +62,7 @@ Radar.requestBackgroundLocationPermission()
 You can get the application's latest location permission status from Radar's SDK.
 
 <Tabs
-  groupId="requestPermissions"
+  groupId="getLocationPermissionStatus"
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
@@ -77,23 +75,19 @@ You can get the application's latest location permission status from Radar's SDK
 
 ```swift
 let updatedLocationPermissionStatus = Radar.getLocationPermissionStatus()
-
 ```
 
   </TabItem>
   <TabItem value="objc">
 
 ```objc
-
 RadarLocationPermissionStatus *updatedLocationPermissionStatus = [Radar getLocationPermissionStatus];
-
 ```
 
   </TabItem>
   <TabItem value="java">
 
 ```java
-
 RadarLocationPermissionStatus updatedLocationPermissionStatus = Radar.getLocationPermissionStatus();
 ```
 
