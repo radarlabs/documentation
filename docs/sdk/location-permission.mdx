@@ -6,6 +6,10 @@ title: Location Permissions Reference
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+Simplify your location permission gathering logic with Radar's SDK. 
+
+Check out our [tutorial](/tutorials/building-better-location-permission-gathering) to implement location permission gathering.
+
 ## Request location permission
 
 Use Radar's SDK to request location permissions with a single line of code.
@@ -99,8 +103,9 @@ val updatedLocationPermissionStatus = Radar.getLocationPermissionStatus()
 ```
   </TabItem>
 </Tabs>
+We recommend listening for changes to location permission status by implementing [`RadarDelegate`](/sdk/ios#listening-for-events-with-a-delegate) on iOS or [`RadarReceiver`](/sdk/android#listening-for-events-with-a-receiver) on Android.
 
-You can also listen for any changes to location permission status by implementing [`RadarDelegate`](/sdk/ios#listening-for-events-with-a-delegate) on iOS or [`RadarReceiver`](/sdk/android#listening-for-events-with-a-receiver) on Android.
+For detailed implementation of linking the listener to your app's state/navigation management, check out our [tutorial](/tutorials/building-better-location-permission-gathering).
 
 ## Location permission status 
 
