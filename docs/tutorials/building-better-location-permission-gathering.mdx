@@ -1,0 +1,608 @@
+---
+sidebar_position: 10
+title: Building better location permission gathering 
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+This tutorial will guide you on using Radar's location permission manager to build a best-in-class user interface for collecting on-device location with the Radar [iOS SDK](/sdk/ios) and [Android SDK](/sdk/android). Achieving high opt-in rates for location permission helps your app deliver more value to users with location-based features.
+
+While iOS and Android expose their own location permission APIs, using them directly can be confusing and clunky. We provide a comprehensive location permission management system that not only wraps the OS features but also offers advanced state management, tracking, and information collection through various channels. This system offers developers a clean and easy interface to streamline their location permission gathering UI flow while leveraging powerful underlying capabilities.
+
+
+## Languages used
+
+- Swift
+- Kotlin
+
+## Features used
+
+- [iOS SDK](/sdk/ios)
+- [Android SDK](/sdk/android)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for a Radar account to get your API key, which is required to initialize the SDK. The location-permission functionality is provided without limit, free of charge. You can also create up to 1,000 geofences, track 1,000 users, and make 100,000 API calls per month.
+
+<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API keys</a>
+
+### Step 2: Install the Radar iOS SDK
+
+#### iOS
+If you're starting from scratch, create a new Xcode project of type Single View App.
+
+[Install the iOS SDK](/sdk/ios#install-sdk) using CocoaPods or SPM (recommended) or by [downloading the framework](https://github.com/radarlabs/radar-sdk-ios/releases) and dragging it into your project.
+
+Initialize the SDK in your `App` struct with your publishable API key.
+
+```swift
+import SwiftUI
+import RadarSDK
+
+@main
+struct ExampleApp: App {
+    init(){
+        Radar.initialize(publishableKey: "prj_test_pk...")
+    }
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+```
+
+#### Android
+The best way to add the SDK to your project is via Gradle. See the [Android SDK installation guide](/sdk/android#install-sdk).
+
+When your app starts, in application `onCreate()`, initialize the SDK with your publishable API key.
+
+```kotlin
+import io.radar.sdk.Radar
+
+class MyApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        val receiver = MyRadarReceiver { context, status ->
+            updateUI(status)
+        }
+
+	    Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE, true)
+    }
+}
+```
+
+### Step 3: Implement your listeners
+
+Link the SDK to your own state/navigation management logic by implementing `RadarDelegates`/`RadarReceiver`. The radar SDK will send updates on location permission status to your application’s state/navigation management logic via `RadarLocationPermissionStatus` objects. 
+
+You can also get up to date `RadarLocationPermissionStatus` objects with `Radar.getLocationPermissionStatus()`.
+
+<Tabs
+  groupId="listeners"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import Foundation
+import CoreLocation
+import RadarSDK
+class PermissionManager: NSObject, RadarDelegate, ObservableObject  {
+    
+    @Published var viewState:RadarLocationPermissionState
+    
+    private override init() {
+        viewState = RadarLocationPermissionState.NoPermissionGranted
+        super.init()
+        viewState = Radar.getLocationPermissionStatus().locationPermissionState
+        Radar.setDelegate(self)
+    }
+    
+    func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
+        // do nothing
+    }
+    
+    func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
+        // do nothing
+    }
+    
+    func didUpdateClientLocation(_ location: CLLocation, stopped: Bool, source: RadarLocationSource){
+        // do nothing
+    }
+    
+    func didFail(status: RadarStatus) {
+        // do nothing
+    }
+    
+    func didLog(message: String) {
+        // do nothing
+    }
+    
+    func didUpdateClientLocationPermissionStatus(status: RadarLocationPermissionStatus) {
+        viewState = status.locationPermissionState
+    }
+    static let shared = PermissionManager()
+            
+}
+
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+class MyRadarReceiver(private val onPermissionUpdated: (Context, RadarLocationPermissionStatus) -> Unit)  : RadarReceiver() {
+
+    override fun onEventsReceived(context: Context, events: Array<RadarEvent>, user: RadarUser?) {
+        // do nothing
+    }
+
+    override fun onLocationUpdated(context: Context, location: Location, user: RadarUser) {
+       // do nothing
+    }
+
+    override fun onClientLocationUpdated(context: Context, location: Location, stopped: Boolean, source: Radar.RadarLocationSource) {
+       // do nothing
+    }
+    override fun onError(context: Context, status: Radar.RadarStatus) {
+        // do nothing
+    }
+
+    override fun onLog(context: Context, message: String) {
+       // do nothing
+    }
+
+    override fun onLocationPermissionStatusUpdated(
+        context: Context,
+        status: RadarLocationPermissionStatus
+    ) {
+        onPermissionUpdated(context, status)
+    }
+}
+```
+  </TabItem>
+</Tabs>
+
+
+### Step 4: Implement navigation logic
+
+Navigate to the appropriate view via the enum field, `locationPermissionState`, exposed on `RadarLocationPermissionStatus`. Each enumeration will map to a specific view on your application. You may opt to map multiple states to the same view to simplify your own implementation.
+
+<Tabs
+  groupId="navigation"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import SwiftUI
+import CoreLocation
+import RadarSDK
+
+struct ContentView: View {
+    @ObservedObject var permissionManager = PermissionManager.shared
+    var body: some View {
+        NavigationView {
+            Group {
+                switch permissionManager.viewState {
+                case .NoPermissionGranted:
+                    GetForegroundPermissionStateView()
+                case .ForegroundPermissionPending:
+                    WaitingForForegroundPermissionView()
+                case .ForegroundPermissionRejected:
+                    GoToSettingsViewForegroundDenied()
+                case .ForegroundPermissionGranted:
+                    GetBackgroundPermissionStateView()
+                case .BackgroundPermissionPending:
+                    WaitingForBackgroundPermissionView()
+                case .BackgroundPermissionRejected:
+                    GoToSettingsViewBackgroundDenied()
+                case .BackgroundPermissionGranted:
+                    SuccessView()
+                default:
+                    GoToSettingsView()
+                }
+            }
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+private fun updateUI(state: RadarLocationPermissionStatus){
+    val titleTextView = findViewById<TextView>(R.id.titleTextView)
+    val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
+    val myButton = findViewById<Button>(R.id.myButton)
+    when (state.status) {
+        RadarLocationPermissionStatus.LocationPermissionState.NO_PERMISSIONS_GRANTED -> {
+	        // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.FOREGROUND_LOCATION_PENDING -> {
+            // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.FOREGROUND_PERMISSIONS_GRANTED -> {
+            // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.BACKGROUND_PERMISSIONS_REJECTED_ONCE -> {
+            // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.APPROXIMATE_PERMISSIONS_GRANTED -> {
+            // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.BACKGROUND_PERMISSIONS_GRANTED -> {
+            // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.FOREGROUND_PERMISSIONS_REJECTED_ONCE -> {
+            // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.FOREGROUND_PERMISSIONS_REJECTED -> {
+            // handle UI
+        }
+        RadarLocationPermissionStatus.LocationPermissionState.BACKGROUND_PERMISSIONS_REJECTED -> {
+            // handle UI
+        }
+        else -> {
+            // handle UI
+        }
+    }
+}
+```
+  </TabItem>
+</Tabs>
+
+## Suggested UI views
+
+### Overview:
+Don't approach requesting location permission as a linear UI flow. The state of location permission can change in various ways inside and outside the application. Build a robust UI that gracefully handles any state the app is in. The code in this tutorial presents a minimalistic UI for simplicity. You should enhance the provided template to develop a production-ready UI with additional features and polish.
+
+### Handling Foreground Permission:
+
+#### **`NO_PERMISSIONS_GRANTED`**:
+
+If the application doesn't have any permission, explain why you need foreground permission before allowing the user to grant them. Take users to a screen explaining the need for foreground permission, using verbiage similar to the system prompt. 
+
+<Tabs
+  groupId="no-permission"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+struct GetForegroundPermissionStateView: View {
+    var body: some View {
+        VStack {
+            Text("You currently have not granted any locaiton permission. To get foreground location permission, explain why you need them here.")
+            Button("Request Foreground Permission") {
+                Radar.requestForegroundLocationPermission()
+            }
+        }.navigationBarTitle("Get foreground", displayMode: .inline)
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/myButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Button"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
+
+private fun updateUI(state: RadarLocationPermissionStatus){
+    val titleTextView = findViewById<TextView>(R.id.titleTextView)
+    val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
+    val myButton = findViewById<Button>(R.id.myButton)
+    when (state.status) {
+        RadarLocationPermissionStatus.LocationPermissionState.NO_PERMISSIONS_GRANTED -> {
+	        myButton.visibility = View.VISIBLE
+            titleTextView.text = "No Permission"
+            descriptionTextView.text = "You have not granted any locations permission. We need your location for this demo"
+            myButton.text = "Grant foreground Permission"
+            myButton.setOnClickListener {
+                Radar.requestForegroundLocationPermission()
+            }
+        }
+        ...
+    }
+}
+```
+  </TabItem>
+</Tabs>
+
+#### **`FOREGROUND_LOCATION_PENDING`**:
+
+Optionally handle the waiting period while the permission popup is active. 
+
+<Tabs
+  groupId="foreground-location-pending"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+struct WaitingForForegroundPermissionView: View {
+    var body: some View {
+        Text("Waiting for foreground permission")
+        .navigationBarTitle("Waiting", displayMode: .inline)
+    }
+}
+
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+private fun updateUI(state: RadarLocationPermissionStatus){
+    val titleTextView = findViewById<TextView>(R.id.titleTextView)
+    val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
+    val myButton = findViewById<Button>(R.id.myButton)
+    when (state.status) {
+	    ...
+	    RadarLocationPermissionStatus.LocationPermissionState.FOREGROUND_LOCATION_PENDING -> {
+            myButton.visibility = View.GONE
+            titleTextView.text = "Pending Foreground Permission"
+            descriptionTextView.text = "Waiting for permission."
+        }
+        ...
+    }
+}
+```
+  </TabItem>
+</Tabs>
+
+#### **`FOREGROUND_PERMISSIONS_REJECTED`**:
+
+If foreground permission are not granted and essential for your application's core functionality, you should guide the user through a process to enable the required permission in the device settings. Provide clear instructions and a straightforward way for the user to access the appropriate settings screen to grant the necessary foreground permission. 
+
+<Tabs
+  groupId="foreground-location-rejected"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+struct GoToSettingsViewForegroundDenied: View {
+    var body: some View {
+        VStack {
+            Text("Go to settings, you cannot proceed without the  foreground permission")
+            Button("Open Settings") {
+                Radar.openAppSettings()
+            }
+        }.navigationBarTitle("Go to settings", displayMode: .inline)
+    }
+}
+
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+private fun updateUI(state: RadarLocationPermissionStatus){
+    val titleTextView = findViewById<TextView>(R.id.titleTextView)
+    val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
+    val myButton = findViewById<Button>(R.id.myButton)
+    when (state.status) {
+	    ...
+	    RadarLocationPermissionStatus.LocationPermissionState.FOREGROUND_PERMISSIONS_REJECTED -> {
+            myButton.visibility = View.VISIBLE 
+            titleTextView.text = "Rejected foreground Permission"
+            descriptionTextView.text = "You have rejected foreground permission for good, please activate it in the settings."
+            myButton.text = "Go to settings to change it"
+            myButton.setOnClickListener {
+                Radar.openAppSettings()
+                }
+            }
+        ...
+    }
+}
+```
+  </TabItem>
+</Tabs>
+
+#### **`FOREGROUND_PERMISSIONS_GRANTED`**:
+
+If foreground permission are granted, you have two options for requesting background permission:
+
+- Promptly request background permission immediately after obtaining foreground permission. This proactive approach ensures background permission are acquired upfront.
+
+- Wait until the user attempts to use a feature or functionality that requires background permission before prompting for them. This just-in-time approach defers the permission request until it's absolutely necessary.
+
+Choose the approach that aligns best with your application's design and user experience goals.
+
+### Handling Background Permission:
+
+#### **`FOREGROUND_PERMISSIONS_GRANTED`**:
+
+After foreground permission are granted, clearly explain to the user why your app requires background permission before prompting them to grant these permission. Consider using language similar to the operating system's prompts to increase user understanding and buy-in. Keep in mind that an app can only request location background permission if foreground location permission have already been granted. The Radar SDK enforces these prerequisites and will handle the appropriate permission requests accordingly. 
+
+<Tabs
+  groupId="foreground-location-granted"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+struct GetBackgroundPermissionStateView: View {
+    var body: some View {
+        VStack {
+            Text("We have foregorund permission. To get background location permission, explain why you need them here")
+            Button("Request Background Permission") {
+                Radar.requestBackgroundLocationPermission()
+            }
+        }.navigationBarTitle("Get background", displayMode: .inline)
+    }
+}
+
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+private fun updateUI(state: RadarLocationPermissionStatus){
+    val titleTextView = findViewById<TextView>(R.id.titleTextView)
+    val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
+    val myButton = findViewById<Button>(R.id.myButton)
+    when (state.status) {
+        ...
+        RadarLocationPermissionStatus.LocationPermissionState.FOREGROUND_PERMISSIONS_GRANTED -> {
+            myButton.visibility = View.VISIBLE 
+            titleTextView.text = "Foreground Permission Granted"
+            descriptionTextView.text = "You have granted foreground permission. Please also grant background permission."
+            myButton.text = "Grant Background Permission"
+            myButton.setOnClickListener {
+                Radar.requestBackgroundLocationPermission()
+            }
+        }
+        ...
+    }
+}
+
+```
+  </TabItem>
+</Tabs>
+
+#### **`BACKGROUND_LOCATION_PENDING`**:
+Optionally handle the waiting period while the permission popup is active in iOS. Requesting background permission in android takes the user to the setting screen.
+
+```swift
+struct WaitingForBackgroundPermissionView: View {
+    var body: some View {
+        Text("Waiting for background permission")
+        .navigationBarTitle("Waiting", displayMode: .inline)
+    }
+}
+```
+
+#### **`BACKGROUND_PERMISSIONS_REJECTED`**:
+If permission are not granted, provide clear information on the limited functionality and a way to redirect users to the settings if needed. Note that you are not allowed to block users who do not grant background permission and you should offer users a way to proceed without background permission.
+
+<Tabs
+  groupId="background-location-rejected"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+struct GoToSettingsViewBackgroundDenied: View {
+    var body: some View {
+        VStack {
+            Text("Go to settings, you cannot proceed without the background permission")
+            Button("Open Settings") {
+                Radar.openAppSettings()
+            }
+        }.navigationBarTitle("Go to settings", displayMode: .inline)
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+private fun updateUI(state: RadarLocationPermissionStatus){
+    val titleTextView = findViewById<TextView>(R.id.titleTextView)
+    val descriptionTextView = findViewById<TextView>(R.id.descriptionTextView)
+    val myButton = findViewById<Button>(R.id.myButton)
+    when (state.status) {
+	    ...
+        RadarLocationPermissionStatus.LocationPermissionState.BACKGROUND_PERMISSIONS_REJECTED -> {
+            myButton.visibility = View.VISIBLE
+            titleTextView.text = "Rejected background Permission"
+            descriptionTextView.text = "You have rejected background permission for good, please activate it in the settings."
+            myButton.text = "Go to settings to change it"
+            myButton.setOnClickListener {
+                Radar.openAppSettings()
+            }
+        }
+        ...
+    }
+}
+
+```
+  </TabItem>
+</Tabs>
+
+#### **`BACKGROUND_PERMISSIONS_GRANTED`**:
+If permission are granted, proceed with location-based functionalities that require background access.
+
+### Platform specific states:
+#### Android:
+- **`FOREGROUND_PERMISSIONS_REJECTED_ONCE`**: The user has rejected to provide foreground permission once. You can still request for foreground permission but you are strongly encouraged to provide additional justification for requesting the permission via the UI.
+- **`APPROXIMATE_PERMISSIONS_GRANTED`**: Instead of granting `ACCESS_FINE_LOCATION`, the user has opted to grant `ACCESS_FINE_LOCATION` instead. You can still request for background permission but your foreground location tracking will be less accurate.
+- **`BACKGROUND_PERMISSIONS_REJECTED_ONCE`**: The user has rejected to provide background permission once. You can still request for background permission but you are strongly encouraged to provide additional justification for requesting the permission via the UI.
+#### iOS
+- **`PermissionRestricted`**: The operating system or the user has restricted the app from accessing location services. You should prompt the user to manually resolve this state.
+
+### Conclusion
+Using the Radar SDK can dramatically simplify your implementation of your applications location permission gathering UI. Start implementing best in class locations permission gathering UI with the Radar SDK.
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Email us at [support@radar.com](mailto:support@radar.com).

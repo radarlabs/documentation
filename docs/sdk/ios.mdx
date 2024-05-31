@@ -885,6 +885,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
         // print message for debug logs
     }
 
+    func didUpdateLocationPermissionStatus(status: RadarLocationPermissionStatus){
+        // do something with location permission status
+    }
+
 }
 ```
 
@@ -922,6 +926,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 
 - (void)didLogMessage:(NSString *_Nonnull)message {
     // print message for debug logs
+}
+
+- (void)didUpdateLocationPermissionStatus:(RadarLocationPermissionStatus *_Nonnull)status {
+  // do something with location permission status 
 }
 
 @end

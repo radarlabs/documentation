@@ -755,6 +755,11 @@ Your receiver should implement the following:
           // print message for debug logs
       }
 
+      @Override
+      public void onLocationPermissionStatusUpdated(context: Context,status: RadarLocationPermissionStatus) {
+        // do something with location permission status 
+      }
+
   }
   ```
 
@@ -782,6 +787,10 @@ Your receiver should implement the following:
 
       override fun onLog(context: Context, message: String) {
           // print message for debug logs
+      }
+
+      overide fun onLocationPermissionStatusUpdated(context: Context,status: RadarLocationPermissionStatus) {
+        // do something with location permission status 
       }
 
   }
