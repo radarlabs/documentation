@@ -6,6 +6,108 @@ title: Location Permissions Reference
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+## Request location permission
+
+Use Radar's SDK to request location permissions with a single line of code.
+
+<Tabs
+  groupId="requestPermissions"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' },
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+
+Radar.requestForegroundLocationPermission()
+
+Radar.requestBackgroundLocationPermission()
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+
+[Radar requestForegroundLocationPermission];
+
+[Radar requestBackgroundLocationPermission];
+```
+
+  </TabItem>
+  <TabItem value="java">
+
+```java
+Radar.requestForegroundLocationPermission();
+
+Radar.requestBackgroundLocationPermission();
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.requestForegroundLocationPermission()
+
+Radar.requestBackgroundLocationPermission()
+```
+  </TabItem>
+</Tabs>
+
+## Get location permission status
+
+You can get the application's latest location permission status from Radar's SDK.
+
+<Tabs
+  groupId="requestPermissions"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' },
+    { label: 'Java', value: 'java' },
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+let updatedLocationPermissionStatus = Radar.getLocationPermissionStatus()
+
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+
+RadarLocationPermissionStatus *updatedLocationPermissionStatus = [Radar getLocationPermissionStatus];
+
+```
+
+  </TabItem>
+  <TabItem value="java">
+
+```java
+
+RadarLocationPermissionStatus updatedLocationPermissionStatus = Radar.getLocationPermissionStatus();
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+val updatedLocationPermissionStatus = Radar.getLocationPermissionStatus()
+```
+  </TabItem>
+</Tabs>
+
+You can also listen for any changes to location permission status by implementing [**`RadarDelegate`**](/sdk/ios#listening-for-events-with-a-delegate) on iOS or [**`RadarReceiver`**](sdk/android#listening-for-events-with-a-receiver) on Android.
+
 `RadarLocationPermissionStatus` exposes various pieces of information obtained from the operating system as well as data collected through our advanced tracking and analysis techniques, providing a comprehensive representation of the location permissions state.
 
 ## `locationPermissionState`
