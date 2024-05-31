@@ -348,7 +348,7 @@ To add a marker to the map and control the camera:
 
 ### iOS
 
-To create a map on iOS, add [MapLibre Native](https://github.com/maplibre/maplibre-native) to your Xcode project.
+To create a map on iOS, add [MapLibre Native](https://maplibre.org/maplibre-native/ios/latest/documentation/maplibre) to your Xcode project.
 
 Then, add assets for the Radar logo and optionally for a marker. You can download assets [here](/img/radar-map-assets.zip).
 
@@ -356,7 +356,7 @@ Finally, add a `MapView` to a `ViewController` with a Radar style URL that inclu
 
 ```swift
 import SwiftUI
-import Mapbox // NOTE: MapLibre is imported as Mapbox
+import MapLibre
 
 struct MapView: UIViewRepresentable {
     
@@ -364,14 +364,14 @@ struct MapView: UIViewRepresentable {
         Coordinator(self)
     }
     
-    func makeUIView(context: Context) -> MGLMapView {
+    func makeUIView(context: Context) -> MLNMapView {
         // create a map
 
         let style = "radar-default-v1"
         let publishableKey = "prj_live_pk..."
         let styleURL = URL(string: "https://api.radar.io/maps/styles/\(style)?publishableKey=\(publishableKey)")
 
-        let mapView = MGLMapView(frame: .zero, styleURL: styleURL)
+        let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.logoView.isHidden = true
 
@@ -399,30 +399,30 @@ struct MapView: UIViewRepresentable {
         return mapView
     }
     
-    func updateUIView(_ uiView: MGLMapView, context: Context) {
+    func updateUIView(_ uiView: MLNMapView, context: Context) {
 
     }
     
     // add a marker on map load
 
-    class Coordinator: NSObject, MGLMapViewDelegate {
+    class Coordinator: NSObject, MLNMapViewDelegate {
         var control: MapView
 
         init(_ control: MapView) {
             self.control = control
         }
 
-        func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
+        func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
             addMarker(style: style, coordinate: CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911))
         }
 
-        func addMarker(style: MGLStyle, coordinate: CLLocationCoordinate2D) {
-            let point = MGLPointAnnotation()
+        func addMarker(style: MLNStyle, coordinate: CLLocationCoordinate2D) {
+            let point = MLNPointAnnotation()
             point.coordinate = coordinate
 
-            let shapeSource = MGLShapeSource(identifier: "marker-source", shape: point, options: nil)
+            let shapeSource = MLNShapeSource(identifier: "marker-source", shape: point, options: nil)
 
-            let shapeLayer = MGLSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
+            let shapeLayer = MLNSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
 
             if let image = UIImage(named: "default-marker") {
                 style.setImage(image, forName: "marker")
