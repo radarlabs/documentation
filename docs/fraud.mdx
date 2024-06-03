@@ -250,7 +250,7 @@ For more advanced checks, call `Radar.trackVerified()`. This requires you to fol
 
 `Radar.trackVerified()` returns a `RadarVerifiedLocationToken` with:
 - `passed`: A boolean indicating whether the user passed all fraud and jurisdiction checks (`user.fraud.passed && user.country.passed && user.state.passed`)
-- `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](/dashboard/settings).
+- `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
 - `expiresAt`: The datetime when the token expires, by default in 20 minutes, but earlier when close to the border (e.g., 1 minute within 1 mile of the border in New Jersey).
 - `expiresIn`: The number of seconds until the token expires.
 - `user`: The user, with detailed information in `user.fraud`, `user.country`, and `user.state`.
@@ -499,7 +499,7 @@ When the risk score changes for a user or device, it also changes for all associ
 
 The fraud signals, number of strikes per fraud signal, and lookback period are configurable.
 
-To receive real-time email alerts when users reach high risk, and to receive a weekly report with high risk users, set a *Notification email* under *Fraud* on the [Settings page](/dashboard/settings).
+To receive real-time email alerts when users reach high risk, and to receive a weekly report with high risk users, set a *Notification email* under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
 
 You can also automatically block high risk users.
 
