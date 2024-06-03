@@ -273,7 +273,7 @@ For more advanced checks, call `Radar.trackVerified()`. This requires you to fol
 ```swift
 Radar.trackVerified { (status, token) in
   if token?.passed == true {
-    // allow access to feature, send token to server for validation
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
@@ -286,7 +286,7 @@ Radar.trackVerified { (status, token) in
 ```kotlin
 Radar.trackVerified { (status, token) in
   if (token?.passed == true) {
-    // allow access to feature, send token to server for validation
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
@@ -300,7 +300,7 @@ Radar.trackVerified { (status, token) in
 Radar.trackOnce({ fraud: true }).then((result) => {
   const { user, token, passed } = result;
   if (passed) {
-    // allow access to feature, send token to server for validation
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
@@ -387,7 +387,7 @@ const jwt = require('jsonwebtoken');
 try {
     const decoded = jwt.verify(token, SECRET_KEY);
     const { user } = decoded;
-    // token is valid, check user.fraud, user.state, user.country to allow or deny access
+    // token is valid, check user.fraud, user.state, user.country to allow or deny access to feature
 } catch(err) {
     // token is invalid, deny access to feature, show error message
 }
@@ -403,7 +403,7 @@ You can also call `Radar.startTrackingVerified()` to fetch and cache location to
 
 Instead of calling `Radar.trackVerified()`, which always fetches a fresh location token, you can instead call `Radar.getVerifiedLocationToken()`, which returns a cached location token immediately if the last location token is still valid, or fetches a fresh location token if not.
 
-For example, to automatically verify the user's location every 20 minutes (1200 seconds), or more frequently as needed (if close to border, on connection changes), without ranging beacons:
+For example, to automatically verify the user's location at least every 20 minutes (1200 seconds), without ranging beacons:
 
 <Tabs
   groupId="fraud"
@@ -424,7 +424,7 @@ Radar.startTrackingVerified(interval: 1200, beacons: false)
 // get a cached token if available, or fetch a fresh token if not
 Radar.getVerifiedLocationToken { (status, token) in
   if token?.passed == true {
-    // allow access to feature, send token to server for validation
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
@@ -442,12 +442,12 @@ func didUpdateToken(_ token: String) {
 ```kotlin
 Radar.setVerifiedReceiver(receiver)
 
-Radar.startTrackingVerified(token = true, interval = 1200, beacons = false)
+Radar.startTrackingVerified(interval = 1200, beacons = false)
 
 // get a cached token if available, or fetch a fresh token if not
 Radar.getVerifiedLocationToken { (status, token) in
   if (token?.passed == true) {
-    // allow access to feature, send token to server for validation
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
