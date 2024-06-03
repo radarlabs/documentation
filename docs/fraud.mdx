@@ -54,12 +54,12 @@ Together, Fraud and Regions provide the following user context:
     "allowed": true
   },
   "state": {
-    "code": "RI",
-    "name": "Rhode Island",
-    "passed": false,
+    "code": "NJ",
+    "name": "New Jersey",
+    "passed": true,
     "allowed": true,
-    "distanceToBorder": 192.3,
-    "inBufferZone": true,
+    "distanceToBorder": 1092,
+    "inBufferZone": false,
     "inExclusionZone": false
   }
 }
@@ -79,14 +79,14 @@ You can call `Radar.trackOnce()` to accurately detect a user's current [geofence
 
 However, users can spoof a device's location. For example, a gaming app user may spoof their location to access sports betting features only available in specific states. Or, a retail app user may spoof their location to access offers only available inside a store geofence.
 
-To ensure you can trust a user's location, you can call `Radar.trackVerified()` or `Radar.trackVerifiedToken()` instead. Radar will collect a variety of fraud signals and perform fraud and jurisdiction checks, calculating flags that you can use for fraud detection and geo-compliance in your app.
+To ensure you can trust a user's location, you can call `Radar.trackVerified()` instead. Radar will collect a variety of fraud signals and perform fraud and jurisdiction checks, calculating flags and a signed geolocation token that you can use for fraud detection and geo-compliance in your app.
 
 ## Fraud flags
 
 If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
-- **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS. For example, an Android device that has been rooted, an iOS device that has been jailbroken, or an app binary that has been compromised.
+- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
 - **`inaccurate`**: Indicates whether the user's location accuracy is too low to pass verification.
 - **`sharing`**: Indicates whether the user is using screen sharing or remote desktop software (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy or VPN.
