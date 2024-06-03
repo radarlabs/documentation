@@ -21,7 +21,7 @@ Along with [Regions](/documentation/regions), you can also detect a user's count
 
 <img
   className="hero-image--small"
-  src="https://images.ctfassets.net/f2vbu16fzuly/6JxBGTIUBytkLEqvEA56fU/d20d42b9d1cb8926ca57bc547b1c0a5b/fraud_event.svg"
+  src="https://images.ctfassets.net/f2vbu16fzuly/1jClpoJtUsaRkaVKM8XDt9/7b2c4ed7b2a19183e2bff5711b22c444/fraud_event.svg"
 />
 
 Together, Fraud and Regions provide the following user context:
@@ -54,12 +54,12 @@ Together, Fraud and Regions provide the following user context:
     "allowed": true
   },
   "state": {
-    "code": "RI",
-    "name": "Rhode Island",
-    "passed": false,
+    "code": "NJ",
+    "name": "New Jersey",
+    "passed": true,
     "allowed": true,
-    "distanceToBorder": 192.3,
-    "inBufferZone": true,
+    "distanceToBorder": 1092,
+    "inBufferZone": false,
     "inExclusionZone": false
   }
 }
@@ -79,18 +79,18 @@ You can call `Radar.trackOnce()` to accurately detect a user's current [geofence
 
 However, users can spoof a device's location. For example, a gaming app user may spoof their location to access sports betting features only available in specific states. Or, a retail app user may spoof their location to access offers only available inside a store geofence.
 
-To ensure you can trust a user's location, you can call `Radar.trackVerified()` or `Radar.trackVerifiedToken()` instead. Radar will collect a variety of fraud signals and perform fraud and jurisdiction checks, calculating flags that you can use for fraud detection and geo-compliance in your app.
+To ensure you can trust a user's location, you can call `Radar.trackVerified()` instead. Radar will collect a variety of fraud signals and perform fraud and jurisdiction checks, calculating flags and a signed geolocation token that you can use for fraud detection and geo-compliance in your app.
 
 ## Fraud flags
 
 If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
-- **`compromised`**: Indicates whether the user's device or app has been compromised according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
+- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
 - **`inaccurate`**: Indicates whether the user's location accuracy is too low to pass verification.
-- **`sharing`**: Indicates whether the user is screen sharing (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
+- **`sharing`**: Indicates whether the user is using screen sharing or remote desktop software (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy or VPN.
-- **`verified`**: Indicates whether the request was made with [SSL pinning configured successfully](#ssl-pinning).
+- **`verified`**: Indicates whether the request was made with `Radar.trackVerified()`.
 
 While you can work with individual flags, Radar also exposes a single `user.fraud.passed` flag that indicates whether all fraud checks passed.
 
@@ -110,9 +110,9 @@ If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false
 
 ## Allowed states and countries
 
-With [Regions](/documentation/regions), gaming customers can mark specific jurisdictions (i.e., countries and states) as allowed or denied to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
+With [Regions](/documentation/regions), you can mark specific countries or states as allowed or denied to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
 
-If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
+Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 
 Additionally, you can enable buffer zones and exclusion zones for different states. If buffer zones and exclusion zones are enabled, `user.state.inBufferZone` and `user.state.inExclusionZone` indicates whether the user is within a buffer zone or exclusion zone.
 
@@ -228,7 +228,7 @@ Learn more about [SSL pinning on iOS](https://developer.apple.com/news/?id=g9ejc
 
 The web SDK supports the `mocked`, `proxy`, and `jumped` flags with `Radar.trackOnce()`.
 
-On desktop, if the end user installs the Radar Verify Mac or Windows app, the web SDK also supports the `sharing` flag with `Radar.trackVerified()`. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Radar Verify app is not running.
+On desktop, if the end user installs the Radar Verify Mac or Windows app, the web SDK also supports the `sharing` flag and more advanced `mocked` and `proxy` detection with `Radar.trackVerified()`. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Radar Verify app is not running.
 
 <Alert alertType="info">
   Contact your customer success manager for access to the Radar Verify Mac or Windows app.
@@ -238,11 +238,23 @@ On desktop, if the end user installs the Radar Verify Mac or Windows app, the we
 
 Once the above configuration is complete, you can verify a user's location with just a few lines of code.
 
-### Manual tracking
+Choose your implementation pattern depending on your use cases:
+- Less regulated gaming use cases and non-gaming use cases should generally choose [Manual location checks](#manual-location-checks), either basic or advanced.
+- Sportsbook and iGaming use cases subject to strict regulatory requirements should generally choose [Automatic location checks with caching](#automatic-location-checks-with-caching). 
 
-#### Standard callback
+### Manual location checks
 
-Call `Radar.trackVerified()` on app open, periodically, or before sensitive transactions. Then, check `user.fraud.passed`, `user.state.allowed`, and/or `user.country.allowed` to allow or deny access.
+#### Advanced fraud checks
+
+For more advanced checks, call `Radar.trackVerified()`. This requires you to follow the [Platform-specific configuration steps](#platform-specific-configuration) above and use the [desktop app](#web-and-desktop) on web.
+
+`Radar.trackVerified()` returns a `RadarVerifiedLocationToken` with:
+- `passed`: A boolean indicating whether the user passed all fraud and jurisdiction checks (`user.fraud.passed && user.country.passed && user.state.passed`)
+- `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
+- `expiresAt`: The datetime when the token expires, by default in 20 minutes, but earlier when close to the border (e.g., 1 minute within 1 mile of the border in New Jersey).
+- `expiresIn`: The number of seconds until the token expires.
+- `user`: The user, with detailed information in `user.fraud`, `user.country`, and `user.state`.
+- `events`: The events generated, if any.
 
 <Tabs
   groupId="fraud"
@@ -259,11 +271,9 @@ Call `Radar.trackVerified()` on app open, periodically, or before sensitive tran
   <TabItem value="swift">
 
 ```swift
-Radar.trackVerified { (status, location, events, user) in
-  if user?.fraud?.passed == true &&
-    user?.country?.allowed == true &&
-    user?.state?.allowed == true {
-    // allow access to feature
+Radar.trackVerified { (status, token) in
+  if token?.passed == true {
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
@@ -274,11 +284,9 @@ Radar.trackVerified { (status, location, events, user) in
   <TabItem value="kotlin">
 
 ```kotlin
-Radar.trackVerified { status, location, events, user ->
-  if (user?.fraud?.passed == true &&
-    user.country?.allowed == true &&
-    user.state?.allowed == true) {
-    // allow access to feature
+Radar.trackVerified { (status, token) in
+  if (token?.passed == true) {
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
@@ -289,6 +297,24 @@ Radar.trackVerified { status, location, events, user ->
   <TabItem value="web">
 
 ```javascript
+Radar.trackOnce({ fraud: true }).then((result) => {
+  const { user, token, passed } = result;
+  if (passed) {
+    // allow access to feature, send token to server
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+  </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+// standard callback
 Radar.trackVerified().then((result) => {
   const { user } = result;
   if (user.fraud.passed && user.country.allowed && user.state.allowed) {
@@ -299,20 +325,11 @@ Radar.trackVerified().then((result) => {
 }).catch((err) => {
   // deny access to feature, show error message
 });
-```
 
-  </TabItem>
-
-  <TabItem value="react-native">
-
-```javascript
-Radar.trackVerified().then((result) => {
-  const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
-    // allow access to feature
-  } else {
-    // deny access to feature, show error message
-  }
+// token callback
+Radar.trackVerifiedToken().then((result) => {
+  const { token } = result;
+  // send token to server
 }).catch((err) => {
   // deny access to feature, show error message
 });
@@ -323,6 +340,7 @@ Radar.trackVerified().then((result) => {
   <TabItem value="capacitor">
 
 ```javascript
+// standard callback
 Radar.trackVerified().then((result) => {
   const { user } = result;
   if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
@@ -333,93 +351,8 @@ Radar.trackVerified().then((result) => {
 }).catch((err) => {
   // deny access to feature, show error message
 });
-```
 
-  </TabItem>
-
-  <TabItem value="flutter">
-
-```dart
-var res = await Radar.trackVerified();
-// do something with res['status'], res['location'], res['events'], res['user']
-```
-
-  </TabItem>
-
-</Tabs>
-
-Then, [look up the user](/documentation/api#get-a-user) and check fraud flags server-side for an additional layer of verification.
-
-```bash
-curl "https://api.radar.io/v1/users/56db1f4613012711002229f4" \
-  -H "Authorization: prj_live_sk_..."
-```
-
-#### Token callback
-
-Alternatively, set a JSON Web Token (JWT) secret key on the [Settings page](https://radar.com/dashboard/settings).
-
-Then, call `Radar.trackVerifiedToken()` to get a signed JWT containing a payload with `user.fraud`, `user.state`, and `user.country` instead. Send the JWT to your server to verify and decode it.
-
-<Tabs
-  groupId="fraud"
-  defaultValue="swift"
-  values={[
-    { label: 'Swift', value: 'swift' },
-    { label: 'Kotlin', value: 'kotlin' },
-    { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' },
-    { label: 'Capacitor', value: 'capacitor' },
-    { label: 'Flutter', value: 'flutter' }
-  ]}
->
-  <TabItem value="swift">
-
-```swift
-Radar.trackVerifiedToken { (status, token) in
-  // send token to server
-}
-```
-
-  </TabItem>
-  <TabItem value="kotlin">
-
-```kotlin
-Radar.trackVerifiedToken { status, token ->
-  // send token to server
-}
-```
-
-  </TabItem>
-  <TabItem value="web">
-
-```javascript
-Radar.trackVerified().then((result) => {
-  const { token } = result;
-  // send token to server
-}).catch((err) => {
-  // deny access to feature, show error message
-});
-```
-
-  </TabItem>
-
-  <TabItem value="react-native">
-
-```javascript
-Radar.trackVerified().then((result) => {
-  const { token } = result;
-  // send token to server
-}).catch((err) => {
-  // deny access to feature, show error message
-});
-```
-
-  </TabItem>
-
-  <TabItem value="capacitor">
-
-```javascript
+// token callback
 Radar.trackVerifiedToken().then((result) => {
   const { token } = result;
   // send token to server
@@ -433,6 +366,11 @@ Radar.trackVerifiedToken().then((result) => {
   <TabItem value="flutter">
 
 ```dart
+// standard callback
+var res = await Radar.trackVerified();
+// do something with res['status'], res['location'], res['events'], res['user']
+
+// token callback
 var res = await Radar.trackVerifiedToken();
 // do something with res['status'], res['token']
 ```
@@ -441,9 +379,7 @@ var res = await Radar.trackVerifiedToken();
 
 </Tabs>
 
-Finally, verify and decode the JWT server-side using your secret key and a [JWT library](https://jwt.io/libraries). If the token is valid, check `user.fraud.passed`, `user.state.passed`, and/or `user.country.passed` in the payload to allow or deny access.
-
-For example, in JavaScript:
+You can send the JWT to your server and validate the signature using a [JWT library](https://jwt.io/libraries). For example, in JavaScript:
 
 ```javascript
 const jwt = require('jsonwebtoken');
@@ -451,17 +387,23 @@ const jwt = require('jsonwebtoken');
 try {
     const decoded = jwt.verify(token, SECRET_KEY);
     const { user } = decoded;
-    // token is valid, check user.fraud, user.state, user.country to allow or deny access
+    // token is valid, check user.fraud, user.state, user.country to allow or deny access to feature
 } catch(err) {
     // token is invalid, deny access to feature, show error message
 }
 ```
 
-### Automatic tracking
+#### Basic fraud checks
 
-In addition to manually calling `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, you can also call `Radar.startTrackingVerified()` and Radar will automatically verify the user's location at regular intervals or on network connection changes.
+For more basic fraud checks, call `Radar.trackOnce()` instead of `Radar.trackVerified()`. The callback will return a `user` instead of a `token`. See [Foreground tracking on iOS](/documentation/sdk/ios#foreground-tracking) or [Foreground tracking on Android](/documentation/sdk/android#foreground-tracking).
 
-For example, to automatically verify the user's location every 5 minutes (300 seconds), without ranging beacons, and with token callbacks:
+### Automatic location checks with caching
+
+You can also call `Radar.startTrackingVerified()` to fetch and cache location tokens in the background automatically on connection changes, on the specified `interval`, or more frequently if `token.expiresIn < interval` (based on current state, distance to border, and so on). If you set a delegate with `Radar.setVerifiedDelegate()`, location tokens are also delivered to `RadarVerifiedDelegate.didUpdateToken()`
+
+Instead of calling `Radar.trackVerified()`, which always fetches a fresh location token, you can instead call `Radar.getVerifiedLocationToken()`, which returns a cached location token immediately if the last location token is still valid, or fetches a fresh location token if not.
+
+For example, to automatically verify the user's location at least every 20 minutes (1200 seconds), without ranging beacons:
 
 <Tabs
   groupId="fraud"
@@ -477,10 +419,18 @@ For example, to automatically verify the user's location every 5 minutes (300 se
 ```swift
 Radar.setVerifiedDelegate(delegate)
 
-Radar.startTrackingVerified(token: true, interval: 300, beacons: false)
+Radar.startTrackingVerified(interval: 1200, beacons: false)
 
-// in delegate
+// get a cached token if available, or fetch a fresh token if not
+Radar.getVerifiedLocationToken { (status, token) in
+  if token?.passed == true {
+    // allow access to feature, send token to server
+  } else {
+    // deny access to feature, show error message
+  }
+}
 
+// delivers fresh tokens to RadarVerifiedDelegate
 func didUpdateToken(_ token: String) {
   // send token to server
 }
@@ -492,10 +442,18 @@ func didUpdateToken(_ token: String) {
 ```kotlin
 Radar.setVerifiedReceiver(receiver)
 
-Radar.startTrackingVerified(token = true, interval = 300, beacons = false)
+Radar.startTrackingVerified(interval = 1200, beacons = false)
 
-// in receiver
+// get a cached token if available, or fetch a fresh token if not
+Radar.getVerifiedLocationToken { (status, token) in
+  if (token?.passed == true) {
+    // allow access to feature, send token to server
+  } else {
+    // deny access to feature, show error message
+  }
+}
 
+// delivers fresh tokens to RadarVerifiedReceiver
 override fun onTokenUpdated(context: Context, token: String) {
   // send token to server
 }
@@ -512,7 +470,7 @@ Radar.addListener('token', (result) => {
 
 Radar.startTrackingVerified({
   token: true,
-  interval: 300,
+  interval: 1200,
   beacons: false,
 });
 ```
@@ -520,6 +478,34 @@ Radar.startTrackingVerified({
   </TabItem>
 
 </Tabs>
+
+## User and device risk scores
+
+You can use risk scores to identify high risk users and devices. Risk scores are based on a "strikes" system:
+
+- No strikes = no risk
+- 1 strike = low risk
+- 2 strikes = medium risk
+- 3 strikes = high risk
+
+Users and device receive strikes for the following fraud signals within a lookback period, by default the last 90 days:
+
+- `mocked` flag: 2 strikes
+- `jumped`, `compromised`, `sharing`, and `proxy` flags: 1 strike
+- More than 5 user IDs per device ID: 1 strike
+- More than 5 device IDs per user ID: 1 strike
+
+When the risk score changes for a user or device, it also changes for all associated users and devices (i.e., all users associated with that device ID, or all device IDs associated with that user).
+
+The fraud signals, number of strikes per fraud signal, and lookback period are configurable.
+
+To receive real-time email alerts when users reach high risk, and to receive a weekly report with high risk users, set a *Notification email* under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
+
+You can also automatically block high risk users.
+
+<Alert alertType="info">
+  Contact your customer success manager for access to user and device risk scores, or to automatically block high risk users.
+</Alert>
 
 ## Error handling
 
