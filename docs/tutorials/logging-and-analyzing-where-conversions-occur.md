@@ -136,7 +136,7 @@ Radar.logConversion(
 </Tabs>
 
 ### Step 6: Conversions overview in the Radar dashboard
-The [Report](https://radar.com/dashboard/report&view=conversions) page of the Radar dashboard has a _Conversions_ tab that provides an overview of all conversions logged for a project. Understand how engagement with your app differs between opted-in and opted-out users. See the total revenue across all conversions that have been logged with `revenue`.
+The [Report](https://radar.com/dashboard/report?view=conversions) page of the Radar dashboard has a _Conversions_ tab that provides an overview of all conversions logged for a project. Understand how engagement with your app differs between opted-in and opted-out users. See the total revenue across all conversions that have been logged with `revenue`.
 
 Below is an example of a fully populated _Conversions_ page for a project that has logged conversions for `purchase` and `opened_notification` events:
 ![Conversions report page](/img/tutorials/conversions-report-page.png)
