@@ -399,9 +399,11 @@ For more basic fraud checks, call `Radar.trackOnce()` instead of `Radar.trackVer
 
 ### Automatic location checks with caching
 
-You can also call `Radar.startTrackingVerified()` to fetch and cache location tokens in the background automatically on connection changes, on the specified `interval`, or more frequently if `token.expiresIn < interval` (based on current state, distance to border, and so on). If you set a delegate with `Radar.setVerifiedDelegate()`, location tokens are also delivered to `RadarVerifiedDelegate.didUpdateToken()`.
+You can also call `Radar.startTrackingVerified()` to fetch and cache location tokens in the background automatically on connection changes, on the specified `interval`, or more frequently if `token.expiresIn < interval` (based on current state, distance to border, and so on).
 
 Instead of calling `Radar.trackVerified()`, which always fetches a fresh location token, you can instead call `Radar.getVerifiedLocationToken()`, which returns a cached location token immediately if the last location token is still valid, or fetches a fresh location token if not.
+
+If you set a delegate on iOS with `Radar.setVerifiedDelegate()` or a receiver on Android with `Radar.setVerifiedReceiver()`, fresh location tokens are also delivered to `RadarVerifiedDelegate.didUpdateToken()` and `RadarVerifiedReceiver.onTokenUpdated()`, respectively.
 
 For example, to automatically verify the user's location at least every 20 minutes (1200 seconds), without ranging beacons:
 
