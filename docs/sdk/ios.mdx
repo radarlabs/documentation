@@ -563,9 +563,9 @@ You may provide an optional `completionHandler` that receives the request status
 
 <Alert alertType="warning">
   Build and run the app, then find your user on the{" "}
-  <a href="https://radar.com/dashboard/users">Users page</a>! To trigger an
+  <a href="https://radar.com/dashboard/geofencing/users">Users page</a>! To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.com/geofences">create a geofence</a> if you haven't
+  <a href="https://radar.com/dashboard/geofencing/geofences">create a geofence</a> if you haven't
   already. Not seeing your user on the Users page? Check <code>status</code> in
   the <code>completionHandler</code> to see what went wrong.
 </Alert>
@@ -682,7 +682,7 @@ You only need to call these methods once, as these settings will be persisted ac
   <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
   <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.com/geofences">create a geofence</a> if you haven't
+  <a href="https://radar.com/dashboard/geofencing/geofences">create a geofence</a> if you haven't
   already.
 </Alert>
 
@@ -781,7 +781,7 @@ Learn more about starting, completing, and canceling trips in the [trip tracking
   <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
   <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.com/geofences">create a geofence</a> or{" "}
+  <a href="https://radar.com/dashboard/geofencing/geofences">create a geofence</a> or{" "}
   <a href="/trip-tracking">start a trip</a> if you haven't already. Also, check
   your device settings to make sure you've granted location permissions.
 </Alert>
@@ -833,7 +833,7 @@ Radar.mockTracking(
   <a href="https://radar.com/dashboard/users">Users page</a> or events on the{" "}
   <a href="https://radar.com/dashboard/events">Events page</a>. To trigger an
   event, you'll need to{" "}
-  <a href="https://radar.com/geofences">create a geofence</a> if you haven't
+  <a href="https://radar.com/dashboard/geofencing/geofences">create a geofence</a> if you haven't
   already.
 </Alert>
 
@@ -885,6 +885,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
         // print message for debug logs
     }
 
+    func didUpdateLocationPermissionStatus(status: RadarLocationPermissionStatus){
+        // do something with location permission status
+    }
+
 }
 ```
 
@@ -922,6 +926,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
 
 - (void)didLogMessage:(NSString *_Nonnull)message {
     // print message for debug logs
+}
+
+- (void)didUpdateLocationPermissionStatus:(RadarLocationPermissionStatus *_Nonnull)status {
+  // do something with location permission status 
 }
 
 @end

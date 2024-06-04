@@ -443,11 +443,12 @@ struct MapView: UIViewRepresentable {
 
 ### Android
 
-To create a map on Android, add [MapLibre Native](https://github.com/maplibre/maplibre-native) to the `dependencies` section of your app's `build.gradle` file:
+To create a map on Android, add [MapLibre Native](https://github.com/maplibre/maplibre-native) to the `dependencies` section of your app's `build.gradle` file. Optionally, add the [MapLibre Annotation Plugin](https://github.com/maplibre/maplibre-plugins-android) to add a marker to the map:
 
 ```gradle
 dependencies {
-    implementation 'org.maplibre.gl:android-sdk:10.2.0'
+    implementation 'org.maplibre.gl:android-sdk:11.0.0'
+    implementation 'org.maplibre.gl:android-plugin-annotation-v9:3.0.0' // optional import for adding a marker
 }
 ```
 
@@ -464,7 +465,7 @@ Then, add a `MapView` with the Radar logo to your layout:
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.mapbox.mapboxsdk.maps.MapView
+    <org.maplibre.android.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -493,30 +494,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 
-// NOTE: MapLibre is imported as Mapbox
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.annotations.IconFactory
-import com.mapbox.mapboxsdk.annotations.MarkerOptions
-import com.mapbox.mapboxsdk.camera.CameraPosition
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
+import org.maplibre.android.MapLibre
+import org.maplibre.android.camera.CameraPosition
+import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.maps.MapLibreMap
+import org.maplibre.android.maps.MapView
+
+// optional import for adding a marker
+import org.maplibre.android.plugins.annotation.SymbolManager
+import org.maplibre.android.plugins.annotation.SymbolOptions
+
+const val MARKER_NAME = "radar-marker"
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mapView: MapView
-    private lateinit var mapboxMap: MapboxMap
+    private lateinit var mapLibreMap: MapLibreMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // create a map
-
         val style = "radar-default-v1"
         val publishableKey = "prj_live_pk_..."
         val styleURL = "https://api.radar.io/maps/styles/$style?publishableKey=$publishableKey"
 
-        Mapbox.getInstance(this)
+        MapLibre.getInstance(this)
 
         val inflater = LayoutInflater.from(this)
         val rootView = inflater.inflate(R.layout.activity_main, null)
@@ -525,40 +528,50 @@ class MainActivity : AppCompatActivity() {
         mapView = rootView.findViewById(R.id.mapView)
 
         mapView.getMapAsync { map ->
-            mapboxMap = map
+            mapLibreMap = map
 
             // add the Radar logo
-
             map.uiSettings.isLogoEnabled = false
 
             map.uiSettings.attributionGravity = Gravity.RIGHT + Gravity.BOTTOM
             map.uiSettings.setAttributionMargins(0, 0, 24, 24)
 
-            map.setStyle(styleURL)
+            map.setStyle(styleURL) {style ->
 
-            // add a marker on map load
+                // optionally add a marker to the map on style load
+                val infoIconDrawable = ResourcesCompat.getDrawable(
+                    this.resources,
+                    // use imported marker resource
+                    R.drawable.default_marker,
+                    null
+                )!!
 
-            addMarker(LatLng(40.7342, -73.9911))
-            map.cameraPosition = CameraPosition.Builder().target(LatLng(40.7342, -73.9911)).zoom(11.0).build()
+                // create marker icon bmp
+                val bitmapMarker = infoIconDrawable.toBitmap()
+                style.addImage(MARKER_NAME, bitmapMarker)
+
+                val symbolManager = SymbolManager(mapView, map, style)
+
+                // disable symbol collisions to draw over map style symbols like POIs and labels
+                symbolManager.iconAllowOverlap = true
+                symbolManager.iconIgnorePlacement = true
+
+                val symbol = symbolManager.create(
+                    SymbolOptions()
+                        .withLatLng(LatLng(40.7342,-73.9911))
+                        .withIconImage(MARKER_NAME)
+                        .withIconSize(1.25f)
+                        .withIconAnchor("bottom")
+                )
+                symbolManager.update(symbol)
+
+                // set camera position to symbol latlng
+                map.cameraPosition = CameraPosition.Builder()
+                    .target(symbol.latLng)
+                    .zoom(11.0)
+                    .build()
+            }
         }
-
-    }
-
-    private fun addMarker(coordinate: LatLng) {
-        val infoIconDrawable = ResourcesCompat.getDrawable(
-            this.resources,
-            R.drawable.default_marker,
-            null
-        )!!
-
-        val bitmapMarker = infoIconDrawable.toBitmap()
-        val icon = IconFactory.getInstance(this)
-            .fromBitmap(bitmapMarker)
-
-        val markerOptions = MarkerOptions()
-            .position(coordinate)
-            .icon(icon)
-        mapboxMap.addMarker(markerOptions)
     }
 
     override fun onStart() {
@@ -631,4 +644,4 @@ The following table describes data coverage for maps, by country, for consumer u
 
 ## Support
 
-Have questions? We're here to help! Email us at [support@radar.com](mailto:support@radar.com).
+Have questions? We're here to help! Contact us at [radar.com/support](https://radar.com/support).
