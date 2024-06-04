@@ -284,7 +284,7 @@ Radar.trackVerified { (status, token) in
   <TabItem value="kotlin">
 
 ```kotlin
-Radar.trackVerified { (status, token) in
+Radar.trackVerified { status, token ->
   if (token?.passed == true) {
     // allow access to feature, send token to server
   } else {
@@ -297,7 +297,7 @@ Radar.trackVerified { (status, token) in
   <TabItem value="web">
 
 ```javascript
-Radar.trackOnce({ fraud: true }).then((result) => {
+Radar.trackVerified().then((result) => {
   const { user, token, passed } = result;
   if (passed) {
     // allow access to feature, send token to server
@@ -396,6 +396,110 @@ try {
 #### Basic fraud checks
 
 For more basic fraud checks, call `Radar.trackOnce()` instead of `Radar.trackVerified()`. The callback will return a `user` instead of a `token`. See [Foreground tracking on iOS](/documentation/sdk/ios#foreground-tracking) or [Foreground tracking on Android](/documentation/sdk/android#foreground-tracking).
+
+<Tabs
+  groupId="fraud"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' },
+    { label: 'React Native', value: 'react-native' },
+    { label: 'Capacitor', value: 'capacitor' },
+    { label: 'Flutter', value: 'flutter' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+Radar.trackOnce { (status, location, events, user) in
+  if user?.fraud?.passed == true &&
+    user?.country?.allowed == true &&
+    user?.state?.allowed == true {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+Radar.trackOnce { status, location, events, user ->
+  if (user?.fraud?.passed == true &&
+    user.country?.allowed == true &&
+    user.state?.allowed == true) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="web">
+
+```javascript
+Radar.trackOnce({ fraud: true }).then((result) => {
+  const { user } = result;
+  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+Radar.trackOnce().then((result) => {
+  const { user } = result;
+  if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="capacitor">
+
+```javascript
+Radar.trackOnce().then((result) => {
+  const { user } = result;
+  if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
+    // allow access to feature
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+```
+
+  </TabItem>
+
+  <TabItem value="flutter">
+
+```dart
+var res = await Radar.trackOnce();
+// do something with res['status'], res['location'], res['events'], res['user']
+```
+
+  </TabItem>
+
+</Tabs>
 
 ### Automatic location checks with caching
 
