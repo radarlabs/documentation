@@ -461,7 +461,7 @@ Radar.trackOnce({ fraud: true }).then((result) => {
 ```javascript
 Radar.trackOnce().then((result) => {
   const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+  if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
     // allow access to feature
   } else {
     // deny access to feature, show error message
