@@ -1,0 +1,26 @@
+---
+sidebar_label: Configuration
+title: SDK Configuration
+description: Documentation for SDK Configuration
+---
+
+import Alert from "../../src/components/Alert";
+
+
+## Remote SDK Configurations
+
+SDK versions 3.XX and above have the remote SDK configuration feature enabled, SDK settings can be accessed through the Radar dashboard.
+
+Remote SDK Settings will override client side SDK configuration.
+
+#### Log level
+
+Override client side log level.
+
+#### Track once on enter foreground
+
+If enabled, the SDK will automatically perform a `Radar.trackOnce` call when the app is launched or resumed.
+
+#### Start tracking on enter foreground
+
+If enabled, the SDK will automatically start tracking with `Radar.startTracking` when the app is launched or resumed and tracking is stopped.
