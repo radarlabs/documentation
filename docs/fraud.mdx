@@ -285,7 +285,7 @@ Radar.trackVerified { (status, token) in
 
 ```kotlin
 Radar.trackVerified { status, token ->
-    if (token?.passed == true) {
+  if (token?.passed == true) {
     // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
