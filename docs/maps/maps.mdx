@@ -659,14 +659,14 @@ In the example below, clicking the map will place a new marker, and refit the ma
           .setLngLat([lng, lat])
           .addTo(map);
 
-        // add listener to remove on click
+        // fit map to markers
+        map.fitToMarkers({ maxZoom: 14, padding: 80 });
+
+        // add listener to remove marker on click
         marker.on('click', (e) => {
           marker.remove();
           map.fitToMarkers({ maxZoom: 14, padding: 80 }); // refit after marker removed
         });
-
-        // fit map to markers
-        map.fitToMarkers({ maxZoom: 14, padding: 80 });
       });
     </script>
   </body>
