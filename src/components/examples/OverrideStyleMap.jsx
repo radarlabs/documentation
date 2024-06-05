@@ -9,7 +9,7 @@ class OverrideStyleMap extends React.Component {
   componentDidMount() {
     Radar.initialize(PUBLISHABLE_KEY);
 
-    const map = new Radar.ui.map({
+    const map = Radar.ui.map({
       container: 'override-style-map',
       style: 'radar-light-v1',
     });

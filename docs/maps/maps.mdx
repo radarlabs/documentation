@@ -5,9 +5,7 @@ import Alert from '../../src/components/Alert.jsx';
 import Map from '../../src/components/Map.jsx'
 import FitBoundsMap from '../../src/components/examples/FitBoundsMap.jsx'
 import CustomImageMarkerMap from '../../src/components/examples/CustomImageMarkerMap.jsx'
-import DrawGeoJSONMap from '../../src/components/examples/DrawGeoJSONMap.jsx'
-import OverrideStyleMap from '../../src/components/examples/OverrideStyleMap.jsx'
-import ToggleLayersMap from '../../src/components/examples/ToggleLayersMap.jsx'
+import CustomLanguageMap from '../../src/components/examples/CustomLanguageMap.jsx'
 
 Radar Maps is a cost-effective alternative to Google Maps Platform and Mapbox.
 
@@ -622,9 +620,9 @@ class MainActivity : AppCompatActivity() {
 
 ## Examples
 
-### Fit map to data
+### Fit map to markers
 
-Use the `fitBounds` function to center and zoom the map to encompass a specific area. 
+Use the `map.fitToMarkers()` function to center and zoom the map to encompass all the markers on the map. <br />It accepts [FlyToOptions](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/FlyToOptions/) as an optional argument.
 
 In the example below, clicking the map will place a new marker, and refit the map so all markers are visible. Clicking a marker will remove it.
 
@@ -636,8 +634,8 @@ In the example below, clicking the map will place a new marker, and refit the ma
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/v4.1.11/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.1.11/radar.min.js"></script>
+    <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
   </head>
 
   <body>
@@ -647,46 +645,27 @@ In the example below, clicking the map will place a new marker, and refit the ma
       Radar.initialize('prj_live_pk_...');
 
       // create map
-      const map = new Radar.ui.map({
+      const map = Radar.ui.map({
         container: 'map',
       });
 
-      let markers = []; // keep track of markers
-
-      // function to refit the map to the markers
-      const refitMap = () => {
-        // get bounds for all markers
-        const bounds = new Radar.ui.maplibregl.LngLatBounds();
-        markers.forEach((m) => {
-          bounds.extend(m.getLngLat());
-        });
-
-        // fit map to new bounds
-        // (add padding to ensure pin is fully in view)
-        map.fitBounds(bounds, { maxZoom: 14, padding: 80 });
-      };
-
+      // add marker on map click
       map.on('click', (e) => {
         const { lng, lat } = e.lngLat;
 
         // create marker from click location
-        const marker = Radar.ui.marker({ text: 'Radar HQ' })
+        const marker = Radar.ui.marker()
           .setLngLat([lng, lat])
           .addTo(map);
 
-        markers.push(marker); // add to list of markers
-        refitMap();
-
-        // remove marker and refit map when clicked
-        marker.getElement().addEventListener('click', (e) => {
-          e.stopPropagation();
-
-          // remove marker from map and refit to remaining markers
-          const clicked = markers.find((m) => m.getElement().contains(e.target));
-          clicked.remove();
-          markers = markers.filter((m) => m !== clicked);
-          refitMap();
+        // add listener to remove on click
+        marker.on('click', (e) => {
+          marker.remove();
+          map.fitToMarkers({ maxZoom: 14, padding: 80 }); // refit after marker removed
         });
+
+        // fit map to markers
+        map.fitToMarkers({ maxZoom: 14, padding: 80 });
       });
     </script>
   </body>
@@ -705,8 +684,8 @@ Add a `Marker` with a custom image to the map by specifying the image URL.
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/v4.1.11/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.1.11/radar.min.js"></script>
+    <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
   </head>
 
   <body>
@@ -723,282 +702,30 @@ Add a `Marker` with a custom image to the map by specifying the image URL.
       map.on('load', () => {
         const { lng, lat } = map.getCenter();
 
-        // create HTML div with a background image
-        const element = document.createElement('div');
-        element.className = 'marker';
-        element.style.backgroundImage = 'url(https://placekitten.com/g/100/100/)';
-        element.style.width = '100px';
-        element.style.height = '100px';
-
         // add marker to map at map center
-        new Radar.ui.marker({ element, text: 'Meow!' })
-          .setLngLat([lng, lat])
-          .addTo(map);
-      });
-    </script>
-  </body>
-</html>
-```
-
-### Draw GeoJSON on a map
-
-Draw GeoJSON objects such as `Point`, `Polygon`, or `Polyline` on a map.
-
-<DrawGeoJSONMap />
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/v4.1.11/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.1.11/radar.min.js"></script>
-  </head>
-
-  <body>
-    <div id="map" style="width: 100%; height: 400px;" />
-
-    <script type="text/javascript">
-      Radar.initialize('prj_live_pk_...');
-
-      // create map
-      const map = new Radar.ui.map({
-        style: 'radar-light-v1',
-        container: 'map',
-        center: [-73.9911, 40.7342], // NYC
-        zoom: 15,
-      });
-
-      map.on('load', () => {
-
-        // add polygon source and style layer
-        const polygon = {
-          type: "Feature",
-          geometry: {
-            type: "Polygon",
-            coordinates: [
-              [
-                [-73.99117116134302, 40.7350821248109],
-                [-73.99183598565162, 40.73375513245966],
-                [-73.99117116134302, 40.73398858673653],
-                [-73.99053876748896, 40.7337919937155],
-                [-73.99117116134302, 40.7350821248109]
-              ]
-            ],
-          }
-        };
-        map.addSource('polygon', {
-          type: 'geojson',
-          data: polygon,
-        });
-        map.addLayer({
-          id: 'polygon-layer',
-          type: 'fill',
-          source: 'polygon',
-          layout: {},
-          paint: {
-            'fill-color': '#000257',
-            'fill-opacity': 0.8,
-          }
-        });
-
-        // add lineString source and style layer
-        const lineString = {
-          type: "Feature",
-          geometry: {
-            type: "LineString",
-            coordinates: [
-              [-73.98756879114636, 40.73860557173572],
-              [-73.9884240194046, 40.737328338160665],
-              [-73.9895643237483, 40.73579750384633],
-              [-73.98994855673419, 40.73530913211431],
-              [-73.98993616212131, 40.7347550136916],
-              [-73.98983700522187, 40.734172714783256],
-              [-73.98978742677244, 40.733815819384546],
-              [-73.98992376750897, 40.7331865517817],
-              [-73.99025842204483, 40.73176832984112],
-              [-73.9903947664424, 40.73102633817291],
-              [-73.9904691341171, 40.73049096904086],
-              [-73.99108886473894, 40.728875443095006],
-              [-73.99112604857604, 40.72849034100523],
-              [-73.99077899942777, 40.72835884222016]
-            ],
-          }
-        };
-        map.addSource('lineString', {
-          type: 'geojson',
-          data: lineString,
-        });
-        map.addLayer({
-          id: 'line-layer',
-          type: 'line',
-          source: 'lineString',
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
+        Radar.ui.marker({
+          url: 'https://radar.com/static/image/logo.png',
+          width: '48px',
+          height: '48px',
+          popup: {
+            text: 'Radar HQ',
           },
-          paint: {
-            'line-color': '#eb0083',
-            'line-width': 4
-          }
-        });
-
-        // add points source and style layer
-        const points = {
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [-73.98985458358028, 40.73434956043141],
-              }
-            },
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [ -73.98680416229618, 40.73307679543319 ],
-              }
-            },
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [ -73.99259610144266, 40.73016543682982 ],
-              }
-            },
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [ -73.9995850413457, 40.734071602337735 ],
-              }
-            },
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [-73.99721034629628, 40.73742165149088],
-              }
-            },
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [-73.99620641017763, 40.738050681209955],
-              }
-            },
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [-74.00016423526102, 40.73781662433447],
-              }
-            },
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [-73.98641803302029, 40.740084015658425],
-              }
-            },
-          ]
-        }
-        map.addSource('points', {
-          type: 'geojson',
-          data: points,
-        });
-        map.addLayer({
-          id: 'points-layer',
-          type: 'circle',
-          source: 'points',
-          paint: {
-            'circle-radius': 6,
-            'circle-color': '#800080',
-            'circle-stroke-color': '#FFFFFF',
-            'circle-stroke-width': 2,
-          }
-        });
+        })
+        .setLngLat([lng, lat])
+        .addTo(map);
       });
     </script>
   </body>
 </html>
 ```
 
-### Override map styles
+### Change map language
 
-You can override the map style by updating the layer values after load with `setPaintProperty`. The example below sets the color of the water to "blue" on the light theme.
+The map display language can be changed by setting the `language` option to the ISO language code (`en`), or the browser's current setting from `navigator.language`.
 
-<OverrideStyleMap />
+You can also set `language: "local"` to use the device language by default.
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/v4.1.11/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.1.11/radar.min.js"></script>
-  </head>
-
-  <body>
-    <div id="map" style="width: 100%; height: 400px;" />
-
-    <script type="text/javascript">
-      Radar.initialize('prj_live_pk_...');
-
-      // create map
-      const map = new Radar.ui.map({
-        container: 'map',
-        style: 'radar-light-v1',
-      });
-
-      map.on('load', () => {
-        // set water color to blue
-        map.setPaintProperty('water', 'fill-color', 'rgb(156,192,249)');
-      });
-    </script>
-  </body>
-</html>
-```
-
-### Disable map layers
-
-You can toggle a layer's visibility with `setLayoutProperty`. The example below disables the Points-of-Interest (POI) layer.
-
-<ToggleLayersMap />
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/v4.1.11/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.1.11/radar.min.js"></script>
-  </head>
-
-  <body>
-    <div id="map" style="width: 100%; height: 400px;" />
-
-    <script type="text/javascript">
-      Radar.initialize('prj_live_pk_...');
-
-      // create map
-      const map = new Radar.ui.map({
-        container: 'map',
-      });
-
-      map.on('load', () => {
-        // disable POI label layer
-        map.setLayoutProperty('poi-layer', 'visibility', 'none');
-      });
-    </script>
-  </body>
-</html>
-```
+<CustomLanguageMap />
 
 ## Coverage
 
@@ -1011,8 +738,8 @@ The following table describes data coverage for maps, by country, for consumer u
  Icon | Description
 --- | ---
 ⬤ | Great data quality and availability
-<span style={{'font-size': '125%'}}>◐</span> | Good data quality and availability
-<span style={{'font-size': '120%'}}>◯</span> | Approximate data quality and availability
+<span style={{'fontSize': '125%'}}>◐</span> | Good data quality and availability
+<span style={{'fontSize': '120%'}}>◯</span> | Approximate data quality and availability
 
 #### Coverage
 
@@ -1025,7 +752,7 @@ The following table describes data coverage for maps, by country, for consumer u
 🇬🇧 UK (consumer) | ⬤
 🇬🇧 UK (logistics) | ⬤
 🌎 Other (consumer) | ⬤
-🌎 Other (logistics) | <span style={{'font-size': '125%'}}>◐</span>
+🌎 Other (logistics) | <span style={{'fontSize': '125%'}}>◐</span>
 
 ## Support
 

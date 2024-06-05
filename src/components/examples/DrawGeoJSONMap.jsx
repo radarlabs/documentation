@@ -9,7 +9,7 @@ class DrawGeoJSONMap extends React.Component {
   componentDidMount() {
     Radar.initialize(PUBLISHABLE_KEY);
 
-    const map = new Radar.ui.map({
+    const map = Radar.ui.map({
       style: 'radar-light-v1',
       container: 'draw-geojson-map',
       center: [-73.9911, 40.7342], // NYC

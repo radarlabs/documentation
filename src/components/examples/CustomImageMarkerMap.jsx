@@ -9,24 +9,26 @@ class CustomImageMarkerMap extends React.Component {
   componentDidMount() {
     Radar.initialize(PUBLISHABLE_KEY);
 
-    const map = new Radar.ui.map({
+    const map = Radar.ui.map({
       container: 'custom-image-map',
+      center: [-73.9911, 40.7342], // NYC
+      zoom: 14,
     });
 
     map.on('load', () => {
       const { lng, lat } = map.getCenter();
 
-      // create HTML div with a background image
-      const element = document.createElement('div');
-      element.className = 'marker';
-      element.style.backgroundImage = 'url(https://placekitten.com/g/100/100/)';
-      element.style.width = '100px';
-      element.style.height = '100px';
-
       // add marker to map at map center
-      new Radar.ui.marker({ element, text: 'Meow!' })
-        .setLngLat([lng, lat])
-        .addTo(map);
+      Radar.ui.marker({
+        url: 'https://radar.com/static/image/logo.png',
+        width: '48px',
+        height: '48px',
+        popup: {
+          text: 'Radar HQ',
+        },
+      })
+      .setLngLat([lng, lat])
+      .addTo(map);
     });
   }
 

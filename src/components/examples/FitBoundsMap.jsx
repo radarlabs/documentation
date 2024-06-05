@@ -9,46 +9,27 @@ class FitBoundsMap extends React.Component {
   componentDidMount() {
     Radar.initialize(PUBLISHABLE_KEY);
 
-    const map = new Radar.ui.map({
+    const map = Radar.ui.map({
       container: 'fit-bounds-map',
     });
 
-    let markers = []; // keep track of markers
-
-    // function to refit the map to the markers
-    const refitMap = () => {
-      // get bounds for all markers
-      const bounds = new Radar.ui.maplibregl.LngLatBounds();
-      markers.forEach((m) => {
-        bounds.extend(m.getLngLat());
-      });
-
-      // fit map to new bounds
-      // (add padding to ensure pin is fully in view)
-      map.fitBounds(bounds, { maxZoom: 14, padding: 80 });
-    };
-
+    // add marker on map click
     map.on('click', (e) => {
       const { lng, lat } = e.lngLat;
 
       // create marker from click location
-      const marker = Radar.ui.marker({ text: 'Radar HQ' })
+      const marker = Radar.ui.marker()
         .setLngLat([lng, lat])
         .addTo(map);
 
-      markers.push(marker); // add to list of markers
-      refitMap();
-
-      // remove marker and refit map when clicked
-      marker.getElement().addEventListener('click', (e) => {
-        e.stopPropagation();
-
-        // remove marker from map and refit to remaining markers
-        const clicked = markers.find((m) => m.getElement().contains(e.target));
-        clicked.remove();
-        markers = markers.filter((m) => m !== clicked);
-        refitMap();
+      // add listener to remove on click
+      marker.on('click', (_) => {
+        marker.remove();
+        map.fitToMarkers({ maxZoom: 14, padding: 80 }); // refit after marker removed
       });
+
+      // fit map to markers
+      map.fitToMarkers({ maxZoom: 14, padding: 80 });
     });
   }
 
