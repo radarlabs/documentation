@@ -1142,9 +1142,9 @@ curl "https://api.radar.io/v1/route/matrix?origins=40.78382,-73.97536&destinatio
 
 #### Route match
 
-Snaps points collected along a route to roads that were most likely traveled on. Returns the matched path and road information.
+Snaps points collected along a route to roads that were most likely traveled on. Returns the matched path and road information, omitting points with invalid or impossible distances between them.
 
-For best results, the sample rate should be less than 10 seconds between points.
+For best results, the sample rate should be less than 10 seconds between points. 
 
 ###### Definitions
 
