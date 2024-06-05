@@ -91,7 +91,7 @@ const htmlSnippet = (language) =>
       Radar.initialize('prj_live_pk_...');
 
       // create map
-      const map = new Radar.ui.map({
+      const map = Radar.ui.map({
         container: 'map',
         language: '${language}',
       });

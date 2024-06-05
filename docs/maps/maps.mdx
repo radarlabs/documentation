@@ -136,7 +136,7 @@ class RadarMap extends React.Component {
     Radar.initialize('prj_live_pk_...');
 
     // create a map
-    const map = new Radar.ui.map({
+    const map = Radar.ui.map({
       container: 'map',
       style: 'radar-default-v1',
       center: [-73.9911, 40.7342], // NYC
@@ -695,7 +695,7 @@ Add a `Marker` with a custom image to the map by specifying the image URL.
       Radar.initialize('prj_live_pk_...');
 
       // create map
-      const map = new Radar.ui.map({
+      const map = Radar.ui.map({
         container: 'map',
       });
 
