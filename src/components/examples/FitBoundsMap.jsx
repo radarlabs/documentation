@@ -13,6 +13,16 @@ class FitBoundsMap extends React.Component {
       container: 'fit-bounds-map',
     });
 
+    map.on('mouseover', () => {
+      map.getCanvas().style.cursor = 'crosshair';
+    });
+    map.on('drag', () => {
+      map.getCanvas().style.cursor = 'grabbing';
+    });
+    map.on('dragend', () => {
+      map.getCanvas().style.cursor = 'crosshair';
+    });
+
     // add marker on map click
     map.on('click', (e) => {
       const { lng, lat } = e.lngLat;
