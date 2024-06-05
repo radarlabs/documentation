@@ -71,6 +71,8 @@
     "jailbroken"
   ],
   "ignoreRegExpList": [
-    "/^\\s*```[\\s\\S]*?^\\s*```/gm"
+    "/^\\s*```[\\s\\S]*?^\\s*```/gm",
+    "/.*enc:.*/",
+    "/.*enc6:.*/"
   ]
 }
