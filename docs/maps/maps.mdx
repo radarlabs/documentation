@@ -3,6 +3,9 @@ title: Maps
 ---
 import Alert from '../../src/components/Alert.jsx';
 import Map from '../../src/components/Map.jsx'
+import FitBoundsMap from '../../src/components/examples/FitBoundsMap.jsx'
+import CustomImageMarkerMap from '../../src/components/examples/CustomImageMarkerMap.jsx'
+import CustomLanguageMap from '../../src/components/examples/CustomLanguageMap.jsx'
 
 Radar Maps is a cost-effective alternative to Google Maps Platform and Mapbox.
 
@@ -32,6 +35,7 @@ The minimum recommended options are the following:
 | `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See below for more details. |
 | `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/documentation/api#ip-geocode). |
 | `zoom` | 11 | number | The zoom level of the map, a number between 0 (fully zoomed out) and 23 (fully zoomed in). |
+| `language` | none | string (ISO code) | This display language for map. Can be any 2-letter [ISO Code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes), or `local` to use the device's specified language. Defaults to `en-US` if none is provided. |
 
 </div>
 
@@ -133,7 +137,7 @@ class RadarMap extends React.Component {
     Radar.initialize('prj_live_pk_...');
 
     // create a map
-    const map = new Radar.ui.map({
+    const map = Radar.ui.map({
       container: 'map',
       style: 'radar-default-v1',
       center: [-73.9911, 40.7342], // NYC
@@ -615,6 +619,115 @@ class MainActivity : AppCompatActivity() {
   Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
 </Alert>
 
+## Examples
+
+### Fit map to markers
+
+Use the `map.fitToMarkers()` function to center and zoom the map to encompass all the markers on the map. <br />It accepts [FlyToOptions](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/FlyToOptions/) as an optional argument.
+
+In the example below, clicking the map will place a new marker, and refit the map so all markers are visible. Clicking a marker will remove it.
+
+<FitBoundsMap />
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
+  </head>
+
+  <body>
+    <div id="map" style="width: 100%; height: 400px;" />
+
+    <script type="text/javascript">
+      Radar.initialize('prj_live_pk_...');
+
+      // create map
+      const map = Radar.ui.map({
+        container: 'map',
+      });
+
+      // add marker on map click
+      map.on('click', (e) => {
+        const { lng, lat } = e.lngLat;
+
+        // create marker from click location
+        const marker = Radar.ui.marker()
+          .setLngLat([lng, lat])
+          .addTo(map);
+
+        // fit map to markers
+        map.fitToMarkers({ maxZoom: 14, padding: 80 });
+
+        // add listener to remove marker on click
+        marker.on('click', (e) => {
+          marker.remove();
+          map.fitToMarkers({ maxZoom: 14, padding: 80 }); // refit after marker removed
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
+### Add a custom icon
+
+Add a `Marker` with a custom image to the map by specifying the image URL.
+
+<CustomImageMarkerMap />
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
+  </head>
+
+  <body>
+    <div id="map" style="width: 100%; height: 400px;" />
+
+    <script type="text/javascript">
+      Radar.initialize('prj_live_pk_...');
+
+      // create map
+      const map = Radar.ui.map({
+        container: 'map',
+      });
+
+      map.on('load', () => {
+        const { lng, lat } = map.getCenter();
+
+        // add marker to map at map center
+        Radar.ui.marker({
+          url: 'https://radar.com/static/image/logo.png',
+          width: '48px',
+          height: '48px',
+          popup: {
+            text: 'Radar HQ',
+          },
+        })
+        .setLngLat([lng, lat])
+        .addTo(map);
+      });
+    </script>
+  </body>
+</html>
+```
+
+### Change map language
+
+The map display language can be changed by setting the `language` option to the ISO language code (`en`), or the browser's current setting from `navigator.language`.
+
+You can also set `language: "local"` to use the device language by default.
+
+<CustomLanguageMap />
+
 ## Coverage
 
 Radar map data comes from [OpenStreetMap](https://www.openstreetmap.org).
@@ -626,8 +739,8 @@ The following table describes data coverage for maps, by country, for consumer u
  Icon | Description
 --- | ---
 ⬤ | Great data quality and availability
-<span style={{'font-size': '125%'}}>◐</span> | Good data quality and availability
-<span style={{'font-size': '120%'}}>◯</span> | Approximate data quality and availability
+<span style={{'fontSize': '125%'}}>◐</span> | Good data quality and availability
+<span style={{'fontSize': '120%'}}>◯</span> | Approximate data quality and availability
 
 #### Coverage
 
@@ -640,7 +753,7 @@ The following table describes data coverage for maps, by country, for consumer u
 🇬🇧 UK (consumer) | ⬤
 🇬🇧 UK (logistics) | ⬤
 🌎 Other (consumer) | ⬤
-🌎 Other (logistics) | <span style={{'font-size': '125%'}}>◐</span>
+🌎 Other (logistics) | <span style={{'fontSize': '125%'}}>◐</span>
 
 ## Support
 
