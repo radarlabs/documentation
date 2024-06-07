@@ -49,7 +49,12 @@ Then, run `pod install`. You may also need to run `pod repo update`.
 
 ### Swift Package Manager
 
-In Xcode, go to *File* > *Swift Packages* > *Add Package Dependency*. Enter `https://github.com/radarlabs/radar-sdk-ios.git` for the *Package Repository URL*.
+In Xcode, go to *File* > *Swift Packages* > *Add Package Dependency*. Enter `https://github.com/radarlabs/radar-sdk-ios-spm.git` for the *Package Repository URL*. This URL points to our [SPM optimized repo](https://github.com/radarlabs/radar-sdk-ios-spm), which has a smaller binary size to facilitate faster build times.
+
+**Note:** we recommend pinning the minor version you're installing as we occasionally introduce breaking changes in new minor versions. You can pin the minor version using the range operator:
+```swift
+$RADAR_IOS_SDK_VERSION$..<$RADAR_IOS_NEXT_MINOR_VERSION$
+```
 
 ### Carthage
 
