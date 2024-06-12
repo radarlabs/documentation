@@ -315,8 +315,8 @@ Radar.trackVerified().then((result) => {
 
 ```javascript
 Radar.trackVerified().then((result) => {
-  const { user, token, expiresIn, passed } = result;
-  if (passed) {
+  const { status, token } = result;
+  if (token?.passed) {
     // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
@@ -569,8 +569,8 @@ Radar.startTrackingVerified({
 
 // get a cached token if available, or fetch a fresh token if not
 Radar.getVerifiedLocationToken().then((result) => {
-  const { user, token, expiresIn, passed } = result;
-  if (passed) {
+  const { status, token } = result;
+  if (token?.passed) {
     // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
