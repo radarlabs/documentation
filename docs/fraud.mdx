@@ -567,6 +567,7 @@ Radar.startTrackingVerified({
   beacons: false,
 });
 
+// get a cached token if available, or fetch a fresh token if not
 Radar.getVerifiedLocationToken().then((result) => {
   const { user, token, expiresIn, passed } = result;
   if (passed) {
@@ -578,6 +579,7 @@ Radar.getVerifiedLocationToken().then((result) => {
   // deny access to feature, show error message
 });
 
+// delivers fresh tokens to listener
 Radar.on('token', (result) => {
   const { token } = result;
   // send token to server
