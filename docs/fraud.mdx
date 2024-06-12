@@ -314,7 +314,7 @@ Radar.trackVerified().then((result) => {
   <TabItem value="react-native">
 
 ```javascript
-Radar.trackVerified().then((result) => {
+Radar.trackVerified().then(({ status, result }) => {
   const { user, token, expiresIn, passed } = result;
   if (passed) {
     // allow access to feature, send token to server
@@ -568,7 +568,7 @@ Radar.startTrackingVerified({
 });
 
 // get a cached token if available, or fetch a fresh token if not
-Radar.getVerifiedLocationToken().then((result) => {
+Radar.getVerifiedLocationToken().then(({ status, result }) => {
   const { user, token, expiresIn, passed } = result;
   if (passed) {
     // allow access to feature, send token to server
