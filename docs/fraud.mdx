@@ -298,14 +298,14 @@ Radar.trackVerified { status, token ->
 
 ```javascript
 Radar.trackVerified().then((result) => {
-  const { user, token, passed } = result;
+  const { user, token, expiresIn, passed } = result;
   if (passed) {
     // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
 }).catch((err) => {
-  console.error(err);
+  // deny access to feature, show error message
 });
 ```
 
@@ -314,22 +314,13 @@ Radar.trackVerified().then((result) => {
   <TabItem value="react-native">
 
 ```javascript
-// standard callback
 Radar.trackVerified().then((result) => {
-  const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
-    // allow access to feature
+  const { user, token, expiresIn, passed } = result;
+  if (passed) {
+    // allow access to feature, send token to server
   } else {
     // deny access to feature, show error message
   }
-}).catch((err) => {
-  // deny access to feature, show error message
-});
-
-// token callback
-Radar.trackVerifiedToken().then((result) => {
-  const { token } = result;
-  // send token to server
 }).catch((err) => {
   // deny access to feature, show error message
 });
@@ -517,6 +508,7 @@ For example, to automatically verify the user's location at least every 20 minut
   values={[
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
+    { label: 'React Native', value: 'react-native' },
     { label: 'Capacitor', value: 'capacitor' },
   ]}
 >
@@ -566,6 +558,36 @@ override fun onTokenUpdated(context: Context, token: String) {
 ```
 
   </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+Radar.startTrackingVerified({
+  interval: 1200,
+  beacons: false,
+});
+
+// get a cached token if available, or fetch a fresh token if not
+Radar.getVerifiedLocationToken().then((result) => {
+  const { user, token, expiresIn, passed } = result;
+  if (passed) {
+    // allow access to feature, send token to server
+  } else {
+    // deny access to feature, show error message
+  }
+}).catch((err) => {
+  // deny access to feature, show error message
+});
+
+// delivers fresh tokens to listener
+Radar.on('token', (result) => {
+  const { token } = result;
+  // send token to server
+});
+```
+
+  </TabItem>
+
   <TabItem value="capacitor">
 
 ```javascript
