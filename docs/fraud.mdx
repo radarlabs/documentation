@@ -86,7 +86,7 @@ To ensure you can trust a user's location, you can call `Radar.trackVerified()` 
 If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
-- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
+- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing-to-use-the-app-attest-service) on iOS.
 - **`inaccurate`**: Indicates whether the user's location accuracy is too low to pass verification.
 - **`sharing`**: Indicates whether the user is using screen sharing or remote desktop software (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy or VPN.
@@ -185,7 +185,7 @@ Learn more about [Network Security Configuration on Android](https://developer.a
 
 #### App Attest
 
-To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) and configure a list of valid [App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings).
+To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing-to-use-the-app-attest-service) and configure a list of valid [App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings).
 
 If App Attest indicates that the user's device or app has been compromised, `user.fraud.compromised = true`.
 
