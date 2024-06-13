@@ -88,7 +88,7 @@ If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar expos
 
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
-- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
+- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing-to-use-the-app-attest-service) on iOS.
 - **`inaccurate`**: Indicates whether the user's location accuracy is too low to pass verification.
 - **`sharing`**: Indicates whether the user is using screen sharing or remote desktop software (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy or VPN.
@@ -188,7 +188,7 @@ Learn more about [Network Security Configuration on Android](https://developer.a
 
 #### App Attest
 
-To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) and configure a list of valid [App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings).
+To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing-to-use-the-app-attest-service) and configure a list of valid [App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings).
 
 If App Attest indicates that the user's device or app has been compromised, `user.fraud.compromised = true`.
 
@@ -231,11 +231,11 @@ Learn more about [SSL pinning on iOS](https://developer.apple.com/news/?id=g9ejc
 
 The web SDK supports the `mocked`, `proxy`, and `jumped` flags with `Radar.trackOnce()`.
 
-On desktop, if the end user installs the Radar Verify Mac or Windows app, the web SDK also supports the `sharing` flag and more advanced `mocked` and `proxy` detection with `Radar.trackVerified()`. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Radar Verify app is not running.
+On desktop, if the end user installs the [Radar Verify Mac app](https://s3.us-east-2.amazonaws.com/app.radar-verify.com/mac/releases/RadarVerifySetup.dmg) or [Radar Verify Windows app](https://s3.us-east-2.amazonaws.com/app.radar-verify.com/windows/releases/RadarVerifySetup.zip), the web SDK also supports the `sharing` flag and more advanced `mocked` and `proxy` detection with `Radar.trackVerified()`. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Radar Verify app is not running.
 
 <Alert alertType="info">
-  Contact your customer success manager for access to the Radar Verify Mac or
-  Windows app.
+  Contact your customer success manager to learn how you can customize the Radar
+  Verify app installer or branding.
 </Alert>
 
 ## Verifying user locations
@@ -306,7 +306,7 @@ Radar.trackVerified { status, token ->
 ```javascript
 Radar.trackVerified()
   .then((result) => {
-    const { user, token, passed } = result;
+    const { user, token, expiresIn, passed } = result;
     if (passed) {
       // allow access to feature, send token to server
     } else {
@@ -314,7 +314,7 @@ Radar.trackVerified()
     }
   })
   .catch((err) => {
-    console.error(err);
+    // deny access to feature, show error message
   });
 ```
 
@@ -323,25 +323,14 @@ Radar.trackVerified()
   <TabItem value="react-native">
 
 ```javascript
-// standard callback
 Radar.trackVerified()
   .then((result) => {
-    const { user } = result;
-    if (user.fraud.passed && user.country.allowed && user.state.allowed) {
-      // allow access to feature
+    const { token } = result;
+    if (token?.passed) {
+      // allow access to feature, send token to server
     } else {
       // deny access to feature, show error message
     }
-  })
-  .catch((err) => {
-    // deny access to feature, show error message
-  });
-
-// token callback
-Radar.trackVerifiedToken()
-  .then((result) => {
-    const { token } = result;
-    // send token to server
   })
   .catch((err) => {
     // deny access to feature, show error message
@@ -569,6 +558,7 @@ For example, to automatically verify the user's location at least every 20 minut
   values={[
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
+    { label: 'React Native', value: 'react-native' },
     { label: 'Capacitor', value: 'capacitor' },
   ]}
 >
@@ -618,6 +608,38 @@ override fun onTokenUpdated(context: Context, token: String) {
 ```
 
   </TabItem>
+
+  <TabItem value="react-native">
+
+```javascript
+Radar.startTrackingVerified({
+  interval: 1200,
+  beacons: false,
+});
+
+// get a cached token if available, or fetch a fresh token if not
+Radar.getVerifiedLocationToken()
+  .then((result) => {
+    const { token } = result;
+    if (token?.passed) {
+      // allow access to feature, send token to server
+    } else {
+      // deny access to feature, show error message
+    }
+  })
+  .catch((err) => {
+    // deny access to feature, show error message
+  });
+
+// delivers fresh tokens to listener
+Radar.on("token", (result) => {
+  const { token } = result;
+  // send token to server
+});
+```
+
+  </TabItem>
+
   <TabItem value="capacitor">
 
 ```javascript
