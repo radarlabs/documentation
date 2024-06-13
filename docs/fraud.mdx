@@ -11,8 +11,9 @@ import InlineTabItem from "../src/components/InlineTabItem";
 
 <Alert alertType="info">
   Fraud is available on the {` `}
-  <a href="https://radar.com/pricing" target="_blank">Enterprise plan</a>
-  .
+  <a href="https://radar.com/pricing" target="_blank">
+    Enterprise plan
+  </a>.
 </Alert>
 
 With Fraud, you can detect GPS spoofing, proxy and VPN usage, and device tampering.
@@ -84,6 +85,7 @@ To ensure you can trust a user's location, you can call `Radar.trackVerified()` 
 ## Fraud flags
 
 If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
+
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
 - **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing_to_use_the_app_attest_service) on iOS.
@@ -98,13 +100,13 @@ Additionally, the `lastMockedAt`, `lastJumpedAt`, `lastCompromisedAt`, `lastInac
 
 ## Bypassing checks for testing
 
-If desired, you can bypass fraud checks for individual users using the *Mark as Bypassed* button on the user detail page.
+If desired, you can bypass fraud checks for individual users using the _Mark as Bypassed_ button on the user detail page.
 
 If a user is marked as bypassed, `user.fraud.bypassed = true` and `user.fraud.passed = true`, regardless of whether the user passes fraud checks.
 
 ## Blocking users
 
-You can also manually block a user using the *Mark as Blocked* button on the user detail page.
+You can also manually block a user using the _Mark as Blocked_ button on the user detail page.
 
 If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false`, regardless of whether the user passes fraud checks.
 
@@ -119,7 +121,8 @@ Additionally, you can enable buffer zones and exclusion zones for different stat
 While you can work with individual flags, Radar also exposes `user.state.passed` and `user.country.passed` flags that indicate whether all jurisdiction checks passed.
 
 <Alert alertType="info">
-  Contact your customer success manager for access to buffer zones and exclusion zones.
+  Contact your customer success manager for access to buffer zones and exclusion
+  zones.
 </Alert>
 
 ## Platform-specific configuration
@@ -231,7 +234,8 @@ The web SDK supports the `mocked`, `proxy`, and `jumped` flags with `Radar.track
 On desktop, if the end user installs the Radar Verify Mac or Windows app, the web SDK also supports the `sharing` flag and more advanced `mocked` and `proxy` detection with `Radar.trackVerified()`. If `Radar.trackVerified()` returns `ERROR_DESKTOP_APP`, it means the Radar Verify app is not running.
 
 <Alert alertType="info">
-  Contact your customer success manager for access to the Radar Verify Mac or Windows app.
+  Contact your customer success manager for access to the Radar Verify Mac or
+  Windows app.
 </Alert>
 
 ## Verifying user locations
@@ -239,8 +243,9 @@ On desktop, if the end user installs the Radar Verify Mac or Windows app, the we
 Once the above configuration is complete, you can verify a user's location with just a few lines of code.
 
 Choose your implementation pattern depending on your use cases:
+
 - Less regulated gaming use cases and non-gaming use cases should generally choose [Manual location checks](#manual-location-checks), either basic or advanced.
-- Sportsbook and iGaming use cases subject to strict regulatory requirements should generally choose [Automatic location checks with caching](#automatic-location-checks-with-caching). 
+- Sportsbook and iGaming use cases subject to strict regulatory requirements should generally choose [Automatic location checks with caching](#automatic-location-checks-with-caching).
 
 ### Manual location checks
 
@@ -249,8 +254,9 @@ Choose your implementation pattern depending on your use cases:
 For more advanced checks, call `Radar.trackVerified()`. This requires you to follow the [Platform-specific configuration steps](#platform-specific-configuration) above and use the [desktop app](#web-and-desktop) on web.
 
 `Radar.trackVerified()` returns a `RadarVerifiedLocationToken` with:
+
 - `passed`: A boolean indicating whether the user passed all fraud and jurisdiction checks (`user.fraud.passed && user.country.passed && user.state.passed`)
-- `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
+- `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the _JSON Web Token (JWT) Secret Key_ found under _Fraud_ on the [Settings page](https://radar.com/dashboard/settings).
 - `expiresAt`: The datetime when the token expires, by default in 20 minutes, but earlier when close to the border (e.g., 1 minute within 1 mile of the border in New Jersey).
 - `expiresIn`: The number of seconds until the token expires.
 - `user`: The user, with detailed information in `user.fraud`, `user.country`, and `user.state`.
@@ -265,7 +271,8 @@ For more advanced checks, call `Radar.trackVerified()`. This requires you to fol
     { label: 'Web', value: 'web' },
     { label: 'React Native', value: 'react-native' },
     { label: 'Capacitor', value: 'capacitor' },
-    { label: 'Flutter', value: 'flutter' }
+    { label: 'Flutter', value: 'flutter' },
+    { label: 'Maui', value: 'maui' }
   ]}
 >
   <TabItem value="swift">
@@ -297,16 +304,18 @@ Radar.trackVerified { status, token ->
   <TabItem value="web">
 
 ```javascript
-Radar.trackVerified().then((result) => {
-  const { user, token, passed } = result;
-  if (passed) {
-    // allow access to feature, send token to server
-  } else {
-    // deny access to feature, show error message
-  }
-}).catch((err) => {
-  console.error(err);
-});
+Radar.trackVerified()
+  .then((result) => {
+    const { user, token, passed } = result;
+    if (passed) {
+      // allow access to feature, send token to server
+    } else {
+      // deny access to feature, show error message
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 ```
 
   </TabItem>
@@ -315,24 +324,28 @@ Radar.trackVerified().then((result) => {
 
 ```javascript
 // standard callback
-Radar.trackVerified().then((result) => {
-  const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
-    // allow access to feature
-  } else {
+Radar.trackVerified()
+  .then((result) => {
+    const { user } = result;
+    if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+      // allow access to feature
+    } else {
+      // deny access to feature, show error message
+    }
+  })
+  .catch((err) => {
     // deny access to feature, show error message
-  }
-}).catch((err) => {
-  // deny access to feature, show error message
-});
+  });
 
 // token callback
-Radar.trackVerifiedToken().then((result) => {
-  const { token } = result;
-  // send token to server
-}).catch((err) => {
-  // deny access to feature, show error message
-});
+Radar.trackVerifiedToken()
+  .then((result) => {
+    const { token } = result;
+    // send token to server
+  })
+  .catch((err) => {
+    // deny access to feature, show error message
+  });
 ```
 
   </TabItem>
@@ -341,24 +354,28 @@ Radar.trackVerifiedToken().then((result) => {
 
 ```javascript
 // standard callback
-Radar.trackVerified().then((result) => {
-  const { user } = result;
-  if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
-    // allow access to feature
-  } else {
+Radar.trackVerified()
+  .then((result) => {
+    const { user } = result;
+    if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
+      // allow access to feature
+    } else {
+      // deny access to feature, show error message
+    }
+  })
+  .catch((err) => {
     // deny access to feature, show error message
-  }
-}).catch((err) => {
-  // deny access to feature, show error message
-});
+  });
 
 // token callback
-Radar.trackVerifiedToken().then((result) => {
-  const { token } = result;
-  // send token to server
-}).catch((err) => {
-  // deny access to feature, show error message
-});
+Radar.trackVerifiedToken()
+  .then((result) => {
+    const { token } = result;
+    // send token to server
+  })
+  .catch((err) => {
+    // deny access to feature, show error message
+  });
 ```
 
   </TabItem>
@@ -377,19 +394,31 @@ var res = await Radar.trackVerifiedToken();
 
   </TabItem>
 
+  <TabItem value="flutter">
+
+```cs
+// standard callback
+var (status, location, events, user) = await Radar.TrackVerified();
+
+// token callback
+var (status, token) = await Radar.TrackVerifiedToken();
+```
+
+  </TabItem>
+
 </Tabs>
 
 You can send the JWT to your server and validate the signature using a [JWT library](https://jwt.io/libraries). For example, in JavaScript:
 
 ```javascript
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 try {
-    const decoded = jwt.verify(token, SECRET_KEY);
-    const { user } = decoded;
-    // token is valid, check user.fraud, user.state, user.country to allow or deny access to feature
-} catch(err) {
-    // token is invalid, deny access to feature, show error message
+  const decoded = jwt.verify(token, SECRET_KEY);
+  const { user } = decoded;
+  // token is valid, check user.fraud, user.state, user.country to allow or deny access to feature
+} catch (err) {
+  // token is invalid, deny access to feature, show error message
 }
 ```
 
@@ -406,7 +435,8 @@ For more basic fraud checks, call `Radar.trackOnce()` instead of `Radar.trackVer
     { label: 'Web', value: 'web' },
     { label: 'React Native', value: 'react-native' },
     { label: 'Capacitor', value: 'capacitor' },
-    { label: 'Flutter', value: 'flutter' }
+    { label: 'Flutter', value: 'flutter' },
+    { label: 'Maui', value: 'maui' }
   ]}
 >
   <TabItem value="swift">
@@ -442,16 +472,18 @@ Radar.trackOnce { status, location, events, user ->
   <TabItem value="web">
 
 ```javascript
-Radar.trackOnce({ fraud: true }).then((result) => {
-  const { user } = result;
-  if (user.fraud.passed && user.country.allowed && user.state.allowed) {
-    // allow access to feature
-  } else {
+Radar.trackOnce({ fraud: true })
+  .then((result) => {
+    const { user } = result;
+    if (user.fraud.passed && user.country.allowed && user.state.allowed) {
+      // allow access to feature
+    } else {
+      // deny access to feature, show error message
+    }
+  })
+  .catch((err) => {
     // deny access to feature, show error message
-  }
-}).catch((err) => {
-  // deny access to feature, show error message
-});
+  });
 ```
 
   </TabItem>
@@ -459,16 +491,18 @@ Radar.trackOnce({ fraud: true }).then((result) => {
   <TabItem value="react-native">
 
 ```javascript
-Radar.trackOnce().then((result) => {
-  const { user } = result;
-  if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
-    // allow access to feature
-  } else {
+Radar.trackOnce()
+  .then((result) => {
+    const { user } = result;
+    if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
+      // allow access to feature
+    } else {
+      // deny access to feature, show error message
+    }
+  })
+  .catch((err) => {
     // deny access to feature, show error message
-  }
-}).catch((err) => {
-  // deny access to feature, show error message
-});
+  });
 ```
 
   </TabItem>
@@ -476,16 +510,18 @@ Radar.trackOnce().then((result) => {
   <TabItem value="capacitor">
 
 ```javascript
-Radar.trackOnce().then((result) => {
-  const { user } = result;
-  if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
-    // allow access to feature
-  } else {
+Radar.trackOnce()
+  .then((result) => {
+    const { user } = result;
+    if (user?.fraud?.passed && user?.country?.allowed && user?.state?.allowed) {
+      // allow access to feature
+    } else {
+      // deny access to feature, show error message
+    }
+  })
+  .catch((err) => {
     // deny access to feature, show error message
-  }
-}).catch((err) => {
-  // deny access to feature, show error message
-});
+  });
 ```
 
   </TabItem>
@@ -495,6 +531,22 @@ Radar.trackOnce().then((result) => {
 ```dart
 var res = await Radar.trackOnce();
 // do something with res['status'], res['location'], res['events'], res['user']
+```
+
+  </TabItem>
+
+  <TabItem value="maui">
+
+```cs
+var (status, _, _, user) = await Radar.TrackOnce();
+if (status == RadarStatus.Success && user.Fraud.Passed && user.Country.Allowed && user.State.Allowed)
+{
+    // allow access to feature
+}
+else
+{
+    // deny access to feature, show error message
+}
 ```
 
   </TabItem>
@@ -569,7 +621,7 @@ override fun onTokenUpdated(context: Context, token: String) {
   <TabItem value="capacitor">
 
 ```javascript
-Radar.addListener('token', (result) => {
+Radar.addListener("token", (result) => {
   const { token } = result;
   // send token to server
 });
@@ -605,17 +657,19 @@ When the risk score changes for a user or device, it also changes for all associ
 
 The fraud signals, number of strikes per fraud signal, and lookback period are configurable.
 
-To receive real-time email alerts when users reach high risk, and to receive a weekly report with high risk users, set a *Notification email* under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
+To receive real-time email alerts when users reach high risk, and to receive a weekly report with high risk users, set a _Notification email_ under _Fraud_ on the [Settings page](https://radar.com/dashboard/settings).
 
 You can also automatically block high risk users.
 
 <Alert alertType="info">
-  Contact your customer success manager for access to user and device risk scores, or to automatically block high risk users.
+  Contact your customer success manager for access to user and device risk
+  scores, or to automatically block high risk users.
 </Alert>
 
 ## Error handling
 
 On errors or failed fraud checks, you may want to display a message to the end user. For example:
+
 - On **`ERROR_PERMISSIONS`**: Unable to determine your location. Please make sure you've granted location permissions and try again.
 - On **`ERROR_LOCATION`**: Unable to determine your location. Please make sure location services and wi-fi are enabled and try again.
 - On **`ERROR_NETWORK`**: Unable to determine your location. Please make sure you're connected to the Internet and try again.
