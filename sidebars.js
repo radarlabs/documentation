@@ -83,6 +83,7 @@ module.exports = {
         "sdk/maui",
         "sdk/tracking",
         "sdk/location-permission",
+        "sdk/remote-configuration",
       ],
     },
     "api",
