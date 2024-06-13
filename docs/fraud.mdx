@@ -383,7 +383,7 @@ var res = await Radar.trackVerifiedToken();
 
   </TabItem>
 
-  <TabItem value="flutter">
+  <TabItem value="maui">
 
 ```cs
 // standard callback
@@ -560,6 +560,7 @@ For example, to automatically verify the user's location at least every 20 minut
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'React Native', value: 'react-native' },
     { label: 'Capacitor', value: 'capacitor' },
+    { label: 'Maui', value: 'maui' },
   ]}
 >
   <TabItem value="swift">
@@ -653,6 +654,18 @@ Radar.startTrackingVerified({
   interval: 1200,
   beacons: false,
 });
+```
+
+  </TabItem>
+
+  <TabItem value="maui">
+
+```cs
+Radar.TokenUpdated += (token) => {
+  // send token to server
+};
+
+Radar.StartTrackingVerified(true, 1200, false);
 ```
 
   </TabItem>
