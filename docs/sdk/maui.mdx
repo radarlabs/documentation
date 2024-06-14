@@ -108,11 +108,11 @@ Learn about platform-specific implementations of these presets in the [iOS SDK d
 To start tracking the user's location in the background, call one of:
 
 ```cs
-Radar.StartTracking(TrackingOptionsEfficient);
+Radar.StartTracking(Radar.TrackingOptionsEfficient);
 
-Radar.StartTracking(TrackingOptionsResponsive);
+Radar.StartTracking(Radar.TrackingOptionsResponsive);
 
-Radar.StartTracking(TrackingOptionsContinuous);
+Radar.StartTracking(Radar.TrackingOptionsContinuous);
 ```
 
 You only need to call these methods once, as these settings will be persisted across app sessions.
@@ -120,10 +120,10 @@ You only need to call these methods once, as these settings will be persisted ac
 Though we recommend using presets for most use cases, you can customize the tracking options. See the [tracking options reference](/sdk/tracking).
 
 ```cs
-RadarTrackingOptions trackingOptions = TrackingOptionsContinuous;
+RadarTrackingOptions trackingOptions = Radar.TrackingOptionsContinuous;
 trackingOptions.DesiredStoppedUpdateInterval = 180;
 trackingOptions.DesiredStoppedUpdateInterval = 60;
-trackingOptions.DesiredSyncUpdateInterval = 50;
+trackingOptions.DesiredSyncInterval = 50;
 trackingOptions.DesiredAccuracy = RadarTrackingOptionsDesiredAccuracy.High;
 trackingOptions.StopDuration = 140;
 trackingOptions.StopDistance = 70;
@@ -136,7 +136,7 @@ Radar.StartTracking(trackingOptions);
 To determine whether tracking has been started, call:
 
 ```cs
-Radar.IsTracking();
+Radar.IsTracking;
 ```
 
 To stop tracking the user's location in the background (e.g., when the user logs out), call:
@@ -179,10 +179,13 @@ Radar.Error += (err) => {
 On iOS and Android, you can simulate a sequence of location updates for testing. For example, to simulate a sequence of 10 location updates every 3 seconds by car from an `origin` to a `destination`, we can call:
 
 ```cs
-RadarLocation origin = new RadarLocation(40.714708, -74.035807);
-RadarLocation destination = new RadarLocation(40.717410, -74.053334);
+RadarLocation origin = new() { Latitude = 40.714708, Longitude = -74.035807 };
+RadarLocation destination = new() { Latitude = 40.717410, Longitude = -74.053334 };
 
-Radar.MockTracking(origin, destination, RadarRouteMode.Car, 10, 3);
+Radar.MockTracking(origin, destination, RadarRouteMode.Car, 10, 3, data =>
+{
+    System.Console.WriteLine($"{data.Location.Latitude} {data.Location.Longitude}");
+});
 ```
 
 ### Trip tracking
@@ -190,27 +193,29 @@ Radar.MockTracking(origin, destination, RadarRouteMode.Car, 10, 3);
 On iOS and Android, to start a trip to a destination, call:
 
 ```cs
-RadarTrackingOptions tripOptions = new RadarTripOptions();
-tripOptions.ExternalId = "299";
-tripOptions.DestinationGeofenceTag = "store";
-tripOptions.DestinationGeofenceExternalId = "123";
-tripOptions.Mode = RadarRouteMode.Car;
+RadarTripOptions tripOptions = new()
+{
+    ExternalId = "299",
+    DestinationGeofenceTag = "store",
+    DestinationGeofenceExternalId = "123",
+    Mode = RadarRouteMode.Car
+};
 
-Radar.StartTrip(tripOptions);
-Radar.StartTracking(TrackingOptionsContinuous);
+await Radar.StartTrip(tripOptions);
+Radar.StartTracking(Radar.TrackingOptionsContinuous);
 ```
 
 Later, to complete the trip and stop tracking, call:
 
 ```cs
-Radar.CompleteTrip();
+await Radar.CompleteTrip();
 Radar.StopTracking();
 ```
 
 Or, to cancel the trip and stop tracking, call:
 
 ```cs
-Radar.CancelTrip();
+await Radar.CancelTrip();
 Radar.StopTracking();
 ```
 
@@ -221,11 +226,9 @@ Learn more about [trip tracking](/trip-tracking).
 You can manually update the user's location by calling:
 
 ```cs
-RadarLocation location = new RadarLocation(40.714708, -74.035807);
-location.Accuracy = 65;
+RadarLocation loc = new() { Latitude = 40.714708, Longitude = -74.035807, Accuracy = 65 };
 
-var (status, location, events, user) = await Radar.TrackOnce(location);
-
+var (status, location, events, user) = await Radar.TrackOnce(loc);
 ```
 
 Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
@@ -239,7 +242,7 @@ The MAUI SDK also exposes APIs for anonymous context, geocoding, search, and dis
 Get a single location update without sending it to the server:
 
 ```cs
-var (status, location) = await Radar.GetLocation();
+var (status, location, stopped) = await Radar.GetLocation();
 ```
 
 #### Context
@@ -247,7 +250,7 @@ var (status, location) = await Radar.GetLocation();
 With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
 
 ```cs
-var (status, context) = await Radar.GetContext();
+var (status, location, context) = await Radar.GetContext();
 ```
 
 #### Geocoding
@@ -261,9 +264,9 @@ var (status, addresses) = await Radar.Geocode("20 jay st brooklyn ny");
 With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
 
 ```cs
-RadarLocation location = new RadarLocation(40.714708, -74.035807);
+RadarLocation loc = new() { Latitude = 40.714708, Longitude = -74.035807 };
 
-var (status, addresses) = await Radar.ReverseGeocode(location);
+var (status, addresses) = await Radar.ReverseGeocode(loc);
 ```
 
 With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP address, converting IP address to city, state, and country:
@@ -277,7 +280,7 @@ var (status, address, proxy) = await Radar.IpGeocode();
 With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
 
 ```cs
-Location near = new Location(40.783826, -73.975363);
+RadarLocation near = new() { Latitude = 40.714708, Longitude = -74.035807 };
 
 var (status, addresses) = await Radar.Autocomplete("brooklyn roasting", near, 10);
 ```
@@ -285,17 +288,17 @@ var (status, addresses) = await Radar.Autocomplete("brooklyn roasting", near, 10
 With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
 
 ```cs
-RadarLocation near = new RadarLocation(40.783826, -73.975363);
+RadarLocation near = new() { Latitude = 40.714708, Longitude = -74.035807 };
 
-var (status, geofences) = await Radar.SearchGeofences(near, 1000, new string[]{ "venue" }, 10);
+var (status, location, geofences) = await Radar.SearchGeofences(near, 1000, new string[] { "venue" }, limit: 10);
 ```
 
 With the [places search API](/api#search-places), search for places near a location, sorted by distance:
 
 ```cs
-RadarLocation near = new RadarLocation(40.783826, -73.975363);
+RadarLocation near = new() { Latitude = 40.714708, Longitude = -74.035807 };
 
-var (status, places) = await Radar.SearchPlaces(near, 1000, new string[]{ "starbucks" }, null, null, 10);
+var (status, location, places) = await Radar.SearchPlaces(near, 1000, new string[] { "starbucks" }, null, null, 10);
 ```
 
 #### Distance
@@ -303,8 +306,8 @@ var (status, places) = await Radar.SearchPlaces(near, 1000, new string[]{ "starb
 With the [distance API](/api#distance), calculate the travel distance and duration from an origin to a destination:
 
 ```cs
-RadarLocation origin = new RadarLocation(40.78382, -73.97536);
-RadarLocation destination = new RadarLocation(40.70390, -73.98670);
+RadarLocation origin = new() { Latitude = 40.78382, Longitude = -73.97536 };
+RadarLocation destination = new() { Latitude = 40.70390, Longitude = -73.98670 };
 
 var (status, routes) = await Radar.GetDistance(origin, destination, new[] { RadarRouteMode.Foot, RadarRouteMode.Car }, RadarRouteUnits.Imperial);
 ```
@@ -314,7 +317,7 @@ var (status, routes) = await Radar.GetDistance(origin, destination, new[] { Rada
 With the [matrix API](/api#matrix), calculate the travel distances and durations between multiple origins and destinations for up to 25 routes:
 
 ```cs
-var (status, routes) = await Radar.GetDistance(origins, destinations, RadarRouteMode.Car, RadarRouteUnits.Imperial);
+var (status, routes) = await Radar.GetDistance(origins, destinations, new[] { RadarRouteMode.Car }, RadarRouteUnits.Imperial);
 ```
 
 ## Support
