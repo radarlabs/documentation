@@ -123,7 +123,7 @@ We enumerate the various states via the `locationPermissionState` enum.
 - **`ForegroundPermissionPending`**: Foreground location permissions prompt is on screen.
 - **`BackgroundPermissionGranted`**: Background location permission has been granted.
 - **`BackgroundPermissionRejected`**: Background location permission has been denied.
-- **`BackgroundPermissionRejectedONCE`**: (Android only) Background location permission has been denied once.  
+- **`BackgroundPermissionRejectedOnce`**: (Android only) Background location permission has been denied once.  
 - **`BackgroundPermissionPending`**: (iOS only) Foreground location permissions prompt is on screen.
 - **`PermissionRestricted`**: (iOS only) No location permission has been granted due to OS restrictions. 
 - **`ApproximatePermissionGranted`**: (Android only) Coarse foreground location permission has been granted.   
@@ -169,12 +169,12 @@ locationManagerStatus | locationManagerStatus | inForegroundPopup | backgroundPo
 locationManagerStatus | backgroundPermissionResult | shouldShowRequestPermissionRationaleBG | previouslyDeniedBackground | foregroundPermissionResult | inLocationPopup | approximatePermissionsResult | shouldShowRequestPermissionRationaleFG | previouslyDeniedForeground 
 --- | --- | --- | ---| --- | --- | --- | --- | --- 
 **`NO_PERMISSIONS_GRANTED`** | `False` | * | * | `False` | `False` | `False` | `False` | `False` 
-**`FOREGROUND_PERMISSIONS_GRANTED`** | `False` | * | `False` | `True` | * | * | * | *
-**`ForegroundPermissionsRejected`** | `False` | * | * | `False` | `False` | `False` | `False` | `True` 
+**`FOREGROUND_PERMISSION_GRANTED`** | `False` | * | `False` | `True` | * | * | * | *
+**`FOREGROUND_PERMISSION_REJECTED`** | `False` | * | * | `False` | `False` | `False` | `False` | `True` 
 **`FOREGROUND_LOCATION_PENDING`** | `False` | * | * | `False` | `True` | * | * | * 
-**`BACKGROUND_PERMISSIONS_GRANTED`** | `True` | * | * | * | * | * | * | * 
-**`BACKGROUND_PERMISSIONS_REJECTED`** | `False` | `False` | `True` | `True` | * | * | * | *
-**`APPROXIMATE_PERMISSIONS_GRANTED`** | `False` | * | * | `False` | `False` | `True` | * | * 
-**`FOREGROUND_PERMISSIONS_REJECTED_ONCE`** | `False` | * | * | `False` | `False` | `False` | `True` | *
+**`BACKGROUND_PERMISSION_GRANTED`** | `True` | * | * | * | * | * | * | * 
+**`BACKGROUND_PERMISSION_REJECTED`** | `False` | `False` | `True` | `True` | * | * | * | *
+**`APPROXIMATE_PERMISSION_GRANTED`** | `False` | * | * | `False` | `False` | `True` | * | * 
+**`FOREGROUND_PERMISSION_REJECTED_ONCE`** | `False` | * | * | `False` | `False` | `False` | `True` | *
 **`BACKGROUND_PERMISSION_REJECTED_ONCE`** | `False` | `True` | `True` | `True` | * | * | * | *
 
