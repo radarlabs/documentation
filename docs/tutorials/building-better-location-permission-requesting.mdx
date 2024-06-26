@@ -359,7 +359,7 @@ private fun updateUI(state: RadarLocationPermissionStatus){
 
 #### **`FOREGROUND_LOCATION_PENDING`**:
 
-Optionally handle the waiting period while the permission popup is active. 
+Optionally handle the waiting period while the permission prompt is active. 
 
 <Tabs
   groupId="foreground-location-pending"
@@ -525,7 +525,7 @@ private fun updateUI(state: RadarLocationPermissionStatus){
 </Tabs>
 
 #### **`BACKGROUND_LOCATION_PENDING`**:
-Optionally handle the waiting period while the permission popup is active in iOS. Requesting background permission in android takes the user to the setting screen.
+Optionally handle the waiting period while the permission prompt is active in iOS. Requesting background permission in android takes the user to the setting screen.
 
 ```swift
 struct WaitingForBackgroundPermissionView: View {
