@@ -99,7 +99,7 @@ module.exports = {
         "tutorials/localizing-a-website-based-on-current-country-or-city",
         "tutorials/logging-and-analyzing-where-conversions-occur",
         "tutorials/migrate-from-google-maps",
-        "tutorials/building-better-location-permission-gathering",
+        "tutorials/building-better-location-permission-requesting",
       ],
     },
     "waypoint",
