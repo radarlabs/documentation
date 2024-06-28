@@ -5,7 +5,8 @@ const PUBLISHABLE_KEY = 'org_test_pk_7e1e22718af02cb9ed4a01233556999c2c02c947'; 
 
 const StaticMap = ({ query, alt, imgTag, hideSnippet }) => {
   const url = `https://api.radar.io/maps/static?${query}`;
-  const img = `<img src="${url}" alt="${alt}" />`;
+  const urlForCodeBlock = `${url}&publishableKey=prj_live_pk_...`;
+  const img = `<img src="${urlForCodeBlock}" alt="${alt}" />`;
   const language = imgTag ? 'html' : 'text';
 
   const showSnippet = !Boolean(hideSnippet);
@@ -14,7 +15,7 @@ const StaticMap = ({ query, alt, imgTag, hideSnippet }) => {
     <div>
       { showSnippet &&
         <CodeBlock className={language}>
-          { imgTag ? img : url }
+          { imgTag ? img : urlForCodeBlock }
         </CodeBlock>
       }
       <img src={`${url}&publishableKey=${PUBLISHABLE_KEY}`} alt={alt} />
