@@ -37,6 +37,7 @@
     "idfv",
     "ismanualfire",
     "isochrone",
+    "linestring",
     "leanplum",
     "lytics",
     "llpy",
