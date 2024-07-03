@@ -118,6 +118,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+// with SwiftUI App lifecycle
+
+import SwiftUI
+import RadarSDK
+
+@main
+struct SPMExampleApp: App {
+    init(){
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+    }
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
 ```
 
   </TabItem>
@@ -894,6 +911,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RadarDelegate {
         // do something with location permission status
     }
 
+}
+
+// with SwiftUI App lifecycle
+
+import SwiftUI
+import RadarSDK
+
+@main
+struct SPMExampleApp: App {
+    init(){
+        Radar.initialize(publishableKey: "prj_test_pk_...")
+        Radar.setDelegate(myRadarDelegate.init())
+    }
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+class myRadarDelegate: NSObject, RadarDelegate {
+    func didReceiveEvents(_ events: [RadarEvent], user: RadarUser?) {
+      // do something with events, user
+    }
+    
+    func didUpdateLocation(_ location: CLLocation, user: RadarUser) {
+      // do something with location, user
+    }
+    
+    func didUpdateClientLocation(_ location: CLLocation, stopped: Bool, source: RadarLocationSource) {
+       // do something with location, stopped, source
+    }
+    
+    func didFail(status: RadarStatus) {
+      // do something with status
+    }
+    
+    func didLog(message: String) {
+      // print message for debug logs
+    }
+    
+    func didUpdateLocationPermissionStatus(status: RadarLocationPermissionStatus) {
+       // do something with location permission status
+    }
+    
 }
 ```
 
