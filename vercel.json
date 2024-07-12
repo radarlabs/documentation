@@ -5,7 +5,8 @@
   "redirects": [
     { "source": "/", "destination": "/documentation/", "permanent": true },
     { "source": "/documentation/troubleshooting", "destination": "/documentation/geofencing/testing", "permanent": true },
-    { "source": "/documentation/places/groups", "destination": "/documentation/places", "permanent": true }
+    { "source": "/documentation/places/groups", "destination": "/documentation/places", "permanent": true },
+    { "source": "/documentation/sdk/xamarin", "destination": "/documentation/sdk/maui", "permanent": true }
   ],
   "trailingSlash": false
 }
