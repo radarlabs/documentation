@@ -1,10 +1,11 @@
 ---
-sidebar_label: Location Permissions
-title: Location Permissions Reference
+sidebar_label: Location Permissions (beta)
+title: Location Permissions (beta) Reference
 ---
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import Alert from "../../src/components/Alert";
 
 Simplify your location permission gathering logic with Radar's SDK. 
 
@@ -13,6 +14,10 @@ Check out our [tutorial](/tutorials/building-better-location-permission-gatherin
 ## Request location permission
 
 Use Radar's SDK to request location permissions with a single line of code.
+
+<Alert alertType="warning">
+  The <code>Radar.requestBackgroundLocationPermission</code> is temporarily disabled for <code>Objective-C</code> and <code>Swift</code> in version <code>3.14.0</code> as we refine our approach to not introduce spurious permission requirements for apps that don't use background location.
+</Alert>
 
 <Tabs
   groupId="requestPermissions"
