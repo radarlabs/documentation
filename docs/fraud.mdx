@@ -71,7 +71,7 @@ First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
 Then, enable Fraud on the [Settings page](https://radar.com/dashboard/settings).
 
-From there, [integrate the SDK](/documentation/sdk), complete the steps below, and call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`. Radar will perform fraud and jurisdiction checks as described below.
+From there, [integrate the SDK](/documentation/sdk), complete the steps below, and call `Radar.trackVerified()` or `Radar.startTracking()`. Radar will perform fraud and jurisdiction checks as described below.
 
 ## How it works
 
@@ -83,7 +83,7 @@ To ensure you can trust a user's location, you can call `Radar.trackVerified()` 
 
 ## Fraud flags
 
-If you call `Radar.trackVerified()` or `Radar.trackVerifiedToken()`, Radar exposes the following flags in `user.fraud`:
+If fraud detection is enabled, Radar exposes the following flags in `user.fraud`:
 
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
@@ -565,7 +565,7 @@ Radar.getVerifiedLocationToken { (status, token) in
 }
 
 // delivers fresh tokens to RadarVerifiedDelegate
-func didUpdateToken(_ token: String) {
+func didUpdateToken(_ token: RadarVerifiedLocationToken) {
   // send token to server
 }
 ```
@@ -588,7 +588,7 @@ Radar.getVerifiedLocationToken { (status, token) in
 }
 
 // delivers fresh tokens to RadarVerifiedReceiver
-override fun onTokenUpdated(context: Context, token: String) {
+override fun onTokenUpdated(context: Context, token: RadarVerifiedLocationToken) {
   // send token to server
 }
 ```
