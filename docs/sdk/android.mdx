@@ -121,7 +121,7 @@ Radar respects [standard Android location permissions](https://developer.android
 
 For foreground tracking or trip tracking with continuous mode, Radar requires the `ACCESS_FINE_LOCATION` permission for precise location and/or the `ACCESS_COARSE_LOCATION` permission for [approximate location](https://developer.android.com/about/versions/12/approximate-location). These permissions are automatically added by the SDK manifest along with the `INTERNET`, `ACCESS_NETWORK_STATE`, `FOREGROUND_SERVICE`, and `RECEIVE_BOOT_COMPLETED` permissions.
 
-For background tracking or geofencing with responsive mode, and if targeting API level `29` or above, Radar also requires the new `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually. To start a [foreground service](https://developer.android.com/training/location/permissions#foreground) , Radar requires the `FOREGROUND_SERVICE_LOCATION` permission to also be added manually:
+For background tracking or geofencing with responsive mode, and if targeting API level `29` or above, Radar also requires the new `ACCESS_BACKGROUND_LOCATION` permission. You must add the `ACCESS_BACKGROUND_LOCATION` permission to your manifest manually. To start a [foreground service](https://developer.android.com/training/location/permissions#foreground) , Radar requires the `FOREGROUND_SERVICE_LOCATION` permission to also be added manually for Android 14 and above:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
