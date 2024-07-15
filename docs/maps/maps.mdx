@@ -6,6 +6,7 @@ import Map from '../../src/components/Map.jsx'
 import FitBoundsMap from '../../src/components/examples/FitBoundsMap.jsx'
 import CustomImageMarkerMap from '../../src/components/examples/CustomImageMarkerMap.jsx'
 import CustomLanguageMap from '../../src/components/examples/CustomLanguageMap.jsx'
+import CustomPopupMap from '../../src/components/examples/CustomPopupMap.jsx'
 
 Radar Maps is a cost-effective alternative to Google Maps Platform and Mapbox.
 
@@ -152,7 +153,7 @@ class RadarMap extends React.Component {
 
   render() {
     return (
-      <div id="map-container" style={{ height: '100%', position: 'absolute', width: '100%' }}>
+      <div id="map-container" style={{ width:' 100%', height: '100vh', position: 'absolute' }}>
         <div id="map" style={{ height: '100%', position: 'absolute', width: '100%' }} />
       </div>
     );
@@ -713,6 +714,74 @@ Add a `Marker` with a custom image to the map by specifying the image URL.
           },
         })
         .setLngLat([lng, lat])
+        .addTo(map);
+      });
+    </script>
+  </body>
+</html>
+```
+
+### Display a custom popup
+
+Display a popup with customized HTML.
+
+<CustomPopupMap />
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="https://js.radar.com/v4.3.1/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/v4.3.1/radar.min.js"></script>
+  </head>
+
+  <body>
+    <div id="map" style="width: 100%; height: 400px;" />
+
+    <div id="custom-popup" style="visibility: hidden; text-align: center;">
+      <h3>Union Square</h3>
+      <img width="100" src="https://images.ctfassets.net/f2vbu16fzuly/7BUSW7MAtT2abUQY8U3Ri6/11fb8b92fd24c326bfd5da3064d67666/union_square.jpg?w=600" />
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize('prj_live_pk_');
+
+      // create map
+      const map = Radar.ui.map({
+        container: 'map',
+        center: [-73.990550, 40.735225],
+        zoom: 16,
+      });
+
+      map.on('load', () => {
+
+        // Create a marker with a custom popup using HTML
+        Radar.ui.marker({
+          popup: {
+            html: `
+              <div style="text-align: center;">
+                <h3>The Roosevelt Building</h3>
+                <img width="100" src="https://images.ctfassets.net/f2vbu16fzuly/5VZ6BEW5Ju6kL4OeooR2YG/4e694ad24b8d57c6b9958de79976d89e/Screenshot_2024-07-15_at_9.43.45_AM.png?w=400" />
+              </div>
+            `,
+          },
+        })
+        .setLngLat([-73.9910078, 40.7342465])
+        .addTo(map);
+
+        // Create a marker with a custom popup using a DOM element
+        const element = document.getElementById('custom-popup').cloneNode(true /* deep */);
+        element.style.visibility = 'visible';
+        element.id = 'custom-popup-1';
+
+        Radar.ui.marker({
+          popup: {
+            element,
+          },
+        })
+        .setLngLat([-73.990389, 40.735862])
         .addTo(map);
       });
     </script>
