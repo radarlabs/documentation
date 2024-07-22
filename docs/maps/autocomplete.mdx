@@ -81,6 +81,33 @@ Then, get started with the sample code below.
 </html>
 ```
 
+### React 
+```jsx
+import React, { useEffect } from 'react';
+import Radar from 'radar-sdk-js';
+import 'radar-sdk-js/dist/radar.css';
+
+const RadarAutocomplete = () => {
+  useEffect(() => {
+      Radar.ui.autocomplete({
+        container: 'autocomplete',
+        width: '600px',
+        onSelection: (address) => {
+          // Do something with the selected address
+          console.log(address);
+        },
+      });
+  }, []);
+
+  return (
+    <div id="autocomplete" />
+  );
+};
+
+export default RadarAutocomplete;
+
+```
+
 ### React Native
 
 ```jsx
@@ -101,3 +128,72 @@ export const App = () => (
 );
 ```
 
+## Examples 
+
+
+### Use autocomplete with maps in React
+
+Below is an example of how you can use [Radar Maps](https://radar.com/documentation/maps/maps) with autocomplete in React.
+```jsx
+import React, { useEffect, useRef } from 'react';
+import Radar from 'radar-sdk-js';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import 'radar-sdk-js/dist/radar.css';
+
+const RadarMap = () => {
+  const radarInitialized = useRef(false);
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
+
+  useEffect(() => {
+    if (radarInitialized.current) return;
+    radarInitialized.current = true;
+
+    Radar.initialize('prj_live_pk_0f5...');
+
+    // Create a map
+    const map = Radar.ui.map({
+      container: 'map',
+      style: 'radar-default-v1',
+      center: [-73.9911, 40.7342], // NYC
+      zoom: 14,
+    });
+    mapRef.current = map;
+
+    // Add a marker to the map
+    const marker = Radar.ui.marker({ text: 'Radar HQ' })
+      .setLngLat([-73.9910078, 40.7342465]) // default example.
+      .addTo(map);
+    markerRef.current = marker;
+
+    // Initialize Radar autocomplete
+    Radar.ui.autocomplete({
+      container: 'autocomplete',
+      width: '400px',
+      onSelection: (address) => {
+        const { latitude, longitude } = address;
+        console.log('Selected address:', address);
+
+        if (latitude && longitude) {
+          // Update marker position
+          markerRef.current.setLngLat([longitude, latitude]);
+
+          // Center the map on the selected address
+          mapRef.current.flyTo({ center: [longitude, latitude], zoom: 14 });
+        } else {
+          console.error('Coordinates are missing in the selected address:', address);
+        }
+      },
+    });
+  }, []);
+
+  return (
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <div id="autocomplete" style={{ width: '400px', padding: '10px' }} />
+      <div id="map" style={{ flex: 1 }} />
+    </div>
+  );
+};
+
+export default RadarMap;
+```
