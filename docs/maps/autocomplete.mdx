@@ -89,6 +89,8 @@ import 'radar-sdk-js/dist/radar.css';
 
 const RadarAutocomplete = () => {
   useEffect(() => {
+      Radar.initialize('prj_live_pk_...');
+
       Radar.ui.autocomplete({
         container: 'autocomplete',
         width: '600px',
@@ -131,9 +133,9 @@ export const App = () => (
 ## Examples 
 
 
-### Use autocomplete with maps in React
+### Use Autocomplete with Radar Maps in React
 
-Below is an example of how you can use [Radar Maps](https://radar.com/documentation/maps/maps) with autocomplete in React.
+Below is an example of how you can use [Radar Maps](https://radar.com/documentation/maps/maps) with Radar Autocomplete in React.
 ```jsx
 import React, { useEffect, useRef } from 'react';
 import Radar from 'radar-sdk-js';
