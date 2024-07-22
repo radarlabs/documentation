@@ -83,15 +83,18 @@ Then, get started with the sample code below.
 
 ### React 
 ```jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Radar from 'radar-sdk-js';
 import 'radar-sdk-js/dist/radar.css';
+import AutocompleteUI from 'radar-sdk-js/dist/ui/autocomplete';
 
 const RadarAutocomplete = () => {
+const autocompleteRef = useRef<AutocompleteUI | null>(null);
+
   useEffect(() => {
       Radar.initialize('prj_live_pk_...');
 
-      Radar.ui.autocomplete({
+      autocompleteRef.current = Radar.ui.autocomplete({
         container: 'autocomplete',
         width: '600px',
         onSelection: (address) => {
@@ -99,6 +102,10 @@ const RadarAutocomplete = () => {
           console.log(address);
         },
       });
+
+    return () => {
+        autocompleteRef.current?.remove();
+    };
   }, []);
 
   return (
