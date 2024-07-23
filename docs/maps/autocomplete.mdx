@@ -89,7 +89,7 @@ import 'radar-sdk-js/dist/radar.css';
 import AutocompleteUI from 'radar-sdk-js/dist/ui/autocomplete';
 
 const RadarAutocomplete = () => {
-const autocompleteRef = useRef<AutocompleteUI | null>(null);
+  const autocompleteRef = useRef<AutocompleteUI | null>(null);
 
   useEffect(() => {
       Radar.initialize('prj_live_pk_...');
@@ -146,19 +146,16 @@ Below is an example of how you can use [Radar Maps](https://radar.com/documentat
 ```jsx
 import React, { useEffect, useRef } from 'react';
 import Radar from 'radar-sdk-js';
-import 'maplibre-gl/dist/maplibre-gl.css';
 import 'radar-sdk-js/dist/radar.css';
 
 const RadarMap = () => {
   const radarInitialized = useRef(false);
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+  const autocompleteRef = useRef(null);
 
   useEffect(() => {
-    if (radarInitialized.current) return;
-    radarInitialized.current = true;
-
-    Radar.initialize('prj_live_pk_0f5...');
+    Radar.initialize('prj_test_pk_0f54bd903f71ab79eb24437b5e5c8c70346f911b');
 
     // Create a map
     const map = Radar.ui.map({
@@ -176,24 +173,23 @@ const RadarMap = () => {
     markerRef.current = marker;
 
     // Initialize Radar autocomplete
-    Radar.ui.autocomplete({
+    autocompleteRef.current = Radar.ui.autocomplete({
       container: 'autocomplete',
       width: '400px',
       onSelection: (address) => {
         const { latitude, longitude } = address;
         console.log('Selected address:', address);
 
-        if (latitude && longitude) {
-          // Update marker position
-          markerRef.current.setLngLat([longitude, latitude]);
+        // Update marker position
+        markerRef.current.setLngLat([longitude, latitude]);
 
-          // Center the map on the selected address
-          mapRef.current.flyTo({ center: [longitude, latitude], zoom: 14 });
-        } else {
-          console.error('Coordinates are missing in the selected address:', address);
-        }
+        // Center the map on the selected address
+        mapRef.current.flyTo({ center: [longitude, latitude], zoom: 14 });
       },
     });
+    return () => {
+        autocompleteRef.current?.remove();
+    };
   }, []);
 
   return (
