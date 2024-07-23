@@ -86,10 +86,9 @@ Then, get started with the sample code below.
 import React, { useEffect, useRef } from 'react';
 import Radar from 'radar-sdk-js';
 import 'radar-sdk-js/dist/radar.css';
-import AutocompleteUI from 'radar-sdk-js/dist/ui/autocomplete';
 
 const RadarAutocomplete = () => {
-  const autocompleteRef = useRef<AutocompleteUI | null>(null);
+  const autocompleteRef = useRef(null);
 
   useEffect(() => {
       Radar.initialize('prj_live_pk_...');
