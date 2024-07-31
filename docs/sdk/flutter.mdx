@@ -192,7 +192,7 @@ Use your `Test Publishable` key for testing and non-production environments. Use
 </Alert>
 
 ```dart
-Radar.initialize(publishableKey);
+Radar.initialize(publishableKey: publishableKey, fruad:true);
 ```
 
 ### Identify user
@@ -200,7 +200,7 @@ Radar.initialize(publishableKey);
 To identify the user when logged in, call:
 
 ```dart
-Radar.setUserId(userId);
+Radar.setUserId(userId: userId);
 ```
 
 where `userId` is a stable unique ID for the user.
@@ -208,7 +208,7 @@ where `userId` is a stable unique ID for the user.
 To set an optional dictionary of custom metadata for the user, call:
 
 ```dart
-Radar.setMetadata(metadata);
+Radar.setMetadata(metadata: metadata);
 ```
 
 where `metadata` is a map with up to 16 keys and values of type string, boolean, or number.
@@ -216,7 +216,7 @@ where `metadata` is a map with up to 16 keys and values of type string, boolean,
 Finally, to set an optional description for the user, displayed in the dashboard, call:
 
 ```dart
-Radar.setDescription(description);
+Radar.setDescription(description: description);
 ```
 
 where `description` is a string.
@@ -245,7 +245,7 @@ String status = await Radar.getPermissionsStatus();
 To request location permissions for the app, call:
 
 ```dart
-String status = await Radar.requestPermissions(background);
+String status = await Radar.requestPermissions(background: background);
 ```
 
 where `background` is a boolean indicating whether to request background location permissions or foreground location permissions.
@@ -293,7 +293,7 @@ Though we recommend using presets for most use cases, you can customize the trac
 
 ```dart
 // optionally adjust foreground service options for Android
-Radar.setForegroundServiceOptions({
+Radar.setForegroundServiceOptions(foregroundServiceOptions: {
   'text': "Location tracking started",
   'title': "Location updates",
   'importance': 2,
@@ -301,7 +301,7 @@ Radar.setForegroundServiceOptions({
   'activity': 'com.yourapp.MainActivity'
 });
 
-Radar.startTrackingCustom({
+Radar.startTrackingCustom(options: {
   desiredStoppedUpdateInterval: 180,
   desiredMovingUpdateInterval: 60,
   desiredSyncInterval: 50,
@@ -330,11 +330,7 @@ Radar.stopTracking();
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-To listen for events, location updates, and errors, you can add event listeners after calling `Radar.attachListeners()`:
-
 ```dart
-
-Radar.attachListeners();
 
 @pragma('vm:entry-point')
 static void onClientLocation(Map result) {
@@ -428,7 +424,7 @@ Learn more about [trip tracking](/trip-tracking).
 You can manually update the user's location by calling:
 
 ```dart
-var res = await Radar.trackOnce({
+var res = await Radar.trackOnce(location: {
   'latitude': 39.2904,
   'longitude': -76.6122,
   'accuracy': 65
@@ -448,6 +444,8 @@ Get a single location update without sending it to the server:
 
 ```dart
 var coordinates = await Radar.getLocation();
+
+var highAccuracy = await Radar.getLocation('high');
 ```
 
 #### Context
@@ -455,7 +453,7 @@ var coordinates = await Radar.getLocation();
 With the [context API](/api#context), get context for a location without sending device or user identifiers to the server:
 
 ```dart
-var res = await Radar.getContext({
+var res = await Radar.getContext(location: {
   'latitude': 40.783826,
   'longitude': -73.975363,
   'accuracy': 65
@@ -468,18 +466,19 @@ var res = await Radar.getContext({
 With the [forward geocoding API](/api#forward-geocode), geocode an address, converting address to coordinates:
 
 ```dart
-var res = await Radar.geocode('20 jay st brooklyn ny')
+var res = await Radar.geocode(query: '20 jay st brooklyn ny', layers: ['fine', 'place'], contries:[...])
 // do something with res['status'], res['addresses']
 ```
 
 With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a location, converting coordinates to address:
 
 ```dart
-var res = await Radar.reverseGeocode({
+var res = await Radar.reverseGeocode(location: {
   'latitude': 40.783826,
   'longitude': -73.975363,
   'accuracy': 65
-});
+},
+layers: ['country']);
 // do something with res['status'], res['addresses']
 ```
 
@@ -488,6 +487,7 @@ With the [IP geocoding API](/api#ip-geocode), geocode the device's current IP ad
 ```dart
 var res = await Radar.ipGeocode((result) => {
 // do something with res['status'], res['address']
+})
 ```
 
 #### Search
@@ -498,18 +498,24 @@ With the [autocomplete API](/api#autocomplete), autocomplete partial addresses a
 var res = await Radar.autocomplete(
   query: 'brooklyn roasting',
   near: {'latitude': 40.783826, 'longitude': -73.975363},
-  limit: 10);
+  limit: 10,
+  country: 'US',
+  layers: ['street'],
+  mailable: true);
 // do something with res['status'], res['addresses']
 ```
 
 With the [geofence search API](/api#search-geofences), search for geofences near a location, sorted by distance:
 
 ```dart
+// either none or all of the optional arguments must be passed in.
 var res = await Radar.searchGeofences(
   near: {'latitude': 40.783826, 'longitude': -73.975363},
   radius: 1000,
   tags: ['venue'],
-  limit: 10);
+  limit: 10,
+  includeGeometry: false,
+  metadata: nil);
 // do something with res['status'], res['geofences']
 ```
 
@@ -520,6 +526,9 @@ var res = await Radar.searchPlaces(
   near: {'latitude': 40.783826, 'longitude': -73.975363},
   radius: 1000,
   chains: ['starbucks'],
+  chainMetadata: nil,
+  groups: ['major-us-airport'],
+  catagories: ['cafe']
   limit: 10);
 // do something with res['status'], res['places']
 ```
