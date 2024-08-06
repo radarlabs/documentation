@@ -26,7 +26,7 @@ Contact your customer success manager to enable this feature.
 
 Note that Radar uses the special string `"(null)"` to represent `null` user attribute values.
 
-Radar User Field | mParticle User Attribute | Type | Example Value | Context Type
+Radar User Field | Cordial User Attribute | Type | Example Value | Context Type
 --- | --- | --- | --- | ---
 `userId` | `userId` | string | `"1"` |
 `location.coordinates[0]` | `radar_location_longitude` | number | `-76.350663` |
@@ -66,7 +66,7 @@ Radar User Field | mParticle User Attribute | Type | Example Value | Context Typ
 
 ### user.entered_geofence
 
-Radar Event Field | mParticle Event Attribute | Type | Example Value
+Radar Event Field | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
 `geofence.description` | `geofence_description` | string | `"Store #123"`
@@ -78,7 +78,7 @@ Radar Event Field | mParticle Event Attribute | Type | Example Value
 
 ### user.exited_geofence
 
-Radar Event Field | mParticle Event Attribute | Type | Example Value
+Radar Event Field | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
 `geofence.description` | `geofence_description` | string | `"Store #123"`
@@ -91,7 +91,7 @@ Radar Event Field | mParticle Event Attribute | Type | Example Value
 
 ### user.dwelled_in_geofence
 
-Radar Event Field | mParticle Event Attribute | Type | Example Value
+Radar Event Field | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `geofence._id` | `geofence_id` | string | `"5b2c0906f5874b001aecfd8e"`
 `geofence.description` | `geofence_description` | string | `"Store #123"`
@@ -104,7 +104,7 @@ Radar Event Field | mParticle Event Attribute | Type | Example Value
 
 ### user.entered_place
 
-Radar Event Field | mParticle Event Attribute | Type | Example Value
+Radar Event Field | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
 `place.name` | `place_name` | string | `"Starbucks"`
@@ -116,7 +116,7 @@ Radar Event Field | mParticle Event Attribute | Type | Example Value
 
 ### user.exited_place
 
-Radar Event Field | mParticle Event Attribute | Type | Example Value
+Radar Event Field | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `place._id` | `place_id` | string | `"59302bcf8f27e8a156bd4f91"`
 `place.name` | `place_name` | string | `"Target"`
@@ -129,7 +129,7 @@ Radar Event Field | mParticle Event Attribute | Type | Example Value
 
 ### user.entered_region_country
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
@@ -138,7 +138,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.exited_region_country
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
@@ -147,7 +147,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.entered_region_state
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
@@ -156,7 +156,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.exited_region_state
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
@@ -165,7 +165,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.entered_region_dma
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
@@ -174,7 +174,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.exited_region_dma
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
@@ -183,7 +183,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.started_trip
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `trip.externalId` | `trip_external_id` | string | `"299"`
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
@@ -193,7 +193,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.updated_trip
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `trip.externalId` | `trip_external_id` | string | `"299"`
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
@@ -203,7 +203,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.approaching_trip_destination
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `trip.externalId` | `trip_external_id` | string | `"299"`
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
@@ -213,7 +213,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.arrived_at_trip_destination
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `trip.externalId` | `trip_external_id` | string | `"299"`
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
@@ -223,7 +223,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.stopped_trip
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `trip.externalId` | `trip_external_id` | string | `"299"`
 `trip.metadata[{key}]` | `trip_metadata_{key}` | {type} | `{value}`
@@ -233,7 +233,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.entered_beacon
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
 `beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
@@ -245,7 +245,7 @@ Radar Event Attribute | mParticle Event Attribute | Type | Example Value
 
 ### user.exited_beacon
 
-Radar Event Attribute | mParticle Event Attribute | Type | Example Value
+Radar Event Attribute | Cordial Event Attribute | Type | Example Value
 --- | --- | --- | ---
 `beacon._id` | `beacon_id` | string | `"5b2c0906f5874b001aecfd8f"`
 `beacon.description` | `beacon_description` | string | `"Store #123 - Drive-Thru"`
