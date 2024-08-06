@@ -79,7 +79,7 @@ First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
 Then add the Radar SDK to your application.
 
-#### With npm or yarn
+### With npm or yarn
 
 Add the radar-sdk-js and maplibre-gl packages
 ```bash
@@ -97,7 +97,7 @@ Radar.initialize('prj_test_pk_...', { /* map config options */ });
 
 Note: The Radar SDK has a dependency on [maplibre-gl](https://github.com/maplibre/maplibre-gl-js).
 
-#### With HTML
+### With HTML
 
 Add the following script in your `html` file
 ```html
@@ -111,7 +111,7 @@ Then initialize the Radar SDK
 </script>
 ```
 
-#### Create a map
+### Create a map
 
 Specify the HTML element where you want to render the map, by providing the element's ID, or the element object itself.
 
@@ -314,6 +314,16 @@ Add a `Marker` with a custom image to the map by specifying the image URL.
 
 <CustomImageMarkerMap />
 
+<Tabs
+  groupId="custom-image-marker"
+  defaultValue="html"
+  values={[
+    { label: 'HTML', value: 'html' },
+    { label: 'React', value: 'react' },
+  ]}
+>
+  <TabItem value="html">
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -355,6 +365,56 @@ Add a `Marker` with a custom image to the map by specifying the image URL.
 </html>
 ```
 
+  </TabItem>
+  <TabItem value="react">
+
+```jsx
+import React from 'react';
+import Radar from 'radar-sdk-js';
+
+import 'radar-sdk-js/dist/radar.css';
+
+class RadarMap extends React.Component {
+  componentDidMount() {
+    Radar.initialize('prj_live_pk_...');
+
+    // create map
+    const map = Radar.ui.map({
+      container: 'map',
+    });
+
+    map.on('load', () => {
+      const { lng, lat } = map.getCenter();
+
+      // add marker to map at map center
+      Radar.ui.marker({
+        url: 'https://radar.com/static/image/logo.png',
+        width: '48px',
+        height: '48px',
+        popup: {
+          text: 'Radar HQ',
+        },
+      })
+      .setLngLat([lng, lat])
+      .addTo(map);
+    });
+  }
+
+  render() {
+    return (
+      <div id="map-container" style={{ width:' 100%', height: '100vh', position: 'absolute' }}>
+        <div id="map" style={{ height: '100%', position: 'absolute', width: '100%' }} />
+      </div>
+    );
+  }
+};
+
+export default RadarMap;
+```
+
+  </TabItem>
+</Tabs>
+
 ### Display a custom popup
 
 Display a popup with customized HTML.
@@ -377,8 +437,8 @@ Display a popup with customized HTML.
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/v4.3.1/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/v4.3.1/radar.min.js"></script>
+    <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+    <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
   </head>
 
   <body>
@@ -512,553 +572,120 @@ You can also set `language: "local"` to use the device language by default.
 
 <CustomLanguageMap />
 
-## Platforms
+## Compatibility
 
-First, [sign up](https://radar.com/signup) for Radar and get an API key.
+Radar Maps are built using the [Mapbox Vector Tile (MVT)](https://github.com/mapbox/vector-tile-spec) and [TileJSON](https://github.com/mapbox/tilejson-spec) standards, which means they can be used with any SDK that supports these protocols.
 
-Then, get started with the sample code below.
+Below are some alternative libraries that can be used to display Radar Maps.
 
-Happy mapping!
+### MapLibre GL JS
 
-### JavaScript
+The Radar SDK uses the [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) library, which offers some usability enhancements when creating maps.
 
-To create a simple web page with a map:
+If you want more low-level control over the map behavior, or are migrating from a Mapbox GL JS implementation, you can use the MapLibre library directly.
+
+To use a Radar Map with MapLibre, you can use the following Radar URL as the [style URL](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/MapOptions/#style).
+
+```bash
+https://api.radar.io/maps/styles/radar-default-v1?publishableKey=prj_live_pk_...
+```
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
-    <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@4.5.1/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@4.5.1/dist/maplibre-gl.js'></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        html, body, #map { height: 100%; }
+    </style>
   </head>
-
   <body>
-    <div id="map" style="width: 100%; height: 500px;" />
-
-    <script type="text/javascript">
-      Radar.initialize('prj_live_pk_...');
-
-      // create a map
-      const map = Radar.ui.map({
+    <div id="map"></div>
+    <script>
+      const map = new maplibregl.Map({
         container: 'map',
-        style: 'radar-default-v1',
-        center: [-73.9911, 40.7342], // NYC
-        zoom: 11
+        style: 'https://api.radar.io/maps/styles/radar-default-v1?publishableKey=prj_live_pk_...', // Radar style URL
+        center: [-122.65, 45.52],
+        zoom: 9,
       });
-
-      // add a marker to the map
-      const marker = Radar.ui.marker({ text: 'Radar HQ' })
-        .setLngLat([-73.9910078, 40.7342465])
-        .addTo(map);
     </script>
   </body>
 </html>
 ```
 
-### React
+### Leaflet
 
-To create a [React](https://react.dev) component with a map:
+Radar Maps can be used as a base map for Leaflet through the [maplibre-gl-leaflet](https://github.com/maplibre/maplibre-gl-leaflet) library.
 
-```bash
-npm install --save radar-sdk-js maplibre-gl
-```
+It uses the same style URL format as in the MapLibre example above.
 
-The SDK has a dependency on [maplibre-gl](https://github.com/maplibre/maplibre-gl-js).
-
-```jsx
-import React from 'react';
-import Radar from 'radar-sdk-js';
-
-import 'radar-sdk-js/dist/radar.css';
-
-class RadarMap extends React.Component {
-  componentDidMount() {
-    Radar.initialize('prj_live_pk_...');
-
-    // create a map
-    const map = Radar.ui.map({
-      container: 'map',
-      style: 'radar-default-v1',
-      center: [-73.9911, 40.7342], // NYC
-      zoom: 14,
-    });
-
-    // add a marker to the map
-    Radar.ui.marker({ text: 'Radar HQ' })
-      .setLngLat([-73.9910078, 40.7342465])
-      .addTo(map);
-  }
-
-  render() {
-    return (
-      <div id="map-container" style={{ width:' 100%', height: '100vh', position: 'absolute' }}>
-        <div id="map" style={{ height: '100%', position: 'absolute', width: '100%' }} />
-      </div>
-    );
-  }
-};
-
-export default RadarMap;
-```
-
-### Vue
-
-To create a [Vue](https://vuejs.org) component with a map:
-
-```bash
-npm install --save radar-sdk-js maplibre-gl
-```
-
-The SDK has a dependency on [maplibre-gl](https://github.com/maplibre/maplibre-gl-js).
-
-```javascript
-<template>
-  <div id="map-container">
-    <div id="map" ref="mapRef" />
-  </div>
-</template>
-
-<script>
-import Radar from 'radar-sdk-js';
-import { shallowRef, onMounted, onUnmounted, markRaw } from 'vue';
-
-export default {
-  name: 'RadarMap',
-  setup () {
-    const mapRef = shallowRef(null);
-    const map = shallowRef(null);
-
-    onMounted(() => {
-      Radar.initialize('prj_live_pk_...');
-
-      // create a map
-      map.value = markRaw(Radar.ui.map({
-        container: mapRef.value,
-        style: 'radar-default-v1',
-        center: [-73.9911, 40.7342], // NYC
-        zoom: 11
-      }));
-
-      // add a marker to the map
-      Radar.ui.Marker({ color: '#007aff' })
-        .setLngLat([-73.9911, 40.7342]) // Radar HQ
-        .addTo(map.value);
-    }),
-
-    onUnmounted(() => {
-      map.value?.remove();
-    })
-
-    return {
-      map, mapRef
-    };
-  }
-};
-</script>
-
-<style>
-@import 'radar-sdk-js/dist/radar.css';
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-#map-container {
-  height: 100%;
-  position: absolute;
-  width: 100%;
-}
-
-#map {
-  height: 100%;
-  position: absolute;
-  width: 100%;
-}
-</style>
-```
-
-### React Native
-
-To create a [React Native](https://react.dev) component with a map:
-
-```bash
-npm install --save react-native-radar @maplibre/maplibre-react-native
-```
-
-The SDK has a dependency on [maplibre-react-native](https://github.com/maplibre/maplibre-react-native).
-
-Next, complete any required [platform-specific installation steps](https://github.com/maplibre/maplibre-react-native/blob/main/docs/GettingStarted.md#review-platform-specific-info).
-
-Finally, initialize the Radar SDK and add a `<Map>` component:
-
-```jsx
-import { View } from 'react-native';
-import Radar, { Map } from 'react-native-radar';
-import MapLibreGL from '@maplibre/maplibre-react-native';
-
-// NOTE: MapLibre requires setting their deprecated access token to null
-MapLibreGL.setAccessToken(null);
-
-Radar.initialize('prj_live_pk_...');
-
-export const App = () => (
-  <View style={{ width: '100%', height: '95%' }}>
-    <Map />
-  </View>
-);
-```
-
-Optionally, add assets for a marker. You can download assets [here](/img/radar-map-assets.zip).
-
-To add a marker to the map and control the camera:
-
-```jsx
-  const [cameraConfig, setCameraConfig] = useState({
-    triggerKey: Date.now(),
-    centerCoordinate: [-73.9911, 40.7342],
-    animationMode: 'flyTo',
-    animationDuration: 600,
-    zoomLevel: 12,
-  });
-
-  const onRegionDidChange = (event) => {
-    // do something on region change
-  }
-
-  const onSelect = (address) => {
-    // do something with selected address
-  }
-
-  const pointsCollection = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        properties: {
-          _id: '123',
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [-73.9911, 40.7342]
-        }
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html, body, #map {
+        width: 100%;
+        height: 100%;
+        margin: 0;
       }
-    ]
-  }; 
-  
-  const onPress = (event) => {
-    // do something on press
-  }
-    
-  return (
-    <View style={{ width: '100%', marginTop: '10%', height: '90%' }}>
-      <Map mapOptions={{
-        onRegionDidChange,
-      }}>
-        <MapLibreGL.Camera
-          {...cameraConfig}
-        />
-        <MapLibreGL.Images
-          images={{
-            icon: require('./assets/marker.png'),
-          }}
-        />
-        <MapLibreGL.ShapeSource
-          id="points"
-          shape={pointsCollection}
-          onPress={onPress}
-        >
-        <MapLibreGL.SymbolLayer
-            id="symbol"
-            style={{
-              iconImage: 'icon',
-              iconSize: [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                0, 0.2, // adjust the icon size for zoom level 0
-                12, 0.4, // adjust the icon size for zoom level 12
-                22, 0.8, // adjust the icon size for zoom level 22
-              ],
-              iconAllowOverlap: true,
-            }}
-          />
-        </MapLibreGL.ShapeSource>
-      </Map>
-    </View>
-  );
+    </style>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <!-- Maplibre GL -->
+    <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel='stylesheet' />
+    <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+
+    <!-- Leaflet-Maplibre-GL -->
+    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.20/leaflet-maplibre-gl.js"></script>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <script>
+      var map = L.map('map').setView([38.912753, -77.032194], 15);
+
+      L.marker([38.912753, -77.032194])
+        .bindPopup("Hello from <b>Leaflet GL</b>!")
+        .addTo(map)
+        .openPopup();
+
+      var gl = L.maplibreGL({
+        style: 'https://api.radar.io/maps/styles/radar-default-v1?publishableKey=prj_live_pk_...', // Radar style URL
+      }).addTo(map);
+    </script>
+  </body>
+</html>
 ```
 
 ### iOS
 
-To create a map on iOS, add [MapLibre Native](https://maplibre.org/maplibre-native/ios/latest/documentation/maplibre) to your Xcode project.
+Radar Maps are compatible with [MapLibre Native for iOS](https://maplibre.org/maplibre-native/ios/latest/documentation/maplibre/).
 
-Then, add assets for the Radar logo and optionally for a marker. You can download assets [here](/img/radar-map-assets.zip).
-
-Finally, add a `MapView` to a `ViewController` with a Radar style URL that includes your publishable key:
-
-```swift
-import SwiftUI
-import MapLibre
-
-struct MapView: UIViewRepresentable {
-    
-    func makeCoordinator() -> MapView.Coordinator {
-        Coordinator(self)
-    }
-    
-    func makeUIView(context: Context) -> MLNMapView {
-        // create a map
-
-        let style = "radar-default-v1"
-        let publishableKey = "prj_live_pk..."
-        let styleURL = URL(string: "https://api.radar.io/maps/styles/\(style)?publishableKey=\(publishableKey)")
-
-        let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.logoView.isHidden = true
-
-        mapView.setCenter(
-          CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911),
-          zoomLevel: 11,
-          animated: false
-        )
-        
-        // add the Radar logo
-
-        let logoImageView = UIImageView(image: UIImage(named: "radar-logo"))
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.addSubview(logoImageView)
-
-        NSLayoutConstraint.activate([
-            logoImageView.bottomAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            logoImageView.leadingAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            logoImageView.widthAnchor.constraint(equalToConstant: 74),
-            logoImageView.heightAnchor.constraint(equalToConstant: 26)
-        ])
-
-        mapView.delegate = context.coordinator
-
-        return mapView
-    }
-    
-    func updateUIView(_ uiView: MLNMapView, context: Context) {
-
-    }
-    
-    // add a marker on map load
-
-    class Coordinator: NSObject, MLNMapViewDelegate {
-        var control: MapView
-
-        init(_ control: MapView) {
-            self.control = control
-        }
-
-        func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
-            addMarker(style: style, coordinate: CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911))
-        }
-
-        func addMarker(style: MLNStyle, coordinate: CLLocationCoordinate2D) {
-            let point = MLNPointAnnotation()
-            point.coordinate = coordinate
-
-            let shapeSource = MLNShapeSource(identifier: "marker-source", shape: point, options: nil)
-
-            let shapeLayer = MLNSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
-
-            if let image = UIImage(named: "default-marker") {
-                style.setImage(image, forName: "marker")
-            }
-
-            shapeLayer.iconImageName = NSExpression(forConstantValue: "marker")
-
-            style.addSource(shapeSource)
-            style.addLayer(shapeLayer)
-        }
-    }
-}
-```
-
-<Alert alertType="info">
-  Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
-</Alert>
+For more info, see the [displaying Radar Maps on iOS](/tutorials/displaying-radar-maps-on-ios) tutorial.
 
 ### Android
 
-To create a map on Android, add [MapLibre Native](https://github.com/maplibre/maplibre-native) to the `dependencies` section of your app's `build.gradle` file. Optionally, add the [MapLibre Annotation Plugin](https://github.com/maplibre/maplibre-plugins-android) to add a marker to the map:
+Radar Maps are compatible with [MapLibre Native for Android](https://maplibre.org/maplibre-native/docs/book/android/getting-started-guide.html).
 
-```gradle
-dependencies {
-    implementation 'org.maplibre.gl:android-sdk:11.0.0'
-    implementation 'org.maplibre.gl:android-plugin-annotation-v9:3.0.0' // optional import for adding a marker
-}
-```
+For more info, see the [displaying Radar Maps on Android](/tutorials/displaying-radar-maps-on-android) tutorial.
 
-Import assets for the Radar logo and optionally for a marker. You can download assets [here](/img/radar-map-assets.zip).
+### React Native
 
-Then, add a `MapView` with the Radar logo to your layout:
-  
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+Radar's React Native SDK has built-in support for displaying Radar Maps.
 
-    <org.maplibre.android.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+See the [displaying Radar Maps with React Native](/tutorials/displaying-radar-maps-with-react-native) tutorial for more info.
 
-    <ImageView
-        android:id="@+id/overlayImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/radar_logo"
-        app:layout_constraintBottom_toBottomOf="@id/mapView"
-        app:layout_constraintStart_toStartOf="@id/mapView"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp" />
+### Flutter
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-```
+Radar Maps can be used in a flutter application with [flutter-maplibre-gl](https://github.com/maplibre/flutter-maplibre-gl) or [flutter_map](https://docs.fleaflet.dev/).
 
-Finally, add a `MapView` in your `Activity` with a Radar style URL that includes your publishable key:
-
-```kotlin
-import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toBitmap
-
-import org.maplibre.android.MapLibre
-import org.maplibre.android.camera.CameraPosition
-import org.maplibre.android.geometry.LatLng
-import org.maplibre.android.maps.MapLibreMap
-import org.maplibre.android.maps.MapView
-
-// optional import for adding a marker
-import org.maplibre.android.plugins.annotation.SymbolManager
-import org.maplibre.android.plugins.annotation.SymbolOptions
-
-const val MARKER_NAME = "radar-marker"
-
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var mapView: MapView
-    private lateinit var mapLibreMap: MapLibreMap
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // create a map
-        val style = "radar-default-v1"
-        val publishableKey = "prj_live_pk_..."
-        val styleURL = "https://api.radar.io/maps/styles/$style?publishableKey=$publishableKey"
-
-        MapLibre.getInstance(this)
-
-        val inflater = LayoutInflater.from(this)
-        val rootView = inflater.inflate(R.layout.activity_main, null)
-        setContentView(rootView)
-
-        mapView = rootView.findViewById(R.id.mapView)
-
-        mapView.getMapAsync { map ->
-            mapLibreMap = map
-
-            // add the Radar logo
-            map.uiSettings.isLogoEnabled = false
-
-            map.uiSettings.attributionGravity = Gravity.RIGHT + Gravity.BOTTOM
-            map.uiSettings.setAttributionMargins(0, 0, 24, 24)
-
-            map.setStyle(styleURL) {style ->
-
-                // optionally add a marker to the map on style load
-                val infoIconDrawable = ResourcesCompat.getDrawable(
-                    this.resources,
-                    // use imported marker resource
-                    R.drawable.default_marker,
-                    null
-                )!!
-
-                // create marker icon bmp
-                val bitmapMarker = infoIconDrawable.toBitmap()
-                style.addImage(MARKER_NAME, bitmapMarker)
-
-                val symbolManager = SymbolManager(mapView, map, style)
-
-                // disable symbol collisions to draw over map style symbols like POIs and labels
-                symbolManager.iconAllowOverlap = true
-                symbolManager.iconIgnorePlacement = true
-
-                val symbol = symbolManager.create(
-                    SymbolOptions()
-                        .withLatLng(LatLng(40.7342,-73.9911))
-                        .withIconImage(MARKER_NAME)
-                        .withIconSize(1.25f)
-                        .withIconAnchor("bottom")
-                )
-                symbolManager.update(symbol)
-
-                // set camera position to symbol latlng
-                map.cameraPosition = CameraPosition.Builder()
-                    .target(symbol.latLng)
-                    .zoom(11.0)
-                    .build()
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
-    }
-}
-```
-
-<Alert alertType="info">
-  Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
-</Alert>
+See our flutter maps [example repo](https://github.com/radarlabs/radar_flutter_maps_demo) for more info.
 
 ## Coverage
 
