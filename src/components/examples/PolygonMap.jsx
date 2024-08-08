@@ -17,7 +17,7 @@ class PolygonMap extends React.Component {
     });
 
     map.on('load', () => {
-      // create new feature from polyline
+      // create new feature from GeoJSON Feature
       const geojson = {
         type: 'Feature',
         id: 1,

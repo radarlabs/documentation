@@ -146,6 +146,8 @@ export default RadarMap;
 
 ## Configuration
 
+### Map
+
 You can configure a map with any MapLibre [MapOptions](https://maplibre.org/maplibre-gl-js/docs/API/types/MapOptions/).
 
 The minimum recommended options are the following:
@@ -155,10 +157,55 @@ The minimum recommended options are the following:
 | Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
 | `container` | none (required) | string \| HTMLElement | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. The width and height of this element will determine the size of the map. |
-| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See below for more details. |
+| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See the [Styles](/documentation/maps/maps#styles) section below for more details. |
 | `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/documentation/api#ip-geocode). |
 | `zoom` | 11 | number | The zoom level of the map, a number between 0 (fully zoomed out) and 23 (fully zoomed in). |
 | `language` | none | string (ISO code) | This display language for map. Can be any 2-letter [ISO Code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes), or `local` to use the device's specified language. Defaults to `en-US` if none is provided. |
+
+</div>
+
+```javascript
+const map = Radar.ui.map({
+  container: 'map',
+  style: 'radar-default-v1',
+  center: [-73.990550, 40.735225],
+  zoom: 10,
+  langauge: 'en-US',
+});
+```
+
+#### Functions
+
+The Radar map class also includes some additional functions for handling common map interactions
+
+<div className="full-width-table">
+
+| Function | Arguments | Return value | Description   |
+|----------------|-----|--------------|---------------|
+| `on` | [MapLibre event](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/MapEventType/) | void | Register a callback to fire on a map event. |
+| `getMarkers` | none | RadarMarker[] | Returns an array of all markers currently associated with the map. |
+| `fitToMarkers` | fitBoundsOptions, RadarMarker[] (optional) | void | Fit the map zoom and bounds to all markers on the map. Optionally takes a list of markers to fit (defaults to all markers). |
+| `clearMarkers` | none | void | Remove all markers from the map. |
+| `getFeatures` | none | RadarMapFeature[] | Returns an array of all features currently associated with the map. |
+| `fitToFeatures` | fitBoundsOptions | void | Fit the map zoom and bounds to all features on the map. |
+| `clearFeatures` | none | void | Remove all features from the map. |
+| `addPolygon` | GeoJSON<Polygon \| MultiPolygon> Feature, polygonOptions | RadarMapFeature | Add a new polygon [Feature](/documentation/maps/maps#polygon-and-multipolygon) to the map. |
+| `addLine` | GeoJSON<LineString\> Feature, lineOptions | RadarMapFeature | Add a new line [Feature](/documentation/maps/maps#line-and-polyline) to the map. |
+| `addPolyline` | encodedPolyline, polylineOptions | RadarMapFeature | Accepts an encoded polyline and converts it to a line feature. Defaults to six decimals precision. |
+
+```javascript
+map.on('load', (event) => {
+ // map loaded
+});
+
+map.on('click', (event) => {
+  // handle click on map
+});
+
+map.fitToMarkers({ padding: 20 }); // fit map view to markers
+
+map.fitToFeatures({ padding: 20 }); // fit map view to features
+```
 
 </div>
 
@@ -192,6 +239,152 @@ Radar provides several out-of-the box map styles:
     </tr>
   </tbody>
 </table>
+
+### Marker
+
+Markers can be used to denote places on the map. Radar Maps support custom marker images, and easily attaching popup's when a marker is clicked.
+
+Radar Marker's support all options in the MapLibre GL [marker options](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/MarkerOptions/), as well as the following options for the most common scenarios:
+
+<div className="full-width-table">
+
+| Name  | Default | Possible values | Description           |
+|-------|---------|-----------------|-----------------------|
+| `color` | #000257 | string | Color of the default marker image. |
+| `url` | none | string | URL of image to use for the marker. |
+| `element` | none | HTMLElement | DOM element to be used as the marker. |
+| `width` | none | number | Size for marker width in pixels. |
+| `height` | none | number | Size for marker height in pixels. |
+| `scale` | 1 | number | Scale used for marker size (if element is not provided). |
+| `popup` | none | [Popup](#) | Config for the popup associated with the marker to be shown on click. See the [Popup](#) config for more info.|
+
+</div>
+
+```javascript
+const marker = Radar.ui.marker({
+  color: '#000257',
+  width: 40,
+  height: 80,
+  popup: {
+    text: 'My popup.',
+  }
+})
+.setLngLat([-73.990550, 40.735225])
+.addTo(map);
+```
+
+### Popup
+
+Popups can be used to display text or custom HTML at a point on the map, usually upon some user interaction.
+
+Radar Popup's support all options in the MapLibre GL [popup options](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/PopupOptions/), as well as the following options for the most common scenarios:
+
+<div className="full-width-table">
+
+| Name  | Default | Possible values | Description           |
+|-------|---------|-----------------|-----------------------|
+| `text` | none | string | Text to display inside popup. |
+| `html` | none | string | The HTML string to be displayed inside the popup. |
+| `element` | none | HTMLElement | The DOM element to be used as the popup content. |
+
+</div>
+
+```javascript
+const popup = Radar.ui.popup({
+  text: 'My popup.',
+})
+.setLngLat([-73.990550, 40.735225])
+.addTo(map);
+```
+
+### Feature
+
+Radar Map Features are custom lines and geometries that can be styled and interacted with on the map. 
+
+The primary format for a map feature is a [GeoJSON Feature](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) (Polygon, MultiPolygon, and LineString are supported). 
+
+Feature ids should be unique, and properties can be used for attaching additional metadata to the features.
+
+#### Polygon and MultiPolygon
+
+Polygons and MultiPolygons can be added to the map through the `map.addPolygon(feature, options)` function.
+
+The following `paint` properties for styling.
+
+<div className="full-width-table">
+
+| Property  | Possible values |
+|-----------|-----------------|
+| `fill-color` | string (CSS color) |
+| `fill-opacity` | number (0 - 1) |
+| `border-width` | number (px) |
+| `border-color` | string (CSS color) |
+| `border-opacity` | number (0 - 1) |
+
+</div>
+
+```javascript
+const geojson = {
+  type: 'Feature',
+  id: `feature-id-1`,
+  properties: {
+    name: 'Central Park',
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[[-73.95820498349376,40.80026256420331],[-73.9816545434309,40.76824212209061],[-73.97283590550576,40.764244806438285],[-73.94918592197929,40.79677293396304],[-73.95820498349376,40.80026256420331]]]
+  },
+};
+
+const feature = Radar.ui.addPolygon(geojson, {
+  paint: {
+    'fill-color': 'blue',
+    'fill-opacity': 0.4,
+  },
+});
+
+feature.on('click', ({ feature, event }) => {
+  // handle click on feature
+});
+```
+
+#### Line and Polyline
+
+Lines can be added to the map through the `map.addLine(feature, options)` function for GeoJSON LineStrings, or `map.addPolyline(polyline, options)` for encoded polylines.
+
+The following `paint` properties for styling.
+
+<div className="full-width-table">
+
+| Property  | Possible values |
+|-----------|-----------------|
+| `line-color` | string (CSS color) |
+| `line-width` | number (px) |
+| `line-opacity` | number (0 - 1) |
+| `line-cap` | 'butt' \| 'round' \| 'square' |
+| `line-offset` | number (px) |
+| `line-blur` | number (px) |
+| `line-dasharray` | number[] |
+| `line-gap-width` | number (px) |
+| `line-gradient` | [expression](https://maplibre.org/maplibre-gl-js/docs/examples/line-gradient/) |
+| `border-width` | number (px) |
+| `border-color` | string (CSS color) |
+| `border-opacity` | number (0 - 1) |
+
+</div>
+
+```javascript
+const feature = Radar.ui.addPolyline('iyeulAveaclCuVfw...', {
+  precision: 6, /* encoded polyline precision */
+  paint: {
+    'line-color': 'blue',
+    'line-opacity': 0.4,
+    'line-width': 6,
+    'border-width': 2,
+    'border-color': '#FFFFFF',
+  },
+});
+```
 
 ## Examples
 
