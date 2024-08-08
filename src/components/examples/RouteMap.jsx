@@ -15,6 +15,7 @@ class RouteMap extends React.Component {
     const map = Radar.ui.map({
       container: 'route-map',
       center: [-73.990550, 40.735225],
+      zoom: 11,
     });
 
     map.on('load', () => {
@@ -45,7 +46,7 @@ class RouteMap extends React.Component {
       });
 
       // fit the map bounds to the features
-      map.fitToFeatures({ padding: 40 });
+      map.fitToFeatures({ padding: 40, animate: false });
     });
   }
 
