@@ -376,6 +376,10 @@ The following `paint` properties for styling.
 ```javascript
 const feature = Radar.ui.addPolyline('iyeulAveaclCuVfw...', {
   precision: 6, /* encoded polyline precision */
+  id: 'line-id-1',
+  properties: {
+    name: 'My line',
+  },
   paint: {
     'line-color': 'blue',
     'line-opacity': 0.4,
