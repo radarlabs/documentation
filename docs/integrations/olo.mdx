@@ -63,6 +63,10 @@ You can enable Radar to auto-calculate the approaching threshold for ASAP orders
 
 As an alternative to Radar's automatic calculation, set the approaching threshold either at the store level via the `tripApproachingThreshold` property in the [geofences API](/api#geofences) or at the order level via `Radar.updateTrip()` in the app or [Trips API](/api#trips) server-side.
 
+### Multiple order support
+
+Sometimes, multiple orders are placed to the same store. To ensure that all orders receive real-time ETAs and are processed simultaneously, Radar automatically combines additional orders into an existing trip if they are headed to the same destination and the expected arrival time is within an hour. For scheduled orders, the `scheduledArrivalAt` parameter included with `Radar.startTrip()` is used to verify the timing. If this parameter is not provided, we assume the order is an ASAP order and use the current time instead.
+
 ## Expo notifications
 
 Radar is a Customer Arrival Olo partner and can automatically provide *Approaching* and *Arrival* status updates to Olo Expo based on Radar trip tracking [events](/trip-tracking#trip-events). This keeps in-store teams up-to-date with real-time status updates on tracked mobile orders. Additionally, if your team utilizes the *Picked Up* button in Olo Expo, this will automatically complete the Radar trip and capture completion time for trip duration and wait time analytics.
