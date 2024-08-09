@@ -1,0 +1,177 @@
+---
+sidebar_position: 12
+title: Displaying Radar Maps on Android
+---
+
+To create a map on Android, add [MapLibre Native](https://github.com/maplibre/maplibre-native) to the `dependencies` section of your app's `build.gradle` file. Optionally, add the [MapLibre Annotation Plugin](https://github.com/maplibre/maplibre-plugins-android) to add a marker to the map:
+
+```gradle
+dependencies {
+    implementation 'org.maplibre.gl:android-sdk:11.0.0'
+    implementation 'org.maplibre.gl:android-plugin-annotation-v9:3.0.0' // optional import for adding a marker
+}
+```
+
+Import assets for the Radar logo and optionally for a marker. You can download assets [here](/img/radar-map-assets.zip).
+
+Then, add a `MapView` with the Radar logo to your layout:
+  
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <org.maplibre.android.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <ImageView
+        android:id="@+id/overlayImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/radar_logo"
+        app:layout_constraintBottom_toBottomOf="@id/mapView"
+        app:layout_constraintStart_toStartOf="@id/mapView"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Finally, add a `MapView` in your `Activity` with a Radar style URL that includes your publishable key:
+
+```kotlin
+import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toBitmap
+
+import org.maplibre.android.MapLibre
+import org.maplibre.android.camera.CameraPosition
+import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.maps.MapLibreMap
+import org.maplibre.android.maps.MapView
+
+// optional import for adding a marker
+import org.maplibre.android.plugins.annotation.SymbolManager
+import org.maplibre.android.plugins.annotation.SymbolOptions
+
+const val MARKER_NAME = "radar-marker"
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var mapView: MapView
+    private lateinit var mapLibreMap: MapLibreMap
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // create a map
+        val style = "radar-default-v1"
+        val publishableKey = "prj_live_pk_..."
+        val styleURL = "https://api.radar.io/maps/styles/$style?publishableKey=$publishableKey"
+
+        MapLibre.getInstance(this)
+
+        val inflater = LayoutInflater.from(this)
+        val rootView = inflater.inflate(R.layout.activity_main, null)
+        setContentView(rootView)
+
+        mapView = rootView.findViewById(R.id.mapView)
+
+        mapView.getMapAsync { map ->
+            mapLibreMap = map
+
+            // add the Radar logo
+            map.uiSettings.isLogoEnabled = false
+
+            map.uiSettings.attributionGravity = Gravity.RIGHT + Gravity.BOTTOM
+            map.uiSettings.setAttributionMargins(0, 0, 24, 24)
+
+            map.setStyle(styleURL) {style ->
+
+                // optionally add a marker to the map on style load
+                val infoIconDrawable = ResourcesCompat.getDrawable(
+                    this.resources,
+                    // use imported marker resource
+                    R.drawable.default_marker,
+                    null
+                )!!
+
+                // create marker icon bmp
+                val bitmapMarker = infoIconDrawable.toBitmap()
+                style.addImage(MARKER_NAME, bitmapMarker)
+
+                val symbolManager = SymbolManager(mapView, map, style)
+
+                // disable symbol collisions to draw over map style symbols like POIs and labels
+                symbolManager.iconAllowOverlap = true
+                symbolManager.iconIgnorePlacement = true
+
+                val symbol = symbolManager.create(
+                    SymbolOptions()
+                        .withLatLng(LatLng(40.7342,-73.9911))
+                        .withIconImage(MARKER_NAME)
+                        .withIconSize(1.25f)
+                        .withIconAnchor("bottom")
+                )
+                symbolManager.update(symbol)
+
+                // set camera position to symbol latlng
+                map.cameraPosition = CameraPosition.Builder()
+                    .target(symbol.latLng)
+                    .zoom(11.0)
+                    .build()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
+    }
+}
+```
+
+<Alert alertType="info">
+  Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
+</Alert>
+

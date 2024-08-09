@@ -1,0 +1,98 @@
+---
+sidebar_position: 11
+title: Displaying Radar Maps on iOS
+---
+
+To create a map on iOS, add [MapLibre Native](https://maplibre.org/maplibre-native/ios/latest/documentation/maplibre) to your Xcode project.
+
+Then, add assets for the Radar logo and optionally for a marker. You can download assets [here](/img/radar-map-assets.zip).
+
+Finally, add a `MapView` to a `ViewController` with a Radar style URL that includes your publishable key:
+
+```swift
+import SwiftUI
+import MapLibre
+
+struct MapView: UIViewRepresentable {
+    
+    func makeCoordinator() -> MapView.Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeUIView(context: Context) -> MLNMapView {
+        // create a map
+
+        let style = "radar-default-v1"
+        let publishableKey = "prj_live_pk..."
+        let styleURL = URL(string: "https://api.radar.io/maps/styles/\(style)?publishableKey=\(publishableKey)")
+
+        let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.logoView.isHidden = true
+
+        mapView.setCenter(
+          CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911),
+          zoomLevel: 11,
+          animated: false
+        )
+        
+        // add the Radar logo
+
+        let logoImageView = UIImageView(image: UIImage(named: "radar-logo"))
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.addSubview(logoImageView)
+
+        NSLayoutConstraint.activate([
+            logoImageView.bottomAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            logoImageView.leadingAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            logoImageView.widthAnchor.constraint(equalToConstant: 74),
+            logoImageView.heightAnchor.constraint(equalToConstant: 26)
+        ])
+
+        mapView.delegate = context.coordinator
+
+        return mapView
+    }
+    
+    func updateUIView(_ uiView: MLNMapView, context: Context) {
+
+    }
+    
+    // add a marker on map load
+
+    class Coordinator: NSObject, MLNMapViewDelegate {
+        var control: MapView
+
+        init(_ control: MapView) {
+            self.control = control
+        }
+
+        func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
+            addMarker(style: style, coordinate: CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911))
+        }
+
+        func addMarker(style: MLNStyle, coordinate: CLLocationCoordinate2D) {
+            let point = MLNPointAnnotation()
+            point.coordinate = coordinate
+
+            let shapeSource = MLNShapeSource(identifier: "marker-source", shape: point, options: nil)
+
+            let shapeLayer = MLNSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
+
+            if let image = UIImage(named: "default-marker") {
+                style.setImage(image, forName: "marker")
+            }
+
+            shapeLayer.iconImageName = NSExpression(forConstantValue: "marker")
+
+            style.addSource(shapeSource)
+            style.addLayer(shapeLayer)
+        }
+    }
+}
+```
+
+<Alert alertType="info">
+  Adding a Radar logo to the map is required in our <a href="https://radar.com/terms">Terms of Use</a>.
+</Alert>
+
