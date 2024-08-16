@@ -663,7 +663,7 @@ Can't go for a walk or a drive? You can simulate a sequence of location updates.
 
 ## Location metadata
 
-The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field.
+The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field. Turn on `useLocationMetadata` in your `sdkConfiguration` to enable this feature. 
 Include permissions for motion activity detection in your manifest
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -671,6 +671,37 @@ Include permissions for motion activity detection in your manifest
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 </manifest>
 ```
+
+You will need to manually prompt for motion permissions with
+
+ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 3)
+
+<Tabs
+  groupId="android"
+  defaultValue="kotlin"
+  values={[
+    { label: 'Java', value: 'java'},
+    { label: 'Kotlin', value: 'kotlin' }
+  ]}
+>
+  <TabItem value="java">
+
+```java
+
+ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, ACTIVITY_RECOGNITION_PERMISSION_CODE);
+
+```
+
+  </TabItem>
+  <TabItem value="kotlin">
+
+```kotlin
+ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), ACTIVITY_RECOGNITION_PERMISSION_CODE)
+```
+
+  </TabItem>
+</Tabs>
+
 ## Listening for events with a receiver
 
 To listen for events, location updates, and errors client-side, create a class that extends `RadarReceiver`. Then, pass in an instance of your receiver when initializing the SDK in application `onCreate()`.

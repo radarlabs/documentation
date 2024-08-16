@@ -848,9 +848,9 @@ Radar.mockTracking(
 
 ## Location metadata
 
-The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field.
-Include a value for `Privacy - Motion Usage Description` in your `info.plist`
-To include location metadata information along with each track call, install the `RadarSDKMotion` companion module.
+The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field. Turn on `useLocationMetadata` in your `sdkConfiguration` to enable this feature. 
+
+To collect motionActivity, you must include a value for `Privacy - Motion Usage Description` in your `info.plist`. and install the `RadarSDKMotion` companion module. Your app will request permission for Motion Activity data in the first track call.
 
 Add the following to your `Podfile`:
 
