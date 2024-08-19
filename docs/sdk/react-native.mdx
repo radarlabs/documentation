@@ -85,8 +85,10 @@ You can use our Expo plugin to take care of the native setup. Add `"react-native
           "androidBackgroundPermission": true,
           // boolean to enable Android fine locations permission, default to false
           "androidFineLocationPermission": true,
-          // boolean to enable motion avtivity detection and location metedata, defualts to false
-          "addRadarSDKMotion":true
+          // boolean to enable motion activity detection and location metedata, defualts to false
+          "addRadarSDKMotion":true,
+          // string used in ios NSMotionUsageDescription prompt, defaults to "This app uses the motion service to provide motion-based services."
+          iosNSMotionUsageDescription?: string;
         }
       ],
       // optional, only required when you are also using Radar maps
