@@ -84,7 +84,9 @@ You can use our Expo plugin to take care of the native setup. Add `"react-native
           // boolean to enable Android background permissions, defaults to false 
           "androidBackgroundPermission": true,
           // boolean to enable Android fine locations permission, default to false
-          "androidFineLocationPermission": true
+          "androidFineLocationPermission": true,
+          // boolean to enable motion avtivity detection and location metedata, defualts to false
+          "addRadarSDKMotion":true
         }
       ],
       // optional, only required when you are also using Radar maps
@@ -454,6 +456,35 @@ Radar.trackOnce({
   // optionally, do something with err
 });
 ```
+
+Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Location metadata
+
+The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field.
+
+Enable this feature with the Expo plugin by adding the following line into the app.json:
+
+```json
+{
+  "expo":{
+    ...
+    "plugins": [
+      [
+        "react-native-radar",
+        {
+          ...
+          "addRadarSDKMotion":true
+        }
+      ],
+      // optional, only required when you are also using Radar maps
+      ["@maplibre/maplibre-react-native"]
+    ]
+  }
+}
+```
+
+
 
 Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
