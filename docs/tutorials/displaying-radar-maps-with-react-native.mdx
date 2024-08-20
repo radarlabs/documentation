@@ -1,0 +1,114 @@
+---
+sidebar_position: 13
+title: Displaying Radar Maps with React Native
+---
+
+To create a [React Native](https://react.dev) component with a map:
+
+```bash
+npm install --save react-native-radar @maplibre/maplibre-react-native
+```
+
+The SDK has a dependency on [maplibre-react-native](https://github.com/maplibre/maplibre-react-native).
+
+Next, complete any required [platform-specific installation steps](https://github.com/maplibre/maplibre-react-native/blob/main/docs/GettingStarted.md#review-platform-specific-info).
+
+Finally, initialize the Radar SDK and add a `<Map>` component:
+
+```jsx
+import { View } from 'react-native';
+import Radar, { Map } from 'react-native-radar';
+import MapLibreGL from '@maplibre/maplibre-react-native';
+
+// NOTE: MapLibre requires setting their deprecated access token to null
+MapLibreGL.setAccessToken(null);
+
+Radar.initialize('prj_live_pk_...');
+
+export const App = () => (
+  <View style={{ width: '100%', height: '95%' }}>
+    <Map />
+  </View>
+);
+```
+
+Optionally, add assets for a marker. You can download assets [here](/img/radar-map-assets.zip).
+
+To add a marker to the map and control the camera:
+
+```jsx
+  const [cameraConfig, setCameraConfig] = useState({
+    triggerKey: Date.now(),
+    centerCoordinate: [-73.9911, 40.7342],
+    animationMode: 'flyTo',
+    animationDuration: 600,
+    zoomLevel: 12,
+  });
+
+  const onRegionDidChange = (event) => {
+    // do something on region change
+  }
+
+  const onSelect = (address) => {
+    // do something with selected address
+  }
+
+  const pointsCollection = {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        properties: {
+          _id: '123',
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [-73.9911, 40.7342]
+        }
+      }
+    ]
+  }; 
+  
+  const onPress = (event) => {
+    // do something on press
+  }
+    
+  return (
+    <View style={{ width: '100%', marginTop: '10%', height: '90%' }}>
+      <Map mapOptions={{
+        onRegionDidChange,
+      }}>
+        <MapLibreGL.Camera
+          {...cameraConfig}
+        />
+        <MapLibreGL.Images
+          images={{
+            icon: require('./assets/marker.png'),
+          }}
+        />
+        <MapLibreGL.ShapeSource
+          id="points"
+          shape={pointsCollection}
+          onPress={onPress}
+        >
+        <MapLibreGL.SymbolLayer
+            id="symbol"
+            style={{
+              iconImage: 'icon',
+              iconSize: [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                0, 0.2, // adjust the icon size for zoom level 0
+                12, 0.4, // adjust the icon size for zoom level 12
+                22, 0.8, // adjust the icon size for zoom level 22
+              ],
+              iconAllowOverlap: true,
+            }}
+          />
+        </MapLibreGL.ShapeSource>
+      </Map>
+    </View>
+  );
+```
+

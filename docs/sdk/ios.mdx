@@ -56,6 +56,10 @@ In Xcode, go to *File* > *Swift Packages* > *Add Package Dependency*. Enter `htt
 $RADAR_IOS_SDK_VERSION$..<$RADAR_IOS_NEXT_MINOR_VERSION$
 ```
 
+<Alert alertType="info">
+  Only select <code>RadarSDK</code> unless you are also intending to use the location metadata feature. Refer to <a href="/sdk/ios#location-metadata">this section</a> for more information.
+</Alert>
+
 ### Carthage
 
 Install [Carthage](https://github.com/Carthage/Carthage). To include Radar as a `github` origin, add the following to your `Cartfile`:
@@ -841,6 +845,20 @@ Radar.mockTracking(
   <a href="https://radar.com/dashboard/geofencing/geofences">create a geofence</a> if you haven't
   already.
 </Alert>
+
+## Location metadata
+
+The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field. Turn on `useLocationMetadata` in your `sdkConfiguration` to enable this feature. 
+
+To collect motionActivity, you must include a value for `Privacy - Motion Usage Description` in your `info.plist`. and install the `RadarSDKMotion` companion module. Your app will request permission for Motion Activity data in the first track call.
+
+Add the following to your `Podfile`:
+
+```swift
+pod 'RadarSDKMotion', '~> $RADAR_IOS_SDK_VERSION$'
+```
+
+or add the `RadarSDKMotion` package product to your target via SPM.
 
 ## Listening for events with a delegate
 
