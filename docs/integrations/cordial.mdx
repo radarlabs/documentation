@@ -58,16 +58,14 @@ Radar.setMetadata(JSONObject().put("cordialId", cID))
 
 ## User mapping
 
-Note that Radar uses the special string `"(null)"` to represent `null` user attribute values.
-
 Radar User Field | Cordial Contact Attribute | Type | Example Value | Context Type
 --- | --- | --- | --- | ---
 `metadata.cordialId` | `cID` | string | `"66c3a95138ec1e66b40a9755"` |
-`location` | `current_location` | location | `(39.525665, -76.350663)` |
 `_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
+`location` | `current_location` | location | `(39.525665, -76.350663)` |
+`locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"` |
+`locationAccuracyAuthorization` | `radar_location_accuracy_authorization` | string | `"FULL"` |
 `updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
-`locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"`|
-`locationAccuracyAuthorization` | `radar_location_accuracy_authorization` | string | `"FULL"`|
 `segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` |
 `topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks", "walmart"]` |
 `topChains[*].externalId` | `radar_top_chain_external_ids` | array[string] | `["123", "456"]` |
