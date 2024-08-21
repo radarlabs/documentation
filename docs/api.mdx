@@ -478,7 +478,15 @@ curl "https://api.radar.io/v1/geocode/forward?query=20+jay+st+brooklyn+ny" \
       "street": "Jay St",
       "layer": "address",
       "formattedAddress": "20 Jay St, Brooklyn, New York, NY 11201 USA",
-      "addressLabel": "20 Jay St"
+      "addressLabel": "20 Jay St",
+      "timeZone": {
+        "id": "America/New_York",
+        "name": "Eastern Daylight Time",
+        "code": "EDT",
+        "currentTime": "2024-04-09T10:12:00-04:00",
+        "utcOffset": -14400,
+        "dstOffset": 3600
+      }
     }
   ]
 }
@@ -495,7 +503,7 @@ Reverse geocodes a location, converting coordinates to address.
 ###### Query parameters
 
 - **`coordinates`** (string, required): The coordinates to reverse geocode. A string in the format `latitude,longitude`.
-- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `timezone`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 
 ###### Authentication level
 
@@ -539,45 +547,7 @@ curl "https://api.radar.io/v1/geocode/reverse?coordinates=40.70390,-73.98670" \
       "borough": "Brooklyn",
       "county": "Kings County",
       "neighborhood": "DUMBO",
-      "number": "20",
-      "distance": 5,
-      "layer": "address"
-    }
-  ]
-}
-```
-
-<br />
-<span className="badge badge--default">BETA</span> The <code>timezone</code> payload will soon be included in all address payloads. This field is subject to change.
-<br />
-<br />
-
-```json
-{
-  "meta": {
-    "code": 200
-  },
-  "addresses": [
-    {
-      "latitude": 40.70390,
-      "longitude": -73.98670,
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-73.98670, 40.70390]
-      },
-      "addressLabel": "20 Jay Street",
-      "formattedAddress": "20 Jay Street, Brooklyn, New York, NY 11201 USA",
-      "country": "United States",
-      "countryCode": "US",
-      "countryFlag": "🇺🇸",
-      "state": "New York",
-      "stateCode": "NY",
-      "postalCode": "11201",
-      "city": "New York",
-      "borough": "Brooklyn",
-      "county": "Kings County",
-      "neighborhood": "DUMBO",
-      "timezone": {
+      "timeZone": {
         "id": "America/New_York",
         "name": "Eastern Daylight Time",
         "code": "EDT",
@@ -636,7 +606,15 @@ curl "https://api.radar.io/v1/geocode/ip" \
     "state": "New York",
     "stateCode": "NY",
     "postalCode": "11201",
-    "city": "New York"
+    "city": "New York",
+    "timeZone": {
+      "id": "America/New_York",
+      "name": "Eastern Daylight Time",
+      "code": "EDT",
+      "currentTime": "2024-04-09T10:12:00-04:00",
+      "utcOffset": -14400,
+      "dstOffset": 3600
+    },
   },
   "proxy": false,
   "ip": "107.77.199.117"
@@ -999,7 +977,7 @@ Calculates the travel distance and duration between an origin and a destination.
 - **`destination`** (string, required): The destination. A string in the format `latitude,longitude`.
 - **`modes`** (string, required): The travel modes. A string, comma-separated, including one or more of `car`, `truck`, `foot`, or `bike`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided. In the response, `distance.value` will be in meters for `metric` and in feet for `imperial`. 
-- **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways` and `ferries`. No features are avoided if not provided.
+- **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways`, `ferries` and `borderCrossings`. No features are avoided if not provided.
 - **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to none if not provided.
 
 ###### Authentication level
@@ -1318,7 +1296,7 @@ Calculates the most efficient route between two or more locations to visit in or
 - **`locations`** (string, required): A list of up to 25 coordinates to visit in order. A pipe-delimited string in the format `latitude0,longitude0|latitude1,longitude1|...`.
 - **`mode`** (string, optional): The travel mode. A string, one of `car`, `truck`, `foot`, or `bike`. Defaults to `car`.
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
-- **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways` and `ferries`. No features are avoided if not provided.
+- **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways`, `ferries` and `borderCrossings`. No features are avoided if not provided.
 - **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to `polyline6` if not provided.
 
 ###### Authentication level
