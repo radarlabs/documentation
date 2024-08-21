@@ -40,13 +40,13 @@ As the Radar SDK collects location updates and sends them to the server, it will
 * Radar events are not enabled on the [Settings page](https://radar.com/dashboard/settings) in the dashboard.
 * Radar tracking methods have not been implemented correctly.
 * The test device has issues collecting location updates (e.g., location sensors are not working in the simulator).
-* Flawed testing based on the [tracking options](/sdk/tracking) applied (e.g., geofence stop detection is on, but the device is not dwelling long enough to detect a stop).
+* Flawed testing based on the [tracking options](/sdk/remote-configuration) applied (e.g., geofence stop detection is on, but the device is not dwelling long enough to detect a stop).
 
 ### Troubleshooting steps
 1. Verify that initializing the SDK uses the correct publishable key and happens during application launch. This initialization should happen in the `onCreate()` method of the `Application` class on [Android](/sdk/android#initialize-sdk) and the `didFinishLaunchingWithOptions()` method of the `AppDelegate` on [iOS](/sdk/ios#initialize-sdk). On iOS, verify that the *Location updates* [background mode](/sdk/ios#background-modes) has been enabled if using the responsive or continuous presets.
 2. Confirm that events are enabled for the context type you are testing on the [Settings page](https://radar.com/dashboard/settings).
 3. Confirm that you are calling `Radar.startTracking()`.
-4. Determine the behavior needed to trigger location updates based on the [tracking options](/sdk/tracking) in use and verify that they appear in the Radar dashboard. For example, if the device is stopped in responsive mode, move over 200 meters to trigger a location update. Location updates can be verified on the [Users page](https://radar.com/dashboard/users) in the dashboard or on the [User Activity](/geofencing/testing#user-activity) page.
+4. Determine the behavior needed to trigger location updates based on the [tracking options](/sdk/remote-configuration) in use and verify that they appear in the Radar dashboard. For example, if the device is stopped in responsive mode, move over 200 meters to trigger a location update. Location updates can be verified on the [Users page](https://radar.com/dashboard/users) in the dashboard or on the [User Activity](/geofencing/testing#user-activity) page.
 5. If location updates are still not appearing, call `Radar.setLogLevel()` with a value of `debug` and monitor for errors in the logs. Refer to the debug logging sections of [iOS](/sdk/ios#debug-logging) and [Android](/sdk/android#debug-logging) for more detail.
 
 **Verify that events are firing on the Events page:**
@@ -79,7 +79,7 @@ Learn more about when Radar creates new user records [here](https://documentatio
 
 ### Rate limit errors are occurring when tracking location
 
-Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/tracking) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstalling the application with the Radar SDK will reset the rate limits.
+Radar has device specific rate limits per second, hour and day for the [track API endpoint](/api#track), which sends location updates to Radar. To mitigate rate limits, adjust [tracking options](/sdk/remote-configuration) to collect locations less frequently. If you hit the per hour or day limits while testing, reinstalling the application with the Radar SDK will reset the rate limits.
 
 ## Simulator
 
