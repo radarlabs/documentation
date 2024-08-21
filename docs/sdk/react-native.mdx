@@ -59,6 +59,45 @@ For background tracking without a foreground service, and if targeting API level
 </manifest>
 ```
 
+### Expo
+
+You can use our Expo plugin to take care of the native setup. Add `"react-native-radar"` to the `"plugins"` field in `app.json`. You can use our optional plugin arguments to configure `react-native-radar` for your Expo project. 
+
+```json
+{
+  "expo":{
+    ...
+    "plugins": [
+      [
+        "react-native-radar",
+        {
+          // boolean to enable iOS fraud detection, defaults to false
+          "iosFraud": true,
+          // string used in iOS NSLocationWhenInUseUsageDescription prompt, defaults to "This app uses the location service to provide location-based services."
+          "iosNSLocationWhenInUseUsageDescription": "Your location permission prompt"
+          // string used in iOS NSLocationAlwaysAndWhenInUseUsageDescription prompt, required for background permissions
+          "iosNSLocationAlwaysAndWhenInUseUsageDescription": "Your location permission prompt",
+          // boolean to enable iOS background tracking, required for responsive and continous tracking mode, defaults to false
+          "iosBackgroundMode": true,
+          // boolean to enable Android fraud detection, defaults to false
+          "androidFraud": true,
+          // boolean to enable Android background permissions, defaults to false 
+          "androidBackgroundPermission": true,
+          // boolean to enable Android fine locations permission, default to false
+          "androidFineLocationPermission": true,
+          // boolean to enable motion activity detection and location metedata, defualts to false
+          "addRadarSDKMotion":true,
+          // string used in ios NSMotionUsageDescription prompt, defaults to "This app uses the motion service to provide motion-based services."
+          iosNSMotionUsageDescription?: string;
+        }
+      ],
+      // optional, only required when you are also using Radar maps
+      ["@maplibre/maplibre-react-native"]
+    ]
+  }
+}
+```
+
 ## Integrate
 
 ### Import module
@@ -419,6 +458,35 @@ Radar.trackOnce({
   // optionally, do something with err
 });
 ```
+
+Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Location metadata
+
+The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field.
+
+Enable this feature with the Expo plugin by adding the following line into the app.json:
+
+```json
+{
+  "expo":{
+    ...
+    "plugins": [
+      [
+        "react-native-radar",
+        {
+          ...
+          "addRadarSDKMotion":true
+        }
+      ],
+      // optional, only required when you are also using Radar maps
+      ["@maplibre/maplibre-react-native"]
+    ]
+  }
+}
+```
+
+
 
 Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 

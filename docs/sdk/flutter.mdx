@@ -330,11 +330,9 @@ Radar.stopTracking();
 
 Learn about platform-specific implementations of these functions in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 
-To listen for events, location updates, and errors, you can add event listeners after calling `Radar.attachListeners()`:
+To listen for events, location updates, and errors, you can add event listeners:
 
 ```dart
-
-Radar.attachListeners();
 
 @pragma('vm:entry-point')
 static void onClientLocation(Map result) {
@@ -435,6 +433,12 @@ var res = await Radar.trackOnce({
 });
 // do something with res['status'], res['location'], res['events'], res['user']
 ```
+
+Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
+
+### Location metadata
+
+The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field.
 
 Learn about platform-specific implementation of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
 

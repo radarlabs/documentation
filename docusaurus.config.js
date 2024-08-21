@@ -155,6 +155,13 @@ module.exports = {
                 throw new Error('Web SDK version is undefined! Something went wrong while fetching versions from GitHub.');
             }
 
+            const nextMinorVersion = (version) => {
+              const [major, minor] = version.split('.').map(Number);
+              return `${major}.${minor + 1}.0`;
+            };
+
+            radarGitHubReleases.RADAR_IOS_NEXT_MINOR_VERSION = nextMinorVersion(radarGitHubReleases.RADAR_IOS_SDK_VERSION);
+
             setGlobalData({radarGitHubReleases});
         },
     }),

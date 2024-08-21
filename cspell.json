@@ -37,6 +37,7 @@
     "idfv",
     "ismanualfire",
     "isochrone",
+    "linestring",
     "leanplum",
     "lytics",
     "llpy",
@@ -45,11 +46,14 @@
     "mcdonalds",
     "mparticle",
     "mpid",
+    "multipolygon",
     "nonatomic",
     "nonnull",
     "objc",
     "onesignal",
     "podfile",
+    "polyline",
+    "polylines",
     "pubspec",
     "quickstart",
     "quickstarts",
@@ -71,6 +75,8 @@
     "jailbroken"
   ],
   "ignoreRegExpList": [
-    "/^\\s*```[\\s\\S]*?^\\s*```/gm"
+    "/^\\s*```[\\s\\S]*?^\\s*```/gm",
+    "/.*enc:.*/",
+    "/.*enc6:.*/"
   ]
 }

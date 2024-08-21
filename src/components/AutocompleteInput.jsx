@@ -9,7 +9,7 @@ class AutocompleteInput extends React.Component {
   componentDidMount() {
     Radar.initialize(PUBLISHABLE_KEY);
 
-    new Radar.ui.autocomplete({
+    Radar.ui.autocomplete({
       container: 'autocomplete',
       width: '600px',
     });

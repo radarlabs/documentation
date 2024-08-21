@@ -49,7 +49,16 @@ Then, run `pod install`. You may also need to run `pod repo update`.
 
 ### Swift Package Manager
 
-In Xcode, go to *File* > *Swift Packages* > *Add Package Dependency*. Enter `https://github.com/radarlabs/radar-sdk-ios.git` for the *Package Repository URL*.
+In Xcode, go to *File* > *Swift Packages* > *Add Package Dependency*. Enter `https://github.com/radarlabs/radar-sdk-ios-spm.git` for the *Package Repository URL*. This URL points to our [SPM optimized repo](https://github.com/radarlabs/radar-sdk-ios-spm), which has a smaller binary size to facilitate faster build times.
+
+**Note:** we recommend pinning the minor version you're installing as we occasionally introduce breaking changes in new minor versions. You can pin the minor version using the range operator:
+```swift
+$RADAR_IOS_SDK_VERSION$..<$RADAR_IOS_NEXT_MINOR_VERSION$
+```
+
+<Alert alertType="info">
+  Only select <code>RadarSDK</code> unless you are also intending to use the location metadata feature. Refer to <a href="/sdk/ios#location-metadata">this section</a> for more information.
+</Alert>
 
 ### Carthage
 
@@ -836,6 +845,20 @@ Radar.mockTracking(
   <a href="https://radar.com/dashboard/geofencing/geofences">create a geofence</a> if you haven't
   already.
 </Alert>
+
+## Location metadata
+
+The SDK can also pass along information like motion activity detection, speed and heading via the location metadata field. Turn on `useLocationMetadata` in your `sdkConfiguration` to enable this feature. 
+
+To collect motionActivity, you must include a value for `Privacy - Motion Usage Description` in your `info.plist`. and install the `RadarSDKMotion` companion module. Your app will request permission for Motion Activity data in the first track call.
+
+Add the following to your `Podfile`:
+
+```swift
+pod 'RadarSDKMotion', '~> $RADAR_IOS_SDK_VERSION$'
+```
+
+or add the `RadarSDKMotion` package product to your target via SPM.
 
 ## Listening for events with a delegate
 
