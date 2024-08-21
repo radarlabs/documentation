@@ -8,21 +8,23 @@ import Alert from "../../src/components/Alert";
 
 ## Remote SDK Configuration
 
-SDK versions 3.14.0 and above have the remote SDK configuration feature enabled, SDK configurations can be accessed through the Radar dashboard.
+SDK versions 3.16.0 and above have the remote SDK configuration feature enabled, SDK configurations can be accessed through the Radar dashboard.
 
 Remote SDK configurations will override client side SDK configuration.
 
-### Log level
-
-Override client side log level.
-
 ### Track once on initialize
 
-If enabled, the SDK will automatically perform a `Radar.trackOnce` call when the app is launched.
+If enabled, the SDK will automatically perform a `Radar.trackOnce` call when the app is launched or foregrounded.
 
 ### Start tracking on initialize
 
-If enabled, the SDK will automatically start tracking with `Radar.startTracking` when the app is launched and tracking is stopped.
+If enabled, the SDK will automatically start tracking with `Radar.startTracking` when the app is launched.
+
+### Log level
+
+Set the SDK log level. Overrides any log level set client side.
+
+
 
 ## Remote tracking options
 
@@ -30,7 +32,7 @@ SDK tracking options can be set [in dashboard settings](https://radar.com/dashbo
 
 <img src="https://images.ctfassets.net/f2vbu16fzuly/3fTIXlesjMjmtDLlS2yIIc/be9458fa994ae783242e8e5d01cfe697/tracking_options_ios.png" alt="Remote tracking options" />
 
-[Tracking options](/sdk/tracking) can be targeted by OS (Android and iOS), environment (live and test) and device trip status (on or off trip). By setting tracking options, any client configuration for tracking options set in the SDK will be overridden.
+[Tracking options](/sdk/tracking) can be targeted by OS (Android and iOS), environment (live and test), trip status, and whether the user is in specific geofences. By remotely setting tracking options, any client-side specified tracking options will be overridden.
 
 ### Custom tracking options
 
@@ -48,7 +50,6 @@ Custom configurations should declare all tracking options in json. Example custo
 
 ```json
 {
-  "preset": null,
   "desiredStoppedUpdateInterval": 3600,
   "desiredMovingUpdateInterval": 150,
   "desiredSyncInterval": 10,
@@ -74,7 +75,6 @@ Custom configurations should declare all tracking options in json. Example custo
 
 ```json
 {
-  "preset": null,
   "desiredStoppedUpdateInterval": 3600,
   "fastestStoppedUpdateInterval": 150,
   "desiredMovingUpdateInterval": 150,
