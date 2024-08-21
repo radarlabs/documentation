@@ -81,6 +81,7 @@ module.exports = {
         "sdk/capacitor",
         "sdk/flutter",
         "sdk/maui",
+        "sdk/tracking",
         "sdk/remote-configuration",
       ],
     },
