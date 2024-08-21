@@ -1,0 +1,100 @@
+---
+sidebar_label: Remote Configuration
+title: Remote SDK Configuration
+description: Documentation for Remote SDK Configuration
+---
+
+import Alert from "../../src/components/Alert";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+
+## Remote SDK Configuration
+
+Starting in SDK versions `3.16.0`, the SDK can be remotely configured through the [dashboard](https://radar.com/dashboard/settings?#sdk-settings). Configurations are targeted by OS and environment. With these configuration options, a typical tracking implementation requires only calling `Radar.initialize()` and, optionally, `Radar.setUserId()`.
+
+### Track once on initialize
+
+When enabled, the SDK will automatically perform a `Radar.trackOnce()` call when the app is launched or foregrounded.
+
+### Start tracking on initialize
+
+When enabled, the SDK will automatically start tracking with `Radar.startTracking()` when the app is launched.
+
+### Log level
+
+Set the SDK log level. Overrides any log level set client side.
+
+## Remotely set tracking options
+
+You can remotely set SDK [tracking options](sdk/tracking) with either the default presets or a custom configuration. Remotely setting tracking options overrides any client-side specified tracking options.
+
+
+In addition to the general tracking options, on-trip tracking options apply when a user is on a trip and in-geofence tracking options allow you to dictate different tracking options for when users are in geofences with the tags specified.
+
+### Custom tracking options
+
+Custom configurations should declare all tracking options in JSON. Example custom tracking options are below.
+
+<Tabs
+  groupId="tracking-options"
+  defaultValue="ios"
+  values={[
+    { label: 'iOS', value: 'ios' },
+    { label: 'Android', value: 'android' }
+  ]}
+>
+  <TabItem value="ios">
+
+```json
+{
+  "desiredStoppedUpdateInterval": 3600,
+  "desiredMovingUpdateInterval": 150,
+  "desiredSyncInterval": 10,
+  "desiredAccuracy": "high",
+  "stopDuration": 140,
+  "stopDistance": 70,
+  "sync": "all",
+  "replay": "none",
+  "showBlueBar": false,
+  "useStoppedGeofence": true,
+  "stoppedGeofenceRadius": 100,
+  "useMovingGeofence": true,
+  "movingGeofenceRadius": 200,
+  "syncGeofences": true,
+  "useVisits": true,
+  "useSignificantLocationChanges": true,
+  "beacons": false
+}
+```
+
+  </TabItem>
+  <TabItem value="android">
+
+```json
+{
+  "desiredStoppedUpdateInterval": 3600,
+  "fastestStoppedUpdateInterval": 150,
+  "desiredMovingUpdateInterval": 150,
+  "fastestMovingUpdateInterval": 20,
+  "desiredSyncInterval": 10,
+  "desiredAccuracy": 2,
+  "stopDuration": 140,
+  "stopDistance": 70,
+  "sync": 2,
+  "replay": 0,
+  "useStoppedGeofence": true,
+  "stoppedGeofenceRadius": 100,
+  "useMovingGeofence": true,
+  "movingGeofenceRadius": 200,
+  "syncGeofences": true,
+  "syncGeofencesLimit": 10,
+  "beacons": true,
+  "foregroundServiceEnabled": false
+}
+```
+
+  </TabItem>
+</Tabs>
+
+

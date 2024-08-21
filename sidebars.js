@@ -82,6 +82,7 @@ module.exports = {
         "sdk/flutter",
         "sdk/maui",
         "sdk/tracking",
+        "sdk/remote-configuration",
       ],
     },
     "api",
