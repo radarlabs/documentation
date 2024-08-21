@@ -63,7 +63,7 @@ From there, [integrate the SDK](/documentation/sdk) and call `Radar.trackOnce()`
 
 ## How it works
 
-Radar generates a place entry event if a user stops at a place (i.e., when `stopped` is `true` based on [tracking options](/sdk/remote-configuration) or when `foreground` is `true`) matching [filters](#place-filters) with sufficient confidence, then a place exit event when the user leaves the place with sufficient confidence.
+Radar generates a place entry event if a user stops at a place (i.e., when `stopped` is `true` based on [tracking options](/sdk/tracking) or when `foreground` is `true`) matching [filters](#place-filters) with sufficient confidence, then a place exit event when the user leaves the place with sufficient confidence.
 
 All place events have [confidence levels](#confidence), and places may have one or more [categories](/places#categories) and a [chain](/places#chains).
 
