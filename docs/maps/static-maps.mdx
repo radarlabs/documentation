@@ -74,7 +74,7 @@ An example request with two different styles is defined below.
 
 <StaticMap
   query='width=900&height=600&center=37.80176,-122.42376&zoom=13&style=radar-dark-v1&scale=2&markers=color:0xD1F3E0|size:small|37.808387,-122.409673&markers=color:0xBFD1FF|37.822503,-122.478923'
-  alt='Radar Static Map over San Francisco' 
+  alt='Radar Static Map over San Francisco'
 />
 
 ### Paths
@@ -119,12 +119,12 @@ Radar Static Maps can easily be embedded into `<img>` using the element's `src` 
 * **marker**:
   * color: `0x000257`
   * location: 43.64259,-79.387087
-  
+
 We can specify these options as query parameters in the image `src`.
 
 <StaticMap
   query='width=900&height=600&center=43.64259,-79.387087&zoom=13&style=radar-default-v1&scale=2&markers=color:0x000257|43.64259,-79.387087'
-  alt='Radar Static Map centered around the CN Tower' 
+  alt='Radar Static Map centered around the CN Tower'
 />
 
 ### Autofitting map bounds to markers or paths
@@ -158,12 +158,12 @@ Radar [Routing API](/documentation/api#routing) responses include the shape of t
 
 ### Images for high resolution device
 
-When embedding images on high resolution devices, images may look blurry (low resolution) or be too small if the image is not scaled to match the device's pixel ratio. 
+When embedding images on high resolution devices, images may look blurry (low resolution) or be too small if the image is not scaled to match the device's pixel ratio.
 
 The `scale` parameter can be used to increase the resolution of an image, while keeping the same map area visible. For example an image with `scale=2` will return an image that is two times the size, but at the same zoom/area.
 
 ```
-https://api.radar.io/maps/static?width=200&height=200&center=40.71297,-74.00183&zoom=12&style=radar-default-v1&scale=2&publishableKey=prj_live_pk_...
+https://api.radar.io/maps/static?width=200&height=200&center=40.71257,-74.00260&zoom=12.5&style=radar-default-v1&scale=2&publishableKey=prj_live_pk_...
 ```
 
 <table className="full-width-table">
@@ -177,15 +177,15 @@ https://api.radar.io/maps/static?width=200&height=200&center=40.71297,-74.00183&
     <tr>
       <td>
         <StaticMap
-          query='width=200&height=200&center=40.71297,-74.00183&zoom=12&style=radar-default-v1&scale=1'
-          alt='Radar Static Map over New York City' 
+          query='width=200&height=200&center=40.71257,-74.00260&zoom=12.5&style=radar-default-v1&scale=1'
+          alt='Radar Static Map over New York City'
           hideSnippet
         />
       </td>
       <td>
         <StaticMap
-          query='width=200&height=200&center=40.71297,-74.00183&zoom=12&style=radar-default-v1&scale=2'
-          alt='Radar Static Map over New York City' 
+          query='width=200&height=200&center=40.71257,-74.00260&zoom=12.5&style=radar-default-v1&scale=2'
+          alt='Radar Static Map over New York City'
           hideSnippet
         />
       </td>
