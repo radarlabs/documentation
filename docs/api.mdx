@@ -637,7 +637,7 @@ Autocompletes partial addresses and place names, sorted by relevance and proximi
 - **`near`** (string, optional): The location to prefer search results near. A string in the format `latitude,longitude`. If not provided, the request IP geolocation will be used to anchor the search.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
-- **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
+- **`countryCode`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
 - **`mailable`** (boolean, optional): Returns validated addresses. Only available for US and Canada addresses for enterprise customers.
 
 ###### Authentication level
