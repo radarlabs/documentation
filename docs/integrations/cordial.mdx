@@ -24,13 +24,13 @@ Use the Cordial integration to send location-triggered and location-targeted mes
 
 ## Configuration
 
-On the Cordial *API Keys* page, create and copy a new API key with *Contact Activities* permissions.
+On the Cordial *API Keys* page, create and copy a new API key with *Contact Activities* permissions. Additionally, ask the Cordial team to create a secondary key for contacts (e.g., `emailHash`) that you can pass to Radar.
 
-Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations#cordial) under *Cordial*, set *Enabled* to *Yes* and paste your API key. Note that you can set separate API keys and app identifiers for the *Test* and *Live* environments. Finally, paste your async API endpoint, like `https://integrations-ingest-svc.usw2.cordial.com`.
+Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations#cordial) under *Cordial*, set *Enabled* to *Yes* and paste your API key. Note that you can set separate API keys and app identifiers for the *Test* and *Live* environments. Then, paste your async API endpoint, like `https://integrations-ingest-svc.usw2.cordial.com`. Finally, enter the secondary key.
 
 Whenever events are generated, Radar will send custom events and user attributes to Cordial.
 
-Set `metadata.cordialId` to map Radar users to the `cID` field on Cordial contacts.
+Set `metadata[cordial:secondaryKey]` to map Radar users to the secondary key on Cordial contacts. For example, if your secondary key is `emailHash`:
 
 <Tabs
   groupId="cordial-radar"
@@ -43,14 +43,14 @@ Set `metadata.cordialId` to map Radar users to the `cID` field on Cordial contac
   <TabItem value="swift">
 
 ```swift
-Radar.setMetadata(["cordialId": cID])
+Radar.setMetadata(["cordial:emailHash": emailHash])
 ```
 
   </TabItem>
   <TabItem value="kotlin">
 
 ```kotlin
-Radar.setMetadata(JSONObject().put("cordialId", cID))
+Radar.setMetadata(JSONObject().put("cordial:emailHash", emailHash))
 ```
 
   </TabItem>
@@ -60,7 +60,7 @@ Radar.setMetadata(JSONObject().put("cordialId", cID))
 
 Radar User Field | Cordial Contact Attribute | Type | Example Value | Context Type
 --- | --- | --- | --- | ---
-`metadata.cordialId` | `cID` | string | `"66c3a95138ec1e66b40a9755"` |
+`metadata[cordial:{secondaryKey}]` | `{secondaryKey}` | string | `"2aae6c35c94fcfb415dbe95f408b9ce91ee846ed"` |
 `_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
 `location` | `current_location` | location | `(39.525665, -76.350663)` |
 `locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"` |
