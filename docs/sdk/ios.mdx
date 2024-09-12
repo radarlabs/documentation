@@ -1752,7 +1752,8 @@ Radar.logConversion(
 To enable logging of app opens, turn on `Track once on app open` or `Start tracking on initialize` through the remote SDK configuration on the [Settings page](https://radar.com/dashboard/settings). 
 <Alert alertType="info">
   Contact your customer success manager to enable logging of app opens regardless of your tracking settings.
-</Alert> 
+</Alert>
+
 To enable logging of app opens through notifications taps, opt into the automatic setup through initialize (recommended for most users).
 
 <Tabs
@@ -1764,8 +1765,8 @@ To enable logging of app opens through notifications taps, opt into the automati
   ]}
 >
   <TabItem value="swift">
-```swift
 
+```swift
 import UIKit
 import RadarSDK
 
@@ -1787,18 +1788,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   <TabItem value="objc">
 
 ```objc
-#import <UIKit/UIKit.h>
-#import <RadarSDK/RadarSDK.h>
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
-
-@end
+#import "AppDelegate.h"
+@import RadarSDK;
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
     radarInitializeOptions.autoSetupNotificationConversion = YES;
     [Radar initializeWithPublishableKey:@"prj_test_pk_..." options:radarInitializeOptions];
