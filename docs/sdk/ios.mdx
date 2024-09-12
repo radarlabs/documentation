@@ -1808,6 +1808,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 Alternatively, perform the manual setup:
 
+
 <Tabs
   groupId="ios"
   defaultValue="swift"
@@ -1817,9 +1818,10 @@ Alternatively, perform the manual setup:
   ]}
 >
   <TabItem value="swift">
+
 ```swift
 func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-    Radar.logConversion(response)
+   Radar.logConversion(response: response) 
 }
 ```
 
