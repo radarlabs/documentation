@@ -1748,3 +1748,94 @@ Radar.logConversion(
 
   </TabItem>
 </Tabs>
+
+To enable logging of app opens, turn on `Track once on app open` or `Start tracking on initialize` through the remote SDK configuration on the [Settings page](https://radar.com/dashboard/settings). 
+<Alert alertType="info">
+  Contact your customer success manager to enable logging of app opens regardless of your tracking settings.
+</Alert> 
+To enable logging of app opens through notifications taps, opt into the automatic setup through initialize (recommended for most users).
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+```swift
+
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let radarInitializeOptions = RadarInitializeOptions()
+        radarInitializeOptions.autoSetupNotificationConversion = true
+        Radar.initialize(publishableKey: "prj_test_pk_...", options: radarInitializeOptions)
+
+        return true
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+#import <UIKit/UIKit.h>
+#import <RadarSDK/RadarSDK.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
+
+@end
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
+    radarInitializeOptions.autoSetupNotificationConversion = YES;
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..." options:radarInitializeOptions];
+
+    return YES;
+}
+
+@end
+```
+  </TabItem>
+</Tabs>
+
+Alternatively, perform the manual setup:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+```swift
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+    Radar.logConversion(response: response)
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    [Radar logConversionWithNotificationResponse:response];
+    completionHandler();
+}
+```
+  </TabItem>
+</Tabs>
