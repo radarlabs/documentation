@@ -1,0 +1,86 @@
+---
+sidebar_position: 12
+title: Create a custom map style
+---
+
+<b>Radar Maps Studio</b> is a tool that allows you to create fully customizable maps for your website. With Maps Studio, you can define the look and feel of your map, choosing custom styles, colors, fonts, and more, all without the need for extensive coding. 
+
+<br /><br />
+Whether you’re building a map for a specific brand aesthetic or a detailed visualization, Maps Studio gives you the power to tailor maps to your needs.
+
+## Getting Started
+
+To start creating a custom map:
+
+1. Log in to the Radar dashboard and navigate to the [Maps Styles](https://radar.com/dashboard/maps/styles) section in the sidebar.
+2. Click the <b>Create style</b> button to bring up the new style modal.
+3. Choose a base style, then click <b>create</b> to get started.
+
+<video class="tutorial-video" width="800" muted playsInline loop autoPlay>
+  <source src="/static/img/create-new-style.webm" type="video/webm" />
+</video>
+
+<br /><br />
+From here, you can use the Maps Studio editor to customize the look and feel of your map.
+
+
+## Styling your map
+
+### Changing colors and visibility
+
+In the map editor, select a layer (eg. background, roads, water) to change toggle the visibility (show or hide the layer) or to change the color.
+
+<video class="tutorial-video" width="800" muted playsInline loop autoPlay>
+  <source src="/static/img/change-colors.webm" type="video/webm" />
+</video>
+
+
+### Upload a custom marker
+
+To upload a custom marker, click the <b>Add a marker</b> button in the bottom of the layer panel. This will bring up a modal that allows you to upload your own .svg or .png file to be used as custom marker on the map.
+
+<video class="tutorial-video" width="800" muted playsInline loop autoPlay>
+  <source src="/static/img/custom-marker.webm" type="video/webm" />
+</video>
+
+<br /><br />
+See the marker section (TODO: link) of the docs for more info on using custom markers.
+
+
+### Advanced mode
+
+If you need more advanced customizations beyond basic color or label visibility, you can enable <b>Advanced mode</b> in the maps editor.
+
+Advanced mode gives you more flexibility to customize the map to your liking:
+* Exposes all map layers for customization
+* Ability to re-order layers
+* More style attributes (opacity, border color, text color, fonts etc...)
+
+<video class="tutorial-video" width="800" muted playsInline loop autoPlay>
+  <source src="/static/img/advanced-editor.webm" type="video/webm" />
+</video>
+
+<br /><br />
+You can also edit the underlying JSON of the style rule that adheres to the <a href="https://maplibre.org/maplibre-style-spec" target="_blank">MapLibre Style Spec</a>. This gives you ultimate control over the presentation of each layer on the map.
+
+
+### Upload a custom font
+
+To further align your maps with your brand’s identity, Radar Maps Studio supports custom font uploads. This feature allows you to display labels, street names, or other text elements on the map using your own fonts.
+
+<video class="tutorial-video" width="800" muted playsInline loop autoPlay>
+  <source src="/static/img/custom-fonts.webm" type="video/webm" />
+</video>
+
+<br /><br />
+<b>Note:</b> custom fonts requires the use of the <a href="#advanced-mode">advanced mode</a> editor.
+
+### Save and publish your map
+
+Once you're satisfied with the look and feel of your new map, you'll need to <b>save</b> your changes with the button at the top of the edit panel.
+
+If this is a new map, you'll need to update your client-side code with the provided style ID form the confirmation modal. If the map is already live, any changes once will be visible once <b>save</b> is clicked on confirmed.
+
+<video class="tutorial-video" width="800" muted playsInline loop autoPlay>
+  <source src="/static/img/publish.webm" type="video/webm" />
+</video>

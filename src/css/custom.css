@@ -549,4 +549,9 @@ table .no-wrap {
   font-family: 'Graphik';
 }
 
+.tutorial-video {
+  max-width: 800px;
+  width: 100%;
+}
+
 @import '~maplibre-gl/dist/maplibre-gl.css';
