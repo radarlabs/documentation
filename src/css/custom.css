@@ -553,7 +553,7 @@ table .no-wrap {
   max-width: 800px;
   width: 100%;
   box-shadow: 0 12px 24px 0 rgba(6, 26, 43, 0.1);
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 @import '~maplibre-gl/dist/maplibre-gl.css';
