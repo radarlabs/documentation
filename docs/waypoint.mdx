@@ -57,100 +57,140 @@ To get started, you'll need a Radar account. Don't have a Radar account yet? [Si
 </div>
 
 ## Examples 
-### Testing On-Premise  Mode
-1. To get started, make sure you've opted-in to foreground or "while in use" permissions and notifications are enabled. Click on the settings icon on the top right to ensure Waypoint is configured correctly:
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypointOnPremModeSettings.png")} width="150px" />
-</div>
+### Testing On-Premise Mode
+
+1. To get started, make sure you've opted-in to foreground or "while in use" permissions and notifications are enabled. Click on the settings icon on the top right to ensure Waypoint is configured correctly (See image 1 below).
 
 2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
 
-3. Open Waypoint and navigate to "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence. 
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypointOnPremModeNotInGeofence.png")} width="150px"/>
+3. Open Waypoint and navigate to the "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence (See image 3 below).
+
+4. After entering the geofence, open Waypoint, navigate to the "My Location" tab. Waypoint should display "Welcome to &lt;geofence_name&gt;". You should also receive a notification "Entered geofence &lt;geofence_name&gt;" (See image 4 below).
+
+<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>1.</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeSettings.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>3.</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeNotInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>4.</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
 </div>
 
-4. After entering the geofence, open Waypoint, navigate to "My Location" tab. As shown below, Waypoint should show "Welcome to <geofence_name>". You should also receive a notifcation "Entered geofence <geofence_name>".
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypointOnPremModeInGeofence.png")} width="150px" />
-</div>
+
 
 ### Testing Trips
-1. To get started, make sure you've opted-in to foreground or "While in use" permissions and notifications are enabled.
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypointOnPremModeSettings.png")} width="150px" />
-</div>
+
+1. To get started, make sure you've opted-in to foreground or "While in use" permissions and notifications are enabled. (See image 1 below)
 
 2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
 
-3. Once you open Waypoint, you should see geofences nearby you. Click "Go" to start a trip to one of the configured geofences. Select your mode of travel from the options provided. Start navigating to your destination geofence. 
-<div style={{ display: 'flex', justifyContent: 'center'}}>
-  <img src={useBaseUrl("/img/waypoint_travelMode.png")} width="150px" />
-</div>
+3. Once you open Waypoint, you should see geofences nearby you. Click "Go" to start a trip to one of the configured geofences. Select your mode of travel from the options provided. Start navigating to your destination geofence. (See image 3 below)
 
-4. Events & notifications to expect as you travel to the destination geofence: 
+4. Events & notifications to expect as you travel to the destination geofence (See image 4 below): 
 - *user.started_trip* -> "Started trip" notification from Waypoint
 - *user.approaching_trip_destination* -> "Approaching destination" notification from Waypoint
   - Note, *approaching threshold* can be configured on the Radar dashboard. Navigate to "Settings" on top right -> "Trips" on the left sidebar -> "Approaching threshold (minutes)"
-- *user.arrived_at_trip_destination* / *user.entered_geofence* -> "Arrived" 
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypoint_startedTrip.png")} width="150px" style={{ marginRight: '20px' }} />
-  <img src={useBaseUrl("/img/waypoint_approachingTrip.png")} width="150px"  style={{ marginRight: '20px' }}/>
-  <img src={useBaseUrl("/img/waypoint_arrived.png")} width="150px" />
-</div>
+- *user.arrived_at_trip_destination* / *user.entered_geofence* -> "Arrived"
 
-5. Once you've arrived at the geofence, you can click either the "x" or button on the bottom of the screen. 
+5. Once you've arrived at the geofence, you can click either the "x" or button on the bottom of the screen. (See image 5 below) 
 - *user.stopped_trip* -> "Stopped trip" notification from Waypoint
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypoint_stoppedTrip.png")} width="150px" />
+
+6. Analyze trip updates/events on Radar dashboard. Navigate to "Geofencing" -> "Trips" -> click on trip you'd like to analyze -> "Debugger" on top right to view the trip data. (See image 6 below)
+
+<div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>1.</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeSettings.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>3.</strong>
+    <img src={useBaseUrl("/img/waypoint_travelMode.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
 </div>
 
-6. Analyze trip updates/events on Radar dashboard. Navigate to "Geofencing" -> "Trips" -> click on trip you'd like to analyze -> "Debugger" on top right to view the trip data.
-<div style={{ display: 'flex', justifyContent: 'center' }}> 
-  <img src={useBaseUrl("/img/dashboardTrip.png")} width="650px" />
+<div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>4.</strong>
+    <img src={useBaseUrl("/img/waypoint_startedTrip.png")} width="150px" style={{ marginLeft: '10px', marginRight: '20px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <img src={useBaseUrl("/img/waypoint_approachingTrip.png")} width="150px" style={{ marginLeft: '10px', marginRight: '20px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    <img src={useBaseUrl("/img/waypoint_arrived.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>5.</strong>
+    <img src={useBaseUrl("/img/waypoint_stoppedTrip.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
+</div>
+
+<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+  <strong>6.</strong>
+  <img src={useBaseUrl("/img/dashboardTrip.png")} width="650px" style={{ marginLeft: '10px' }} />
 </div>
 
 ### Testing Background Mode
-1. To get started, make sure you've opted-in to background or "Always allow" permissions and notifications are enabled. You'll have to navigate to your device settings to enable background tracking and toggle the "Background tracking" option in Waypoint. Click on the settings icon on the top right to ensure Waypoint is configured correctly:
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypoint_background_granted.png")} width="150px" />
-</div>
+1. To get started, make sure you've opted-in to background or "Always allow" permissions and notifications are enabled. You'll have to navigate to your device settings to enable background tracking and toggle the "Background tracking" option in Waypoint. Click on the settings icon on the top right to ensure Waypoint is configured correctly. (See image 1 below)
 
 2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
 
-3. Open Waypoint and navigate to "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence. 
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypointOnPremModeNotInGeofence.png")} width="150px"/>
+3. Open Waypoint and navigate to "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence. (See image 3 below)
+
+4. After entering the geofence, you should receive an entry notification while Waypoint is closed and/or your device is shut off. Once you open Waypoint, navigate to "My Location" tab. As shown below, Waypoint should show "Welcome to <geofence_name>". (See image 4 below)
+
+<div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>1.</strong>
+    <img src={useBaseUrl("/img/waypoint_background_granted.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>3.</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeNotInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>4.</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
 </div>
 
-4. After entering the geofence, you should receive an entry notification while Waypoint is closed and/or your device is shut off. Once you open Waypoint, navigate to "My Location" tab. As shown below, Waypoint should show "Welcome to <geofence_name>".
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypointOnPremModeInGeofence.png")} width="150px" />
-</div>
 
 ### Testing Beacons
-Note: You can test beacons in either foreground or background mode. 
+Note: You can test beacons in either foreground or background mode.
 
-1. To get started, ensure the following settings are enabled:
-  * Opt-in to foreground or background permissions. 
-  * Ensure notifications are enabled. 
-  * Once you click on the settings icon on the top right, you can toggle "Beacons" on. This should prompt you to allow bluetooth permissions.
-     Alternatively, use [remote SDK configuration](https://radar.com/documentation/sdk/remote-configuration) & set *beacons* to *true*. Once done, you should see the "Beacons" toggle enabled within the Waypoint settings page.  
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypoint_beacon_permissions.png")} width="150px" />
-</div>
+1. To get started, ensure the following settings are enabled (See image 1 below): 
+  * Opt-in to foreground or background permissions.
+  * Ensure notifications are enabled.
+  * Once you click on the settings icon on the top right, you can toggle "Beacons" on. This should prompt you to allow Bluetooth permissions. 
+     Alternatively, use [remote SDK configuration](https://radar.com/documentation/sdk/remote-configuration) & set *beacons* to *true*. Once done, you should see the "Beacons" toggle enabled within the Waypoint settings page.
 
 2. Create [beacons](https://radar.com/documentation/beacons) in Radar.
 
-3. Open Waypoint and navigate to "My Location" tab. You should see "No Beacons Found".
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypoint_no_beacons.png")} width="150px"/>
+3. Open Waypoint and navigate to "My Location" tab. You should see "No Beacons Found". (See image 3 below)
+
+4. After entering the beacon radius, open Waypoint, navigate to "My Location" tab. As shown below, Waypoint should show "<beacon_name>" under the "Beacons" section. You should also receive a notification "Entered beacon <beacon_name>". (See image 4 below)
+
+<div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>1.</strong>
+    <img src={useBaseUrl("/img/waypoint_beacon_permissions.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>3.</strong>
+    <img src={useBaseUrl("/img/waypoint_no_beacons.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>4.</strong>
+    <img src={useBaseUrl("/img/waypoint_in_beacon.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
 </div>
 
-4. After entering the beacon radius, open Waypoint, navigate to "My Location" tab. As shown below, Waypoint should show "<beacon_name>" under the "Beacons" section. You should also receive a notifcation "Entered beacon <beacon_name>".
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-  <img src={useBaseUrl("/img/waypoint_in_beacon.png")} width="150px" />
-</div>
 
 
 ## Support
