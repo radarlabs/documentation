@@ -1749,12 +1749,7 @@ Radar.logConversion(
   </TabItem>
 </Tabs>
 
-To enable logging of app opens, turn on `Track once on app open` or `Start tracking on initialize` through the remote SDK configuration on the [Settings page](https://radar.com/dashboard/settings). 
-<Alert alertType="info">
-  Contact your customer success manager to enable logging of app opens regardless of your tracking settings.
-</Alert>
-
-To enable logging of app opens through notifications taps, opt into the automatic setup through initialize (recommended for most users).
+Radar can associate `opened_app` events with a notification that was clicked on to open the app. To set this up automatically, set the relevant flag on the initialization options.
 
 <Tabs
   groupId="ios"
