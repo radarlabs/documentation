@@ -61,6 +61,22 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 }
 ```
 
+With Radar [Conversions](/api#log-a-conversion), you can also retreive the source of an *opened_app* conversion. Within the *metadata* object of the [logged conversion](https://radar.com/documentation/sdk/ios#conversions), we will return a *conversion_source* with either 
+- **`notification`** (app was opened using an external 3rd party notification) 
+- **`radar_notification`** (app was opened using the configured on-prem notification): 
+```swift
+Radar.logConversion(
+  name: name,
+  metadata: metadata
+) { (status: RadarStatus, event: RadarEvent?) in
+    let conversionSource = event?.metadata?["conversion_source"] as! String
+    print("Conversion Source: \(conversionSource)")
+}
+```
+
+You can also view these conversion analytics by navigating to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *conversion_source* from the *grouped_by* dropdown. See screenshot below: 
+![OnPremiseNotifications](/img/notifications/conversion_source_analytics.png)
+
 ## Support
 
 Have questions? We're here to help! Contact us at [radar.com/support](https://radar.com/support).
