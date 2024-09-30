@@ -2352,6 +2352,7 @@ Lists geofences. Geofences are sorted descending by `updatedAt`.
 - **`updatedAfter`** (datetime, optional): A cursor for use in pagination. Retrieves geofences updated after the specified datetime. A date or valid ISO date string.
 - **`tag`** (string, optional): Retrieves geofences with the specified `tag`.
 - **`externalId`** (string, optional): Retrieves geofences with the specified `externalId`.
+- **`metadata[key]`** (string, optional): Optional metadata filters. Values may be of type string. Type will be automatically inferred. For example, to match on `offers == true`, use `&metadata[offers]=true`.
 
 ###### Default rate limit
 
