@@ -107,14 +107,12 @@ module.exports = {
             PATH_TO_CACHE_FILE = 'radar-github-releases.json';
 
             let radarGitHubReleases = null;
-            let foundCache = false;
 
             if (fs.existsSync(PATH_TO_CACHE_FILE)) {
                 const cachedGithubReleases = JSON.parse(fs.readFileSync(PATH_TO_CACHE_FILE));
                 // check timestamp, if it's older than 24 hours, then ignore cached versions
                 if (Date.now() - cachedGithubReleases.timestamp < 24 * 60 * 60 * 1000) {
                     radarGitHubReleases = cachedGithubReleases.data;
-                    foundCache = true;
                 }
             }
 
@@ -142,31 +140,39 @@ module.exports = {
                     }
                     radarGitHubReleases[`RADAR_${sdkName.toUpperCase()}_SDK_VERSION`] = versionNumber;
                 }
-            }
+                
+                // get android sdk version that the flutter sdk uses from the build.gradle file
+                const response = await fetch(`https://raw.githubusercontent.com/radarlabs/flutter-radar/refs/tags/${radarGitHubReleases.RADAR_FLUTTER_SDK_VERSION}/android/build.gradle`)
+                const build_gradle = await response.text();
+                const version_regex = /io.radar:sdk:([0-9]+\.[0-9]+\.[0-9]+)/
+                const version_string = build_gradle.match(version_regex) 
+                if (version_string == null) {
+                    throw new Error('Could not fetch flutter android dependency version');
+                }
+                radarGitHubReleases.RADAR_FLUTTER_ANDROID_SDK_VERSION = version_string[1];
 
-            // only write cache if we hadn't found one originally,
-            // otherwise we'll keep incorrectly updating the timestamp
-            if(!foundCache) {
+                // sanity check -- check that web sdk version looks reasonable and isn't undefined
+                if (!radarGitHubReleases.RADAR_WEB_SDK_VERSION) {
+                    throw new Error('Web SDK version is undefined! Something went wrong while fetching versions from GitHub.');
+                }
+
+                const nextMinorVersion = (version) => {
+                  const [major, minor] = version.split('.').map(Number);
+                  return `${major}.${minor + 1}.0`;
+                };
+
+                const stripPatchVersion = (version) => {
+                  return version.substring(0, version.lastIndexOf('.'));
+                }
+
+                radarGitHubReleases.RADAR_IOS_NEXT_MINOR_VERSION = nextMinorVersion(radarGitHubReleases.RADAR_IOS_SDK_VERSION);
+                radarGitHubReleases.RADAR_ANDROID_VERSION_WITHOUT_PATCH = stripPatchVersion(radarGitHubReleases.RADAR_ANDROID_SDK_VERSION);
+                radarGitHubReleases.RADAR_FLUTTER_ANDROID_SDK_VERSION_WITHOUT_PATCH = stripPatchVersion(radarGitHubReleases.RADAR_FLUTTER_ANDROID_SDK_VERSION ?? '3.9.0');
+
+                // only write cache if we hadn't found one originally,
+                // otherwise we'll keep incorrectly updating the timestamp
                 fs.writeFileSync(PATH_TO_CACHE_FILE, JSON.stringify({data: radarGitHubReleases, timestamp: Date.now()}));
             }
-
-            // sanity check -- check that web sdk version looks reasonable and isn't undefined
-            if (!radarGitHubReleases.RADAR_WEB_SDK_VERSION) {
-                throw new Error('Web SDK version is undefined! Something went wrong while fetching versions from GitHub.');
-            }
-
-            const nextMinorVersion = (version) => {
-              const [major, minor] = version.split('.').map(Number);
-              return `${major}.${minor + 1}.0`;
-            };
-
-            const stripPatchVersion = (version) => {
-              return version.substring(0, version.lastIndexOf('.'));
-            }
-
-            radarGitHubReleases.RADAR_IOS_NEXT_MINOR_VERSION = nextMinorVersion(radarGitHubReleases.RADAR_IOS_SDK_VERSION);
-            radarGitHubReleases.RADAR_ANDROID_VERSION_WITHOUT_PATCH = stripPatchVersion(radarGitHubReleases.RADAR_ANDROID_SDK_VERSION);
-
             setGlobalData({radarGitHubReleases});
         },
     }),
