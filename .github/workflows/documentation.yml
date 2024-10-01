@@ -5,6 +5,9 @@ on:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    # once a day
+    - cron: "0 0 * * *"
 
 jobs:
   checks:
