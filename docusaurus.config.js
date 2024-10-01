@@ -167,7 +167,7 @@ module.exports = {
 
                 radarGitHubReleases.RADAR_IOS_NEXT_MINOR_VERSION = nextMinorVersion(radarGitHubReleases.RADAR_IOS_SDK_VERSION);
                 radarGitHubReleases.RADAR_ANDROID_VERSION_WITHOUT_PATCH = stripPatchVersion(radarGitHubReleases.RADAR_ANDROID_SDK_VERSION);
-                radarGitHubReleases.RADAR_FLUTTER_ANDROID_SDK_VERSION_WITHOUT_PATCH = stripPatchVersion(radarGitHubReleases.RADAR_FLUTTER_ANDROID_SDK_VERSION ?? '3.9.0');
+                radarGitHubReleases.RADAR_FLUTTER_ANDROID_SDK_VERSION_WITHOUT_PATCH = stripPatchVersion(radarGitHubReleases.RADAR_FLUTTER_ANDROID_SDK_VERSION);
 
                 // only write cache if we hadn't found one originally,
                 // otherwise we'll keep incorrectly updating the timestamp
