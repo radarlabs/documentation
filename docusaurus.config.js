@@ -160,7 +160,12 @@ module.exports = {
               return `${major}.${minor + 1}.0`;
             };
 
+            const stripPatchVersion = (version) => {
+              return version.substring(0, version.lastIndexOf('.'));
+            }
+
             radarGitHubReleases.RADAR_IOS_NEXT_MINOR_VERSION = nextMinorVersion(radarGitHubReleases.RADAR_IOS_SDK_VERSION);
+            radarGitHubReleases.RADAR_ANDROID_VERSION_WITHOUT_PATCH = stripPatchVersion(radarGitHubReleases.RADAR_ANDROID_SDK_VERSION);
 
             setGlobalData({radarGitHubReleases});
         },
