@@ -27,7 +27,7 @@ From there, add values for the following `metadata` keys to the geofences that w
 - **`radar:notificationTitle`** (string, optional): The title of the notification, displayed in bold.
 - **`radar:notificationSubtitle`** (string, optional): The subtitle of the notification, displayed in bold.
 - **`radar:notificationRepeats`** (boolean, optional): Determines whether the notification should be delivered multiple times before notifications are registered again. Defaults to `false`.
-- **`radar:notificationURL`** (string, optional): The URL to open when the notification is tapped.
+- **`radar:notificationURL`** (string, optional): The URL to open when the notification is tapped. Refer to [Deep linking](#deep-linking) for more information.
 
 ![PumpToStoreMetadata](/img/notifications/pump_to_store_metadata.png)
 
@@ -75,9 +75,12 @@ Radar's iOS SDK can automatically set up deep linking for you. To enable this fe
 radarInitializeOptions.autoHandleNotificationDeepLinks = true
 Radar.initialize(publishableKey: "prj_test_pk_000", options: radarInitializeOptions )
 ```
+It is recommended to use the automatic setup in conjugation with the `RadarURLDelegate` to handle the URL open. This implementation provides the most light way approach to get started with deep linking.
+
 ### Manual iOS setup
 
 If you want to set up deep linking manually, you can do so by adding the following line to your `UNUserNotificationCenterDelegate` implementation.
+
 ```swift
 func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
   Radar.extractURLFromNotification(response.notification)
