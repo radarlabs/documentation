@@ -27,6 +27,7 @@ From there, add values for the following `metadata` keys to the geofences that w
 - **`radar:notificationTitle`** (string, optional): The title of the notification, displayed in bold.
 - **`radar:notificationSubtitle`** (string, optional): The subtitle of the notification, displayed in bold.
 - **`radar:notificationRepeats`** (boolean, optional): Determines whether the notification should be delivered multiple times before notifications are registered again. Defaults to `false`.
+- **`radar:notificationURL`** (string, optional): The URL to open when the notification is tapped.
 
 ![PumpToStoreMetadata](/img/notifications/pump_to_store_metadata.png)
 
@@ -60,6 +61,47 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   }
 }
 ```
+
+## Deep linking
+
+Radar's on-premise notifications can be used for deep linking. This means that you can use Radar's deep linking functionality to open a specific view via on premise notification taps.
+
+Set up deep linking from the Radar's Dashboards by adding the **`radar:notificationURL`** to the `URL Schemes` of the desired navigation view of your app.
+
+### Automated iOS setup
+
+Radar's iOS SDK can automatically set up deep linking for you. To enable this feature, set the `autoHandleNotificationDeepLinks` option to `true` in the Radar `initialize` call.
+```swift
+radarInitializeOptions.autoHandleNotificationDeepLinks = true
+Radar.initialize(publishableKey: "prj_test_pk_000", options: radarInitializeOptions )
+```
+### Manual iOS setup
+
+If you want to set up deep linking manually, you can do so by adding the following line to your `UNUserNotificationCenterDelegate` implementation.
+```swift
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+  Radar.extractURLFromNotification(response.notification)
+}
+```
+
+### Delegate to handle URL open
+
+You can choose to handle the URL open directly by implementing `RadarURLDelegate` and setting the `urlDelegate` option in the Radar `initialize` call.
+
+```swift
+radarInitializeOptions.urlDelegate = self
+Radar.initialize(publishableKey: "prj_test_pk_000", options: radarInitializeOptions )
+
+extension AppDelegate: RadarURLDelegate {
+  func didComplete(url: URL) {
+    // handle url and direct user to the appropriate view
+  }
+}
+```
+### Default to handle system deep link
+
+Alternately, not implementing the `RadarURLDelegate` will cause the SDK to default to calling `[application openURL:url options:@{} completionHandler:nil];` This will open the URL in the app if it is registered for the scheme, or open the URL in the browser if not.
+Developers should handle this by handling the custom URL scheme or universal link in their app.
 
 ## Support
 
