@@ -668,32 +668,32 @@ Radar.StartTrackingVerified(true, 1200, false);
 
 If `passed == false`, responses include an array of more detailed [failure reasons](#failure-reasons).
 
-- `country_not_allowed`: The user's location is in a country that is not allowed based on [jurisdiction settings](#allowed-states-and-countries).
-- `country_not_expected`: The user's location is in a country that is not expected based on `Radar.setExpectedJurisdiction()`.
-- `country_in_buffer_zone`: The user's location is too close to [the border of a country](#allowed-states-and-countries), either based on a jurisdiction-specific threshold or based on the location accuracy reported by the device (i.e., a "radius of uncertainty" that overlaps a country border).
-- `country_in_exclusion_zone`: The user's location is in a [country-specific exclusion zone](#allowed-states-and-countries), if enabled.
-- `state_not_allowed`: The user's location is in a state or province that is not allowed according to [jurisdiction settings](#allowed-states-and-countries)
-- `state_not_expected`: The user's location is in a state or province that is not expected according to `Radar.setExpectedJurisdiction()`.
-- `state_in_buffer_zone`: The user's location is too close to [the border of a state or province](#allowed-states-and-countries), either based on a jurisdiction-specific threshold or based on the location accuracy reported by the device (i.e., a "radius of uncertainty" that overlaps a state or province border).
-- `state_in_exclusion_zone`: The user's location is in a [state- or province-specific exclusion zone](#allowed-states-and-countries), if enabled.
-- `fraud_blocked_user_id`: The `userId` of the user is blocked (all platforms).
-- `fraud_blocked_device_id`: The `deviceId` of the user is blocked (all platforms).
-- `fraud_blocked_ip`: The IP of the user is blocked (all platforms).
-- `fraud_blocked_risk_score_auto_block`: The user or device was automatically blocked based on a [high risk score](#fraud-flags) (all platforms).
-- `fraud_compromised_jailbroken`: The user's iOS device is jailbroken (iOS only).
-- `fraud_compromised_app_attest`: The user's iOS device failed [App Attest](#app-attest) checks (iOS only).
-- `fraud_compromised_play_integrity_api`: The user's Android device failed [Play Integrity API](#play-integrity-api) basic integrity checks (Android only).
-- `fraud_mocked_from_mock_provider`: The user's location is mocked or spoofed according to iOS, Android, macOS, or Windows location services (all platforms).
-- `fraud_mocked_known_spoofing_app`: The user's device is running a known location spoofing app (macOS and Windows only).
-- `fraud_mocked_inconsistent_ip_country`: The user's location is in a country inconsistent with the IP geolocation country (all platforms).
-- `fraud_jumped_exceeded_speed_threshold`: The user moved too far too fast (e.g., "jumped" across the country in a few seconds), either for a single device or across devices shared by a single `userId`, indicating impossible travel (all platforms).
-- `fraud_inaccurate_exceeded_accuracy_threshold`: The user's location accuracy reported by the device is too low and exceeds a specified threshold (all platforms).
-- `fraud_sharing_known_screen_sharing_app`: The user's device is running a known screen sharing or remote desktop app (macOS and Windows only).
-- `fraud_sharing_multiple_displays`: The user's Android device has multiple displays (Android only).
-- `fraud_sharing_virtual_input_device`: The user's Android device has a virtual input device (Android only).
-- `fraud_sharing_suspicious_touches`: The user's Android device had suspicious touches (Android only).
-- `fraud_proxy_known_proxy_ip`: The user's IP address is a known proxy or VPN (all platforms).
-- `fraud_proxy_network_configuration`: The user's network configuration indicates the use of a proxy or VPN (macOS and Windows only).
+- **`country_not_allowed`**: The user's location is in a country that is not allowed based on [jurisdiction settings](#allowed-states-and-countries).
+- **`country_not_expected`**: The user's location is in a country that is not expected based on `Radar.setExpectedJurisdiction()`.
+- **`country_in_buffer_zone`**: The user's location is too close to [the border of a country](#allowed-states-and-countries), either based on a jurisdiction-specific threshold or based on the location accuracy reported by the device (i.e., a "radius of uncertainty" that overlaps a country border).
+- **`country_in_exclusion_zone`**: The user's location is in a [country-specific exclusion zone](#allowed-states-and-countries), if enabled.
+- **`state_not_allowed`**: The user's location is in a state or province that is not allowed according to [jurisdiction settings](#allowed-states-and-countries)
+- **`state_not_expected`**: The user's location is in a state or province that is not expected according to `Radar.setExpectedJurisdiction()`.
+- **`state_in_buffer_zone`**: The user's location is too close to [the border of a state or province](#allowed-states-and-countries), either based on a jurisdiction-specific threshold or based on the location accuracy reported by the device (i.e., a "radius of uncertainty" that overlaps a state or province border).
+- **`state_in_exclusion_zone`**: The user's location is in a [state- or province-specific exclusion zone](#allowed-states-and-countries), if enabled.
+- **`fraud_blocked_user_id`**: The `userId` of the user is blocked (all platforms).
+- **`fraud_blocked_device_id`**: The `deviceId` of the user is blocked (all platforms).
+- **`fraud_blocked_ip`**: The IP of the user is blocked (all platforms).
+- **`fraud_blocked_risk_score_auto_block`**: The user or device was automatically blocked based on a [high risk score](#fraud-flags) (all platforms).
+- **`fraud_compromised_jailbroken`**: The user's iOS device is jailbroken (iOS only).
+- **`fraud_compromised_app_attest`**: The user's iOS device failed [App Attest](#app-attest) checks (iOS only).
+- **`fraud_compromised_play_integrity_api`**: The user's Android device failed [Play Integrity API](#play-integrity-api) basic integrity checks (Android only).
+- **`fraud_mocked_from_mock_provider`**: The user's location is mocked or spoofed according to iOS, Android, macOS, or Windows location services (all platforms).
+- **`fraud_mocked_known_spoofing_app`**: The user's device is running a known location spoofing app (macOS and Windows only).
+- **`fraud_mocked_inconsistent_ip_country`**: The user's location is in a country inconsistent with the IP geolocation country (all platforms).
+- **`fraud_jumped_exceeded_speed_threshold`**: The user moved too far too fast (e.g., "jumped" across the country in a few seconds), either for a single device or across devices shared by a single `userId`, indicating impossible travel (all platforms).
+- **`fraud_inaccurate_exceeded_accuracy_threshold`**: The user's location accuracy reported by the device is too low and exceeds a specified threshold (all platforms).
+- **`fraud_sharing_known_screen_sharing_app`**: The user's device is running a known screen sharing or remote desktop app (macOS and Windows only).
+- **`fraud_sharing_multiple_displays`**: The user's Android device has multiple displays (Android only).
+- **`fraud_sharing_virtual_input_device`**: The user's Android device has a virtual input device (Android only).
+- **`fraud_sharing_suspicious_touches`**: The user's Android device had suspicious touches (Android only).
+- `**fraud_proxy_known_proxy_ip`**: The user's IP address is a known proxy or VPN (all platforms).
+- **`fraud_proxy_network_configuration`**: The user's network configuration indicates the use of a proxy or VPN (macOS and Windows only).
 
 ### Troubleshooting
 
