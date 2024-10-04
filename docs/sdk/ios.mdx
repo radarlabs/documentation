@@ -700,9 +700,10 @@ You only need to call these methods once, as these settings will be persisted ac
 For trips, we recommend using `RadarTrackingOptions.presetContinuous`. This preset tells the SDK to send location updates to the server every 30 seconds, regardless of whether the device is moving.
 
 <Alert alertType="info">
-  By default, this preset shows the flashing blue status bar while tracking. If
-  the flashing blue status bar is shown, only foreground permissions are
+  By default, this preset shows the flashing blue status bar (for devices without the Dynamic Island) or blue location indicator (for devices with the Dynamic Island) while tracking. If
+  the flashing blue status bar or blue location indicator is shown, only foreground permissions are
   required for tracking.
+
 </Alert>
 
 Tracking for the duration of a trip is started or updated by including tracking options in the `startTrip` call:
