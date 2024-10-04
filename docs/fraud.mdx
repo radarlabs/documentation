@@ -17,7 +17,7 @@ import InlineTabItem from "../src/components/InlineTabItem";
 
 With Fraud, you can detect GPS spoofing, proxy and VPN usage, and device tampering.
 
-Along with [Regions](/documentation/regions), you can also detect a user's country and state and mark specific regions as allowed or denied to comply with regulations.
+Along with [Regions](/documentation/regions), you can also detect a user's country and state and mark specific regions as allowed or blocked to comply with regulations.
 
 <img
   className="hero-image--small"
@@ -97,6 +97,8 @@ While you can work with individual flags, Radar also exposes a single `user.frau
 
 Additionally, the `lastMockedAt`, `lastJumpedAt`, `lastCompromisedAt`, `lastInaccurateAt`, `lastProxyAt`, and `lastSharingAt` timestamps indicate the last time that the user failed each fraud check.
 
+Finally, more detailed [failure reasons](#failure-reasons) are also exposed.
+
 ## Bypassing checks for testing
 
 If desired, you can bypass fraud checks for individual users using the *Mark as Bypassed* button on the user detail page.
@@ -111,13 +113,15 @@ If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false
 
 ## Allowed states and countries
 
-With [Regions](/documentation/regions), you can mark specific countries or states as allowed or denied to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
+With [Regions](/documentation/regions), you can mark specific countries or states as allowed or blocked to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
 
 Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 
 Additionally, you can enable buffer zones and exclusion zones for different states. If buffer zones and exclusion zones are enabled, `user.state.inBufferZone` and `user.state.inExclusionZone` indicates whether the user is within a buffer zone or exclusion zone.
 
 While you can work with individual flags, Radar also exposes `user.state.passed` and `user.country.passed` flags that indicate whether all jurisdiction checks passed.
+
+Finally, more detailed [failure reasons](#failure-reasons) are also exposed.
 
 <Alert alertType="info">
   Contact your customer success manager for access to buffer zones and exclusion zones.
@@ -252,8 +256,9 @@ For more advanced checks, call `Radar.trackVerified()`. This requires you to fol
 
 `Radar.trackVerified()` returns a `RadarVerifiedLocationToken` with:
 
-- `passed`: A boolean indicating whether the user passed all fraud and jurisdiction checks (`user.fraud.passed && user.country.passed && user.state.passed`)
+- `passed`: A boolean indicating whether the user passed all fraud and jurisdiction checks (`user.fraud.passed && user.country.passed && user.state.passed`).
 - `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
+- `failureReasons`: If `passed == false`, an array of more detailed [failure reasons](#failure-reasons).
 - `expiresAt`: The datetime when the token expires, by default in 20 minutes, but earlier when close to the border (e.g., 1 minute within 1 mile of the border in New Jersey).
 - `expiresIn`: The number of seconds until the token expires.
 - `user`: The user, with detailed information in `user.fraud`, `user.country`, and `user.state`.
@@ -654,6 +659,51 @@ Radar.StartTrackingVerified(true, 1200, false);
   </TabItem>
 
 </Tabs>
+
+### Failure reasons
+
+<Alert alertType="info">
+  Some sensitive or proprietary failure reasons are not documented here. Contact your customer success manager for more information.
+</Alert>
+
+If `passed == false`, responses include an array of more detailed [failure reasons](#failure-reasons).
+
+- `country_not_allowed`: The user's location is in a country that is not allowed based on [jurisdiction settings](#allowed-states-and-countries).
+- `country_not_expected`: The user's location is in a country that is not expected based on `Radar.setExpectedJurisdiction()`.
+- `country_in_buffer_zone`: The user's location is too close to [the border of a country](#allowed-states-and-countries), either based on a jurisdiction-specific threshold or based on the location accuracy reported by the device (i.e., a "radius of uncertainty" that overlaps a country border).
+- `country_in_exclusion_zone`: The user's location is in a [country-specific exclusion zone](#allowed-states-and-countries), if enabled.
+- `state_not_allowed`: The user's location is in a state or province that is not allowed according to [jurisdiction settings](#allowed-states-and-countries)
+- `state_not_expected`: The user's location is in a state or province that is not expected according to `Radar.setExpectedJurisdiction()`.
+- `state_in_buffer_zone`: The user's location is too close to [the border of a state or province](#allowed-states-and-countries), either based on a jurisdiction-specific threshold or based on the location accuracy reported by the device (i.e., a "radius of uncertainty" that overlaps a state or province border).
+- `state_in_exclusion_zone`: The user's location is in a [state- or province-specific exclusion zone](#allowed-states-and-countries), if enabled.
+- `fraud_blocked_user_id`: The `userId` of the user is blocked (all platforms).
+- `fraud_blocked_device_id`: The `deviceId` of the user is blocked (all platforms).
+- `fraud_blocked_ip`: The IP of the user is blocked (all platforms).
+- `fraud_blocked_risk_score_auto_block`: The user or device was automatically blocked based on a [high risk score](#fraud-flags) (all platforms).
+- `fraud_compromised_jailbroken`: The user's iOS device is jailbroken (iOS only).
+- `fraud_compromised_app_attest`: The user's iOS device failed [App Attest](#app-attest) checks (iOS only).
+- `fraud_compromised_play_integrity_api`: The user's Android device failed [Play Integrity API](#play-integrity-api) basic integrity checks (Android only).
+- `fraud_mocked_from_mock_provider`: The user's location is mocked or spoofed according to iOS, Android, macOS, or Windows location services (all platforms).
+- `fraud_mocked_known_spoofing_app`: The user's device is running a known location spoofing app (macOS and Windows only).
+- `fraud_mocked_inconsistent_ip_country`: The user's location is in a country inconsistent with the IP geolocation country (all platforms).
+- `fraud_jumped_exceeded_speed_threshold`: The user moved too far too fast (e.g., "jumped" across the country in a few seconds), either for a single device or across devices shared by a single `userId`, indicating impossible travel (all platforms).
+- `fraud_inaccurate_exceeded_accuracy_threshold`: The user's location accuracy reported by the device is too low and exceeds a specified threshold (all platforms).
+- `fraud_sharing_known_screen_sharing_app`: The user's device is running a known screen sharing or remote desktop app (macOS and Windows only).
+- `fraud_sharing_multiple_displays`: The user's Android device has multiple displays (Android only).
+- `fraud_sharing_virtual_input_device`: The user's Android device has a virtual input device (Android only).
+- `fraud_sharing_suspicious_touches`: The user's Android device had suspicious touches (Android only).
+- `fraud_proxy_known_proxy_ip`: The user's IP address is a known proxy or VPN (all platforms).
+- `fraud_proxy_network_configuration`: The user's network configuration indicates the use of a proxy or VPN (macOS and Windows only).
+
+### Troubleshooting
+
+To troubleshoot a failed geolocation check, go to the [Fraud page](/dashboard/fraud). Use the *Filters* button to filter down to specific user IDs, IP addresses, or jurisdictions, and use the *date filters* to filter down to specific dates or times.
+
+Click on a specific geolocation check to see all the details, including a map view, [failure reasons](#failure-reasons), detailed user, device, IP, and jurisdiction info, and more.
+
+<Alert alertType="info">
+  If you need help, please contact your customer success manager.
+</Alert>
 
 ## User and device risk scores
 
