@@ -49,11 +49,146 @@ To get started, you'll need a Radar account. Don't have a Radar account yet? [Si
 
 6. To track in the background, move more than 100 meters! **Note that location updates may be delayed significantly by Android [Doze Mode and App Standby](https://developer.android.com/training/monitoring-device-state/doze-standby.html), iOS [Low Power Mode](https://support.apple.com/en-us/HT205234), or if the device has connectivity issues, low battery, or wi-fi disabled.**
 
-7. To try out different presets, open the *Settings* screen. Then, select the *Tracking Options* preset to use, one of *Efficient*, *Responsive*, or *Continuous*. Learn about [iOS tracking presets](/sdk/tracking#ios-presets) and [Android tracking presets](/sdk/tracking#android-presets). Manage the the notifications you want to receive, including *Events* (events received from Radar), *Locations* (location updates sent to Radar), and *Errors* (network, location, and permissions errors).
+7. To try out different presets, open the *Settings* screen. Then, select the *Tracking Options* preset to use, one of *Efficient*, *Responsive*, or *Continuous*. Learn about [iOS tracking presets](/sdk/tracking#ios-presets) and [Android tracking presets](/sdk/tracking#android-presets). You can also set *Custom Tracking Options* via [Remote SDK Configurations](https://radar.com/documentation/sdk/remote-configuration). Manage the the notifications you want to receive, including *Events* (events received from Radar), *Locations* (location updates sent to Radar), and *Errors* (network, location, and permissions errors).
 
 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 55px' }}>
   <img src={useBaseUrl("/img/waypointAndroid.png")} />
   <img src={useBaseUrl("/img/waypointIOS.png")} />
+</div>
+
+## Examples 
+### Testing On-Premise Mode
+
+1. To get started, make sure you've opted-in to foreground or "while in use" permissions and notifications are enabled. Click on the settings icon on the top right to ensure Waypoint is configured correctly (See image A below).
+
+2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
+
+3. Open Waypoint and navigate to the "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence (See image B below).
+
+4. After entering the geofence, open Waypoint, navigate to the "My Location" tab. Waypoint should display "Welcome to &lt;geofence_name&gt;". You should also receive a notification "Entered geofence &lt;geofence_name&gt;" (See image C below).
+
+<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>A</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeSettings.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>B</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeNotInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>C</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+</div>
+
+
+
+### Testing Trips
+
+1. To get started, make sure you've opted-in to foreground or "While in use" permissions and notifications are enabled. (See image A below)
+
+2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
+
+3. Once you open Waypoint, you should see geofences nearby you. Click "Go" to start a trip to one of the configured geofences. Select your mode of travel from the options provided. Start navigating to your destination geofence. (See image B below)
+
+4. Events & notifications to expect as you travel to the destination geofence (See image C below): 
+- *user.started_trip* -> "Started trip" notification from Waypoint
+- *user.approaching_trip_destination* -> "Approaching destination" notification from Waypoint
+  - Note, *approaching threshold* can be configured on the Radar dashboard. Navigate to "Settings" on top right -> "Trips" on the left sidebar -> "Approaching threshold (minutes)"
+- *user.arrived_at_trip_destination* / *user.entered_geofence* -> "Arrived"
+
+5. Once you've arrived at the geofence, you can click either the "x" or button on the bottom of the screen. (See image D below) 
+- *user.stopped_trip* -> "Stopped trip" notification from Waypoint
+
+6. Analyze trip updates/events on Radar dashboard. Navigate to "Geofencing" -> "Trips" -> click on trip you'd like to analyze -> "Debugger" on top right to view the trip data. (See image E below)
+
+<div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>A</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeSettings.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>B</strong>
+    <img src={useBaseUrl("/img/waypoint_travelMode.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
+</div>
+
+<div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>C</strong>
+    <img src={useBaseUrl("/img/waypoint_startedTrip.png")} width="150px" style={{ marginLeft: '10px', marginRight: '20px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <img src={useBaseUrl("/img/waypoint_approachingTrip.png")} width="150px" style={{ marginLeft: '10px', marginRight: '20px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    <img src={useBaseUrl("/img/waypoint_arrived.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+    <strong>D</strong>
+    <img src={useBaseUrl("/img/waypoint_stoppedTrip.png")} width="150px" style={{ marginLeft: '10px' }} />
+  </div>
+</div>
+
+<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+  <strong>E</strong>
+  <img src={useBaseUrl("/img/dashboardTrip.png")} width="650px" style={{ marginLeft: '10px' }} />
+</div>
+
+### Testing Background Mode
+1. To get started, make sure you've opted-in to background or "Always allow" permissions and notifications are enabled. You'll have to navigate to your device settings to enable background tracking and toggle the "Background tracking" option in Waypoint. Click on the settings icon on the top right to ensure Waypoint is configured correctly. (See image A below)
+
+2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
+
+3. Open Waypoint and navigate to "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence. (See image B below)
+
+4. After entering the geofence, you should receive an entry notification while Waypoint is closed and/or your device is shut off. Once you open Waypoint, navigate to "My Location" tab. As shown below, Waypoint should show "Welcome to <geofence_name>". (See image C below)
+
+<div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>A</strong>
+    <img src={useBaseUrl("/img/waypoint_background_granted.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>B</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeNotInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>C</strong>
+    <img src={useBaseUrl("/img/waypointOnPremModeInGeofence.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+</div>
+
+
+### Testing Beacons
+Note: You can test beacons in either foreground or background mode.
+
+1. To get started, ensure the following settings are enabled (See image A below): 
+  * Opt-in to foreground or background permissions.
+  * Ensure notifications are enabled.
+  * Once you click on the settings icon on the top right, you can toggle "Beacons" on. This should prompt you to allow Bluetooth permissions. 
+     Alternatively, use [remote SDK configuration](https://radar.com/documentation/sdk/remote-configuration) & set *beacons* to *true*. Once done, you should see the "Beacons" toggle enabled within the Waypoint settings page.
+
+2. Create [beacons](https://radar.com/documentation/beacons) in Radar.
+
+3. Open Waypoint and navigate to "My Location" tab. You should see "No Beacons Found". (See image B below)
+
+4. After entering the beacon radius, open Waypoint, navigate to "My Location" tab. As shown below, Waypoint should show "<beacon_name>" under the "Beacons" section. You should also receive a notification "Entered beacon <beacon_name>". (See image C below)
+
+<div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>A</strong>
+    <img src={useBaseUrl("/img/waypoint_beacon_permissions.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>B</strong>
+    <img src={useBaseUrl("/img/waypoint_no_beacons.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <strong style={{ marginRight: '10px' }}>C</strong>
+    <img src={useBaseUrl("/img/waypoint_in_beacon.png")} width="150px" style={{ margin: '10px' }} />
+  </div>
 </div>
 
 ## Support
