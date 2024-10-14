@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "NODE_OPTIONS=--openssl-legacy-provider docusaurus start",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -49,6 +49,7 @@
     "@types/react": "^17.0.11",
     "@types/react-helmet": "^6.1.1",
     "@types/react-router-dom": "^5.1.7",
+    "cross-env": "^7.0.3",
     "ejs": "^3.1.6",
     "husky": "^4.3.8",
     "lint-staged": "^13.2.3",
