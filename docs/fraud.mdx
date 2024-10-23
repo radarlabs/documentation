@@ -233,7 +233,7 @@ Learn more about [SSL pinning on iOS](https://developer.apple.com/news/?id=g9ejc
 
 The web SDK supports a companion app solution and a pure-JavaScript no-download solution.
  
-The companion app solution uses the Radar Verify apps to support remote desktop remote desktop detection with the `sharing` flag, more advanced `mocked` and `proxy` detection, and more stable device IDs. Download the [Radar Verify Mac app](https://s3.us-east-2.amazonaws.com/app.radar-verify.com/mac/releases/RadarVerifySetup.dmg) or the [Radar Verify Windows app](https://s3.us-east-2.amazonaws.com/app.radar-verify.com/windows/releases/RadarVerifySetup.zip). By default, `Radar.trackVerified()` expects the Radar Verify app to be running and returns `ERROR_VERIFY_APP` if it is not.
+The companion app solution uses the Radar Verify apps to support remote desktop detection with the `sharing` flag, more advanced `mocked` and `proxy` detection, and more stable device IDs. Download the [Radar Verify Mac app](https://s3.us-east-2.amazonaws.com/app.radar-verify.com/mac/releases/RadarVerifySetup.dmg) or the [Radar Verify Windows app](https://s3.us-east-2.amazonaws.com/app.radar-verify.com/windows/releases/RadarVerifySetup.zip). By default, `Radar.trackVerified()` expects the Radar Verify app to be running and returns `ERROR_VERIFY_APP` if it is not.
 
 To skip the Radar Verify app and use the no-download solution, pass `{ skipVerifyApp: true }` to `Radar.trackVerified()`, `Radar.startTrackingVerified()`, and `Radar.getVerifiedLocationToken()`.
 
