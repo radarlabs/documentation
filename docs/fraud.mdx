@@ -69,7 +69,7 @@ Together, Fraud and Regions provide the following user context:
 
 First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
-Then, enable Fraud on the [Settings page](https://radar.com/dashboard/settings).
+Then, enable Fraud on the [Settings page](https://radar.com/dashboard/settings#fraud-settings).
 
 From there, [integrate the SDK](/documentation/sdk), complete the steps below, and call `Radar.trackVerified()` or `Radar.startTrackingVerified()`. Radar will perform fraud and jurisdiction checks as described below.
 
@@ -145,7 +145,7 @@ Radar.initialize(
 
 #### Play Integrity API
 
-To support the `compromised` flag on Android, enable the [Play Integrity API](https://developer.android.com/google/play/integrity) on the [Settings page](https://radar.com/dashboard/settings).
+To support the `compromised` flag on Android, enable the [Play Integrity API](https://developer.android.com/google/play/integrity) on the [Settings page](https://radar.com/dashboard/settings#fraud-settings).
 
 If the user's device or app does not meet [basic integrity checks](https://developer.android.com/google/play/integrity/verdict#device-integrity-field), `user.fraud.compromised = true`.
 
@@ -190,7 +190,7 @@ Learn more about [Network Security Configuration on Android](https://developer.a
 
 #### App Attest
 
-To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing-to-use-the-app-attest-service) and configure a list of valid [App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings).
+To support the `compromised` flag on iOS, enable [App Attest](https://developer.apple.com/documentation/devicecheck/preparing-to-use-the-app-attest-service) and configure a list of valid [App IDs](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html) (e.g., `A1B2C3D4E5.com.yourapp.app1,A1B2C3D4E5.com.yourapp.app2`) on the [Settings page](https://radar.com/dashboard/settings#fraud-settings).
 
 If App Attest indicates that the user's device or app has been compromised, `user.fraud.compromised = true`.
 
@@ -255,7 +255,7 @@ Choose your implementation pattern depending on your use cases:
 You can call `Radar.trackVerified()` to manually perform a location check. `Radar.trackVerified()` returns a `RadarVerifiedLocationToken` with:
 
 - `passed`: A boolean indicating whether the user passed all fraud and jurisdiction checks (`user.fraud.passed && user.country.passed && user.state.passed`).
-- `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
+- `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](https://radar.com/dashboard/settings#fraud-settings).
 - `failureReasons`: If `passed == false`, an array of more detailed [failure reasons](#failure-reasons).
 - `expiresAt`: The datetime when the token expires, by default in 20 minutes, but earlier when close to the border (e.g., 1 minute within 1 mile of the border in New Jersey).
 - `expiresIn`: The number of seconds until the token expires.
@@ -615,7 +615,7 @@ When the risk score changes for a user or device, it also changes for all associ
 
 The fraud signals, number of strikes per fraud signal, and lookback period are configurable.
 
-To receive real-time email alerts when users reach high risk, and to receive a weekly report with high risk users, set a *Notification email* under *Fraud* on the [Settings page](https://radar.com/dashboard/settings).
+To receive real-time email alerts when users reach high risk, and to receive a weekly report with high risk users, set a *Notification email* under *Fraud* on the [Settings page](https://radar.com/dashboard/settings#fraud-settings).
 
 You can also automatically block high risk users.
 
