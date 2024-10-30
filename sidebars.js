@@ -102,6 +102,7 @@ module.exports = {
         "tutorials/displaying-radar-maps-on-ios",
         "tutorials/displaying-radar-maps-on-android",
         "tutorials/displaying-radar-maps-with-react-native",
+        "tutorials/displaying-radar-maps-with-flutter",
         "tutorials/create-a-custom-map-style",
       ],
     },
