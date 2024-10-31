@@ -4,6 +4,303 @@ title: Unity SDK
 sidebar_position: 1
 ---
 
-## Unity SDK!!!
+# Unity Wrapper SDK
 
-Empty for now...
+This is the documentation for the Unity wrapper module, which provides a thin proxy layer for integrating existing native SDKs offering location tracking and geofencing services. Before integrating, review the native SDK documentation for iOS and Android to understand platform-specific requirements and features.
+
+The Unity wrapper is developed as a plugin for native SDKs written in Kotlin for Android and Objective-C for iOS. Wrappers for .NET MAUI, React Native, Flutter, and Capacitor are also available.
+
+See the source on GitHub [here](https://github.com/radarlabs/unity-radar).
+
+## Supported Unity Versions
+
+The SDK has been tested on Unity **2022.3.41f**, and **6000.0.24f** versions. However, it should work with Unity versions **2021** and above.
+
+## Project Structure
+
+The project directory is organized as follows:
+
+```plaintext
+Assets/
+└── ExternalDependencyManager/
+   ├── Editor/
+   ...
+└── Plugins/
+   ├── Android/
+   │   ├── sdk-debug.aar
+   │   └── Dependencies.xml
+   │   └── gradleTemplate.properties
+   │   └── mainTemplate.gradle
+   │   └── settingsTemplate.gradle
+   ├── iOS/
+   │   ├── RadarSDK.xcframework
+   │   ├── RadarUnityBridge.m
+└── Radar/
+   └── Demo/
+   │   ├── Icons/
+   │   ├── Prefabs/
+   │   ├── Scenes/
+   │   ├── Scripts/
+   └── Resources/
+   │   ├── Editor/
+   │   ├── Settings/
+   ├── Scripts/
+   │   ├── iOS/
+   │   ├── Android/
+   │   └── Models/
+   │   └── ProxyPlatform/
+```
+
+
+## Install
+
+To integrate the Unity wrapper, download or clone the package and include it in your Unity project:
+
+1. Copy the `Plugins` folder (containing both Android and iOS native implementations) into the `Assets` directory of your Unity project.
+2. Ensure that any required permissions or settings specific to location tracking and geofencing are configured on both iOS and Android, as outlined in the native SDK documentation.
+
+### iOS
+
+1. To install the iOS SDK, navigate to your iOS project directory:
+
+   ```bash
+   cd ios/
+   ```
+
+2. In your `Podfile`, ensure that `platform :ios` is set to 10.0 or higher. Then, install the required pods:
+
+   ```bash
+   pod install
+   ```
+
+   You must add location usage descriptions and enable background modes in your `Info.plist` file as described in the [iOS SDK documentation](#). This is essential for accessing location services and geofencing in the background.
+
+3. To handle location updates effectively, configure background processing options if your app requires tracking location changes when the app is not actively in use.
+
+:::info
+  Don't forget to include `RadarSDK.xcframework` under `General > Frameworks, Libraries, and Embedded Content` when building application in XCode.
+:::
+
+### Android
+
+1. To integrate with the Android SDK, update your app’s `build.gradle` file to include Google Play Services Location. Ensure you are using version `21.0.1` or higher:
+
+   ```gradle
+   implementation "com.google.android.gms:play-services-location:21.0.1"
+   ```
+
+2. Configure permissions and background processing for location services in your `AndroidManifest.xml`. Add the necessary permissions for foreground and background location access:
+
+   ```xml
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+   ```
+
+   Refer to the [Android SDK documentation](#) for detailed setup on background tracking and ensuring compliance with Play Store policies regarding location permissions.
+
+## Integrate
+
+### Using plugin
+
+Once installed, access the SDK functionality using RadarSDK namespace:
+
+```csharp
+using RadarSDK;
+```
+
+
+
+
+### Other APIs
+
+The Unity SDK exposes following APIs calls: 
+```bash 
+initialize, setUserId, getUserId, setMetadata, getLocation, trackVerified, startTrackingVerified, stopTracking, getVerifiedLocationToken, onTokenUpdated
+```
+Look at ***RadarExample.cs*** script for example usages
+
+#### Initialize
+
+Initialize
+
+```cs
+// Coroutine Call
+private void InitializeRadar()
+{
+   StartCoroutine(RadarSDKManager.Initialize());
+}
+
+// Async Call
+private async Task InitializeRadarAsync()
+{
+   await RadarSDKManager.InitializeAsync();
+}
+```
+
+#### SetUserId
+
+SetUserId
+```cs
+// Coroutine Call
+public void SetUserId(string userId)
+{
+   RadarSDKManager.SetUserId(userId);
+}
+
+// Async Call
+private async Task SetUserIdAsync(string userId)
+{
+   await RadarSDKManager.SetUserIdAsync(userId);
+}
+```
+
+#### SetMetadata
+
+SetMetadata
+```cs
+// Coroutine Call
+public void SetMetadata(MetadataContainer metadata)
+{
+   RadarSDKManager.SetMetadata(metadata);
+}
+
+// Async Call
+private async Task SetMetadataAsync(MetadataContainer metadata)
+{
+   await RadarSDKManager.SetMetadataAsync(metadata);
+}
+```
+
+#### GetLocation
+
+GetLocation
+```cs
+// Coroutine Call
+public void GetLocation()
+{
+   StartCoroutine(GetLocationCoroutine());
+}
+
+// Async Call
+private IEnumerator GetLocationCoroutine()
+{
+   var task = RadarSDKManager.GetLocationAsync();
+
+   while (!task.IsCompleted)
+         yield return null;
+
+   if (task.Result != null)
+         Debug.Log($"Location: Latitude = {task.Result.Value.latitude}, Longitude = {task.Result.Value.longitude}");
+   else
+         Debug.LogError("Failed to retrieve location.");
+}
+```
+
+#### TrackVerified
+
+TrackVerified
+```cs
+// Coroutine Call
+public void TrackVerified()
+{
+   StartCoroutine(RadarSDKManager.TrackVerified());
+}
+
+// Async Call
+private async Task TrackVerifiedAsync()
+{
+   await RadarSDKManager.TrackVerifiedAsync(RadarSDKManager.UserId);
+}
+```
+
+#### StartTrackingVerified
+
+StartTrackingVerified
+```cs
+// Coroutine Call
+public void StartTrackingVerified()
+{
+   StartCoroutine(RadarSDKManager.StartTrackingVerified());
+}
+
+// Async Call
+private async Task StartTrackingVerifiedAsync()
+{
+   await RadarSDKManager.StartTrackingVerifiedAsync(RadarSDKManager.TrackingInterval, RadarSDKManager.UseBeacons);
+}
+```
+
+#### StopTracking
+
+StopTracking
+```cs
+// Coroutine Call
+public void StopTracking()
+{
+   StartCoroutine(RadarSDKManager.StopTracking());
+}
+
+// Async Call
+private async Task StopTrackingAsync()
+{
+   await RadarSDKManager.StopTrackingAsync();
+}
+```
+
+#### GetVerifiedLocationToken
+
+Once the native SDK retrieves the location, it sends the data back to Unity. On Android, this is done via RadarJavaProxy, and on iOS, it’s done via a delegate or callback defined in RadarUnityBridge.m
+```cs
+// Coroutine Call
+public void GetVerifiedLocationToken()
+{
+   StartCoroutine(GetVerifiedLocationTokenCoroutine());
+}
+
+
+private IEnumerator GetVerifiedLocationTokenCoroutine()
+{
+   var task = RadarSDKManager.GetVerifiedLocationTokenAsync();
+   while (!task.IsCompleted)
+         yield return null;
+
+   if (task.Result.HasValue)
+         Debug.Log($"Verified Location Token received: Status = {task.Result.Value.Status}");
+   else
+         Debug.LogError("Failed to retrieve verified location token.");
+}
+
+// Async Call
+private async Task GetVerifiedLocationTokenAsync()
+{
+   var result = await RadarSDKManager.GetVerifiedLocationTokenAsync();
+   if (result.HasValue)
+         Debug.Log($"Verified Location Token received: Status = {result.Value.Status}");
+   else
+         Debug.LogError("Failed to retrieve verified location token.");
+}
+```
+
+
+#### OnTokenUpdated
+
+OnTokenUpdated callback
+```cs
+// Coroutine Call
+public void SetVerifiedReceiver()
+{
+   RadarSDKManager.SetVerifiedReceiver(OnVerifiedLocationTokenReceived);
+}
+
+private void OnVerifiedLocationTokenReceived(RadarVerifiedLocationToken token)
+{
+   Debug.Log($"Verified location token updated: {token}");
+}
+```
+
+
+
+## Support
+
+Have questions? We're here to help! Contact us at [radar.com/support](https://radar.com/support).
