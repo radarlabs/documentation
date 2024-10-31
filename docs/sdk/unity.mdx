@@ -57,7 +57,8 @@ Assets/
 To integrate the Unity wrapper, download or clone the package and include it in your Unity project:
 
 1. Copy the `Plugins` folder (containing both Android and iOS native implementations) into the `Assets` directory of your Unity project.
-2. Ensure that any required permissions or settings specific to location tracking and geofencing are configured on both iOS and Android, as outlined in the native SDK documentation.
+2. Import the ExternalDependencyManager for Unity (EDM4U). You can get it from `Package Manager` or from [repo](https://github.com/googlesamples/unity-jar-resolver): It is required if you want to add and use iOS/Android dependencies directly in your project like: `Android specific libraries (e.g AARs)` or `iOS CocoaPods`
+3. Ensure that any required permissions or settings specific to location tracking and geofencing are configured on both iOS and Android, as outlined in the native SDK documentation.
 
 ### iOS
 
@@ -78,7 +79,7 @@ To integrate the Unity wrapper, download or clone the package and include it in 
 3. To handle location updates effectively, configure background processing options if your app requires tracking location changes when the app is not actively in use.
 
 :::info
-  Don't forget to include `RadarSDK.xcframework` under `General > Frameworks, Libraries, and Embedded Content` when building application in XCode.
+  Don't forget to include `RadarSDK.xcframework` under `Your Project General > Frameworks, Libraries, and Embedded Content` when building application in XCode.
 :::
 
 ### Android
@@ -112,7 +113,7 @@ using RadarSDK;
 
 
 
-### Other APIs
+### Calls to APIs
 
 The Unity SDK exposes following APIs calls: 
 ```bash 
