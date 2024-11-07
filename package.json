@@ -5,7 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "NODE_OPTIONS=--openssl-legacy-provider docusaurus start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider docusaurus build",
+    "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "NODE_OPTIONS=--openssl-legacy-provider docusaurus deploy",
     "clear": "docusaurus clear",
