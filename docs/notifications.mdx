@@ -83,28 +83,31 @@ If you want to set up deep linking manually, you can do so by adding the followi
 
 ```swift
 func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-  Radar.extractURLFromNotification(response.notification)
+  Radar.openURLFromNotification(response.notification)
 }
 ```
 
-### Delegate to handle URL open
+### Automated React Native setup (iOS only)
 
-You can choose to handle the URL open directly by implementing `RadarURLDelegate` and setting the `urlDelegate` option in the Radar `initialize` call.
+Radar's React Native SDK can automatically set up deep linking for you. To enable this feature, set the `autoHandleNotificationDeepLinks` option to `true` in the `radarInitializeOptions` via the `AppDelegate.mm`.
+```Objective-C
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  self.moduleName = @"main";
+  self.initialProps = @{};
 
-```swift
-radarInitializeOptions.urlDelegate = self
-Radar.initialize(publishableKey: "prj_test_pk_000", options: radarInitializeOptions )
-
-extension AppDelegate: RadarURLDelegate {
-  func didComplete(url: URL) {
-    // handle url and direct user to the appropriate view
-  }
+  BOOL res = [super application:application didFinishLaunchingWithOptions:launchOptions];
+  RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
+  radarInitializeOptions.autoHandleNotificationDeepLinks = YES;
+  [Radar nativeSetup:radarInitializeOptions];
+  return res;
 }
-```
-### Default to handle system deep link
 
-Alternately, not implementing the `RadarURLDelegate` will cause the SDK to default to calling `[application openURL:url options:@{} completionHandler:nil];` This will open the URL in the app if it is registered for the scheme, or open the URL in the browser if not.
-Developers should handle this by handling the custom URL scheme or universal link in their app.
+```
+### Handle system deep link
+
+Opening the notification will result in the SDK calling `[application openURL:url options:@{} completionHandler:nil];` This will open the URL in the app if it is registered for the scheme, or open the URL in the browser if it is not.
+Developers should handle this by handling the [custom URL scheme](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) or [universal link](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) in their app.
 
 ## Support
 
