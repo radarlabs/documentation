@@ -1748,3 +1748,86 @@ Radar.logConversion(
 
   </TabItem>
 </Tabs>
+
+Radar can associate `opened_app` events with a notification that was clicked on to open the app. To set this up automatically, set the relevant flag on the initialization options.
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let radarInitializeOptions = RadarInitializeOptions()
+        radarInitializeOptions.autoSetupNotificationConversion = true
+        Radar.initialize(publishableKey: "prj_test_pk_...", options: radarInitializeOptions)
+
+        return true
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+#import "AppDelegate.h"
+@import RadarSDK;
+
+@implementation AppDelegate
+
+  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
+    radarInitializeOptions.autoSetupNotificationConversion = YES;
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..." options:radarInitializeOptions];
+
+    return YES;
+}
+
+@end
+```
+  </TabItem>
+</Tabs>
+
+Alternatively, perform the manual setup:
+
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+   Radar.logConversion(response: response) 
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    [Radar logConversionWithNotificationResponse:response];
+    completionHandler();
+}
+```
+  </TabItem>
+</Tabs>

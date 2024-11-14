@@ -694,6 +694,19 @@ Radar.logConversion(
 });
 ```
 
+To enable logging of app opens through notifications taps on iOS, perform the following native setup in the app's AppDelegate:
+
+```objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  self.moduleName = @"main";
+  self.initialProps = @{};
+  BOOL result = [super application:application didFinishLaunchingWithOptions:launchOptions];
+  [Radar nativeSetup];
+  return result;
+}
+```
+
 ### Notification options
 
 On Android, you can call `setNotificationOptions` to set the icon and the background color of the foreground service and event notifications:

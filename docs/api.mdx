@@ -98,7 +98,7 @@ Publishable
 
 ###### Rate limits
 
-1 request per second per device, 180 requests per hour per device, and 1,000 requests per day per device
+1 request per second per device
 
 ###### Sample request
 
@@ -432,6 +432,7 @@ Returns a confidence level, as defined below:
 - **`query`** (string, required): The address to geocode.
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 - **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
+- **`lang`** (string, optional): Specifies the language for the results. A string, one of `ar`, `de`, `en`, `es`, `fr`, `ja`, `ko`, `pt`, `ru`, `zh`. Defaults to `en`.
 
 ###### Authentication level
 
@@ -439,7 +440,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+1000 requests per second
 
 ###### Sample request
 
@@ -511,7 +512,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+1000 requests per second
 
 ###### Sample request
 
@@ -577,7 +578,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+10 requests per second per device
 
 ###### Sample request
 
@@ -638,6 +639,7 @@ Autocompletes partial addresses and place names, sorted by relevance and proximi
 - **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
 - **`countryCode`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
+- **`lang`** (string, optional): Specifies the language for the results. A string, one of `ar`, `de`, `en`, `es`, `fr`, `ja`, `ko`, `pt`, `ru`, `zh`. Defaults to `en`.
 - **`mailable`** (boolean, optional): Returns validated addresses. Only available for US and Canada addresses for enterprise customers.
 
 ###### Authentication level
@@ -646,7 +648,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+1000 requests per second
 
 ###### Sample request
 
@@ -713,7 +715,7 @@ Secret
 
 ###### Default rate limit
 
-10 requests per second
+100 requests per second
 
 ###### Sample request
 
@@ -767,7 +769,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+100 requests per second
 
 ###### Sample request
 
@@ -829,7 +831,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+150 requests per second
 
 ###### Sample request
 
@@ -922,7 +924,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+100 requests per second
 
 ###### Sample request
 
@@ -986,7 +988,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+100 requests per second
 
 ###### Sample request
 
@@ -1055,7 +1057,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+20 requests per second
 
 ###### Sample request
 
@@ -1153,7 +1155,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+1000 requests per second
 
 ###### Sample request
 
@@ -1305,7 +1307,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+1000 requests per second
 
 ###### Sample request
 
@@ -1422,7 +1424,7 @@ Publishable
 
 ###### Default rate limit
 
-10 requests per second
+1000 requests per second
 
 ###### Sample request
 
@@ -1984,7 +1986,7 @@ Gets a [matched route](#route-match) for a completed, canceled, or expired trip.
 
 ###### Default rate limit
 
-10 requests per second
+100 requests per second
 
 ###### Sample request
 

@@ -49,18 +49,15 @@ Radar only controls the registration of notifications on the device. Once that h
 
 With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a notification.
 
-Add the [following line](https://github.com/radarlabs/radar-sdk-ios/blob/master/RadarSDK/Include/Radar.h#L558-L564) to your `UNUserNotificationCenterDelegate` implementation to instrument `opened_notification` events.
+Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
 
-```swift
-extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler: @escaping () -> Void) {
+With Radar [Conversions](/api#log-a-conversion), you can also retrieve the source of an *opened_app* conversion for iOS apps. Within the *metadata* object of the [logged conversion](/sdk/ios#conversions), we will return a *conversion_source* with either 
+- **`notification`** (app was opened using an external 3rd party notification) 
+- **`radar_notification`** (app was opened using the configured on-prem notification): 
 
-    Radar.logConversion(request: response.notification.request)
-  }
-}
-```
+
+You can also view these conversion analytics by navigating to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *conversion_source* from the *grouped_by* dropdown. See screenshot below: 
+![OnPremiseNotifications](/img/notifications/conversion_source_analytics.png)
 
 ## Deep linking
 

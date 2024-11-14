@@ -1,0 +1,229 @@
+---
+sidebar_position: 13
+title: Displaying Radar Maps with Flutter
+---
+
+To create a [Flutter](https://docs.flutter.dev/get-started/install) component with a map:
+
+The SDK has a dependency on [maplibre_gl](https://github.com/maplibre/flutter-maplibre-gl). See the source on GitHub [here](https://github.com/radarlabs/flutter-radar). Or, see the `flutter_radar` package on pub.dev [here](https://pub.dev/packages/flutter_radar).
+
+## Install
+
+Add the package to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  flutter_radar: ^$RADAR_FLUTTER_SDK_VERSION$
+```
+
+Then, update dependencies:
+
+```bash
+flutter pub get
+```
+
+Next, complete any required [platform-specific installation steps for maplibre_gl](https://github.com/maplibre/flutter-maplibre-gl). 
+
+## Radar Map
+Once installation is complete, initialize the Radar SDK and add a `MapLibreMap` component:
+
+```jsx
+import 'package:flutter/material.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
+
+void main() {
+  runApp(RadarMapsDemo());
+}
+
+String style = "radar-default-v1"; // specify styleId here for custom Map style
+String publishableKey = "prj_test_pk_...";
+
+class RadarMapsDemo extends StatelessWidget {
+  const RadarMapsDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: MapLibreMap(
+          styleString: 'https://api.radar.io/maps/styles/$style/?publishableKey=$publishableKey',
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(40.7342891, -73.9910334), // initial position (Radar HQ)
+            zoom: 12.0,
+          ),
+          tiltGesturesEnabled: false,  // disable tilt gestures
+          rotateGesturesEnabled: false,  // disable rotate gestures
+          onMapCreated: (MapLibreMapController controller) {
+            // You can add any additional setup here if needed
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+## Radar Map w/ Marker
+Optionally, add assets for a marker. You can download assets [here](/img/radar-map-assets.zip). Once downloaded, add marker assets to ```images/``` dir.
+
+To add a marker to the map and display text once it's clicked:
+
+```jsx
+import 'dart:async';
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
+
+void main() {
+  runApp(RadarMapsDemo());
+}
+
+class RadarMapsDemo extends StatefulWidget {
+  const RadarMapsDemo({super.key});
+
+  @override
+  RadarMapsState createState() => RadarMapsState();
+}
+
+String style = "radar-default-v1"; // specify styleId here for custom Map style
+String publishableKey = "prj_test_pk_...";
+
+class RadarMapsState extends State<RadarMapsDemo> {
+  late MapLibreMapController mapController;
+  List<Symbol> markers = [];
+  Symbol? hqMarker;
+  Symbol? selectedMarker;
+  LatLng? infoWindowPosition;
+  bool showInfoWindow = false;
+  String infoWindowText = "";
+  bool isCameraMovingProgrammatically = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // async helper function to load image from assets
+  Future<ui.Image> _loadImage(Uint8List img) async {
+    final Completer<ui.Image> completer = Completer();
+    ui.decodeImageFromList(img, (ui.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
+  }
+
+  // helper to prepare images for map use
+  Future<void> _addImageFromAsset(String name, String assetName) async {
+    final ByteData data = await rootBundle.load(assetName);
+    final ui.Image image = await _loadImage(Uint8List.view(data.buffer));
+    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List imgBytes = byteData!.buffer.asUint8List();
+    mapController.addImage(name, imgBytes);
+  }
+
+  // Function to add marker on the map
+  void _addMarker(LatLng latLng) async {
+    final Symbol marker = await mapController.addSymbol(
+      SymbolOptions(
+        geometry: latLng,
+        iconImage: "marker",
+        iconSize: 1,
+      ),
+    );
+    markers.add(marker);
+
+    if (latLng == const LatLng(40.7342891, -73.9910334)) {
+      hqMarker = marker;
+    }
+  }
+
+  // Handle tap on marker
+  void _onMarkerTapped(Symbol symbol) {
+    String text = symbol == hqMarker ? "Radar HQ" : "Marker ${markers.indexOf(symbol) + 1}";
+
+    setState(() {
+      selectedMarker = symbol;
+      infoWindowPosition = symbol.options.geometry;
+      showInfoWindow = true;
+      infoWindowText = text;
+    });
+
+    _centerMapOnPosition(symbol.options.geometry!);
+  }
+
+  // Center map on given LatLng
+  void _centerMapOnPosition(LatLng latLng) {
+    setState(() {
+      isCameraMovingProgrammatically = true;
+    });
+
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: latLng, zoom: 14.0),
+      ),
+    ).then((_) {
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          isCameraMovingProgrammatically = false;
+        });
+      });
+    });
+  }
+
+  // Callback on map initialization
+  void _onMapCreated(MapLibreMapController controller) async {
+    mapController = controller;
+    mapController.onSymbolTapped.add(_onMarkerTapped);
+    await mapController.setSymbolIconAllowOverlap(true);
+    await mapController.setSymbolIconIgnorePlacement(true);
+
+    // Add images for markers
+    await _addImageFromAsset("marker", "images/marker.png");
+
+    // Add HQ marker to the map
+    _addMarker(const LatLng(40.7342891, -73.9910334));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Stack(
+          children: [
+            // Map rendering
+            MapLibreMap(
+              styleString: 'https://api.radar.io/maps/styles/$style?publishableKey=$publishableKey',
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(40.7342891, -73.9910334),
+                zoom: 12.0,
+              ),
+              tiltGesturesEnabled: false,
+              rotateGesturesEnabled: false,
+              onMapCreated: _onMapCreated,
+            ),
+
+            // Info window
+            if (showInfoWindow && infoWindowPosition != null)
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(infoWindowText),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+See our flutter maps [example repo](https://github.com/radarlabs/radar_flutter_maps_demo) for more info.
+
