@@ -107,6 +107,7 @@ Radar's React Native SDK can automatically set up deep linking for you. To enabl
 
 Opening the notification will result in the SDK calling `[application openURL:url options:@{} completionHandler:nil];` This will open the URL in the app if it is registered for the scheme, or open the URL in the browser if it is not.
 Developers should handle this by handling the [custom URL scheme](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) or [universal link](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) in their app.
+React Native developers should also implement the native iOS handling of the deep link in their app.
 
 ## Support
 
