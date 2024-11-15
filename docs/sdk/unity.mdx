@@ -32,7 +32,7 @@ The SDK has been tested on Unity **2022.3.41f**, and **6000.0.24f** versions. Ho
 
 This section provides an overview of the main scripts in the Radar SDK for Unity, detailing each script's role and its relationships with other components. This will help you quickly understand how to integrate and utilize the Radar SDK in your Unity project.
 
-#### 1. `RadarInitializeExample.cs`
+#### 1. `RadarExample.cs`
 
 > **Description**:  
 > Main script used in demo scene. Demonstrates how to initialize and configure the Radar SDK in Unity. This script provides a basic setup and can be used as a starting template for integrating Radar SDK functionality.
@@ -49,7 +49,7 @@ This section provides an overview of the main scripts in the Radar SDK for Unity
 
 | **Functionality**                                                                              | **Related Scripts**                                                                                  |
 |------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| - Wraps essential SDK methods like initialization, setting user ID, and tracking management.   | - Works with `RadarInitializeExample` to initialize and configure SDK.                               |
+| - Wraps essential SDK methods like initialization, setting user ID, and tracking management.   | - Works with `RadarExample` to initialize and configure SDK.                               |
 | - Exposes an error callback for centralized error management through `RadarErrorHandler`.      | - Routes platform-specific SDK calls to `AndroidAdapter` and `iOSAdapter` as needed.                 |
 
 #### 3. `Radar.cs`
@@ -82,7 +82,7 @@ This section provides an overview of the main scripts in the Radar SDK for Unity
 | - Manages iOS-specific calls for initialization, user ID setup, and tracking.                  | - Complements `AndroidAdapter` to provide cross-platform support.                                    |
 | - Implements `RadarServiceWrapper` and `Radar.cs` methods for iOS.                             | - Receives method calls from `RadarServiceWrapper` and `Radar.cs` for iOS operations.                |
 
-#### 6. `RadarExample.cs`
+#### 6. `RadarUsageExample.cs`
 
 > **Description**:  
 > Example script showing how to use each method available in the Radar SDK, providing a practical reference for developers integrating Radar into their Unity project.
@@ -95,7 +95,7 @@ This section provides an overview of the main scripts in the Radar SDK for Unity
 ### Script Interactions and Flow
 
 1. **Initialization**:
-   - `RadarInitializeExample` initializes the SDK by calling `RadarServiceWrapper.Initialize()` and sets up configurations.
+   - `RadarExample` initializes the SDK by calling `RadarServiceWrapper.Initialize()` and sets up configurations.
    - `RadarServiceWrapper` initializes `Radar` and delegates platform-specific initialization to `AndroidAdapter` or `iOSAdapter`.
 
 2. **Platform-Specific Operations**:
@@ -106,11 +106,11 @@ This section provides an overview of the main scripts in the Radar SDK for Unity
    - `RadarErrorHandler` logs errors and optionally displays messages to the user.
 
 4. **Example Implementation**:
-   - `RadarExample` provides a comprehensive example of SDK functions, making it easy for developers to integrate and use the Radar SDK in their projects.
+   - `RadarUsageExample` provides a comprehensive example of SDK functions, making it easy for developers to integrate and use the Radar SDK in their projects.
 
 ### Summary
 
-This architecture enables robust cross-platform support within Unity. With `RadarServiceWrapper` handling core SDK functionality and `AndroidAdapter`/`iOSAdapter` managing platform-specific operations, The example scripts (`RadarInitializeExample` and `RadarExample`) illustrate how to integrate these features, making it easy for developers to get started.
+This architecture enables robust cross-platform support within Unity. With `RadarServiceWrapper` handling core SDK functionality and `AndroidAdapter`/`iOSAdapter` managing platform-specific operations, The example scripts (`RadarExample` and `RadarUsageExample`) illustrate how to integrate these features, making it easy for developers to get started.
 
 
 
@@ -418,23 +418,17 @@ The Unity SDK exposes following APIs calls:
 ```bash 
 initialize, setUserId, getUserId, setMetadata, getLocation, trackVerified, startTrackingVerified, stopTracking, getVerifiedLocationToken, onTokenUpdated
 ```
-Look at ***RadarExample.cs*** script for example usages
+Look at ***RadarUsageExample.cs*** script for example usages
 
 #### Initialize
 
 Initialize
 
 ```cs
-// Coroutine Call
 private void InitializeRadar()
 {
-   StartCoroutine(RadarSDKManager.Initialize());
-}
-
-// Async Call
-private async Task InitializeRadarAsync()
-{
-   await RadarSDKManager.InitializeAsync();
+   string publishableKey = Debug.isDebugBuild ? RadarSDKManager.TestPublishableKey : RadarSDKManager.LivePublishableKey;
+   Radar.Initialize(publishableKey, fraud: true);
 }
 ```
 
@@ -442,16 +436,9 @@ private async Task InitializeRadarAsync()
 
 SetUserId
 ```cs
-// Coroutine Call
-public void SetUserId(string userId)
+private void SetUserId(string userId)
 {
-   RadarSDKManager.SetUserId(userId);
-}
-
-// Async Call
-private async Task SetUserIdAsync(string userId)
-{
-   await RadarSDKManager.SetUserIdAsync(userId);
+   Radar.SetUserId(userId);
 }
 ```
 
@@ -459,16 +446,9 @@ private async Task SetUserIdAsync(string userId)
 
 SetMetadata
 ```cs
-// Coroutine Call
-public void SetMetadata(MetadataContainer metadata)
+private void SetMetadata(MetadataContainer metadata)
 {
-   RadarSDKManager.SetMetadata(metadata);
-}
-
-// Async Call
-private async Task SetMetadataAsync(MetadataContainer metadata)
-{
-   await RadarSDKManager.SetMetadataAsync(metadata);
+   Radar.SetMetadata(metadata);
 }
 ```
 
@@ -476,24 +456,23 @@ private async Task SetMetadataAsync(MetadataContainer metadata)
 
 GetLocation
 ```cs
-// Coroutine Call
-public void GetLocation()
+private Task<Location?> GetLocation()
 {
-   StartCoroutine(GetLocationCoroutine());
-}
+   var tcs = new TaskCompletionSource<Location?>();
 
-// Async Call
-private IEnumerator GetLocationCoroutine()
-{
-   var task = RadarSDKManager.GetLocationAsync();
+   Radar.GetLocation(location =>
+   {
+         if (location.coordinates != null)
+         {
+            LogManager.Instance.Log($"Location received: Latitude = {location.latitude}, Longitude = {location.longitude}", LogType.Warning);
+         }
+         else
+         {
+            LogManager.Instance.Log("Failed to get location", LogType.Error);
+         }
+   });
 
-   while (!task.IsCompleted)
-         yield return null;
-
-   if (task.Result != null)
-         Debug.Log($"Location: Latitude = {task.Result.Value.latitude}, Longitude = {task.Result.Value.longitude}");
-   else
-         Debug.LogError("Failed to retrieve location.");
+   return tcs.Task;
 }
 ```
 
@@ -501,16 +480,9 @@ private IEnumerator GetLocationCoroutine()
 
 TrackVerified
 ```cs
-// Coroutine Call
-public void TrackVerified()
-{
-   StartCoroutine(RadarSDKManager.TrackVerified());
-}
-
-// Async Call
 private async Task TrackVerifiedAsync()
 {
-   await RadarSDKManager.TrackVerifiedAsync(RadarSDKManager.UserId);
+   await Radar.TrackVerified();
 }
 ```
 
@@ -518,16 +490,9 @@ private async Task TrackVerifiedAsync()
 
 StartTrackingVerified
 ```cs
-// Coroutine Call
-public void StartTrackingVerified()
-{
-   StartCoroutine(RadarSDKManager.StartTrackingVerified());
-}
-
-// Async Call
 private async Task StartTrackingVerifiedAsync()
 {
-   await RadarSDKManager.StartTrackingVerifiedAsync(RadarSDKManager.TrackingInterval, RadarSDKManager.UseBeacons);
+   await Radar.StartTrackingVerified(RadarSDKManager.TrackingInterval, RadarSDKManager.UseBeacons);
 }
 ```
 
@@ -535,16 +500,9 @@ private async Task StartTrackingVerifiedAsync()
 
 StopTracking
 ```cs
-// Coroutine Call
-public void StopTracking()
-{
-   StartCoroutine(RadarSDKManager.StopTracking());
-}
-
-// Async Call
 private async Task StopTrackingAsync()
 {
-   await RadarSDKManager.StopTrackingAsync();
+   await Radar.StopTracking();
 }
 ```
 
@@ -552,33 +510,28 @@ private async Task StopTrackingAsync()
 
 Once the native SDK retrieves the location, it sends the data back to Unity. On Android, this is done via RadarJavaProxy, and on iOS, it’s done via a delegate or callback defined in RadarUnityBridge.m
 ```cs
-// Coroutine Call
-public void GetVerifiedLocationToken()
+private void GetVerifiedLocationToken()
 {
    StartCoroutine(GetVerifiedLocationTokenCoroutine());
 }
 
-
 private IEnumerator GetVerifiedLocationTokenCoroutine()
 {
-   var task = RadarSDKManager.GetVerifiedLocationTokenAsync();
+   var task = Radar.GetVerifiedLocationToken();
+
    while (!task.IsCompleted)
+   {
          yield return null;
+   }
 
-   if (task.Result.HasValue)
-         Debug.Log($"Verified Location Token received: Status = {task.Result.Value.Status}");
+   if (task.IsCompleted && task.Result.Data != null)
+   {
+         Debug.Log($"Verified Location Token received: Status = {task.Result.Status}");
+   }
    else
+   {
          Debug.LogError("Failed to retrieve verified location token.");
-}
-
-// Async Call
-private async Task GetVerifiedLocationTokenAsync()
-{
-   var result = await RadarSDKManager.GetVerifiedLocationTokenAsync();
-   if (result.HasValue)
-         Debug.Log($"Verified Location Token received: Status = {result.Value.Status}");
-   else
-         Debug.LogError("Failed to retrieve verified location token.");
+   }
 }
 ```
 
@@ -588,9 +541,9 @@ private async Task GetVerifiedLocationTokenAsync()
 OnTokenUpdated callback
 ```cs
 // Coroutine Call
-public void SetVerifiedReceiver()
+private void SetVerifiedReceiver()
 {
-   RadarSDKManager.SetVerifiedReceiver(OnVerifiedLocationTokenReceived);
+   Radar.SetVerifiedReceiver(OnVerifiedLocationTokenReceived);
 }
 
 private void OnVerifiedLocationTokenReceived(RadarVerifiedLocationToken token)
