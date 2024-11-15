@@ -129,7 +129,7 @@ The Radar SDK for Unity provides a custom editor window that allows developers t
     <p>To access the Radar SDK settings, go to `Radar > Settings` in the Unity top menu. This will open the `Radar SDK Settings` window.</p>
   </div>
   <div style={{ flex: "1" }}>
-    <img src="https://images.ctfassets.net/f2vbu16fzuly/RQJqsHB4b2ag20p0KZBGH/e882592ea88a127935ccfb4ace6ebc33/Image6.png" alt="Demo Scene Status Lights" style={{ width: "95%", height: "auto" }} />
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/4UJDyeLHIzogDKgpgkejO9/28d79ce851a25f2273f04c1745bd19c6/unity-sdk-settings.png" alt="Demo Scene Status Lights" style={{ width: "95%", height: "auto" }} />
   </div>
 </div>
 
@@ -359,7 +359,12 @@ android.suppressUnsupportedCompileSdk=34
 :::info
   Don't forget to include `RadarSDK.xcframework` under `Your Project General > Frameworks, Libraries, and Embedded Content` when building application in Xcode.
 :::
-****[IMG7]****
+
+
+<div style={{ flex: "1" }}>
+   <img src="https://images.ctfassets.net/f2vbu16fzuly/48HBKFagArYkFavJA3jNQ/9d3de817a9e88a4292cd0201643cd694/unity-sdk-xcode.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+</div>
+
 
 ## Integrate
 
@@ -540,7 +545,6 @@ private IEnumerator GetVerifiedLocationTokenCoroutine()
 
 OnTokenUpdated callback
 ```cs
-// Coroutine Call
 private void SetVerifiedReceiver()
 {
    Radar.SetVerifiedReceiver(OnVerifiedLocationTokenReceived);
