@@ -5,6 +5,11 @@ class LoggedInApiKey {
   testPublicKey = null;
 
   attemptToFetchKeys() {
+    // components are prerendered on the server -- obviously
+    // don't run there.
+    if(typeof window === 'undefined') {
+      return;
+    }
     if(!window.localStorage) {
       return;
     }
