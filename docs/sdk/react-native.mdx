@@ -61,11 +61,11 @@ For background tracking without a foreground service, and if targeting API level
 
 ### Expo
 
-You can use our Expo plugin to take care of the native setup. Add `"react-native-radar"` to the `"plugins"` field in `app.json`. You can use our optional plugin arguments to configure `react-native-radar` for your Expo project. 
+You can also use our Expo plugin to take care of the native setup. Add `react-native-radar` to `plugins` in `app.json` and specify one or more of the plugin options below:
 
 ```json
 {
-  "expo":{
+  "expo": {
     ...
     "plugins": [
       [
@@ -73,26 +73,28 @@ You can use our Expo plugin to take care of the native setup. Add `"react-native
         {
           // boolean to enable iOS fraud detection, defaults to false
           "iosFraud": true,
-          // string used in iOS NSLocationWhenInUseUsageDescription prompt, defaults to "This app uses the location service to provide location-based services."
-          "iosNSLocationWhenInUseUsageDescription": "Your location permission prompt"
-          // string used in iOS NSLocationAlwaysAndWhenInUseUsageDescription prompt, required for background permissions
-          "iosNSLocationAlwaysAndWhenInUseUsageDescription": "Your location permission prompt",
-          // boolean to enable iOS background tracking, required for responsive and continous tracking mode, defaults to false
+          // string used in iOS NSLocationWhenInUseUsageDescription prompt, required for foreground location permissions
+          "iosNSLocationWhenInUseUsageDescription": "Your foreground location usage description."
+          // string used in iOS NSLocationAlwaysAndWhenInUseUsageDescription prompt, required for background location permissions
+          "iosNSLocationAlwaysAndWhenInUseUsageDescription": "Your background location usage description.",
+          // boolean to enable iOS background location mode, required for .presetContinuous and .presetResponsive, defaults to false
           "iosBackgroundMode": true,
           // boolean to enable Android fraud detection, defaults to false
           "androidFraud": true,
-          // boolean to enable Android background permissions, defaults to false 
+          // boolean to enable Android background location permissions, defaults to false 
           "androidBackgroundPermission": true,
-          // boolean to enable Android fine locations permission, default to false
+          // boolean to enable Android foreground location permissions, defaults to false
           "androidFineLocationPermission": true,
-          // boolean to enable motion activity detection and location metedata, defualts to false
-          "addRadarSDKMotion":true,
-          // string used in ios NSMotionUsageDescription prompt, defaults to "This app uses the motion service to provide motion-based services."
-          iosNSMotionUsageDescription?: string;
+          // boolean to enable motion activity detection, defaults to false
+          "addRadarSDKMotion": true,
+          // string used in iOS NSMotionUsageDescription prompt, defaults to "This app uses the motion service to provide motion-based services."
+          "iosNSMotionUsageDescription": "Your motion usage description."
         }
       ],
-      // optional, only required when you are also using Radar maps
-      ["@maplibre/maplibre-react-native"]
+      // optional, only required if using Radar Maps
+      [
+        "@maplibre/maplibre-react-native"
+      ]
     ]
   }
 }
