@@ -76,21 +76,21 @@ You can use our Expo plugin to take care of the native setup. Add `"react-native
           // boolean to enable iOS fraud detection, defaults to false
           "iosFraud": true,
           // string used in iOS NSLocationWhenInUseUsageDescription prompt, required for foreground location permissions
-          "iosNSLocationWhenInUseUsageDescription": "Your foreground location permission prompt"
+          "iosNSLocationWhenInUseUsageDescription": "Your foreground location usage description."
           // string used in iOS NSLocationAlwaysAndWhenInUseUsageDescription prompt, required for background location permissions
-          "iosNSLocationAlwaysAndWhenInUseUsageDescription": "Your background location permission prompt",
+          "iosNSLocationAlwaysAndWhenInUseUsageDescription": "Your background location usage description.",
           // boolean to enable iOS background location mode, required for .presetContinuous and .presetResponsive, defaults to false
           "iosBackgroundMode": true,
           // boolean to enable Android fraud detection, defaults to false
           "androidFraud": true,
           // boolean to enable Android background location permissions, defaults to false 
           "androidBackgroundPermission": true,
-          // boolean to enable Android foreground location permission, defaults to false
+          // boolean to enable Android foreground location permissions, defaults to false
           "androidFineLocationPermission": true,
           // boolean to enable motion activity detection, defaults to false
           "addRadarSDKMotion": true,
           // string used in iOS NSMotionUsageDescription prompt, defaults to "This app uses the motion service to provide motion-based services."
-          iosNSMotionUsageDescription?: "Your motion permission prompt"
+          iosNSMotionUsageDescription?: "Your motion usage description."
         }
       ],
       // optional, only required if using Radar Maps
