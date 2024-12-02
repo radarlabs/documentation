@@ -978,7 +978,7 @@ Calculates the travel distance and duration between an origin and a destination.
 - **`origin`** (string, required): The origin. A string in the format `latitude,longitude`.
 - **`destination`** (string, required): The destination. A string in the format `latitude,longitude`.
 - **`modes`** (string, required): The travel modes. A string, comma-separated, including one or more of `car`, `truck`, `foot`, or `bike`.
-- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided. In the response, `distance.value` will be in meters for `metric` and in feet for `imperial`. 
+- **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided. In the response, `distance.value` will be in meters for `metric` and in feet for `imperial`.
 - **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways`, `ferries` and `borderCrossings`. No features are avoided if not provided.
 - **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to none if not provided.
 
@@ -1300,6 +1300,14 @@ Calculates the most efficient route between two or more locations to visit in or
 - **`units`** (string, optional): The distance units. A string, `metric` or `imperial`. Defaults to `imperial`.
 - **`avoid`** (string, optional): The features that calculated routes should avoid. A string, comma-separated, including one or more of `tolls`, `highways`, `ferries` and `borderCrossings`. No features are avoided if not provided.
 - **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to `polyline6` if not provided.
+
+###### Turn by Turn
+
+Additionally you can acquire turn by turn directions (currently in beta) by specifying additional query parameters.
+
+- **`detailed`** (boolean, optional): Specifies whether to return turn by turn directions in the response. Defaults to `false`.
+- **`alternatives`** (boolean, optional): Specifies whether to try to return alternative routes. This feature is available if only two locations are specified. Defaults to `false`.
+- **`lang`** (string, optional): Specifies the language for the results. A string, one of `de`, `en`, `es`, `fr`, `ja`, `ko`, `pt`, `ru`. Defaults to `en`.
 
 ###### Authentication level
 
@@ -2026,7 +2034,7 @@ Lists trips. Trips are sorted descending by `eta`.
 - **`status`** (string, optional): Retrieves trips by status. A string, comma-separated including one or more of `pending`, `started`, `approaching`, `arrived`, `completed`, `canceled`, `expired`.
 - **`destinationGeofenceTag`** (string, optional): Retrieves trips with the destination geofence tag.
 - **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
-- **`externalId`** (string, optional) Retrieves trips by unique IDs. A string, comma-separated including one or more IDs. 
+- **`externalId`** (string, optional) Retrieves trips by unique IDs. A string, comma-separated including one or more IDs.
 - **`userId`** (string, optional): The Radar `_id` of the [user](/api#users) for which the trip is being tracked.
 - **`includeLocations`** (boolean, optional): Whether to include locations on trips. Defaults to `false`.
 - **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves trips created after the specified datetime. A date or valid ISO date string.
