@@ -1,0 +1,39 @@
+---
+title: Campaigns
+---
+
+import Alert from '@site/src/components/Alert';
+
+<Alert alertType="info">
+  Notifications are available on {` `}
+  <a href="https://github.com/radarlabs/radar-sdk-ios/releases/tag/3.7.6">iOS SDK v3.7.6</a>
+  {` `} and above.
+</Alert>
+
+<Alert alertType="info">
+    This feature is currently in beta. If you encounter any issues or have feedback, please reach out to us at <a href="mailto:support@radar.io">support@radar.io</a>.
+</Alert>
+
+Use campaigns to easily customize your notifications. Campaigns can be used to effortlessly customize your notification content and targeting behavior.
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+Then, [create geofences](/geofences#create-geofences) via the dashboard, CSV import, or the API.
+
+Next, [create campaigns](/campaigns#create-campaigns) via the dashboard.
+
+## How it works
+
+Radar's campaigns are a way to customize your notifications. You can use campaigns to customize the content of your notifications, as well as the targeting of your notifications. 
+When a user interacts with a geofence, Radar will check to see if there is a campaign associated with that geofence. If there is, Radar will use the campaign's content and targeting to customize the notification that is sent to the user.
+
+
+## Create campaigns
+
+To create a campaign via the dashboard, go to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click the create button. Enter the campaign's name, notification body and targeting information. You can use either your project's geofences tags or geofences ids to target users with a campaign.
+
+
+
+
