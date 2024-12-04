@@ -888,7 +888,7 @@ Returns a `verificationStatus` as part of the `result`, as defined below:
 - **`ambiguous`**: The input closely matches multiple results.
 - **`unverified`**: Unable to verify the input address.
 
-Returns a `recordType` value in the `metadata` field as part of the `result`, values are defined below according to USPS standards:
+Returns a `recordType` value in the `metadata` field as part of the `result`, if available. Values are defined below according to USPS standards:
 
 - **`S`**: Street Address
 - **`P`**: Post Office Box
@@ -896,6 +896,11 @@ Returns a `recordType` value in the `metadata` field as part of the `result`, va
 - **`H`**: High-rise
 - **`F`**: Firm
 - **`G`**: General Delivery
+
+Returns a `propertyType` value in the `metadata` field as part of the `result`, if available. Values are defined below:
+
+- **`residential`**: Indicates the address is identified as a residential property.
+- **`commercial`**: Indicates the address identified as a commercial property.
 
 On US addresses, an `analysis` field may be returned, which contains the following fields:
 
