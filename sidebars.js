@@ -92,6 +92,7 @@ module.exports = {
       items: [
         { type: "doc", id: "tutorials", label: "Overview" },
         "tutorials/building-an-on-premise-mode",
+        "tutorials/building-menuboard-detection-with-in-geofence-tracking-options",
         "tutorials/showing-a-notification-when-a-user-enters-a-geofence",
         "tutorials/building-an-app-with-location-enabled-curbside-pickup",
         "tutorials/building-a-delivery-tracking-app",
