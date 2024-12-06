@@ -8,279 +8,67 @@ sidebar_position: 1
 
 This is the documentation for the Unity wrapper/plugin, which provides a thin proxy layer for integrating existing native SDKs offering location tracking and geofencing services. Before integrating, review the native SDK documentation for iOS and Android to understand platform-specific requirements and features.
 
-The Unity wrapper is developed as a plugin for native SDKs written in Kotlin for Android and Objective-C for iOS.
-
 See the source on GitHub [here](https://github.com/radarlabs/unity-radar).
 
-## Supported Unity versions
-
-The SDK has been tested on Unity **2022.3.41f**, and **6000.0.24f** versions. However, it should work with Unity versions **2021** and above.
-
-## Project structure
-
-<div style={{ display: "flex", alignItems: "flex-start", gap: "20px" }}>
-  <div style={{ flex: "1.5" }}>
-    <p>The project directory is organized as follows:</p>
-  </div>
-  <div style={{ flex: "1" }}>
-    <img src="https://images.ctfassets.net/f2vbu16fzuly/1g09wPuKjYu2YH622UTD2y/d080966101b93adbea2f8e4745a5f97f/Image4.png" alt="Demo Scene Status Lights" style={{ width: "75%", height: "auto" }} />
-  </div>
-</div>
-
-
-### Scripts overview
-
-This section provides an overview of the main scripts in the Radar SDK for Unity, detailing each script's role and its relationships with other components. This will help you quickly understand how to integrate and utilize the Radar SDK in your Unity project.
-
-#### 1. `RadarExample.cs`
-
-> **Description**:  
-> Main script used in demo scene. Demonstrates how to initialize and configure the Radar SDK in Unity. This script provides a basic setup and can be used as a starting template for integrating Radar SDK functionality.
-
-| **Functionality**                                                                              | **Related Scripts**                                                                                  |
-|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| - Initializes the Radar SDK using `RadarSettingsData`.                                         | - Works with `RadarServiceWrapper` to perform core SDK operations.                                   |
-| - Sets up callbacks and configurations required for tracking operations.                       | - Initializes `RadarErrorHandler` for centralized error handling.                                    |
-
-#### 2. `RadarServiceWrapper.cs`
-
-> **Description**:  
-> Provides a wrapper around the Radar SDK's core functionality, including methods for initializing the SDK, setting the user ID and metadata, and managing tracking operations. It also supports centralized error handling by delegating errors to `RadarErrorHandler`.
-
-| **Functionality**                                                                              | **Related Scripts**                                                                                  |
-|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| - Wraps essential SDK methods like initialization, setting user ID, and tracking management.   | - Works with `RadarExample` to initialize and configure SDK.                               |
-| - Exposes an error callback for centralized error management through `RadarErrorHandler`.      | - Routes platform-specific SDK calls to `AndroidAdapter` and `iOSAdapter` as needed.                 |
-
-#### 3. `Radar.cs`
-
-> **Description**:  
-> The main class for interacting with the Radar SDK, `Radar.cs` bridges Unity and the Radar service, handling core setup, user identification, and tracking operations.
-
-| **Functionality**                                                                              | **Related Scripts**                                                                                  |
-|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| - Contains methods for initializing the SDK, setting user ID, and managing tracking.           | - Called directly by `RadarServiceWrapper` to execute SDK operations.                                |
-| - Routes platform-specific calls to `AndroidAdapter` or `iOSAdapter` based on the platform.    | - Delegates platform-specific calls to `AndroidAdapter` and `iOSAdapter`.                            |
-
-#### 4. `AndroidAdapter.cs`
-
-> **Description**:  
-> Adapter class for Android, bridging Unity and the Radar SDK’s Android `.aar` library. Ensures compatibility with Android-specific integration requirements.
-
-| **Functionality**                                                                              | **Related Scripts**                                                                                  |
-|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| - Manages Android-specific calls for initialization, tracking, and stopping tracking.          | - Works with `RadarServiceWrapper` and `Radar.cs` to perform Android-specific SDK operations.        |
-| - Provides platform-specific implementation to support Android features.                       | - Complements `iOSAdapter` to provide cross-platform support.                                        |
-
-#### 5. `iOSAdapter.cs`
-
-> **Description**:  
-> Adapter class for iOS, bridging Unity and the Radar SDK’s iOS `.xcframework` library. Ensures Radar SDK functionality works seamlessly on iOS devices.
-
-| **Functionality**                                                                              | **Related Scripts**                                                                                  |
-|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| - Manages iOS-specific calls for initialization, user ID setup, and tracking.                  | - Complements `AndroidAdapter` to provide cross-platform support.                                    |
-| - Implements `RadarServiceWrapper` and `Radar.cs` methods for iOS.                             | - Receives method calls from `RadarServiceWrapper` and `Radar.cs` for iOS operations.                |
-
-#### 6. `RadarUsageExample.cs`
-
-> **Description**:  
-> Example script showing how to use each method available in the Radar SDK, providing a practical reference for developers integrating Radar into their Unity project.
-
-| **Functionality**                                                                              | **Related Scripts**                                                                                  |
-|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| - Demonstrates initializing and configuring the SDK, setting user ID, and using tracking.      | - Utilizes `RadarServiceWrapper` for SDK interactions.                                               |
-| - Shows error handling via `RadarErrorHandler`.                                                | - Sets up error handling with `RadarErrorHandler` to manage potential errors.                        |
-
-### Script Interactions and Flow
-
-1. **Initialization**:
-   - `RadarExample` initializes the SDK by calling `RadarServiceWrapper.Initialize()` and sets up configurations.
-   - `RadarServiceWrapper` initializes `Radar` and delegates platform-specific initialization to `AndroidAdapter` or `iOSAdapter`.
-
-2. **Platform-Specific Operations**:
-   - `RadarServiceWrapper` and `Radar` route SDK calls to `AndroidAdapter` or `iOSAdapter` depending on the platform.
-
-3. **Error Handling**:
-   - Errors encountered during SDK usage are sent to `RadarErrorHandler` through a callback set up in `RadarServiceWrapper`.
-   - `RadarErrorHandler` logs errors and optionally displays messages to the user.
-
-4. **Example Implementation**:
-   - `RadarUsageExample` provides a comprehensive example of SDK functions, making it easy for developers to integrate and use the Radar SDK in their projects.
-
-### Summary
-
-This architecture enables robust cross-platform support within Unity. With `RadarServiceWrapper` handling core SDK functionality and `AndroidAdapter`/`iOSAdapter` managing platform-specific operations, The example scripts (`RadarExample` and `RadarUsageExample`) illustrate how to integrate these features, making it easy for developers to get started.
-
-
-
-
-
-
-
-## Configuring Radar SDK settings in Unity
-
-The Radar SDK for Unity provides a custom editor window that allows developers to easily configure general settings, keys, and other options necessary for the Radar integration.
-
-### Accessing the settings
-
-<div style={{ display: "flex", alignItems: "flex-start", gap: "20px" }}>
-  <div style={{ flex: "1.2" }}>
-    <p>To access the Radar SDK settings, go to `Radar > Settings` in the Unity top menu. This will open the `Radar SDK Settings` window.</p>
-  </div>
-  <div style={{ flex: "1" }}>
-    <img src="https://images.ctfassets.net/f2vbu16fzuly/4UJDyeLHIzogDKgpgkejO9/28d79ce851a25f2273f04c1745bd19c6/unity-sdk-settings.png" alt="Demo Scene Status Lights" style={{ width: "95%", height: "auto" }} />
-  </div>
-</div>
-
-
-### General settings
-
-- **User ID**: Unique identifier for the user, required for tracking purposes. Defaults to `DefaultUserId`. If `Add Extension` is enabled, this ID will append platform-specific extensions (e.g., `_WindowsEditor`).
-
-- **Add Extension**: Toggle to append a platform-specific extension to the User ID.
-
-- **Enable Debugging**: Toggle this to enable or disable debug logging managed by `LogManager` script.
-
-### API keys
-
-- **Test Publishable Key**: Enter your project's test publishable key here. This key is used in development builds `(isDebugBuild = true)`.
-
-- **Live Publishable Key**: Enter your project's live publishable key here. This key is used in release builds `(isDebugBuild = false)`.
-
-You can find both publishable keys in your Radar dashboard under the project settings.
-
-### Tracking and beacons
-
-- **Tracking Interval (seconds)**: Sets the interval in seconds at which the location tracking updates occur.
-
-- **Use Beacons**: Toggle to enable or disable the use of beacons in location tracking.
-
-### Metadata
-
-- **Metadata**: A container to store or pass additional information required by the application. Click `Edit Metadata` to modify the JSON-formatted data. To add/remove data, modify `MetadataContainer` script.
-
-### Saving changes
-
-After configuring the settings, click `Save Settings` to apply your changes.
-
-
-
+Scripts documentation and Demo scene overview can be found in project READMEs.
 
 ## Install
 
-To integrate the Unity wrapper, download or clone the package and include it in your Unity project:
+To integrate the Unity SDK, download or clone the package and include it in your Unity project:
 
 1. Copy the `Plugins` folder (containing both Android and iOS native implementations) into the `Assets` directory of your Unity project. Ensure it contains all the required files.
-2. Import the ExternalDependencyManager for Unity (EDM4U). You can get it from `Package Manager` or from [repo](https://github.com/googlesamples/unity-jar-resolver): It is required if you want to add and use iOS/Android dependencies directly in your project like: `Android specific libraries (e.g AARs)` or `iOS CocoaPods`
+2. Import the ExternalDependencyManager for Unity (EDM4U). It is included in the project but you can get it from `Package Manager` or from [repo](https://github.com/googlesamples/unity-jar-resolver): It is required if you want to add and use iOS/Android dependencies directly in your project like: `Android specific libraries (e.g AARs)` or `iOS CocoaPods`
 3. Ensure that any required permissions or settings specific to location tracking and geofencing are configured on both iOS and Android, as outlined in the native SDK documentation. 
 
 
-## Demo scene
+### Supported Unity versions
 
-The Demo Scene in this Unity SDK provides a hands-on way to test each function call with visual feedback and live status updates. The interface is divided into three main sections: [**Top Panel**](#top-panel), [**Left Panel**](#left-panel), and [**Right Panel**](#right-panel).
+The SDK has been tested on Unity **2022.3.41f**, and **6000.0.24f** versions. However, it should work with Unity versions **2021** and above.
 
-### Overview
 
-<div style={{ display: "flex", alignItems: "flex-start", gap: "20px" }}>
-  <div style={{ flex: "1.25" }}>
-    <p>Each function in the Demo Scene is represented by a button that triggers the respective SDK call. Status lights beside each button give instant feedback on the operation's result:</p>
-    <ul>
-      <li><span style={{ color: "orange", fontWeight: "bold" }}>Orange:</span> Operation started</li>
-      <li><span style={{ color: "red", fontWeight: "bold" }}>Red:</span> Operation failed</li>
-      <li><span style={{ color: "green", fontWeight: "bold" }}>Green:</span> Operation succeeded</li>
-    </ul>
-    <p>These status indicators provide quick visual feedback, making it easier to track the state of each function.</p>
-    
-    <p>You can also change the publishable key directly in the build. These are some additional operations:</p>
-    <ul>
-      <li><span style={{ color: "green", fontWeight: "bold" }}>Save:</span> Saves key in Player Prefs so that the next time it will have a new key</li>
-      <li><span style={{ color: "blue", fontWeight: "bold" }}>Update:</span> Reinitializes the SDK by calling `RadarServiceWrapper.Initialize()`</li>
-      <li><span style={{ color: "purple", fontWeight: "bold" }}>Reset:</span> Resets the key to default and reinitializes the SDK</li>
-    </ul>
-    <p>These status indicators provide quick visual feedback, making it easier to track the state of each function.</p>
+## Integrate
+
+### Play Integrity API
+To enable the Play Integrity API for Android, enable the [Play Integrity API](https://developer.android.com/google/play/integrity) on the [Settings page](https://radar.com/dashboard/settings) and follow the activation steps. Include the dependency in your app's `build.gradle` file:
+
+Inside `mainTemplate.gradle`:
+```gradle
+dependencies {
+   implementation 'com.google.android.play:integrity:1.2.0'
+}
+```
+
+Inside `Dependencies.xml`:
+```xml
+<dependencies>
+  <androidPackages>
+    <androidPackage spec="com.google.android.play:integrity:1.2.0"/>
+  </androidPackages>
+</dependencies>
+```
+
+Use `Radar.trackVerified()` after setup. If you encounter `ERROR_FORBIDDEN`, ensure the device has the latest version of Play Services. For more details, refer to our [Fraud Documentation](https://radar.com/documentation/fraud).
+
+
+### App attest
+
+Enable App Attest for iOS via the Settings page by listing valid App IDs. App Attest requires iOS 14 or later and must be added to your Xcode project under Signing & Capabilities. Switch to the production entitlements file for deployment.
+
+Use `Radar.trackVerified()` after setup. If Radar.trackVerified() returns ERROR_FORBIDDEN, verify iOS compatibility and log details. For in-depth information, see our [Fraud Documentation](https://radar.com/documentation/fraud).
+
+<div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+  <div style={{ flex: "0.74" }}>
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/6EVotgdoT1Far0d9JVIpfC/74cba9d1840da4dd8f2ea30c401c9499/Image2.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
   </div>
   <div style={{ flex: "1" }}>
-    <img src="https://images.ctfassets.net/f2vbu16fzuly/4YCMfKPVMoND2zOXn7iMxT/2f591a4efa957853f0f3c37f2da4c32e/Image1.PNG" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/4yYYJX4hQvdqiOCFwtcAHz/27d8421f3fa0317d7a593d5d891bb30c/Image3.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
   </div>
 </div>
 
 
 
 
-### Interface layout
-
-#### Top Panel
-The top panel displays key information and status updates for each function call:
-- **Status Text**: Shows the current status of the last operation (e.g., `Success`, `Timeout`, or `Failed`).
-- **Time Taken**: Displays the time taken for the last operation.
-- **User ID Text**: Displays the current User ID.
-- **Callback Received Text**: Shows `_onTokenUpdatedText`, indicating that a callback has been received (specific to token updates).
-- **Metadata Text**: Displays any metadata set during the session.
-- **Location Text**: Displays the last known location.
-
-#### Left panel
-The left panel shows the JSON data retrieved from the latest verified tracking operation. This data is dynamically updated when the `Track Verified` function is called. The process works as follows:
-
-```csharp
-var track = await RadarSDKManager.TrackVerifiedAsync(userId);
-if (track != null)
-{
-    if (track.Value.Status == RadarStatus.SUCCESS)
-    {
-        var json = JsonUtility.ToJson(track.Value.Data);
-        _jsonText.text = JsonFormatter.FormatJson(json, _colors);
-        SetImageColor(_trackVerifiedImage, _greenColor); // Task completed successfully
-    }
-
-    _statusText.text = $"Status: {track.Value.Status}";
-}
-else
-{
-    SetImageColor(_trackVerifiedImage, _redColor); // Task failed or timed out
-    _statusText.text = "Timeout";
-}
-```
-#### Right panel
-
-The right panel contains logs managed by the `LogManager.cs` script. This log section categorizes messages by type:
-
-
-- <span style={{ color: "rgb(0, 0, 0)", fontWeight: "bold" }}>Log</span>: General operational messages.
-- <span style={{ color: "rgb(255, 165, 0)", fontWeight: "bold" }}>Attention</span>: Important events that may need user attention.
-- <span style={{ color: "rgb(200, 200, 0)", fontWeight: "bold" }}>Warning</span>: Issues that could potentially affect performance or functionality.
-- <span style={{ color: "rgb(255, 0, 0)", fontWeight: "bold" }}>Error</span>: Critical issues that need immediate attention.
-
-Each log entry shows vital information about the SDK's runtime behavior, making it easier to debug and monitor operations.
-
-##### Functionality
-
-The Demo Scene includes the following buttons and their associated functionality:
-
-- **Set User ID**: Calls `SetUserIdButtonHandler()`.
-- **Set Metadata**: Calls `SetMetadata()`.
-- **Get Location**: Calls `GetLocation()`.
-- **Verify Track**: Calls `TrackVerified()`, verifying location tracking with a status update.
-- **Start Tracking**: Calls `StartTrackingVerified()`, initiating background location tracking.
-- **Stop Tracking**: Calls `StopTracking()`, stopping background tracking.
-- **Get Verified Location Token**: Calls `GetVerifiedLocationToken()`, retrieving a token for verifying location data.
-
-Each button is connected to its respective function through event listeners:
-
-```csharp
-private IEnumerator Start()
-{
-    _setUserIdButton.onClick.AddListener(() => { SetUserIdButtonHandler(); });
-    _setMetadataButton.onClick.AddListener(() => SetMetadata());
-    _getLocationButton.onClick.AddListener(() => GetLocation());
-    _verifyTrackButton.onClick.AddListener(() => _ = TrackVerified());  
-    _startTrackingButton.onClick.AddListener(() => _ = StartTrackingVerified());
-    _stopTrackingButton.onClick.AddListener(() => _ = StopTracking());
-    _getVerifiedLocationTokenButton.onClick.AddListener(() => _ = GetVerifiedLocationToken());
-    // ...
-}
-```
-
+## Platform-specific configuration
 
 ### Android
 
@@ -366,53 +154,65 @@ android.suppressUnsupportedCompileSdk=34
 </div>
 
 
-## Integrate
 
-### Play Integrity API
+## Configuring Radar SDK settings in Unity
 
-To enable the Play Integrity API for Android, visit the Settings page and follow the activation steps. Include the dependency in your app's `build.gradle` file:
+The Radar SDK for Unity provides a custom editor window that allows developers to easily configure general settings, keys, and other options necessary for the Radar integration.
 
-Inside `mainTemplate.gradle`:
-```gradle
-dependencies {
-   implementation 'com.google.android.play:integrity:1.2.0'
-}
-```
+### Accessing the settings
 
-Inside `Dependencies.xml`:
-```xml
-<dependencies>
-  <androidPackages>
-    <androidPackage spec="com.google.android.play:integrity:1.2.0"/>
-  </androidPackages>
-</dependencies>
-```
-Use `Radar.trackVerified()` after setup. If you encounter `ERROR_FORBIDDEN`, ensure the device has the latest version of Play Services. For more details, refer to our ****Fraud Documentation****.
-
-
-### App attest
-
-Enable App Attest for iOS via the Settings page by listing valid App IDs. App Attest requires iOS 14 or later and must be added to your Xcode project under Signing & Capabilities. Switch to the production entitlements file for deployment.
-
-Use `Radar.trackVerified()` after setup. If Radar.trackVerified() returns ERROR_FORBIDDEN, verify iOS compatibility and log details. For in-depth information, see our Fraud Documentation.
-
-<div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
-  <div style={{ flex: "0.74" }}>
-    <img src="https://images.ctfassets.net/f2vbu16fzuly/6EVotgdoT1Far0d9JVIpfC/74cba9d1840da4dd8f2ea30c401c9499/Image2.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+<div style={{ display: "flex", alignItems: "flex-start", gap: "20px" }}>
+  <div style={{ flex: "1.2" }}>
+    <p>To access the Radar SDK settings, go to `Radar > Settings` in the Unity top menu. This will open the `Radar SDK Settings` window.</p>
   </div>
   <div style={{ flex: "1" }}>
-    <img src="https://images.ctfassets.net/f2vbu16fzuly/4yYYJX4hQvdqiOCFwtcAHz/27d8421f3fa0317d7a593d5d891bb30c/Image3.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/4UJDyeLHIzogDKgpgkejO9/28d79ce851a25f2273f04c1745bd19c6/unity-sdk-settings.png" alt="Demo Scene Status Lights" style={{ width: "95%", height: "auto" }} />
   </div>
 </div>
 
 
-### Using plugin
+#### General settings
+
+- **User ID**: Unique identifier for the user, required for tracking purposes. Defaults to `DefaultUserId`. If `Add Extension` is enabled, this ID will append platform-specific extensions (e.g., `_WindowsEditor`).
+
+- **Add Extension**: Toggle to append a platform-specific extension to the User ID.
+
+- **Enable Debugging**: Toggle this to enable or disable debug logging managed by `LogManager` script.
+
+#### API keys
+
+- **Test Publishable Key**: Enter your project's test publishable key here. This key is used in development builds `(isDebugBuild = true)`.
+
+- **Live Publishable Key**: Enter your project's live publishable key here. This key is used in release builds `(isDebugBuild = false)`.
+
+You can find both publishable keys in your Radar dashboard under the project settings.
+
+#### Tracking and beacons
+
+- **Tracking Interval (seconds)**: Sets the interval in seconds at which the location tracking updates occur.
+
+- **Use Beacons**: Toggle to enable or disable the use of beacons in location tracking.
+
+#### Metadata
+
+- **Metadata**: A container to store or pass additional information required by the application. Click `Edit Metadata` to modify the JSON-formatted data. To add/remove data, modify `MetadataContainer` script.
+
+#### Saving changes
+
+After configuring the settings, click `Save Settings` to apply your changes.
+
+
+
+
+
+## Using plugin
 
 Once installed, access the SDK functionality using RadarSDK namespace:
 
 ```csharp
 using RadarSDK;
 ```
+
 
 
 
@@ -427,8 +227,6 @@ Look at ***RadarUsageExample.cs*** script for example usages
 
 #### Initialize
 
-Initialize
-
 ```cs
 private void InitializeRadar()
 {
@@ -439,7 +237,6 @@ private void InitializeRadar()
 
 #### SetUserId
 
-SetUserId
 ```cs
 private void SetUserId(string userId)
 {
@@ -449,7 +246,6 @@ private void SetUserId(string userId)
 
 #### SetMetadata
 
-SetMetadata
 ```cs
 private void SetMetadata(MetadataContainer metadata)
 {
@@ -459,7 +255,6 @@ private void SetMetadata(MetadataContainer metadata)
 
 #### GetLocation
 
-GetLocation
 ```cs
 private Task<Location?> GetLocation()
 {
@@ -483,7 +278,6 @@ private Task<Location?> GetLocation()
 
 #### TrackVerified
 
-TrackVerified
 ```cs
 private async Task TrackVerifiedAsync()
 {
@@ -493,7 +287,6 @@ private async Task TrackVerifiedAsync()
 
 #### StartTrackingVerified
 
-StartTrackingVerified
 ```cs
 private async Task StartTrackingVerifiedAsync()
 {
@@ -503,7 +296,6 @@ private async Task StartTrackingVerifiedAsync()
 
 #### StopTracking
 
-StopTracking
 ```cs
 private async Task StopTrackingAsync()
 {
@@ -556,7 +348,10 @@ private void OnVerifiedLocationTokenReceived(RadarVerifiedLocationToken token)
 }
 ```
 
+## Error handling
 
+### Troubleshooting
+on the way...
 
 ## Support
 
