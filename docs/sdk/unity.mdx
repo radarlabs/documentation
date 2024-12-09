@@ -350,8 +350,58 @@ private void OnVerifiedLocationTokenReceived(RadarVerifiedLocationToken token)
 
 ## Error handling
 
-### Troubleshooting
-on the way...
+The Radar SDK includes built-in error handling to ensure that errors are logged and troubleshooting is streamlined. Below is an overview of how to manage and handle errors effectively using the SDK.
+
+### Setting Up Error Handling
+
+The SDK initializes a centralized error management system to capture and log errors globally. The `RadarErrorHandler` class is responsible for setting up error callbacks and routing error messages to the `LogManager` for visual logging.
+
+#### Steps to Enable Error Handling
+
+1. **Initialize Error Handling**:  
+   Call `RadarErrorHandler.InitializeErrorHandling()` during the application's startup to activate global error monitoring.
+
+   ```cs
+   RadarErrorHandler.InitializeErrorHandling();
+   ```
+
+2. **Error Logging**:  
+   All errors caught by the SDK will be logged and displayed in the `LogManager`'s UI text box. The log is thread-safe and formatted with color coding:
+   - **Red** - `LogType.Error` for critical errors.
+   - **Yellow** - `LogType.Warning`  for warnings.
+   - **Orange** - `LogType.Attention`  for attention-level messages.
+   - **White** - `LogType.Log`  for standard logs.
+
+The `LogManager` provides visual feedback for debugging.
+
+Use the `LogManager.SetLogConsole(true/false)` to enable or disable console logging.
+Use the `ClearConsole` method to reset the visual log for clarity.
+
+
+#### Common Issues and Solutions
+Refer to the Radar documentation for error-specific troubleshooting, such as:
+- **`ERROR_PERMISSIONS`**: Ensure location permissions are granted.
+- **`ERROR_NETWORK`**: Verify internet connectivity.
+- **`fraud.proxy == true`**: Ask users to disconnect from VPNs or proxy servers.
+
+See the [Fraud Error Handling Documentation](https://radar.com/documentation/fraud#error-handling) for detailed error messages and resolutions.
+
+### Example Integration
+
+Here’s an example of how to log errors using the SDK:
+
+```csharp
+try
+{
+   Radar.SomeFunctionality();
+}
+catch (Exception ex)
+{
+   LogManager.Instance.Log($"Unhandled Exception: {ex.Message}", LogType.Error);
+}
+```
+
+
 
 ## Support
 
