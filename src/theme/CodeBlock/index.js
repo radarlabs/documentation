@@ -14,6 +14,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 import {useThemeConfig, parseCodeBlockTitle} from '@docusaurus/theme-common';
 import {usePluginData} from '@docusaurus/useGlobalData';
+import { apiKeyFetcher } from './LoggedInApiKey';
 
 const HighlightLinesRangeRegex = /{([\d,-]+)}/;
 const HighlightLanguages = ['js', 'jsBlock', 'jsx', 'python', 'html'];
@@ -84,12 +85,6 @@ const highlightDirectiveRegex = (lang) => {
   }
 };
 
-// const GITHUB_RELEASE_URLS = {
-//     'web-sdk': 'https://api.github.com/repos/radarlabs/radar-sdk-js/releases/latest').then(res => res.json()).then(data => data.tag_name)
-// }
-// const cachedGitHubReleases = {}
-
-
 export default function CodeBlock({
   children,
   className: languageClassName,
@@ -99,7 +94,10 @@ export default function CodeBlock({
   const {radarGitHubReleases} = usePluginData('radar-version-injector');
   const {prism} = useThemeConfig();
   const [showCopied, setShowCopied] = useState(false);
-  const [mounted, setMounted] = useState(false); // The Prism theme on SSR is always the default theme but the site theme
+  const [mounted, setMounted] = useState(false);
+  const [testApiKeys, setTestApiKeys] = useState(null);
+
+  // The Prism theme on SSR is always the default theme but the site theme
   // can be in a different mode. React hydration doesn't update DOM styles
   // that come from SSR. Hence force a re-render after mounting to apply the
   // current relevant styles. There will be a flash seen of the original
@@ -109,6 +107,14 @@ export default function CodeBlock({
 
   useEffect(() => {
     setMounted(true);
+
+    apiKeyFetcher.getTestKeys().then((keys) => {
+      // this will only happen if keys are found for a logged in user
+      setTestApiKeys(keys);
+    }).catch((e) => {
+      // ignoring not finding keys
+    })
+
   }, []); // TODO: the title is provided by MDX as props automatically
   // so we probably don't need to parse the metastring
   // (note: title="xyz" => title prop still has the quotes)
@@ -139,6 +145,13 @@ export default function CodeBlock({
   radarGitHubReleases && Object.keys(radarGitHubReleases).forEach((key) => {
     content = content.replace(new RegExp(`\\$${key}\\$`, 'g'), radarGitHubReleases[key]);
   });
+
+  if(testApiKeys) {
+    // only replace PUBLIC test and live key examples
+    // leave _sk_... secret key examples as is.
+    content = content.replace('prj_live_pk_...', testApiKeys.testPublicKey);
+    content = content.replace('prj_test_pk_...', testApiKeys.testPublicKey);
+  }
 
   let code = content.replace(/\n$/, '');
 
