@@ -1303,7 +1303,7 @@ Calculates the most efficient route between two or more locations to visit in or
 
 ###### Turn by Turn
 
-Additionally you can modify the turn by turn directions response (currently in beta) by specifying additional query parameters.
+Additionally you can modify the turn-by-turn directions response by specifying additional query parameters.
 
 - **`alternatives`** (boolean, optional): Specifies whether to try to return alternative routes. This feature is available if only two locations are specified. Defaults to `false`.
 - **`lang`** (string, optional): Specifies the language for the results. A string, one of `de`, `en`, `es`, `fr`, `ja`, `ko`, `pt`, `ru`. Defaults to `en`.
@@ -1380,7 +1380,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.996813
               },
               "instructions": "Drive south on Broadway.",
-              "polyline": "kafulAnn`clCfKxAhCF`CJdg@vGtB\\|BZfJrAh[lEhC^dBThMjBjRjCdBZn@Pd@Nh@Pf@Vf@Vh@`@vWxSv@l@t@l@`BpArB`BtYjU~AlAbBtA`BzAdVnQfEhD`ClBhRfOlCxBjBxAhBxAxKzItNhL|BhBnB|Af]rXnB~A|AnAn[fWbAv@~ArAzBfBxStPbInGtB`BlBzA~b@l]bAx@d@\\jBxAjMdKTPxGlFnJvH|StPnCxBhFbE",
+              "geometry": {
+                "polyline": "kafulAnn`clCfKxAhCF`CJdg@vGtB\\|BZfJrAh[lEhC^dBThMjBjRjCdBZn@Pd@Nh@Pf@Vf@Vh@`@vWxSv@l@t@l@`BpArB`BtYjU~AlAbBtA`BzAdVnQfEhD`ClBhRfOlCxBjBxAhBxAxKzItNhL|BhBnB|Af]rXnB~A|AnAn[fWbAv@~ArAzBfBxStPbInGtB`BlBzA~b@l]bAx@d@\\jBxAjMdKTPxGlFnJvH|StPnCxBhFbE"
+              },
               "travel_mode": "DRIVE",
               "manuever": "start"
             },
@@ -1402,7 +1404,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.992697
               },
               "instructions": "Turn left onto East Houston Street.",
-              "polyline": "owttlAx_lclCr@{EfEeYvCyRf@kD\\{BBUtC}RfAoFbAcFpDsNh@qBp@oCfLcd@r@sCn@cC`Lsc@p@kCl@aCjE}P`E}O^cBhAgF",
+              "geometry": {
+                "polyline": "owttlAx_lclCr@{EfEeYvCyRf@kD\\{BBUtC}RfAoFbAcFpDsNh@qBp@oCfLcd@r@sCn@cC`Lsc@p@kCl@aCjE}P`E}O^cBhAgF"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1424,7 +1428,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.994113
               },
               "instructions": "Turn right onto Bowery.",
-              "polyline": "{frtlAp~cclCvDbAd@L~fAtYhTrF~Ab@tBh@rA\\bd@vLvA^|Ab@`B^f`@dLxAf@lBl@xAd@tF~AxPzEpBl@tF~A",
+              "geometry": {
+                "polyline": "{frtlAp~cclCvDbAd@L~fAtYhTrF~Ab@tBh@rA\\bd@vLvA^|Ab@`B^f`@dLxAf@lBl@xAd@tF~AxPzEpBl@tF~A"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -1446,7 +1452,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.978895
               },
               "instructions": "Turn left onto Delancey Street.",
-              "polyline": "k|jtlA`wfclCnAmFpBsD~BkE`DyNlGmY^cBjA_G`AwEX}AnG}Zd@}B~@uEj@uCtKyh@XsAh@gCd@yBbJ{c@\\aBr@iD~AeIz@yDn@wCpD}PVmAf@eCf@eC`Joc@VsAf@aCd@}BpHm^r@kDXoAfAkFbA{EtIsb@Z}A`@uBR_AXeAd@}A`AwCtEsNrAsEjAeEb@aBd@aBr@sCz@cDjBcHbIoY|@kD\\qAXkAxDgRzAmHzSgdA~J_g@|\\gcBpb@_uB|U{kA",
+              "geometry": {
+                "polyline": "k|jtlA`wfclCnAmFpBsD~BkE`DyNlGmY^cBjA_G`AwEX}AnG}Zd@}B~@uEj@uCtKyh@XsAh@gCd@yBbJ{c@\\aBr@iD~AeIz@yDn@wCpD}PVmAf@eCf@eC`Joc@VsAf@aCd@}BpHm^r@kDXoAfAkFbA{EtIsb@Z}A`@uBR_AXeAd@}A`AwCtEsNrAsEjAeEb@aBd@aBr@sCz@cDjBcHbIoY|@kD\\qAXkAxDgRzAmHzSgdA~J_g@|\\gcBpb@_uB|U{kA"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1468,7 +1476,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.962139
               },
               "instructions": "Keep right to take Broadway toward I 278 West, Staten Island.",
-              "polyline": "_patlA|_iblCdIcTdVqpAl~DssRj_@{hB|Fq_@zt@opD",
+              "geometry": {
+                "polyline": "_patlA|_iblCdIcTdVqpAl~DssRj_@{hB|Fq_@zt@opD"
+              },
               "travel_mode": "DRIVE",
               "manuever": "stay-right"
             },
@@ -1490,7 +1500,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.961433
               },
               "instructions": "Take the exit on the right toward I 278 West, Broadway West. Then Keep left toward Broadway East.",
-              "polyline": "_qwslAthhalCtG_UrEcU",
+              "geometry": {
+                "polyline": "_qwslAthhalCtG_UrEcU"
+              },
               "travel_mode": "DRIVE",
               "manuever": "exit-right"
             },
@@ -1512,7 +1524,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.95886
               },
               "instructions": "Keep left toward Broadway East, South 5th Street.",
-              "polyline": "uawslAp|falC`AoFjCkOd@yC`@}CToCTwChAeTx@}PRkCb@eDd@gCn@sCrP_r@\\uAjAuE",
+              "geometry": {
+                "polyline": "uawslAp|falC`AoFjCkOd@yC`@}CToCTwChAeTx@}PRkCb@eDd@gCn@sCrP_r@\\uAjAuE"
+              },
               "travel_mode": "DRIVE",
               "manuever": "stay-left"
             },
@@ -1534,7 +1548,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.958458
               },
               "instructions": "Turn left onto Havemeyer Street. Then Turn right onto Borinquen Place.",
-              "polyline": "czuslAv{aalCmCuAsP}I}KsG}@i@kAq@",
+              "geometry": {
+                "polyline": "czuslAv{aalCmCuAsP}I}KsG}@i@kAq@"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1556,7 +1572,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.951119
               },
               "instructions": "Turn right onto Borinquen Place.",
-              "polyline": "mawslArbaalCQeFo@uTAMiBy_@wBac@KkBMsBSaDk@mIs@{Io@aMmBs]{AmXS}EQ{CoBac@OeDeA{ScAoTUmEUeEsA{X}@yPoEi~@WkF}AcPScFG}AUkF",
+              "geometry": {
+                "polyline": "mawslArbaalCQeFo@uTAMiBy_@wBac@KkBMsBSaDk@mIs@{Io@aMmBs]{AmXS}EQ{CoBac@OeDeA{ScAoTUmEUeEsA{X}@yPoEi~@WkF}AcPScFG}AUkF"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -1578,7 +1596,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.951428
               },
               "instructions": "Turn left onto Union Avenue.",
-              "polyline": "arxslA|wr`lCaDXm[fCgKv@aCRec@hD_CP{CZo]bD",
+              "geometry": {
+                "polyline": "arxslA|wr`lCaDXm[fCgKv@aCRec@hD_CP{CZo]bD"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1600,7 +1620,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.951428
               },
               "instructions": "You have arrived at your destination.",
-              "polyline": "mo|slAfks`lC",
+              "geometry": {
+                "polyline": "mo|slAfks`lC"
+              },
               "travel_mode": "DRIVE",
               "manuever": "destination"
             }
@@ -1645,7 +1667,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.951605
               },
               "instructions": "Drive north on Union Avenue. Then, in 100 meters, Turn left onto Metropolitan Avenue.",
-              "polyline": "mo|slAfks`lCyGn@}k@pFgIj@wCR",
+              "geometry": {
+                "polyline": "mo|slAfks`lCyGn@}k@pFgIj@wCR"
+              },
               "travel_mode": "DRIVE",
               "manuever": "start"
             },
@@ -1667,7 +1691,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.95434
               },
               "instructions": "Turn left onto Metropolitan Avenue.",
-              "polyline": "et~slAhvs`lC?jG@jX@bY@vJ?lEAnEEpX?zCAdKA~GGva@",
+              "geometry": {
+                "polyline": "et~slAhvs`lC?jG@jX@bY@vJ?lEAnEEpX?zCAdKA~GGva@"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1689,7 +1715,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.955046
               },
               "instructions": "Turn left onto Marcy Avenue. Then Bear left toward I 278 West.",
-              "polyline": "st~slAfay`lCvDdBjM~G~DpBdCpAd[~OrMxG",
+              "geometry": {
+                "polyline": "st~slAfay`lCvDdBjM~G~DpBdCpAd[~OrMxG"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1711,7 +1739,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.959976
               },
               "instructions": "Bear left toward I 278 West, Brooklyn-Queens Expressway.",
-              "polyline": "ok|slAjmz`lC~DGbN|EdZjOvUhKhQvInPnFfOjDxYnFzNlEhQbHviAhi@d{Axs@tW~LfyBldAv`@fSll@fZ",
+              "geometry": {
+                "polyline": "ok|slAjmz`lC~DGbN|EdZjOvUhKhQvInPnFfOjDxYnFzNlEhQbHviAhi@d{Axs@tW~LfyBldAv`@fSll@fZ"
+              },
               "travel_mode": "DRIVE",
               "manuever": "slight-left"
             },
@@ -1733,7 +1763,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.961446
               },
               "instructions": "Take exit 31 on the right toward Wythe Avenue, Kent Avenue. Then Turn left onto Wythe Avenue.",
-              "polyline": "ijjslAnadalCtB|E~m@x\\fUhMzNhKjTnRvHfEbDvA",
+              "geometry": {
+                "polyline": "ijjslAnadalCtB|E~m@x\\fUhMzNhKjTnRvHfEbDvA"
+              },
               "travel_mode": "DRIVE",
               "manuever": "exit-right"
             },
@@ -1755,7 +1787,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.960855
               },
               "instructions": "Turn left onto Wythe Avenue. Then Turn left onto Williamsburg Street East.",
-              "polyline": "gmfslAj}falCtDyChWwZ|BkC",
+              "geometry": {
+                "polyline": "gmfslAj}falCtDyChWwZ|BkC"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1777,7 +1811,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.960673
               },
               "instructions": "Turn left onto Williamsburg Street East. Then Bear left toward I 278 East.",
-              "polyline": "ikeslAlxealC}D{AmPoG",
+              "geometry": {
+                "polyline": "ikeslAlxealC}D{AmPoG"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -1799,7 +1835,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.936285
               },
               "instructions": "Bear left toward I 278 East, Brooklyn-Queens Expressway.",
-              "polyline": "ubfslA`mealCcc@uJmSmFqh@kPcf@aUoiA_i@evBcbA_]}PwuAkp@cBy@qSmKmCuAmq@y`@sXcPa]{RkO}IeyAk{@cTaNkSaOgQsO{HcIyu@ew@g_@{d@ya@{j@e`@km@w]ml@ckAqsBe}@y`Bsc@e{@gd@g|@iPk\\oSyb@aQk^mNmZkCsFoCsFkCiFgC{EuCaFoCwEmCqEyh@{x@gDkFmCkEoCwEgCuEiCeFcC_FaCiF{^ky@uDgI}BqF_CwFqCiHgCaHqB{FmBiGsAgFcBoGyAgGqAyFqAcGeAkFyAiIgBsKiHsd@",
+              "geometry": {
+                "polyline": "ubfslA`mealCcc@uJmSmFqh@kPcf@aUoiA_i@evBcbA_]}PwuAkp@cBy@qSmKmCuAmq@y`@sXcPa]{RkO}IeyAk{@cTaNkSaOgQsO{HcIyu@ew@g_@{d@ya@{j@e`@km@w]ml@ckAqsBe}@y`Bsc@e{@gd@g|@iPk\\oSyb@aQk^mNmZkCsFoCsFkCiFgC{EuCaFoCwEmCqEyh@{x@gDkFmCkEoCwEgCuEiCeFcC_FaCiF{^ky@uDgI}BqF_CwFqCiHgCaHqB{FmBiGsAgFcBoGyAgGqAyFqAcGeAkFyAiIgBsKiHsd@"
+              },
               "travel_mode": "DRIVE",
               "manuever": "slight-left"
             },
@@ -1821,7 +1859,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.894711
               },
               "instructions": "Keep left to stay on Brooklyn-Queens Expressway.",
-              "polyline": "qrrtlAxxu_lCmPg_AaFw\\wD{V{Ms|@_AsGeAsGcAkGeA{FmAqGuA{GsAyFuAkGyAuF}AwFeBmFwB{GmBuFiBaFqBeF}BuFoBeE_CaFqCsF_CwE}BaE}CaFuCqE_DwEgCqDeCyCqDaF}CqDkCaDsE{FgkB_|B}DmEaEaEwDwD_E}DyDuD{DoD}EiEwE{D_FeEyEuDmFwDqF{DwGqEsFmD{FmDyqC}_BsDyBwDaCqCqBeDgCkDqCkDuC_DuCqDmDkDsDyDkEaD{DoDaFsDyF}CgFkCuEiCsEyBwE}B{EoBoEuBmFuJo\\y@gCyDqMcDyLgEwMqBoJmB_JkBsImAcHaBiJmAoHiA{GcAwG}@iGu@uFw@{Gw@mGu@qHs@sH_A{L{@uQeAcQy@yPo@qPi@iQ_Bml@[aPu@kQ_AiP}}@s{McB}Wi@mHs@qHu@wHm@eFy@uG{@eGaAsGaAeGkAoGkAcGuAoGuAeGsAuFaBeGaByFcBuFmB}Fwd@{sAqEqM}E_OsE_OwDoM_@wAcCiJy@{CSw@uBcIcHmXeUi|@kB}GwAoF}AsF}AiFmBwF{BaGsBiF{BqF_CiFuBuEeCgFaCqEoCcFwCeFoDqFcHeKq|@}jA}M}PktA{gBom@}w@}R}WaLqMcF{E_GkF{FeEoEyC{DoCmEaC{DeBeGsBsFwAkFiA}GgAmF_@wEMeF?sFL}EZcE`@{Ej@cF|@wDr@iEdAuElAoEnA",
+              "geometry": {
+                "polyline": "qrrtlAxxu_lCmPg_AaFw\\wD{V{Ms|@_AsGeAsGcAkGeA{FmAqGuA{GsAyFuAkGyAuF}AwFeBmFwB{GmBuFiBaFqBeF}BuFoBeE_CaFqCsF_CwE}BaE}CaFuCqE_DwEgCqDeCyCqDaF}CqDkCaDsE{FgkB_|B}DmEaEaEwDwD_E}DyDuD{DoD}EiEwE{D_FeEyEuDmFwDqF{DwGqEsFmD{FmDyqC}_BsDyBwDaCqCqBeDgCkDqCkDuC_DuCqDmDkDsDyDkEaD{DoDaFsDyF}CgFkCuEiCsEyBwE}B{EoBoEuBmFuJo\\y@gCyDqMcDyLgEwMqBoJmB_JkBsImAcHaBiJmAoHiA{GcAwG}@iGu@uFw@{Gw@mGu@qHs@sH_A{L{@uQeAcQy@yPo@qPi@iQ_Bml@[aPu@kQ_AiP}}@s{McB}Wi@mHs@qHu@wHm@eFy@uG{@eGaAsGaAeGkAoGkAcGuAoGuAeGsAuFaBeGaByFcBuFmB}Fwd@{sAqEqM}E_OsE_OwDoM_@wAcCiJy@{CSw@uBcIcHmXeUi|@kB}GwAoF}AsF}AiFmBwF{BaGsBiF{BqF_CiFuBuEeCgFaCqEoCcFwCeFoDqFcHeKq|@}jA}M}PktA{gBom@}w@}R}WaLqMcF{E_GkF{FeEoEyC{DoCmEaC{DeBeGsBsFwAkFiA}GgAmF_@wEMeF?sFL}EZcE`@{Ej@cF|@wDr@iEdAuElAoEnA"
+              },
               "travel_mode": "DRIVE",
               "manuever": "stay-left"
             },
@@ -1843,7 +1883,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.895364
               },
               "instructions": "Take exit 40 on the right toward Roosevelt Avenue.",
-              "polyline": "qp}ulAlrd}kCeTnDaKlEuIjDaNjFyEhB{MtFyMtFeOdIuFhAq@Ly@Aq@So@_@m@w@e@gA]oAkAiF",
+              "geometry": {
+                "polyline": "qp}ulAlrd}kCeTnDaKlEuIjDaNjFyEhB{MtFyMtFeOdIuFhAq@Ly@Aq@So@_@m@w@e@gA]oAkAiF"
+              },
               "travel_mode": "DRIVE",
               "manuever": "exit-right"
             },
@@ -1865,7 +1907,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.893793
               },
               "instructions": "Turn right onto Broadway.",
-              "polyline": "itavlAf{e}kCtEmNdUqp@rIwYvAmE",
+              "geometry": {
+                "polyline": "itavlAf{e}kCtEmNdUqp@rIwYvAmE"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -1887,7 +1931,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.893588
               },
               "instructions": "Turn right onto 72nd Street.",
-              "polyline": "aj`vlA`yb}kCfFk@zQqBbb@wENApDa@",
+              "geometry": {
+                "polyline": "aj`vlA`yb}kCfFk@zQqBbb@wENApDa@"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -1909,7 +1955,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.90317
               },
               "instructions": "Turn right onto Roosevelt Avenue.",
-              "polyline": "wf~ulAflb}kCdAbUpAjYpCvh@tAhW|Dnw@|Ddw@zDjv@rAbXxAvXPnDZnGjDzr@NxCRbEvDlu@NnCP`EvDhz@pEf_A",
+              "geometry": {
+                "polyline": "wf~ulAflb}kCdAbUpAjYpCvh@tAhW|Dnw@|Ddw@zDjv@rAbXxAvXPnDZnGjDzr@NxCRbEvDlu@NnCP`EvDhz@pEf_A"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -1931,7 +1979,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.90317
               },
               "instructions": "You have arrived at your destination.",
-              "polyline": "oh|ulAbcu}kC",
+              "geometry": {
+                "polyline": "oh|ulAbcu}kC"
+              },
               "travel_mode": "DRIVE",
               "manuever": "destination"
             }
@@ -1976,7 +2026,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.896325
               },
               "instructions": "Drive east on Roosevelt Avenue.",
-              "polyline": "oh|ulAbcu}kCqEg_AwDiz@QaEOoCwDmu@ScEOyCkD{r@[oGQoDyAwXsAcX{Dkv@}Dew@",
+              "geometry": {
+                "polyline": "oh|ulAbcu}kCqEg_AwDiz@QaEOoCwDmu@ScEOyCkD{r@[oGQoDyAwXsAcX{Dkv@}Dew@"
+              },
               "travel_mode": "DRIVE",
               "manuever": "start"
             },
@@ -1998,7 +2050,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.896754
               },
               "instructions": "Turn left onto 69th Street.",
-              "polyline": "yt}ulAhwg}kCwC\\ea@vEwAPgBTc_@jEqBTgCXg@Fef@pF_@D}C~@",
+              "geometry": {
+                "polyline": "yt}ulAhwg}kCwC\\ea@vEwAPgBTc_@jEqBTgCXg@Fef@pF_@D}C~@"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -2020,7 +2074,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.896294
               },
               "instructions": "Turn right onto 37th Avenue. Then Turn left to take the I 278 East ramp.",
-              "polyline": "axavlAbrh}kCM}Cc@{Ke@}I",
+              "geometry": {
+                "polyline": "axavlAbrh}kCM}Cc@{Ke@}I"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -2042,7 +2098,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.898787
               },
               "instructions": "Turn left to take the I 278 East ramp toward Brooklyn Queens Expressway, LaGuardia.",
-              "polyline": "yzavlAjug}kCoAqC_AaBeAy@kAm@oBg@s@UiAQcA?g@Pk@@_AZaAXu@\\qG~Cyg@xWgHjDoI|D}G~CeGnCaDfA{DhAaE`AiEx@sNzFsHl@aVnAm_@nD}ShDaQ`EiQfIs~@vg@mc@|V}CfB",
+              "geometry": {
+                "polyline": "yzavlAjug}kCoAqC_AaBeAy@kAm@oBg@s@UiAQcA?g@Pk@@_AZaAXu@\\qG~Cyg@xWgHjDoI|D}G~CeGnCaDfA{DhAaE`AiEx@sNzFsHl@aVnAm_@nD}ShDaQ`EiQfIs~@vg@mc@|V}CfB"
+              },
               "travel_mode": "DRIVE",
               "manuever": "ramp-left"
             },
@@ -2064,7 +2122,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.882677
               },
               "instructions": "Keep right to take exit 42 onto Brooklyn-Queens Expressway East toward La Guardia Airport.",
-              "polyline": "mvmvlAdql}kCkZbJaa@pM_UlGwWpFkGxAe^|GkS`BaMz@qLQuM{@wQeDwM}DeNeFqQkGwg@q[e^_Ti_C}wA}l@i`@sE_DuDsCsDaDyDeEwCkDuCyD_DwEkLqRmCwDuDuEoDeE{CuC{CoC}EkDaAm@wBsAmF_CuDcAwEuAyQkEoEuAsDoAeD}A}CsBkCsByCyC}DqEiCyD}BsEuBwEeBmFkAkEeAaFs@_Gg@kG[sFSsHaAyh@c@eRm@cRcCyl@kAcVqIqs@{A_Q_B{PaBgPgBwPmBoPuBkPwBcPiCoQsBuMeCwOoC}OyCiPqCyO{C_PcDaPcDsOiDoOqDoOuDkO_EqOiEaOcEaOoE_OuE_O}E{N{EqNgFkN",
+              "geometry": {
+                "polyline": "mvmvlAdql}kCkZbJaa@pM_UlGwWpFkGxAe^|GkS`BaMz@qLQuM{@wQeDwM}DeNeFqQkGwg@q[e^_Ti_C}wA}l@i`@sE_DuDsCsDaDyDeEwCkDuCyD_DwEkLqRmCwDuDuEoDeE{CuC{CoC}EkDaAm@wBsAmF_CuDcAwEuAyQkEoEuAsDoAeD}A}CsBkCsByCyC}DqEiCyD}BsEuBwEeBmFkAkEeAaFs@_Gg@kG[sFSsHaAyh@c@eRm@cRcCyl@kAcVqIqs@{A_Q_B{PaBgPgBwPmBoPuBkPwBcPiCoQsBuMeCwOoC}OyCiPqCyO{C_PcDaPcDsOiDoOqDoOuDkO_EqOiEaOcEaOoE_OuE_O}E{N{EqNgFkN"
+              },
               "travel_mode": "DRIVE",
               "manuever": "stay-right"
             },
@@ -2086,7 +2146,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.875965
               },
               "instructions": "Take exit 6 on the right toward Parking B, 94th Street.",
-              "polyline": "g{hwlAhbm|kC}Va}@mHuRcHkQqFaNaF}MyGiQgLkZaGqVm@sBq@kCmAaGoAyGgAiH_A{Gw@cH_@}EiEyy@wGesA]mJEqE",
+              "geometry": {
+                "polyline": "g{hwlAhbm|kC}Va}@mHuRcHkQqFaNaF}MyGiQgLkZaGqVm@sBq@kCmAaGoAyGgAiH_A{Gw@cH_@}EiEyy@wGesA]mJEqE"
+              },
               "travel_mode": "DRIVE",
               "manuever": "exit-right"
             },
@@ -2108,7 +2170,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.876731
               },
               "instructions": "Turn left onto 94th Street.",
-              "polyline": "sqlwlAx~_|kCuAKmWwAkJ[{EFwDZuARwB^sDp@sFhA}P`DwDl@yB\\cBTyEn@mVdFwBr@{B~@yCfBqEvDkElEcCxCk@x@eAvA",
+              "geometry": {
+                "polyline": "sqlwlAx~_|kCuAKmWwAkJ[{EFwDZuARwB^sDp@sFhA}P`DwDl@yB\\cBTyEn@mVdFwBr@{B~@yCfBqEvDkElEcCxCk@x@eAvA"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -2130,7 +2194,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.875879
               },
               "instructions": "Turn right onto Runway Drive. Then, in 90 meters, Turn right.",
-              "polyline": "kvqwlAtna|kCgCwCOQmCeDqAqBmAoBaAsB}@mB{@{Bw@aCw@sCwBqJm@oC",
+              "geometry": {
+                "polyline": "kvqwlAtna|kCgCwCOQmCeDqAqBmAoBaAsB}@mB{@{Bw@aCw@sCwBqJm@oC"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -2152,7 +2218,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.875836
               },
               "instructions": "Turn right. Then Turn left.",
-              "polyline": "csrwlAly_|kCZgALM",
+              "geometry": {
+                "polyline": "csrwlAly_|kCZgALM"
+              },
               "travel_mode": "DRIVE",
               "manuever": "right"
             },
@@ -2174,7 +2242,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.873584
               },
               "instructions": "Turn left.",
-              "polyline": "yqrwlAvv_|kCqA}GUmBg@yAkA}LmFin@eIe}@gByA_ET??",
+              "geometry": {
+                "polyline": "yqrwlAvv_|kCqA}GUmBg@yAkA}LmFin@eIe}@gByA_ET??"
+              },
               "travel_mode": "DRIVE",
               "manuever": "left"
             },
@@ -2196,7 +2266,9 @@ curl "https://api.radar.io/v1/route/directions?locations=40.734250,-73.990934|40
                 "longitude": -73.873584
               },
               "instructions": "Your destination is on the right.",
-              "polyline": "qsswlA~i{{kC",
+              "geometry": {
+                "polyline": "qsswlA~i{{kC"
+              },
               "travel_mode": "DRIVE",
               "manuever": "destination-right"
             }
