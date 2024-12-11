@@ -89,7 +89,7 @@ Use your `Test Publishable` key for testing and non-production environments. Use
       public void onCreate() {
           super.onCreate();
 
-          Radar.initialize(this, "prj_test_pk...");
+          Radar.initialize(this, "prj_test_pk_...");
       }
 
   }
@@ -106,7 +106,7 @@ Use your `Test Publishable` key for testing and non-production environments. Use
       override fun onCreate() {
           super.onCreate()
 
-          Radar.initialize(this, "prj_test_pk...")
+          Radar.initialize(this, "prj_test_pk_...")
       }
 
   }
@@ -726,7 +726,7 @@ To listen for events, location updates, and errors client-side, create a class t
           super.onCreate();
 
           MyRadarReceiver receiver = new MyRadarReceiver();
-          Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE);
+          Radar.initialize(this, "prj_test_pk_...", receiver, Radar.RadarLocationServicesProvider.GOOGLE);
       }
 
   }
@@ -744,7 +744,7 @@ To listen for events, location updates, and errors client-side, create a class t
           super.onCreate()
 
           val receiver = MyRadarReceiver()
-          Radar.initialize(this, "prj_test_pk...", receiver, Radar.RadarLocationServicesProvider.GOOGLE)
+          Radar.initialize(this, "prj_test_pk_...", receiver, Radar.RadarLocationServicesProvider.GOOGLE)
       }
 
   }

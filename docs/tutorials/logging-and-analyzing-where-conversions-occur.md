@@ -74,7 +74,7 @@ When your app starts, in application `onCreate()`, initialize the SDK with your 
       override fun onCreate() {
           super.onCreate()
 
-          Radar.initialize(this, "prj_test_pk...")
+          Radar.initialize(this, "prj_test_pk_...")
       }
 
   }
