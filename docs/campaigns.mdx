@@ -20,7 +20,9 @@ Use campaigns to easily customize your notifications. Campaigns can be used to e
 
 First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
-Then, [create geofences](/geofences#create-geofences) via the dashboard, CSV import, or the API.
+To use campaigns with geofences, you will need to [create geofences](/geofences#create-geofences) via the dashboard, CSV import, or the API.
+
+To use campaigns with places, you will need to enable places and have nearby places turned on. Contact your account manager to turn on nearby places for your project.
 
 Next, [create campaigns](/campaigns#create-campaigns) via the dashboard.
 
@@ -34,6 +36,29 @@ When a user interacts with a geofence, Radar will check to see if there is a cam
 
 To create a campaign via the dashboard, go to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click the create button. Enter the campaign's name, notification body and targeting information. You can use either your project's geofences tags or geofences ids to target users with a campaign.
 
+## Targeting options
+
+Campaigns can be used to target user entries of a geofence or a place. Geofences can be targeted via geofence tags or geofence ids. Places can be targeted via categories or chains.
+
+There are more advanced targeting options available for more granular targeting. You can expand the advanced targeting options and target users by their user ID or by their location permission status.
+
+## Notification configurations
+
+You can configure the notifications that Radar will send to users when a geofence or place is entered. You can configure the notification body and optionally the notification title and deep linking behavior.
+
+## Analytics
+
+With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a notification.
+
+Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
+
+With Radar [Conversions](/api#log-a-conversion), you can also retrieve the source of an *opened_app* conversion for iOS apps. Within the *metadata* object of the [logged conversion](/sdk/ios#conversions), we will return a *conversion_source* with either 
+- **`notification`** (app was opened using an external 3rd party notification) 
+- **`radar_notification`** (app was opened using the configured on-prem notification): 
+
+
+You can also view these conversion analytics by pressing the analytics button on the campaign or by navigating to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *conversion_source* from the *grouped_by* dropdown. See screenshot below: 
+![OnPremiseNotifications](/img/notifications/conversion_source_analytics.png)
 
 
 
