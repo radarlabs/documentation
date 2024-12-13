@@ -33,9 +33,10 @@ Static Map images can be used inline with HTML `<img>` tags by setting the `src`
 | `width` | none (required) | number | The width of the image in pixels as a number between `100` and `2048`. |
 | `height` | none (required) | number | The height of the image in pixels as a number between `100` and `2048`. |
 | `center` | none (required, unless markers are provided) | string | The coordinates specified in `latitude,longitude` format for the center of the map. If `center` is not provided then the map will be centered to visibly fit all markers in view.|
-| `zoom` | none (required, unless markers are provided) | number | The `zoom` position of the map which is a number between `1` and `23`. If `zoom` is not provided then the map will fit the view to the markers. |
+| `zoom` | none (required, unless bbox, markers, or path are provided) | number | The `zoom` position of the map which is a number between `1` and `23`. If `zoom` is not provided then the map will fit the view to the markers. |
 | `scale` | 1 | number | The scale or resolution of the map as a number between `1` and `3`. This is useful for high-density displays and will affect the width and height parameters by returning an image that is the product of the width/height and scale. |
 | `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1`, `CUSTOM_STYLE_ID` | The style of the map. One of Radar's out-of-the box styles, or a <a href="/documentation/maps/maps#custom-styles">custom style</a> ID. <br /><br />See [map styles](https://radar.com/documentation/maps/maps#styles) for more details. |
+| `bbox` | none | string | The bbox or latitude and longitude bounds of the image. Specified as `min_latitude,min_longitude,max_latitude,max_longitude`. The image returned will fit the specified bounding box. |
 | `markers` | none | string | For rendering markers on the map. See [markers](#markers) for more details. |
 | `path` | none | string | For rendering paths on the map. See [paths](#paths) for more details. |
 | `publishableKey` | none (required) | string | Your Radar publishable API key. |
