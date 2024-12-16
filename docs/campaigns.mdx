@@ -1,0 +1,61 @@
+---
+title: Campaigns
+---
+
+import Alert from '@site/src/components/Alert';
+
+<Alert alertType="info">
+  Notifications are available on {` `}
+  <a href="https://github.com/radarlabs/radar-sdk-ios/releases/tag/3.7.6">iOS SDK v3.7.6</a>
+  {` `} and above.
+</Alert>
+
+<Alert alertType="info">
+    This feature is currently in beta. If you encounter any issues or have feedback, please reach out to us at <a href="mailto:support@radar.io">support@radar.io</a>.
+</Alert>
+
+Use campaigns to customize your notifications effortlessly. Campaigns let you tailor your notification content and targeting behavior with ease.
+
+## Quickstart
+
+First, [sign up](https://radar.com/signup) for Radar and get an API key.
+
+To use campaigns with geofences, start by [creating geofences](/geofences#create-geofences) through the dashboard, a CSV import, or the API.
+
+For campaigns with places, ensure that places are enabled through the [settings page](https://radar.com/dashboard/settings) and "nearby places" is activated. Reach out to your account manager to enable "nearby places" for your project.
+
+Once set up, [create your campaigns](/campaigns#create-campaigns) using the dashboard.
+
+## How It Works
+
+Radar campaigns enable you to customize both the content and targeting of your notifications. When a user interacts with a geofence, Radar checks for any campaigns linked to that geofence. If a campaign is found, its content and targeting settings are used to personalize the notification sent to the user.
+
+## Create campaigns
+
+To create a campaign via the dashboard, navigate to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click **Create**. Provide the campaign's name, notification body, and targeting details. You can target users using either geofences or places.
+
+## Targeting options
+Campaigns allow you to target users based on their entry into a geofence or place. Geofences can be targeted using geofence tags or IDs, while places can be targeted by categories or chains.
+
+![campaignTargeting](/img/campaign_targeting.png)
+
+For more granular control, advanced targeting options are available. These let you target users by their user ID or their location permission status. Simply expand the advanced targeting section to access these features.
+
+## Notification configurations
+
+You can configure the notifications Radar sends to users when they enter a geofence or place. Customize the notification body, and optionally, the notification title and deep link.
+
+![campaignNotificationConfiguration](/img/campaign_notification_configuration.png)
+
+## Analytics
+
+With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a campaign notification.
+
+Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
+
+You can also view these conversion analytics by pressing the analytics button on the campaign or by navigating to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *campaign_name* from the *grouped_by* dropdown. See screenshot below: 
+![OnPremiseNotifications](/img/campaign_analytics.png)
+
+## Support
+
+Have questions or difficulties with Waypoint? Contact us at [radar.com/support](https://radar.com/support).
