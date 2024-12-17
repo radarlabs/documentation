@@ -6,7 +6,9 @@ sidebar_position: 1
 
 # Unity wrapper SDK
 
-This is the documentation for the Unity wrapper/plugin, which provides a thin proxy layer for integrating existing native SDKs offering location tracking and geofencing services. Before integrating, review the native SDK documentation for iOS and Android to understand platform-specific requirements and features.
+This is the documentation for the Unity wrapper/plugin. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
+
+Unity SDK provides a thin proxy layer for integrating existing native SDKs offering location tracking and geofencing services.
 
 See the source on GitHub [here](https://github.com/radarlabs/unity-radar).
 
@@ -16,9 +18,9 @@ Scripts documentation and Demo scene overview can be found in project READMEs.
 
 To integrate the Unity SDK, download or clone the package and include it in your Unity project:
 
-1. Copy the `Plugins` folder (containing both Android and iOS native implementations) into the `Assets` directory of your Unity project. Ensure it contains all the required files.
-2. Import the ExternalDependencyManager for Unity (EDM4U). It is included in the project but you can get it from `Package Manager` or from [repo](https://github.com/googlesamples/unity-jar-resolver): It is required if you want to add and use iOS/Android dependencies directly in your project like: `Android specific libraries (e.g AARs)` or `iOS CocoaPods`
-3. Ensure that any required permissions or settings specific to location tracking and geofencing are configured on both iOS and Android, as outlined in the native SDK documentation. 
+1. Copy the `Plugins` folder (containing both Android and iOS native implementations) into the `Assets` directory of your Unity project.
+2. Import the `ExternalDependencyManager` for Unity (EDM4U). It is included in the project but you can get it from `Package Manager` or from [repo](https://github.com/googlesamples/unity-jar-resolver): It is required if you want to add and use iOS/Android dependencies directly in your project like: `Android specific libraries (e.g AARs)` or `iOS CocoaPods`
+3. Ensure that any required permissions or settings specific to location tracking and geofencing are configured on both iOS and Android, as outlined in the [native SDK documentation](/sdk). 
 
 
 ### Supported Unity versions
@@ -219,14 +221,11 @@ using RadarSDK;
 
 ### Calls to APIs
 
-The Unity SDK exposes following APIs calls: 
-```bash 
-initialize, setUserId, getUserId, setMetadata, getLocation, trackVerified, startTrackingVerified, stopTracking, getVerifiedLocationToken, onTokenUpdated
-```
-Look at ***RadarUsageExample.cs*** script for example usages
+The Unity SDK exposes following APIs calls (See `RadarUsageExample.cs` for example usages): 
 
 #### Initialize
 
+When your app starts, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.com/dashboard/settings).
 ```cs
 private void InitializeRadar()
 {
@@ -237,6 +236,7 @@ private void InitializeRadar()
 
 #### SetUserId
 
+You can also assign a custom `userId`, also called *External ID* in the dashboard. To set a custom `userId`, call:
 ```cs
 private void SetUserId(string userId)
 {
@@ -246,6 +246,7 @@ private void SetUserId(string userId)
 
 #### SetMetadata
 
+To set a dictionary of custom metadata for the user, call:
 ```cs
 private void SetMetadata(MetadataContainer metadata)
 {
@@ -255,6 +256,7 @@ private void SetMetadata(MetadataContainer metadata)
 
 #### GetLocation
 
+Get a single location update without sending it to the server:
 ```cs
 private Task<Location?> GetLocation()
 {
@@ -277,7 +279,7 @@ private Task<Location?> GetLocation()
 ```
 
 #### TrackVerified
-
+Call `Radar.TrackVerified()` or `Radar.StartTrackingVerifiedAsync()` to perform fraud and jurisdiction checks.
 ```cs
 private async Task TrackVerifiedAsync()
 {
@@ -286,7 +288,7 @@ private async Task TrackVerifiedAsync()
 ```
 
 #### StartTrackingVerified
-
+Call `Radar.TrackVerified()` or `Radar.StartTrackingVerifiedAsync()` to perform fraud and jurisdiction checks.
 ```cs
 private async Task StartTrackingVerifiedAsync()
 {
@@ -295,6 +297,7 @@ private async Task StartTrackingVerifiedAsync()
 ```
 
 #### StopTracking
+To stop tracking the user's location in the background (e.g., when the user logs out).
 
 ```cs
 private async Task StopTrackingAsync()
@@ -304,7 +307,7 @@ private async Task StopTrackingAsync()
 ```
 
 #### GetVerifiedLocationToken
-
+Instead of calling `Radar.trackVerified()`, which always fetches a fresh location token, you can instead call `Radar.getVerifiedLocationToken()`, which returns a cached location token immediately if the last location token is still valid, or fetches a fresh location token if not.
 Once the native SDK retrieves the location, it sends the data back to Unity. On Android, this is done via RadarJavaProxy, and on iOS, it’s done via a delegate or callback defined in RadarUnityBridge.m
 ```cs
 private void GetVerifiedLocationToken()
@@ -335,7 +338,8 @@ private IEnumerator GetVerifiedLocationTokenCoroutine()
 
 #### OnTokenUpdated
 
-OnTokenUpdated callback
+If you set a delegate on iOS with `Radar.setVerifiedDelegate()` or a receiver on Android with `Radar.setVerifiedReceiver()`, fresh location tokens are also delivered to `OnTokenUpdated` and `DidTokenUpdated` callbacks, respectively.
+
 ```cs
 private void SetVerifiedReceiver()
 {
@@ -393,7 +397,7 @@ Here’s an example of how to log errors using the SDK:
 ```csharp
 try
 {
-   Radar.SomeFunctionality();
+   Radar.SetUserId(userId);
 }
 catch (Exception ex)
 {
