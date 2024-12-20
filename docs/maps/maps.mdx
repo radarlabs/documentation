@@ -11,6 +11,7 @@ import CustomLanguageMap from '../../src/components/examples/CustomLanguageMap.j
 import CustomPopupMap from '../../src/components/examples/CustomPopupMap.jsx'
 import RouteMap from '../../src/components/examples/RouteMap.jsx'
 import PolygonMap from '../../src/components/examples/PolygonMap.jsx'
+import ArcMap from '../../src/components/examples/ArcMap.jsx'
 
 Radar Maps is a cost-effective alternative to Google Maps Platform and Mapbox.
 
@@ -947,6 +948,126 @@ class RadarMap extends React.Component {
 };
 
 export default RadarMap;
+```
+
+ </TabItem>
+</Tabs>
+
+### Display an arc
+
+An arc can be drawn on a Radar Map using Turf.js, a utility library used with MapLibre. Turf.js has a function called `greatCircle` that allows you to draw an arc between two sets of coordinates.
+
+Arcs can be customized according to the [greatCircle parameters](https://turfjs.org/docs/api/greatCircle).
+
+<ArcMap />
+
+<Tabs
+  groupId="display-an-arc"
+  defaultValue="html"
+  values={[
+    { label: 'HTML', value: 'html' },
+    { label: 'React', value: 'react' },
+  ]}
+>
+
+  <TabItem value="html">
+
+```html
+<html>
+  <head>
+    <link href="https://js.radar.com/v4.4.5/radar.css" rel="stylesheet"></link>
+    <script src="https://js.radar.com/v4.4.5/radar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+  </head>
+
+  <body>
+    <div id="map" style="width: 100%; height: 500px;" />
+
+    <script type="text/javascript">
+      Radar.initialize('prj_live_pk_');
+
+      const NEW_YORK = [-73.9911, 40.7342];
+      const LISBON = [-9.135131,38.714637];
+
+      const map = Radar.ui.map({
+        container: 'map', // OR document.getElementById('map')
+        style: 'radar-default-v1',
+        center: NEW_YORK,
+        zoom: 14,
+      });
+
+      map.on('load', () => {
+        const arc = turf.greatCircle(NEW_YORK, LISBON, { npoints: 1000 });
+        map.addLine(arc);
+
+        Radar.ui.marker()
+          .setLngLat(NEW_YORK)
+          .addTo(map);
+
+        Radar.ui.marker()
+          .setLngLat(LISBON)
+          .addTo(map);
+
+        map.fitToMarkers();
+      });
+    </script>
+  </body>
+</html>
+```
+
+  </TabItem>
+  <TabItem value="react">
+
+```jsx
+import React from 'react';
+import Radar from 'radar-sdk-js';
+import * as turf from '@turf/turf';
+
+import 'radar-sdk-js/dist/radar.css';
+  
+class RadarMap extends React.Component {
+  componentDidMount() {
+    Radar.initialize('prj_live_pk_...');
+
+    const NEW_YORK = [-73.9911, 40.7342];
+    const LISBON = [-9.135131,38.714637];
+
+    // create map
+    const map = Radar.ui.map({
+      container: 'map',
+    });
+
+    map.on('load', () => {
+
+      // add the arc to the map
+      const greatCircle = turf.greatCircle(NEW_YORK, LISBON);
+      map.addLine(greatCircle);
+
+      // add markers to the map
+      Radar.ui.marker()
+        .setLngLat(NEW_YORK)
+        .addTo(map);
+
+      Radar.ui.marker()
+        .setLngLat(LISBON)
+        .addTo(map);
+
+      // fit the map bounds to the features
+      map.fitToFeatures({padding: 60});
+    });
+    
+}
+
+  render() {
+    return (
+      <div id="map-container" style={{ width:' 100%', height: '100vh', position: 'absolute' }}>
+        <div id="map" style={{ height: '100%', position: 'absolute', width: '100%' }} />
+      </div>
+    );
+  }
+};
+
+export default RadarMap; 
 ```
 
  </TabItem>
