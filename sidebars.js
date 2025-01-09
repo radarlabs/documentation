@@ -24,6 +24,7 @@ module.exports = {
         "beacons",
         "fraud",
         "notifications",
+        "campaigns",
         {
           type: "category",
           label: "Integrations",
