@@ -15,7 +15,7 @@ import InlineTabItem from "../src/components/InlineTabItem";
   .
 </Alert>
 
-With Fraud, you can detect GPS spoofing, proxy and VPN usage, and device tampering.
+With Fraud, you can detect GPS spoofing, proxy and VPN usage, device tampering, and much more.
 
 Along with [Regions](/documentation/regions), you can also detect a user's country and state and mark specific regions as allowed or blocked to comply with regulations.
 
@@ -87,7 +87,7 @@ If fraud detection is enabled, Radar exposes the following flags in `user.fraud`
 
 - **`mocked`**: Indicates whether a user's location is being mocked, such as in a simulator or using a location spoofing app (e.g., [Fake GPS location](https://play.google.com/store/apps/details?id=com.lexa.fakegps&hl=en_US&gl=US)).
 - **`jumped`**: Indicates whether the user moved too far too fast (e.g., "jumped" across the country in only a few seconds).
-- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken) according to the [Play Integrity API](https://developer.android.com/google/play/integrity) on Android or [App Attest service](https://developer.apple.com/documentation/devicecheck/preparing-to-use-the-app-attest-service) on iOS.
+- **`compromised`**: Indicates whether the user's device or app has been compromised (e.g., rooted, jailbroken). On Android, uses the [Play Integrity API](https://developer.android.com/google/play/integrity).
 - **`inaccurate`**: Indicates whether the user's location accuracy is too low to pass verification.
 - **`sharing`**: Indicates whether the user is using screen sharing or remote desktop software (e.g., using [TeamViewer](https://www.teamviewer.com/en-us/)).
 - **`proxy`**: Indicates whether the user's IP address is a known proxy or VPN.
@@ -433,7 +433,7 @@ Radar.setVerifiedReceiver(receiver)
 Radar.startTrackingVerified(interval = 1200, beacons = false)
 
 // get a cached token if available, or fetch a fresh token if not
-Radar.getVerifiedLocationToken { (status, token) in
+Radar.getVerifiedLocationToken { status, token ->
   if (token?.passed == true) {
     // allow access, send token to server
   } else {
@@ -577,12 +577,13 @@ If `passed == false`, responses include an array of more detailed [failure reaso
 - **`fraud_mocked_from_mock_provider`**: The user's location is mocked or spoofed according to iOS, Android, macOS, or Windows location services (all platforms).
 - **`fraud_mocked_known_spoofing_app`**: The user's device is running a known location spoofing app (macOS and Windows only).
 - **`fraud_mocked_inconsistent_ip_country`**: The user's location is in a country inconsistent with the IP geolocation country (all platforms).
-- **`fraud_jumped_exceeded_speed_threshold`**: The user moved too far too fast (e.g., "jumped" across the country in a few seconds), either for a single device or across devices shared by a single `userId`, indicating impossible travel (all platforms).
+- **`fraud_jumped_single_device`**: The user's location moved too far too fast (e.g., "jumped" across the country in a few seconds), possibly indicating impossible travel (all platforms).
+Unable to verify your location. Please wait a bit and try again.
+- **`fraud_jumped_multiple_devices`**: The device's location is inconsistent with another device's location with the same `userId`, possibly indicating account sharing (all platforms).
 - **`fraud_inaccurate_exceeded_accuracy_threshold`**: The user's location accuracy reported by the device is too low and exceeds a specified threshold (all platforms).
 - **`fraud_sharing_known_screen_sharing_app`**: The user's device is running a known screen sharing or remote desktop app (macOS and Windows only).
 - **`fraud_sharing_multiple_displays`**: The user's Android device has multiple displays, indicating possible screen sharing  (Android only).
 - **`fraud_sharing_virtual_input_device`**: The user's Android device has a virtual input device, indicating possible screen sharing  (Android only).
-- **`fraud_sharing_suspicious_touches`**: The user's Android device had suspicious touches, indicating possible screen sharing (Android only).
 - **`fraud_proxy_known_proxy_ip`**: The user's IP address is a known proxy or VPN (all platforms).
 - **`fraud_proxy_network_configuration`**: The user's network configuration indicates the use of a proxy or VPN (macOS and Windows only).
 
