@@ -2897,7 +2897,7 @@ Secret
 
 ###### Definition
 
-Lists trips. Trips are sorted descending by `eta`.
+Lists trips. Trips are sorted descending by `updatedAt`.
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/trips</code>
 
@@ -2911,6 +2911,7 @@ Lists trips. Trips are sorted descending by `eta`.
 - **`includeLocations`** (boolean, optional): Whether to include locations on trips. Defaults to `false`.
 - **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves trips created after the specified datetime. A date or valid ISO date string.
 - **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves trips created before the specified datetime. A date or valid ISO date string.
+- **`sortBy`** (string, optional): Sorts trips by the specified field in descending order. A string, one of `createdAt` or `updatedAt`. Defaults to `updatedAt`.
 - **`delayed`** (boolean, optional): Retrieves trips that matches specified delayed state.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 1000. Defaults to 500.
 
