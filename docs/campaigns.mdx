@@ -37,15 +37,12 @@ To create a campaign via the dashboard, navigate to the [campaigns page](https:/
 ## Targeting options
 Campaigns allow you to target users based on their entry into a geofence or place. Geofences can be targeted using geofence tags or IDs, while places can be targeted by categories or chains.
 
-![campaignTargeting](/img/campaign_targeting.png)
 
 For more granular control, advanced targeting options are available. These let you target users by their user ID or their location permission status. Simply expand the advanced targeting section to access these features.
 
 ## Notification configurations
 
 You can configure the notifications Radar sends to users when they enter a geofence or place. Customize the notification body, and optionally, the notification title and deep link.
-
-![campaignNotificationConfiguration](/img/campaign_notification_configuration.png)
 
 ## Analytics
 
@@ -54,7 +51,12 @@ With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a
 Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
 
 You can also view these campaign conversion analytics by pressing the analytics button on the campaign's page or by navigating to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *campaign_name* from the *grouped_by* dropdown. See screenshot below: 
-![OnPremiseNotifications](/img/campaign_analytics.png)
+
+## Frequency Capping
+
+With frequency capping, you can limit the number of notifications a user receives from a campaign. This is useful to prevent excessive notifications for users.
+To set up frequency capping, navigate to the [setting page](https://radar.com/dashboard/settings).
+Under the campaigns section, define the maximum number of notifications allowed in the specified time window and also the time window.
 
 ## Support
 
