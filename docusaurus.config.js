@@ -25,6 +25,10 @@ module.exports = {
       { name: "twitter:image", content: "https://radar.com/static/image/logo.png" },
       { name: "twitter:description", content: "Location data infrastructure | Geofencing SDK and API"}
     ],
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 4,
+    },
     navbar: {
       logo: {
         alt: 'Radar',
