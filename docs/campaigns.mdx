@@ -31,9 +31,25 @@ Once set up, [create your campaigns](/campaigns#create-campaigns) using the dash
 To create a campaign via the dashboard, navigate to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click **Create**. Provide the campaign's name, notification body, and targeting details. You can target users using either geofences or places.
 
 ## Targeting options
-Campaigns allow you to target users based on their entry into a geofence or place. Geofences can be targeted using geofence tags or IDs, while places can be targeted by categories or chains. Targeting applies to a user event when all targeting options are true.
+Campaigns allow you to target users based on their entry into a specific type of geofence or place, their location permissions, and specific user IDs. 
 
-You can also target users based on their location-authorization status. For example, you might target a campaign to only target users with foreground-location permission.
+*In order for a notification to be delivered, all targeting options must be true.*
+
+### Geofences and Places
+
+**Geofence tags -** allow you target groups of geofences based on their shared tags
+
+**Geofence external IDs -** allow you to target individual geofences by their unique ID
+
+**Place categories -** allow you to target categories like shopping malls (shopping-mall) or restaurants (restaurant)
+
+**Place chains -** allow you to target specific chains like Starbucks or Target
+
+### Location authorization
+
+Target users based on their location-authorization status. For example, you might target a campaign to only target users with foreground-location permission.
+
+### Specific users
 
 Under advanced options, you can find User ID (the [external ID](/sdk/ios#identify-user)) based targeting to target individual users.
 
