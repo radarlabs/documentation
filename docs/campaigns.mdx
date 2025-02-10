@@ -31,8 +31,31 @@ Once set up, [create your campaigns](/campaigns#create-campaigns) using the dash
 To create a campaign via the dashboard, navigate to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click **Create**. Provide the campaign details, targeting options, and notification details.
 
 Notifications will only be delivered if the campaign is set to **Enabled**.
+
+## Notification Types
+
+### Client-side geofence notifications
+
+Radar's client-side geofence notifications make use of location notification triggers on iOS. These triggers work with foreground or <b>"when in use"</b> permissions.
+This feature is privacy-friendly and won't collect any additional location data. 
+Notifications are only displayed after the user opens the app for the first time with the [Radar SDK](/documentation/sdk) installed.
+
+No additional lines of code are necessary to power client-side geofence notifications. 
+They function completely under the hood after setup. 
+The same calls to `Radar.trackOnce()` and `Radar.startTracking()` will return nearby geofences with notifications, which will then be registered on the device.
+
+Radar only controls the registration of notifications on the device. 
+Once that happens, surfacing notifications is subject to the [system limits and heuristics](https://developer.apple.com/documentation/usernotifications/unlocationnotificationtrigger#overview) that iOS enforces.
+
+### Event based notifications
+
+Event based notifications are the more traditional type of location-based notifications that rely on background ("Always allow") location permission. These types of notifications often provide less reach, but allow for more insight into conversions and analytics.
+
 ## Targeting options
+
 Campaigns allow you to target users based on their entry into a specific type of geofence or place, their location permissions, and specific user IDs. 
+
+Client-side geofence notifications and event based notifications support different targeting options. 
 
 *In order for a notification to be delivered, all targeting options must be true.*
 
@@ -59,6 +82,7 @@ Under advanced options, you can find User ID (the [external ID](/sdk/ios#identif
 *Requires SDK version v3.19.6*
 
 With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a campaign notification.
+To enable this for campaigns, make sure `radarInitializationOptions.autoSetupNotificationConversion` = `true`.
 
 Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
 
