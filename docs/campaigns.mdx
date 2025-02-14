@@ -26,16 +26,44 @@ To use campaigns with geofences, start by [creating geofences](/geofences#create
 
 To use campaigns with places, ensure that places are enabled through the [settings page](https://radar.com/dashboard/settings) and "nearby places" is activated. Reach out to your account manager to enable "nearby places" for your project. Then setup nearby places for the project via the [settings page](https://radar.com/dashboard/settings).
 
+To use campaigns with events, ensure that the desired trigger events are enabled through the [settings page](https://radar.com/dashboard/settings).
+
 Once set up, [create your campaigns](/campaigns#create-campaigns) using the dashboard.
 
 ## Create campaigns
 
 To create a campaign via the dashboard, navigate to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click **Create**. Provide the campaign's name, notification body, and targeting details. You can target users using either geofences or places.
 
+## Campaign types
+
+### Client side geofence
+Use Radar's client side geofence notifications to display a notification on iOS devices when a user enters a geofence. Notifications work even with only foreground or <b>"when in use"</b> permissions!
+
+Radar's client side geofence notifications make use of location notification triggers on iOS. These triggers work with foreground or <b>"when in use"</b> permissions. This feature is privacy-friendly and won't collect any additional location data. Notifications are only displayed after the user opens the app for the first time with the [Radar SDK](/documentation/sdk) installed.
+
+No additional lines of code are necessary to power client side geofence notifications. They function completely under the hood after setup. The same calls to `Radar.trackOnce()` and `Radar.startTracking()` will return nearby geofences with notifications, which will then be registered on the device.
+
+Radar only controls the registration of notifications on the device. Once that happens, surfacing notifications is subject to the [system limits and heuristics](https://developer.apple.com/documentation/usernotifications/unlocationnotificationtrigger#overview) that iOS enforces.
+
+<Alert alertType="info">
+  You need to be outside a geofence when it is registered on the device for the notification to fire upon entry.
+</Alert>
+
+### Event based geofence
+
+Use Radar's event based geofence notification to display a notification on iOS or Android devices whenever an event occurs. Currently supported events are `user.entered_geofence`, `user.exited_geofence`, `user.entered_place`, and `user.exited_place`.
+
+These events are triggered by the SDK tracking performed by `Radar.trackOnce()` or `Radar.startTracking()` calls. Background location permissions are required to receive these events while the app is in the background.
+
 ## Targeting options
-Campaigns allow you to target users based on their entry into a geofence or place. Geofences can be targeted using geofence tags or IDs, while places can be targeted by categories or chains. Targeting applies to a user event when all targeting options are true.
+
+Campaigns allow you to target users based on different triggers. Note not all triggers are available for client side geofence notifications.
+
+Campaign triggers either target geofences or places. Geofences should be targeted using geofence tags or IDs, while places should be targeted by categories or chains. Targeting applies to a user event when all targeting options are true.
 
 You can also target users based on their location-authorization status. For example, you might target a campaign to only target users with foreground-location permission.
+
+For event based campaigns, you can target users based on their device type (iOS, Android, or both). 
 
 Under advanced options, you can find User ID (the [external ID](/sdk/ios#identify-user)) based targeting to target individual users.
 
@@ -43,19 +71,75 @@ Under advanced options, you can find User ID (the [external ID](/sdk/ios#identif
 
 You can configure the notifications Radar sends to users when they enter a geofence or place. Customize the notification body, and optionally, the notification title and the deep link URL.
 
-## Analytics
+## Analytics (iOS only)
 
 With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a campaign notification.
 
 Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
 
-You can also view these campaign conversion analytics by pressing the analytics button on the campaign's page. Alternatively, you can navigate to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *campaign_name* from the *grouped_by* dropdown.
+With Radar [Conversions](/api#log-a-conversion), you can also retrieve the source of an *opened_app* conversion for iOS apps. Within the *metadata* object of the [logged conversion](/sdk/ios#conversions), we will return a *conversion_source* with either 
+- **`notification`** (app was opened using an external 3rd party notification) 
+- **`radar_notification`** (app was opened using the configured on-prem notification): 
+
+You can view these campaign conversion analytics by pressing the analytics button on the campaign's page. Alternatively, you can navigate to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *campaign_name* from the *grouped_by* dropdown. See screenshot below: 
+![OnPremiseNotifications](/img/notifications/conversion_source_analytics.png)
+
+## Deep linking (iOS only)
+
+Radar's client side geofence notifications can be used for deep linking. This means that you can use Radar's deep linking functionality to open a specific view via on premise notification taps.
+
+Set up deep linking from the Radar's Dashboards by adding the **`radar:notificationURL`** to the `URL Schemes` of the desired navigation view of your app.
+
+### Automated iOS setup
+
+Radar's iOS SDK can automatically set up deep linking for you. To enable this feature, set the `autoHandleNotificationDeepLinks` option to `true` in the Radar `initialize` call.
+```swift
+radarInitializeOptions.autoHandleNotificationDeepLinks = true
+Radar.initialize(publishableKey: "prj_test_pk_000", options: radarInitializeOptions )
+```
+It is recommended to use the automatic setup in conjugation with the `RadarURLDelegate` to handle the URL open. This implementation provides the most light way approach to get started with deep linking.
+
+### Manual iOS setup
+
+If you want to set up deep linking manually, you can do so by adding the following line to your `UNUserNotificationCenterDelegate` implementation.
+
+```swift
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+  Radar.openURLFromNotification(response.notification)
+}
+```
+
+### Automated React Native setup (iOS only)
+
+Radar's React Native SDK can automatically set up deep linking for you. To enable this feature, set the `autoHandleNotificationDeepLinks` option to `true` in the `radarInitializeOptions` via the `AppDelegate.mm`.
+```Objective-C
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  self.moduleName = @"main";
+  self.initialProps = @{};
+
+  BOOL res = [super application:application didFinishLaunchingWithOptions:launchOptions];
+  RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
+  radarInitializeOptions.autoHandleNotificationDeepLinks = YES;
+  [Radar nativeSetup:radarInitializeOptions];
+  return res;
+}
+```
+### Handle system deep link
+
+Opening the notification will result in the SDK calling `[application openURL:url options:@{} completionHandler:nil];` This will open the URL in the app if it is registered for the scheme, or open the URL in the browser if it is not.
+Developers should handle this by handling the [custom URL scheme](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) or [universal link](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) in their app.
+React Native developers should also implement the native iOS handling of the deep link in their app.
 
 ## Frequency Capping
 
 With frequency capping, you can limit the number of notifications a user receives from a campaign. This is useful to prevent excessive notifications for users.
 To set up frequency capping, navigate to the [setting page](https://radar.com/dashboard/settings).
 Under the campaigns section, define the maximum number of notifications allowed in the specified time window.
+
+You can also configure for a campaign to ignore the frequency capping. Note that these campaigns will still contribute to the frequency cap.
+
+For example, you configured a campaign that ignores frequency capping and another campaign that does not. If you also set a frequency cap for 2 notifications a day day and a user has received one of each notification. The user may still receive the notifications from the campaign that ignores the frequency capping.
 
 ## Support
 

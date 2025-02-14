@@ -23,7 +23,6 @@ module.exports = {
         "regions",
         "beacons",
         "fraud",
-        "notifications",
         "campaigns",
         {
           type: "category",
