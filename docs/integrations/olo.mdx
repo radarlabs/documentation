@@ -39,7 +39,7 @@ Assuming locations permissions have been granted and location tracking has been 
 
 Radar can fire orders in Olo based on customer location rather than a preset time to ensure food preparation time aligns with customer arrival.
 
-Orders in Olo will need to have `ismanualfire` set to `true` or set a `timewanted` for advance orders.
+Orders in Olo will need to set a `timewanted` for advance orders, or alternatively, set the `externalRef` to any value that starts with `radar_` (i.e. `radar_h87y12rgb`).
 
 Additionally, configure Radar with a *Partnership Type* of *Customer Arrival* via the *Partner Management* section of the Olo Dashboard. Select stores in the configuration where order firing will be enabled. Upon completion, reach out to your Radar account team to complete the order firing integration.
 
