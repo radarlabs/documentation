@@ -12,9 +12,7 @@ import Alert from '@site/src/components/Alert';
   {` `} and above.
 </Alert>
 
-<Alert alertType="info">
-    This feature is currently in beta. Contact your customer success manager to enable it. If you encounter any issues or have feedback, please reach out to us at <a href="mailto:support@radar.com">support@radar.com</a>.
-</Alert>
+
 
 Use campaigns to create location-based notifications effortlessly. Campaigns let you customize your notification content and targeting behavior with ease.
 
@@ -30,22 +28,61 @@ Once set up, [create your campaigns](/campaigns#create-campaigns) using the dash
 
 ## Create campaigns
 
-To create a campaign via the dashboard, navigate to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click **Create**. Provide the campaign's name, notification body, and targeting details. You can target users using either geofences or places.
+To create a campaign via the dashboard, navigate to the [campaigns page](https://radar.com/dashboard/geofencing/campaigns) and click **Create**. Provide the campaign details, targeting options, and notification details.
+
+Notifications will only be delivered if the campaign is set to **Enabled**.
+
+## Notification Types
+
+### Client-side geofence notifications
+
+Radar's client-side geofence notifications make use of location notification triggers on iOS. These triggers work with foreground or <b>"when in use"</b> permissions.
+This feature is privacy-friendly and won't collect any additional location data. 
+Notifications are only displayed after the user opens the app for the first time with the [Radar SDK](/documentation/sdk) installed.
+
+No additional lines of code are necessary to power client-side geofence notifications. 
+They function completely under the hood after setup. 
+The same calls to `Radar.trackOnce()` and `Radar.startTracking()` will return nearby geofences with notifications, which will then be registered on the device.
+
+Radar only controls the registration of notifications on the device. 
+Once that happens, surfacing notifications is subject to the [system limits and heuristics](https://developer.apple.com/documentation/usernotifications/unlocationnotificationtrigger#overview) that iOS enforces.
+
+### Event based notifications
+
+Event based notifications are the more traditional type of location-based notifications that rely on background ("Always allow") location permission. These types of notifications often provide less reach, but allow for more insight into conversions and analytics.
 
 ## Targeting options
-Campaigns allow you to target users based on their entry into a geofence or place. Geofences can be targeted using geofence tags or IDs, while places can be targeted by categories or chains. Targeting applies to a user event when all targeting options are true.
 
-You can also target users based on their location-authorization status. For example, you might target a campaign to only target users with foreground-location permission.
+Campaigns allow you to target users based on their entry into a specific type of geofence or place, their location permissions, and specific user IDs. 
+
+Client-side geofence notifications and event based notifications support different targeting options. 
+
+*In order for a notification to be delivered, all targeting options must be true.*
+
+### Geofences and Places targeting
+
+**Geofence tags -** allow you target groups of geofences based on their shared tags
+
+**Geofence external IDs -** allow you to target individual geofences by their unique ID
+
+**Place categories -** allow you to target categories like shopping malls (shopping-mall) or restaurants (restaurant)
+
+**Place chains -** allow you to target specific chains like Starbucks or Target
+
+### Location authorization targeting
+
+Target users based on their device's location-authorization status. For example, you might target a campaign to only target users with foreground-location permission.
+
+### Specific users targeting
 
 Under advanced options, you can find User ID (the [external ID](/sdk/ios#identify-user)) based targeting to target individual users.
 
-## Notification configurations
-
-You can configure the notifications Radar sends to users when they enter a geofence or place. Customize the notification body, and optionally, the notification title and the deep link URL.
-
 ## Analytics
 
+*Requires SDK version v3.19.6*
+
 With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a campaign notification.
+To enable this for campaigns, make sure `radarInitializationOptions.autoSetupNotificationConversion` = `true`.
 
 Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
 
@@ -53,9 +90,21 @@ You can also view these campaign conversion analytics by pressing the analytics 
 
 ## Frequency Capping
 
+*Requires SDK version v3.19.6*
+
 With frequency capping, you can limit the number of notifications a user receives from a campaign. This is useful to prevent excessive notifications for users.
-To set up frequency capping, navigate to the [setting page](https://radar.com/dashboard/settings).
-Under the campaigns section, define the maximum number of notifications allowed in the specified time window.
+To set up frequency capping, navigate to the [campaign settings](https://radar.com/dashboard/settings#campaigns-settings) within the settings page.
+
+From there, define the maximum number of notifications allowed in the specified time window.
+
+The frequency cap is the maximum number of notifications allowed per user in the specified time window. This includes notifications from **all campaigns**.
+
+The time window is the length of time over which the frequency cap applies. 
+This is a rolling time window, so if the frequency cap is 2 and the time window is 48 hours, a notification could be delivered at hour 1, hour 24, and then a third at hour 49.
+
+*There is currently no way to prioritize the delivery of a certain campaign over another.*
+
+
 
 ## Support
 
