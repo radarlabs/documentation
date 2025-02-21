@@ -1770,7 +1770,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let radarInitializeOptions = RadarInitializeOptions()
-        radarInitializeOptions.autoSetupNotificationConversion = true
+        radarInitializeOptions.autoLogNotificationConversions = true
         Radar.initialize(publishableKey: "prj_test_pk_...", options: radarInitializeOptions)
 
         return true
@@ -1790,7 +1790,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
-    radarInitializeOptions.autoSetupNotificationConversion = YES;
+    radarInitializeOptions.autoLogNotificationConversions = YES;
     [Radar initializeWithPublishableKey:@"prj_test_pk_..." options:radarInitializeOptions];
 
     return YES;
