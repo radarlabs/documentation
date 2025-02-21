@@ -12,10 +12,6 @@ import Alert from '@site/src/components/Alert';
   {` `} and above.
 </Alert>
 
-<Alert alertType="info">
-    This feature is currently in beta. Contact your customer success manager to enable it. If you encounter any issues or have feedback, please reach out to us at <a href="mailto:support@radar.com">support@radar.com</a>.
-</Alert>
-
 Use campaigns to create location-based notifications effortlessly. Campaigns let you customize your notification content and targeting behavior with ease.
 
 ## Quickstart
@@ -37,23 +33,17 @@ To create a campaign via the dashboard, navigate to the [campaigns page](https:/
 ## Campaign types
 
 ### Client side geofence
-Use Radar's client side geofence notifications to display a notification on iOS devices when a user enters a geofence. Notifications work even with only foreground or <b>"when in use"</b> permissions!
+Use Radar's client side geofence notifications to display a notification on iOS devices when a user enters a geofence. These notifications work with foreground or <b>"when in use"</b> permissions, dramatically improving their reachable audience.
 
-Radar's client side geofence notifications make use of location notification triggers on iOS. These triggers work with foreground or <b>"when in use"</b> permissions. This feature is privacy-friendly and won't collect any additional location data. Notifications are only displayed after the user opens the app for the first time with the [Radar SDK](/documentation/sdk) installed.
+Radar's client side geofence notifications make use of location notification triggers on iOS. These triggers work with foreground or <b>"when in use"</b> permissions. No location data is collected in the background.
 
-No additional lines of code are necessary to power client side geofence notifications. They function completely under the hood after setup. The same calls to `Radar.trackOnce()` and `Radar.startTracking()` will return nearby geofences with notifications, which will then be registered on the device.
+Calls to `Radar.trackOnce()` and `Radar.startTracking()`, which can be configured through remote configuration in the dashboard, will return to the client nearby geofences with notifications, which will then be registered on the device.
 
 Radar only controls the registration of notifications on the device. Once that happens, surfacing notifications is subject to the [system limits and heuristics](https://developer.apple.com/documentation/usernotifications/unlocationnotificationtrigger#overview) that iOS enforces.
 
 <Alert alertType="info">
-  You need to be outside a geofence when it is registered on the device for the notification to fire upon entry.
+  If the device is already inside the geofence when its client-side geofence notification is being synced, it will fire upon subsequent entry, not immediately.
 </Alert>
-
-### Event based geofence
-
-Use Radar's event based geofence notification to display a notification on iOS or Android devices whenever an event occurs. Currently supported events are `user.entered_geofence`, `user.exited_geofence`, `user.entered_place`, and `user.exited_place`.
-
-These events are triggered by the SDK tracking performed by `Radar.trackOnce()` or `Radar.startTracking()` calls. Background location permissions are required to receive these events while the app is in the background.
 
 ## Targeting options
 
@@ -70,6 +60,15 @@ Under advanced options, you can find User ID (the [external ID](/sdk/ios#identif
 ## Notification configurations
 
 You can configure the notifications Radar sends to users when they enter a geofence or place. Customize the notification body, and optionally, the notification title and the deep link URL.
+
+## Frequency Capping
+
+With frequency capping, you can limit the number of notifications a user receives from a campaign. This is useful to prevent excessive notifications for users.
+To set up frequency capping, navigate to the [setting page](https://radar.com/dashboard/settings).
+Under the campaigns section, define the maximum number of notifications allowed in the specified time window. 
+
+The SDK will only sync up to the frequency cap number of notifications. As such, we'd recommend setting a cap of 2 notifications for a time window of 48 hours instead of 1 notification for 24 hours.
+
 
 ## Analytics (iOS only)
 
@@ -131,15 +130,6 @@ Opening the notification will result in the SDK calling `[application openURL:ur
 Developers should handle this by handling the [custom URL scheme](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) or [universal link](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) in their app.
 React Native developers should also implement the native iOS handling of the deep link in their app.
 
-## Frequency Capping
-
-With frequency capping, you can limit the number of notifications a user receives from a campaign. This is useful to prevent excessive notifications for users.
-To set up frequency capping, navigate to the [setting page](https://radar.com/dashboard/settings).
-Under the campaigns section, define the maximum number of notifications allowed in the specified time window.
-
-You can also configure for a campaign to ignore the frequency capping. Note that these campaigns will still contribute to the frequency cap.
-
-For example, you configured a campaign that ignores frequency capping and another campaign that does not. If you also set a frequency cap for 2 notifications a day day and a user has received one of each notification. The user may still receive the notifications from the campaign that ignores the frequency capping.
 
 ## Support
 
