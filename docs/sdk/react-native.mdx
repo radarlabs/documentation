@@ -540,8 +540,11 @@ With the [reverse geocoding API](/api#reverse-geocode), reverse geocode a locati
 
 ```javascript
 Radar.reverseGeocode({
-  latitude: 40.783826,
-  longitude: -73.975363
+  location:{
+    latitude: 40.783826,
+    longitude: -73.975363
+  },
+  layers : ["address"]
 }).then((result) => {
   // do something with result.addresses
 }).catch((err) => {
