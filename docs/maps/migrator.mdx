@@ -1,0 +1,63 @@
+---
+title: Maps Migrator
+---
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+The Radar Maps Migrator allows you to easily convert your Google Maps implementations with Radar Maps by simply switching the script import.
+
+## How it works
+
+The Google maps import will look like either of the following:
+
+**Direct src import**
+```html
+<script
+  async
+  src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&loading=async&callback=initMap"
+>
+</script>
+```
+
+**Dynamic Library import**
+```html
+<script>
+  (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+    key: "YOUR_API_KEY",
+    v: "weekly",
+    // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+    // Add other bootstrap parameters as needed, using camel case.
+  });
+</script>
+```
+
+For either of these imports, simply replace these lines with the Radar migrator. Now without any further changes to the code, calls to the Google Maps API will now be made to Radar's API.
+```html
+<script
+  src="https://js.radar.com/v0/radar-migration-sdk.js?key={radar_publishable_key}"
+>
+</script>
+
+```
+Additionally you can specify a callback and Radar map style which is defined below.
+## Configuration
+
+#### Definition
+<span className="badge badge--success">src</span> <code>https://js.radar.com/v0/radar-migration-sdk.js</code><br/>
+
+### Query Parameters
+<div className="full-width-table">
+
+| Name  | Default | Possible values | Description           |
+|-------|---------|-----------------|-----------------------|
+|`key` | none (required) | string | Your Radar publishable API key. |
+| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1`, `CUSTOM_STYLE_ID` | The style of the map. One of Radar's out-of-the box styles, or a <a href="/documentation/maps/maps#custom-styles">custom style</a> ID. <br /><br />See [map styles](https://radar.com/documentation/maps/maps#styles) for more details. |
+| `callback` | none | string | The name of a maps callback function to be called once the library is imported |
+</div>
+
+
+## Coverage
+See [Maps coverage](https://radar.com/documentation/maps/maps#coverage) for more details.
+
+
+## Support
+Have questions? We're here to help! Contact us at [radar.com/support](https://radar.com/support).
