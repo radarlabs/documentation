@@ -712,7 +712,7 @@ To enable logging of app opens through notifications taps on iOS, perform the fo
 ```
 
 <Alert alertType="warning">
-  `[Radar nativeSetup:options];` must be called after the `UNUserNotificationCenterDelegate` has been set. Be aware of third party SDK setup that may also set `UNUserNotificationCenterDelegate`. 
+  `[Radar nativeSetup:options];` must be called after the `UNUserNotificationCenterDelegate` has been set. Be aware of third party SDK setup that may also set `UNUserNotificationCenterDelegate` and override the automatic setup. 
 </Alert>
 
 If you are setting the `AppDelegate` to be the `UNUserNotificationCenterDelegate`, you should perform the following manual setup:

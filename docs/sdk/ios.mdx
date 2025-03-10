@@ -1802,7 +1802,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 </Tabs>
 
 <Alert alertType="warning">
-  When using the automatic setup `Radar.initialize()` must be called after the `UNUserNotificationCenterDelegate` has been set. Be aware of third party SDK setup that may also set `UNUserNotificationCenterDelegate`. 
+  When using the automatic setup `Radar.initialize()` must be called after the `UNUserNotificationCenterDelegate` has been set. Be aware of third party SDK setup that may also set `UNUserNotificationCenterDelegate` and override the setup. 
 </Alert>
 
 Alternatively, implement the `UNUserNotificationCenterDelegate` and perform the following manual setup:
