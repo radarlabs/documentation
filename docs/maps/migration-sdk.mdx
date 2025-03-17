@@ -1,13 +1,13 @@
 ---
-title: Maps Migrator
+title: Maps Migration SDK
 ---
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-The Radar Maps Migrator allows you to easily convert your Google Maps implementations with Radar Maps by simply switching the script import.
+The Radar Maps Migration SDK allows you to easily convert your Google Maps web implementations with Radar Maps by simply swapping the script import tag.
 
 ## How it works
 
-The Google maps import will look like either of the following:
+The Google maps import will look like one of the following:
 
 **Direct src import**
 ```html
@@ -30,19 +30,15 @@ The Google maps import will look like either of the following:
 </script>
 ```
 
-For either of these imports, simply replace these lines with the Radar migrator. Now without any further changes to the code, calls to the Google Maps API will now be made to Radar's API.
+For either of these imports, simply replace these lines with the Radar Migration SDK script. Now without any further changes to the code, calls to the Google Maps API will now be made to Radar's API.
 ```html
-<script
-  src="https://js.radar.com/v0/radar-migration-sdk.js?key={radar_publishable_key}"
->
-</script>
-
+<script src="https://js.radar.com/v1/radar-migration-sdk.js?key={radar_publishable_key}"></script>
 ```
 Additionally you can specify a callback and Radar map style which is defined below.
 ## Configuration
 
 #### Definition
-<span className="badge badge--success">src</span> <code>https://js.radar.com/v0/radar-migration-sdk.js</code><br/>
+<span className="badge badge--success">src</span> <code>https://js.radar.com/v1/radar-migration-sdk.js</code><br/>
 
 ### Query Parameters
 <div className="full-width-table">
