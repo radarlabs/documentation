@@ -824,6 +824,7 @@ Searches for places near a location, sorted by distance.
 
 - **`chains`** (string, optional): [Chain slug](/places#chains) filters. A string, comma-separated. If your project has a [chain mapping](/places#mappings), the mapped ID can be used in place of the chain slug. If not provided, `categories` must be provided.
 - **`categories`** (string, optional): [Category](/places#categories) filters. A string, comma-separated. If not provided, `chains` must be provided.
+- **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
 - **`iataCode`** (string, optional): The 3-letter IATA code for the airport to search. If provided, no other parameters are required.
 - **`chainMetadata[key]`** (optional): Optional [chain metadata](/places#metadata) filters. Values may be of type string, boolean, or number. Type will be automatically inferred. For example, to match on `offers == true`, use `&chainMetadata[offers]=true`.
 - **`near`** (string, required): A location for the search. A string in the format `latitude,longitude`.
