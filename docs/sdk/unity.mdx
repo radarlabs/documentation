@@ -1,0 +1,412 @@
+---
+sidebar_label: Unity
+title: Unity SDK
+sidebar_position: 1
+---
+
+# Unity wrapper SDK
+
+This is the documentation for the Unity wrapper/plugin. Before integrating, read the [native SDK documentation](/sdk) to familiarize yourself with the platform.
+
+Unity SDK provides a thin proxy layer for integrating existing native SDKs offering location tracking and geofencing services.
+
+See the source on GitHub [here](https://github.com/radarlabs/unity-radar).
+
+Scripts documentation and Demo scene overview can be found in project READMEs.
+
+## Install
+
+To integrate the Unity SDK, download or clone the package and include it in your Unity project:
+
+1. Copy the `Plugins` folder (containing both Android and iOS native implementations) into the `Assets` directory of your Unity project.
+2. Import the `ExternalDependencyManager` for Unity (EDM4U). It is included in the project but you can get it from `Package Manager` or from [repo](https://github.com/googlesamples/unity-jar-resolver): It is required if you want to add and use iOS/Android dependencies directly in your project like: `Android specific libraries (e.g AARs)` or `iOS CocoaPods`
+3. Ensure that any required permissions or settings specific to location tracking and geofencing are configured on both iOS and Android, as outlined in the [native SDK documentation](/sdk). 
+
+
+### Supported Unity versions
+
+The SDK has been tested on Unity **2022.3.41f**, and **6000.0.24f** versions. However, it should work with Unity versions **2021** and above.
+
+
+## Integrate
+
+### Play Integrity API
+To enable the Play Integrity API for Android, enable the [Play Integrity API](https://developer.android.com/google/play/integrity) on the [Settings page](https://radar.com/dashboard/settings) and follow the activation steps. Include the dependency in your app's `build.gradle` file:
+
+Inside `mainTemplate.gradle`:
+```gradle
+dependencies {
+   implementation 'com.google.android.play:integrity:1.2.0'
+}
+```
+
+Inside `Dependencies.xml`:
+```xml
+<dependencies>
+  <androidPackages>
+    <androidPackage spec="com.google.android.play:integrity:1.2.0"/>
+  </androidPackages>
+</dependencies>
+```
+
+Use `Radar.trackVerified()` after setup. If you encounter `ERROR_FORBIDDEN`, ensure the device has the latest version of Play Services. For more details, refer to our [Fraud Documentation](https://radar.com/documentation/fraud).
+
+
+### App attest
+
+Enable App Attest for iOS via the Settings page by listing valid App IDs. App Attest requires iOS 14 or later and must be added to your Xcode project under Signing & Capabilities. Switch to the production entitlements file for deployment.
+
+Use `Radar.trackVerified()` after setup. If Radar.trackVerified() returns ERROR_FORBIDDEN, verify iOS compatibility and log details. For in-depth information, see our [Fraud Documentation](https://radar.com/documentation/fraud).
+
+<div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+  <div style={{ flex: "0.74" }}>
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/6EVotgdoT1Far0d9JVIpfC/74cba9d1840da4dd8f2ea30c401c9499/Image2.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+  </div>
+  <div style={{ flex: "1" }}>
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/4yYYJX4hQvdqiOCFwtcAHz/27d8421f3fa0317d7a593d5d891bb30c/Image3.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+  </div>
+</div>
+
+
+
+
+## Platform-specific configuration
+
+### Android
+
+
+<div style={{ display: "flex", alignItems: "flex-start", gap: "20px" }}>
+  <div style={{ flex: "2" }}>
+    <p>To integrate with the Android SDK, make sure that `Plugins/Android` folder contains following files:</p>
+    <ul>
+      <li><span style={{ fontStyle: "italic" }}>Dependencies.xml</span></li>
+      <li><span style={{ fontStyle: "italic" }}>gradleTemplate.properties</span></li>
+      <li><span style={{ fontStyle: "italic" }}>mainTemplate.gradle</span></li>
+      <li><span style={{ fontStyle: "italic" }}>sdk-debug.aar</span></li>
+      <li><span style={{ fontStyle: "italic" }}>settingsTemplate.gradle</span></li>
+    </ul>
+    <p> If you are missing files, make sure to include them in the `Player settings` under `Publishing Settings` section:</p>
+  </div>
+  <div style={{ flex: "1" }}>
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/5ZGeCgh06rdS6vUrRsxTx3/2703a278ebd4d366456a6a53deb1013e/Image5.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+  </div>
+</div>
+
+The content of the files should be as follows:
+
+`Dependencies.xml`:
+```xml
+<dependencies>
+  <androidPackages>
+    <androidPackage spec="org.jetbrains.kotlin:kotlin-stdlib:1.6.20"/>
+    <androidPackage spec="androidx.core:core-ktx:1.7.0"/>
+    <androidPackage spec="androidx.activity:activity:1.2.0"/>
+    <androidPackage spec="com.google.android.gms:play-services-location:21.0.1"/>
+    <androidPackage spec="com.google.android.play:integrity:1.2.0"/>
+    <androidPackage spec="io.radar:sdk:3.18.+"/>
+  </androidPackages>
+</dependencies>
+```
+
+`mainTemplate.gradle`:
+```gradle
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.play:integrity:1.2.0'
+}
+```
+
+`gradleTemplate.properties`:
+```properties
+org.gradle.jvmargs=-Xmx**JVM_HEAP_SIZE**M
+org.gradle.parallel=true
+unityStreamingAssets=**STREAMING_ASSETS**
+android.useAndroidX=true
+android.enableJetifier=true
+android.suppressUnsupportedCompileSdk=34
+```
+
+### iOS
+
+1. To install the iOS SDK, navigate to your iOS project directory:
+
+   ```bash
+   cd ios/
+   ```
+
+2. In your `Podfile`, ensure that `platform :ios` is set to 10.0 or higher. Then, install the required pods:
+
+   ```bash
+   pod install
+   ```
+
+   You must add location usage descriptions and enable background modes in your `Info.plist` file as described in the [iOS SDK documentation](#). This is essential for accessing location services and geofencing in the background.
+
+3. To handle location updates effectively, configure background processing options if your app requires tracking location changes when the app is not actively in use.
+
+:::info
+  Don't forget to include `RadarSDK.xcframework` under `Your Project General > Frameworks, Libraries, and Embedded Content` when building application in Xcode.
+:::
+
+
+<div style={{ flex: "1" }}>
+   <img src="https://images.ctfassets.net/f2vbu16fzuly/48HBKFagArYkFavJA3jNQ/9d3de817a9e88a4292cd0201643cd694/unity-sdk-xcode.png" alt="Demo Scene Status Lights" style={{ width: "100%", height: "auto" }} />
+</div>
+
+
+
+## Configuring Radar SDK settings in Unity
+
+The Radar SDK for Unity provides a custom editor window that allows developers to easily configure general settings, keys, and other options necessary for the Radar integration.
+
+### Accessing the settings
+
+<div style={{ display: "flex", alignItems: "flex-start", gap: "20px" }}>
+  <div style={{ flex: "1.2" }}>
+    <p>To access the Radar SDK settings, go to `Radar > Settings` in the Unity top menu. This will open the `Radar SDK Settings` window.</p>
+  </div>
+  <div style={{ flex: "1" }}>
+    <img src="https://images.ctfassets.net/f2vbu16fzuly/4UJDyeLHIzogDKgpgkejO9/28d79ce851a25f2273f04c1745bd19c6/unity-sdk-settings.png" alt="Demo Scene Status Lights" style={{ width: "95%", height: "auto" }} />
+  </div>
+</div>
+
+
+#### General settings
+
+- **User ID**: Unique identifier for the user, required for tracking purposes. Defaults to `DefaultUserId`. If `Add Extension` is enabled, this ID will append platform-specific extensions (e.g., `_WindowsEditor`).
+
+- **Add Extension**: Toggle to append a platform-specific extension to the User ID.
+
+- **Enable Debugging**: Toggle this to enable or disable debug logging managed by `LogManager` script.
+
+#### API keys
+
+- **Test Publishable Key**: Enter your project's test publishable key here. This key is used in development builds `(isDebugBuild = true)`.
+
+- **Live Publishable Key**: Enter your project's live publishable key here. This key is used in release builds `(isDebugBuild = false)`.
+
+You can find both publishable keys in your Radar dashboard under the project settings.
+
+#### Tracking and beacons
+
+- **Tracking Interval (seconds)**: Sets the interval in seconds at which the location tracking updates occur.
+
+- **Use Beacons**: Toggle to enable or disable the use of beacons in location tracking.
+
+#### Metadata
+
+- **Metadata**: A container to store or pass additional information required by the application. Click `Edit Metadata` to modify the JSON-formatted data. To add/remove data, modify `MetadataContainer` script.
+
+#### Saving changes
+
+After configuring the settings, click `Save Settings` to apply your changes.
+
+
+
+
+
+## Using plugin
+
+Once installed, access the SDK functionality using RadarSDK namespace:
+
+```csharp
+using RadarSDK;
+```
+
+
+
+
+
+### Calls to APIs
+
+The Unity SDK exposes following APIs calls (See `RadarUsageExample.cs` for example usages): 
+
+#### Initialize
+
+When your app starts, initialize the SDK with your publishable API key, found on the [Settings page](https://radar.com/dashboard/settings).
+```cs
+private void InitializeRadar()
+{
+   string publishableKey = Debug.isDebugBuild ? RadarSDKManager.TestPublishableKey : RadarSDKManager.LivePublishableKey;
+   Radar.Initialize(publishableKey, fraud: true);
+}
+```
+
+#### SetUserId
+
+You can also assign a custom `userId`, also called *External ID* in the dashboard. To set a custom `userId`, call:
+```cs
+private void SetUserId(string userId)
+{
+   Radar.SetUserId(userId);
+}
+```
+
+#### SetMetadata
+
+To set a dictionary of custom metadata for the user, call:
+```cs
+private void SetMetadata(MetadataContainer metadata)
+{
+   Radar.SetMetadata(metadata);
+}
+```
+
+#### GetLocation
+
+Get a single location update without sending it to the server:
+```cs
+private Task<Location?> GetLocation()
+{
+   var tcs = new TaskCompletionSource<Location?>();
+
+   Radar.GetLocation(location =>
+   {
+         if (location.coordinates != null)
+         {
+            LogManager.Instance.Log($"Location received: Latitude = {location.latitude}, Longitude = {location.longitude}", LogType.Warning);
+         }
+         else
+         {
+            LogManager.Instance.Log("Failed to get location", LogType.Error);
+         }
+   });
+
+   return tcs.Task;
+}
+```
+
+#### TrackVerified
+Call `Radar.TrackVerified()` or `Radar.StartTrackingVerifiedAsync()` to perform fraud and jurisdiction checks.
+```cs
+private async Task TrackVerifiedAsync()
+{
+   await Radar.TrackVerified();
+}
+```
+
+#### StartTrackingVerified
+Call `Radar.TrackVerified()` or `Radar.StartTrackingVerifiedAsync()` to perform fraud and jurisdiction checks.
+```cs
+private async Task StartTrackingVerifiedAsync()
+{
+   await Radar.StartTrackingVerified(RadarSDKManager.TrackingInterval, RadarSDKManager.UseBeacons);
+}
+```
+
+#### StopTracking
+To stop tracking the user's location in the background (e.g., when the user logs out).
+
+```cs
+private async Task StopTrackingAsync()
+{
+   await Radar.StopTracking();
+}
+```
+
+#### GetVerifiedLocationToken
+Instead of calling `Radar.trackVerified()`, which always fetches a fresh location token, you can instead call `Radar.getVerifiedLocationToken()`, which returns a cached location token immediately if the last location token is still valid, or fetches a fresh location token if not.
+Once the native SDK retrieves the location, it sends the data back to Unity. On Android, this is done via RadarJavaProxy, and on iOS, it’s done via a delegate or callback defined in RadarUnityBridge.m
+```cs
+private void GetVerifiedLocationToken()
+{
+   StartCoroutine(GetVerifiedLocationTokenCoroutine());
+}
+
+private IEnumerator GetVerifiedLocationTokenCoroutine()
+{
+   var task = Radar.GetVerifiedLocationToken();
+
+   while (!task.IsCompleted)
+   {
+         yield return null;
+   }
+
+   if (task.IsCompleted && task.Result.Data != null)
+   {
+         Debug.Log($"Verified Location Token received: Status = {task.Result.Status}");
+   }
+   else
+   {
+         Debug.LogError("Failed to retrieve verified location token.");
+   }
+}
+```
+
+
+#### OnTokenUpdated
+
+If you set a delegate on iOS with `Radar.setVerifiedDelegate()` or a receiver on Android with `Radar.setVerifiedReceiver()`, fresh location tokens are also delivered to `OnTokenUpdated` and `DidTokenUpdated` callbacks, respectively.
+
+```cs
+private void SetVerifiedReceiver()
+{
+   Radar.SetVerifiedReceiver(OnVerifiedLocationTokenReceived);
+}
+
+private void OnVerifiedLocationTokenReceived(RadarVerifiedLocationToken token)
+{
+   Debug.Log($"Verified location token updated: {token}");
+}
+```
+
+## Error handling
+
+The Radar SDK includes built-in error handling to ensure that errors are logged and troubleshooting is streamlined. Below is an overview of how to manage and handle errors effectively using the SDK.
+
+### Setting Up Error Handling
+
+The SDK initializes a centralized error management system to capture and log errors globally. The `RadarErrorHandler` class is responsible for setting up error callbacks and routing error messages to the `LogManager` for visual logging.
+
+#### Steps to Enable Error Handling
+
+1. **Initialize Error Handling**:  
+   Call `RadarErrorHandler.InitializeErrorHandling()` during the application's startup to activate global error monitoring.
+
+   ```cs
+   RadarErrorHandler.InitializeErrorHandling();
+   ```
+
+2. **Error Logging**:  
+   All errors caught by the SDK will be logged and displayed in the `LogManager`'s UI text box. The log is thread-safe and formatted with color coding:
+   - **Red** - `LogType.Error` for critical errors.
+   - **Yellow** - `LogType.Warning`  for warnings.
+   - **Orange** - `LogType.Attention`  for attention-level messages.
+   - **White** - `LogType.Log`  for standard logs.
+
+The `LogManager` provides visual feedback for debugging.
+
+Use the `LogManager.SetLogConsole(true/false)` to enable or disable console logging.
+Use the `ClearConsole` method to reset the visual log for clarity.
+
+
+#### Common Issues and Solutions
+Refer to the Radar documentation for error-specific troubleshooting, such as:
+- **`ERROR_PERMISSIONS`**: Ensure location permissions are granted.
+- **`ERROR_NETWORK`**: Verify internet connectivity.
+- **`fraud.proxy == true`**: Ask users to disconnect from VPNs or proxy servers.
+
+See the [Fraud Error Handling Documentation](https://radar.com/documentation/fraud#error-handling) for detailed error messages and resolutions.
+
+### Example Integration
+
+Here’s an example of how to log errors using the SDK:
+
+```csharp
+try
+{
+   Radar.SetUserId(userId);
+}
+catch (Exception ex)
+{
+   LogManager.Instance.Log($"Unhandled Exception: {ex.Message}", LogType.Error);
+}
+```
+
+
+
+## Support
+
+Have questions? We're here to help! Contact us at [radar.com/support](https://radar.com/support).
