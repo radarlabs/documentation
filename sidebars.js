@@ -66,6 +66,7 @@ module.exports = {
         "maps/maps",
         "maps/static-maps",
         "maps/autocomplete",
+        "maps/migration-sdk",
       ],
     },
     {
