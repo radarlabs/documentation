@@ -953,7 +953,7 @@ export default RadarMap;
  </TabItem>
 </Tabs>
 
-### Display a Polygon
+### Display a polygon
 
 Polygons or complex shapes can be drawn on a Radar Map by providing a GeoJSON Polygon or MultiPolygon feature to the `map.addPolygon` function.
 
@@ -1088,11 +1088,11 @@ export default RadarMap;
  </TabItem>
 </Tabs>
 
-### Display a globe 
+### Display a globe
 
-Display a globe using a vector map.
+Display a Radar Map with an interactive globe projection.
 
-Modify the URL in the map container to add your custom map style: `https://api.radar.io/maps/styles/CUSTOM_STYLE_ID?&publishableKey=prj_live_pk...`.
+Only available on MapLibre v5 and above.
 
 <GlobeMap />
 
@@ -1109,45 +1109,45 @@ Modify the URL in the map container to add your custom map style: `https://api.r
 ```html
 <!DOCTYPE html>
 <head>
-    <meta charset='utf-8'>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.2.0/dist/maplibre-gl.css' />
-    <script src='https://unpkg.com/maplibre-gl@5.2.0/dist/maplibre-gl.js'></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+  <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
 
-        html,
-        body,
-        #map {
-            height: 100%;
-        }
-    </style>
+    html,
+    body,
+    #map {
+      height: 100%;
+    }
+  </style>
 </head>
 
 <body>
-    <div id="map"></div>
-    <script>
-        // create map
-        const map = new maplibregl.Map({
-            container: 'map',
-            style: 'https://api.radar.io/maps/styles/radar-default-v1?&publishableKey=prj_live_pk_...',
-            zoom: 3,
-            center: [-73.9910078, 40.7342465],
-        });
+  <div id="map"></div>
+  <script>
 
-        map.on('style.load', () => {
-            map.setProjection({
-                type: 'globe', // set projection to globe
-            });
-        });
+    // create map
+    const map = new Radar.ui.map({
+      container: 'map',
+      style: 'radar-default-v1',
+      zoom: 2,
+      minZoom: 0, // allow globe to zoom out
+      center: [-73.9910078, 40.7342465],
+    });
 
-        
-    </script>
+    // set projection on load
+    map.on('style.load', () => {
+      map.setProjection({
+        type: 'globe', // set projection to globe
+      });
+    });
+  </script>
 </body>
-
 </html>
 ```
 
@@ -1157,7 +1157,6 @@ Modify the URL in the map container to add your custom map style: `https://api.r
 ```jsx
 import React, { useEffect, useRef } from 'react';
 import Radar from 'radar-sdk-js';
-import maplibregl from "maplibre-gl";
 
 import 'radar-sdk-js/dist/radar.css';
 
@@ -1170,15 +1169,15 @@ const RadarMap = () => {
     Radar.initialize('prj_live_pk_...');
 
     // create map
-    mapRef.current = new maplibregl.Map({
+    mapRef.current = Radar.ui.map({
       container: 'map',
-      style: 'https://api.radar.io/maps/styles/radar-default-v1?&publishableKey=prj_live_pk_...',
       zoom: 2,
+      minZoom: 0,
       center: [-73.9910078, 40.7342465],
     });
 
     mapRef.current.on('style.load', () => {
-      mapRef.current.setProjection({ type: 'globe' }); // set projection to globe
+      mapRef.current.setProjection({ type: 'globe' });
     });
 
     return () => {
