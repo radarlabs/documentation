@@ -11,6 +11,7 @@ import CustomLanguageMap from '../../src/components/examples/CustomLanguageMap.j
 import CustomPopupMap from '../../src/components/examples/CustomPopupMap.jsx'
 import RouteMap from '../../src/components/examples/RouteMap.jsx'
 import PolygonMap from '../../src/components/examples/PolygonMap.jsx'
+import GlobeMap from '../../src/components/examples/GlobeMap.jsx'
 
 Radar Maps is a cost-effective alternative to Google Maps Platform and Mapbox.
 
@@ -952,7 +953,7 @@ export default RadarMap;
  </TabItem>
 </Tabs>
 
-### Display a Polygon
+### Display a polygon
 
 Polygons or complex shapes can be drawn on a Radar Map by providing a GeoJSON Polygon or MultiPolygon feature to the `map.addPolygon` function.
 
@@ -1079,6 +1080,115 @@ class RadarMap extends React.Component {
       </div>
     );
   }
+};
+
+export default RadarMap;
+```
+
+ </TabItem>
+</Tabs>
+
+### Display a globe
+
+Display a Radar Map with an interactive globe projection.
+
+Only available on MapLibre v5 and above.
+
+<GlobeMap />
+
+<Tabs
+  groupId="display-a-globe"
+  defaultValue="html"
+  values={[
+    { label: 'HTML', value: 'html' },
+    { label: 'React', value: 'react' },
+  ]}
+>
+  <TabItem value="html">
+
+```html
+<!DOCTYPE html>
+<head>
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+  <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body,
+    #map {
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+
+    // create map
+    const map = new Radar.ui.map({
+      container: 'map',
+      style: 'radar-default-v1',
+      zoom: 2,
+      minZoom: 0, // allow globe to zoom out
+      center: [-73.9910078, 40.7342465],
+    });
+
+    // set projection on load
+    map.on('style.load', () => {
+      map.setProjection({
+        type: 'globe', // set projection to globe
+      });
+    });
+  </script>
+</body>
+</html>
+```
+
+  </TabItem>
+  <TabItem value="react">
+
+```jsx
+import React, { useEffect, useRef } from 'react';
+import Radar from 'radar-sdk-js';
+
+import 'radar-sdk-js/dist/radar.css';
+
+const RadarMap = () => {
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (mapRef.current) return; 
+
+    Radar.initialize('prj_live_pk_...');
+
+    // create map
+    mapRef.current = Radar.ui.map({
+      container: 'map',
+      zoom: 2,
+      minZoom: 0,
+      center: [-73.9910078, 40.7342465],
+    });
+
+    mapRef.current.on('style.load', () => {
+      mapRef.current.setProjection({ type: 'globe' });
+    });
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, []);
+
+  return <div id="map" style={{ width: '100%', height: '100vh', position: 'absolute' }} />;
 };
 
 export default RadarMap;
