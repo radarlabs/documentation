@@ -3,6 +3,8 @@ title: Campaigns
 ---
 
 import Alert from '@site/src/components/Alert';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 <Alert alertType="info">
   Campaign analytics and frequency capping require {` `}  
@@ -74,14 +76,98 @@ The SDK will only sync up to the frequency cap number of notifications. As such,
 
 With Radar [Conversions](/api#log-a-conversion), you can log an event whenever a user interacts with a campaign notification.
 
-Refer to the [iOS SDK Conversions reference](/sdk/ios#conversions) for setup instructions.
-
 With Radar [Conversions](/api#log-a-conversion), you can also retrieve the source of an *opened_app* conversion for iOS apps. Within the *metadata* object of the [logged conversion](/sdk/ios#conversions), we will return a *conversion_source* with either 
 - **`notification`** (app was opened using an external 3rd party notification) 
 - **`radar_notification`** (app was opened using the configured on-prem notification): 
 
 You can view these campaign conversion analytics by pressing the analytics button on the campaign's page. Alternatively, you can navigate to Geofencing -> Analytics -> Events -> Filters (top right) -> select Type as *opened_app* -> Apply Filters. From there, select *campaign_name* from the *grouped_by* dropdown. See screenshot below: 
 ![OnPremiseNotifications](/img/notifications/conversion_source_analytics.png)
+
+### Automated iOS setup
+
+Radar can associate `opened_app` events with a campaign notification that was clicked on to open the app. To set this up automatically, set the relevant flag on the initialization options.
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let radarInitializeOptions = RadarInitializeOptions()
+        radarInitializeOptions.autoLogNotificationConversions = true
+        Radar.initialize(publishableKey: "prj_test_pk_...", options: radarInitializeOptions)
+
+        return true
+    }
+
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+#import "AppDelegate.h"
+@import RadarSDK;
+
+@implementation AppDelegate
+
+  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
+    radarInitializeOptions.autoLogNotificationConversions = YES;
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..." options:radarInitializeOptions];
+
+    return YES;
+}
+
+@end
+```
+  </TabItem>
+</Tabs>
+
+### Manual iOS setup
+
+Alternatively, perform the manual setup:
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
+```swift
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+   Radar.logConversion(response: response) 
+}
+```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    [Radar logConversionWithNotificationResponse:response];
+    completionHandler();
+}
+```
+  </TabItem>
+</Tabs>
 
 ## Deep linking (iOS only)
 
@@ -92,21 +178,90 @@ Set up deep linking from the Radar's Dashboards by adding the **`radar:notificat
 ### Automated iOS setup
 
 Radar's iOS SDK can automatically set up deep linking for you. To enable this feature, set the `autoHandleNotificationDeepLinks` option to `true` in the Radar `initialize` call.
+
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
 ```swift
-radarInitializeOptions.autoHandleNotificationDeepLinks = true
-Radar.initialize(publishableKey: "prj_test_pk_000", options: radarInitializeOptions )
+import UIKit
+import RadarSDK
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let radarInitializeOptions = RadarInitializeOptions()
+        radarInitializeOptions.autoHandleNotificationDeepLinks = true
+        Radar.initialize(publishableKey: "prj_test_pk_...", options: radarInitializeOptions)
+
+        return true
+    }
+
+}
 ```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+#import "AppDelegate.h"
+@import RadarSDK;
+
+@implementation AppDelegate
+
+  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    RadarInitializeOptions *radarInitializeOptions = [[RadarInitializeOptions alloc] init];
+    radarInitializeOptions.autoHandleNotificationDeepLinks = YES;
+    [Radar initializeWithPublishableKey:@"prj_test_pk_..." options:radarInitializeOptions];
+
+    return YES;
+}
+
+@end
+```
+  </TabItem>
+</Tabs>
+
 It is recommended to use the automatic setup in conjugation with the `RadarURLDelegate` to handle the URL open. This implementation provides the most light way approach to get started with deep linking.
 
 ### Manual iOS setup
 
 If you want to set up deep linking manually, you can do so by adding the following line to your `UNUserNotificationCenterDelegate` implementation.
 
+<Tabs
+  groupId="ios"
+  defaultValue="swift"
+  values={[
+    { label: 'Swift', value: 'swift' },
+    { label: 'Objective-C', value: 'objc' }
+  ]}
+>
+  <TabItem value="swift">
+
 ```swift
 func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
   Radar.openURLFromNotification(response.notification)
 }
 ```
+
+  </TabItem>
+  <TabItem value="objc">
+
+```objc
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    [Radar openURLFromNotification:response.notification];
+    completionHandler();
+}
+```
+  </TabItem>
+</Tabs>
 
 ### Automated React Native setup (iOS only)
 
