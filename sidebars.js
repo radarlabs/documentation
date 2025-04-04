@@ -106,6 +106,7 @@ module.exports = {
         "tutorials/displaying-radar-maps-with-react-native",
         "tutorials/displaying-radar-maps-with-flutter",
         "tutorials/create-a-custom-map-style",
+        "tutorials/building-a-geofence-powered-live-activity",
       ],
     },
     "waypoint",
