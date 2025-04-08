@@ -49,7 +49,7 @@ To get started, you'll need a Radar account. Don't have a Radar account yet? [Si
 
 6. To track in the background, move more than 100 meters! **Note that location updates may be delayed significantly by Android [Doze Mode and App Standby](https://developer.android.com/training/monitoring-device-state/doze-standby.html), iOS [Low Power Mode](https://support.apple.com/en-us/HT205234), or if the device has connectivity issues, low battery, or wi-fi disabled.**
 
-7. To try out different presets, open the *Settings* screen. Then, select the *Tracking Options* preset to use, one of *Efficient*, *Responsive*, or *Continuous*. Learn about [iOS tracking presets](/sdk/tracking#ios-presets) and [Android tracking presets](/sdk/tracking#android-presets). You can also set *Custom Tracking Options* via [Remote SDK Configurations](https://radar.com/documentation/sdk/remote-configuration). Manage the notifications you want to receive, including *Events* (events received from Radar), *Locations* (location updates sent to Radar), and *Errors* (network, location, and permissions errors).
+7. To try out different presets, open the *Settings* screen. Then, select the *Tracking Options* preset to use, one of *Efficient*, *Responsive*, or *Continuous*. Learn about [iOS tracking presets](/sdk/tracking#ios-presets) and [Android tracking presets](/sdk/tracking#android-presets). You can also set *Custom Tracking Options* via [Remote SDK Configurations](https://radar.com/sdk/remote-configuration). Manage the notifications you want to receive, including *Events* (events received from Radar), *Locations* (location updates sent to Radar), and *Errors* (network, location, and permissions errors).
 
 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 55px' }}>
   <img src={useBaseUrl("/img/waypointAndroid.png")} />
@@ -61,7 +61,7 @@ To get started, you'll need a Radar account. Don't have a Radar account yet? [Si
 
 1. To get started, make sure you've opted-in to foreground or "while in use" permissions and notifications are enabled. Click on the settings icon on the top right to ensure Waypoint is configured correctly (See image A below).
 
-2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
+2. Create [geofences](https://radar.com/geofences#dashboard) in Radar.
 
 3. Open Waypoint and navigate to the "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence (See image B below).
 
@@ -88,7 +88,7 @@ To get started, you'll need a Radar account. Don't have a Radar account yet? [Si
 
 1. To get started, make sure you've opted-in to foreground or "While in use" permissions and notifications are enabled. (See image A below)
 
-2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
+2. Create [geofences](https://radar.com/geofences#dashboard) in Radar.
 
 3. Once you open Waypoint, you should see geofences nearby you. Click "Go" to start a trip to one of the configured geofences. Select your mode of travel from the options provided. Start navigating to your destination geofence. (See image B below)
 
@@ -139,7 +139,7 @@ To get started, you'll need a Radar account. Don't have a Radar account yet? [Si
 ### Testing Background Mode
 1. To get started, make sure you've opted-in to background or "Always allow" permissions and notifications are enabled. You'll have to navigate to your device settings to enable background tracking and toggle the "Background tracking" option in Waypoint. Click on the settings icon on the top right to ensure Waypoint is configured correctly. (See image A below)
 
-2. Create [geofences](https://radar.com/documentation/geofences#dashboard) in Radar.
+2. Create [geofences](https://radar.com/geofences#dashboard) in Radar.
 
 3. Open Waypoint and navigate to "My Location" tab. You should see "Not in a geofence". Travel to a configured geofence. (See image B below)
 
@@ -168,9 +168,9 @@ Note: You can test beacons in either foreground or background mode.
   * Opt-in to foreground or background permissions.
   * Ensure notifications are enabled.
   * Once you click on the settings icon on the top right, you can toggle "Beacons" on. This should prompt you to allow Bluetooth permissions. 
-     Alternatively, use [remote SDK configuration](https://radar.com/documentation/sdk/remote-configuration) & set *beacons* to *true*. Once done, you should see the "Beacons" toggle enabled within the Waypoint settings page.
+     Alternatively, use [remote SDK configuration](https://radar.com/sdk/remote-configuration) & set *beacons* to *true*. Once done, you should see the "Beacons" toggle enabled within the Waypoint settings page.
 
-2. Create [beacons](https://radar.com/documentation/beacons) in Radar.
+2. Create [beacons](https://radar.com/beacons) in Radar.
 
 3. Open Waypoint and navigate to "My Location" tab. You should see "No Beacons Found". (See image B below)
 
