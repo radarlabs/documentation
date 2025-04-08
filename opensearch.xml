@@ -4,8 +4,8 @@
   <ShortName>Documentation | Radar</ShortName>
   <Description>Search Documentation | Radar</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://radar.com/documentation/img/favicon.png</Image>
-  <Url type="text/html" method="get" template="https://radar.com/documentation/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://radar.com/documentation/opensearch.xml" />
-  <moz:SearchForm>https://radar.com/documentation/</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://radar.com/img/favicon.png</Image>
+  <Url type="text/html" method="get" template="https://radar.com/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://radar.com/opensearch.xml" />
+  <moz:SearchForm>https://radar.com/</moz:SearchForm>
 </OpenSearchDescription>
