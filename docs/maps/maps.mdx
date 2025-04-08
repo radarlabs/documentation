@@ -158,8 +158,8 @@ The minimum recommended options are the following:
 | Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
 | `container` | none (required) | string \| HTMLElement | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. The width and height of this element will determine the size of the map. |
-| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See the [Styles](/documentation/maps/maps#styles) section below for more details. |
-| `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/documentation/api#ip-geocode). |
+| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See the [Styles]/maps/maps#styles) section below for more details. |
+| `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation]/api#ip-geocode). |
 | `zoom` | 11 | number | The zoom level of the map, a number between 0 (fully zoomed out) and 23 (fully zoomed in). |
 | `language` | none | string (ISO code) | This display language for map. Can be any 2-letter [ISO Code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes), or `local` to use the device's specified language. Defaults to `en-US` if none is provided. |
 
@@ -190,8 +190,8 @@ The Radar map class also includes some additional functions for handling common 
 | `getFeatures` | none | RadarMapFeature[] | Returns an array of all features currently associated with the map. |
 | `fitToFeatures` | fitBoundsOptions | void | Fit the map zoom and bounds to all features on the map. |
 | `clearFeatures` | none | void | Remove all features from the map. |
-| `addPolygon` | GeoJSON<Polygon \| MultiPolygon> Feature, polygonOptions | RadarMapFeature | Add a new polygon [Feature](/documentation/maps/maps#polygon-and-multipolygon) to the map. |
-| `addLine` | GeoJSON<LineString\> Feature, lineOptions | RadarMapFeature | Add a new line [Feature](/documentation/maps/maps#line-and-polyline) to the map. |
+| `addPolygon` | GeoJSON<Polygon \| MultiPolygon> Feature, polygonOptions | RadarMapFeature | Add a new polygon [Feature]/maps/maps#polygon-and-multipolygon) to the map. |
+| `addLine` | GeoJSON<LineString\> Feature, lineOptions | RadarMapFeature | Add a new line [Feature]/maps/maps#line-and-polyline) to the map. |
 | `addPolyline` | encodedPolyline, polylineOptions | RadarMapFeature | Accepts an encoded polyline and converts it to a line feature. Defaults to six decimals precision. |
 
 ```javascript
@@ -273,7 +273,7 @@ Radar Marker's support all options in the MapLibre GL [marker options](https://m
 | Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
 | `color` | #000257 | string | Color of the default marker image. |
-| `marker` | none | string | ID of a marker uploaded as part of a [custom style](/documentation/tutorials/create-a-custom-map-style) |
+| `marker` | none | string | ID of a marker uploaded as part of a [custom style]/tutorials/create-a-custom-map-style) |
 | `url` | none | string | URL of image to use for the marker. |
 | `element` | none | HTMLElement | DOM element to be used as the marker. |
 | `width` | none | number | Size for marker width in pixels. |
@@ -788,7 +788,7 @@ export default RadarMap;
 
 ### Display a route
 
-Routes can be plotted on a Radar Map as a GeoJSON LineString, or an encoded polyline, both of which are formats provided by Radar's [routing APIs](/documentation/maps/routing).
+Routes can be plotted on a Radar Map as a GeoJSON LineString, or an encoded polyline, both of which are formats provided by Radar's [routing APIs]/maps/routing).
 
 Polylines can be added to the map with the `map.addPolyline` function, and accepts an optional precision value (defaults to 6). LineString's use the `map.addLine` function.
 

@@ -5,7 +5,7 @@ module.exports = {
   title: 'Documentation | Radar',
   tagline: 'Location data infrastructure | Geofencing SDK and API',
   url: 'https://radar.com',
-  baseUrl: '/documentation/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
