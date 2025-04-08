@@ -17,7 +17,7 @@ import InlineTabItem from "../src/components/InlineTabItem";
 
 With Fraud, you can detect GPS spoofing, proxy and VPN usage, device tampering, and much more.
 
-Along with [Regions]/regions), you can also detect a user's country and state and mark specific regions as allowed or blocked to comply with regulations.
+Along with [Regions](/regions), you can also detect a user's country and state and mark specific regions as allowed or blocked to comply with regulations.
 
 <img
   className="hero-image--small"
@@ -71,11 +71,11 @@ First, [sign up](https://radar.com/signup) for Radar and get an API key.
 
 Then, enable Fraud on the [Settings page](https://radar.com/dashboard/settings#fraud-settings).
 
-From there, [integrate the SDK]/sdk), complete the steps below, and call `Radar.trackVerified()` or `Radar.startTrackingVerified()`. Radar will perform fraud and jurisdiction checks as described below.
+From there, [integrate the SDK](/sdk), complete the steps below, and call `Radar.trackVerified()` or `Radar.startTrackingVerified()`. Radar will perform fraud and jurisdiction checks as described below.
 
 ## How it works
 
-You can call `Radar.trackOnce()` to accurately detect a user's current [geofences]/geofences), current [place]/places), or current [country and state]/regions).
+You can call `Radar.trackOnce()` to accurately detect a user's current [geofences](/geofences), current [place](/places), or current [country and state](/regions).
 
 However, users can spoof a device's location. For example, a gaming app user may spoof their location to access sports betting features only available in specific states. Or, a retail app user may spoof their location to access offers only available inside a store geofence.
 
@@ -113,7 +113,7 @@ If a user is blocked, `user.fraud.blocked = true` and `user.fraud.passed = false
 
 ## Allowed states and countries
 
-With [Regions]/regions), you can mark specific countries or states as allowed or blocked to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
+With [Regions](/regions), you can mark specific countries or states as allowed or blocked to comply with regulations. For example, a sportsbook or daily fantasy sports app may only be allowed to operate in specific US states.
 
 Radar exposes your settings in `user.country.allowed` and `user.state.allowed`.
 

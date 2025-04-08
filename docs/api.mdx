@@ -80,7 +80,7 @@ This endpoint is stateful. For anonymous or stateless context, call the [context
 - **`userId`** (string, optional): A stable unique ID for the user. Used with `deviceId` to identify logged in users. Not required for logged out users.
 - **`latitude`** (number, required): The user's current latitude. A number between -90 and 90.
 - **`longitude`** (number, required): The user's current longitude. A number between -180 and 180.
-- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0. Used when evaluating the [confidence]/geofences#confidence-and-accuracy) of geofence events.
+- **`accuracy`** (number, required): The accuracy of the user's current latitude and longitude, in meters. A number greater than 0. Used when evaluating the [confidence](/geofences#confidence-and-accuracy) of geofence events.
 - **`foreground`** (boolean, optional): `true` if the client is in the foreground, `false` if the client is in the background.
 - **`stopped`** (boolean, optional): `true` if the user is stopped, `false` if the user is moving.
 - **`description`** (string, optional): An optional description for the user, displayed in the dashboard.
@@ -2462,8 +2462,8 @@ A user represents a user tracked in your project. Users can be referenced by Rad
 - **`state`** (dictionary): When [Regions](/regions) is enabled, the user's current state. US-only.
 - **`dma`** (dictionary): When [Regions](/regions) is enabled, the user's current DMA (market area). US-only.
 - **`postalCode`** (dictionary): When [Regions](/regions) is enabled, the user's current postal code. US-only.
-- **`beacons`** (array): When [beacons]/beacons) have been created, an array of the user's current beacons.
-- **`fraud`** (object): When [Fraud]/fraud) is enabled, indicates whether the user passed fraud checks.
+- **`beacons`** (array): When [beacons](/beacons) have been created, an array of the user's current beacons.
+- **`fraud`** (object): When [Fraud](/fraud) is enabled, indicates whether the user passed fraud checks.
 
 ###### Sample object
 
@@ -2731,8 +2731,8 @@ A trip is a sequence of location updates with metadata and a unique ID, optional
 - **`approachingThreshold`** (number): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
 - **`createdAt`** (datetime): The datetime when the trip was started.
 - **`updatedAt`** (datetime): The datetime when the trip's location was last updated.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration]/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
-- **`orderFiredAt`** (datetime): From the [Olo integration]/integrations/olo), the datetime when the order associated with the trip was fired.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`orderFiredAt`** (datetime): From the [Olo integration](/integrations/olo), the datetime when the order associated with the trip was fired.
 - **`arrivedAt`** (datetime): For trips with a destination, the datetime when the user arrived at the trip destination (entered the destination geofence).
 - **`completedAt`** (datetime): The datetime when the trip was stopped.
 - **`status`** (string): The status of the trip, one of `pending`, `started`, `approaching`, `arrived`, `expired`, `completed`, or `canceled`.
@@ -2995,7 +2995,7 @@ Creates a new trip.
 - **`userId`** (string, optional): The external ID of the [user](/api#users) for which the trip is being tracked.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`. Defaults to `car`.
 - **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
-- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration]/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`scheduledArrivalAt`** (datetime): Required for the [Olo order firing integration](/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the trip.
 
 ###### Default rate limit
@@ -3076,8 +3076,8 @@ On iOS and Android, use the [SDK](/sdk) to update trips.
 - **`mode`** (string, optional): The [travel mode](/api#route-distance) for the trip. A string, one of `foot`, `bike`, and `car`.
 - **`destinationGeofenceTag`** (string, optional): For trips with a destination, the tag of the destination geofence.
 - **`destinationGeofenceExternalId`** (string, optional): For trips with a destination, the external ID of the destination geofence.
-- **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold]/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
-- **`scheduledArrivalAt`** (datetime, optional): Required for the [Olo order firing integration]/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
+- **`approachingThreshold`** (number, optional): For trips with a destination, the [trip approaching threshold](/trip-tracking#trip-events) setting for the trip (in minutes). Overrides the geofence-level and project-level trip approaching threshold settings.
+- **`scheduledArrivalAt`** (datetime, optional): Required for the [Olo order firing integration](/integrations/olo#order-firing), the backstop datetime when the device on the trip is expected to arrive. The order will be fired `approachingThreshold` minutes before `scheduledArrivalAt`.
 - **`metadata`** (dictionary, optional): An optional set of custom key-value pairs for the trip.
 
 ###### Default rate limit
