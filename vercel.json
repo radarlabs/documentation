@@ -1,12 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/documentation/:asset*", "destination": "/:asset*" }
-  ],
   "redirects": [
-    { "source": "/", "destination": "/documentation/", "permanent": true },
-    { "source": "/documentation/troubleshooting", "destination": "/documentation/geofencing/testing", "permanent": true },
-    { "source": "/documentation/places/groups", "destination": "/documentation/places", "permanent": true },
-    { "source": "/documentation/sdk/xamarin", "destination": "/documentation/sdk/maui", "permanent": true }
+    { "source": "/troubleshooting", "destination": "/geofencing/testing", "permanent": true },
+    { "source": "/places/groups", "destination": "/places", "permanent": true },
+    { "source": "/sdk/xamarin", "destination": "/sdk/maui", "permanent": true }
   ],
   "trailingSlash": false
 }

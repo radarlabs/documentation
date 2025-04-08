@@ -140,7 +140,7 @@ module.exports = {
                     }
                     radarGitHubReleases[`RADAR_${sdkName.toUpperCase()}_SDK_VERSION`] = versionNumber;
                 }
-                
+
                 // get android sdk version that the flutter sdk uses from the build.gradle file
                 const response = await fetch(`https://raw.githubusercontent.com/radarlabs/flutter-radar/refs/tags/${radarGitHubReleases.RADAR_FLUTTER_SDK_VERSION}/android/build.gradle`)
                 const build_gradle = await response.text();
@@ -183,8 +183,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/radarlabs/docs/edit/main/',
+          editUrl: 'https://github.com/radarlabs/docs/edit/main/',
           routeBasePath: '/',
         },
         theme: {
