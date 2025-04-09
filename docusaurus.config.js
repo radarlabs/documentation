@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 module.exports = {
   title: 'Documentation | Radar',
   tagline: 'Location data infrastructure | Geofencing SDK and API',
-  url: 'https://radar.com',
+  url: 'https://docs.radar.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -45,7 +45,7 @@ module.exports = {
         },
         {
           // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
-          to: 'https://radar.com/login',
+          to: 'https://dashboard.radar.com/login',
           label: 'Dashboard',
           position: 'right',
         },
