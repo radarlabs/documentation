@@ -2455,7 +2455,7 @@ A user represents a user tracked in your project. Users can be referenced by Rad
 - **`deviceType`** (string): The user's device type, one of `iOS`, `Android`, or `Web`.
 - **`createdAt`** (datetime): The datetime when the user was created.
 - **`updatedAt`** (datetime): The datetime when the user's location was last updated.
-- **`geofences`** (array): An array of the user's current geofences.
+- **`geofences`** (array): An array of the user's current geofences ordered by the time each geofence was entered, followed by the [confidence](/geofences#confidence-and-accuracy) of those entry events.
 - **`trip`** (dictionary): When a [trip](/trip-tracking) has been started, the user's current trip. Present when the trip has a `status` of `started`, `approaching`, or `arrived`.
 - **`place`** (dictionary): When [Places](/places) is enabled, the user's current place.
 - **`country`** (dictionary): When [Regions](/regions) is enabled, the user's current country.
