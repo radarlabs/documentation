@@ -430,7 +430,7 @@ Returns a confidence level, as defined below:
 ###### Query parameters
 
 - **`query`** (string, required): The address to geocode.
-- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `neighborhood`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `neighborhood`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 - **`country`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
 - **`lang`** (string, optional): Specifies the language for the results. A string, one of `ar`, `de`, `en`, `es`, `fr`, `ja`, `ko`, `pt`, `ru`, `zh`. Defaults to `en`.
 
@@ -504,7 +504,7 @@ Reverse geocodes a location, converting coordinates to address.
 ###### Query parameters
 
 - **`coordinates`** (string, required): The coordinates to reverse geocode. A string in the format `latitude,longitude`.
-- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `neighborhood`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `neighborhood`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 
 ###### Authentication level
 
@@ -636,7 +636,7 @@ Autocompletes partial addresses and place names, sorted by relevance and proximi
 
 - **`query`** (string, required): The partial address or place name to autocomplete.
 - **`near`** (string, optional): The location to prefer search results near. A string in the format `latitude,longitude`. If not provided, the request IP geolocation will be used to anchor the search.
-- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
+- **`layers`** (string, optional): Optional layer filters. A string, comma-separated, including one or more of `place`, `address`, `postalCode`, `neighborhood`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. Note that `coarse` includes all of `postalCode`, `neighborhood`, `locality`, `county`, `state`, and `country`, whereas `fine` includes `address` and `place`. If not provided, results from `address` and `coarse` layers will be returned.
 - **`limit`** (number, optional): The max number of addresses to return. A number between 1 and 100. Defaults to 10.
 - **`countryCode`** (string, optional): An optional countries filter. A string of comma-separated countries, the unique 2-letter [country code](/regions/countries).
 - **`lang`** (string, optional): Specifies the language for the results. A string, one of `ar`, `de`, `en`, `es`, `fr`, `ja`, `ko`, `pt`, `ru`, `zh`. Defaults to `en`.
