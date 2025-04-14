@@ -161,6 +161,10 @@ dependencies {
 
 If `Radar.trackVerified()` returns `ERROR_FORBIDDEN`, check the logs. The Play Services version on the device may be out of date.
 
+<Alert alertType="info">
+  Once the Play Integrity dependency has been added to your Android Project, your Radar Project must enable the **Android Play Integrity API** feature. This feature is enabled on the [Settings page](https://radar.com/dashboard/settings) under the Fraud tab.
+</Alert>
+
 #### SSL pinning
 
 To enable SSL pinning and prevent man-in-the-middle attacks, add a `res/xml/network_security_config.xml` file:
