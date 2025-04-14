@@ -139,6 +139,8 @@ If the request fails, `err` will be one of:
 If the error is the result of a failed API call, `err` will include an HTTP response code and the API response body:
 
 ```javascript
+err.name; // eg. RadarLocationPermissionsError
+err.status; // eg. ERROR_PERMISSIONS
 err.code; // HTTP response code
 err.response; // API response body
 ```
