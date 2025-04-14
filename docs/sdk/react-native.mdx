@@ -699,6 +699,10 @@ Radar.logConversion(
 To enable logging of app opens through notifications taps on iOS, perform the following native setup in the app's AppDelegate:
 
 ```objc
+#import <RadarSDK/RadarSDK.h>
+
+@implementation AppDelegate
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   self.moduleName = @"main";
