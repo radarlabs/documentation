@@ -420,6 +420,12 @@ Delay detection identifies trips at risk of being delayed or incomplete. To enab
 
 If `scheduledArrivalAt` is set for a trip, delay information is captured in the trip's `delay` field. The `scheduledArrivalTimeDelay` is the predicted arrival delay from the `scheduledArrivalAt` time in minutes. The `delayed` flag is `true` when `scheduledArrivalTimeDelay` exceeds the delay threshold.
 
+## Wrong destination detection
+
+Wrong destination detection identifies the risk of the user traveling to a wrong destination. To enable this feature, turn on the `user.arrived_at_wrong_trip_destination` event on the [Settings page](https://radar.com/dashboard/settings#trips-settings) under *Trips*. 
+
+If the `user.arrived_at_wrong_trip_destination` event is enabled, an event will be triggered when the user enters a geofence with the same tag as the destination geofence but a different external id. For example, this may occur if the user accidentally goes to the wrong store of a franchise. 
+
 ## Display live trips and ETAs
 
 ### In the Radar trip tracking dashboard
