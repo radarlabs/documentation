@@ -1556,6 +1556,7 @@ Radar.searchPlaces(
     chains: ["starbucks"],
     categories: nil,
     groups: nil,
+    countryCode: nil
     limit: 10
 ) { (status: RadarStatus, location: CLLocation?, places: [RadarPlace]?) in
   // do something with places
@@ -1571,6 +1572,7 @@ Radar.searchPlaces(
                     chains:@[@"starbucks"]
                 categories:nil
                     groups:nil
+               countryCode:nil
                     limit:100
         completionHandler:^(RadarStatus status, CLLocation *location, NSArray<RadarPlace *> *places) {
   // do something with places
