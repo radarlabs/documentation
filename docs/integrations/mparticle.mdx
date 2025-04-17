@@ -50,7 +50,8 @@ If not leveraging a customer ID in mParticle but there is a need to set the Rada
   defaultValue="swift"
   values={[
     { label: 'Swift', value: 'swift' },
-    { label: 'Kotlin', value: 'kotlin' }
+    { label: 'Kotlin', value: 'kotlin' },
+    { label: 'Web', value: 'web' }
   ]}
 >
   <TabItem value="swift">
@@ -90,6 +91,30 @@ MParticle.getInstance()?.Identity()?.addIdentityStateListener { user, _ ->
 ```
 
   </TabItem>
+  <TabItem value="web">
+
+Follow instructions from mParticle for web initialization, then add the mParticle ID to Radar metadata on initialization.
+
+```js
+  window.mParticle = {
+    config: {
+      ...
+      identityCallback: function(result) {
+        if (result.getUser()) {
+          Radar.setMetadata({"mParticleId": result.getUser().getMPID()})
+        } else {
+          // the IDSync call failed
+        }
+      }
+    }
+  };
+
+  (
+  function(e){window.mParticle=...}
+  )("REPLACE WITH MPARTICLE API KEY");
+```
+  </TabItem>
+
 </Tabs>
 
 ### Kit
