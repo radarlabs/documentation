@@ -99,6 +99,7 @@ The CSV may have the following columns:
 - **`ip`** (string, optional): An optional IP address restriction for the geofence. A string of comma-separated IP address ranges, each of which could be a single IP (`8.8.8.8`), wildcard notation (`8.8.8.*`), or CIDR notation (`8.8.8.8/24`). If set, the geofence will only generate events for requests from the specified IP address. If not set, the geofence will generate events for all requests.
 - **`dwellThreshold`** (number, optional): An optional field to trigger dwell events. If set and `user.dwelled_in_geofence` is enabled in settings, an event is triggered when a user dwells in the geofence longer than the threshold (in minutes). For example, a value of `10` would result in a dwell event on the next track call after a user has occupied a geofence for 10 minutes.
 - **`placeId`** (string, required if `coordinates` and `address` are not included): For [place matching](/places#place-matching), an optional `_id` of the Radar [place](/places) to match to the geofence. If a place was matched, the geometry of the place will override the geometry of the geofence.
+- **`geometryCenter`** (array, optional) An array representing the center of a geofence of type `polygon`. Ignored for type `circle` and `isochrone`. 
 
 **If a geofence with the specified tag and external ID already exists, it will be updated. If not, it will be created.**
 
