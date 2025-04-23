@@ -696,7 +696,7 @@ Radar.logConversion(
 });
 ```
 
-To enable logging of app opens through notifications taps on iOS, perform the following native setup in the app's AppDelegate:
+To enable logging of app opens through notifications taps on iOS, perform the following automatic native setup in the app's AppDelegate:
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -708,6 +708,19 @@ To enable logging of app opens through notifications taps on iOS, perform the fo
   options.autoLogNotificationConversions = YES;
   [Radar nativeSetup:options];
   return result;
+}
+```
+
+<Alert alertType="warning">
+  `[Radar nativeSetup:options];` must be called after the `UNUserNotificationCenterDelegate` has been set. Be aware of third party SDK setup that may also set `UNUserNotificationCenterDelegate` and override the automatic setup. 
+</Alert>
+
+If you are setting the `AppDelegate` to be the `UNUserNotificationCenterDelegate`, you should perform the following manual setup:
+
+```objc
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    [Radar logConversionWithNotificationResponse:response];
+    completionHandler();
 }
 ```
 
