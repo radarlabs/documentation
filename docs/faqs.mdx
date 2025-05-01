@@ -63,8 +63,37 @@ With just foreground location permissions, you can leverage the [background loca
 Each listener can support different use cases and exposes different data to take actions. The client location listener (`onClientLocationUpdated` on Android, `didUpdateClientLocation` on iOS) is fired whenever the Radar SDK receives a location update from the device. It can be used to collect a stream of location updates before they hit Radar servers. The location updated listener (`onLocationUpdated` on Android, `didUpdateLocation` on iOS) delivers location updates processed by Radar servers and will return refreshed user context. This listener can be used to deliver in-app experiences based on user context, including when `Radar.trackOnce()` is called on application launch. The Radar events listener (`didReceiveEvents` on Android and iOS) can be used to listen for Radar events and trigger workflows.
 
 ### What is the latency of Radar APIs?
+See tables below for p50 & p95 latencies. Note that the /route/matrix API increases in latency as additional origin or destination points are added, or as the distance between points increases. 
 
-Radar APIs have a p50 latency of 50ms and a p90 of 150ms.  The `/route/matrix` API increases in latency as additional `origin` or `destination` points are added, or as the distance between points increases.
+#### p50 latencies per endpoint
+
+| Endpoint                          | Latency (ms)     |
+|-----------------------------------|-----------------|
+| /v1/addresses/validate GET       | 250  |
+| /v1/route/optimize GET           | 250   |
+| /v1/geocode/forward GET          | 100    |
+| /v1/search/autocomplete GET      | 100   |
+| /v1/route/directions GET         | 50  |
+| /v1/route/match POST             | 50   |
+| /v1/route/distance GET           | 50    |
+| /v1/geocode/reverse GET          | 50  |
+| /v1/route/matrix GET             | 50  |
+| /v1/geocode/ip GET               | 10   |
+
+#### p95 latencies per endpoint
+
+| Endpoint                          | Latency (ms)     |
+|-----------------------------------|-----------------|
+| /v1/addresses/validate GET       | 700   |
+| /v1/geocode/forward GET          | 500   |
+| /v1/route/match POST             | 500     |
+| /v1/search/autocomplete GET      | 300   |
+| /v1/route/optimize GET           | 300   |
+| /v1/route/distance GET           | 200  |
+| /v1/route/directions GET         | 200   |
+| /v1/route/matrix GET             | 100   |
+| /v1/geocode/reverse GET          | 100   |
+| /v1/geocode/ip GET               | 40  |
 
 ### How often are usage statistics recalculated?
 
