@@ -35,7 +35,8 @@ Initialize the SDK with your publishable API key.
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' }
+    { label: 'React Native', value: 'react-native' },
+    { label: 'Flutter', value: 'flutter' }
   ]}
 >
   <TabItem value="swift">
@@ -116,7 +117,61 @@ export default function App() {
 ```
 
   </TabItem>
+  <TabItem value="flutter">
 
+  ```jsx
+  import 'package:flutter/material.dart';
+  import 'package:flutter_radar/flutter_radar.dart';
+
+  void main() {
+    runApp(MyApp());
+  }
+
+  class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        home: RadarTrackingScreen(),
+      );
+    }
+  }
+
+  class RadarTrackingScreen extends StatefulWidget {
+    const RadarTrackingScreen({super.key});
+
+    @override
+    _RadarTrackingScreenState createState() => _RadarTrackingScreenState();
+  }
+
+  class _RadarTrackingScreenState extends State<RadarTrackingScreen> {
+    @override
+    void initState() {
+      super.initState();
+      _initializeRadar();
+    }
+
+    void _initializeRadar() {
+      Radar.initialize("prj_test_pk_..."); // Replace with your actual Radar publishable key
+      Radar.setUserId('flutter-test-user');
+      Radar.setDescription('Flutter');
+      Radar.setMetadata({'foo': 'bar', 'bax': true, 'qux': 1});
+      Radar.setLogLevel('debug');
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Radar Tracking')),
+        body: const Center(
+          child: Text('Initialized Radar SDK'),
+        ),
+      );
+    }
+  }
+```
+  </TabItem>
 </Tabs>
 
 ### Step 4: Request foreground permissions
@@ -128,7 +183,8 @@ export default function App() {
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' }
+    { label: 'React Native', value: 'react-native' },
+    { label: 'Flutter', value: 'flutter' }
   ]}
 >
   <TabItem value="swift">
@@ -250,6 +306,86 @@ export default function App() {
 Learn about platform-specific permissions in the [iOS SDK documentation](/sdk/ios#request-permissions) and [Android SDK documentation](/sdk/android#request-permissions).
 
   </TabItem>
+  <TabItem value="flutter">
+
+  ```jsx
+  import 'package:flutter/material.dart';
+  import 'package:flutter_radar/flutter_radar.dart';
+
+  void main() {
+    runApp(MyApp());
+  }
+
+  class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        home: RadarTrackingScreen(),
+      );
+    }
+  }
+
+  class RadarTrackingScreen extends StatefulWidget {
+    const RadarTrackingScreen({super.key});
+
+    @override
+    _RadarTrackingScreenState createState() => _RadarTrackingScreenState();
+  }
+
+  class _RadarTrackingScreenState extends State<RadarTrackingScreen> {
+    String _displayText = 'Initialized Radar SDK'; 
+
+    @override
+    void initState() {
+      super.initState();
+      _initializeRadar();
+      _requestPermissionsAndTrack();
+    }
+
+    void _initializeRadar() {
+      Radar.initialize("prj_test_pk_...."); // Replace with your actual Radar publishable key
+      Radar.setUserId('flutter-test-user');
+      Radar.setDescription('Flutter');
+      Radar.setMetadata({'foo': 'bar', 'bax': true, 'qux': 1});
+      Radar.setLogLevel('debug');
+    }
+
+    Future<void> _requestPermissionsAndTrack() async {
+      // Initial permission status check
+      var permissionStatus = await Radar.getPermissionsStatus();
+
+      // Check if permissions are not determined
+      if (permissionStatus == 'NOT_DETERMINED') {
+        print('Requesting foreground permissions...');
+        await Radar.requestPermissions(false); // Request foreground permission
+      } 
+
+      // Status will be "GRANTED_FOREGROUND" if permissions were granted
+      if (permissionStatus == 'GRANTED_FOREGROUND') {
+        // Activate on-premise experience here
+      } else {
+        // Handle denied permissions
+        print('Location permissions not granted');
+        setState(() {
+          _displayText = 'Permissions denied, tracking is disabled.';
+        });
+      }
+  }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Radar Tracking')),
+        body: const Center(
+          child: Text(_displayText),
+        ),
+      );
+    }
+  }
+```
+  </TabItem>
 
 </Tabs>
 
@@ -264,7 +400,8 @@ Call `Radar.trackOnce()` to track the user's location in the foreground. In the 
     { label: 'Swift', value: 'swift' },
     { label: 'Kotlin', value: 'kotlin' },
     { label: 'Web', value: 'web' },
-    { label: 'React Native', value: 'react-native' }
+    { label: 'React Native', value: 'react-native' },
+    { label: 'Flutter', value: 'flutter' }
   ]}
 >
 
@@ -427,6 +564,97 @@ export default function App() {
 }
 ```
 
+  </TabItem>
+  <TabItem value="flutter">
+
+  ```jsx
+  import 'package:flutter/material.dart';
+  import 'package:flutter_radar/flutter_radar.dart';
+
+  void main() {
+    runApp(MyApp());
+  }
+
+  class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        home: RadarTrackingScreen(),
+      );
+    }
+  }
+
+  class RadarTrackingScreen extends StatefulWidget {
+    const RadarTrackingScreen({super.key});
+
+    @override
+    _RadarTrackingScreenState createState() => _RadarTrackingScreenState();
+  }
+
+  class _RadarTrackingScreenState extends State<RadarTrackingScreen> {
+    String _displayText = 'Initialized Radar SDK'; 
+
+    @override
+    void initState() {
+      super.initState();
+      _initializeRadar();
+      _requestPermissionsAndTrack();
+    }
+
+    void _initializeRadar() {
+      Radar.initialize("prj_test_pk_..."); // Replace with your actual Radar publishable key
+      Radar.setUserId('flutter-test-user');
+      Radar.setDescription('Flutter');
+      Radar.setMetadata({'foo': 'bar', 'bax': true, 'qux': 1});
+      Radar.setLogLevel('debug');
+    }
+
+    Future<void> _requestPermissionsAndTrack() async {
+      // Initial permission status check
+      var permissionStatus = await Radar.getPermissionsStatus();
+
+      // Check if permissions are not determined
+      if (permissionStatus == 'NOT_DETERMINED') {
+        print('Requesting foreground permissions...');
+        permissionStatus = await Radar.requestPermissions(false); // Request foreground permission
+      } 
+
+      if (permissionStatus == 'GRANTED_FOREGROUND') {
+        var res = await Radar.trackOnce();
+
+        // Check if the user is in a geofence to activate on-premise mode
+        var geofences = res?['user']?['geofences'];
+        if (geofences!= null && geofences.isNotEmpty) {
+          // If user is in a geofence, activate on-premise mode
+          setState(() {
+            _displayText = 'In geofence: ${geofences[0]['description']}';
+          });
+        } else {
+          // User is not in a geofence
+          print('User is not in any geofence');
+        }
+      } else {
+        // Handle denied permissions
+        print('Location permissions not granted');
+        setState(() {
+          _displayText = 'Permissions denied, tracking is disabled.';
+        });
+      }
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Radar Tracking')),
+        body: Center(
+          child: Text(_displayText), // Display on-premise mode
+        ),
+      );
+    }
+  }
+  ```
   </TabItem>
 
 </Tabs>
