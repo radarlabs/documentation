@@ -572,6 +572,10 @@ Geocodes the requester's IP, converting IP address to city, state, and country.
 
 <span className="badge badge--success">GET</span> <code>https://api.radar.io/v1/geocode/ip</code>
 
+###### Query parameters
+
+- **`ip`** (string, optional): The IP address to geocode (for server-side implementations). When not included, the origin IP is geocoded. Requires [Fraud](/documentation/fraud) to be enabled.
+
 ###### Authentication level
 
 Publishable
@@ -2913,6 +2917,8 @@ Lists trips. Trips are sorted descending by `updatedAt`.
 - **`destinationGeofenceExternalId`** (string, optional): Retrieves trips with the destination geofence external ID.
 - **`externalId`** (string, optional) Retrieves trips by unique IDs. A string, comma-separated including one or more IDs.
 - **`userId`** (string, optional): The Radar `_id` of the [user](/api#users) for which the trip is being tracked.
+- **`metadataKey`** (string, optional): Retrieves trips that have a specified trip `metadata` key.
+- **`metadataValue`** (string, optional): Retrieves trips that have a specified trip `metadata` key value.
 - **`includeLocations`** (boolean, optional): Whether to include locations on trips. Defaults to `false`.
 - **`createdAfter`** (datetime, optional): A cursor for use in pagination. Retrieves trips created after the specified datetime. A date or valid ISO date string.
 - **`createdBefore`** (datetime, optional): A cursor for use in pagination. Retrieves trips created before the specified datetime. A date or valid ISO date string.
