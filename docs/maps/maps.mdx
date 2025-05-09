@@ -322,9 +322,9 @@ const popup = Radar.ui.popup({
 
 ### Feature
 
-Radar Map Features are custom lines and geometries that can be styled and interacted with on the map. 
+Radar Map Features are custom lines and geometries that can be styled and interacted with on the map.
 
-The primary format for a map feature is a [GeoJSON Feature](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) (Polygon, MultiPolygon, and LineString are supported). 
+The primary format for a map feature is a [GeoJSON Feature](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) (Polygon, MultiPolygon, and LineString are supported).
 
 Feature ids should be unique, and properties can be used for attaching additional metadata to the features.
 
@@ -572,7 +572,7 @@ Add a `Marker` with a custom image to the map by specifying the image URL.
 
         // add marker to map at map center
         Radar.ui.marker({
-          url: 'https://radar.com/static/image/logo.png',
+          url: 'https://static.radar.com/images/logo.png',
           width: '48px',
           height: '48px',
           popup: {
@@ -1164,7 +1164,7 @@ const RadarMap = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    if (mapRef.current) return; 
+    if (mapRef.current) return;
 
     Radar.initialize('prj_live_pk_...');
 
