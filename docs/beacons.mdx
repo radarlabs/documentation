@@ -29,7 +29,7 @@ Beacons provides the following user context:
       "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
       "major": "100",
       "minor": "1",
-      "description": "Store #123 - Register #1",
+      "description": "Store 123 - Register 1",
       "tag": "store-register",
       "externalId": "123-1",
       "enabled": true
@@ -38,7 +38,7 @@ Beacons provides the following user context:
       "type": "eddystone",
       "uid": "f7826da6bc5b71e0893e",
       "instance": "4456384b726a",
-      "description": "Store #123 - Aisle A",
+      "description": "Store 123 - Aisle A",
       "tag": "store-aisle",
       "externalId": "123-A",
       "enabled": true
@@ -84,7 +84,7 @@ Alternatively, the SDK can range beacons based on `uuid` or `uid` only, regardle
 
 You can create beacons via the dashboard, CSV import, or through the API. You can create beacons in the Test environment for development and testing, and in the Live environment for production.
 
-Like [geofences](/geofences), you also specify the metadata for beacons when you create them, including *tag* (a group for the beacon, e.g., `store-register`), external ID (an external ID for the beacon that maps to your internal database, e.g., `123-1`), *description* (a display name for the beacon, e.g., `Store #123 - Register #1`).
+Like [geofences](/geofences), you also specify the metadata for beacons when you create them, including *tag* (a group for the beacon, e.g., `store-register`), external ID (an external ID for the beacon that maps to your internal database, e.g., `123-1`), *description* (a display name for the beacon, e.g., `Store 123 - Register 1`).
 
 You also specify the identifiers used to range the beacon, including `uuid`, `major`, and `minor` for iBeacon or `uid` and `instance` for Eddystone, as well as an approximate latitude and longitude used to sync nearby beacons (within 1 kilometer) to the SDK.
 
