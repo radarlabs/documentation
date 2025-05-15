@@ -158,7 +158,7 @@ The minimum recommended options are the following:
 | Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
 | `container` | none (required) | string \| HTMLElement | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. The width and height of this element will determine the size of the map. |
-| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See the [Styles](/maps/maps#styles) section below for more details. |
+| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1`, `radar-satellite-v1`, `radar-hybrid-v1` | The style of the map. See the [Styles](/maps/maps#styles) section below for more details. |
 | `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/api#ip-geocode). |
 | `zoom` | 11 | number | The zoom level of the map, a number between 0 (fully zoomed out) and 23 (fully zoomed in). |
 | `language` | none | string (ISO code) | This display language for map. Can be any 2-letter [ISO Code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes), or `local` to use the device's specified language. Defaults to `en-US` if none is provided. |
@@ -237,6 +237,16 @@ Radar provides several out-of-the box map styles:
       <td className="no-wrap"><code>radar-dark-v1</code></td>
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/UhZJgEo57528CJRQCj0fT/3a2e2dc29205da1a9ea8e60b52dcafa6/radar-dark-theme.png?w=1200" /></td>
       <td>A dark monochrome map style, useful for highlighting your own information or visualizations in dark mode.</td>
+    </tr>
+    <tr>
+      <td className="no-wrap"><code>radar-satellite-v1</code></td>
+      <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/5i3mYUXQ0wwO98Pc0dX3N7/44b2d6583e533f1676c2e42ee7350c68/satellite.png" /></td>
+      <td>A map style featuring detailed satellite imagery.</td>
+    </tr>
+    <tr>
+      <td className="no-wrap"><code>radar-hybrid-v1</code></td>
+      <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/5oKN5MDDTROttnqVEUT6g4/14f2765fbef1212b5dff64df3b2c0289/hybrid.png" /></td>
+      <td>A map style showcasing both satellite imagery and features such as roads.</td>
     </tr>
   </tbody>
 </table>
@@ -322,9 +332,9 @@ const popup = Radar.ui.popup({
 
 ### Feature
 
-Radar Map Features are custom lines and geometries that can be styled and interacted with on the map. 
+Radar Map Features are custom lines and geometries that can be styled and interacted with on the map.
 
-The primary format for a map feature is a [GeoJSON Feature](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) (Polygon, MultiPolygon, and LineString are supported). 
+The primary format for a map feature is a [GeoJSON Feature](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) (Polygon, MultiPolygon, and LineString are supported).
 
 Feature ids should be unique, and properties can be used for attaching additional metadata to the features.
 
@@ -1164,7 +1174,7 @@ const RadarMap = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    if (mapRef.current) return; 
+    if (mapRef.current) return;
 
     Radar.initialize('prj_live_pk_...');
 
