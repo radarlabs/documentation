@@ -4,8 +4,8 @@ const fetch = require('node-fetch');
 module.exports = {
   title: 'Documentation | Radar',
   tagline: 'Location data infrastructure | Geofencing SDK and API',
-  url: 'https://radar.com',
-  baseUrl: '/documentation/',
+  url: 'https://docs.radar.com',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
@@ -45,7 +45,7 @@ module.exports = {
         },
         {
           // Use to instead of href to disable the external link icon; see: https://github.com/facebook/docusaurus/pull/4949
-          to: 'https://radar.com/login',
+          to: 'https://dashboard.radar.com/login',
           label: 'Dashboard',
           position: 'right',
         },
@@ -57,9 +57,10 @@ module.exports = {
       ],
     },
     algolia: {
-      apiKey: '604d5f6f90cc8e49f532cd33b4b6c37e',
-      appId: 'HNJN02FL1I',
+      apiKey: 'a1c8a2085c4bf3aa56a74868f9128d57',
+      appId: '725BOZZSYD',
       indexName: 'radar',
+      insights: true,
     },
     colorMode: {
       disableSwitch: true
@@ -140,7 +141,7 @@ module.exports = {
                     }
                     radarGitHubReleases[`RADAR_${sdkName.toUpperCase()}_SDK_VERSION`] = versionNumber;
                 }
-                
+
                 // get android sdk version that the flutter sdk uses from the build.gradle file
                 const response = await fetch(`https://raw.githubusercontent.com/radarlabs/flutter-radar/refs/tags/${radarGitHubReleases.RADAR_FLUTTER_SDK_VERSION}/android/build.gradle`)
                 const build_gradle = await response.text();
@@ -183,8 +184,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/radarlabs/docs/edit/main/',
+          editUrl: 'https://github.com/radarlabs/docs/edit/main/',
           routeBasePath: '/',
         },
         theme: {

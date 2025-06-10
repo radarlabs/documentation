@@ -26,7 +26,7 @@ Available options include:
 | `container` | `autocomplete` | string \| HTMLElement | The container to render the autocomplete into. You can specify an `id` of an HTML element or a DOM element. If an `<input>` is provided as a container, the style of the input will not be modified. | Web |
 | `width` | `400` | number \| string | The width of the input, a number (in pixels) or any valid CSS width. | Web |
 | `maxHeight` | `null` | number \| string | The max height of the results list, a number (in pixels) or any valid CSS height. | Web |
-| `near` | `null` | string \| Location | The location to search near, in the format `"latitude,longitude"` or `{ latitude, longitude }`. If not specified, the search will automatically be biased based on the client's [IP geolocation](/documentation/api#ip-geocode). | Web, React Native |
+| `near` | `null` | string \| Location | The location to search near, in the format `"latitude,longitude"` or `{ latitude, longitude }`. If not specified, the search will automatically be biased based on the client's [IP geolocation](/api#ip-geocode). | Web, React Native |
 | `debounceMS` | `200` | number | The number of milliseconds to wait after typing is complete to refresh the results list. | Web, React Native |
 | `minCharacters` | `3` | number | The minimum number of characters that need to be typed before fetching results. | Web, React Native |
 | `limit` | `8` | number | The maximum number of results to show in the results list. | Web, React Native |
@@ -36,7 +36,7 @@ Available options include:
 | `placeholder` | `Search address` | string | The placeholder string for the input. | Web, React Native |
 | `responsive` | `true` | boolean | A boolean that indicates whether the input should expand to fill the parent container. If `responsive = true` and a `width` is specified, `width` will be treated as a `max-width`. | Web |
 | `disabled` | `false` | boolean | A boolean that indicates whether the input should be disabled. | Web, React Native |
-| `layers` | `null` | array | Optional layer filters. An array including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. See the [autocomplete API documentation](https://radar.com/documentation/api#autocomplete) for more info. | Web, React Native |
+| `layers` | `null` | array | Optional layer filters. An array including one or more of `place`, `address`, `intersection`, `street`, `neighborhood`, `postalCode`, `locality`, `county`, `state`, `country`, `coarse`, and `fine`. See the [autocomplete API documentation](https://radar.com/api#autocomplete) for more info. | Web, React Native |
 | `countryCode` | `null` | string | An optional 2-letter [ISO 3166](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) country code. If set, results will only be fetched from the specified country. | Web, React Native |
 | `expandUnits` | `false` | boolean | A boolean that indicates whether to include unit numbers in the results. | Web |
 | `showMarkers` | `true` | boolean | A boolean that indicates whether to show marker icons in the results list. | Web, React Native |
@@ -141,7 +141,7 @@ export const App = () => (
 
 ### Use Autocomplete with Radar Maps in React
 
-Below is an example of how you can use [Radar Maps](https://radar.com/documentation/maps/maps) with Radar Autocomplete in React.
+Below is an example of how you can use [Radar Maps](https://radar.com/maps/maps) with Radar Autocomplete in React.
 ```jsx
 import React, { useEffect, useRef } from 'react';
 import Radar from 'radar-sdk-js';

@@ -704,7 +704,9 @@ To enable logging of app opens through notifications taps on iOS, perform the fo
   self.moduleName = @"main";
   self.initialProps = @{};
   BOOL result = [super application:application didFinishLaunchingWithOptions:launchOptions];
-  [Radar nativeSetup];
+  RadarInitializeOptions *options = [RadarInitializeOptions new];
+  options.autoLogNotificationConversions = YES;
+  [Radar nativeSetup:options];
   return result;
 }
 ```
@@ -735,7 +737,7 @@ iOS defaults to the standard notification icon.
 
 ### Maps and UI kits
 
-The React Native SDK also has UI components for maps and address autocomplete. Learn more in the [Maps Platform documentation](/documentation/maps/overview).
+The React Native SDK also has UI components for maps and address autocomplete. Learn more in the [Maps Platform documentation](/maps/overview).
 
 ## Support
 

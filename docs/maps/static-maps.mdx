@@ -35,7 +35,7 @@ Static Map images can be used inline with HTML `<img>` tags by setting the `src`
 | `center` | none (required, unless markers are provided) | string | The coordinates specified in `latitude,longitude` format for the center of the map. If `center` is not provided then the map will be centered to visibly fit all markers in view.|
 | `zoom` | none (required, unless bbox, markers, or path are provided) | number | The `zoom` position of the map which is a number between `1` and `23`. If `zoom` is not provided then the map will fit the view to the markers. |
 | `scale` | 1 | number | The scale or resolution of the map as a number between `1` and `3`. This is useful for high-density displays and will affect the width and height parameters by returning an image that is the product of the width/height and scale. |
-| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1`, `CUSTOM_STYLE_ID` | The style of the map. One of Radar's out-of-the box styles, or a <a href="/documentation/maps/maps#custom-styles">custom style</a> ID. <br /><br />See [map styles](https://radar.com/documentation/maps/maps#styles) for more details. |
+| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1`, `CUSTOM_STYLE_ID` | The style of the map. One of Radar's out-of-the box styles, or a <a href="/maps/maps#custom-styles">custom style</a> ID. <br /><br />See [map styles](https://radar.com/maps/maps#styles) for more details. |
 | `bbox` | none | string | The bbox or latitude and longitude bounds of the image. Specified as `min_latitude,min_longitude,max_latitude,max_longitude`. The image returned will fit the specified bounding box. |
 | `markers` | none | string | For rendering markers on the map. See [markers](#markers) for more details. |
 | `path` | none | string | For rendering paths on the map. See [paths](#paths) for more details. |
@@ -150,7 +150,7 @@ Note: images will be capped at 64 x 64 pixels.
 
 ### Rendering a route
 
-Radar [Routing API](/documentation/api#routing) responses include the shape of the route in either the polyine or LineString format. Both of these formats are supported for rendering a path, which can be used to plot the route in a static image.
+Radar [Routing API](/api#routing) responses include the shape of the route in either the polyine or LineString format. Both of these formats are supported for rendering a path, which can be used to plot the route in a static image.
 
 <StaticMap
   query='width=900&height=600&style=radar-light-v1&scale=2&markers=size:small|icon:https://radar.com/static/image/maps/map-pin-origin@3x.png|40.70425,-73.9865&markers=size:small|icon:https://radar.com/static/image/maps/map-pin-destination@3x.png|40.73412,-73.99128&path=borderwidth:2|border:0xFFFFFF|width:3|stroke:0x000257|enc:g{rwFnlrbMkArDENGRiCfIEJCJHFpA|@VPHFDOBGdC_IFQDO|BiHHUJBb@FxARLBH@l@HbANB?LDJF@@vAfAJHHF|AnAHFHHhA|@RNJJ|@r@LJJFHHh@`@p@h@JJJF~ApAJHFFzAlADDHFJHbAx@^XJHHHrB~ADDBBJFl@f@@@ZVb@%08Av@LJVRBURsAN}@BQ@K?AN_AFWDUPq@BMBKj@wBBMDMh@sBBMBMTy@Pu@BIDQPDd@NnATtBh@`@Ll@NJBD@`Cl@HBFBjBj@D@JBHBTFx@TJDVFTF`@LZAnA`@JBJDlDfALDLD~@`@fAd@hAf@JFHDjBbAJD@@LFj@ZJFVLZQtA}@ZUHGJKHKV]HKFIHIFGJIHGLILGjAg@t|Aks@H?JCJCRIFEHCHCH?FAF@F@HBFDFHDHBJ@L@JALAJCHEFEHE@C@C@I@I?I@G@I@KAc@AeACy@AG?I@KBODIBGBOF}@b@OFBgA?IM?Q?_@Ai@Cs@AI?I@K?yCKK?MAsAC_@AG?IAmBEI?[A'
@@ -195,7 +195,7 @@ https://api.radar.io/maps/static?width=200&height=200&center=40.71257,-74.00260&
 </table>
 
 ## Coverage
-See [Maps coverage](https://radar.com/documentation/maps/maps#coverage) for more details.
+See [Maps coverage](https://radar.com/maps/maps#coverage) for more details.
 
 
 ## Support

@@ -23,7 +23,6 @@ module.exports = {
         "regions",
         "beacons",
         "fraud",
-        "notifications",
         "campaigns",
         {
           type: "category",
@@ -67,6 +66,7 @@ module.exports = {
         "maps/maps",
         "maps/static-maps",
         "maps/autocomplete",
+        "maps/migration-sdk",
       ],
     },
     {

@@ -11,6 +11,7 @@ import CustomLanguageMap from '../../src/components/examples/CustomLanguageMap.j
 import CustomPopupMap from '../../src/components/examples/CustomPopupMap.jsx'
 import RouteMap from '../../src/components/examples/RouteMap.jsx'
 import PolygonMap from '../../src/components/examples/PolygonMap.jsx'
+import GlobeMap from '../../src/components/examples/GlobeMap.jsx'
 
 Radar Maps is a cost-effective alternative to Google Maps Platform and Mapbox.
 
@@ -157,8 +158,8 @@ The minimum recommended options are the following:
 | Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
 | `container` | none (required) | string \| HTMLElement | The container to render the map into. You can specify an `id` of an HTML element or a DOM element. The width and height of this element will determine the size of the map. |
-| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1` | The style of the map. See the [Styles](/documentation/maps/maps#styles) section below for more details. |
-| `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/documentation/api#ip-geocode). |
+| `style` | `radar-default-v1` | `radar-default-v1`, `radar-light-v1`, `radar-dark-v1`, `radar-satellite-v1`, `radar-hybrid-v1` | The style of the map. See the [Styles](/maps/maps#styles) section below for more details. |
+| `center` | none (IP geolocation) | `[longitude, latitude]` | The center of the map. If not specified, the map will  automatically be centered based on the client's [IP geolocation](/api#ip-geocode). |
 | `zoom` | 11 | number | The zoom level of the map, a number between 0 (fully zoomed out) and 23 (fully zoomed in). |
 | `language` | none | string (ISO code) | This display language for map. Can be any 2-letter [ISO Code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes), or `local` to use the device's specified language. Defaults to `en-US` if none is provided. |
 
@@ -189,8 +190,8 @@ The Radar map class also includes some additional functions for handling common 
 | `getFeatures` | none | RadarMapFeature[] | Returns an array of all features currently associated with the map. |
 | `fitToFeatures` | fitBoundsOptions | void | Fit the map zoom and bounds to all features on the map. |
 | `clearFeatures` | none | void | Remove all features from the map. |
-| `addPolygon` | GeoJSON<Polygon \| MultiPolygon> Feature, polygonOptions | RadarMapFeature | Add a new polygon [Feature](/documentation/maps/maps#polygon-and-multipolygon) to the map. |
-| `addLine` | GeoJSON<LineString\> Feature, lineOptions | RadarMapFeature | Add a new line [Feature](/documentation/maps/maps#line-and-polyline) to the map. |
+| `addPolygon` | GeoJSON<Polygon \| MultiPolygon> Feature, polygonOptions | RadarMapFeature | Add a new polygon [Feature](/maps/maps#polygon-and-multipolygon) to the map. |
+| `addLine` | GeoJSON<LineString\> Feature, lineOptions | RadarMapFeature | Add a new line [Feature](/maps/maps#line-and-polyline) to the map. |
 | `addPolyline` | encodedPolyline, polylineOptions | RadarMapFeature | Accepts an encoded polyline and converts it to a line feature. Defaults to six decimals precision. |
 
 ```javascript
@@ -237,12 +238,22 @@ Radar provides several out-of-the box map styles:
       <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/UhZJgEo57528CJRQCj0fT/3a2e2dc29205da1a9ea8e60b52dcafa6/radar-dark-theme.png?w=1200" /></td>
       <td>A dark monochrome map style, useful for highlighting your own information or visualizations in dark mode.</td>
     </tr>
+    <tr>
+      <td className="no-wrap"><code>radar-satellite-v1</code></td>
+      <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/5i3mYUXQ0wwO98Pc0dX3N7/44b2d6583e533f1676c2e42ee7350c68/satellite.png" /></td>
+      <td>A map style featuring detailed satellite imagery. Available on Enterprise plans.</td>
+    </tr>
+    <tr>
+      <td className="no-wrap"><code>radar-hybrid-v1</code></td>
+      <td style={{ width: "400px" }}><img width="400" src="https://images.ctfassets.net/f2vbu16fzuly/5oKN5MDDTROttnqVEUT6g4/14f2765fbef1212b5dff64df3b2c0289/hybrid.png" /></td>
+      <td>A map style showcasing both satellite imagery and features such as roads. Available on Enterprise plans.</td>
+    </tr>
   </tbody>
 </table>
 
 #### Custom styles
 
-You can also <a href="/documentation/tutorials/create-a-custom-map-style">create a custom map style</a> with Radar Maps Studio. Maps Studio is a visual maps editor available in the Radar dashboard, and supports advanced maps customizations, custom fonts, and custom markers.
+You can also <a href="/tutorials/create-a-custom-map-style">create a custom map style</a> with Radar Maps Studio. Maps Studio is a visual maps editor available in the Radar dashboard, and supports advanced maps customizations, custom fonts, and custom markers.
 
 <table className="full-width-table">
   <thead>
@@ -272,7 +283,7 @@ Radar Marker's support all options in the MapLibre GL [marker options](https://m
 | Name  | Default | Possible values | Description           |
 |-------|---------|-----------------|-----------------------|
 | `color` | #000257 | string | Color of the default marker image. |
-| `marker` | none | string | ID of a marker uploaded as part of a [custom style](/documentation/tutorials/create-a-custom-map-style) |
+| `marker` | none | string | ID of a marker uploaded as part of a [custom style](/tutorials/create-a-custom-map-style) |
 | `url` | none | string | URL of image to use for the marker. |
 | `element` | none | HTMLElement | DOM element to be used as the marker. |
 | `width` | none | number | Size for marker width in pixels. |
@@ -321,9 +332,9 @@ const popup = Radar.ui.popup({
 
 ### Feature
 
-Radar Map Features are custom lines and geometries that can be styled and interacted with on the map. 
+Radar Map Features are custom lines and geometries that can be styled and interacted with on the map.
 
-The primary format for a map feature is a [GeoJSON Feature](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) (Polygon, MultiPolygon, and LineString are supported). 
+The primary format for a map feature is a [GeoJSON Feature](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2) (Polygon, MultiPolygon, and LineString are supported).
 
 Feature ids should be unique, and properties can be used for attaching additional metadata to the features.
 
@@ -787,7 +798,7 @@ export default RadarMap;
 
 ### Display a route
 
-Routes can be plotted on a Radar Map as a GeoJSON LineString, or an encoded polyline, both of which are formats provided by Radar's [routing APIs](/documentation/maps/routing).
+Routes can be plotted on a Radar Map as a GeoJSON LineString, or an encoded polyline, both of which are formats provided by Radar's [routing APIs](/maps/routing).
 
 Polylines can be added to the map with the `map.addPolyline` function, and accepts an optional precision value (defaults to 6). LineString's use the `map.addLine` function.
 
@@ -952,7 +963,7 @@ export default RadarMap;
  </TabItem>
 </Tabs>
 
-### Display a Polygon
+### Display a polygon
 
 Polygons or complex shapes can be drawn on a Radar Map by providing a GeoJSON Polygon or MultiPolygon feature to the `map.addPolygon` function.
 
@@ -1087,6 +1098,115 @@ export default RadarMap;
  </TabItem>
 </Tabs>
 
+### Display a globe
+
+Display a Radar Map with an interactive globe projection.
+
+Only available on MapLibre v5 and above.
+
+<GlobeMap />
+
+<Tabs
+  groupId="display-a-globe"
+  defaultValue="html"
+  values={[
+    { label: 'HTML', value: 'html' },
+    { label: 'React', value: 'react' },
+  ]}
+>
+  <TabItem value="html">
+
+```html
+<!DOCTYPE html>
+<head>
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.css" rel="stylesheet">
+  <script src="https://js.radar.com/$RADAR_WEB_SDK_VERSION$/radar.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body,
+    #map {
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+
+    // create map
+    const map = new Radar.ui.map({
+      container: 'map',
+      style: 'radar-default-v1',
+      zoom: 2,
+      minZoom: 0, // allow globe to zoom out
+      center: [-73.9910078, 40.7342465],
+    });
+
+    // set projection on load
+    map.on('style.load', () => {
+      map.setProjection({
+        type: 'globe', // set projection to globe
+      });
+    });
+  </script>
+</body>
+</html>
+```
+
+  </TabItem>
+  <TabItem value="react">
+
+```jsx
+import React, { useEffect, useRef } from 'react';
+import Radar from 'radar-sdk-js';
+
+import 'radar-sdk-js/dist/radar.css';
+
+const RadarMap = () => {
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (mapRef.current) return;
+
+    Radar.initialize('prj_live_pk_...');
+
+    // create map
+    mapRef.current = Radar.ui.map({
+      container: 'map',
+      zoom: 2,
+      minZoom: 0,
+      center: [-73.9910078, 40.7342465],
+    });
+
+    mapRef.current.on('style.load', () => {
+      mapRef.current.setProjection({ type: 'globe' });
+    });
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, []);
+
+  return <div id="map" style={{ width: '100%', height: '100vh', position: 'absolute' }} />;
+};
+
+export default RadarMap;
+```
+
+ </TabItem>
+</Tabs>
+
 ### Change map language
 
 The map display language can be changed by setting the `language` option to the ISO language code (`en`), or the browser's current setting from `navigator.language`.
@@ -1209,6 +1329,10 @@ See the [displaying Radar Maps with React Native](/tutorials/displaying-radar-ma
 Radar Maps can be used in a flutter application with [flutter-maplibre-gl](https://github.com/maplibre/flutter-maplibre-gl) or [flutter_map](https://docs.fleaflet.dev/).
 
 See the [displaying Radar Maps with Flutter](/tutorials/displaying-radar-maps-with-flutter) tutorial for more info.
+
+### Google Maps
+
+To use Radar Maps with your existing Google Maps implementation, see our [Migration SDK](/maps/migration-sdk) for more details.
 
 ## Coverage
 
