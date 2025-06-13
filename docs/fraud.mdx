@@ -257,7 +257,7 @@ You can call `Radar.trackVerified()` to manually perform a location check. `Rada
 - `passed`: A boolean indicating whether the user passed all fraud and jurisdiction checks (`user.fraud.passed && user.country.passed && user.state.passed`).
 - `token`: A tamper-proof JSON Web Token (JWT) that you can send to your server to validate the signature, signed with the *JSON Web Token (JWT) Secret Key* found under *Fraud* on the [Settings page](https://radar.com/dashboard/settings#fraud-settings).
 - `failureReasons`: If `passed == false`, an array of more detailed [failure reasons](#failure-reasons).
-- `expiresAt`: The datetime when the token expires, by default in 20 minutes, but earlier when close to the border (e.g., 1 minute within 1 mile of the border in New Jersey).
+- `expiresAt`: The datetime when the token expires, by default in 20 minutes, but earlier when close to the border based on compliance requirements.
 - `expiresIn`: The number of seconds until the token expires.
 - `user`: The user, with detailed information in `user.fraud`, `user.country`, and `user.state`.
 - `events`: The events generated, if any.
