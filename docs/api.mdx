@@ -1126,7 +1126,7 @@ curl "https://api.radar.io/v1/route/matrix?origins=40.78382,-73.97536&destinatio
 
 #### Route match
 
-Snaps points collected along a route to roads that were most likely traveled on. Returns the matched path and road information.
+Snaps points collected along a route to roads that were most likely traveled on. Returns the matched path and road information, omitting points with invalid or impossible distances between them.
 
 For best results, the sample rate should be less than 10 seconds between points.
 
@@ -1150,6 +1150,7 @@ For best results, the sample rate should be less than 10 seconds between points.
     - `unclassified`
     - `residential`
     - `service_other`
+  - Routes that match to roads with `roadClass` values of `unclassified` or `service_other` (road types that do not have a formal speed limit) will return a `speedLimit` value of `-1`
 - **`units`** (string, optional): The distance and speed units. A string, `metric` or `imperial`. Defaults to `imperial` if not provided.
 - **`geometry`** (string, optional): The format of the `geometry` in the response.  Valid values are `linestring`, `polyline5` and `polyline6`. `linestring` returns a GeoJSON `LineString`, `polyline5` returns a polyline with 5 decimal places of precision (compatible with other mapping providers) and `polyline6` returns a polyline with 6 decimal places of precision. Defaults to `polyline6` if not provided.
 
