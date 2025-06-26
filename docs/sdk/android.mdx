@@ -1393,6 +1393,7 @@ With the [places search API](/api#search-places), search for places near a locat
       {"starbucks"}, // chains
       null, // categories
       null, //groups
+      null, // countryCode
       10, // limit
       new RadarSearchPlacesCallback() {
         @Override
@@ -1413,6 +1414,7 @@ With the [places search API](/api#search-places), search for places near a locat
       arrayOf("starbucks"), // chains
       null, // categories
       null, // groups
+      null, // countryCode
       10 // limit
   ) { status, location, places ->
       // do something with places
