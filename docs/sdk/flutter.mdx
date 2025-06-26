@@ -496,7 +496,9 @@ var res = await Radar.ipGeocode((result) => {
 
 #### Search
 
-With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance:
+With the [autocomplete API](/api#autocomplete), autocomplete partial addresses and place names, sorted by relevance.
+
+To perform an autocomplete without specifying a location, you can pass an empty map (`{}`) as the `near` parameter:
 
 ```dart
 var res = await Radar.autocomplete(
