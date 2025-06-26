@@ -260,7 +260,17 @@ To track the user's location in the foreground, call:
 
 ```dart
 var res = await Radar.trackOnce();
-// do something with res['status'], res['location'], res['events'], res['user']
+// do something with res['status'], res['location'], res['events'], res['user'] (i.e. check if user is in geofence):
+var geofences = res?['user']?['geofences'];
+if (geofences!= null && geofences.isNotEmpty) {
+  // User is in a geofence, activate on-premise mode
+  setState(() {
+    _displayText = 'In geofence: ${geofences[0]['description']}';
+  });
+} else {
+  // User is not in a geofence
+  print('User is not in any geofence');
+}
 ```
 
 Learn about platform-specific implementations of this function in the [iOS SDK documentation](/sdk/ios) and [Android SDK documentation](/sdk/android).
@@ -269,7 +279,7 @@ Learn about platform-specific implementations of this function in the [iOS SDK d
 
 On iOS and Android, once you have initialized the SDK and the user has granted permissions, you can start tracking the user's location in the background.
 
-For background tracking, the SDK supports custom tracking options as well as three presets:
+For background tracking, the SDK supports [custom tracking options](https://radar.com/documentation/sdk/tracking) as well as three presets:
 
 - **`EFFICIENT`**: A low frequency of location updates and lowest battery usage. On Android, avoids Android vitals bad behavior thresholds.
 - **`RESPONSIVE`**: A medium frequency of location updates and low battery usage. Suitable for most consumer use cases.
