@@ -201,3 +201,6 @@ const RadarMap = () => {
 
 export default RadarMap;
 ```
+
+Note that using an `<input/>` element reference as the `container` argument is not compatible with React since the parent
+element is mutated. You must use a non-input `container` reference when using React.
