@@ -63,7 +63,9 @@ Under advanced options, you can find User ID (the [external ID](/sdk/ios#identif
 
 You can configure the notifications Radar sends to users when they enter a geofence or place. Customize the notification body, and optionally, the notification title and the deep link URL.
 
-## Frequency Capping
+You can add metadata to the campaign, which will be accessible when the notification is triggered. In iOS the metadata can be accessed from `userNotificationCenter(_:didReceive response:)` with `response.notification.request.content.userInfo["campaignMetadata"]`.
+
+## Frequency capping
 
 With frequency capping, you can limit the number of notifications a user receives from a campaign. This is useful to prevent excessive notifications for users.
 To set up frequency capping, navigate to the [setting page](https://radar.com/dashboard/settings).
