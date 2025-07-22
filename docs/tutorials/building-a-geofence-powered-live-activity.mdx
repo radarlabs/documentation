@@ -1,0 +1,163 @@
+---
+sidebar_position: 7
+title: Building a geofencing powered live activity
+---
+
+In this tutorial, we show you how to use the Radar [flutter SDK](/sdk/flutter) and [geofences](/geofences) to show a live activity when a user enters a geofence.
+
+In this example, we show live activities on iOS using [event listeners](/sdk/flutter#background-tracking). 
+
+## Languages used
+
+- Flutter
+- Swift
+
+## Features used
+
+- [Flutter SDK](/sdk/flutter)
+- [Geofences](/geofences)
+
+## Steps
+
+### Step 1: Sign up for Radar
+
+If you haven't already, sign up for Radar to get your API key. You can create up to 1,000 geofences and make up to 100,000 API requests per month for free.
+
+<a className="btn btn-large btn-primary" href="https://radar.com/signup">Get API keys</a>
+
+### Step 2: Import geofences
+
+On the [Geofences page](https://radar.com/dashboard/geofences), create a geofence. It may be useful to assign a specific tag to geofences you hope to power live activities with. 
+
+### Step 3: Implement live activities
+
+Implement live activities using the [flutter_live_activities](https://github.com/istornz/flutter_live_activities) library. Their README page contains instructions to set up the widget extension, necessary permissions and the iOS app group. You can also use their [example app](https://github.com/istornz/flutter_live_activities/tree/main/example) for reference.
+
+### Step 4: Install the Radar flutter SDK
+
+Follow the installation [instructions](/sdk/flutter#ios) to add `flutter_radar` to your project.
+
+Initialize the SDK in your a class that is initialized near the root of the flutter app with your publishable API key.
+
+Also implement the boiler plate setup code for `flutter_live_activities`
+
+Then, [request location permissions](/sdk/flutter#request-permissions) and start tracking:
+
+```dart
+import 'package:flutter_radar/flutter_radar.dart';
+import 'package:live_activities/live_activities.dart';
+...
+
+class Home extends StatefulWidget {
+    const Home({super.key});
+
+    @override
+    State<Home> createState() => _HomeState();
+}
+
+
+class _HomeState extends State<Home> {
+    final _liveActivitiesPlugin = LiveActivities();
+
+    @override
+    void initState() {
+        super.initState();
+        initRadar();
+
+        _liveActivitiesPlugin.init(appGroupId: 'YOUR_APP_GROUP_ID');
+        ...
+    }
+
+    Future<void> initRadar() async {
+        Radar.initialize('prj_test_pk_...');
+        Radar.setUserId('YOUR_USER_NAME');
+        Radar.setDescription('YOUR_USER_DESCRIPTION');
+
+        // optionally implement your own location permissions request flow
+        await Radar.requestPermissions(false);
+        await Radar.requestPermissions(true);
+        var permissionStatus = await Radar.getPermissionsStatus();
+        if (permissionStatus != "DENIED") {
+            Radar.startTracking('responsive');
+        }
+    
+    }
+}
+
+
+```
+
+### Step 5: Listen for events
+
+Implement `onEvents` to listen for geofence entry events to control live activities:
+
+```dart
+class _HomeState extends State<Home> {
+    ...
+    @override
+    void initState() {
+        super.initState();
+        initRadar();
+        ...
+    }
+
+    @pragma('vm:entry-point')
+    void onEvents(Map res) async {
+        if (res.containsKey('events')) {
+            List events = res['events'];
+            for (var event in events) {
+                // start the live activity when we enter the geofence 
+                if (event['type'] == 'user.entered_geofence' && event['geofence']['tag'] == 'YOUR_TAG_FOR_LIVE_ACTIVITY') {
+                    if (_latestActivityId == null) {
+                         // Start a live activity when user enters geofence
+                        final activityId = await _liveActivitiesPlugin.createActivity({
+                            'geofenceName': event['geofence']['description'] ?? 'Unknown geofence',
+                            'enteredAt': DateTime.now().toIso8601String(),
+                        });
+                        setState(() => _latestActivityId = activityId);
+                    } else {
+                        _liveActivitiesPlugin.updateActivity(
+                           _latestActivityId!,
+                           {
+                                'geofenceName': event['geofence']['description'] ?? 'Unknown geofence',
+                                'enteredAt': DateTime.now().toIso8601String(),
+                           } 
+                        );
+                    }
+                   
+                }
+                if (event['type'] == 'user.exited_geofence' && event['geofence']['tag'] == 'YOUR_TAG_FOR_LIVE_ACTIVITY') {
+                   _liveActivitiesPlugin.endAllActivities();
+                    setState(() => _latestActivityId = null); 
+                }
+            }
+       }
+    }
+
+    Future<void> initRadar() async {
+        Radar.initialize('prj_test_pk_...');
+        ...
+        Radar.onEvents(onEvents);
+    
+    }
+}
+```
+
+### Step 6: Access geofence information from the live activity widget
+
+Access the values inside the widget using the shared user defaults.
+
+```swift
+let geofenceDescription = sharedDefault.string(forKey: context.attributes.prefixedKey("geofenceName"))!
+let enteredAt = = sharedDefault.string(forKey: context.attributes.prefixedKey("enteredAt"))! 
+
+```
+There are may resources that you can reference for implementing the live activity UI, here are some tutorials:
+- https://canopas.com/integrating-live-activity-and-dynamic-island-in-i-os-a-complete-guide
+- https://medium.com/kinandcartacreated/how-to-build-ios-live-activity-d1b2f238819e
+
+
+
+## Support
+
+Have questions or feedback on this documentation? Let us know! Contact us at [radar.com/support](https://radar.com/support).
