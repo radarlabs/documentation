@@ -97,26 +97,26 @@ Radar User Field | MoEngage User Attribute | Type | Example Value | Context Type
 
 Radar Event | Context Type | MoEngage Event
 --- | --- | ---
-`user.entered_geofence` | [Geofences](/geofences) | `entered_geofence`
-`user.exited_geofence` | [Geofences](/geofences) | `exited_geofence`
-`user.dwelled_in_geofence` | [Geofences](/geofences) | `dwelled_in_geofence`
-`user.entered_place` | [Places](/places) | `entered_place`
-`user.exited_place` | [Places](/places) | `exited_place`
-`user.entered_region_country` | [Regions](/regions) | `entered_country`
-`user.exited_region_country` | [Regions](/regions) | `exited_country`
-`user.entered_region_state` | [Regions](/regions) | `entered_state`
-`user.exited_region_state` | [Regions](/regions) | `exited_state`
-`user.entered_region_dma` | [Regions](/regions) | `entered_dma`
-`user.exited_region_dma` | [Regions](/regions) | `exited_dma`
-`user.started_trip` | [Trips](/trip-tracking) | `started_trip`
-`user.updated_trip` | [Trips](/trip-tracking) | `updated_trip`
-`user.approaching_trip_destination` | [Trips](/trip-tracking) | `approaching_trip_destination`
-`user.arrived_at_trip_destination` | [Trips](/trip-tracking) | `arrived_at_trip_destination`
-`user.stopped_trip` | [Trips](/trip-tracking) | `stopped_trip`
-`user.entered_beacon` | [Beacons](/beacons) | `entered_beacon`
-`user.exited_beacon` | [Beacons](/beacons) | `exited_beacon`
+`user.entered_geofence` | [Geofences](/geofences) | `[Radar] Geofence Entered`
+`user.exited_geofence` | [Geofences](/geofences) | `[Radar] Geofence Exited`
+`user.dwelled_in_geofence` | [Geofences](/geofences) | `[Radar] Dwelled in Geofence`
+`user.entered_place` | [Places](/places) | `[Radar] Place Entered`
+`user.exited_place` | [Places](/places) | `[Radar] Place Exited`
+`user.entered_region_country` | [Regions](/regions) | `[Radar] Country Entered`
+`user.exited_region_country` | [Regions](/regions) | `[Radar] Country Exited`
+`user.entered_region_state` | [Regions](/regions) | `[Radar] State Entered`
+`user.exited_region_state` | [Regions](/regions) | `[Radar] State Exited`
+`user.entered_region_dma` | [Regions](/regions) | `[Radar] DMA Entered`
+`user.exited_region_dma` | [Regions](/regions) | `[Radar] DMA Exited`
+`user.started_trip` | [Trip Tracking](/trip-tracking) | `[Radar] Started Trip`
+`user.updated_trip` | [Trip Tracking](/trip-tracking) | `[Radar] Updated Trip`
+`user.approaching_trip_destination` | [Trip Tracking](/trip-tracking) | `[Radar] Approaching Trip Destination`
+`user.arrived_at_trip_destination` | [Trip Tracking](/trip-tracking) | `[Radar] Arrived at Trip Destination`
+`user.stopped_trip` | [Trip Tracking](/trip-tracking) | `[Radar] Stopped Trip`
+`user.entered_beacon` | [Beacons](/beacons) | `[Radar] Beacon Entered`
+`user.exited_beacon` | [Beacons](/beacons) | `[Radar] Beacon Exited`
 
-### entered_geofence
+### &lbrack;Radar&rbrack; Geofence Entered
 
 Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -140,7 +140,7 @@ Radar Event Field | MoEngage Event Property | Type | Example Value
 `dma.name` | `dma_name` | string | `"Baltimore"`
 `postalCode.code` | `postal_code` | string | `"21014"`
 
-### exited_geofence
+### &lbrack;Radar&rbrack; Geofence Exited
 
 Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -165,7 +165,7 @@ Radar Event Field | MoEngage Event Property | Type | Example Value
 `dma.name` | `dma_name` | string | `"Baltimore"`
 `postalCode.code` | `postal_code` | string | `"21014"`
 
-### dwelled_in_geofence
+### &lbrack;Radar&rbrack; Dwelled in Geofence
 
 Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -190,7 +190,7 @@ Radar Event Field | MoEngage Event Property | Type | Example Value
 `dma.name` | `dma_name` | string | `"Baltimore"`
 `postalCode.code` | `postal_code` | string | `"21014"`
 
-### entered_place
+### &lbrack;Radar&rbrack; Place Entered
 
 Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -206,7 +206,7 @@ Radar Event Field | MoEngage Event Property | Type | Example Value
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
-Radar Event Field | MoEngage Event Property | Type | Example Value
+Radar Event Field | Braze Event Property | Type | Example Value
 --- | --- | --- | ---
 `country.code` | `country_code` | string | `"US"`
 `country.name` | `country_name` | string | `"United States"`
@@ -216,7 +216,7 @@ Radar Event Field | MoEngage Event Property | Type | Example Value
 `dma.name` | `dma_name` | string | `"Baltimore"`
 `postalCode.code` | `postal_code` | string | `"21014"`
 
-### exited_place
+### &lbrack;Radar&rbrack; Place Exited
 
 Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -233,7 +233,7 @@ Radar Event Field | MoEngage Event Property | Type | Example Value
 
 If [Regions](/regions) is enabled, Radar will also send the following attributes:
 
-Radar Event Field | MoEngage Event Property | Type | Example Value
+Radar Event Field | Braze Event Property | Type | Example Value
 --- | --- | --- | ---
 `country.code` | `country_code` | string | `"US"`
 `country.name` | `country_name` | string | `"United States"`
@@ -243,61 +243,61 @@ Radar Event Field | MoEngage Event Property | Type | Example Value
 `dma.name` | `dma_name` | string | `"Baltimore"`
 `postalCode.code` | `postal_code` | string | `"21014"`
 
-### entered_country
+### &lbrack;Radar&rbrack; Country Entered
 
-Radar Event Attribute | MoEngage Event Property | Type | Example Value
+Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
 `foreground` | `foreground` | boolean | `true`
 
-### exited_country
+### &lbrack;Radar&rbrack; Country Exited
 
-Radar Event Attribute | MoEngage Event Property | Type | Example Value
+Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"US"`
 `region.name` | `region_name` | string | `"United States"`
 `confidence` | `confidence` | string | `"high"`
 `foreground` | `foreground` | boolean | `true`
 
-### entered_state
+### &lbrack;Radar&rbrack; State Entered
 
-Radar Event Attribute | MoEngage Event Property | Type | Example Value
+Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
 `foreground` | `foreground` | boolean | `true`
 
-### exited_state
+### &lbrack;Radar&rbrack; State Exited
 
-Radar Event Attribute | MoEngage Event Property | Type | Example Value
+Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"MD"`
 `region.name` | `region_name` | string | `"Maryland"`
 `confidence` | `confidence` | string | `"high"`
 `foreground` | `foreground` | boolean | `true`
 
-### entered_dma
+### &lbrack;Radar&rbrack; DMA Entered
 
-Radar Event Attribute | MoEngage Event Property | Type | Example Value
+Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
 `foreground` | `foreground` | boolean | `true`
 
-### exited_dma
+### &lbrack;Radar&rbrack; DMA Exited
 
-Radar Event Attribute | MoEngage Event Property | Type | Example Value
+Radar Event Field | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
 `region.code` | `region_code` | string | `"26"`
 `region.name` | `region_name` | string | `"Baltimore"`
 `confidence` | `confidence` | string | `"high"`
 `foreground` | `foreground` | boolean | `true`
 
-### started_trip
+### &lbrack;Radar&rbrack; Started Trip
 
 Radar Event Attribute | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -307,7 +307,7 @@ Radar Event Attribute | MoEngage Event Property | Type | Example Value
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
 `foreground` | `foreground` | boolean | `true`
 
-### updated_trip
+### &lbrack;Radar&rbrack; Updated Trip
 
 Radar Event Attribute | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -317,7 +317,7 @@ Radar Event Attribute | MoEngage Event Property | Type | Example Value
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
 `foreground` | `foreground` | boolean | `true`
 
-### approaching_trip_destination
+### &lbrack;Radar&rbrack; Approaching Trip Destination
 
 Radar Event Attribute | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -327,7 +327,7 @@ Radar Event Attribute | MoEngage Event Property | Type | Example Value
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
 `foreground` | `foreground` | boolean | `true`
 
-### arrived_at_trip_destination
+### &lbrack;Radar&rbrack; Arrived at Trip Destination
 
 Radar Event Attribute | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -337,7 +337,7 @@ Radar Event Attribute | MoEngage Event Property | Type | Example Value
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
 `foreground` | `foreground` | boolean | `true`
 
-### stopped_trip
+### &lbrack;Radar&rbrack; Stopped Trip
 
 Radar Event Attribute | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -347,7 +347,7 @@ Radar Event Attribute | MoEngage Event Property | Type | Example Value
 `trip.destinationGeofenceExternalId` | `trip_destination_geofence_external_id` | string | `"123"`
 `foreground` | `foreground` | boolean | `true`
 
-### entered_beacon
+### &lbrack;Radar&rbrack; Beacon Entered
 
 Radar Event Attribute | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -359,7 +359,7 @@ Radar Event Attribute | MoEngage Event Property | Type | Example Value
 `confidence` | `confidence` | string | `"high"`
 `foreground` | `foreground` | boolean | `true`
 
-### exited_beacon
+### &lbrack;Radar&rbrack; Beacon Exited
 
 Radar Event Attribute | MoEngage Event Property | Type | Example Value
 --- | --- | --- | ---
@@ -369,5 +369,4 @@ Radar Event Attribute | MoEngage Event Property | Type | Example Value
 `beacon.externalId` | `radar_beacon_external_id` | string | `"123"`
 `beacon.metadata[{key}]` | `radar_beacon_metadata{key}` | {type} | `{value}`
 `confidence` | `confidence` | string | `"high"`
-`duration` | `radar_duration` | number (minutes) | `1.42`
 `foreground` | `foreground` | boolean | `true`
