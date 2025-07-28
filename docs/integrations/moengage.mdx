@@ -30,7 +30,7 @@ Then, on the Radar [Integrations page](https://radar.com/dashboard/integrations#
 
 Whenever events are generated, Radar will send custom events and user attributes to MoEngage.
 
-Set `metadata[moengage:customer_id]` to map Radar users to their respective MoEngage User. For example, if your secondary key is `emailHash`:
+Set `metadata[moengage:customer_id]` to map Radar users to their respective MoEngage User. For example:
 
 <Tabs
   groupId="moengage-radar"
@@ -62,10 +62,9 @@ Radar User Field | MoEngage User Attribute | Type | Example Value | Context Type
 --- | --- | --- | --- | ---
 `metadata[moengage:customer_id]` | `ID` | string | `"example@radar.com"` |
 `_id` | `radar_id` | string | `"5b2c0906f5874b001aecfd8d"` |
-`location` | `current_location` | location | `(39.525665, -76.350663)` |
 `locationAuthorization` | `radar_location_authorization` | string | `"GRANTED_FOREGROUND"` |
 `locationAccuracyAuthorization` | `radar_location_accuracy_authorization` | string | `"FULL"` |
-`updatedAt` | `radar_updated_at` | timestamp | `"2018-06-22T15:23:39.000Z"` |
+`updatedAt` | `radar_updated_at` | timestamp | `"25 Jul 2025, 10:36:17 am"` |
 `segments[*].externalId` | `radar_segment_external_ids` | array[string] | `["starbucks-visitors"]` |
 `topChains[*].slug` | `radar_top_chain_slugs` | array[string] | `["starbucks", "walmart"]` |
 `topChains[*].externalId` | `radar_top_chain_external_ids` | array[string] | `["123", "456"]` |
