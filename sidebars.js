@@ -44,6 +44,7 @@ module.exports = {
             "integrations/leanplum",
             "integrations/lytics",
             "integrations/mixpanel",
+            "integrations/moengage",
             "integrations/mparticle",
             "integrations/olo",
             "integrations/onesignal",
