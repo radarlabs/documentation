@@ -175,18 +175,17 @@ Yes. For more information, see the [Vulnerability Disclosure Policy](/vulnerabil
 - Use Test keys for development and Live keys for production.
 - Use [Publishable keys](/sdk#authentication), which are restricted in scope in client-side code. Never use [Secret keys](/api#authentication), which can read or write any data.
 
-#### Website Restrictions
-Additionally, you can restrict which websites can use your publishable API keys. You can add or modify available domains on the [settings](https://radar.com/dashboard/settings/#website-restrictions) page. Multiple domains are supported with the selectable input field.
+#### Website restrictions
 
-Examples of valid rules:
-- A host with a single domain: **example.com**
-- A host with sub domains: **sub.example.com** or **sub1.sub2.example.com**
-- A domain and all its subdomain(s), using a wildcard (\*) asterisk: **example.com** and ***.example.com**
-- A host with a non-standard port: **example.com:8000**
-- Using localhost with port: **localhost:8080**
+You can restrict which websites can use your publishable API keys. Add domains on the [Settings](https://radar.com/dashboard/settings/#website-restrictions) page under *Website restrictions*.
 
-#### Mobile Restrictions
-Furthermore, you can also restrict which mobile app can use your publishable key via the RadarSDK. You can add or modify bundle IDs and package names on the [settings](https://radar.com/dashboard/settings/#mobile-restrictions) page. Multiple bundle IDs and package names are supported with the selectable input field. Bundle IDs and package names cannot have wildcards (\*) and are case insensitive.
+Multiple domains and wildcards (\*) are supported. For example: `example.com`, `sub.example.com`, `*.example.com`, `example.com:8000`, `localhost:8080`.
+
+#### Mobile restrictions
+
+You can also restrict which mobile apps can use your publishable API keys. Add iOS bundle IDs and Android package names on the [Settings](https://radar.com/dashboard/settings/#mobile-restrictions) page under *Mobile restrictions*.
+
+Multiple bundle IDs and package names are supported. Wildcards (\*) are not supported. For example: `com.example.app1`, `com.example.app2`.
 
 #### Data management
 
