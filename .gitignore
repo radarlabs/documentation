@@ -26,3 +26,4 @@ yarn-error.log*
 # they're useful for development, but should always
 # be re-fetched from scratch in CI
 radar-github-releases.json
+/.idea
