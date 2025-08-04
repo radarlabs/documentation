@@ -177,6 +177,8 @@ Radar's campaign notifications can be used for deep linking. This means that you
 
 Set up deep linking from the Radar's Dashboards by adding the **`radar:notificationURL`** to the `URL Schemes` of the desired navigation view of your app.
 
+Radar campaigns use local notifications for deep linking. Due to iOS security restrictions, Universal Links opened from local notifications may redirect to Safari instead of your app. For reliable deep linking, use custom URL schemes (e.g., yourapp://) in your notification payloads.
+
 ### Android setup
 
 Refer to the [official android documentation](https://developer.android.com/training/app-links/deep-linking) to configure deep links for the android app. No additional Radar specific setup is required.
