@@ -171,13 +171,21 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
   </TabItem>
 </Tabs>
 
-## Deep linking (iOS only)
+## Deep linking
 
-Radar's client side geofence notifications can be used for deep linking. This means that you can use Radar's deep linking functionality to open a specific view via on premise notification taps.
+Radar's campaign notifications can be used for deep linking. This means that you can use Radar's deep linking functionality to open a specific view via on premise notification taps.
 
 Set up deep linking from the Radar's Dashboards by adding the **`radar:notificationURL`** to the `URL Schemes` of the desired navigation view of your app.
 
-### Automated iOS setup
+Radar campaigns use local notifications for deep linking. Due to iOS security restrictions, Universal Links opened from local notifications may redirect to Safari instead of your app. For reliable deep linking, use custom URL schemes (e.g., yourapp://) in your notification payloads.
+
+### Android setup
+
+Refer to the [official android documentation](https://developer.android.com/training/app-links/deep-linking) to configure deep links for the android app. No additional Radar specific setup is required.
+
+### iOS setup
+
+#### Automatic
 
 Radar's iOS SDK can automatically set up deep linking for you. To enable this feature, set the `autoHandleNotificationDeepLinks` option to `true` in the Radar `initialize` call.
 
@@ -233,7 +241,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 It is recommended to use the automatic setup in conjugation with the `RadarURLDelegate` to handle the URL open. This implementation provides the most light way approach to get started with deep linking.
 
-### Manual iOS setup
+#### Manual
 
 If you want to set up deep linking manually, you can do so by adding the following line to your `UNUserNotificationCenterDelegate` implementation.
 
@@ -265,7 +273,9 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
   </TabItem>
 </Tabs>
 
-### Automated React Native setup (iOS only)
+### React Native setup
+
+#### iOS
 
 Radar's React Native SDK can automatically set up deep linking for you. To enable this feature, set the `autoHandleNotificationDeepLinks` option to `true` in the `radarInitializeOptions` via the `AppDelegate.mm`.
 ```Objective-C
@@ -281,12 +291,21 @@ Radar's React Native SDK can automatically set up deep linking for you. To enabl
   return res;
 }
 ```
+
+#### Android
+
+Refer to the [official android documentation](https://developer.android.com/training/app-links/deep-linking) to configure deep links for the android app. No additional Radar specific setup is required. 
+
 ### Handle system deep link
 
+### iOS
 Opening the notification will result in the SDK calling `[application openURL:url options:@{} completionHandler:nil];` This will open the URL in the app if it is registered for the scheme, or open the URL in the browser if it is not.
 Developers should handle this by handling the [custom URL scheme](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) or [universal link](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) in their app.
-React Native developers should also implement the native iOS handling of the deep link in their app.
+React Native developers should either implement the native iOS handling of the deep link in their app or use plugins provided by their react native navigation library of choice.
 
+### Android
+Opening the notification will result in running a pending intent that opens the configured deep link URL. This will open the URL in the app if it is registered for the scheme, or open the URL in the browser if it is not. Developers should handle this by [configuring deep link for the app](https://developer.android.com/training/app-links/deep-linking)
+React Native developers should either implement the native Android handling of the deep link in their app or use plugins provided by their react native navigation library of choice.
 
 ## Support
 
