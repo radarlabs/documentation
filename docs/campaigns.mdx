@@ -63,7 +63,41 @@ Under advanced options, you can find User ID (the [external ID](/sdk/ios#identif
 
 You can configure the notifications Radar sends to users when they enter a geofence or place. Customize the notification body, and optionally, the notification title and the deep link URL.
 
-You can add metadata to the campaign, which will be accessible when the notification is triggered. In iOS the metadata can be accessed from `userNotificationCenter(_:didReceive response:)` with `response.notification.request.content.userInfo["campaignMetadata"]`.
+You can add metadata to the campaign, which will be accessible when the notification is triggered.
+
+<Tabs
+  defaultValue="ios"
+  values={[
+    { label: 'iOS', value: 'ios' },
+    { label: 'Android', value: 'android' }
+  ]}
+>
+
+  <TabItem value="ios">
+
+```swift
+class AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        let campaignMetadata = response.notification.request.content.userInfo["campaignMetadata"] as? [String: Any]
+    }
+}
+```
+
+  </TabItem>
+
+  <TabItem value="android">
+
+```kotlin
+class MyActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
+    override fun onActivityResumed(activity: Activity) {
+        val campaignMetadata = activity.intent.getStringExtra("radar_campaign_metadata")?.let { JSONObject(it) }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
 
 ## Frequency capping
 
